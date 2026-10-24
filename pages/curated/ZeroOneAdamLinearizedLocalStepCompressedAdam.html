@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ZeroOneAdamLinearizedLocalStepCompressedAdam</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> 0/1 Adam, Zero-One Adam, Linearized Local-Step Compressed Adam, 0/1 Adam Optimizer
+    </div>
+
+  <div class="detail-desc">
+    A single-stage communication-efficient distributed Adam optimization algorithm that linearizes Adam updates to support simultaneous 1-bit error-compensated compression and periodic local steps (reducing average communication volume to between 0 and 1 bit per parameter) via two coupled schedules: (1) an adaptive variance-freezing step index set T_v subseteq {0, ..., T-1} (with exponentially growing intervals k_{j+1} - k_j = 2^{floor(j/kappa)}) on which workers perform full-precision gradient AllReduce to update v_{t+1} = beta_2 v_t + (1 - beta_2)(g_bar_t)^2 while reusing the stale v_{t+1} = v_t for all t not in T_v, and (2) a synchronization step index set T_u with bounded local-step horizon max_j (t_{j+1} - t_j) &lt;= H on which workers accumulate local steps in an auxiliary buffer u_{t+1/2}^{(i)} = u_t^{(i)} + gamma_t m_t^{(i)}, execute two-pass error-compensated 1bit-AllReduce(u_{t+1/2}^{(i)}) to obtain u_bar_{t+1/2}, and simultaneously synchronize model parameters x_{t+1}^{(i)} = x_{t&#39;}^{(i)} - u_bar_{t+1/2} / sqrt(v_t + eps) and linearly reconstruct local momentum m_{t+1}^{(i)} = u_bar_{t+1/2} / sum_{h=t&#39;}^t gamma_h without additional optimizer-state communication.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from 1-bit Adam (AIMech:OneBitAdamErrorCompensatedPreconditionedMomentum, Tang et al. 2021), which is a special case of Algorithm 4 with T_v = {0, ..., T_0 - 1} and T_u = {0, ..., T - 1} (requiring a long continuous full-precision warmup stage that can take &gt;50% of wall-clock training time and disallowing local steps). Distinct from Qsparse-local-SGD (Basu et al. 2019) and Local SGD (Stich 2018), which apply local steps to linear SGD without adaptive second-moment preconditioning or linear momentum state reconstruction from compressed trajectory buffers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r631-adaptive-variance-freezing-and-linear-momentum-reconstruction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because adjacent Adam variance updates ||v_t - v_{t-1}|| decay smoothly and roughly exponentially while local and global optimizer states ||v_t^{(0)} - v_t|| and ||m_t^{(0)} - m_t|| remain separated by a constant gap without synchronization (Figure 1), 0/1 Adam freezes v_t between scheduled variance updates k_j in T_v (with k_{j+1} - k_j = 2^{floor(j/kappa)}, kappa = 16) so that all workers share an identical denominator sqrt(v_t + eps); over local steps between synchronizations t&#39; and t in T_u, the model displacement x_t^{(i)} - x_{t&#39;}^{(i)} is strictly linear in the accumulated buffer u_{t+1/2}^{(i)} = sum_{k=t&#39;}^t gamma_k m_k^{(i)}, allowing a single error-compensated 1bit-AllReduce(u_{t+1/2}^{(i)}) to both synchronize parameters x_{t+1}^{(i)} = x_{t&#39;}^{(i)} - u_bar_{t+1/2} / sqrt(v_t + eps) and linearly reconstruct synchronized momentum m_{t+1}^{(i)} = u_bar_{t+1/2} / sum_{h=t&#39;}^t gamma_h (Algorithm 1 Lines 5-11).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r631-primary-pdf">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Figure 1, Section 4 Algorithm 1 &amp; Section 6 Policy for T_v and T_u, pp. 3-5, 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r631-nonconvex-convergence-without-uniform-variance-lower-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-Lipschitz gradients, bounded stochastic variance sigma^2, bounded gradient infinity norm ||g_t||_inf &lt;= G_inf (eliminating 1-bit Adam&#39;s restrictive uniform coordinate variance lower bound v_min &gt; 0 via Lemma 2: beta_2^{m/2} sqrt(v_1 + eps) &lt;= sqrt(v_t + eps) &lt;= sqrt(G_inf^2 + eps)), bounded compressor error Delta^2, and maximum local-step interval H (Assumptions 1-5), if m = |T_v| &lt;= log(1 - beta_1) / log(beta_2) and gamma_t = min{sqrt(n / (sigma^2 T)), 1 / (4 L sqrt(G_inf^2 + eps)), 2 sqrt(G_inf^2 + eps) / L, 1/6}, Theorem 1 proves (1/T) sum_{t=0}^{T-1} E||grad f(x_tilde_t)||^2 &lt;= O(sigma / sqrt(n T) + H^2 Delta^2 (m + n) / T + 1 / T), where compression (Delta) and local steps (H) affect only non-dominating O(1/T) terms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r631-primary-pdf">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Assumptions 1-5, Theorem 1 &amp; Appendix D.2-D.3 Lemmas 2, 4, 8-10, pp. 6, 18-34</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r631-sub-1bit-volume-reduction-and-gpt2-bert-throughput-gain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On up to 128 V100 GPUs across BERT-Base, BERT-Large, GPT-2 (117M parameters, 48 layers), and ResNet-18 on ImageNet, 0/1 Adam reduces average per-parameter communication volume to 0.42 bits on BERT-Large and 0.48 bits on GPT-2 (up to 87% data volume reduction and 54% fewer communication rounds compared to 1-bit Adam&#39;s 3.27 and 3.8 bits/parameter, Figure 4) and achieves up to 2x higher training throughput and wall-clock time reduction over 1-bit Adam while matching GLUE average accuracy (81.6 on BERT-Base, 83.6 on BERT-Large), ImageNet Top-1 accuracy (69.88% vs 69.93%), and GPT-2 zero-shot WikiText-103 perplexity (28.07 vs 28.37) and LAMBADA accuracy (33.51% vs 33.21%).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r631-primary-pdf">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1-6.2 Tables 1-2 &amp; Figures 2-5, pp. 7-9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r631-metadata-cr">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> ICLR 2023 bibliographic record (conf/iclr/LuLZSH23)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r631-variance-update-budget-and-local-step-freezing-coupling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    0/1 Adam&#39;s convergence guarantee requires the total number of full-precision variance updates m = |T_v| to satisfy m &lt;= log(1 - beta_1) / log(beta_2) so that beta_2^m &gt;= 1 - beta_1 in Lemmas 2, 9, and 10, and requires stopping variance updates whenever the local-step synchronization interval exceeds 1 (t_{j+1} - t_j &gt; 1) because local momentum approximation noise scales with the learning rate and requires a frozen variance denominator across local steps.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r631-primary-pdf">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Theorem 1, Section 6 Policy for T_v and T_u &amp; Section 6.2 Figure 5, pp. 6, 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires the total number of variance updates m = |T_v| to be bounded by log(1 - beta_1) / log(beta_2) (approx. 2301 updates for beta_1 = 0.9, beta_2 = 0.999) and requires halting variance updates once local steps are active (t_{j+1} - t_j &gt; 1).</li>
+      <li>Without local steps (setting T_u = {0, ..., T-1}), adaptive variance freezing alone reduces data volume toward 1 bit per parameter (~1.02-1.04 bits/param) but yields only 1.2x-1.3x wall-clock speedup because fixed per-round communication initialization and compression latencies dominate at 64-128 GPUs (Table 3, Figure 5).</li>
+      <li>Local-step intervals t_{j+1} - t_j must be kept at 1 during learning-rate warmup and grown inversely proportional to the decaying learning rate (clipped at H = 16) to bound linear momentum approximation error.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            0/1 Adam is a distributed communication-efficient adaptive optimizer for pre-training large transformer and convolutional neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r631-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r631-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2202.06009.pdf" target="_blank" rel="noopener">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Conglong Li, Minjia Zhang, Christopher De Sa, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LuLZSH23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:72b16e3d1b77…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r631-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r631-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2202.06009" target="_blank" rel="noopener">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Conglong Li, Minjia Zhang, Christopher De Sa, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2202.06009</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e11f20d80dc1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r631-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r631-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/LuLZSH23" target="_blank" rel="noopener">Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yucheng Lu, Conglong Li, Minjia Zhang, Christopher De Sa, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LuLZSH23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f336352b0520…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AZeroOneAdamLinearizedLocalStepCompressedAdam">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for 0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ZeroOneAdamLinearizedLocalStepCompressedAdam</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">0/1 Adam (Linearized...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ZeroOneAdamLinearizedLocalStepCompressedAdam.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ZeroOneAdamLinearizedLocalStepCompressedAdam.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=0/1%20Adam%20%28Linearized%20Adaptive-Freezing%20and%20Local-Step%20Compressed%20Adam%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AZeroOneAdamLinearizedLocalStepCompressedAdam"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

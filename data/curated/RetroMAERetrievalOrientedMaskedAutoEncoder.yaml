@@ -1,0 +1,97 @@
+id: AIMech:RetroMAERetrievalOrientedMaskedAutoEncoder
+name: RetroMAE (Retrieval-Oriented Masked Auto-Encoder Pre-Training)
+concept_kind: learning_paradigm
+review_status: DRAFT
+definition: "A retrieval-oriented self-supervised masked auto-encoder (MAE) pre-training paradigm for dense text retrieval that pollutes an input sentence X twice with independent masks at asymmetric ratios\u2014encoding a moderately masked view X_tilde_enc (15-30% masked, default 30%) with a full multi-layer bidirectional transformer Phi_enc into a [CLS] sentence embedding h_{X_tilde} and reconstructing all original tokens of X through a single-layer transformer decoder Phi_dec conditioned on h_{X_tilde} and an aggressively masked context (50-70% masked, default 50%) via two-stream position-specific enhanced decoding."
+identity_notes: Introduced by Xiao, Liu, Shao, and Cao (EMNLP 2022, pp. 538-548, arXiv:2205.12035). Distinguished from standard BERT Masked Language Modeling (15% single-mask token prediction without a sentence-embedding bottleneck), from Condenser/coCondenser (Gao & Callan, 2021, 2022) which concatenate the [CLS] state with intermediate encoder hidden states under a single mask, and from SEED (Lu et al., 2021) or TSDAE (Wang et al., 2021) which rely on autoregressive prefix decoding rather than asymmetric dual-mask MLM with two-stream position-specific attention.
+aliases:
+- Retrieval-Oriented Masked Auto-Encoder
+- RetroMAE Pre-Training Paradigm
+- RetroMAE Asymmetric Masked Auto-Encoding
+definition_evidence:
+- source_id: r747-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r747-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r747-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: retromae-asymmetric-dual-mask-and-enhanced-decoding-mechanism
+  kind: mechanism
+  statement: RetroMAE encodes a moderately masked input X_tilde_enc (30% mask ratio) into h_{X_tilde} = Phi_enc(X_tilde_enc) and performs single-layer enhanced decoding using query stream H_1 = [h_{X_tilde} + p_0, ..., h_{X_tilde} + p_N], unmasked context stream H_2 = [h_{X_tilde}, e_{x_1} + p_1, ..., e_{x_N} + p_N], and position-specific mask M_{ij} = 0 if x_j in s(X_{!= i}) or (j = 0 and i != 0) else -infinity (with diagonal M_{ii} = -infinity), optimizing L_enc + L_dec where L_dec = sum_{x_i in X} CE(x_i | A, H_1) reconstructs 100% of input tokens from distinct sampled contexts.
+  evidence:
+  - source_id: r747-primary-pdf
+    locator: Section 3.1-3.3 (Equations 1-7 & Algorithm 1), pp. 3-5
+    relation: supports
+  - source_id: r747-primary-pdf
+    locator: build_enhanced_decoding_mask, single_layer_enhanced_decode_attention & main
+    relation: supports
+- claim_id: retromae-zero-shot-and-supervised-dense-retrieval-gains
+  kind: scope
+  statement: Pre-trained on Wikipedia and BookCorpus at BERT-base scale, RetroMAE achieves 0.452 average nDCG@10 across 18 zero-shot BEIR benchmarks (+4.5 points over Condenser's 0.407 and +8.1 over BERT's 0.371), reaches 0.393 MRR@10 on MS MARCO under ANCE fine-tuning (surpassing coCondenser's 0.382), and achieves 0.416 MRR@10 on MS MARCO with cross-encoder KL knowledge distillation.
+  evidence:
+  - source_id: r747-primary-pdf
+    locator: Section 4.2 (Main Results, Tables 1-5), pp. 6-7
+    relation: supports
+- claim_id: retromae-single-layer-decoder-and-encoder-mask-sensitivity-limitation
+  kind: limitation
+  statement: Enhanced position-specific decoding is restricted to a single-layer transformer decoder (increasing decoder depth to 2 or 3 layers requires disabling enhanced decoding and reduces MS MARCO MRR@10 from 0.3553 to 0.3439), and setting an overly aggressive encoder masking ratio (e.g., 0.9) discards sentence semantics and degrades MS MARCO MRR@10 from 0.3553 to 0.3365.
+  evidence:
+  - source_id: r747-primary-pdf
+    locator: Section 4.3 (Ablation Studies, Table 6) & Section 6 (Limitations), pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r747-primary-pdf
+  title: 'RetroMAE: Pre-Training Retrieval-oriented Language Models Via Masked Auto-Encoder'
+  authors: &id001
+  - Shitao Xiao
+  - Zheng Liu
+  - Yingxia Shao
+  - Zhao Cao
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.12035
+  persistent_id: https://dblp.org/search/publ/api?q=RetroMAE+Pre-Training+Retrieval-oriented+Language+Models+Xiao&h=5&format=xml
+  version: Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022) (2022) (424038 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:50:00Z'
+  sha256: 6cb4255df94576302ccb8f5c65ba0c23e1d6e717d368b20c056561a9de3e682b
+- source_id: r747-arxiv-abs
+  title: 'RetroMAE: Pre-Training Retrieval-oriented Language Models Via Masked Auto-Encoder (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.12035
+  persistent_id: https://arxiv.org/abs/2205.12035
+  version: arXiv abstract page (6416 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:50:00Z'
+  sha256: 2e829fd2f4c85e811c281aaca66f19c0a352de6169bdcc4e12a95a65325b9795
+- source_id: r747-metadata-cr
+  title: 'RetroMAE: Pre-Training Retrieval-oriented Language Models Via Masked Auto-Encoder (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=RetroMAE+Pre-Training+Retrieval-oriented+Language+Models+Xiao&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=RetroMAE+Pre-Training+Retrieval-oriented+Language+Models+Xiao&h=5&format=xml
+  version: Crossref API work record (1070 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:50:00Z'
+  sha256: 96cea7b2094c46b2e029e471b7619e832b57444f44c438252d43d852a0408668
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Pre-trains neural transformer sentence encoders using an asymmetric masked auto-encoder bottleneck.
+limitations:
+- Position-specific two-stream enhanced decoding is strictly applicable to a single-layer transformer decoder; multi-layer decoders leak self-context across layers and degrade retrieval accuracy.
+- 'Requires careful asymmetric masking calibration: an overly high encoder masking ratio (e.g., 90%) destroys the [CLS] sentence representation.'
+curation:
+  created_at: '2026-10-19T13:50:00Z'
+  updated_at: '2026-10-19T13:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

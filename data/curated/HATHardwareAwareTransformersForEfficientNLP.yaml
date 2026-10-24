@@ -1,0 +1,110 @@
+id: AIMech:HATHardwareAwareTransformersForEfficientNLP
+name: HAT (Hardware-Aware Transformers for Efficient Natural Language Processing)
+concept_kind: architecture
+review_status: DRAFT
+definition: HAT (Hardware-Aware Transformers) is a hardware-aware Neural Architecture Search (NAS) framework for sequence-to-sequence encoder-decoder Transformers that breaks the information bottleneck between encoder and decoder via Arbitrary Encoder-Decoder Attention (allowing each decoder layer to attend to the concatenated key-value representations of the last 1, 2, or 3 encoder layers with zero extra parameters), enables layer-wise Heterogeneous Transformer Layers (varying embedding dimensions, FFN hidden dimensions, attention head counts, and decoder layer count across ~10^15 candidate SubTransformers), trains a single weight-sharing SuperTransformer by uniformly sampling SubTransformers and slicing front-prefix weight subtensors, and executes evolutionary search guided by a target-device MLP Latency Predictor to extract specialized SubTransformers meeting strict hardware latency constraints.
+identity_notes: Distinct from Evolved Transformer (So et al., 2019), which searches homogeneous cell structures without hardware latency feedback at >10,000x higher GPU cost, distinct from Once-for-All (Cai et al., 2020), which targets convolutional neural networks via progressive shrinking rather than encoder-decoder Transformers with arbitrary cross-attention spans, and distinct from DynaBERT (AIMech:DynaBERTDynamicBERTWithAdaptiveWidthAndDepth), which adapts encoder-only BERT width and depth via importance-ordered head/neuron rewiring and distillation.
+aliases:
+- HAT
+- Hardware-Aware Transformers
+- HAT SuperTransformer with Arbitrary Encoder-Decoder Attention
+definition_evidence:
+- source_id: r813-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r813-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r813-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hat-arbitrary-encoder-decoder-attention-and-heterogeneous-layers
+  kind: mechanism
+  statement: HAT defines a heterogeneous design space of ~10^15 encoder-decoder SubTransformers in which each layer independently selects its FFN inner dimension and attention head count while Arbitrary Encoder-Decoder Attention lets each decoder layer attend to the last 1, 2, or 3 encoder layers by concatenating their key and value vectors along the sequence dimension without adding trainable parameters.
+  evidence:
+  - source_id: r813-primary-pdf
+    locator: Section 3.1 (Design Space), Figure 5, Figure 6, and Table 1, pp. 7678-7679
+    relation: supports
+  - source_id: r813-primary-pdf
+    locator: design_space_cardinality and arbitrary_enc_dec_attention
+    relation: supports
+- claim_id: hat-weight-sharing-supertransformer-and-latency-predictor-search
+  kind: mechanism
+  statement: HAT trains a single weight-sharing SuperTransformer by uniformly sampling SubTransformers at each step and updating their front-slice weight subtensors, and pairs the SuperTransformer with a 3-layer MLP hardware latency predictor (trained on 2000 measured architecture-latency pairs with ~0.1 ms/0.1 s RMSE) during evolutionary search under a hard hardware latency budget.
+  evidence:
+  - source_id: r813-primary-pdf
+    locator: Section 3.2 (Performance Approximation) and Section 3.3 (Hardware Latency Constraint), Figures 7-8, pp. 7679-7680
+    relation: supports
+  - source_id: r813-primary-pdf
+    locator: extract_front_subtensor and main
+    relation: supports
+- claim_id: hat-hardware-specialized-machine-translation-speedup
+  kind: application
+  statement: On WMT'14 En-De, WMT'14 En-Fr, WMT'19 En-De, and IWSLT'14 De-En across Raspberry Pi-4 ARM CPU, Intel Xeon CPU, and Nvidia Titan Xp GPU, HAT achieves up to 3x latency speedup and 3.7x smaller model size over Transformer-Big while cutting NAS search cost by 12,041x compared to Evolved Transformer, automatically discovering deep-and-thin models for ARM CPU versus shallow-and-wide models for GPU.
+  evidence:
+  - source_id: r813-primary-pdf
+    locator: Section 4.2 (Main Results), Table 2, Table 3, and Figure 12, pp. 7681-7684
+    relation: supports
+- claim_id: hat-post-search-retraining-and-device-profiling-limitation
+  kind: limitation
+  statement: Although the SuperTransformer ranks candidate SubTransformers accurately, achieving peak final translation BLEU requires retraining the discovered SubTransformer from scratch for 40K steps, and each new target hardware platform requires profiling ~2000 architectures to fit a device-specific latency predictor.
+  evidence:
+  - source_id: r813-primary-pdf
+    locator: Section 3.3 (Latency Predictor) and Section 4.1 (Search Cost / Retraining), pp. 7680-7681
+    relation: supports
+evidence_sources:
+- source_id: r813-primary-pdf
+  title: 'HAT: Hardware-Aware Transformers for Efficient Natural Language Processing'
+  authors: &id001
+  - Hanrui Wang
+  - Zhanghao Wu
+  - Zhijian Liu
+  - Han Cai
+  - Ligeng Zhu
+  - Chuang Gan
+  - Song Han
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2005.14187
+  persistent_id: https://arxiv.org/bibtex/2005.14187
+  version: ACL 2020 (2020) (1636654 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:56:00Z'
+  sha256: 5162696f5c4dd29dfc7d65eb81e8664e641d43fab3caca962ffe75d0b7344fd2
+- source_id: r813-arxiv-abs
+  title: 'HAT: Hardware-Aware Transformers for Efficient Natural Language Processing (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.14187
+  persistent_id: https://arxiv.org/abs/2005.14187
+  version: arXiv abstract page (7470 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:56:00Z'
+  sha256: e11c0c2afd1ff0f9aa004796e24fb69f47675fd37b1bd3f4a0dac6a39ccab811
+- source_id: r813-metadata-cr
+  title: 'HAT: Hardware-Aware Transformers for Efficient Natural Language Processing (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2005.14187
+  persistent_id: https://arxiv.org/bibtex/2005.14187
+  version: Crossref API work record (521 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:56:00Z'
+  sha256: 43bd7fcaf89dfef606b3b98ffbc6ed171c092d01989716a45546c06360caf8ce
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: HAT is a hardware-aware neural architecture search and weight-sharing SuperTransformer framework for sequence-to-sequence neural networks.
+limitations:
+- Extracted SubTransformers require post-search retraining from scratch (e.g., 40K steps) to reach full stand-alone BLEU accuracy.
+- Deploying to a new hardware target requires collecting ~2000 on-device latency measurements to train the device-specific MLP latency predictor.
+curation:
+  created_at: '2026-10-19T14:56:00Z'
+  updated_at: '2026-10-19T14:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

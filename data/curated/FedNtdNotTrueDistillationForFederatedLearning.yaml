@@ -1,0 +1,102 @@
+id: AIMech:FedNtdNotTrueDistillationForFederatedLearning
+name: FedNTD (Federated Not-True Distillation for Global Knowledge Preservation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A heterogeneous federated learning algorithm (Lee et al. 2022, Section 3, Equations 10-14, Algorithm 1) that mitigates catastrophic forgetting of out-of-local-distribution classes during client local updates by augmenting the local cross-entropy loss L_CE(q^l, 1_y) with a beta-weighted Not-True Distillation loss L_NTD(q_tilde_tau^l, q_tilde_tau^g) := -sum_{c=1, c != y}^C q_tilde_tau^g(c) log[q_tilde_tau^l(c) / q_tilde_tau^g(c)] (Equations 10-11), where the not-true softmax probabilities q_tilde_tau^l(c) = exp(z_c^l / tau) / sum_{c_tilde != y}^C exp(z_{c_tilde}^l / tau) and q_tilde_tau^g(c) = exp(z_c^g / tau) / sum_{c_tilde != y}^C exp(z_{c_tilde}^g / tau) normalize client and frozen server logits exclusively over the C - 1 non-target classes c != y, yielding identically zero distillation gradient with respect to the ground-truth logit z_y^l while matching the out-local class distribution p_tilde_c = (1 - p_c) / (C - 1) (Definition 1, Propositions 1-2).
+identity_notes: Distinct from FedLSD (Federated Local Self-Distillation) and full-logit client-side knowledge distillation methods that distill all C logits including the ground-truth class y, which couples the distillation gradient with in-local class adaptation L_KL^true and degrades new local knowledge acquisition under severe non-IID skew; and distinct from server-side ensemble distillation methods such as FedDF (AIMech:FedDfEnsembleKnowledgeDistillationForFederatedModelFusion, Lin et al. 2020) and FedGEN (AIMech:FedGenDataFreeKnowledgeDistillationForHeterogeneousFederatedLearning, Zhu et al. 2021), as FedNTD operates purely during client local training without proxy datasets or generative models.
+aliases:
+- FedNTD
+- Federated Not-True Distillation
+- Not-True Distillation for Heterogeneous Federated Learning
+definition_evidence:
+- source_id: r458-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r458-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r458-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r458-not-true-softmax-and-out-local-kl-decomposition-mechanism
+  kind: mechanism
+  statement: Excludes the ground-truth class logit z_y from the temperature-scaled softmax normalization over the C - 1 non-true classes c != y (Equation 11), making dL_NTD/dz_y^l = 0 while decomposing the not-true KL divergence into an expectation weighted by the complementary out-local prior p_tilde_c = (1 - p_c) / (C - 1) (Proposition 2, Equation 14) that provably reduces inter-client gradient diversity Lambda(beta) on 0 <= beta <= C/2 - 1 (Proposition 1, Equation 9, Appendix P Equations 20-31).
+  evidence:
+  - source_id: r458-primary-pdf
+    locator: Section 2.2 Proposition 1 (Equation 9), Section 3.1-3.2 Proposition 2 (Equations 10-14), and Appendices P-Q (Equations 20-41), pp. 4-6, 19-22
+    relation: supports
+- claim_id: r458-data-free-stateless-client-regularization-scope
+  kind: scope
+  statement: Applies to multi-class classification across stateless and stateful cross-device or cross-silo federated learning without requiring proxy datasets, generator networks, or extra communication payload beyond the standard global model parameters w^g.
+  evidence:
+  - source_id: r458-primary-pdf
+    locator: Section 3.1 Federated Not-True Distillation (Algorithm 1, Table 1) & Section 4 Experiments, pp. 5-8
+    relation: supports
+- claim_id: r458-forward-teacher-inference-and-multiclass-requirement-limitation
+  kind: limitation
+  statement: Requires C >= 3 classes so the non-target class set {c != y} is non-trivial (C - 1 >= 2), and incurs an additional forward pass through the frozen global teacher model w^g on every local training mini-batch together with tuning of the distillation weight beta and temperature tau.
+  evidence:
+  - source_id: r458-primary-pdf
+    locator: Section 3.1 Equations 10-11 & Section 4.2 Effect of Hyperparameters (Figure 5), pp. 5, 8-9
+    relation: supports
+- claim_id: r458-non-iid-image-and-text-classification-application
+  kind: application
+  statement: Applied to heterogeneous federated image and sequential classification on MNIST, CIFAR-10, CIFAR-100, CINIC-10, Tiny-ImageNet, and Shakespeare under sharding and Latent Dirichlet Allocation (LDA) partitioning.
+  evidence:
+  - source_id: r458-primary-pdf
+    locator: Section 4 Experiments (Tables 2-4, Figures 4-5), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r458-primary-pdf
+  title: Preservation of the Global Knowledge by Not-True Distillation in Federated Learning
+  authors: &id001
+  - Gihun Lee
+  - Minchan Jeong
+  - Yongjin Shin
+  - Sangmin Bae
+  - Se-Young Yun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.03097.pdf
+  persistent_id: https://arxiv.org/abs/2106.03097
+  version: Advances in Neural Information Processing Systems (NeurIPS 2022), vol. 35, pp. 38461-38474 (2022) (2891 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:01:00Z'
+  sha256: 334592e3a8d6ca1af634c1866a2598aff5be50a9c41cb732d8ede8c8d18e0b79
+- source_id: r458-arxiv-abs
+  title: Preservation of the Global Knowledge by Not-True Distillation in Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.03097
+  persistent_id: https://arxiv.org/abs/2106.03097
+  version: arXiv abstract page (1066 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:01:00Z'
+  sha256: 8536f695881aff9f2ae14761ca0b730fbe5267c85ec55c02d9f28f93bff7f9a5
+- source_id: r458-metadata-cr
+  title: Preservation of the Global Knowledge by Not-True Distillation in Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.03097
+  persistent_id: https://arxiv.org/abs/2106.03097
+  version: Crossref API work record (403 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:01:00Z'
+  sha256: 0be8f1e231fde7fe8a703ddc74a153da37bfe279da7e9b0c37add1f5bcf7d595
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedNTD is a heterogeneous federated learning algorithm that preserves global out-of-local-distribution knowledge via client-side not-true logit distillation.
+limitations:
+- Requires at least C >= 3 classes so that the not-true class distribution over c != y is non-degenerate.
+- Adds a frozen global-teacher forward pass on every local training batch and requires tuning distillation weight beta and temperature tau.
+curation:
+  created_at: '2026-10-19T09:01:00Z'
+  updated_at: '2026-10-19T09:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

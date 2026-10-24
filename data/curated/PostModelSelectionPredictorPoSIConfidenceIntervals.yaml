@@ -1,0 +1,240 @@
+id: AIMech:PostModelSelectionPredictorPoSIConfidenceIntervals
+name: Post-model-selection predictor PoSI confidence intervals under full and active-only covariate observation
+concept_kind: mathematical_method
+aliases:
+- Bachoc-Leeb-Pötscher post-model-selection predictor confidence intervals
+- Active-covariate partial-union-bound predictor PoSI hierarchy (K_1, K_2, K_3, K_4, K_5)
+- Design-dependent in-sample and random-design out-of-sample post-selection prediction intervals
+- Post-selection linear predictor simultaneous coverage calibration
+definition: A post-model-selection inference methodology for linear regression predictors x_0'[M_hat]
+  beta_hat_{M_hat} +- K(x_0, M_hat) * ||s_{M_hat}|| * sigma_hat (Equation 5), where s_M' = x_0'[M] (X[M]'
+  X[M])^{-1} X[M]' (Equation 6) and bar{s}_M = s_M / ||s_M||, guaranteeing coverage >= 1 - alpha simultaneously
+  over all candidate models M in M_cal and any data-driven model selector M_hat without requiring the
+  true mean mu to be linear. In fixed-design homoscedastic Gaussian regression Y ~ N(mu, sigma^2 I_n)
+  targeting the in-sample optimal linear predictor x_0'[M_hat] beta_{M_hat}^{(n)} with beta_M^{(n)} =
+  (X[M]' X[M])^{-1} X[M]' mu (Equations 3-4, Remark 2.8), observing the full regressor vector x_0 in R^p
+  yields the exact full-information constant K_1(x_0, r), the (1 - alpha)-quantile of max_{M in M_cal}
+  |bar{s}_M' (Y - mu)| / sigma_hat =^d G * max_{M in M_cal} |bar{s}_M' V| (Equation 10, Proposition 2.1,
+  Equation 23). When only the selected covariates x_0[M_hat] are observed at prediction time, K_1(x_0)
+  is infeasible and is replaced by the active-covariate hierarchy K_naive <= K_1(x_0) <= K_2(x_0[M], M)
+  <= K_3(x_0[M], M) <= K_4 <= K_5 (Equations 11-15, Proposition 2.3, Corollary 2.4), where K_2(x_0[M],
+  M) = sup_{x[M] = x_0[M]} K_1(x), K_3(x_0[M], M) is the (1 - alpha)-quantile of the partial spherical-cap
+  union-bound distribution F_{M, x_0}(t) = E_G[1 - min(1, P(max_{M_* subset M} |bar{s}_{M_*}' V| > t/G)
+  + c(M, M_cal) * (1 - F_{Beta, 1/2, (d-1)/2}((t/G)^2)))] separating nested submodels M_* subset M from
+  the c(M, M_cal) non-nested models (Equations 12-14), K_4 = K_3(x_0[emptyset], emptyset) is the full
+  union-bound constant, and K_5 is the Scheffé constant. In random-design regression Y = X beta + U with
+  second-moment matrix Sigma, the same intervals (with either full-model or post-selection variance estimator
+  sigma_hat_{M_hat}^2) asymptotically uniformly cover the design-independent out-of-sample optimal linear
+  predictor x_0'[M_hat] beta_{M_hat}^{(*)} with beta_M^{(*)} = beta[M] + (Sigma[M, M])^{-1} Sigma[M, M^c]
+  beta[M^c] (Section 3, Remark 3.2, Theorem 3.6, Lemma C.2, Theorem D.6).
+identity_notes: Distinct from AIMech:ValidPostSelectionInferencePoSIConstant (Berk, Brown, Buja, Zhang,
+  & Zhao 2013, The Annals of Statistics 41(2):802-837, arXiv:1206.6451), which constructs simultaneous
+  confidence intervals for individual submodel regression coefficients beta_{j, M} (corresponding to the
+  sparse unit-vector special case x_0 = e_j) and shows that the coefficient PoSI constant scales as O(sqrt(log
+  p)) under orthogonal designs. Bachoc, Leeb, & Pötscher (2019, The Annals of Statistics 47(3):1475-1504,
+  arXiv:1412.4605v3, DOI:10.1214/18-AOS1721) formulate post-selection inference for general linear predictors
+  x_0'[M_hat] beta_{M_hat} under both full observation of x_0 (K_1(x_0)) and active-only observation of
+  x_0[M_hat] (K_2, K_3, K_4), prove exact tightness of the partial union bound in Lemma B.4, establish
+  that even under orthogonal designs the predictor constants K_1(x_0, infty) and K_2(x_0[M], M, infty)
+  grow at the polynomial rate Theta(sqrt(p)) with explicit lower-bound constant xi = sup_{b > 0} phi(b)/sqrt(1
+  - Phi(b)) approx 0.6363 (Proposition 2.9) while K_3(x_0[M], M, infty) / K_4(infty) -> 1 and K_4(infty)/sqrt(p)
+  -> sqrt(3)/2 approx 0.866 < 1 (Proposition 2.10, Corollary 2.12), and prove uniform asymptotic validity
+  for the random-design out-of-sample projection target x_0'[M_hat] beta_{M_hat}^{(*)} (Theorem 3.6, Theorem
+  D.6). Also distinct from AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds (Bachoc, Blanchard,
+  & Neuvial 2018), which bounds the regression-coefficient PoSI constant under s-sparse Restricted Isometry
+  Property assumptions.
+definition_evidence:
+- source_id: blp2019-pdf
+  locator: Sections 1-4, Pages 1-23, Equations (1)-(19), Proposition 2.1, Corollary 2.2, Proposition 2.3,
+    Corollary 2.4, Remarks 2.5-2.8, Propositions 2.9-2.10, Corollaries 2.11-2.12, Remarks 3.1-3.2, Conditions
+    3.3-3.5, Theorem 3.6; Appendices A-E, Pages 24-53, Equations (20)-(42), Lemmas B.4, B.6, C.1-C.2,
+    Theorem D.6, Algorithms E.1-E.3
+  relation: supports
+- source_id: blp2019-crossref
+  locator: The Annals of Statistics 47(3):1475-1504 (2019) Crossref bibliographic metadata and abstract
+  relation: supports
+- source_id: blp2019-abs
+  locator: arXiv:1412.4605v3 abstract and metadata
+  relation: supports
+claims:
+- claim_id: full-and-active-covariate-predictor-posi-constant-hierarchy
+  kind: mechanism
+  statement: 'For fixed-design homoscedastic Gaussian regression Y ~ N(mu, sigma^2 I_n) with candidate
+    model set M_cal subset 2^{{1, ..., p}}, rank d = rank(X), and variance estimator sigma_hat^2 independent
+    of X''Y distributed as (sigma^2 / r) chi^2_r (including r = infty when sigma is known), the post-model-selection
+    predictor confidence interval CI(x_0) = x_0''[M_hat] beta_hat_{M_hat} +- K(x_0, M_hat) * ||s_{M_hat}||
+    * sigma_hat (Equations 5-6) covers the design-dependent in-sample optimal target x_0''[M_hat] beta_{M_hat}^{(n)}
+    with probability >= 1 - alpha for every model selector M_hat whenever K(x_0, M_hat) >= K_1(x_0), where
+    K_1(x_0) is the (1 - alpha)-quantile of max_{M in M_cal} |bar{s}_M''(Y - mu)| / sigma_hat =^d G *
+    max_{M in M_cal} |bar{s}_M'' V| with G ~ sqrt(d/r) * sqrt(chi^2_d / chi^2_r) independent of V ~ Unif(S^{d-1})
+    (Equation 10, Proposition 2.1, Corollary 2.2, Equation 23). When only active covariates x_0[M_hat]
+    are observed, Proposition 2.3 and Corollary 2.4 (pages 9-10, Equations 11-17) establish the valid
+    constant hierarchy K_naive = q_{r, 1-alpha/2} <= K_1(x_0) <= K_2(x_0[M], M) <= K_3(x_0[M], M) <= K_4
+    <= K_5 and the anti-monotonicity K_i(x_0[M_2], M_2) <= K_i(x_0[M_1], M_1) for M_1 subset M_2 (i =
+    2, 3), where K_2(x_0[M], M) = sup{K_1(x) : x[M] = x_0[M]} (Equation 11) and K_3(x_0[M], M) is the
+    (1 - alpha)-quantile of F_{M, x_0}(t) = E_G[F^*_{M, x_0}(t/G)] with F^*_{M, x_0}(t) = 1 - min(1, P(max_{M_*
+    in M_cal, M_* subset M} |bar{s}_{M_*}'' V| > t) + c(M, M_cal) * (1 - F_{Beta, 1/2, (d-1)/2}(t^2)))
+    (Equations 12-14).'
+  evidence:
+  - source_id: blp2019-pdf
+    locator: Sections 2.1-2.3, Pages 5-12, Equations (1)-(17), Proposition 2.1, Corollary 2.2, Proposition
+      2.3, Corollary 2.4, Remarks 2.5-2.8; Appendix B.1, Pages 32-34, Equations (22)-(24)
+    relation: supports
+  - source_id: blp2019-crossref
+    locator: The Annals of Statistics 47(3):1475-1504 abstract
+    relation: supports
+- claim_id: exact-union-bound-geometry-and-monte-carlo-quantile-algorithms
+  kind: mechanism
+  statement: 'Lemma B.4 (Appendix B.1, page 34) proves that the spherical union bounds defining K_3(x_0[M],
+    M) and K_4 can hold with exact equality: for p = d = 2, n >= 2, M_cal = 2^{{1, 2}}, X^{(2)} = [[1,
+    cos(2*pi/3)], [0, sin(2*pi/3)]], and x_0'' = (cos(4*pi/3), sin(4*pi/3)) X^{(2)}, the three unit vectors
+    bar{s}_{{1}}'' = -(1, 0), bar{s}_{{2}}'' = -(cos(2*pi/3), sin(2*pi/3)), and bar{s}_{{1,2}}'' = (cos(4*pi/3),
+    sin(4*pi/3)) have spherical caps {|bar{s}_{M_*}'' V| > c} that are pairwise disjoint on S^1 for c
+    >= sqrt(3)/2 and cover S^1 for 0 <= c <= sqrt(3)/2, yielding F^*_{M, x_0}(t) = P(max_{M_* in M_cal}
+    |bar{s}_{M_*}'' V| <= t) and K_1(x_0) = K_2(x_0[M], M) = K_3(x_0[M], M) = K_4 < K_5 for every M in
+    M_cal. Appendix E (pages 48-53, Equations 37-42, Algorithms E.1-E.3) provides exact 1D numerical integration
+    for K_4 (Equation 37) and conditional Monte Carlo integration over V ~ Unif(S^{d-1}) and V_tilde ~
+    Unif(S^{|M|-1}) for K_1(x_0) and K_3(x_0[M], M), reducing the inner nested maximization in K_3 from
+    dimension d to dimension |M| via QR orthogonalization of X[M] (Equation 40, Algorithm E.2).'
+  evidence:
+  - source_id: blp2019-pdf
+    locator: Section 2.3, Pages 9-12; Appendix B.1, Page 34, Lemma B.4; Appendix E, Pages 48-53, Equations
+      (37)-(42), Algorithms E.1-E.3
+    relation: supports
+- claim_id: orthogonal-design-sqrt-p-scaling-and-universal-k3-k4-asymptotics
+  kind: mechanism
+  statement: 'Whereas the Berk-Brown-Buja-Zhang-Zhao (2013) PoSI constant for individual regression coefficients
+    scales as sqrt(2 log p) under orthogonal designs, Proposition 2.9 and Lemma B.6 (Section 2.4.1, pages
+    12-13, Appendix B.2, pages 35-36) prove that for any orthogonal design X(p) in X_sf(p) with M_cal
+    = 2^{{1, ..., p}} and r = infty, choosing dense x_0 proportional to (1, ..., 1)'' yields liminf_{p
+    -> infty} K_1(x_0, infty) / sqrt(p) >= xi = sup_{b > 0} phi(b) / sqrt(1 - Phi(b)) approx 0.6363 (while
+    sparse x_0 with sup_p ||x_0||_0 < infty satisfies K_1(x_0, infty) = O(1)), and for any 0 <= gamma
+    < 1, liminf_{p -> infty} inf_{x_0, X in X_sf(p), |M| <= gamma * p} K_2(x_0[M], M, infty) / sqrt(p)
+    >= xi * sqrt(1 - gamma). Furthermore, Proposition 2.10 and Corollaries 2.11-2.12 (Section 2.4.2, pages
+    13-14, Appendix B.2, pages 36-38) prove that whenever c(M, M_cal) >= tau * |M_cal| (holding with tau
+    = 1/3 for all M != {1, ..., p} when M_cal = {M : |M| <= m_p}), K_3(x_0[M], M, r_p) / K_4(r_p) -> 1
+    uniformly over design X, x_0, and M, and K_4(infty) ~ sqrt(min(n(p), p) * (1 - |M_cal|^{-2/(min(n(p),
+    p) - 1)})), which for M_cal = 2^{{1, ..., p}} and n(p) >= p gives lim_{p -> infty} K_4(infty) / sqrt(p)
+    = sqrt(3)/2 approx 0.866 < 1 = lim_{p -> infty} K_5(infty) / sqrt(p).'
+  evidence:
+  - source_id: blp2019-pdf
+    locator: Section 2.4, Pages 12-14, Proposition 2.9, Proposition 2.10, Corollaries 2.11-2.12; Appendix
+      B.2, Pages 34-38, Lemmas B.5-B.6
+    relation: supports
+  - source_id: blp2019-abs
+    locator: arXiv:1412.4605v3 abstract
+    relation: supports
+- claim_id: random-design-uniform-asymptotic-validity-for-out-of-sample-predictors
+  kind: mechanism
+  statement: In the random-design regression model Y = X beta + U where (y_i, x_i') are i.i.d. with E[x_i
+    x_i'] = Sigma and E[u_i | x_i] = 0, Remark 2.8 and Section 3 (pages 11-12, 15-19, Equation 18, Remark
+    3.2) distinguish the design-dependent in-sample projection parameter beta_M^{(n)} = (X[M]' X[M])^{-1}
+    X[M]' E[Y | X] from the design-independent out-of-sample optimal linear projection parameter beta_M^{(*)}
+    = argmin_{gamma} E[(y_0 - x_0'[M] gamma)^2] = beta[M] + (Sigma[M, M])^{-1} Sigma[M, M^c] beta[M^c].
+    Under Conditions 3.3-3.5 (moment bounds on X, U and spherical invariance of X Sigma^{-1/2} when |M_hat|
+    < p), Theorem 3.6 and Lemmas C.1-C.2 (Section 3, pages 17-19, Appendix C, pages 38-42) prove that
+    the confidence intervals CI(x_0) calibrated with K(x_0, M_hat) in {K_1, K_2, K_3, K_4, K_5} and either
+    the full-model variance estimator sigma_hat_OLS^2 or the post-selection variance estimator sigma_hat_{M_hat}^2
+    = ||Y - X[M_hat] beta_hat_{M_hat}||^2 / (n - |M_hat|) achieve uniform asymptotic coverage P(x_0'[M_hat]
+    beta_{M_hat}^{(*)} in CI(x_0) | x_0) >= (1 - alpha) + o_p(1) uniformly over model selectors M_hat
+    and spherical error-plus-design laws (extended to growing dimension p(n) -> infty with p(n) = o(n^{1/2})
+    in Appendix D, Theorem D.6, pages 42-48).
+  evidence:
+  - source_id: blp2019-pdf
+    locator: Remark 2.8, Pages 11-12; Section 3, Pages 15-19, Equation (18), Remarks 3.1-3.2, Conditions
+      3.3-3.5, Theorem 3.6; Appendix C, Pages 38-42, Equations (25)-(26), Lemmas C.1-C.2; Appendix D,
+      Pages 42-48, Equations (27)-(36), Conditions D.1-D.4, Lemma D.5, Theorem D.6
+    relation: supports
+  - source_id: blp2019-crossref
+    locator: The Annals of Statistics 47(3):1475-1504 abstract
+    relation: supports
+evidence_sources:
+- source_id: blp2019-pdf
+  title: Valid confidence intervals for post-model-selection predictors
+  authors:
+  - François Bachoc
+  - Hannes Leeb
+  - Benedikt M. Pötscher
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1412.4605
+  persistent_id: https://doi.org/10.1214/18-AOS1721
+  version: arXiv:1412.4605v3 (22 May 2018; published in The Annals of Statistics, Vol. 47, No. 3, pp.
+    1475-1504, 2019). Complete 56-page full-text PDF (789744 bytes) read across Sections 1-4 and Appendices
+    A-E.
+  access_level: full_text
+  accessed_at: '2026-10-17T17:35:00Z'
+  sha256: 222cfb10a74f331210a1ce0494e00543f6f8f9ef14bff5205baf1766acc6cca9
+- source_id: blp2019-crossref
+  title: Valid confidence intervals for post-model-selection predictors (The Annals of Statistics Crossref
+    Record)
+  authors:
+  - François Bachoc
+  - Hannes Leeb
+  - Benedikt M. Pötscher
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/18-AOS1721
+  persistent_id: https://doi.org/10.1214/18-AOS1721
+  version: The Annals of Statistics 47(3):1475-1504 Crossref bibliographic metadata record (4286 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:35:00Z'
+  sha256: 1b41a05db014e113754d1a60138002d6192d6e9af2b7382200d747b9ade3a9d3
+- source_id: blp2019-abs
+  title: Valid confidence intervals for post-model-selection predictors (arXiv:1412.4605 Abstract)
+  authors:
+  - François Bachoc
+  - Hannes Leeb
+  - Benedikt M. Pötscher
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1412.4605
+  persistent_id: https://doi.org/10.48550/arXiv.1412.4605
+  version: arXiv:1412.4605v3 abstract and metadata record (5696 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:35:00Z'
+  sha256: 5df943653a28d09308512eb466568443defe347842b04442e140f41b3f788304
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Constructs universally valid post-model-selection confidence intervals for linear regression
+    predictors x_0'[M_hat] beta_hat_{M_hat} under both fixed and random designs (AIO:LinearRegression).
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Calibrates predictor confidence intervals via the PoSI hierarchy (K_1, K_2, K_3, K_4, K_5)
+    to guarantee coverage >= 1 - alpha across all data-driven model selection procedures, preventing post-selection
+    data-snooping invalidation (AIO:DataDredgingBias).
+limitations:
+- Unlike the Berk-Brown-Buja-Zhang-Zhao (2013) PoSI constant for individual regression coefficients, which
+  scales as sqrt(2 log p) under orthogonal designs, the predictor PoSI constants K_1(x_0) (for dense x_0)
+  and K_2(x_0[M], M), K_3(x_0[M], M), K_4 grow at rate Theta(sqrt(p)) even under orthogonal designs when
+  M_cal = 2^{{1, ..., p}}, because the predictor vectors bar{s}_M depend continuously on x_0 across all
+  2^p - 1 submodels (Proposition 2.9, Proposition 2.10, Corollary 2.12).
+- In the random-design setting (Section 3, Condition 3.5, Remark 3.7, and Appendix D Condition D.4), uniform
+  asymptotic validity over misspecified submodels |M_hat| < p requires spherical invariance of the standardized
+  covariate vector Sigma^{-1/2} x_i (such as elliptical / Gaussian designs) to ensure that the omitted-variable
+  projection residual x_i'[M^c] beta[M^c] - x_i'[M] (Sigma[M, M])^{-1} Sigma[M, M^c] beta[M^c] is uncorrelated
+  with x_i[M] and conditionally homoscedastic.
+- 'Four minor typographical or corrigendum notes in arXiv:1412.4605v3 were identified and verified during
+  full-text inspection: (1) Section 2.4.1 (page 13, line 6) explicitly notes a corrigendum to Berk et
+  al. (2013a) Proposition 5.5, pointing out that the remainder term printed as ''o(d)'' in Berk et al.
+  (2013a) should read ''o(1)''; (2) in Appendix B.2 (page 37, proof of Proposition 2.10, line 6), ''K(|M|
+  - 1, min(n(p).p), alpha)'' prints a period instead of a comma inside ''min(n(p), p)''; (3) in Appendix
+  E (page 49, paragraph preceding Algorithm E.2, line 4), ''\tilde{\bar{s}}_Minstead of \bar{s}_M'' omits
+  the space before ''instead''; and (4) in the References (page 56, Tian & Taylor 2015), ''selective inferene''
+  is printed for ''selective inference''.'
+- All 56 pages of the full-text PDF of Bachoc, Leeb, & Pötscher (2019, The Annals of Statistics 47(3):1475-1504,
+  arXiv:1412.4605v3, DOI:10.1214/18-AOS1721) were read. Constructed numerical checks in research/discovery/post-model-selection-predictor-posi-confidence-intervals-boundaries.py
+  verify (1) Lemma B.4 exact union-bound geometry on S^1 where K_1(x_0) = K_2 = K_3 = K_4 < K_5, (2) the
+  strict hierarchy and anti-monotonicity K_naive < K_1 < K_3(M_2) < K_3(M_1) = K_4 < K_5 for |M_1| = 1
+  < |M_2| = 2, (3) Proposition 2.9's orthogonal-design constant xi approx 0.636328 and Corollary 2.12's
+  limit K_4(infty)/sqrt(p) -> sqrt(3)/2 approx 0.866025, and (4) Section 3's random-design coverage of
+  the out-of-sample projection target beta_M^{(*)} using the post-selection variance estimator sigma_hat_{M_hat}^2.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T17:35:00Z'
+  updated_at: '2026-10-17T17:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

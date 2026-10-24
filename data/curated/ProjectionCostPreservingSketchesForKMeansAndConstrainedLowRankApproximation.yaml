@@ -1,0 +1,100 @@
+id: AIMech:ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation
+name: Projection-Cost Preserving Sketches for k-Means Clustering and Constrained Low-Rank Approximation
+concept_kind: preprocessing_method
+review_status: DRAFT
+definition: A Rank-k Projection-Cost Preserving Sketch (PCPS) is a linear dimensionality-reduction sketch A_tilde in R^{n x d'} (with d' << d) of a data matrix A in R^{n x d}, introduced by Cohen, Elder, Musco, Musco, and Persu (2015), such that for all rank-k orthogonal projection matrices P in R^{n x n} simultaneously, there exists a fixed non-negative constant c >= 0 independent of P satisfying (1 - epsilon)*||A - PA||_F^2 <= ||A_tilde - P*A_tilde||_F^2 + c <= (1 + epsilon)*||A - PA||_F^2 (Definition 1, two-sided error) or ||A - PA||_F^2 <= ||A_tilde - P*A_tilde||_F^2 + c <= (1 + epsilon)*||A - PA||_F^2 (Definition 2, one-sided error). Because k-means clustering is equivalent to minimizing ||A - X_C X_C^T A||_F^2 over rank-k cluster indicator projection matrices P = X_C X_C^T, any gamma-approximate solution P_tilde on A_tilde yields a (1 + epsilon)*gamma-approximate solution for A across k-means clustering and general constrained rank-k approximation problems.
+identity_notes: Distinct from AIMech:FrequentDirectionsDeterministicMatrixSketching (Round 363), which compresses n rows into ell rows in R^{ell x d} to approximate the row space A^T A in row-update streams, whereas a Projection-Cost Preserving Sketch reduces column dimension from d to d' = O(k/epsilon) or O(k/epsilon^2) in R^{n x d'} so that left rank-k projections P in R^{n x n} (such as k-means cluster indicator projections X_C X_C^T) preserve ||(I - P)A||_F^2 up to a P-independent shift c. Also distinct from AIMech:KMeansPlusPlusSeeding (Round 194), which seeds k-means cluster centers in the ambient dimension d rather than reducing feature dimension d' prior to clustering.
+aliases:
+- Projection-Cost Preserving Sketch (PCPS)
+- Rank-k Projection-Cost Preserving Dimensionality Reduction
+- Cohen-Elder-Musco-Musco-Persu k-Means Dimensionality Reduction
+definition_evidence:
+- source_id: r364-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r364-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r364-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r364-claim-one-sided-and-two-sided-pcps-characterization-and-svd-tightness
+  kind: mechanism
+  statement: Writing C = A A^T, C_tilde = A_tilde A_tilde^T = C + E, and Y = I - P for any rank-k orthogonal projection P, A_tilde is a one-sided PCPS with error epsilon if E <= 0 and sum_{i=1}^k |lambda_i(E)| <= epsilon*||A_{r\k}||_F^2 (Lemma 5), and a two-sided PCPS if E = E_1 + E_2 + E_3 + E_4 with -epsilon_1 C <= E_1 <= epsilon_1 C, sum_{i=1}^k |lambda_i(E_2)| <= epsilon_2*||A_{r\k}||_F^2, tr(E_2) <= epsilon_2'*||A_{r\k}||_F^2, tr(E_3^T C^+ E_3) <= epsilon_3^2*||A_{r\k}||_F^2, and tr(E_4 C^+ E_4^T) <= epsilon_4^2*||A_{r\k}||_F^2 (Lemma 6); consequently, projecting A onto its top m = ceil(k/epsilon) exact or (1 + epsilon')-approximate right singular vectors yields a one-sided PCPS in dimension d' = ceil(k/epsilon) (Theorems 7-8, and Theorem 9 for general low-rank approximations), which is optimal by a matching simplex-plus-Gaussian-cloud lower bound showing d' >= ceil(k/epsilon) is necessary for SVD reduction (Theorem 21, Appendix A).
+  evidence:
+  - source_id: r364-primary-pdf
+    locator: Section 2.2-3.1, Definitions 1-2 and Lemmas 3-4, pp. 4-7; Section 4.2, Lemmas 5-6, pp. 8-10; Section 5.1-5.3, Theorems 7, 8, and 9, pp. 11-12; Appendix A-B, Theorem 21, pp. 29-34
+    relation: supports
+- claim_id: r364-claim-spectral-norm-reduction-oblivious-sketching-and-column-selection
+  kind: mechanism
+  statement: 'Decomposing A = W_1 B + W_2 B via B_1 = Z^T and B_2 = (sqrt(k)/||A_{r\k}||_F)*(A - A Z Z^T) with 1 <= ||B B^T||_2 <= 2 and tr(B B^T) <= 3k reduces two-sided PCPS construction to spectral norm approximation ||B R R^T B^T - B B^T||_2 < epsilon and trace preservation tr(B_2 R R^T B_2^T) - tr(B_2 B_2^T) <= epsilon*k (Lemma 10, Lemma 11); this establishes (1 + epsilon) PCPS guarantees for oblivious random projections (Theorem 12: d'' = O(k/epsilon^2) dense JL, O(k^2/epsilon^2) CountSketch, or O_tilde(k/epsilon^2) OSNAP), non-oblivious random projection AZ onto the row span of RA with d'' = O(k/epsilon) (Theorem 16, Lemmas 17-18), randomized leverage-plus-residual column sampling with d'' = O(k log(k/delta)/epsilon^2) in O(nnz(A) log(d/delta) + k d log(d/delta)) time (Lemma 13, Theorem 14), and deterministic BSS column selection with d'' = O(k/epsilon^2) (Theorem 15).'
+  evidence:
+  - source_id: r364-primary-pdf
+    locator: Section 1.2, Table 1, p. 2; Section 6, Lemma 10, pp. 12-14; Section 7-8, Lemmas 11, 13, 17, and 18, and Theorems 12, 14, 15, and 16, pp. 14-20; Appendix C, Lemma 26 and Theorem 27, pp. 34-36
+    relation: supports
+- claim_id: r364-claim-sublinear-log-k-dimension-random-projection-for-kmeans
+  kind: mechanism
+  statement: "For k-means clustering specifically, splitting A = P^* A + (I - P^*)A = B + B_bar where P^* is the optimal k-cluster projection matrix and B has only k distinct rows (the optimal cluster centroids), multiplying by a Johnson-Lindenstrauss matrix R^T with only d' = O(log(k/delta)/epsilon^2) columns\u2014independent of n and d and sublinear in k\u2014simultaneously preserves all pairwise centroid distances (hence ||B - P_tilde B||_F <= (1 + epsilon)*||B R^T - P_tilde B R^T||_F) and the Frobenius norms ||B_bar R^T||_F <= (1 + epsilon)*||B_bar||_F and ||(A - P^* A)R^T||_F <= (1 + epsilon)*||A - P^* A||_F, proving via the triangle inequality (3 + 6*epsilon)*sqrt(gamma) that any gamma-approximate k-means clustering P_tilde of A_tilde = A R^T achieves ||A - P_tilde A||_F^2 <= (9 + epsilon)*gamma*||A - P^* A||_F^2 (Theorem 19)."
+  evidence:
+  - source_id: r364-primary-pdf
+    locator: Section 1.2, Table 1, p. 2; Section 9, Theorem 19 and Eq. (27), pp. 21-22
+    relation: supports
+evidence_sources:
+- source_id: r364-primary-pdf
+  title: Dimensionality Reduction for k-Means Clustering and Low Rank Approximation
+  authors: &id001
+  - Michael B. Cohen
+  - Sam Elder
+  - Cameron Musco
+  - Christopher Musco
+  - Madalina Persu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1410.6801.pdf
+  persistent_id: https://api.crossref.org/works/10.1145/2746539.2746569
+  version: Proceedings of the 47th Annual ACM on Symposium on Theory of Computing (STOC 2015), pp. 163-172 (arXiv:1410.6801) (2015) (418456 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:27:00Z'
+  sha256: 9a63055cd089e18cb7eb1fe1af848210d0e02f55797d0e4216176fe13c06fb68
+- source_id: r364-arxiv-abs
+  title: Dimensionality Reduction for k-Means Clustering and Low Rank Approximation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1410.6801
+  persistent_id: https://arxiv.org/abs/1410.6801
+  version: arXiv abstract page (7471 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:27:00Z'
+  sha256: 053cfed56e0d68f4bcdb27227764a600a51c48670127e139c22f7475cb9234a5
+- source_id: r364-metadata-cr
+  title: Dimensionality Reduction for k-Means Clustering and Low Rank Approximation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1145/2746539.2746569
+  persistent_id: https://api.crossref.org/works/10.1145/2746539.2746569
+  version: Crossref API work record (12130 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:27:00Z'
+  sha256: 53671d396f477e7ca5cedba0cc8b2bd43d398e05aa2a43b65ac4caa6e29545cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: Projection-Cost Preserving Sketches are a general class of dimensionality-reduction sketches for k-means and constrained low-rank approximation.
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Provides (1 + epsilon) and (9 + epsilon) dimensionality-reduction guarantees for k-means clustering.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Enables streaming and distributed low-rank approximation and Principal Component Analysis.
+limitations:
+- Achieving (1 + epsilon) relative error for general constrained rank-k approximation requires sketch dimension d' >= Omega(k) (and d' >= ceil(k/epsilon) for SVD-based reduction, Theorem 21), while reducing dimension sublinearly to O(log k / epsilon^2) via oblivious random projection loosens the approximation factor from (1 + epsilon) to (9 + epsilon) and applies only to k-means clustering rather than general rank-k projections (Section 9, p. 21).
+curation:
+  created_at: '2026-10-19T07:27:00Z'
+  updated_at: '2026-10-19T07:27:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

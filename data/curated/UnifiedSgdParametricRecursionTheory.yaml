@@ -1,0 +1,107 @@
+id: AIMech:UnifiedSgdParametricRecursionTheory
+name: Unified Parametric Theory of Proximal SGD
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'A unified parametric convergence analysis framework for composite strongly convex stochastic optimization min_{x in R^d} f(x) + R(x) using proximal stochastic gradient iterates x^{k+1} = prox_{gamma R}(x^k - gamma g^k) with unbiased gradient estimator E_k[g^k] = nabla f(x^k). The framework characterizes the stochastic oracle and auxiliary variance-tracking sequence sigma_k^2 >= 0 via six non-negative parameters (A, B, C, D_1, D_2, rho) satisfying two coupled inequalities: E_k[||g^k - nabla f(x^*)||^2] <= 2 A D_f(x^k, x^*) + B sigma_k^2 + D_1 and E_k[sigma_{k+1}^2] <= (1 - rho) sigma_k^2 + 2 C D_f(x^k, x^*) + D_2. Under stepsize 0 < gamma <= min{1 / (A + C M), rho / (2 mu (1 - B M))} with M > B / rho, the Lyapunov potential V_k = ||x^k - x^*||^2 + M gamma^2 sigma_k^2 contracts linearly up to an explicit neighborhood (D_1 + M D_2) gamma^2 / min{gamma mu, rho - B M}, unifying mini-batch SGD, SAGA, L-SVRG, SEGA, jacSketch, DIANA, and Q-SGD-SR.'
+identity_notes: Distinct from individual variance-reduced or quantized stochastic gradient methods (such as SAGA, L-SVRG, SEGA, or DIANA) because it defines the six-parameter (A, B, C, D_1, D_2, rho) meta-assumption (Assumption 4.1) and master Lyapunov contraction theorem (Theorem 4.1) that simultaneously derives existing and new methods (SGD-star, N-SAGA, N-SEGA, Q-SGD-SR) as parameter specializations.
+aliases:
+- Unified (A,B,C,D1,D2,rho) Theory of SGD
+- ABC-SGD Parametric Framework
+- SGD-star
+- Q-SGD-SR
+definition_evidence:
+- source_id: r575-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r575-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r575-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: six-parameter-coupled-oracle-and-memory-inequalities
+  kind: mechanism
+  statement: Assumption 4.1 characterizes any unbiased gradient estimator g^k (E_k[g^k] = nabla f(x^k)) and non-negative sequence {sigma_k^2} via six parameters A >= 0, B >= 0, C >= 0, D_1 >= 0, D_2 >= 0, and 0 <= rho <= 1 such that E_k[||g^k - nabla f(x^*)||^2] <= 2 A D_f(x^k, x^*) + B sigma_k^2 + D_1 and E_k[sigma_{k+1}^2] <= (1 - rho) sigma_k^2 + 2 C D_f(x^k, x^*) + D_2, where D_f(x^k, x^*) = f(x^k) - f(x^*) - <nabla f(x^*), x^k - x^*> is the Bregman divergence.
+  evidence:
+  - source_id: r575-primary-pdf
+    locator: Section 4, Assumption 4.1, p. 4, Equations (7)-(8)
+    relation: supports
+- claim_id: master-lyapunov-contraction-and-neighborhood-bound
+  kind: mechanism
+  statement: Under mu-quasi-strong convexity of f and Assumption 4.1, Theorem 4.1 proves that for any M > B / rho and stepsize 0 < gamma <= min{1 / (A + C M), rho / (2 mu)}, the Lyapunov functional V_k = ||x^k - x^*||^2 + M gamma^2 sigma_k^2 satisfies E[V_k] <= [max{1 - gamma mu, 1 + B / M - rho}]^k V_0 + ((D_1 + M D_2) gamma^2) / min{gamma mu, rho - B / M}, yielding exact linear convergence to x^* whenever the noise floor constants satisfy D_1 = D_2 = 0.
+  evidence:
+  - source_id: r575-primary-pdf
+    locator: Section 4, Theorem 4.1 and Corollary 4.1, pp. 4-5, Equations (9)-(11)
+    relation: supports
+  - source_id: r575-metadata-cr
+    locator: Abstract
+    relation: supports
+- claim_id: shift-trick-sgd-star-and-quantized-arbitrary-sampling-specializations
+  kind: application
+  statement: The parametric framework recovers 16 existing and new methods described in Table 1, including SGD-star (which shifts stochastic gradients by nabla f_i(x^*) to achieve A = L_max, B = C = D_1 = D_2 = 0, rho = 1 and linear convergence without dynamic control variates), N-SAGA and N-SEGA under noisy oracles, and Q-SGD-SR combining arbitrary coordinate/minibatch sampling with unbiased quantization.
+  evidence:
+  - source_id: r575-primary-pdf
+    locator: Section 3, Table 1, p. 4; Section 5 and Appendix A, Table 2, pp. 5-14
+    relation: supports
+- claim_id: quasi-strong-convexity-and-unbiased-oracle-requirement
+  kind: limitation
+  statement: The master theorem requires f to be mu-quasi-strongly convex around x^* and the stochastic gradient estimator g^k to be conditionally unbiased (E_k[g^k] = nabla f(x^k)), so biased contractive compressors with error feedback or nonconvex objectives require separate Lyapunov analyses.
+  evidence:
+  - source_id: r575-primary-pdf
+    locator: Section 2, Assumption 2.1, p. 2; Section 4, Assumption 4.1(a), p. 4
+    relation: supports
+evidence_sources:
+- source_id: r575-primary-pdf
+  title: 'A Unified Theory of SGD: Variance Reduction, Sampling, Quantization and Coordinate Descent'
+  authors: &id001
+  - Eduard Gorbunov
+  - Filip Hanzely
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1905.11261
+  persistent_id: https://proceedings.mlr.press/v108/gorbunov20a.html
+  version: Proceedings of the Twenty Third International Conference on Artificial Intelligence and Statistics (AISTATS 2020), PMLR 108:680-690 (2020) (1680553 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:58:00Z'
+  sha256: 58ef7389889ed6c36731029be021f3739736ee7c26c66313a42977687c8b95f0
+- source_id: r575-arxiv-abs
+  title: 'A Unified Theory of SGD: Variance Reduction, Sampling, Quantization and Coordinate Descent (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.11261
+  persistent_id: https://arxiv.org/abs/1905.11261
+  version: arXiv abstract page (6543 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:58:00Z'
+  sha256: e5ca580aa428d2d0b815a49b2721ec5ba5131b9566ff9440abef59a16e8deef9
+- source_id: r575-metadata-cr
+  title: 'A Unified Theory of SGD: Variance Reduction, Sampling, Quantization and Coordinate Descent (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v108/gorbunov20a.html
+  persistent_id: https://proceedings.mlr.press/v108/gorbunov20a.html
+  version: Crossref API work record (4177 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:58:00Z'
+  sha256: d056e62a2f9fa206aa0b2601b979c9b216a10861479ee54790f24e5be17bef6b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: Provides the unified convergence and variance-reduction theory for regularized empirical risk minimization and regression objectives.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: Directly handles composite proximal operators R(x) such as L1 sparsity regularizers alongside randomized coordinate and subspace sampling.
+limitations:
+- Requires f to satisfy mu-quasi-strong convexity around the global minimizer x^*.
+- Assumes conditionally unbiased stochastic gradient estimators E_k[g^k] = nabla f(x^k), excluding biased contractive compressors without error feedback.
+curation:
+  created_at: '2026-10-19T10:58:00Z'
+  updated_at: '2026-10-19T10:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

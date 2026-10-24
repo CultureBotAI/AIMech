@@ -1,0 +1,354 @@
+# Scientific author self-review of FedGKT (Group Knowledge Transfer for Federated Learning of Large CNNs at the Edge)
+
+- Review: 20261019T085230Z-fedgkt-group-knowledge-transfer-edge-federated-learning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T08:52:00Z
+- Finished UTC: 2026-10-19T08:52:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain FedGKT (Group Knowledge Transfer for Federated Learning of Large CNNs at the Edge) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FedGktGroupKnowledgeTransferForEdgeFederatedLearning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 19ec088d16e146d914bb01db09ed87aa0cacd235.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning | data/curated/FedGktGroupKnowledgeTransferForEdgeFederatedLearning.yaml | maintained | FedGKT (Group Knowledge Transfer for Federated Learning of Large CNNs at the Edge) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning | Validated history sidecar files. |
+| python3 fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py | passed | True | AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning | [PASS] Round 449 FedGKT (He et al. 2020): edge_params=15&lt;server_params=30, ce_server=0.5979 &lt; ce_gkt_edge=0.9054 &lt; ce_isolated=0.9188 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning.
+
+FedGKT (Group Knowledge Transfer for Federated Learning of Large CNNs at the Edge) is a distinct concept.
+
+Distinct from FedDF (AIMech:FedDfEnsembleDistillationForModelFusionInFederatedLearning, Lin et al. 2020), which transmits full client model weights to the server and performs ensemble distillation on an unlabeled server proxy dataset rather than offloading deep CNN layers to the server via uploaded client hidden feature maps and bidirectional ground-truth + KL distillation.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 449 FedGKT (He et al. 2020): edge_params=15&lt;server_params=30, ce_server=0.5979 &lt; ce_gkt_edge=0.9054 &lt; ce_isolated=0.9188
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T085200Z-fedgkt-group-knowledge-transfer-edge-federated-learning.json | supports | No normalized identity match for AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py | supports | All constructed boundary assertions in fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 449 FedGKT (He et al. 2020): edge_params=15&lt;server_params=30, ce_server=0.5979 &lt; ce_gkt_edge=0.9054 &lt; ce_isolated=0.9188 |
+| r449-primary-pdf | https://ar5iv.labs.arxiv.org/html/2007.14513; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 14068-14080 (2020)) read and verified. |
+| r449-arxiv-abs | https://arxiv.org/abs/2007.14513; arXiv abstract | supports | arXiv abstract read and verified. |
+| r449-metadata-cr | https://proceedings.neurips.cc/paper/2020/hash/a1d4c20b182ad7137ab3606f0e3fc8a4-Abstract.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning in Round 449.
+- All pages of Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 14068-14080 (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T085230Z-fedgkt-group-knowledge-transfer-edge-federated-learning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of FedGKT (Group Knowledge Transfer for Federated
+  Learning of Large CNNs at the Edge)
+started_at: '2026-10-19T08:52:00Z'
+finished_at: '2026-10-19T08:52:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 14068-14080 (2020)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain FedGKT (Group Knowledge Transfer for Federated Learning of Large CNNs
+  at the Edge) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 19ec088d16e146d914bb01db09ed87aa0cacd235
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FedGktGroupKnowledgeTransferForEdgeFederatedLearning.yaml
+    sha256: 82afdac1b3e82d17944f395eb2901b4192187208e47611e3ec834c77e7086265
+    role: target
+  - path: research/discovery/20261019T085200Z-fedgkt-group-knowledge-transfer-edge-federated-learning.json
+    sha256: 65925618fd3be90bd21823ce1d90e626e1411fcc6a6c8707b40bb1e2b74ade14
+    role: context
+  - path: research/discovery/fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py
+    sha256: e711c2ef10447e041f08c7f9ebedbd83689d71ab686d0e90a1e505b299b78334
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  path: data/curated/FedGktGroupKnowledgeTransferForEdgeFederatedLearning.yaml
+  label: FedGKT (Group Knowledge Transfer for Federated Learning of Large CNNs at
+    the Edge)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FedGktGroupKnowledgeTransferForEdgeFederatedLearning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FedGktGroupKnowledgeTransferForEdgeFederatedLearning.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py
+  command: python3 research/discovery/fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 449 FedGKT (He et al. 2020): edge_params=15<server_params=30,
+    ce_server=0.5979 < ce_gkt_edge=0.9054 < ce_isolated=0.9188'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T085200Z-fedgkt-group-knowledge-transfer-edge-federated-learning.json
+  accessed_at: '2026-10-19T08:52:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T08:52:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py
+  accessed_at: '2026-10-19T08:52:00Z'
+  snapshot_sha256: e711c2ef10447e041f08c7f9ebedbd83689d71ab686d0e90a1e505b299b78334
+  support: supports
+  summary: 'All constructed boundary assertions in fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 449 FedGKT (He et al. 2020): edge_params=15<server_params=30,
+    ce_server=0.5979 < ce_gkt_edge=0.9054 < ce_isolated=0.9188'
+- evidence_id: r449-primary-pdf
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/2007.14513
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T08:52:00Z'
+  snapshot_sha256: b3357ffb1dc525436d89608b619bec4a53d6526c2008eaf726b99f8f7d6510b7
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 33 (NeurIPS
+    2020), pp. 14068-14080 (2020)) read and verified.
+- evidence_id: r449-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2007.14513
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T08:52:00Z'
+  snapshot_sha256: 47923e3a5617576c95cd81f399553bdb2245ad7b136354a2bf31a62888088974
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r449-metadata-cr
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2020/hash/a1d4c20b182ad7137ab3606f0e3fc8a4-Abstract.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T08:52:00Z'
+  snapshot_sha256: de2e046a8b329a01b1ea13a867d8650d8d030f51e0359795aa42c46fecf46656
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  evidence_ids:
+  - identity
+  - r449-primary-pdf
+  - r449-arxiv-abs
+  - r449-metadata-cr
+  summary: FedGKT (Group Knowledge Transfer for Federated Learning of Large CNNs at
+    the Edge) is a distinct concept.
+  details: Distinct from FedDF (AIMech:FedDfEnsembleDistillationForModelFusionInFederatedLearning,
+    Lin et al. 2020), which transmits full client model weights to the server and
+    performs ensemble distillation on an unlabeled server proxy dataset rather than
+    offloading deep CNN layers to the server via uploaded client hidden feature maps
+    and bidirectional ground-truth + KL distillation.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  evidence_ids:
+  - mapping
+  - r449-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  evidence_ids:
+  - r449-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in fedgkt-group-knowledge-transfer-edge-federated-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 449 FedGKT (He et al. 2020): edge_params=15<server_params=30,
+    ce_server=0.5979 < ce_gkt_edge=0.9054 < ce_isolated=0.9188'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - r449-primary-pdf
+  - r449-arxiv-abs
+  - r449-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning
+  in Round 449.
+- All pages of Advances in Neural Information Processing Systems 33 (NeurIPS 2020),
+  pp. 14068-14080 (2020) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

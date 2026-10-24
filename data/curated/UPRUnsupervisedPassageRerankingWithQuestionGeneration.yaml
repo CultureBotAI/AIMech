@@ -1,0 +1,103 @@
+id: AIMech:UPRUnsupervisedPassageRerankingWithQuestionGeneration
+name: UPR (Unsupervised Passage Re-ranking with Zero-Shot Question Generation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An unsupervised zero-shot passage re-ranking algorithm for information retrieval and open-domain question answering that re-orders top-K candidate passages Z = {z_1, ..., z_K} from any first-stage retriever by applying Bayes' rule under a uniform passage prior and using an off-the-shelf pre-trained language model Theta with an appended natural-language instruction prompt to compute the length-normalized conditional log-likelihood of generating the input question tokens given each passage, log p(q | z_i) = (1 / |q|) sum_{t=1}^{|q|} log p(q_t | q_{<t}, z_i; Theta).
+identity_notes: Introduced by Sachan, Lewis, Joshi, Aghajanyan, Yih, Pineau, and Zettlemoyer (EMNLP 2022, pp. 3781-3797, arXiv:2204.07496). Distinguished from classical unigram query-likelihood language models (Ponte & Croft, 1998; Zhai & Lafferty, 2001), from supervised relevance-token cross-encoders such as monoT5 (Nogueira et al., 2020), and from synthetic query-generation dataset augmentation methods such as Doc2Query, InPars, or Promptagator that train a downstream retriever rather than re-scoring test queries zero-shot via p(q | z_i).
+aliases:
+- Unsupervised Passage Re-ranker
+- Unsupervised Passage Re-ranking
+- UPR Zero-Shot Question Generation Re-Ranker
+definition_evidence:
+- source_id: r744-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r744-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r744-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: upr-bayesian-question-likelihood-mechanism
+  kind: mechanism
+  statement: Given top-K retrieved passages Z = {z_1, ..., z_K} for a query q, UPR decomposes log p(z_i | q) = log p(q | z_i) + log p(z_i) + c via Bayes' rule, assumes a uniform passage prior log p(z_i), appends a zero-shot instruction prompt (such as 'Please write a question based on this passage') to each passage z_i, and ranks passages by the average token log-likelihood log p(q | z_i) = (1 / |q|) sum_t log p(q_t | q_{<t}, z_i; Theta), forcing token-level cross-attention to explain every token in q.
+  evidence:
+  - source_id: r744-primary-pdf
+    locator: Section 2.2 (Unsupervised Passage Re-ranking (UPR)) & Figure 2, pp. 2-3
+    relation: supports
+  - source_id: r744-primary-pdf
+    locator: upr_question_log_likelihood & main
+    relation: supports
+- claim_id: upr-question-vs-passage-generation-asymmetry
+  kind: scope
+  statement: Re-ranking top-1000 retrieved passages with UPR (using T0-3B) improves unsupervised retrievers (MSS, BM25, Contriever) by 6% to 18% absolute and supervised retrievers (DPR, MSS-DPR) by up to 12% in top-20 accuracy across SQuAD-Open, TriviaQA, Natural Questions, and WebQuestions, whereas the reverse conditional score log p(z_i | q; Theta) = (1 / |z_i|) sum_t log p(z_{i,t} | z_{i,<t}, q; Theta) degrades accuracy below the first-stage retriever.
+  evidence:
+  - source_id: r744-primary-pdf
+    locator: Section 4.1 (Table 2) & Section 4.2.1 (Importance of Question Generation, Figure 3), pp. 4-6
+    relation: supports
+  - source_id: r744-primary-pdf
+    locator: passage_generation_log_likelihood & main
+    relation: supports
+- claim_id: upr-cross-attention-latency-and-claim-query-limitation
+  kind: limitation
+  statement: UPR incurs inference latency that scales linearly with the number of re-ranked candidate passages K and proportionally to the product of question length, passage length, and PLM layer count (reaching 11.6 seconds per question on an A100 GPU for K = 1000 with T0-3B), is upper-bounded by the recall of the first-stage top-K retrieval pool, and can degrade nDCG@10 on fact-verification datasets (such as FEVER and Climate-FEVER in BEIR) where queries are declarative claims rather than questions.
+  evidence:
+  - source_id: r744-primary-pdf
+    locator: Section 4.2.3 (Figure 4), p. 6; Limitations, pp. 9-10; Appendix A.4 (Table 10), pp. 14, 18
+    relation: supports
+evidence_sources:
+- source_id: r744-primary-pdf
+  title: Improving Passage Retrieval with Zero-Shot Question Generation
+  authors: &id001
+  - Devendra Singh Sachan
+  - Mike Lewis
+  - Mandar Joshi
+  - Armen Aghajanyan
+  - Wen-tau Yih
+  - Joelle Pineau
+  - Luke Zettlemoyer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2204.07496
+  persistent_id: https://dblp.org/search/publ/api?q=Improving+Passage+Retrieval+with+Zero-Shot+Question+Generation+Sachan&h=5&format=xml
+  version: Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022) (2022) (629116 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:47:00Z'
+  sha256: 3e8d200937c8acb25866f453d6354f473aa8e681958a2a281ea4edf43d7f81d4
+- source_id: r744-arxiv-abs
+  title: Improving Passage Retrieval with Zero-Shot Question Generation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.07496
+  persistent_id: https://arxiv.org/abs/2204.07496
+  version: arXiv abstract page (6670 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:47:00Z'
+  sha256: 640fa10570e399d8317d8474b64bb8b9cf9423d144ca8da4f29293ee21fb1c2b
+- source_id: r744-metadata-cr
+  title: Improving Passage Retrieval with Zero-Shot Question Generation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Improving+Passage+Retrieval+with+Zero-Shot+Question+Generation+Sachan&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Improving+Passage+Retrieval+with+Zero-Shot+Question+Generation+Sachan&h=5&format=xml
+  version: Crossref API work record (978 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:47:00Z'
+  sha256: 7160130d27bf309b4521fa391e260626f05964352d92833082c72c9b83a05bcb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Uses a pre-trained neural sequence-to-sequence or autoregressive transformer language model for zero-shot conditional question likelihood re-ranking.
+limitations:
+- High inference latency when re-ranking large candidate pools (e.g., K = 1000) due to full token-level cross-attention across a multi-billion-parameter language model.
+- Recall is strictly upper-bounded by the first-stage retriever's top-K candidate pool, and question-generation instructions underperform on declarative claim-verification queries such as FEVER and Climate-FEVER.
+curation:
+  created_at: '2026-10-19T13:47:00Z'
+  updated_at: '2026-10-19T13:47:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

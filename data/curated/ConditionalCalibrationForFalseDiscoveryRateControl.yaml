@@ -1,0 +1,215 @@
+id: AIMech:ConditionalCalibrationForFalseDiscoveryRateControl
+name: Conditional calibration for false discovery rate control under dependence
+aliases:
+- Dependency-Adjusted Benjamini-Hochberg Procedure
+- dBH Procedure
+- dBY Procedure
+- Conditional Calibration for Multiple Testing
+- Rao-Blackwellized Conditional Benjamini-Hochberg Calibration
+concept_kind: mathematical_method
+definition: A finite-sample multiple-testing methodology (Fithian & Lei 2022, The Annals of Statistics
+  50(6):3091-3118, arXiv:2007.10438) that controls the false discovery rate (FDR) under known or conditionals-characterized
+  dependence among test statistics by decomposing FDR into m additive per-hypothesis contributions FDR_i(R)
+  = E[V_i / max(1, |R|)] and calibrating each hypothesis H_i's rejection threshold conditionally on a
+  tailored sufficient conditioning statistic S_i that governs how H_i's test statistic T_i affects all
+  other hypotheses' rejection decisions. Using conditional threshold calibration (Step 1), effective rejection-size
+  bounds R_+^{(i)}(T) >= |R(T)| on V_i = 1 coupled with independent uniform randomized pruning U ~ Unif(0,
+  1) (Steps 2-3), the general three-step framework (Theorem 1) guarantees exact finite-sample FDR <= alpha
+  m_0 / m <= alpha without union-bound or Benjamini-Yekutieli log-factor conservatism, and yields the
+  dependency-adjusted Benjamini-Hochberg (dBH) and Benjamini-Yekutieli (dBY) procedures (Section 3, Theorem
+  2) as well as recursive multi-step threshold refinement (Section 4.3, Theorem 3).
+identity_notes: No normalized identity match for conditional calibration for false discovery rate control
+  or the dependency-adjusted Benjamini-Hochberg (dBH / dBY) procedure across all 442 pinned AIO records
+  and 585 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches across data, sources,
+  research, history, and reviews returned only frontier references in the Round 190 discovery report.
+  Distinct from AIMech:EbhProcedure (Wang & Ramdas 2022), which applies deterministic step-up thresholding
+  to e-values under arbitrary dependence rather than conditioning each p-value on a sufficient statistic
+  S_i and integrating out the conditional distribution of T_i | S_i; distinct from AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  (Katsevich & Ramdas 2020), which constructs simultaneous high-probability upper envelopes on FDP across
+  nested paths rather than calibrating per-hypothesis conditional expectations E[1{p_i <= gamma_i(S_i)}
+  / R_+^{(i)} | S_i] <= q_i; and distinct from AIMech:AdaptivePValueThresholding (Lei & Fithian 2018,
+  AdaPT) and AIMech:FocusedBH (Katsevich, Sabatti, & Bogomolov 2023), which require independent or permutation-simulated
+  null p-values rather than analytically or Monte Carlo calibrating thresholds conditionally on S_i under
+  multivariate Gaussian, t, and regression dependence.
+definition_evidence:
+- source_id: fithian2022-conditional-calibration-fdr-ar5iv
+  locator: Section 1, lines 28–112, Equations 1–2; Section 2.1–2.4, lines 113–365, Lemma 1, Proposition
+    1, Theorem 1, Equations 3–13; Section 3.1–3.2, lines 366–482, Equations 14–16, Theorem 2
+  relation: supports
+- source_id: fithian2022-conditional-calibration-fdr-crossref
+  locator: The Annals of Statistics, Vol. 50, No. 6, pp. 3091–3118, December 2022 bibliographic record
+    (DOI:10.1214/21-AOS2137)
+  relation: supports
+- source_id: fithian2022-conditional-calibration-fdr-abs
+  locator: arXiv:2007.10438v1 abstract and Annals of Statistics publication metadata
+  relation: supports
+claims:
+- claim_id: sufficiency-based-bh-identity-and-three-step-conditional-calibration-randomized-pruning-fdr-theorem
+  kind: mechanism
+  statement: 'For any step-up procedure rejecting R = {i : p_i <= alpha |R| / m}, if S_i is a sufficient
+    statistic for the dependency of the subvector T_{-i} on T_i such that the conditional distribution
+    of T_{-i} given (T_i, S_i) does not depend on T_i, then |R(T)| = R_i(p_i; S_i) is nonincreasing in
+    p_i for fixed S_i with inverse threshold tau_i(r; S_i) = sup{t in [0, 1] : R_i(t; S_i) >= r}, and
+    under H_i the conditional FDR contribution satisfies the exact identity E_{H_i}[V_i / max(1, |R|)
+    | S_i] = sum_{r=1}^m E_{H_i}[1{p_i <= tau_i(r; S_i)} / r | S_i] + E_{H_i}[1{R_i(0; S_i) > 0} / R_i(0;
+    S_i) | S_i] (Section 2.2, Lemma 1, Equations 4–6); more generally, for any dependence structure and
+    conditioning statistics (S_1, ..., S_m), choosing data-dependent thresholds hat{t}_i(T) via Step 1
+    (conditional calibration: E_{H_i}[1{p_i <= hat{t}_i} / R_+^{(i)}(T) | S_i] <= q_i almost surely),
+    Step 2 (interlocking inequality: R_+^{(i)}(T) <= |R_0(T)| whenever p_i <= hat{t}_i where R_0 = {j
+    : p_j <= hat{t}_j}), and Step 3 (independent U ~ Unif(0, 1) randomized pruning that rejects R = R_0(T)
+    with conditional probability r^*(T) / |R_0(T)| where r^*(T) = max{r <= |R_0| : |{i in R_0 : R_+^{(i)}(T)
+    >= r}| >= r}) guarantees E_{H_i}[V_i / max(1, |R|)] <= q_i and overall FDR(R) <= sum_{i in H_0} q_i
+    (Section 2.4, Theorem 1, Equations 9–13), whereas omitting Step 3 when min_{i in R_0} R_+^{(i)}(T)
+    < |R_0(T)| can strictly violate FDR <= alpha (Section 2.4, Example 1).'
+  evidence:
+  - source_id: fithian2022-conditional-calibration-fdr-ar5iv
+    locator: Section 2.1–2.4, lines 113–365, Lemma 1, Proposition 1, Theorem 1, Example 1, Equations 3–13
+    relation: supports
+  - source_id: fithian2022-conditional-calibration-fdr-abs
+    locator: Abstract (conditional calibration, sufficiency conditioning, and finite-sample FDR control)
+    relation: supports
+- claim_id: dependency-adjusted-bh-and-by-cprds-dominance-and-negative-dependence-adaptivity
+  kind: mechanism
+  statement: 'The dependency-adjusted Benjamini-Hochberg procedure dBH_gamma (with tuning scalar gamma
+    > 0) augments an initial pilot rejection rule R_0 (such as standard BH_{gamma alpha}) by setting effective
+    rejection count R_+^{(i)}(T) = max_{r >= |R_0(T)|} {r : p_i <= gamma alpha r / m, R_i(gamma alpha
+    r / m; S_i) >= r}, computing the conditional calibration integral g_i^*(c | S_i) = int_0^1 [1{t <=
+    c r_i^*(t | S_i) / m} / r_i^*(t | S_i)] f_{p_i | S_i}(t | S_i) dt, calibrating c_i(S_i) = sup{c >
+    0 : g_i^*(c | S_i) <= q_i}, and setting hat{t}_i(T) = min(gamma alpha, c_i(S_i)) R_+^{(i)}(T) / m
+    followed by Step 3 randomized pruning (Section 3.1, Equations 14–16); under Theorem 2 (Section 3.2),
+    if p_i is conditionally Uniform(0, 1) given S_i under H_i, then (i) under independence dBH_1 and dBY_1
+    reduce identically to BH_alpha, (ii) if H_i is conditionally positively regression dependent on S_i
+    (CPRDS), then c_i(S_i) >= alpha and dBH_1(alpha) supseteq BH(alpha) almost surely with no randomized
+    pruning required, and (iii) if H_i is conditionally negatively regression dependent on S_i, then c_i(S_i)
+    >= alpha / L_m and dBY_1(alpha) supseteq BY(alpha) almost surely with no pruning required (where L_m
+    = sum_{j=1}^m 1/j).'
+  evidence:
+  - source_id: fithian2022-conditional-calibration-fdr-ar5iv
+    locator: Section 3.1–3.2, lines 366–482, Equations 14–16, Theorem 2; Appendix A.1, lines 971–1016,
+      Proof of Theorem 2
+    relation: supports
+  - source_id: fithian2022-conditional-calibration-fdr-crossref
+    locator: The Annals of Statistics 50(6):3091–3118 publication record
+    relation: supports
+- claim_id: affine-gaussian-knot-homotopy-and-recursive-multi-step-refinement
+  kind: mechanism
+  statement: 'In Gaussian models T ~ N(mu, Sigma) with known covariance Sigma (or linear regression Z-scores
+    and studentized t-statistics where S_i = (T_{-i} - a_i T_i, s^2 + T_i^2) is complete sufficient under
+    H_i : mu_i = 0, Section 2.2), every competing statistic takes the affine form T_j = S_{i,j} + a_{i,j}
+    T_i with a_{i,j} = Sigma_{i,j} / Sigma_{i,i}, so for any fixed c > 0 the step function r_i^*(p_i(t)
+    | S_i) is piecewise constant in t with O(m^2) discontinuity knots where p_j(S_{i,j} + a_{i,j} t) =
+    gamma alpha r / m (or p_i(t) = c r / m), enabling exact closed-form evaluation of g_i^*(c | S_i) from
+    Gaussian CDF differences across knot intervals without numerical quadrature or Monte Carlo error (Section
+    4.1, Proposition 2, Equations 18–21); furthermore, recursively replacing the pilot rejection rule
+    R_0 by the unpruned candidate set R_0^{(k-1)} of the previous dBH iteration and updating R_+^{(i,k)}(T)
+    yields monotonically nondecreasing discovery sets and preserves exact finite-sample FDR <= alpha after
+    a final Step 3 pruning step at iteration k (Section 4.3, Theorem 3, Equations 22–26).'
+  evidence:
+  - source_id: fithian2022-conditional-calibration-fdr-ar5iv
+    locator: Section 2.2, lines 145–218; Section 4.1, lines 483–565, Proposition 2, Equations 18–21; Section
+      4.3, lines 610–675, Theorem 3, Equations 22–26
+    relation: supports
+- claim_id: one-sided-composite-null-boundary-suppression-and-covariance-misspecification-boundary
+  kind: mechanism
+  statement: 'For one-sided composite Gaussian nulls H_i : mu_i <= 0 tested via upper-tail Z-scores T_i
+    when S_i = T_{-i} - a_i T_i has non-zero regression coefficients a_{i,j} != 0, the conditional distribution
+    of T_i given S_i under mu_i < 0 depends on the unknown nuisance mean E[T_i | S_i] = mu_i - a_i'' (S_i
+    - mu_{-i} + a_i mu_i), but if a_{i,j} >= 0 so R_+^{(i)}(T) is nondecreasing in T_i, calibrating c_i(S_i)
+    under the boundary distribution mu_i = 0 remain conservatively valid whenever mu_i <= 0 and the conditional
+    mean shift satisfies E_{mu}[T_i | S_i] <= 0 (Section 3.3, Equation 17); by contrast, if the covariance
+    matrix Sigma used to construct the conditioning residual S_i = T_{-i} - (Sigma_{-i,i}/Sigma_{i,i})
+    T_i is severely misspecified (for example, assuming independence when true equicorrelation is strongly
+    negative and pairing with an aggressive pilot multiplier gamma > 1), S_i ceases to be conditionally
+    independent of T_i under H_i and the calibrated threshold can exceed its nominal per-hypothesis FDR
+    budget q_i.'
+  evidence:
+  - source_id: fithian2022-conditional-calibration-fdr-ar5iv
+    locator: Section 3.3, lines 483–518, Equation 17; Section 2.2–2.4, Lemma 1 and Theorem 1 sufficiency
+      requirements
+    relation: supports
+evidence_sources:
+- source_id: fithian2022-conditional-calibration-fdr-ar5iv
+  title: Conditional calibration for false discovery rate control under dependence
+  authors:
+  - William Fithian
+  - Lihua Lei
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2007.10438
+  persistent_id: https://doi.org/10.1214/21-AOS2137
+  version: arXiv:2007.10438v1 (published in The Annals of Statistics, Vol. 50, No. 6, pp. 3091–3118, December
+    2022). Complete full-text ar5iv HTML conversion read across Sections 1–7 and Appendices A–C (1,304
+    lines, 149,752 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T14:25:00Z'
+  sha256: 3d199e8460e412f938c6fadae545d7ac86ddac5ae3c276fb367ed2dd21e283ca
+- source_id: fithian2022-conditional-calibration-fdr-crossref
+  title: Conditional calibration for false discovery rate control under dependence (Annals of Statistics
+    Record)
+  authors:
+  - William Fithian
+  - Lihua Lei
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/21-AOS2137
+  persistent_id: https://doi.org/10.1214/21-AOS2137
+  version: The Annals of Statistics, Vol. 50, No. 6, pp. 3091–3118, December 2022 Crossref bibliographic
+    metadata record (7,484 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:25:00Z'
+  sha256: 0da632f9a9738883608821f45e1112036619f11fd13df8a1cdef954f03ac6711
+- source_id: fithian2022-conditional-calibration-fdr-abs
+  title: Conditional calibration for false discovery rate control under dependence (arXiv:2007.10438 Abstract)
+  authors:
+  - William Fithian
+  - Lihua Lei
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.10438
+  persistent_id: https://doi.org/10.48550/arXiv.2007.10438
+  version: arXiv:2007.10438v1 abstract and The Annals of Statistics 2022 publication metadata record (6,681
+    bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:25:00Z'
+  sha256: d6affd9d3855f47b4e74deccb560adaf52dd327140b3fe4e57bcc2b83f00e0ae
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Conditional calibration and the dBH/dBY procedures control false discovery rate inflation
+    across dependent multiple hypothesis tests without conservative Benjamini-Yekutieli log-factor penalties,
+    mitigating multiplicity and data-dredging bias (AIO:DataDredgingBias).
+limitations:
+- Exact sufficiency-based conditional calibration (Lemma 1, Theorem 2, Proposition 2) requires knowing
+  or accurately estimating the conditional law of each test statistic T_i given its sufficient conditioning
+  statistic S_i under H_i (such as known covariance Sigma in Gaussian models or exact Gram matrix structure
+  in Gaussian linear regression); severe covariance misspecification destroys conditional independence
+  between T_i and S_i and can inflate per-hypothesis FDR contributions.
+- When the pilot tuning parameter gamma < 1 or gamma > 1 produces candidate rejection sets R_0(T) for
+  which min_{i in R_0} R_+^{(i)}(T) < |R_0(T)|, Theorem 1 requires Step 3 independent uniform randomized
+  pruning U ~ Unif(0, 1) to guarantee finite-sample FDR <= alpha, introducing auxiliary randomization
+  unless pruning rarely triggers in practice (as observed empirically for dBH in Section 5).
+- 'Under one-sided composite nulls H_i : mu_i <= 0 with dependent test statistics (a_i != 0), S_i = T_{-i}
+  - a_i T_i is only partially sufficient because the conditional distribution of T_i | S_i depends on
+  the unknown nuisance parameter vector mu_{-i}, requiring boundary calibration at mu_i = 0 under nonnegativity
+  assumptions (Section 3.3).'
+- All 1,304 lines of Fithian & Lei (2022, The Annals of Statistics 50(6):3091-3118, arXiv:2007.10438v1)
+  were read. Constructed numerical checks in research/discovery/conditional-calibration-for-false-discovery-rate-control-boundaries.py
+  verify (1) Section 2.2 Lemma 1 exact conditional FDR identity (100% agreement across 200 conditioning
+  states) and Section 2.4 Theorem 1 / Example 1 necessity of Step 3 randomized pruning (unpruned FDR =
+  0.22655 > 0.20 vs. pruned FDR = 0.12775 <= 0.133333), (2) Section 3.2 Theorem 2 exact reduction to BH
+  under independence (100% match), 100% CPRDS safety c_i(S_i) >= alpha and dominance dBH_1 supseteq BH
+  under positive correlation (rho = 0.60), and 100% safety c_i(S_i) >= alpha / L_m and dominance dBY_1
+  supseteq BY under negative equicorrelation (rho = -0.45, average discoveries 1.741667 vs. 1.466667),
+  (3) Section 4.1 Proposition 2 exact piecewise-constant knot integration matching fine quadrature (abs
+  error 2.082e-05) and Section 4.3 Theorem 3 monotonic multi-step recursive refinement (100% monotone,
+  average discoveries 1.4875 vs. 1.475), and (4) Section 3.3 composite-null boundary suppression (g_0
+  = 0.034368 > g_{-0.5} = 0.013472 > g_{-1.0} = 0.004235) vs. covariance misspecification failure (per-hypothesis
+  FDR contribution 0.1075 > alpha/m = 0.04).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T14:25:00Z'
+  updated_at: '2026-10-17T14:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

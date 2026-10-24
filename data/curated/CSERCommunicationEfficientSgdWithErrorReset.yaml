@@ -1,0 +1,109 @@
+id: AIMech:CSERCommunicationEfficientSgdWithErrorReset
+name: CSER (Communication-Efficient SGD with Error Reset)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-efficient distributed SGD algorithm (and Nesterov momentum variant M-CSER) that adapts a pair of delta-approximate compressors C_1 (with approximation factor delta_1 in (0, 1]) and C_2 (with factor delta_2 in [0, 1]) via a partial synchronization subroutine PSync(v_i, C) that averages only the compressed component v_bar' = (1/n) sum_{j=1}^n C(v_j) across workers and locally recombines the residual r_i = v_i - C(v_i) into v'_i = v_bar' + r_i, immediately applying both partially synchronized gradients g'_{i,t} and local residuals r_{i,t} to bifurcated local models x_{i,t-1/2} = x_{i,t-1} - eta g'_{i,t} at every step while periodically flushing and resetting the accumulated local residual error e_{i,t-1/2} every H iterations via (e'_{i,t-1/2}, e_{i,t}) = PSync(e_{i,t-1/2}, C_1) and x_{i,t} = x_{i,t-1/2} - e_{i,t-1/2} + e'_{i,t-1/2}.
+identity_notes: Distinct from Error-Feedback SGD / Sparsified SGD with Memory (AIMech:SparsifiedSgdWithMemory, Stich et al. 2018; Karimireddy et al. 2019) and QSparse-local-SGD (Basu et al. 2019), which keep local models fully synchronized after communication and set residual compression errors e_{i,t} aside from gradient evaluation for up to H local steps; CSER immediately assimilates residuals into bifurcated local models x_{i,t} so that x_{i,t} - e_{i,t} = x_{j,t} - e_{j,t} holds for all workers (Lemma 1) and the compression error vanishes when n = 1 (Remark 2).
+aliases:
+- CSER
+- Communication-Efficient SGD with Error Reset
+- M-CSER
+- Momentum CSER
+- CSER Optimizer
+definition_evidence:
+- source_id: r632-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r632-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r632-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r632-bifurcated-local-model-invariant-and-zero-single-worker-error
+  kind: mechanism
+  statement: By immediately applying uncommunicated gradient residuals r_{i,t} = g_{i,t} - C_2(g_{i,t}) to each worker's local model x_{i,t-1/2} = x_{i,t-1} - eta ((1/n) sum_k C_2(g_{k,t}) + r_{i,t}) and periodically resetting accumulated local errors e_{i,t-1/2} every H steps via PSync(e_{i,t-1/2}, C_1), CSER maintains the exact invariant x_{i,t} - e_{i,t} = x_{j,t} - e_{j,t} for all workers i, j in [n] and all iterations t (Lemma 1), so that compression error arises solely from inter-worker residual variance (1/n) sum_{i=1}^n ||(1/n) sum_{j=1}^n e_{j,t} - e_{i,t}||^2 and vanishes identically when n = 1 (Remark 2).
+  evidence:
+  - source_id: r632-primary-pdf
+    locator: Section 3.1 Lemma 1, Section 4.2 Remark 2 & Appendix B Proof of Lemma 1, pp. 4, 6, 15
+    relation: supports
+- claim_id: r632-nonconvex-error-bound-and-dual-compressor-budget-allocation
+  kind: scope
+  statement: For L-smooth non-convex objectives with bounded second moment E||g_{i,t}||^2 <= V_2 and variance V_1, Theorem 1 and Lemma 3 prove that after every H steps CSER resets local error to E||e_{i,t}||^2 <= (1 - delta_2)(1 - delta_1) eta^2 H^2 V_2 / (1 - sqrt(1 - delta_1))^2 and achieves (1/T) sum_{t=1}^T E||grad F(x_bar_{t-1})||^2 <= O(1 / (eta T)) + O(eta L V_1 / n) + 2 [4(1 - delta_1) / delta_1^2 + 1](1 - delta_2) eta^2 H^2 L^2 V_2, strictly improving upon QSparse-local-SGD's 8 [4(1 - delta_1^2) / delta_1^2 + 1] eta^2 H^2 L^2 V_2 term (reducing the factor from 832 to 576 at H = 8, delta_1 = 1/2, delta_2 = 0 in Remark 1, and from 400 to <236 at overall compression ratio R_C = 1 / (1/R_{C_2} + 1/(R_{C_1} H)) = 12 by shifting budget to H = 12, delta_1 = 7/8, delta_2 = 1/96).
+  evidence:
+  - source_id: r632-primary-pdf
+    locator: Section 4.2 Theorem 1, Corollary 1, Lemma 2, Remark 1 & Appendix B Lemma 3, pp. 6-7, 15-20
+    relation: supports
+- claim_id: r632-grbs-1024x-compression-and-distributed-training-speedup
+  kind: application
+  statement: Combined with the Globally-Randomized Blockwise Sparsifier (GRBS, Definition 2, which partitions tensors into B blocks and selects B / R_C blocks per round with a synchronized random seed so that local residual buffers e_{i,t} can be omitted in Algorithm 13), M-CSER scales to an overall compression ratio of R_C = 1024x where both EF-SGD and QSparse-local-SGD diverge (Table 2), achieving 86.68% accuracy at 256x and 85.66% at 1024x on CIFAR-100 (WideResNet-40-8) with nearly 10x training speedup and 4.5x speedup on ImageNet (ResNet-50) across 8 V100 GPUs.
+  evidence:
+  - source_id: r632-primary-pdf
+    locator: Section 3.3 Definition 2, Section 5.2 Table 2, Figures 1-2 & Appendix A.4 Algorithm 13, pp. 5, 7-9, 14
+    relation: supports
+  - source_id: r632-metadata-cr
+    locator: NeurIPS 2020 bibliographic record (conf/nips/XieZKGLL20)
+    relation: supports
+- claim_id: r632-three-hyperparameter-tuning-and-momentum-asymptotic-tradeoff
+  kind: limitation
+  statement: CSER introduces three coupled compression hyperparameters (the error-reset interval H, model-reset compression ratio R_{C_1}, and gradient compression ratio R_{C_2} satisfying R_C = 1 / (1/R_{C_2} + 1/(R_{C_1} H))) that are non-unique for a given overall budget R_C and require grid tuning (Table 3), and in M-CSER (Theorem 2) a larger momentum factor beta accelerates initial escape but amplifies the asymptotic variance terms by (1 - beta)^{-2} and (1 - beta)^{-4}.
+  evidence:
+  - source_id: r632-primary-pdf
+    locator: Section 4.2 Theorem 2, Section 5.2-5.3 & Appendix C Table 3, pp. 7-9, 29-30
+    relation: supports
+evidence_sources:
+- source_id: r632-primary-pdf
+  title: 'CSER: Communication-efficient SGD with Error Reset'
+  authors: &id001
+  - Cong Xie
+  - Shuai Zheng
+  - Oluwasanmi Koyejo
+  - Indranil Gupta
+  - Mu Li
+  - Haibin Lin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2007.13221.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/XieZKGLL20
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (2020) (1551798 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:55:00Z'
+  sha256: 03f101523162b805f5685e0665a13357ea33374434e1dbf4c2f991d448b4a482
+- source_id: r632-arxiv-abs
+  title: 'CSER: Communication-efficient SGD with Error Reset (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.13221
+  persistent_id: https://arxiv.org/abs/2007.13221
+  version: arXiv abstract page (7029 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:55:00Z'
+  sha256: a6ff3df152e68e1fac04dd74f0430e214dc699bbb359bef4d7b9c13edbcbcad0
+- source_id: r632-metadata-cr
+  title: 'CSER: Communication-efficient SGD with Error Reset (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/XieZKGLL20
+  persistent_id: https://dblp.org/rec/conf/nips/XieZKGLL20
+  version: Crossref API work record (1959 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:55:00Z'
+  sha256: 99d84b024d0ec169277e27b5b0612155182df0de331044d3f8a19b4330baaafb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: CSER is a distributed communication-compressed stochastic gradient optimization algorithm for training deep neural networks.
+limitations:
+- Requires tuning three coupled compression hyperparameters (H, R_{C_1}, and R_{C_2}) for a target overall compression ratio R_C = 1 / (1/R_{C_2} + 1/(R_{C_1} H)), whereas special case CSEA (H = 1, C_2 = 0) requires only one.
+- When using arbitrary compressors other than synchronized blockwise sparsifiers (GRBS), each worker must explicitly allocate and update an extra d-dimensional residual error state e_{i,t} alongside the model parameters.
+- In the Nesterov momentum variant M-CSER (Theorem 2), increasing beta close to 1 inflates the higher-order error terms proportional to eta^2 beta^4 L^2 V_2 / (1 - beta)^4 and 2(1 - delta_2) eta^2 H^2 L^2 V_2 / (1 - beta)^2.
+curation:
+  created_at: '2026-10-19T11:55:00Z'
+  updated_at: '2026-10-19T11:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

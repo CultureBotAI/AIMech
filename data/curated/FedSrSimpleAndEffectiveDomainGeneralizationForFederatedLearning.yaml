@@ -1,0 +1,101 @@
+id: AIMech:FedSrSimpleAndEffectiveDomainGeneralizationForFederatedLearning
+name: FedSR Simple Representation Regularization for Federated Domain Generalization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A decentralized federated domain generalization method (Nguyen, Torr, & Lim, 2022) that trains a probabilistic representation encoder p(z|x) = N(z; mu_{w_1}(x), sigma_{w_1}^2(x)) and predictive head p_hat(y|z) across K clients without sharing raw data, frequency spectra, or intermediate representations across clients. Each client i minimizes the composite local objective f_bar_i(w) + alpha^{L2R} ell_i^{L2R} + alpha^{CMI} ell_i^{CMI} (Eq. 9), where ell_i^{L2R} = E_{p_i(x)}[E_{p(z|x)}[||z||_2^2]] (Eq. 10) penalizes the L2 norm of the representation to implicitly align the marginal distribution p_i(z) toward a zero-mean Gaussian reference q(z) = N(0, sigma^2 I) (Eqs. 12-15), and ell_i^{CMI} = E_{p_i(x,y)}[KL[p(z|x) || r(z|y)]] (Eqs. 17-18) minimizes a tractable variational upper bound on the conditional mutual information I_i(x, z | y) (Lemma 1) using a shared learnable class-conditional Gaussian r(z|y) = N(z; mu_y, sigma_y^2), simultaneously upper-bounding E_{p_i(y)}[KL[p_i(z|y) || r(z|y)]] (Lemma 2, Eq. 19) to implicitly align class-conditional representation distributions across all clients.
+identity_notes: Distinct from FedDG (AIMech:FedDgEpisodicLearningInContinuousFrequencySpaceForFederatedDomainGeneralization), which exchanges Fourier amplitude spectra across clients and performs episodic meta-learning, and distinct from standard Federated Averaging (AIO:FederatedLearning), which minimizes unregularized empirical risk without L2 representation norm or variational conditional mutual information alignment.
+aliases:
+- FedSR
+- FedL2R and FedCMI
+- Federated Simple Representation for Domain Generalization
+- 'FedSR: A Simple and Effective Domain Generalization Method for Federated Learning'
+definition_evidence:
+- source_id: r498-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r498-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r498-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: l2r-representation-norm-implicit-marginal-gaussian-alignment
+  kind: mechanism
+  statement: The L2-norm representation regularizer ell_i^{L2R} = E_{p_i(x)}[E_{p(z|x)}[||z||_2^2]] = E_{p_i(z)}[||z||_2^2] (Eqs. 10-12) satisfies ell_i^{L2R} = 2 sigma^2 E_{p_i(z)}[-log q(z)] (up to an additive constant) = 2 sigma^2 (H(p_i(z)) + KL[p_i(z) || q(z)]) (Eqs. 13-15) with respect to reference distribution q(z) = N(0, sigma^2 I), so minimizing ell_i^{L2R} at each client implicitly aligns every client's marginal representation distribution p_i(z) toward q(z) around the origin.
+  evidence:
+  - source_id: r498-primary-pdf
+    locator: Section 3.3.1, Eqs. (10)-(15), pp. 5-6
+    relation: supports
+- claim_id: cmi-variational-upper-bound-and-implicit-conditional-alignment
+  kind: mechanism
+  statement: For any variational conditional distribution r(z|y) sharing support with p(z|x), ell_i^{CMI} := E_{p_i(x,y)}[KL[p(z|x) || r(z|y)]] satisfies both Lemma 1 (I_i(x, z | y) <= ell_i^{CMI}, Eq. 17) and Lemma 2 (ell_i^{CMI} >= E_{p_i(y)}[KL[p_i(z|y) || r(z|y)]], Eq. 19), because ell_i^{CMI} = I_i(x, z | y) + E_{p_i(y)}[KL[p_i(z|y) || r(z|y)]]; consequently, jointly optimizing p(z|x) and r(z|y) = N(z; mu_y, sigma_y^2) restricts non-label spurious information in z while forcing p_i(z|y) approx r(z|y) approx p_j(z|y) across all clients i, j.
+  evidence:
+  - source_id: r498-primary-pdf
+    locator: Section 3.3.2, Eqs. (16)-(19), Lemmas 1-2, pp. 6-7
+    relation: supports
+- claim_id: leave-one-domain-out-federated-domain-generalization-benchmarks
+  kind: application
+  statement: Under leave-one-domain-out federated evaluation with E = 5 local SGD iterations per round, FedSR outperforms both FedAvg and FedADG across RotatedMNIST (96.7% vs. 94.5% FedAvg and 96.0% FedADG), PACS with ResNet-18 (83.7% vs. 80.3% FedAvg and 81.2% FedADG), OfficeHome with ResNet-50 (69.3% vs. 67.9% FedAvg and 68.4% FedADG), and DomainNet with ResNet-50 (41.3% vs. 39.6% FedAvg and 40.4% FedADG) (Tables 1-4, pp. 8-9).
+  evidence:
+  - source_id: r498-primary-pdf
+    locator: Section 4.1-4.4, Tables 1-4, pp. 7-9
+    relation: supports
+- claim_id: source-domain-invariance-and-gaussian-variational-family-limitation
+  kind: limitation
+  statement: FedSR enforces marginal and class-conditional representation invariance only across observed source domains and may fail to generalize under arbitrary shifts in an unseen target domain; moreover, the default single-Gaussian variational family r(z|y) = N(z; mu_y, sigma_y^2) cannot represent multimodal class-conditional posteriors without switching to mixture distributions and Monte Carlo KL estimation.
+  evidence:
+  - source_id: r498-primary-pdf
+    locator: Section 3.3.3, p. 7; Section 5 Conclusion, p. 10
+    relation: supports
+evidence_sources:
+- source_id: r498-primary-pdf
+  title: 'FedSR: A Simple and Effective Domain Generalization Method for Federated Learning'
+  authors: &id001
+  - A. Tuan Nguyen
+  - Philip H. S. Torr
+  - Ser-Nam Lim
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2022/file/fd946a6c99541fddc3d64a3ea39a1bc2-Paper-Conference.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=FedSR+Simple+and+Effective+Domain+Generalization+Method+for+Federated+Learning&format=json
+  version: Advances in Neural Information Processing Systems 35 (NeurIPS 2022), pp. 38831-38843 (2022) (265616 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:41:00Z'
+  sha256: e0b45804d9e127285a66eeb32a9159b24055cad978d528ce87b977c74a17d9d6
+- source_id: r498-arxiv-abs
+  title: 'FedSR: A Simple and Effective Domain Generalization Method for Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2022/hash/fd946a6c99541fddc3d64a3ea39a1bc2-Abstract-Conference.html
+  persistent_id: https://proceedings.neurips.cc/paper_files/paper/2022/hash/fd946a6c99541fddc3d64a3ea39a1bc2-Abstract-Conference.html
+  version: arXiv abstract page (10389 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:41:00Z'
+  sha256: 8709b90002647b859ccef4ddaaf03fe71b0e8625ab413c2dfd2adbf6a80f720f
+- source_id: r498-metadata-cr
+  title: 'FedSR: A Simple and Effective Domain Generalization Method for Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=FedSR+Simple+and+Effective+Domain+Generalization+Method+for+Federated+Learning&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=FedSR+Simple+and+Effective+Domain+Generalization+Method+for+Federated+Learning&format=json
+  version: Crossref API work record (1250 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:41:00Z'
+  sha256: 5d715222dfc9eb6a8452c432562959510b2aaac2597cf1105f5247808650a4ef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedSR is a specialized federated domain generalization algorithm within decentralized federated learning (AIO:FederatedLearning) that regularizes local representations via L2 norm and variational conditional mutual information bounds.
+limitations:
+- Representation invariance is only enforced across participating source domains and may not hold under arbitrary target-domain distribution shifts.
+- Requires tuning two regularization hyperparameters (alpha^{L2R} and alpha^{CMI}) and using a probabilistic encoder p(z|x) with reparameterization sampling when ell_i^{CMI} is active.
+curation:
+  created_at: '2026-10-19T09:41:00Z'
+  updated_at: '2026-10-19T09:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

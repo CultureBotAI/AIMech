@@ -1,0 +1,357 @@
+# Scientific author self-review of FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent)
+
+- Review: 20261019T093630Z-fedmgda-plus-multi-objective-pareto-federated-learning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T09:36:00Z
+- Finished UTC: 2026-10-19T09:36:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7fa626a56e49797f53e056006e6f557fc04b211f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization | data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml | maintained | FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization | Validated history sidecar files. |
+| python3 fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py | passed | True | AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization | [PASS] Round 493 FedMGDA+ (Hu et al. 2022): inner_c2_fedavg=-1.00 &lt; 0 vs FedMGDA+ common descent (0.732 &gt; 0, 0.414 &gt; 0), scaling_attack_err=0.0e+00, prox_avg_err=0.0 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.
+
+FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) is a distinct concept.
+
+Distinct from Agnostic Federated Learning (AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization, Mohri et al. 2019) and q-Fair Federated Learning (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which weight client updates by raw loss levels max_{lambda in Lambda} sum_i lambda_i f_i(w) or f_i(w)^q and are vulnerable to malicious clients inflating their loss by an additive constant or multiplicative scalar, whereas FedMGDA+ centers function values (Equation 19) and normalizes client pseudo-gradients g_bar_i = g_i / &#124;&#124;g_i&#124;&#124;_2 before solving the epsilon-constrained Frank-Wolfe / minimum-norm quadratic program (Equation 25).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 493 FedMGDA+ (Hu et al. 2022): inner_c2_fedavg=-1.00 &lt; 0 vs FedMGDA+ common descent (0.732 &gt; 0, 0.414 &gt; 0), scaling_attack_err=0.0e+00, prox_avg_err=0.0
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T093600Z-fedmgda-plus-multi-objective-pareto-federated-learning.json | supports | No normalized identity match for AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py | supports | All constructed boundary assertions in fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 493 FedMGDA+ (Hu et al. 2022): inner_c2_fedavg=-1.00 &lt; 0 vs FedMGDA+ common descent (0.732 &gt; 0, 0.414 &gt; 0), scaling_attack_err=0.0e+00, prox_avg_err=0.0 |
+| r493-primary-pdf | https://arxiv.org/pdf/2006.11489.pdf; Full-text PDF | supports | Full-text PDF (Conference Proceedings (2022)) read and verified. |
+| r493-arxiv-abs | https://arxiv.org/abs/2006.11489; arXiv abstract | supports | arXiv abstract read and verified. |
+| r493-metadata-cr | https://arxiv.org/abs/2006.11489; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization in Round 493.
+- All pages of Conference Proceedings (2022) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T093630Z-fedmgda-plus-multi-objective-pareto-federated-learning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of FedMGDA+ (Multi-Objective Pareto-Stationary
+  Federated Learning with Normalized Multiple Gradient Descent)
+started_at: '2026-10-19T09:36:00Z'
+finished_at: '2026-10-19T09:36:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+    against existing AIMech and AIO records and verified all claims against Conference
+    Proceedings (2022) and pure-Python boundary checks. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with
+  Normalized Multiple Gradient Descent) as a distinct DRAFT algorithm. All four claims
+  are supported by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 7fa626a56e49797f53e056006e6f557fc04b211f
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml
+    sha256: ec5363c5a0b0d2e2303a25f231cbad2a8cbcb630e57d22773a3e8e68fd449a33
+    role: target
+  - path: research/discovery/20261019T093600Z-fedmgda-plus-multi-objective-pareto-federated-learning.json
+    sha256: 8298d105c8e38c7142470bf28152376ee7b6bedd652f0059f290ab94459e67a2
+    role: context
+  - path: research/discovery/fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py
+    sha256: b1d446fd6dfea8c62cd4ea56e6af41a97aab3a6e5e43a44a8122046f96c06a3f
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  path: data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml
+  label: FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized
+    Multiple Gradient Descent)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py
+  command: python3 research/discovery/fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 493 FedMGDA+ (Hu et al. 2022): inner_c2_fedavg=-1.00 < 0
+    vs FedMGDA+ common descent (0.732 > 0, 0.414 > 0), scaling_attack_err=0.0e+00,
+    prox_avg_err=0.0'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T093600Z-fedmgda-plus-multi-objective-pareto-federated-learning.json
+  accessed_at: '2026-10-19T09:36:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T09:36:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py
+  accessed_at: '2026-10-19T09:36:00Z'
+  snapshot_sha256: b1d446fd6dfea8c62cd4ea56e6af41a97aab3a6e5e43a44a8122046f96c06a3f
+  support: supports
+  summary: 'All constructed boundary assertions in fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 493 FedMGDA+ (Hu et al. 2022): inner_c2_fedavg=-1.00
+    < 0 vs FedMGDA+ common descent (0.732 > 0, 0.414 > 0), scaling_attack_err=0.0e+00,
+    prox_avg_err=0.0'
+- evidence_id: r493-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2006.11489.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T09:36:00Z'
+  snapshot_sha256: ee969302a405924bd444fdf0dcb706a0abd818a7b22ad53f63abf09762021262
+  support: supports
+  summary: Full-text PDF (Conference Proceedings (2022)) read and verified.
+- evidence_id: r493-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2006.11489
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T09:36:00Z'
+  snapshot_sha256: 9cc2d90e737517583896c29ec9cdf5921ace88b79961112630b4b42057853918
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r493-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/abs/2006.11489
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T09:36:00Z'
+  snapshot_sha256: 356ffb96b28c8fbb927a7e5a12eb6e5859fc74de5886869643ae6d0b385b3335
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  evidence_ids:
+  - identity
+  - r493-primary-pdf
+  - r493-arxiv-abs
+  - r493-metadata-cr
+  summary: FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized
+    Multiple Gradient Descent) is a distinct concept.
+  details: Distinct from Agnostic Federated Learning (AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization,
+    Mohri et al. 2019) and q-Fair Federated Learning (AIMech:QFairFederatedLearningAlphaFairResourceAllocation,
+    Li et al. 2020), which weight client updates by raw loss levels max_{lambda in
+    Lambda} sum_i lambda_i f_i(w) or f_i(w)^q and are vulnerable to malicious clients
+    inflating their loss by an additive constant or multiplicative scalar, whereas
+    FedMGDA+ centers function values (Equation 19) and normalizes client pseudo-gradients
+    g_bar_i = g_i / ||g_i||_2 before solving the epsilon-constrained Frank-Wolfe /
+    minimum-norm quadratic program (Equation 25).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  evidence_ids:
+  - mapping
+  - r493-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  evidence_ids:
+  - r493-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 493 FedMGDA+ (Hu et al. 2022): inner_c2_fedavg=-1.00
+    < 0 vs FedMGDA+ common descent (0.732 > 0, 0.414 > 0), scaling_attack_err=0.0e+00,
+    prox_avg_err=0.0'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r493-primary-pdf
+  - r493-arxiv-abs
+  - r493-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization
+  in Round 493.
+- All pages of Conference Proceedings (2022) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

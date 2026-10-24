@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:VarianceReducedStochasticPCAWithExponentialConvergence</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Shamir VR-PCA Algorithm, Variance-Reduced Oja Iteration for Principal Component Analysis, Epoch-Anchored Stochastic Power Iteration for PCA and SVD
+    </div>
+
+  <div class="detail-desc">
+    Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA) is an epoch-based stochastic spectral optimization algorithm introduced and analyzed by Ohad Shamir (2015) for computing the leading eigenvector(s) of an empirical covariance matrix A = (1/n) sum_{i=1}^n x_i x_i^T from a data matrix X = (x_1, ..., x_n) in R^{d x n}. In each outer epoch s, VR-PCA computes the exact full-pass anchor vector u_tilde = A w_tilde_{s-1} = (1/n) sum_{i=1}^n x_i (x_i^T w_tilde_{s-1}) and performs m inner stochastic updates w_t&#39; = w_{t-1} + eta*(x_{i_t}(x_{i_t}^T w_{t-1} - x_{i_t}^T w_tilde_{s-1}) + u_tilde) = (I + eta*A)w_{t-1} + eta*(x_{i_t} x_{i_t}^T - A)(w_{t-1} - w_tilde_{s-1}), w_t = w_t&#39; / ||w_t&#39;||_2 with a fixed step size eta, driving the stochastic gradient variance ||w_{t-1} - w_tilde_{s-1}||_2^2 to zero across epochs and achieving linear/exponential convergence in O(d_s (n + (r/lambda)^2) log(1/epsilon)) total runtime.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not specify SVRG-style variance-reduced stochastic power updates on the unit sphere. Distinct from AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm (Round 357), which is a single-pass streaming Oja algorithm with decaying step size eta_t = O(1/t) and sub-exponential O(1/n) convergence rate due to non-vanishing stochastic update variance. Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which applies SVRG to solve shifted linear systems (lambda I - A)x = b rather than directly iterating normalized variance-reduced power steps on the non-convex unit-sphere Rayleigh quotient.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r358-claim-variance-reduced-power-step-and-sparse-amortized-implementation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Rewriting each inner VR-PCA iteration (Algorithm 1) as w_t&#39; = (I + eta*A)w_{t-1} + eta*(x_{i_t} x_{i_t}^T - A)(w_{t-1} - w_tilde_{s-1}), w_t = w_t&#39; / ||w_t&#39;||_2 replaces the O(1)-variance stochastic noise of Oja&#39;s algorithm with a zero-mean perturbation whose variance is bounded by O(eta^2 ||w_{t-1} - w_tilde_{s-1}||_2^2) (Section 2, Equations 4-5); moreover, representing w_t = alpha*g + beta*u_tilde alongside scalar invariants gamma = ||alpha*g||^2, delta = &lt;alpha*g, u_tilde&gt;, and zeta = ||u_tilde||^2 enables exact unit-sphere normalization and sparse vector updates in O(d_s) time per inner step and O(d_s(m + n)) total time per epoch, where d_s is the average sparsity of x_i (Remark 2, p. 4; Appendix A, pp. 17-18).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r358-primary-pdf">A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Algorithm 1, Equations 4-5, and Remarks 1-2, pp. 3-4; Appendix A, pp. 17-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r358-claim-second-order-taylor-one-step-stochastic-recurrence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For normalized data max_i ||x_i||^2 &lt;= 1 and eigengap lambda = s_1 - s_2 &gt; 0, whenever &lt;w_t, v_1&gt; &gt;= 1/2, &lt;w_tilde_{s-1}, v_1&gt; &gt;= 0, and eta &lt;= c*lambda, a second-order Taylor expansion of the ratio f(x, y) = x / (x + y) for x = (a_1 + z_1)^2 and y = sum_{i=2}^d (a_i + z_i)^2 establishes that the squared cosine residual b_t = 1 - &lt;w_t, v_1&gt;^2 satisfies the conditional expectation recurrence E[b_{t+1} | w_t] &lt;= (1 - eta*lambda / 16)*b_t + c*eta^2*b_tilde where b_tilde = 1 - &lt;w_tilde_{s-1}, v_1&gt;^2 (Section 4, Part I, Lemma 1, Equations 8-17).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r358-primary-pdf">A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Part I, Lemma 1 and Equations 8-17, pp. 8-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r358-claim-hoeffding-azuma-epoch-contraction-and-exponential-runtime</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given max_i ||x_i||^2 &lt;= r, eigengap s_1 - s_2 = lambda &gt; 0, and initial alignment &lt;w_tilde_0, v_1&gt; &gt;= 1/sqrt(2), running VR-PCA with step size eta &lt;= (c_1 delta^2 / r^2)*lambda and epoch length m &gt;= (c_2 log(2/delta))/(eta*lambda) satisfying m*eta^2*r^2 + r*sqrt(m*eta^2*log(2/delta)) &lt;= c_3 ensures via the maximal Hoeffding-Azuma inequality (Lemmas 2-4) that after T = ceil(log(1/epsilon)/log(2/delta)) epochs, &lt;w_tilde_T, v_1&gt;^2 &gt;= 1 - epsilon with probability at least 1 - 2*log(1/epsilon)*delta in total runtime O(d_s (n + (r/lambda)^2) log(1/epsilon)), decoupling the sample size n from the condition-number factor (r/lambda)^2 (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r358-primary-pdf">A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Theorem 1 and Equations 6-7, pp. 4-5; Section 4, Parts II-III, Lemmas 2, 3, and 4, pp. 13-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Theorem 1&#39;s formal convergence guarantee assumes a warm-start initialization &lt;w_tilde_0, v_1&gt; &gt;= 1/sqrt(2) (which can be obtained via a burn-in phase of Oja&#39;s algorithm) and scales inversely with the squared eigengap (r/lambda)^2 rather than r/lambda (Section 2, p. 5; Section 5, p. 16).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Solves empirical PCA and SVD with an exponentially convergent variance-reduced stochastic iteration.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Extracts top-k singular subspaces for large-scale dimensionality reduction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r358-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r358-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1409.2848.pdf" target="_blank" rel="noopener">A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ohad Shamir
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v37/shamir15.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d649996a0524…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r358-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r358-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1409.2848" target="_blank" rel="noopener">A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ohad Shamir
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1409.2848</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b3f340ea7dcf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r358-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r358-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v37/shamir15.html" target="_blank" rel="noopener">A Stochastic PCA and SVD Algorithm with an Exponential Convergence Rate (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ohad Shamir
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v37/shamir15.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:95caf807ecac…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AVarianceReducedStochasticPCAWithExponentialConvergence">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Variance-Reduced Stochastic PCA and SVD with Exponential Convergence (VR-PCA)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:VarianceReducedStochasticPCAWithExponentialConvergence</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Variance-Reduced...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:PrincipalComponentAnalysis (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:21:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:21:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml" target="_blank" rel="noopener">
+      <code>data/curated/VarianceReducedStochasticPCAWithExponentialConvergence.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Variance-Reduced%20Stochastic%20PCA%20and%20SVD%20with%20Exponential%20Convergence%20%28VR-PCA%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AVarianceReducedStochasticPCAWithExponentialConvergence"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

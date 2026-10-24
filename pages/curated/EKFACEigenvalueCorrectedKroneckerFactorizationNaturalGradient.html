@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EKFAC (Eigenvalue-Corrected Kronecker Factorization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>EKFAC (Eigenvalue-Corrected Kronecker Factorization)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">EKFAC (Eigenvalue-Corrected Kronecker Factorization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> EKFAC, EKFAC-ra, Eigenvalue-Corrected K-FAC, Eigenvalue-Corrected Kronecker Factorization, Kronecker-Factored Eigenbasis Natural Gradient Descent
+    </div>
+
+  <div class="detail-desc">
+    An approximate natural gradient optimization and Fisher information matrix factorization method that projects layer-wise parameter gradients into the orthogonal Kronecker-Factored Eigenbasis (KFE) U_A (x) U_B derived from input activation and backpropagated gradient covariances, and preconditions them using the Frobenius-optimal diagonal second-moment vector s*_i = E[((U_A (x) U_B)^T grad_theta)_i^2] tracked at every mini-batch.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from K-FAC (AIMech:KFacKroneckerFactoredApproximateCurvature), which approximates each layer&#39;s Fisher block as G_KFAC = A (x) B = (U_A (x) U_B)(S_A (x) S_B)(U_A (x) U_B)^T with eigenvalues restricted to the Kronecker product S_A (x) S_B; EKFAC keeps the Kronecker-Factored Eigenbasis U_A (x) U_B but replaces S_A (x) S_B with the unconstrained diagonal second-moment matrix S* in KFE coordinates, provably achieving ||G - G_EKFAC||_F &lt;= ||G - G_KFAC||_F and enabling cheap per-iteration updates of S* without recomputing the eigendecomposition.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ekfac-kfe-projection-and-eigenvalue-correction-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each neural network layer l with input activation covariance A = E[h h^T] = U_A S_A U_A^T and backpropagated pre-activation gradient covariance B = E[delta delta^T] = U_B S_B U_B^T, EKFAC forms the orthogonal Kronecker-Factored Eigenbasis (KFE) U_A (x) U_B and defines the preconditioning matrix G_EKFAC = (U_A (x) U_B) S* (U_A (x) U_B)^T, where the diagonal entries S*_{ii} = s*_i = E[((U_A (x) U_B)^T grad_theta)_i^2] track the exact second moments of the gradient coordinates in the KFE basis, computing basis projections efficiently via (U_A (x) U_B)^T vec(C) = vec(U_B^T C U_A).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r637-primary-pdf">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2, pages 3-5, and Algorithm 1 with Footnote 1, page 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ekfac-amortized-eigenbasis-partial-update-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    While recomputing the eigendecompositions of A and B is amortized every n mini-batches, EKFAC (and its exponential moving average variant EKFAC-ra) updates the diagonal scaling vector s* in the fixed KFE basis at every mini-batch, preventing the eigenspectrum of the curvature estimate from drifting away from the true empirical Fisher matrix between basis recomputations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r637-primary-pdf">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Figure 3, Algorithm 1, and Section 4.1 Figure 5, pages 4-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#ekfac-frobenius-optimality-over-kfac-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemma 1 and Theorems 2-3 prove that for any positive semi-definite matrix G = E[grad_theta grad_theta^T] and orthogonal KFE basis Q = U_A (x) U_B, the diagonal matrix D with entries D_{ii} = (Q^T G Q)_{ii} = E[(Q^T grad_theta)_i^2] uniquely minimizes ||G - Q D Q^T||_F over all diagonal matrices D, guaranteeing ||G - G_EKFAC||_F &lt;= ||G - G_KFAC||_F everywhere.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r637-primary-pdf">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 page 4 and Appendix A.1 Lemma 1, Theorem 2, and Theorem 3, page 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#ekfac-deep-autoencoder-and-cnn-optimization-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to training an 8-layer deep MNIST auto-encoder and VGG11 and ResNet-34 convolutional neural networks on CIFAR-10 (using Spatially Uncorrelated Activations for convolutional layers), EKFAC and EKFAC-ra achieve lower training loss per epoch and faster wall-clock convergence than amortized KFAC and batch-normalized SGD with momentum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r637-primary-pdf">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2 Figures 4-7, pages 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#ekfac-damping-sensitivity-and-small-batch-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    EKFAC optimization performance is sensitive to the choice and initialization of the damping hyperparameter epsilon and learning rate eta, requires careful variance-preserving weight initialization when training deep residual networks without batch normalization, and shows diminished wall-clock speedup over KFAC at small mini-batch sizes on smaller networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r637-primary-pdf">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Figure 4(d) page 7, Section 4.2 page 9, and Appendices B, C, and D.1, pages 13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sensitive to the damping hyperparameter epsilon and learning rate eta, requiring factored eigenvalue damping initialization.</li>
+      <li>Training deep residual networks without batch normalization under EKFAC requires specialized variance-scaling initialization.</li>
+      <li>Per-iteration KFE projection overhead can offset optimization gains in wall-clock time when using small mini-batches on compact networks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            EKFAC is a second-order approximate natural gradient preconditioning algorithm for training deep feedforward, convolutional, and residual neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r637-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r637-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1806.03884.pdf" target="_blank" rel="noopener">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas George, César Laurent, Xavier Bouthillier, Nicolas Ballas, Pascal Vincent
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/GeorgeLBBV18</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:758ac97bf82c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r637-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r637-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1806.03884" target="_blank" rel="noopener">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas George, César Laurent, Xavier Bouthillier, Nicolas Ballas, Pascal Vincent
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1806.03884</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6ddb00bfd7cb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r637-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r637-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/GeorgeLBBV18" target="_blank" rel="noopener">Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas George, César Laurent, Xavier Bouthillier, Nicolas Ballas, Pascal Vincent
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/GeorgeLBBV18</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7da35c4782cf…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AEKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for EKFAC (Eigenvalue-Corrected Kronecker Factorization)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">EKFAC...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:00:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:00:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml" target="_blank" rel="noopener">
+      <code>data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=EKFAC%20%28Eigenvalue-Corrected%20Kronecker%20Factorization%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AEKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

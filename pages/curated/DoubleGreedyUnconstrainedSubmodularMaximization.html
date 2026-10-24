@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DoubleGreedyUnconstrainedSubmodularMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Double Greedy Algorithm, Bidirectional Greedy Unconstrained Submodular Maximization, Buchbinder-Feldman-Naor-Schwartz Double Greedy
+    </div>
+
+  <div class="detail-desc">
+    The Double Greedy algorithm is a single-pass linear-time algorithmic framework for Unconstrained Submodular Maximization (USM) of a non-negative (possibly non-monotone) submodular function f: 2^N -&gt; R_+ over an n-element ground set N = {u_1, ..., u_n}, introduced and analyzed by Buchbinder, Feldman, Naor, and Schwartz (2012/2015). The algorithm maintains two nested candidate sets X_i subseteq Y_i initialized to X_0 = emptyset and Y_0 = N (corresponding to a correlated greedy execution on f and its complement f_bar(S) = f(N \ S)). In each step i = 1, ..., n, it evaluates the marginal gain of adding u_i to the growing solution, a_i = f(X_{i-1} + u_i) - f(X_{i-1}), and the marginal gain of removing u_i from the shrinking solution, b_i = f(Y_{i-1} - u_i) - f(Y_{i-1}), which satisfy a_i + b_i &gt;= 0 by submodularity (Lemma 2.1). The deterministic variant (Algorithm 1) adds u_i to X_{i-1} if a_i &gt;= b_i and removes u_i from Y_{i-1} otherwise, whereas the randomized variant (Algorithm 2) sets a_i&#39; = max{a_i, 0} and b_i&#39; = max{b_i, 0} and includes u_i (setting X_i = X_{i-1} + u_i, Y_i = Y_{i-1}) with probability a_i&#39; / (a_i&#39; + b_i&#39;) and excludes u_i (setting X_i = X_{i-1}, Y_i = Y_{i-1} - u_i) with probability b_i&#39; / (a_i&#39; + b_i&#39;), terminating with X_n = Y_n after 2n value-oracle queries.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization (Round 348) and AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization (Round 349), which require monotone submodular objectives and only grow a single solution from emptyset (failing on non-monotone objectives where elements can have negative marginal contributions to supersets), whereas Double Greedy maintains both a growing lower bound X_i and a shrinking upper bound Y_i to exploit the complement symmetry f_bar(S) = f(N \ S) and achieve the optimal 1/2 approximation for unconstrained non-monotone submodular maximization.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r367-claim-complement-marginal-nonnegativity-and-deterministic-one-third-guarantee</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because (X_{i-1} + u_i) cup (Y_{i-1} - u_i) = Y_{i-1} and (X_{i-1} + u_i) cap (Y_{i-1} - u_i) = X_{i-1}, submodularity of f implies that the marginal gains a_i = f(X_{i-1} + u_i) - f(X_{i-1}) and b_i = f(Y_{i-1} - u_i) - f(Y_{i-1}) satisfy a_i + b_i &gt;= 0 at every iteration 1 &lt;= i &lt;= n (Lemma 2.1); tracking the hybrid optimal sequence OPT_i = (OPT cup X_i) cap Y_i from OPT_0 = OPT to OPT_n = X_n = Y_n yields f(OPT_{i-1}) - f(OPT_i) &lt;= [f(X_i) - f(X_{i-1})] + [f(Y_i) - f(Y_{i-1})] (Lemma 2.2), telescoping to f(X_n) &gt;= f(OPT) / 3 in O(n) oracle queries (Algorithm 1, Theorem 1.1), which is tight up to 1/3 + varepsilon on a 5-vertex weighted directed cut instance (Theorem 2.3, Figure 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r367-primary-pdf">A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1-1.2, Theorem 1.1, pp. 1385-1386; Section 2-2.1, Algorithm 1, Lemmas 2.1-2.2, Theorem 2.3, and Figure 1, pp. 1387-1389</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r367-claim-randomized-and-multilinear-tight-half-approximation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Randomized USM (Algorithm 2), choosing to include u_i with probability a_i&#39; / (a_i&#39; + b_i&#39;) and exclude u_i with probability b_i&#39; / (a_i&#39; + b_i&#39;) (where a_i&#39; = max{a_i, 0} and b_i&#39; = max{b_i, 0}) ensures that when a_i, b_i &gt; 0, E[f(X_i) - f(X_{i-1}) + f(Y_i) - f(Y_{i-1})] = (a_i^2 + b_i^2) / (a_i + b_i) (Eq. 3.2) and E[f(OPT_{i-1}) - f(OPT_i)] &lt;= (a_i * b_i) / (a_i + b_i) (Eq. 3.3); since a_i * b_i / (a_i + b_i) &lt;= (1/2) * (a_i^2 + b_i^2) / (a_i + b_i), every step satisfies E[f(OPT_{i-1}) - f(OPT_i)] &lt;= (1/2) * E[f(X_i) - f(X_{i-1}) + f(Y_i) - f(Y_{i-1})] (Lemma 3.1), telescoping to the information-theoretically optimal E[f(X_n)] &gt;= f(OPT) / 2 in O(n) value-oracle queries (Theorem 1.2), and the fractional counterpart Multilinear USM (Algorithm 3) achieves the same F(x_n) = F(y_n) &gt;= f(OPT) / 2 guarantee on the multilinear extension F (Theorem 4.1, Lemmas 4.2-4.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r367-primary-pdf">A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, Theorem 1.2, p. 1385; Section 3, Algorithm 2, Lemma 3.1, and Equations (3.1)-(3.3), pp. 1389-1392; Section 4, Algorithm 3, Theorem 4.1, Lemmas 4.2-4.3, and Equations (4.1)-(4.3), pp. 1392-1394</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r367-claim-linear-time-three-quarters-submodular-max-sat-and-two-player-welfare</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Extending Double Greedy to extended truth assignments X_i subseteq Y_i subseteq N x {0, 1} initialized at X_0 = emptyset and Y_0 = N x {0, 1} yields Randomized SSAT (Algorithm 4), which satisfies E[g(OPT_{i-1}) - g(OPT_i)] &lt;= (1/2) * E[g(X_i) - g(X_{i-1}) + g(Y_i) - g(Y_{i-1})] (Lemma 5.2) and—because Y_0 satisfies all clauses so g(Y_0) &gt;= g(OPT)—telescopes to E[g(X_n)] &gt;= g(OPT)/2 + g(Y_0)/4 &gt;= (3/4) * g(OPT) in O(|Psi|) linear time using clause-literal linked lists and satisfaction counters (Theorem 1.3, Theorem 5.3), directly implying a tight linear-time (3/4)-approximation for 2-player Submodular Welfare via g(N_1) = f_1(N_1) + f_2(N \ N_1) where g(emptyset) + g(N) &gt;= g(OPT) (Theorem 1.4, Section 5.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r367-primary-pdf">A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, Theorems 1.3-1.4, p. 1386; Section 5.1-5.2, Algorithm 4, Lemmas 5.1-5.2, Equations (5.1)-(5.3), and Theorem 5.3, pp. 1394-1399</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Applies directly only to unconstrained submodular maximization (or 2-partition problems such as Submodular Max-SAT and 2-player Submodular Welfare) because the bidirectional updates X_i and Y_i provide no control over the cardinality |X_n| or independence of the final set under general matroid or knapsack constraints, and the deterministic variant is provably limited to a 1/3 approximation ratio (Theorem 2.3; Section 6, p. 1400).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Solves unconstrained non-monotone submodular maximization problems including Max-Cut, Max-DiCut, and maximum facility location.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r367-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r367-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.openu.ac.il/personal_sites/moran-feldman/publications/SICOMP2015.pdf" target="_blank" rel="noopener">A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Niv Buchbinder, Moran Feldman, Joseph (Seffi) Naor, Roy Schwartz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/130929205</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:93eb8edc5f91…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r367-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r367-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/FOCS.2012.73" target="_blank" rel="noopener">A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Niv Buchbinder, Moran Feldman, Joseph (Seffi) Naor, Roy Schwartz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/FOCS.2012.73</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:49ae9cafe4fc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r367-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r367-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1137/130929205" target="_blank" rel="noopener">A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Niv Buchbinder, Moran Feldman, Joseph (Seffi) Naor, Roy Schwartz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/130929205</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7d8d8953fbfd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ADoubleGreedyUnconstrainedSubmodularMaximization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:DoubleGreedyUnconstrainedSubmodularMaximization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Double Greedy...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:Clustering (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:30:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:30:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Double%20Greedy%20Algorithm%20for%20Unconstrained%20Non-Monotone%20Submodular%20Maximization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ADoubleGreedyUnconstrainedSubmodularMaximization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+id: AIMech:AdaSumAdaptiveSummationForDistributedTraining
+name: AdaSum Adaptive Summation for Distributed Training
+concept_kind: algorithm
+review_status: DRAFT
+definition: A hyperparameter-free distributed gradient and model-update reduction operator that replaces naive all-reduce summation across data-parallel workers by recursively combining pairs of layer-wise gradients or optimizer parameter deltas (g_1, g_2) via Adasum(g_1, g_2) = (1 - (g_1^T g_2) / (2 ||g_1||_2^2)) g_1 + (1 - (g_1^T g_2) / (2 ||g_2||_2^2)) g_2, derived by averaging the first-order Taylor sequential SGD emulations of executing minibatch b_1 before b_2 and b_2 before b_1 under a rank-one outer-product Fisher Hessian approximation H_i approx g_i g_i^T and locally optimal step size alpha = 1 / ||g_i||_2^2.
+identity_notes: 'Distinct from standard synchronous AllReduce summation/averaging, from delay-compensated asynchronous SGD (DC-ASGD, which uses only diagonal g_i odot g_i and requires a tuned hyperparameter), and from per-layer norm trust-ratio optimizers (LARS, LAMB): AdaSum operates across workers via a two-phase recursive vector-halving collective (ADASUMRVH) after local optimizer steps, reducing to the exact sum g_1 + g_2 when g_1 and g_2 are orthogonal and to the exact average (g_1 + g_2)/2 when g_1 = g_2.'
+aliases:
+- AdaSum
+- Adaptive Summation for Distributed Training
+- ADASUMRVH
+definition_evidence:
+- source_id: r623-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r623-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r623-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r623-sequential-emulation-and-orthogonality-interpolation
+  kind: mechanism
+  statement: Approximating the second-step gradient g_2(w_0 - alpha g_1) by its first-order Taylor expansion g_2 - alpha H_2 g_1 with Fisher Hessian H_2 approx g_2 g_2^T and optimal quadratic step alpha = 1 / ||g_2||_2^2 yields w_{1,2} = w_0 - alpha (g_1 + (1 - (g_2^T g_1)/||g_2||_2^2) g_2); averaging both minibatch execution orders (b_1, b_2) and (b_2, b_1) produces Adasum(g_1, g_2), which equals g_1 + g_2 when g_1^T g_2 = 0 (orthogonal) and (g_1 + g_2)/2 when g_1 = g_2 (parallel).
+  evidence:
+  - source_id: r623-primary-pdf
+    locator: Section 3.1-3.5, Eq. (1)-(5), p. 3-4; Appendix A.1-A.2, Eq. (6)-(10), p. 14-15
+    relation: supports
+- claim_id: c-r623-pseudogradient-angle-and-norm-bounds
+  kind: mechanism
+  statement: For independent gradient samples a, b ~ X with mean r = E[X], E[Adasum(a, b)] = (2I - E[a a^T / ||a||_2^2]) r satisfies ||E[X]||_2 <= ||E[Adasum(a, b)]||_2 <= 2 ||E[X]||_2 (Lemma A.3) and forms an angle eta with E[X] satisfying cos(eta) >= min_gamma (2 - cos^2(gamma)) / sqrt(4 - 3 cos^2(gamma)) = 2 sqrt(2) / 3 approx 0.9428 > 0.942 (eta <= 0.108 pi, Lemma A.2), establishing pseudogradient convergence across binary-tree reductions (Theorem A.4).
+  evidence:
+  - source_id: r623-primary-pdf
+    locator: Appendix A.3 Lemma A.2, Lemma A.3, Theorem A.4, Eq. (11)-(12), p. 15-16
+    relation: supports
+- claim_id: c-r623-adasumrvh-and-large-batch-scaling
+  kind: application
+  statement: Implemented via a two-phase recursive vector-halving collective (ADASUMRVH, Algorithm 1) applied per layer to post-optimizer parameter deltas with FP64 dot-product accumulation, AdaSum scales Momentum-SGD on ResNet-50 and Adam on BERT-Large from 16K to 64K effective batch size and LAMB on BERT-Large from 64K to 128K effective batch size while converging in up to 30% fewer steps at 64K.
+  evidence:
+  - source_id: r623-primary-pdf
+    locator: Section 4.1-4.4 Algorithm 1 & Figure 3, p. 5-8; Section 5.1-5.3 Tables 2-4, p. 8-11
+    relation: supports
+- claim_id: c-r623-non-streaming-dot-product-and-parallel-gradient-limitation
+  kind: limitation
+  statement: Because Adasum(a, b) requires global inner products a^T b and squared norms ||a||_2^2, ||b||_2^2 across full layer tensors before scaling, it cannot be executed as a single-pass elementwise MPI reduction and requires power-of-two recursive vector-halving with extra subgroup dot-product allreduces; moreover, if all N worker gradients are strictly parallel, its convergence rate reduces to 1/N of sequential SGD.
+  evidence:
+  - source_id: r623-primary-pdf
+    locator: Section 3.4, p. 4; Section 4.2.1 Algorithm 1, p. 6; Appendix A.3-A.4, p. 16
+    relation: supports
+evidence_sources:
+- source_id: r623-primary-pdf
+  title: Scaling Distributed Training with Adaptive Summation
+  authors: &id001
+  - Saeed Maleki
+  - Madan Musuvathi
+  - Todd Mytkowicz
+  - Olli Saarikivi
+  - Tianju Xu
+  - Vadim Eksarevskiy
+  - Jaliya Ekanayake
+  - Emad Barsoum
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2006.02924.pdf
+  persistent_id: https://dblp.org/rec/conf/mlsys/MalekiMMSXEEB21
+  version: Proceedings of Machine Learning and Systems (MLSys 2021) / arXiv:2006.02924v1 (2021) (2936142 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:46:00Z'
+  sha256: 632cf2c1a00cde9ef01ef7ddc100388ccd057cc09c0ac6c82a35117d0ae01239
+- source_id: r623-arxiv-abs
+  title: Scaling Distributed Training with Adaptive Summation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.02924
+  persistent_id: https://arxiv.org/abs/2006.02924
+  version: arXiv abstract page (7781 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:46:00Z'
+  sha256: 4dcddcf412b16edf69b72d415928c69cff89604ee304eebf22de56d5e5c614bf
+- source_id: r623-metadata-cr
+  title: Scaling Distributed Training with Adaptive Summation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/mlsys/MalekiMMSXEEB21
+  persistent_id: https://dblp.org/rec/conf/mlsys/MalekiMMSXEEB21
+  version: Crossref API work record (2173 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:46:00Z'
+  sha256: 9fb0228fca12b52d7db0902fcffcd383ea208a95e8e40e4bf73a270eb38a44cd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdaSum is a distributed gradient/model-update combination algorithm for scaling data-parallel deep neural network training to large effective batch sizes.
+limitations:
+- Cannot be implemented as a streaming elementwise MPI AllReduce operator because each tree level requires a subgroup allreduce of partial dot products [a . b, a . a, b . b] across full layer slices before applying the scaling factors.
+- Requires double-precision (FP64) accumulation for inner products and squared norms plus dynamic loss scaling on effective gradients when training in FP16 to prevent numerical underflow/overflow.
+curation:
+  created_at: '2026-10-19T11:46:00Z'
+  updated_at: '2026-10-19T11:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

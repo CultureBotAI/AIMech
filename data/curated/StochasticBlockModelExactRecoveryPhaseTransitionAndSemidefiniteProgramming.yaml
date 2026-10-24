@@ -1,0 +1,99 @@
+id: AIMech:StochasticBlockModelExactRecoveryPhaseTransitionAndSemidefiniteProgramming
+name: Stochastic Block Model Exact Recovery Phase Transition and Semidefinite Programming
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'Stochastic Block Model Exact Recovery Phase Transition and Semidefinite Programming is the information-theoretic and convex-optimization framework established by Abbe, Bandeira, and Hall (2016) for exact community recovery (strong consistency) in the two-community symmetric Stochastic Block Model SBM(n, p, q) in the logarithmic degree regime p = alpha log(n)/n and q = beta log(n)/n (alpha > beta >= 0). It proves a sharp phase transition at the Chernoff-Hellinger threshold (sqrt(alpha) - sqrt(beta))^2 / 2 = 1 (equivalently alpha + beta - 2*sqrt(alpha*beta) = 2): when (sqrt(alpha) - sqrt(beta))^2 < 2, maximum a posteriori (MAP) estimation fails with probability -> 1 due to the emergence of flipped vertices having more cross-community than within-community neighbors (Theorem 1), whereas when (sqrt(alpha) - sqrt(beta))^2 > 2, both MAP and the polynomial-time Goemans-Williamson-type semidefinite programming relaxation max_{Y >= 0, Y_{ii}=1} Tr(B Y) with B = 2A - (1 1^T - I_n) recover the exact partition X^* = g g^T up to global sign with probability 1 - o(1) (Theorem 2 and Theorem 4).'
+identity_notes: Distinct from generic graph clustering (AIO:Clustering, AIO:UnsupervisedClustering), normalized spectral clustering (AIMech:NormalizedSpectralClusteringNgJordanWeiss), and spectral regularization of sparse random graphs. Specifically captures the Abbe-Bandeira-Hall (2016) logarithmic-degree exact recovery threshold (sqrt(alpha) - sqrt(beta))^2 = 2 (Theorems 1-2), the binomial large-deviation bound P(Z_1 - Z_2 >= 0) = n^{-(sqrt(alpha)+sqrt(beta))^2/2 + o(1)} (Lemma 2), and the SDP dual-certificate Laplacian analysis S = 2 L_SBM + 1 1^T >= 0 with lambda_2(S) > 0 (Lemma 6, Lemma 11, and Theorem 4).
+aliases:
+- SBM Exact Recovery Phase Transition
+- Abbe-Bandeira-Hall SBM Phase Transition
+- Chernoff-Hellinger Symmetric SBM Threshold
+- SBM Semidefinite Programming Exact Community Recovery
+definition_evidence:
+- source_id: r318-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r318-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r318-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: Exact recovery in the symmetric two-community SBM reduces to maximum likelihood / minimum bisection min_{x in {+-1}^n, x^T 1 = 0} sum_{i<j} A_{ij} 1{x_i != x_j} (Lemma 1), which fails whenever both communities contain at least one vertex whose external degree Z_2 ~ Bin(n/2, beta log(n)/n) exceeds its internal degree Z_1 ~ Bin(n/2 - 1, alpha log(n)/n); by Lemma 2, P(Z_1 <= Z_2) = n^{-(sqrt(alpha)-sqrt(beta))^2/2 + o(1)}, so expected misclassified vertices diverge when (sqrt(alpha)-sqrt(beta))^2 < 2 and vanish when (sqrt(alpha)-sqrt(beta))^2 > 2 (Theorems 1-2).
+  evidence:
+  - source_id: r318-primary-pdf
+    locator: Section II, Theorems 1-2, pp. 3-4; Section IV, Lemmas 1-5 and Proof of Theorem 1, pp. 9-12
+    relation: supports
+  - source_id: r318-metadata-cr
+    locator: Bibliographic metadata for IEEE Transactions on Information Theory 62(1):471-487
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: For the convex semidefinite relaxation max_{Y >= 0, Y_{ii}=1} Tr(B Y) with B = 2A - (1 1^T - I_n), Lemma 6 proves that the rank-one community matrix Y^* = g g^T is the unique optimal solution whenever the dual slack matrix S = 2 L_SBM + 1 1^T = 2(D^+ - D^- - A) + 1 1^T (which satisfies S g = 0 identically) is positive semidefinite with lambda_2(S) > 0; Lemma 11 shows that E[S] has eigenvalues n - 2*beta*log(n) (on 1), 0 (on g), and (alpha - beta)*log(n) (with multiplicity n - 2 on {1, g}^perp), enabling Theorem 4 to establish exact SDP recovery down to the optimal threshold.
+  evidence:
+  - source_id: r318-primary-pdf
+    locator: Section III.B, Equations 20-24, Theorem 4, and Lemma 6, pp. 7-9; Section V.B, Lemmas 9-11 and Proof of Theorem 4, pp. 12-13
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Exact recovery (strong consistency of 100% of vertices) is information-theoretically impossible below the connectivity and Chernoff-Hellinger threshold (sqrt(alpha) - sqrt(beta))^2 < 2 or in the constant average degree regime O(1/n), where isolated and degree-flipped vertices occur with constant probability and only partial (weak) recovery is achievable.
+  evidence:
+  - source_id: r318-primary-pdf
+    locator: Section I-II, Table I and Remark 1 (Strong vs. Weak Consistency), pp. 2-4; Section IV, Proof of Impossibility Theorem 1, pp. 9-12
+    relation: supports
+evidence_sources:
+- source_id: r318-primary-pdf
+  title: Exact Recovery in the Stochastic Block Model
+  authors: &id001
+  - Emmanuel Abbe
+  - Afonso S. Bandeira
+  - Georgina Hall
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1405.3267v4
+  persistent_id: https://doi.org/10.1109/TIT.2015.2490670
+  version: IEEE Transactions on Information Theory, 62(1):471-487 (2016) (1974206 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:28:00Z'
+  sha256: 4c6ceb3af2f70d273ad450df06e397892536bf2b49a24b9fd886428dbcdd8cf2
+- source_id: r318-arxiv-abs
+  title: Exact Recovery in the Stochastic Block Model (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1405.3267v4
+  persistent_id: https://arxiv.org/abs/1405.3267v4
+  version: arXiv abstract page (7250 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:28:00Z'
+  sha256: 083554e5bbee0f7774cef50594ca26dfed82ddb948c27ec0bf5f4de2b14ca56f
+- source_id: r318-metadata-cr
+  title: Exact Recovery in the Stochastic Block Model (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TIT.2015.2490670
+  persistent_id: https://doi.org/10.1109/TIT.2015.2490670
+  version: Crossref API work record (2752 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:28:00Z'
+  sha256: ba3188267e4edd2273bfcb913f3b3ac30a6e17b1a9f3c9862e211aea832a7f0d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: narrow_match
+  rationale: Exact recovery in the Stochastic Block Model is a probabilistic graph clustering and community detection method.
+- target: AIO:UnsupervisedClustering
+  relation: narrow_match
+  rationale: The SBM semidefinite program partitions unlabeled network vertices into latent communities.
+limitations:
+- Exact recovery of all n community labels requires edge probabilities in the logarithmic degree regime p = alpha log(n)/n, q = beta log(n)/n satisfying (sqrt(alpha) - sqrt(beta))^2 > 2; in sparser graphs or below this threshold, no algorithm can avoid misclassifying a non-empty set of vertices.
+curation:
+  created_at: '2026-10-19T06:28:00Z'
+  updated_at: '2026-10-19T06:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

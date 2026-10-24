@@ -1,0 +1,92 @@
+id: AIMech:MeasuredContinuousGreedySubmodularMaximization
+name: Measured Continuous Greedy Algorithm for Constrained Monotone and Non-Monotone Submodular Maximization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Measured Continuous Greedy is a unified continuous relaxation algorithm for maximizing the multilinear extension F(y) = E[f(R(y))] of a non-negative (monotone or non-monotone) submodular set function f: 2^N -> R_+ over any down-monotone solvable polytope P subseteq [0, 1]^N up to a configurable stopping time T >= 0, introduced by Feldman, Naor, and Schwartz (2011). Starting from y(0) = 1_emptyset with time step delta = T * ceil(n^5 * T)^{-1}, at each time t < T the algorithm evaluates the residual marginal gains w_e(t) = F(y(t) vee 1_e) - F(y(t)) = (1 - y_e(t)) * partial_e F(y(t)) for all e in N, solves the linear program I(t) = argmax_{x in P} (x . w(t)), and updates each coordinate via the distorted differential step y_e(t + delta) = y_e(t) + delta * I_e(t) * (1 - y_e(t)) (Algorithm 1, Line 8), compensating for the factor 1 - y_e(t) between residual increase and partial_e F(y(t)) while bounding every coordinate by y_e(t) <= 1 - e^{-t} + O(delta) (Lemma III.6).'
+identity_notes: "Distinct from AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization (Round 349, Calinescu et al. 2011), which updates y_e(t + delta) = y_e(t) + delta * I_e(t) without the (1 - y_e(t)) damping factor\u2014causing coordinates to reach 1 too quickly and failing on non-monotone submodular functions where F(y(t) vee 1_{OPT}) requires bounding max_e y_e(t) <= 1 - e^{-t} via Lemma III.5\u2014and which cannot run past stopping time T = 1 on high-density monotone packing polytopes."
+aliases:
+- Measured Continuous Greedy
+- Unified Continuous Greedy Algorithm
+- Feldman-Naor-Schwartz Measured Continuous Greedy
+definition_evidence:
+- source_id: r368-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r368-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r368-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r368-claim-nonmonotone-exponential-coordinate-cap-and-one-over-e-approximation
+  kind: mechanism
+  statement: For any non-negative submodular function f, down-monotone solvable polytope P subseteq [0, 1]^N, and stopping time T in [0, 1], Measured Continuous Greedy (Algorithm 1) produces y(T) with y(T)/T in P (Lemma III.1) and y_e(t) <= 1 - (1 - delta)^{t/delta} <= 1 - e^{-t} + O(delta) for all e in N and 0 <= t <= T (Lemma III.6); because F(x vee 1_S) >= (1 - max_e x_e) * f(S) for any non-negative submodular function (Lemma III.5), each step satisfies F(y(t + delta)) - F(y(t)) >= delta * [e^{-t} * f(OPT) - F(y(t))] - O(n^3 * delta^2) * f(OPT) (Corollary III.7), which integrates to F(y(T)) >= [T * e^{-T} - o(1)] * f(OPT) (Theorem I.1, Corollary III.10) and yields a (1/e - o(1))-approximation at T = 1 for non-monotone submodular maximization subject to a matroid constraint (via pipage rounding, Theorem IV.1) or O(1) knapsack constraints (Corollary IV.3).
+  evidence:
+  - source_id: r368-primary-pdf
+    locator: Section I-A, Theorem I.1, p. 572; Section II, Observation II.2 and Theorem II.3, p. 574; Section III-A, Algorithm 1, Lemmas III.1-III.9, and Corollaries III.4, III.7, III.10, pp. 575-576; Section IV-A, Theorems IV.1-IV.2 and Corollary IV.3, p. 577
+    relation: supports
+- claim_id: r368-claim-monotone-polytope-density-stopping-time-and-partition-welfare-tightness
+  kind: mechanism
+  statement: For any normalized monotone submodular function f and packing polytope P defined by constraints sum_{e in N} a_{i,e} * x_e <= b_i with density d(P) = min_{1<=i<=m} b_i / sum_{e in N} a_{i,e}, the distorted update guarantees y_e(T) <= 1 - e^{-I_e^T} + O(delta)*T where sum_{e in N} a_e * I_e^T <= T * b (Lemmas III.16-III.17) and worst-case concavity occurs when all active I_e^T are equal (Lemmas III.18-III.19), ensuring y(T) in P for all stopping times T <= T_P = -ln(1 - d(P) + n*delta) / d(P) > 1 with F(y(T)) >= [1 - e^{-T} - o(1)] * f(OPT) (Theorem I.2, Corollary III.15, Corollary III.20); on binary polytopes this yields a [1 - (1 - d(P))^{1/d(P)}]-approximation (Theorem I.3), giving a polynomial-time (1 - (1 - d/r)^{r/d})-approximation for the (d, r)-Submodular Partition problem (Lemma IV.5), the tight (1 - (1 - 1/k)^k)-approximation for k-player Submodular Welfare (Corollary IV.7), and a tight 3/4-approximation for Submodular Max-SAT (Corollary IV.9).
+  evidence:
+  - source_id: r368-primary-pdf
+    locator: Section I-A, Theorems I.2-I.3 and Table I, pp. 572-573; Section III-B, Observation III.11, Corollaries III.12, III.15, III.20, and Lemmas III.13-III.19, pp. 576-577; Section IV-B, Observations IV.4, IV.6, IV.8, Lemma IV.5, and Corollaries IV.7, IV.9, pp. 577-578
+    relation: supports
+- claim_id: r368-claim-merged-stopping-time-contention-resolution-extension
+  kind: application
+  statement: When combined with a monotone (b, c)-balanced contention resolution scheme for a constraint family I, running Measured Continuous Greedy up to stopping time T = b directly produces a re-normalized fractional point y(b) in b * P(I) (by Lemma III.1) with F(y(b)) >= [b * e^{-b} - o(1)] * f(OPT) for non-monotone f and F(y(b)) >= [1 - e^{-b} - o(1)] * f(OPT) for monotone f, improving the black-box contention resolution approximation ratio from alpha * b * c to (e^{-b} * b * c - o(1)) for non-monotone submodular functions and ((1 - e^{-b}) * c - o(1)) for monotone submodular functions (Theorem I.4).
+  evidence:
+  - source_id: r368-primary-pdf
+    locator: Section I-A3, Theorem I.4, p. 573
+    relation: supports
+evidence_sources:
+- source_id: r368-primary-pdf
+  title: A Unified Continuous Greedy Algorithm for Submodular Maximization
+  authors: &id001
+  - Moran Feldman
+  - Joseph (Seffi) Naor
+  - Roy Schwartz
+  source_type: primary_paper
+  url: https://www.openu.ac.il/personal_sites/moran-feldman/publications/FOCS2011.pdf
+  persistent_id: https://doi.org/10.1109/FOCS.2011.46
+  version: Proceedings of the 2011 IEEE 52nd Annual Symposium on Foundations of Computer Science (FOCS 2011), pp. 570-579 (2011) (154042 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:31:00Z'
+  sha256: 64e478679cf3847c00c7dc5e9f7ec0fa9a0b608bcea186ee44b703cb43f8e205
+- source_id: r368-arxiv-abs
+  title: A Unified Continuous Greedy Algorithm for Submodular Maximization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/focs/FeldmanNS11.xml
+  persistent_id: https://dblp.org/rec/conf/focs/FeldmanNS11.xml
+  version: arXiv abstract page (7441 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:31:00Z'
+  sha256: 6320405ae94866d8e97fc3a57c83cc39023527d88839ce294bbfe02b03c9bfb9
+- source_id: r368-metadata-cr
+  title: A Unified Continuous Greedy Algorithm for Submodular Maximization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/FOCS.2011.46
+  persistent_id: https://doi.org/10.1109/FOCS.2011.46
+  version: Crossref API work record (7507 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:31:00Z'
+  sha256: 36ec7a88f74df0395a757383bcf3c94cbd52da6c2e3a86b72debd8e7b49141d0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Solves constrained monotone and non-monotone submodular maximization problems including Max-Cut, Max-k-Cover, and Submodular Welfare.
+limitations:
+- Requires O(n^5 * T) discretization steps and Monte Carlo sampling of the multilinear extension gradient w_e(t) = F(y(t) vee 1_e) - F(y(t)) unless F admits closed-form evaluation, and requires a separate rounding procedure (such as pipage rounding or a contention resolution scheme) to convert y(T) in P into a feasible integral subset (Section III, p. 575).
+curation:
+  created_at: '2026-10-19T07:31:00Z'
+  updated_at: '2026-10-19T07:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

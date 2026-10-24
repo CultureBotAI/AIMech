@@ -1,0 +1,99 @@
+id: AIMech:FedFaFederatedFeatureAugmentationAndMomentumQueuedAnchorLoss
+name: FedFA (Federated Feature Augmentation and Momentum-Queued Feature Anchor Loss)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A federated learning algorithm for heterogeneous client distributions (Zhou & Konukoglu 2023, Sections 3.1-3.3, Equations 4-15, Lemma 1, Algorithm 1) that integrates two complementary mechanisms: (1) Probabilistic Federated Feature Augmentation (FFA, Equations 4-8), which inserts a parameter-free layer after each network block to normalize channel/token activations x_hat = (x - mu) / (sigma + epsilon) and re-modulate them with Gaussian-perturbed statistics y = gamma o x_hat + beta where gamma ~ N(sigma, Sigma_sigma^2) and beta ~ N(mu, Sigma_mu^2), estimating variances online via EMA buffers Sigma_mu^{(t)} = alpha Sigma_mu^{(t-1)} + (1 - alpha) gamma_mu^{(t)} Sigma_{mu,B}^{(t)} with variance-proportional channel-adaptive weights gamma_{\cdot,c}^{(t)} = D * Sigma_{\cdot,B,c}^{(t)} / sum_{i=1}^D Sigma_{\cdot,B,i}^{(t)} (Equation 8) and resetting local variance buffers each round to the aggregated server-side buffer Sigma_*^{(r,0)} = (1 / |S_r|) sum_{k in S_r} Sigma_k^{(r,E)}; and (2) Momentum-Queued Federated Feature Anchor Loss (FFAL, Equations 9-14), which aligns final features f_i and momentum-queued historical features q_{c,m} in Q_k (|Q_k| = C x M) with shared global class anchors A^{(r)} via the symmetric cosine-distance loss L_anchor(f_i, a_{y_i}) = 1 - cos(f_i, a_{y_i}) + (1 / M) sum_{m=1}^M (1 - cos(f_i, q_{y_i,m})) (Equation 11, satisfying Lemma 1 E[1 - cos(f, q_{c,m})] = 1 - cos(f, a_c) under a von Mises-Fisher distribution with mean direction a_c) and updates client anchors via EMA before class-specific server aggregation a_c^{(r+1)} = (1 / |S_{r,c}|) sum_{k in S_{r,c}} a_{k,c}^{(r,E)} (Equation 13).'
+identity_notes: Distinct from FedBN (AIMech:FedBnFederatedLearningOnNonIidFeaturesViaLocalBatchNormalization, Li et al. 2021), which keeps trainable batch normalization affine parameters strictly local without stochastic Gaussian feature-statistic perturbation gamma ~ N(sigma, Sigma_sigma^2), beta ~ N(mu, Sigma_mu^2) or global variance buffer aggregation; and distinct from FedProto (AIMech:FedProtoFederatedPrototypeLearningAcrossHeterogeneousClients, Tan et al. 2022), which penalizes Euclidean distance ||f_i - c_j||_2^2 to empirical class centroids without intermediate Gaussian feature augmentation or a C x M momentum feature queue.
+aliases:
+- FedFA
+- Federated Feature Augmentation
+- Probabilistic Federated Feature Augmentation with Momentum-Queued Anchor Loss
+definition_evidence:
+- source_id: r467-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r467-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r467-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r467-channel-adaptive-gaussian-feature-augmentation-mechanism
+  kind: mechanism
+  statement: Normalizes intermediate CNN or Transformer feature representations x_hat = (x - mu) / (sigma + epsilon) and applies stochastic affine re-modulation y = gamma o x_hat + beta with gamma ~ N(sigma, Sigma_sigma^2) and beta ~ N(mu, Sigma_mu^2) (Equations 4-6), updating variance radii Sigma_mu^{(t)}, Sigma_sigma^{(t)} via channel-adaptive weights gamma_{\cdot,c}^{(t)} = D * Sigma_{\cdot,B,c}^{(t)} / sum_{i=1}^D Sigma_{\cdot,B,i}^{(t)} (Equations 7-8) and synchronizing Sigma_mu, Sigma_sigma across clients at every communication round.
+  evidence:
+  - source_id: r467-primary-pdf
+    locator: Section 3.1 Probabilistic Federated Feature Augmentation (Equations 4-8), pp. 3-4
+    relation: supports
+- claim_id: r467-vmf-momentum-queued-anchor-loss-equivalence-scope
+  kind: scope
+  statement: Proves in Lemma 1 (Appendix A.1, Equations 16-18) that if L2-normalized queued features q_{c,m} follow a von Mises-Fisher distribution with unit mean direction a_c (So E[q_{c,m}] = gamma_d(kappa) a_c), then up to the concentration scale gamma_d(kappa) = I_{d/2}(kappa) / I_{d/2-1}(kappa), the expected cosine distance E_{q_{c,m}}[1 - cos(f, q_{c,m})] equals the anchor cosine distance 1 - cos(f, a_c), enabling variance-reduced online contrastive alignment via a C x M FIFO queue updated by a momentum encoder theta_k^m <- gamma theta_k^m + (1 - gamma) theta_k (Equations 11-12).
+  evidence:
+  - source_id: r467-primary-pdf
+    locator: Section 3.2 Federated Feature Anchor Loss (Equations 9-14, Lemma 1), pp. 4-6, and Appendix A.1 Proof of Lemma 1, p. 14
+    relation: supports
+- claim_id: r467-momentum-encoder-and-anchor-communication-overhead-limitation
+  kind: limitation
+  statement: Introduces local memory and compute overhead from maintaining a momentum feature extractor theta_k^m and a C x M feature queue Q_k, along with extra communication overhead of 2 sum_{l=1}^L D_l + C D_L floats per round to exchange layer-wise variance buffers and class anchors.
+  evidence:
+  - source_id: r467-primary-pdf
+    locator: Section 3.2 Momentum Queue & Anchor Aggregation, p. 5, and Section 3.3 Algorithm 1 & Communication Cost Analysis, p. 6
+    relation: supports
+- claim_id: r467-label-and-feature-skew-federated-vision-application
+  kind: application
+  statement: Applied to federated visual classification under both Dirichlet label distribution skew (CIFAR-10, CIFAR-100, TinyImageNet, FEMNIST) and multi-domain feature shift (Digits, Office-Caltech10) with CNN and Vision Transformer backbones.
+  evidence:
+  - source_id: r467-primary-pdf
+    locator: Section 4 Experiments (Tables 1-4, Figures 2-3), pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r467-primary-pdf
+  title: 'FedFA: Federated Feature Augmentation'
+  authors: &id001
+  - Tianfei Zhou
+  - Ender Konukoglu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2301.12995.pdf
+  persistent_id: https://openreview.net/forum?id=U92w2261u4
+  version: Conference Proceedings (2023) (2680 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:10:00Z'
+  sha256: 44a44928b548fa90f0232038a9165ce6daf035b4ec930de3cf6aef42df4bca7c
+- source_id: r467-arxiv-abs
+  title: 'FedFA: Federated Feature Augmentation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2301.12995
+  persistent_id: https://arxiv.org/abs/2301.12995
+  version: arXiv abstract page (1676 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:10:00Z'
+  sha256: a95fc392615d3afc1eafec3b1375f94c9d63a54025412f34127a7861c9ad5a40
+- source_id: r467-metadata-cr
+  title: 'FedFA: Federated Feature Augmentation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=U92w2261u4
+  persistent_id: https://openreview.net/forum?id=U92w2261u4
+  version: Crossref API work record (273 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:10:00Z'
+  sha256: e73581a4209eb45a2636eac5bdfe4f7bf10fd293e3bbea015a51d86c2c4fcfe3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedFA is a federated learning algorithm that combines probabilistic intermediate feature augmentation with momentum-queued class anchor alignment.
+limitations:
+- Requires maintaining an extra momentum feature extractor and a C x M feature queue on each client during local training.
+- Transmits layer-wise feature variance buffers and class anchor vectors in addition to model parameters at each communication round.
+curation:
+  created_at: '2026-10-19T09:10:00Z'
+  updated_at: '2026-10-19T09:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

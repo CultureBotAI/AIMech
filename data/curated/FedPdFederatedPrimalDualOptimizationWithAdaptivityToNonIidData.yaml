@@ -1,0 +1,102 @@
+id: AIMech:FedPdFederatedPrimalDualOptimizationWithAdaptivityToNonIidData
+name: FedPD (Federated Primal-Dual Optimization with Adaptivity to Non-IID Data)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A primal-dual federated optimization framework (Zhang et al. 2021, Algorithm 1) for smooth possibly non-convex consensus problems min_{x_0, {x_i}} sum_{i=1}^N w_i f_i(x_i) subject to x_i = x_0 that minimizes the separable client augmented Lagrangian L_i(x_i, x_0^r, lambda_i^r) = f_i(x_i) + <lambda_i^r, x_i - x_0^r> + (1 / (2 eta)) ||x_i - x_0^r||^2 via Q local gradient or stochastic-gradient steps (Oracle I or II), and then with probability 1 - p communicates with the server to aggregate x_0^{r+1} = sum_{i=1}^N w_i (x_i^{r+1} + eta lambda_i^r) and update dual variables lambda_i^{r+1} = lambda_i^r + (1 / eta)(x_i^{r+1} - x_0^{r+1}), or with probability p in [0, 1) skips global communication by setting x_0^{r+1} = x_0^r and lambda_i^{r+1} = lambda_i^r.
+identity_notes: Distinct from FedDyn (AIMech:FedDynFederatedLearningBasedOnDynamicRegularization, which analyzes convex/strongly convex objectives under partial client participation with a server state vector h^t), from FedSplit (AIMech:FedSplitOperatorSplittingForFastFederatedOptimization, which applies Peaceman-Rachford reflection splitting to convex monotone inclusions without randomized communication skipping p), and from Computation-Then-Aggregation (CTA) primal methods such as FedAvg and FedProx, which diverge on unconstrained non-convex objectives with Q > 1 local steps unless inter-client gradient dissimilarity is bounded (Claim 2.2).
+aliases:
+- FedPD
+- Federated Primal-Dual Optimization
+- 'FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data'
+definition_evidence:
+- source_id: r411-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r411-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r411-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r411-cta-lower-bound-and-fedavg-divergence-under-unbounded-non-iid-gradients
+  kind: mechanism
+  statement: Claim 2.1 (Theorem 2) establishes an Omega(1 / epsilon) communication-round lower bound for any Computation-Then-Aggregation (CTA) algorithm on L-smooth non-convex objectives, and Claim 2.2 (with Claim D.2) proves that FedAvg with Q > 1 local steps diverges on the 1D L-smooth pair f_1(x) = (1/2) x^2, f_2(x) = -(1/2) x^2 without bounded-gradient or bounded-dissimilarity assumptions because the per-round update amplification matrix (1/2) D^{Q-1} 1 1^T D has spectral radius ((1 + eta)^Q + (1 - eta)^Q) / 2 > 1.
+  evidence:
+  - source_id: r411-primary-pdf
+    locator: Section 2 Fundamental Limits of Federated Learning (Definition 2.1, Claims 2.1-2.2) & Appendices C-D
+    relation: supports
+- claim_id: r411-optimal-nonconvex-rate-and-non-iid-adaptive-communication-skipping
+  kind: mechanism
+  statement: Theorem 1 proves that for any penalty step size 0 < eta < (sqrt(5) - 1) / (4 L), FedPD with p = 0 converges to an epsilon-stationary and consensus solution in T = O(1 / epsilon) rounds without any data homogeneity or bounded-gradient assumption, while under delta-non-IID gradient dissimilarity ||nabla f_i(x) - nabla f(x)|| <= delta (Assumption A5), choosing communication-skip probability p such that p / (1 - p)^2 = O(epsilon / delta^2) reduces total communication rounds to C = T (1 - p) while preserving O(1 / epsilon) computation complexity.
+  evidence:
+  - source_id: r411-primary-pdf
+    locator: Section 4 Convergence Analysis (Theorem 1, Table 1) & Appendix F
+    relation: supports
+- claim_id: r411-full-client-participation-and-dual-variable-storage-limitation
+  kind: limitation
+  statement: Standard FedPD requires clients to maintain persistent local primal-dual iterates (x_i^r, lambda_i^r) across communication rounds and assumes all N clients participate whenever the global aggregation event (Bernoulli(1 - p)) triggers.
+  evidence:
+  - source_id: r411-primary-pdf
+    locator: Section 3 (Algorithm 1, Eq. 9) & Section 4 (Theorem 1)
+    relation: supports
+- claim_id: r411-non-iid-mnist-and-federated-speech-command-recognition-application
+  kind: application
+  statement: Applied to non-IID MNIST convolutional classification and Google Speech Commands recognition across distributed clients, outperforming FedAvg, FedProx, and SCAFFOLD in accuracy versus communication rounds.
+  evidence:
+  - source_id: r411-primary-pdf
+    locator: Section 6 Numerical Results (Figures 2-6)
+    relation: supports
+evidence_sources:
+- source_id: r411-primary-pdf
+  title: 'FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data'
+  authors: &id001
+  - Xinwei Zhang
+  - Mingyi Hong
+  - Sairaj Dhople
+  - Wotao Yin
+  - Yang Liu
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2005.11418
+  persistent_id: https://doi.org/10.1109/TSP.2021.3115952
+  version: IEEE Transactions on Signal Processing, Vol. 69, pp. 6055-6070 (2021) (114022 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:14:00Z'
+  sha256: dd2aad49d384ae7aa6555f9284553e5716a47ecb7bc8d92f52e00aeb1b6f36d4
+- source_id: r411-arxiv-abs
+  title: 'FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.11418
+  persistent_id: https://arxiv.org/abs/2005.11418
+  version: arXiv abstract page (7945 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:14:00Z'
+  sha256: 472389ec93738c9ae9c384ad306b4e7a6e540246ea0b10d02fe47d48b71d8a55
+- source_id: r411-metadata-cr
+  title: 'FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TSP.2021.3115952
+  persistent_id: https://doi.org/10.1109/TSP.2021.3115952
+  version: Crossref API work record (353 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:14:00Z'
+  sha256: f8fb44bf0e96d377ebeb600f84b7ebd9f192b4c44627cc74d690e1a4337c836a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedPD is a primal-dual augmented Lagrangian optimization method for Federated Learning.
+limitations:
+- Requires persistent client dual variables lambda_i^r across communication rounds.
+- Standard convergence analysis assumes full client participation during global aggregation steps.
+curation:
+  created_at: '2026-10-19T08:14:00Z'
+  updated_at: '2026-10-19T08:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

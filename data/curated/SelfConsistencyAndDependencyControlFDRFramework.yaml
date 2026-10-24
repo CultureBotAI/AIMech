@@ -1,0 +1,206 @@
+id: AIMech:SelfConsistencyAndDependencyControlFDRFramework
+name: Self-consistency and dependency control framework for false discovery rate control
+aliases:
+- Blanchard-Roquain Self-Consistency and Dependency Control Framework
+- SC and DC Conditions for Weighted False Discovery Rate Control
+- Order-Free Maximal Self-Consistent Step-Up and Prior-Integrated Shape Function Framework
+concept_kind: mathematical_method
+definition: 'A modular mathematical framework for multiple hypothesis testing on any countable (or continuous)
+  hypothesis space H equipped with a finite positive volume measure Lambda and factorized threshold collection
+  Delta(h, r) = alpha pi(h) beta(r) (with p-value weight density pi: H -> [0, 1] and nondecreasing shape
+  function beta: R^+ -> R^+) developed by Gilles Blanchard and Etienne Roquain (2008, Electronic Journal
+  of Statistics 2:963-992, arXiv:0802.1406v2, DOI:10.1214/08-EJS180) that decouples control of the Lambda-weighted
+  False Discovery Rate FDR(R) = E[(Lambda(R cap H_0) / Lambda(R)) 1{Lambda(R) > 0}] into two sufficient
+  conditions: (1) the geometric Self-Consistency Condition SC(alpha, pi, beta), requiring R subset L_Delta(|R|)
+  almost surely where |R| = Lambda(R) and L_Delta(r) = {h in H : p_h <= Delta(h, r)}, and (2) the probabilistic
+  Dependency Control Condition DC(beta), requiring E[1{p_h <= c beta(|R|)} / |R|] <= c for every true
+  null h in H_0 and c > 0, which together imply FDR(R) <= alpha Pi(H_0) = alpha sum_{h in H_0} Lambda({h})
+  pi(h) across independence, positive regression dependency (PRDS), and arbitrary dependence via the prior-integrated
+  shape function family beta_nu(r) = int_0^r x d_nu(x).'
+identity_notes: Distinct from all 442 pinned AIO concepts and all 593 previously curated AIMech concepts.
+  While AIMech:OptimalMultiWeightedStepUpProcedureForFDRControl (Roquain & van de Wiel 2009), AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  (Durand 2019), AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting (Roeder & Wasserman 2009), and
+  AIMech:ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies (Dobriban 2018) derive optimal
+  p-value weights under Gaussian or MLR alternative models, none encode Blanchard & Roquain's (2008, Electronic
+  Journal of Statistics 2:963-992, arXiv:0802.1406v2, DOI:10.1214/08-EJS180) modular Self-Consistency
+  SC(alpha, pi, beta) and Dependency Control DC(beta) framework, the order-free characterization of the
+  doubly weighted step-up procedure as the maximal self-consistent set R_SU = bigcup_{A subset L_Delta(|A|)}
+  A = L_Delta(r_hat) with |L_Delta(r_hat)| = r_hat, the prior-integrated shape function family beta_nu(r)
+  = int_0^r x d_nu(x) for arbitrary p-value dependence (unifying Benjamini-Yekutieli harmonic priors,
+  Sarkar 2008 quadratic thresholds under uniform nu, and cubic thresholds under linear nu), or the log-convexity
+  step-down FDR bound for Delta(i) = alpha m / (m - i + 1)^2.
+definition_evidence:
+- source_id: blanchard-roquain2008-ar5iv
+  locator: Section 2, lines 125–231, Definitions 2.1–2.6 and Proposition 2.7; Section 3, lines 233–383,
+    Definition 3.1, Lemma 3.2, and Propositions 3.3, 3.6, and 3.7
+  relation: supports
+- source_id: blanchard-roquain2008-crossref
+  locator: Electronic Journal of Statistics 2:963–992 (2008) bibliographic metadata record
+  relation: supports
+- source_id: blanchard-roquain2008-abs
+  locator: 'Abstract (two sufficient conditions: self-consistency and dependency control)'
+  relation: supports
+claims:
+- claim_id: two-line-sc-dc-factorization-for-doubly-weighted-fdr
+  kind: mechanism
+  statement: 'For any countable hypothesis space H equipped with a finite positive volume measure Lambda
+    and factorized threshold collection Delta(h, r) = alpha pi(h) beta(r) (Definition 2.4), if a multiple
+    testing procedure R satisfies the Self-Consistency Condition SC(alpha, pi, beta), namely R subset
+    L_Delta(|R|) almost surely with |R| = Lambda(R) and L_Delta(r) = {h in H : p_h <= alpha pi(h) beta(r)}
+    (Definition 2.5), and the pair (p_h, |R|) satisfies the Dependency Control Condition DC(beta) for
+    every true null h in H_0, namely E[1{p_h <= c beta(|R|)} / |R|] <= c for all c > 0 (Definition 2.6),
+    then by Proposition 2.7 the Lambda-weighted False Discovery Rate satisfies FDR(R) = sum_{h in H_0}
+    Lambda({h}) E[1{h in R} / |R|] <= sum_{h in H_0} Lambda({h}) E[1{p_h <= alpha pi(h) beta(|R|)} / |R|]
+    <= alpha Pi(H_0) = alpha sum_{h in H_0} Lambda({h}) pi(h), controlling doubly weighted FDR at level
+    alpha whenever pi is a sub-probability density with respect to Lambda (Pi(H) <= 1).'
+  evidence:
+  - source_id: blanchard-roquain2008-ar5iv
+    locator: Section 2.2–2.3, lines 155–231, Definitions 2.2–2.6 and Proposition 2.7
+    relation: supports
+  - source_id: blanchard-roquain2008-abs
+    locator: Abstract (inclusion of both hypothesis importance weights and prior p-value weights)
+    relation: supports
+- claim_id: order-free-maximal-self-consistent-step-up-characterization
+  kind: mechanism
+  statement: 'Without requiring identical thresholds across hypotheses or an explicit global reordering
+    of p-values, the weighted step-up procedure associated with threshold collection Delta is uniquely
+    characterized by Definition 3.1 and Section 3.1 as the maximal self-consistent set R_SU = L_Delta(r_hat)
+    with volume r_hat = max{r in {|A| : A subset H} : |L_Delta(r)| >= r}, which equals the union R_SU
+    = bigcup_{A subset H, A subset L_Delta(|A|)} A of all self-consistent subsets and satisfies the exact
+    fixed-point volume identity |L_Delta(r_hat)| = r_hat; furthermore, all generalized step-up-down procedures
+    of order lambda in [0, |H|] (Theorem 4.5, unifying step-down at lambda = 0 and step-up at lambda =
+    |H|) as well as geometrically constrained connected-neighborhood subsets R_geom subset R_SU satisfying
+    |R_geom| >= r_geom with R_geom subset L_Delta(|R_geom|) (Section 4.1.4) satisfy SC(alpha, pi, beta).'
+  evidence:
+  - source_id: blanchard-roquain2008-ar5iv
+    locator: Section 3.1, lines 236–295, Definition 3.1; Section 4.1.4, lines 494–510; Section 4.2, lines
+      555–612, Theorem 4.5
+    relation: supports
+- claim_id: prior-integrated-shape-function-family-under-arbitrary-dependence
+  kind: mechanism
+  statement: 'By Lemma 3.2, dependency control DC(beta) holds in three primary regimes: (i) under independence
+    with linear shape beta(x) = x when |R| = g(p_h) is nonincreasing in p_h (Proposition 3.3); (ii) under
+    Positive Regression Dependency on a Subset (PRDS on H_0) with linear shape beta(x) = x whenever |R|
+    is nonincreasing in the p-value vector p, proved via a geometric grid v_i = rho^{K+1-i} telescopic
+    bound (Proposition 3.6); and (iii) under completely unspecified/arbitrary p-value dependencies and
+    for ANY rejection rule R (even without monotonicity of |R|), DC(beta_nu) holds for the prior-integrated
+    shape function family beta_nu(r) = int_0^r x d_nu(x) induced by any probability distribution nu on
+    (0, infty) (Lemma 3.2(iii), Proposition 3.7, and Theorem 4.2 via Fubini''s theorem), which recovers
+    on V_H = {1, ..., m} the Benjamini-Yekutieli harmonic shape beta_nu(r) = gamma_m^{-1} floor(r) under
+    nu({k}) = (gamma_m k)^{-1}, the Sarkar (2008) quadratic shape beta_nu(r) = floor(r)(floor(r)+1)/(2m)
+    under uniform nu({k}) = 1/m, the cubic shape beta_nu(r) = floor(r)(floor(r)+1)(2floor(r)+1)/(3m(m+1))
+    under linear nu({k}) = 2k/(m(m+1)), and one-step k_0-threshold rules beta_{delta_{k_0}}(r) = k_0 1{r
+    >= k_0} under Dirac nu = delta_{k_0}.'
+  evidence:
+  - source_id: blanchard-roquain2008-ar5iv
+    locator: Section 3.2, lines 297–383, Lemma 3.2 and Propositions 3.3, 3.6, and 3.7; Section 4.1.1–4.1.2,
+      lines 387–482, Theorems 4.1–4.2; Appendix A.1, lines 686–765
+    relation: supports
+- claim_id: two-stage-adaptive-fdr-bound-and-step-down-log-convexity
+  kind: mechanism
+  statement: For an adaptive step-up procedure with data-dependent thresholds Delta(h, r, p) = alpha_1
+    pi(h) G(p) beta(r) where G(p) >= 0 is nondecreasing in each coordinate of p, Lemma 4.3 proves that
+    under PRDS with beta(r) = r or under arbitrary dependence with beta = beta_nu, the FDR satisfies FDR(R)
+    <= alpha_1 + P(G(p) > pi_0^{-1}), so choosing G(p) = (1 - r_hat_0(p)/|H|)^{-1} from a first-stage
+    alpha_0-FWER procedure R_0 yields two-stage FDR control at level alpha_1 + alpha_0 (Corollary 4.4);
+    furthermore, Theorem 4.6 proves via endpoint maximization of the log-convex function x -> (m_0/(m_0
+    + x))(m/(m - x)) <= 1 on [0, m_1] that the Benjamini-Liu (1999a) / Romano-Shaikh (2006a) step-down
+    procedure with thresholds Delta(i) = alpha m / (m - i + 1)^2 controls FDR at level alpha under H_1
+    PRDSS on H_0, and with Delta(i) = (alpha m / (m - i + 1)) beta_nu(1/(m - i + 1)) under arbitrary dependence.
+  evidence:
+  - source_id: blanchard-roquain2008-ar5iv
+    locator: Section 4.1.5, lines 511–554, Lemma 4.3 and Corollary 4.4; Section 4.2, lines 613–647, Theorem
+      4.6; Appendix A.2, lines 766–816
+    relation: supports
+evidence_sources:
+- source_id: blanchard-roquain2008-ar5iv
+  title: Two simple sufficient conditions for FDR control
+  authors:
+  - Gilles Blanchard
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/0802.1406
+  persistent_id: https://doi.org/10.1214/08-EJS180
+  version: arXiv:0802.1406v2 (published in Electronic Journal of Statistics, Vol. 2, pp. 963–992, 2008).
+    Complete full-text ar5iv HTML conversion read across Sections 1–5 and Appendix A (839 lines, 102,687
+    bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T15:30:00Z'
+  sha256: 475022ac6bda3b24dd97d657ea03968fe49a4ae6fe32c367771f4d8d1a414d7f
+- source_id: blanchard-roquain2008-crossref
+  title: Two simple sufficient conditions for FDR control (Electronic Journal of Statistics Record)
+  authors:
+  - Gilles Blanchard
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/08-EJS180
+  persistent_id: https://doi.org/10.1214/08-EJS180
+  version: Electronic Journal of Statistics, Vol. 2, pp. 963–992, 2008 Crossref bibliographic metadata
+    record (9,153 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:30:00Z'
+  sha256: 02a775523a7b4c76ed516c0c92483a8e30d93e48f907fff4be9e02dbcd4f27c2
+- source_id: blanchard-roquain2008-abs
+  title: Two simple sufficient conditions for FDR control (arXiv:0802.1406 Abstract)
+  authors:
+  - Gilles Blanchard
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0802.1406
+  persistent_id: https://doi.org/10.48550/arXiv.0802.1406
+  version: arXiv:0802.1406v2 abstract and Electronic Journal of Statistics 2008 DOI metadata record (6,483
+    bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:30:00Z'
+  sha256: 56c8e17d84115e0ad99c76372d88b7469fa71988c75bf9a4d57a9b07bcfda651
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: The Self-Consistency and Dependency Control framework establishes sufficient geometric and
+    probabilistic conditions to bound the weighted False Discovery Rate across arbitrary hypothesis spaces
+    and dependency structures, mitigating multiplicity-induced false positives (AIO:DataDredgingBias).
+limitations:
+- While the Self-Consistency condition SC(alpha, pi, beta) holds automatically for all step-up, step-down,
+  and generalized step-up-down procedures of order lambda (Section 3.1 and Theorem 4.5), the Dependency
+  Control condition DC(beta) for the linear Simes shape function beta(r) = r requires either independence
+  or Positive Regression Dependency on a Subset (PRDS on H_0) together with coordinatewise monotonicity
+  (nonincreasingness) of |R(p)| in p; if p-values exhibit negative dependence or arbitrary correlation,
+  linear beta(r) = r violates DC(beta) and can inflate FDR up to alpha * sum_{k=1}^m (1/k) (Section 3.2
+  and Section 4.1.2).
+- 'Under completely unspecified/arbitrary p-value dependence, replacing beta(r) = r with a prior-integrated
+  shape function beta_nu(r) = int_0^r x d_nu(x) guarantees DC(beta_nu) without any distributional or monotonicity
+  assumptions on |R|, but requires selecting the prior probability measure nu on (0, infty) a priori:
+  heavy-tailed harmonic priors nu({k}) propto 1/k (Benjamini-Yekutieli) lose power when many hypotheses
+  are rejected, whereas uniform or linear priors (quadratic or cubic beta_nu) have strictly smaller thresholds
+  at small rejection counts r = 1, 2 and can fail to reject isolated sparse signals (Section 4.1.2 and
+  Figure 2).'
+- For adaptive step-up procedures Delta(h, r, p) = alpha_1 pi(h) G(p) beta(r), Lemma 4.3 requires the
+  plug-in factor G(p) to be coordinatewise nondecreasing in p (so that p -> |R(p)| remains nonincreasing
+  under PRDS) and adds the upper-tail overestimation probability P(G(p) > pi_0^{-1}) to the nominal bound
+  alpha_1; standard one-stage Storey-type estimators G(p) violate this monotonicity under PRDS unless
+  paired with a first-stage alpha_0-FWER bound as in Corollary 4.4 (Section 4.1.5 and Blanchard & Roquain
+  2009).
+- 'All 839 lines of Blanchard & Roquain (2008, Electronic Journal of Statistics 2:963-992, arXiv:0802.1406v2,
+  DOI:10.1214/08-EJS180) were read. Constructed numerical checks in research/discovery/self-consistency-and-dependency-control-fdr-framework-boundaries.py
+  verify (1) Definition 3.1 & Section 3.1 order-free maximal self-consistent step-up fixed-point identity
+  |L_Delta(r_hat)| = r_hat and subset maximality on a doubly weighted space with total volume Lambda(H)
+  = 6.0 and integral Pi(H) = 1.0 (4 fixed-point and 4 exhaustive 2^m subset maximality checks, plus geometrically
+  constrained contiguous subset [2, 3] subset R_SU = [0, 2, 3]), (2) Lemma 3.2(iii), Proposition 3.7,
+  and Theorem 4.2 worst-case adversarial dependency control at m = 6, alpha = 0.1 (where linear Simes
+  beta(r) = r has adversarial supremum ratio 2.4500000000000006 = gamma_6 and worst-case FDR = 0.24500000000000027
+  > 0.1, whereas Benjamini-Yekutieli harmonic, Sarkar uniform quadratic, linear-prior cubic, and Dirac
+  delta_3 priors all satisfy adversarial supremum ratio = 1.0 and worst-case FDR = 0.1, with three-tier
+  concentrated-signal rejection counts {''BY_harmonic'': 0, ''Sarkar_uniform_quadratic'': 5, ''linear_prior_cubic'':
+  5} and {''BY_harmonic'': 0, ''Sarkar_uniform_quadratic'': 0, ''linear_prior_cubic'': 5}), and (3) Theorem
+  4.6 log-convexity step-down bound across 300 (m, m_0) pairs (max endpoint ratio = 1.0000000000000002).'
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T15:30:00Z'
+  updated_at: '2026-10-17T15:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

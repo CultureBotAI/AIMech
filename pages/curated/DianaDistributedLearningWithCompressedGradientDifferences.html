@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIANA Distributed Learning with Compressed Gradient Differences · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>DIANA Distributed Learning with Compressed Gradient Differences</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DIANA Distributed Learning with Compressed Gradient Differences</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DianaDistributedLearningWithCompressedGradientDifferences</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DIANA, Distributed Learning with Compressed Gradient Differences, Compressed Gradient Difference Proximal Stochastic Gradient Descent
+    </div>
+
+  <div class="detail-desc">
+    A distributed composite and nonconvex stochastic optimization algorithm (DIANA) for minimizing f(x) + R(x) = (1/n) sum_{i=1}^n f_i(x) + R(x) across n workers in which each worker i maintains a local gradient-memory shift vector h_i^k in R^d (with server mean h^k = (1/n) sum_{i=1}^n h_i^k), computes a stochastic gradient g_i^k, compresses only the gradient difference Delta_i^k = g_i^k - h_i^k via an unbiased block l_p quantizer Delta_hat_i^k = Quant_p(Delta_i^k) satisfying E[||Delta_hat_i^k - Delta_i^k||_2^2] &lt;= (1/alpha_p - 1) ||Delta_i^k||_2^2, updates its local memory h_i^{k+1} = h_i^k + alpha * Delta_hat_i^k, and transmits Delta_hat_i^k to the server to form the unbiased global gradient estimator g_hat^k = h^k + (1/n) sum_{i=1}^n Delta_hat_i^k, update h^{k+1} = h^k + alpha * (1/n) sum_{i=1}^n Delta_hat_i^k, and take a momentum/proximal step x^{k+1} = prox_{gamma R}(x^k - gamma * v^k), enabling each h_i^k to converge to the local optimum gradient nabla f_i(x^*) so quantization variance vanishes at the optimum even under arbitrary inter-worker heterogeneity and nonsmooth regularization R != 0.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from QSGD (AIMech:QsgdCommunicationEfficientStochasticGradientQuantization, which quantizes raw gradients g_i^k directly without memory shifts h_i^k and therefore suffers non-vanishing quantization variance at x^* whenever nabla f_i(x^*) != 0, recovered as the special case alpha = 0, h_i^0 = 0, p = 2 of DIANA), from EF21 (AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, which uses biased contractive compressors on deterministic gradients with error state g_i^{t+1} = g_i^t + C(nabla f_i(x^{t+1}) - g_i^t) rather than unbiased l_p quantization with damping step size alpha &lt;= alpha_p and proximal composite support R(x)), and from Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression). No pinned AIO class covers DIANA or compressed gradient-difference shift learning.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r389-block-lp-quantization-contraction-and-unbiased-estimator</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemmas 4.1, 4.2, and 4.3 prove that the random l_p quantizer Quant_p on a block of size d is unbiased and satisfies E||Quant_p(x) - x||_2^2 &lt;= (1/alpha_p(d) - 1)||x||_2^2 with exact contraction factor alpha_p(d) = inf_{x!=0} ||x||_2^2 / (||x||_1 ||x||_p) given in closed form by alpha_1(d) = 1/d, alpha_2(d) = 1/sqrt(d), and alpha_inf(d) = 2/(1 + sqrt(d)), yielding expected variance E_Q||g_hat^k - g^k||_2^2 &lt;= ((1 - alpha_p) / (n^2 * alpha_p)) sum_{i=1}^n ||g_i^k - h_i^k||_2^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r389-primary-pdf">Distributed Learning with Compressed Gradient Differences</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Definition 3.1-3.2 and Section 4 Lemmas 4.1, 4.2, and 4.3, pp. 4-7, 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r389-lyapunov-linear-convergence-and-shift-learning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L-smooth mu-strongly convex functions f_i with proper closed convex regularizer R(x), Theorem 4.4 and Corollary 4.5 prove that the Lyapunov potential V^k = ||x^k - x^*||_2^2 + (c * gamma^2 / n) sum_{i=1}^n ||h_i^k - nabla f_i(x^*)||_2^2 contracts linearly as E[V^k] &lt;= (1 - gamma * mu)^k V^0 + (gamma / mu)(1 + n * c * alpha)(sigma^2 / n), so in the noiseless regime (sigma = 0) both x^k -&gt; x^* and h_i^k -&gt; nabla f_i(x^*) converge geometrically in O(max{1/alpha_p, kappa*(1 + 1/(n * alpha_p))} log(1/eps)) iterations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r389-primary-pdf">Distributed Learning with Compressed Gradient Differences</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Theorem 4.4, Corollary 4.5, and Table 2, pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r389-unbiased-compressor-and-stochastic-noise-floor-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires an unbiased compression operator (E[Quant_p(Delta)] = Delta) and each worker i to store a d-dimensional shift vector h_i^k; when local gradients have non-zero stochastic variance sigma^2 &gt; 0, constant step size gamma leaves an O(gamma * (1 + 1/alpha_p) * sigma^2 / (mu * n)) neighborhood unless decreasing step sizes (Theorem 4.8) or local variance reduction are used.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r389-primary-pdf">Distributed Learning with Compressed Gradient Differences</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Theorem 4.4 &amp; Section 4.1 Theorem 4.8 (Decreasing stepsizes), pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r389-composite-l1-logistic-regression-and-resnet-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed L1/L2-regularized logistic regression on LIBSVM datasets (mushrooms, a5a, w8a) and distributed momentum training of ResNet-18 on CIFAR-10 and AlexNet on ImageNet with block ternary (p = infinity) and 1-bit L2 (p = 2) gradient difference quantization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r389-primary-pdf">Distributed Learning with Compressed Gradient Differences</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments, Figures 1-4, pp. 10-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an unbiased quantization operator (E[Quant_p(Delta)] = Delta) with damping factor alpha &lt;= alpha_p(d).</li>
+      <li>Each worker must store a local d-dimensional gradient shift vector h_i^k across iterations.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DIANA performs communication-compressed distributed optimization across heterogeneous worker nodes by quantizing differences from learned local gradient shifts.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r389-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r389-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1901.09269.pdf" target="_blank" rel="noopener">Distributed Learning with Compressed Gradient Differences</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Konstantin Mishchenko, Eduard Gorbunov, Martin Takáč, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1901.09269</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:353c5b967148…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r389-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r389-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1901.09269" target="_blank" rel="noopener">Distributed Learning with Compressed Gradient Differences (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Konstantin Mishchenko, Eduard Gorbunov, Martin Takáč, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1901.09269</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:900372b8b0b8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r389-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r389-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.48550/arXiv.1901.09269" target="_blank" rel="noopener">Distributed Learning with Compressed Gradient Differences (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Konstantin Mishchenko, Eduard Gorbunov, Martin Takáč, Peter Richtárik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1901.09269</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:01177599ff01…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ADianaDistributedLearningWithCompressedGradientDifferences">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for DIANA Distributed Learning with Compressed Gradient Differences" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:DianaDistributedLearningWithCompressedGradientDifferences</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">DIANA Distributed...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:52:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:52:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DianaDistributedLearningWithCompressedGradientDifferences.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DianaDistributedLearningWithCompressedGradientDifferences.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=DIANA%20Distributed%20Learning%20with%20Compressed%20Gradient%20Differences"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ADianaDistributedLearningWithCompressedGradientDifferences"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

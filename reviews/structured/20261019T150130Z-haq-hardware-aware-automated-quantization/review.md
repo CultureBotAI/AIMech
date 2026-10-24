@@ -1,0 +1,352 @@
+# Scientific author self-review of HAQ (Hardware-Aware Automated Quantization with Mixed Precision)
+
+- Review: 20261019T150130Z-haq-hardware-aware-automated-quantization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T15:01:00Z
+- Finished UTC: 2026-10-19T15:01:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain HAQ (Hardware-Aware Automated Quantization with Mixed Precision) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base fc46dc47309c3c4f641d93b45dacfcf49b5d1c58.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision | data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml | maintained | HAQ (Hardware-Aware Automated Quantization with Mixed Precision) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision | Validated history sidecar files. |
+| python3 haq-hardware-aware-automated-quantization-boundaries.py | passed | True | AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision | HAQ verification passed: bits=(2,5,8), err_8bit=0.000034 &lt; err_2bit=0.4360, final_cost=55.0&lt;=55.0, dw_oi=4.47 &lt;&lt; pw_oi=59.17 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.
+
+HAQ (Hardware-Aware Automated Quantization with Mixed Precision) is a distinct concept.
+
+Distinct from uniform fixed-bitwidth quantization (e.g., PACT or 8-bit integer quantization), distinct from Hessian-spectrum mixed-precision quantization such as Q-BERT (AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT) which relies on second-order sensitivity without hardware-in-the-loop latency/energy feedback, and distinct from AMC (AIMech:AMCAccelerationAndModelCompressionOnMobileDevicesWithRL) which uses DDPG to search continuous channel/fine-grained pruning sparsity ratios rather than mixed-precision weight and activation bitwidths.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in haq-hardware-aware-automated-quantization-boundaries.py passed with exit code 0: HAQ verification passed: bits=(2,5,8), err_8bit=0.000034 &lt; err_2bit=0.4360, final_cost=55.0&lt;=55.0, dw_oi=4.47 &lt;&lt; pw_oi=59.17
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T150100Z-haq-hardware-aware-automated-quantization.json | supports | No normalized identity match for AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/haq-hardware-aware-automated-quantization-boundaries.py | supports | All constructed boundary assertions in haq-hardware-aware-automated-quantization-boundaries.py passed with exit code 0: HAQ verification passed: bits=(2,5,8), err_8bit=0.000034 &lt; err_2bit=0.4360, final_cost=55.0&lt;=55.0, dw_oi=4.47 &lt;&lt; pw_oi=59.17 |
+| r818-primary-pdf | https://arxiv.org/pdf/1811.08886; Full-text PDF | supports | Full-text PDF (CVPR 2019 (2019)) read and verified. |
+| r818-arxiv-abs | https://arxiv.org/abs/1811.08886; arXiv abstract | supports | arXiv abstract read and verified. |
+| r818-metadata-cr | https://arxiv.org/bibtex/1811.08886; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision in Round 818.
+- All pages of CVPR 2019 (2019) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T150130Z-haq-hardware-aware-automated-quantization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of HAQ (Hardware-Aware Automated Quantization
+  with Mixed Precision)
+started_at: '2026-10-19T15:01:00Z'
+finished_at: '2026-10-19T15:01:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+    against existing AIMech and AIO records and verified all claims against CVPR 2019
+    (2019) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain HAQ (Hardware-Aware Automated Quantization with Mixed Precision) as
+  a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
+source:
+  git_revision: fc46dc47309c3c4f641d93b45dacfcf49b5d1c58
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml
+    sha256: 8e19958a7b8c64b89a49bc2084129a50ec74201c65b41b58957b92768f82911f
+    role: target
+  - path: research/discovery/20261019T150100Z-haq-hardware-aware-automated-quantization.json
+    sha256: 0cf7e98222c83fd9e460d2fc19300b8d518693a40bffbe4e73f6ce07d3dff924
+    role: context
+  - path: research/discovery/haq-hardware-aware-automated-quantization-boundaries.py
+    sha256: 4980f344f5c05ebde3619057c72881356709a0d812bc057a51850384c0d6b1ff
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  path: data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml
+  label: HAQ (Hardware-Aware Automated Quantization with Mixed Precision)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 haq-hardware-aware-automated-quantization-boundaries.py
+  command: python3 research/discovery/haq-hardware-aware-automated-quantization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'HAQ verification passed: bits=(2,5,8), err_8bit=0.000034 < err_2bit=0.4360,
+    final_cost=55.0<=55.0, dw_oi=4.47 << pw_oi=59.17'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T150100Z-haq-hardware-aware-automated-quantization.json
+  accessed_at: '2026-10-19T15:01:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T15:01:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/haq-hardware-aware-automated-quantization-boundaries.py
+  accessed_at: '2026-10-19T15:01:00Z'
+  snapshot_sha256: 4980f344f5c05ebde3619057c72881356709a0d812bc057a51850384c0d6b1ff
+  support: supports
+  summary: 'All constructed boundary assertions in haq-hardware-aware-automated-quantization-boundaries.py
+    passed with exit code 0: HAQ verification passed: bits=(2,5,8), err_8bit=0.000034
+    < err_2bit=0.4360, final_cost=55.0<=55.0, dw_oi=4.47 << pw_oi=59.17'
+- evidence_id: r818-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1811.08886
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T15:01:00Z'
+  snapshot_sha256: ecbe91505650c694e2b8b9ffaf8e826e0bf7d5ee2732ffd64a46c3d35926e179
+  support: supports
+  summary: Full-text PDF (CVPR 2019 (2019)) read and verified.
+- evidence_id: r818-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1811.08886
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T15:01:00Z'
+  snapshot_sha256: 7c04975f06ff087bcce4c6f69ec1eaecc8336c56176a4174156c628a35636452
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r818-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/bibtex/1811.08886
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T15:01:00Z'
+  snapshot_sha256: 1a28853634962a09bbf67988ab6b05cf311487ce34b2ed8bdc071bc883578e0e
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  evidence_ids:
+  - identity
+  - r818-primary-pdf
+  - r818-arxiv-abs
+  - r818-metadata-cr
+  summary: HAQ (Hardware-Aware Automated Quantization with Mixed Precision) is a distinct
+    concept.
+  details: Distinct from uniform fixed-bitwidth quantization (e.g., PACT or 8-bit
+    integer quantization), distinct from Hessian-spectrum mixed-precision quantization
+    such as Q-BERT (AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT) which
+    relies on second-order sensitivity without hardware-in-the-loop latency/energy
+    feedback, and distinct from AMC (AIMech:AMCAccelerationAndModelCompressionOnMobileDevicesWithRL)
+    which uses DDPG to search continuous channel/fine-grained pruning sparsity ratios
+    rather than mixed-precision weight and activation bitwidths.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  evidence_ids:
+  - mapping
+  - r818-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  evidence_ids:
+  - r818-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in haq-hardware-aware-automated-quantization-boundaries.py
+    passed with exit code 0: HAQ verification passed: bits=(2,5,8), err_8bit=0.000034
+    < err_2bit=0.4360, final_cost=55.0<=55.0, dw_oi=4.47 << pw_oi=59.17'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  evidence_ids:
+  - identity
+  - mapping
+  - r818-primary-pdf
+  - r818-arxiv-abs
+  - r818-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+  in Round 818.
+- All pages of CVPR 2019 (2019) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

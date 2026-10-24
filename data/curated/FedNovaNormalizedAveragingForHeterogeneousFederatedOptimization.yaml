@@ -1,0 +1,102 @@
+id: AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization
+name: FedNova Normalized Averaging for Heterogeneous Federated Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A heterogeneous federated optimization framework and normalized averaging algorithm (FedNova) that models client i's cumulative local model change over tau_i^{(t)} local steps as Delta_i^{(t)} = x_i^{(t,tau_i)} - x^{(t,0)} = -eta * G_i^{(t)} * a_i^{(t)}, where G_i^{(t)} in R^{d x tau_i} stacks the local stochastic gradients and a_i^{(t)} in R^{tau_i} is the local solver's gradient weighting vector (a_i = [1,...,1]^T for vanilla SGD, a_i = [(1-alpha)^{tau_i-1},...,1]^T for proximal SGD, and a_i = [1-rho^{tau_i},...,1-rho]^T/(1-rho) for momentum SGD), normalizes each client's update into an effective local gradient d_i^{(t)} = G_i^{(t)} a_i^{(t)} / ||a_i^{(t)}||_1 = -Delta_i^{(t)} / (eta * ||a_i^{(t)}||_1), and aggregates across clients with weights w_i = p_i and effective global step size tau_eff^{(t)} (defaulting to sum_{i=1}^m p_i ||a_i^{(t)}||_1) via x^{(t+1,0)} = x^{(t,0)} - tau_eff^{(t)} * sum_{i=1}^m p_i * eta * d_i^{(t)}, eliminating the surrogate objective inconsistency chi^2_{p||w} = sum_{i=1}^m (p_i - w_i)^2 / w_i caused by heterogeneous local step counts tau_i or heterogeneous local solvers while achieving O(1/sqrt(m * tau_tilde * T)) convergence to stationary points of the true global objective F(x) = sum_{i=1}^m p_i F_i(x).
+identity_notes: Distinct from FedProx (AIMech:FedProxProximalHeteratedOptimization / AIMech:FedProxProximalHeterogeneousFederatedOptimization, which adds a proximal penalty (mu/2)||x - x^{(t,0)}||^2 to local objectives but still suffers from surrogate objective inconsistency w_i proportional to p_i ||a_i||_1 when tau_i varies across clients, as proven in Wang et al. 2020 Section 4.3), from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which transmits control variate shifts c_i and requires equal local step counts), and from Local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent). No pinned AIO class covers FedNova or objective-inconsistency-eliminating normalized federated averaging.
+aliases:
+- FedNova
+- Federated Normalized Averaging
+- Normalized Averaging for Heterogeneous Federated Optimization
+definition_evidence:
+- source_id: r386-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r386-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r386-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r386-surrogate-objective-inconsistency-theorem
+  kind: mechanism
+  statement: Theorem 1 and Corollary 1 prove that any federated algorithm aggregating unnormalized local updates with weights w_i proportional to p_i ||a_i||_1 converges to a stationary point of a mismatched surrogate objective F_tilde(x) = sum_{i=1}^m w_i F_i(x) with w_i = p_i ||a_i||_1 / sum_j p_j ||a_j||_1, and Theorem 2 combined with Lemma 4 shows that on strongly convex quadratic local losses F_i(x) = (1/2) x^T H_i x - e_i^T x, standard FedAvg converges as eta -> 0 to x_inf^{FedAvg} = (sum_i p_i tau_i H_i)^{-1} (sum_i p_i tau_i e_i) != x* with a non-vanishing lower bound min_{t in [T]} E||nabla F(x^{(t,0)})||^2 = Omega(chi^2_{p||w} kappa^2 / (chi^2_{p||w} beta^2 + 1)).
+  evidence:
+  - source_id: r386-primary-pdf
+    locator: Section 4.1-4.2 Theorem 1, Corollary 1, Theorem 2, and Appendix B Lemmas 3-4, pp. 4-6, 15-17
+    relation: supports
+- claim_id: r386-normalized-averaging-stationarity-convergence
+  kind: mechanism
+  statement: By normalizing each client's cumulative update by ||a_i^{(t)}||_1 (where ||a_i||_1 = tau_i for vanilla SGD, (1 - (1-alpha)^{tau_i})/alpha for proximal SGD, and (tau_i - rho(1-rho^{tau_i})/(1-rho))/(1-rho) for momentum SGD) and setting w_i = p_i, FedNova achieves exact surrogate consistency (chi^2_{p||w} = 0) and Theorem 3 / Corollary 3 guarantees (1/T) sum_{t=0}^{T-1} E||nabla F(x^{(t,0)})||^2 = O(1/sqrt(m * tau_tilde * T) + m * tau_tilde / T) for L-smooth nonconvex objectives.
+  evidence:
+  - source_id: r386-primary-pdf
+    locator: Section 4.3, Section 5 Theorem 3 & Corollary 3, pp. 6-8
+    relation: supports
+- claim_id: r386-local-step-size-and-drift-limitation
+  kind: limitation
+  statement: While FedNova eliminates the O(chi^2_{p||w}) objective inconsistency term as eta -> 0, Theorem 3 requires local step sizes to satisfy eta * L * max_i ||a_i||_1 <= O(1) so that client-drift variance O(eta^2 L^2 ||a_i||_2^2) remains controlled when local step counts tau_i are large.
+  evidence:
+  - source_id: r386-primary-pdf
+    locator: Section 5 Theorem 3 condition (12) and Lemma 4 finite-eta limit (19), pp. 7, 16
+    relation: supports
+- claim_id: r386-heterogeneous-epoch-federated-training-application
+  kind: application
+  statement: Applied to federated training of VGG-11 and ResNet-18 on non-IID Dirichlet-partitioned CIFAR-10 and synthetic quadratic benchmarks under heterogeneous client local epochs E_i and straggler drop-offs, outperforming FedAvg and FedProx while supporting local momentum and proximal solvers.
+  evidence:
+  - source_id: r386-primary-pdf
+    locator: Section 6 Experimental Results, Table 2 & Figures 3-4, pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r386-primary-pdf
+  title: Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization
+  authors: &id001
+  - Jianyu Wang
+  - Qinghua Liu
+  - Hao Liang
+  - Gauri Joshi
+  - H. Vincent Poor
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2007.07481.pdf
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/564127c03caab942e503ee6f810f54fd-Abstract.html
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 7611-7623 (2020) (104555 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:49:00Z'
+  sha256: fea608d53eebd076ecc4214a74f472aef301f644b0f3815ed4bb8012e4fd795e
+- source_id: r386-arxiv-abs
+  title: Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.07481
+  persistent_id: https://arxiv.org/abs/2007.07481
+  version: arXiv abstract page (6923 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:49:00Z'
+  sha256: 29b9efe76fc6af520979100c821e886997e8bf7720cb626d36fbd1ecf1bbb8fb
+- source_id: r386-metadata-cr
+  title: Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/564127c03caab942e503ee6f810f54fd-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/564127c03caab942e503ee6f810f54fd-Abstract.html
+  version: Crossref API work record (464 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:49:00Z'
+  sha256: 9201f121060cfbc7c778f140816d75696f4d2f7dc223afab4e9b311b5bbf5d47
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedNova is a specialized federated optimization algorithm that normalizes heterogeneous client local updates by ||a_i||_1 to eliminate surrogate objective inconsistency.
+limitations:
+- Requires each participating client i to report or allow computation of its effective local step weight norm ||a_i^{(t)}||_1 alongside its model update.
+- Eliminates objective inconsistency as eta -> 0 but still incurs O(eta^2 L^2 ||a_i||_2^2) client drift at finite step sizes unless combined with variance reduction.
+curation:
+  created_at: '2026-10-19T07:49:00Z'
+  updated_at: '2026-10-19T07:49:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

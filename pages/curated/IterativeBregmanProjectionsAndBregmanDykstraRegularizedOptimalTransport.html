@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:IterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Iterative Bregman Projections (IBP) for Optimal Transport, Bregman-Dykstra Algorithm for Constrained Regularized Transport, Benamou-Carlier-Cuturi-Nenna-Peyré Iterative Bregman Projections
+    </div>
+
+  <div class="detail-desc">
+    Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport is a convex-analytic optimization framework introduced by Benamou, Carlier, Cuturi, Nenna, and Peyré (2015) that reformulates entropically regularized linear optimal transport, multi-marginal transport, Wasserstein barycenters, tomographic marginal constraints, partial optimal transport, capacity-constrained transport, and martingale transport as Kullback-Leibler Bregman projections min_{gamma in cap_{l=1}^L C_l} KL(gamma | xi) of the Gibbs kernel xi = exp(-C / epsilon) onto intersections of closed convex sets C_1, ..., C_L. When every C_l is an affine subspace (including two-marginal transport C_1 = {gamma 1 = p}, C_2 = {gamma^T 1 = q} in Proposition 1 and multi-coupling Wasserstein barycenters C_1 = {gamma_k 1 = p_k}, C_2 = {exists p : gamma_k^T 1 = p} with geometric-mean update p^{(n)} = prod_{k=1}^K (gamma_k^{(n)T} 1)^{lambda_k} in Proposition 2), cyclic Iterative Bregman Projections gamma^{(n)} = P_{C_{[n]}}^{KL}(gamma^{(n-1)}) converge globally to the exact KL projection onto cap_{l=1}^L C_l (Equation 3). When any constraint C_l is a non-affine convex inequality or cone constraint (such as partial transport total mass gamma^T 1 &lt;= q and 1^T gamma 1 = m in Proposition 5 or pointwise capacity bounds gamma &lt;= bar{gamma} in Section 5.2), naive cyclic projections fail to converge to the KL optimum and the framework employs Dykstra&#39;s algorithm with multiplicative dual memory variables q^{(n)} = q^{(n-L)} odot (gamma^{(n-1)} / gamma^{(n)}) and updates gamma^{(n)} = P_{C_{[n]}}^{KL}(gamma^{(n-1)} odot q^{(n-L)}) (Equation 4).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard pairwise Sinkhorn matrix scaling (`AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport`) and dual subgradient Wasserstein barycenters (`AIMech:FastWassersteinBarycentersAndSmoothedDualSubgradientDescent`). Specifically captures the Benamou et al. (2015) unified KL Bregman projection formulation over intersections of affine and non-affine convex sets (Section 2, Equations 2-4), the Proposition 2 geometric-mean IBP Wasserstein barycenter algorithm (which eliminates inner Sinkhorn loops and line-search step sizes), and the Bregman-Dykstra algorithm with multiplicative memory variables for partial, capacity-constrained, and martingale transport (Sections 5.1-5.3, Propositions 4-5, Equations 20-26).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Proposition 1 proves that cyclic Iterative Bregman Projections (Equation 3) onto the two affine marginal subspaces C_1 = {gamma 1 = p} and C_2 = {gamma^T 1 = q} coincide identically with Sinkhorn-Knopp diagonal scaling, while Proposition 2 and Remark 3 prove that for the K-measure Wasserstein barycenter problem on C_1 = {gamma_k 1 = p_k} and C_2 = {exists p : gamma_k^T 1 = p}, the weighted KL projection onto C_2 has the exact closed-form geometric-mean marginal p = prod_{r=1}^K (bar{gamma}_r^T 1)^{lambda_r}, reducing each barycenter iteration to K matrix-vector multiplications by xi and xi^T.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r327-primary-pdf">Iterative Bregman Projections for Regularized Transportation Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Proposition 1 and Remark 1, p. 8; Section 3.2, Proposition 2 and Remark 3, pp. 10-11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r327-metadata-cr">Iterative Bregman Projections for Regularized Transportation Problems (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Crossref metadata for SIAM J. Sci. Comput. 37(2):A1111-A1138</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When constraints include non-affine convex sets such as upper-bounded marginals C_1 = {gamma 1 &lt;= p}, C_2 = {gamma^T 1 &lt;= q} with fixed total mass C_3 = {1^T gamma 1 = m} (partial optimal transport, Proposition 5) or pointwise capacity upper bounds C_3 = {gamma &lt;= bar{gamma}} (Section 5.2, Equations 22-23), the individual KL projections are given in closed form by elementwise min(gamma 1, p), min(gamma^T 1, q), and min(gamma, bar{gamma}), and Dykstra&#39;s algorithm (Equation 4) with memory variables q^{(n)} = q^{(n-L)} odot (gamma^{(n-1)} / gamma^{(n)}) (with q^{(n)} = 1 on affine subspaces) converges to the unique exact KL projection onto cap_{l=1}^L C_l.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r327-primary-pdf">Iterative Bregman Projections for Regularized Transportation Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equation 4 and affine-subspace remark, p. 7; Section 5.1, Proposition 5 and Equation 20, pp. 19-20; Section 5.2, Equations 22-23, p. 22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without Dykstra&#39;s dual memory variables q^{(n)}, cyclic Bregman projections onto non-affine convex sets fail to converge to the KL projection onto the intersection (Section 2.2, Figure 1); moreover, when the regularization parameter epsilon is very small, entries of xi = exp(-C / epsilon) underflow in standard floating-point arithmetic and multi-marginal tensors gamma in R^{N^K} suffer O(N^K) memory growth unless the ground cost has tree or grid separability.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r327-primary-pdf">Iterative Bregman Projections for Regularized Transportation Problems</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Small-epsilon and grid/separable kernel discussion, pp. 4-5; Section 2.2, Figure 1, p. 7; Section 4, Multi-marginal transport complexity, pp. 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires Dykstra memory variables of size O(N^2) per non-affine constraint set, suffers numerical underflow of exp(-C / epsilon) for very small regularization parameters epsilon unless stabilized in the log domain, and scales as O(N^K) for general unstructured K-marginal transport tensors.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Iterative Bregman Projections compute multi-distribution Wasserstein barycenters used for prototype aggregation and histogram clustering.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r327-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r327-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1412.5154v1" target="_blank" rel="noopener">Iterative Bregman Projections for Regularized Transportation Problems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jean-David Benamou, Guillaume Carlier, Marco Cuturi, Luca Nenna, Gabriel Peyré
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1137/141000439</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fd5f2b5137e2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r327-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r327-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1412.5154v1" target="_blank" rel="noopener">Iterative Bregman Projections for Regularized Transportation Problems (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jean-David Benamou, Guillaume Carlier, Marco Cuturi, Luca Nenna, Gabriel Peyré
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1412.5154v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:28938b44634c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r327-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r327-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1137/141000439" target="_blank" rel="noopener">Iterative Bregman Projections for Regularized Transportation Problems (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jean-David Benamou, Guillaume Carlier, Marco Cuturi, Luca Nenna, Gabriel Peyré
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1137/141000439</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8f97b1bc4edf…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AIterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Iterative Bregman Projections and Bregman-Dykstra Regularized Optimal Transport" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:IterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Iterative Bregman...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:Clustering (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:46:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:46:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/IterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport.yaml" target="_blank" rel="noopener">
+      <code>data/curated/IterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Iterative%20Bregman%20Projections%20and%20Bregman-Dykstra%20Regularized%20Optimal%20Transport"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AIterativeBregmanProjectionsAndBregmanDykstraRegularizedOptimalTransport"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

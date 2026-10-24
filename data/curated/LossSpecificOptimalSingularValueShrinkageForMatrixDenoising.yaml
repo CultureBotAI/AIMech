@@ -1,0 +1,103 @@
+id: AIMech:LossSpecificOptimalSingularValueShrinkageForMatrixDenoising
+name: Loss-Specific Optimal Singular Value Shrinkage for Low-Rank Matrix Denoising
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- Optimal Shrinkage of Singular Values
+- Gavish-Donoho Optimal Singular Value Shrinker
+- Frobenius-Optimal Singular Value Shrinkage
+- Nuclear-Norm-Optimal Singular Value Shrinkage
+- Schatten-p Optimal Singular Value Shrinkage
+definition: Loss-specific optimal singular value shrinkage is a high-dimensional matrix denoising methodology for recovering a fixed-rank signal matrix X_n = sum_{i=1}^r x_i u_{n,i} tilde_u_{n,i}' in R^{m_n x n} from noisy observations Y_n = X_n + sigma Z_n / sqrt(n) under aspect ratio m_n / n -> beta in (0, 1] via equivariant estimators hat_X_eta(Y_n) = sum_{i=1}^{m_n} sigma * eta(y_{n,i} / sigma) v_{n,i} tilde_v_{n,i}'. Using separate Gram-Schmidt orthonormalizations of the left and right population and empirical singular vectors, the framework simultaneously block-diagonalizes X_n and hat_X_eta(Y_n) into r independent 2 x 2 elementary rank-1 pairs (A(x_i), B(eta(y_i), x_i)) determined by the asymptotic singular value map y(x) = sqrt((x + 1/x)(x + beta/x)) and left/right singular vector cosines c(x) = sqrt((x^4 - beta)/(x^4 + beta x^2)) and tilde_c(x) = sqrt((x^4 - beta)/(x^4 + x^2)) for x >= beta^{1/4}, yielding unique admissible shrinkers that minimize asymptotic Frobenius, operator, nuclear, and general Schatten-p norm losses.
+identity_notes: Checked against all 442 pinned AIO concepts and 647 maintained AIMech concepts. Distinct from AIMech:OptimalSingularValueHardThresholdingAtFourOverSqrtThree (Gavish & Donoho 2014, which restricts the estimator to discontinuous hard truncation 1(y >= tau_*) y with worst-case square-matrix AMSE 3 r sigma^2, whereas Gavish & Donoho 2017 optimize over all continuous and discontinuous univariate singular value shrinkers eta(y) across general orthogonal-invariant losses, achieving worst-case square-matrix AMSE 2 r sigma^2 via eta_fro^*(y) = sqrt((y^2 - 4)_+) and deriving distinct closed-form nuclear-norm and operator-norm shrinkers); distinct from AIMech:LossSpecificOptimalEigenvalueShrinkageForSpikedCovarianceMatrices (Donoho, Gavish, & Johnstone 2018, which shrinks sample covariance eigenvalues toward a positive bulk baseline 1 using a single symmetric QR basis W_n and identical left/right eigenvector cosines c(ell), whereas Gavish & Donoho 2017 shrink rectangular matrix singular values toward 0 using distinct left and right Gram-Schmidt orthogonal bases W_n, tilde_W_n and asymmetric left/right singular vector cosines c(x) != tilde_c(x)); and distinct from AIMech:SingularValueThresholdingForMatrixCompletion (Cai, Candes, & Shen 2010, iterative soft thresholding for incomplete matrix completion).
+definition_evidence:
+- source_id: gd2017-sv-shrinkage-pdf
+  locator: Section 1, Equations (1)-(10), pages 2-6; Section 5, Definitions 4-6 and Theorem 1, pages 15-21
+  relation: supports
+- source_id: gd2017-sv-shrinkage-abs
+  locator: Abstract
+  relation: supports
+- source_id: gd2017-sv-shrinkage-cr
+  locator: DOI:10.1109/TIT.2017.2653801 article metadata
+  relation: supports
+claims:
+- claim_id: simultaneous-left-right-2x2-gram-schmidt-block-decomposition
+  kind: mechanism
+  statement: For an m_n x n observation matrix Y_n = X_n + Z_n / sqrt(n) with aspect ratio m_n / n -> beta in (0, 1] and rank-r signal X_n = sum_{i=1}^r x_i u_{n,i} tilde_u_{n,i}', separate Gram-Schmidt orthonormalizations of the left singular vectors (u_1, ..., u_r, v_1, ..., v_{m-r}) into W and right singular vectors (tilde_u_1, ..., tilde_u_r, tilde_v_1, ..., tilde_v_{m-r}) into tilde_W simultaneously reduce W' X_n tilde_W and W' hat_X_eta(Y_n) tilde_W to direct sums of r elementary 2 x 2 blocks A(x_i) = [[x_i, 0], [0, 0]] and B(eta(y(x_i)), x_i) = eta(y(x_i)) [[c(x_i) tilde_c(x_i), c(x_i) tilde_s(x_i)], [s(x_i) tilde_c(x_i), s(x_i) tilde_s(x_i)]], where y(x) = sqrt((x + 1/x)(x + beta/x)), c(x) = sqrt((x^4 - beta)/(x^4 + beta x^2)), and tilde_c(x) = sqrt((x^4 - beta)/(x^4 + x^2)) for x >= beta^{1/4}; for any orthogonal-invariant sum- or max-decomposable loss L_{m,n} and shrinker vanishing on [0, 1 + sqrt(beta)], the asymptotic loss decouples into sum_{i=1}^r L_{2,2}(A(x_i), B(eta(y(x_i)), x_i)) or max_{1 <= i <= r} L_{2,2}(A(x_i), B(eta(y(x_i)), x_i)).
+  evidence:
+  - source_id: gd2017-sv-shrinkage-pdf
+    locator: Section 3, Lemmas 1-3, Equations (15)-(22), pages 10-12; Section 5, Definitions 4-6, Lemmas 6-10, Theorem 1, Equations (27)-(42), pages 15-21
+    relation: supports
+- claim_id: closed-form-frobenius-nuclear-operator-and-schatten-shrinkers
+  kind: scope
+  statement: 'For the elementary 2 x 2 difference matrix Delta(eta, x) = B(eta, x) - A(x) with squared Frobenius norm t(eta) = eta^2 + x^2 - 2 x eta c(x) tilde_c(x) and determinant d(eta) = -x eta s(x) tilde_s(x) = -eta sqrt(beta) / x, the singular values are sigma_pm(eta, x) = (1/2)(sqrt(t - 2d) pm sqrt(t + 2d)), yielding unique closed-form shrinkers for y > 1 + sqrt(beta): (i) Frobenius norm loss eta_fro^*(y) = x(y) c(x(y)) tilde_c(x(y)) = (1/y) sqrt((y^2 - beta - 1)^2 - 4 beta) (which reduces to sqrt((y^2 - 4)_+) at beta = 1 with worst-case AMSE 2 r versus 3 r for optimal hard thresholding and 6 r for optimal soft thresholding); (ii) nuclear norm loss eta_nuc^*(y) = x(y)(c(x) tilde_c(x) - s(x) tilde_s(x))_+ = ((x^4 - beta - sqrt(beta) x y)_+) / (x^2 y), which threshold-eliminates supercritical singular values on [1 + sqrt(beta), y(x_0)] where x_0^4 = beta + sqrt(beta) x_0 y(x_0); and (iii) operator norm loss eta_op^*(y) = x(y) = sqrt((y^2 - beta - 1 + sqrt((y^2 - beta - 1)^2 - 4 beta))/2) at beta = 1 (and exact 2 x 2 stationary root z_1(x, beta) x(y) < x(y) of c tilde_c z^2 + (s^2 tilde_s^2 - c^2 tilde_c^2 - 1) z + c tilde_c = 0 for 0 < beta < 1).'
+  evidence:
+  - source_id: gd2017-sv-shrinkage-pdf
+    locator: Section 1.2, Equations (7)-(10), pages 5-6; Section 4, Lemma 4 and Corollaries 1-2, pages 13-14; Section 6, Lemmas 11-13 and Equations (43)-(50), pages 21-24; Section 7, pages 24-26
+    relation: supports
+- claim_id: marcenko-pastur-median-noise-adaptation-and-haar-universality
+  kind: scope
+  statement: When the noise level sigma > 0 is unknown in Y_n = X_n + sigma Z_n / sqrt(n), estimating sigma via the rescaled empirical median singular value hat_sigma(Y_n) = y_{med} / sqrt(n mu_beta), where mu_beta is the median of the Marcenko-Pastur distribution on [(1 - sqrt(beta))^2, (1 + sqrt(beta))^2], and applying hat_X(Y_n) = sqrt(n) hat_sigma(Y_n) hat_X_{eta^*}(Y_n / (sqrt(n) hat_sigma(Y_n))) achieves the exact known-sigma optimal asymptotic loss almost surely for every continuous optimal shrinker eta^*; moreover, under non-Gaussian white noise with E[Z_{i,j}] = 0, E[Z_{i,j}^2] = 1, and E[Z_{i,j}^4] < infty, the same optimal shrinkers and asymptotic losses hold whenever the signal singular vectors are Haar-distributed.
+  evidence:
+  - source_id: gd2017-sv-shrinkage-pdf
+    locator: Section 8.1-8.2, Lemmas 14-15, Corollary 3, Equations (51)-(54), pages 26-28
+    relation: supports
+evidence_sources:
+- source_id: gd2017-sv-shrinkage-pdf
+  title: Optimal Shrinkage of Singular Values
+  authors:
+  - Matan Gavish
+  - David L. Donoho
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1405.7511.pdf
+  persistent_id: https://arxiv.org/abs/1405.7511v3
+  version: arXiv:1405.7511v3 full-text PDF (35 pages, 568326 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T01:05:00Z'
+  sha256: 34da4d30a252b14b39a20de569043b5a20326103bbf196fe937ccbddfaec0199
+- source_id: gd2017-sv-shrinkage-abs
+  title: Optimal Shrinkage of Singular Values
+  authors:
+  - Matan Gavish
+  - David L. Donoho
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1405.7511
+  persistent_id: https://arxiv.org/abs/1405.7511
+  version: arXiv:1405.7511 abstract page (6698 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T01:05:00Z'
+  sha256: 1c1e34a223d4b79395ef706db64d3188a501d5169b2a27117f7865488feda530
+- source_id: gd2017-sv-shrinkage-cr
+  title: Optimal Shrinkage of Singular Values
+  authors:
+  - Matan Gavish
+  - David L. Donoho
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2017.2653801
+  persistent_id: https://doi.org/10.1109/TIT.2017.2653801
+  version: IEEE Transactions on Information Theory 63(4):2137-2152 (2017) Crossref metadata (2175 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T01:05:00Z'
+  sha256: 44865d2f8737e91491a22fb6f6066718541b126e8f00f4d4bcafb0ea745bae9e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Optimal singular value shrinkage refines SVD/PCA low-rank matrix reconstruction under high-dimensional white noise by replacing naive top-r singular value truncation with loss-specific nonlinear singular value shrinkers.
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: Provides a spectral dimensionality reduction and low-rank matrix denoising estimator.
+limitations:
+- For discontinuous optimal shrinkers such as operator-norm shrinkage (Section 6.2) and Schatten-p quasi-norm shrinkage with 0 < p < 1 (Section 7), sample singular values near the discontinuity point fluctuate across the jump with positive probability; achieving well-defined asymptotic loss requires zeroing out a diminishing boundary neighborhood [1 + sqrt(beta), 1 + sqrt(beta) + a_n] with a_n -> 0 and a_n n^{2/3} -> infty above the Tracy-Widom fluctuation scale.
+- In the strictly rectangular case 0 < beta < 1, the paper's closed-form operator-norm shrinker eta_op^*(y) = x(y) (Eq. 9 and Section 6.2 Eq. 48) relies on the square-matrix identity c(x) tilde_c(x) + s(x) tilde_s(x) = 1; for 0 < beta < 1, c(x) != tilde_c(x) and the exact 2 x 2 operator-norm minimizer is the smaller root z_1(x, beta) x(y) < x(y) of c tilde_c z^2 + (s^2 tilde_s^2 - c^2 tilde_c^2 - 1) z + c tilde_c = 0.
+- Requires a fixed low rank r << min(m_n, n) and isotropic (or variance-stabilized) noise; when the signal rank grows proportionally with n (r_n / m_n -> rho > 0) or noise has correlated rows/columns, the rank-r 2 x 2 decoupling no longer directly applies.
+- 'Primary-source typographical audit of arXiv:1405.7511v3 (DOI:10.1109/TIT.2017.2653801): (1) on p. 13 (Lemma 4, Eq. 24, and Corollary 1), the cross-term writes eta(y_{n,i}) instead of eta(y_{n,j}) in 2 sum_{i,j=1}^r x_i eta(y_{n,j}) <u_{n,i}, v_{n,j}><tilde_u_{n,i}, tilde_v_{n,j}>; (2) on p. 19 (Section 5.2, Eqs. 39-40 and the display below), ''W'' X W = [diag(x_1, ..., x_r) oplus I_r] oplus I_{m-2r}'' and ''W'' hat_X_eta(Y) W = R_n oplus I_{n-2r}'' write W on the right instead of tilde_W, write identity blocks I_r, I_{m-2r}, I_{n-2r} instead of zero blocks 0_r, 0_{m-2r x n-2r} (cf. Eqs. 33-36 on p. 18), and write c_1, s_1, tilde_c_1, tilde_s_1 instead of c_i, s_i, tilde_c_i, tilde_s_i; (3) on p. 23 (Section 6.3), ''dt/d(eta) - dd/d(eta) = 0'' omits the factor 2 on dd/d(eta) in d(t - 2d)/d(eta) = 0; (4) on p. 24 (Section 6.3, lines 6-7), ''recovering the optimal shrinker (9). Inspection of (9) reveals...'' cites (9) instead of (10); and (5) on p. 27 (Section 8.1, display below Eq. 51), the Marcenko-Pastur density integral writes sqrt((beta_+ - t)(t - beta_-)) / (2 pi t) omitting beta in 2 pi beta t and defines beta_pm = 1 pm sqrt(beta) instead of (1 pm sqrt(beta))^2, while on pp. 30-31 (Figures 6-7 captions), hat_X_{lambda_*} and hat_X_{s_*} are swapped.'
+curation:
+  created_at: '2026-10-19T01:12:00Z'
+  updated_at: '2026-10-19T01:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

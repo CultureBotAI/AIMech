@@ -1,0 +1,720 @@
+# Truthful successor scientific author self-review of prior-expansion score conflict diagnostic after Issue #432 F1/F2/F3 fixes
+
+- Review: 20261024T105900Z-prior-expansion-score-conflict
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-24T10:53:00Z
+- Finished UTC: 2026-10-24T10:59:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the prior-expansion score conflict diagnostic as a distinct DRAFT algorithm with related_match mappings to AIO:BayesianNetwork and AIO:RandomEffectsModel. All seven claims and locators in data/curated/PriorExpansionScoreConflictDiagnostic.yaml are supported after resolving Issue #432: (1) AIM-PR428-E0EC-F1 by stating the exact dimensionless variance-expansion score S_gamma(bar_x) and chain-rule relation S_gamma(bar_x)=tau_0^2*S_{tau^2}(bar_x) across unit and non-unit baseline prior variances tau_0^2&gt;0, (2) AIM-PR428-E0EC-F2 by restricting multi-parameter expansions to scalar one-at-a-time directional checks calibrated by one- or two-sided prior-predictive tails, and (3) F3 by distinguishing the fixed-baseline relative-belief functional F_alpha(gamma) from standard fixed-posterior Rényi divergence, qualifying all alpha&gt;0 to orders where finite positive likelihood moments and required log-likelihood/score moments exist and differentiation/limit interchange is justified, and labeling the moving-posterior finite-alpha escort covariance term and its alpha-&gt;1 KL-limit log-likelihood covariance reduction as an independently derived clarification of Section 2.2 notation.
+
+## Scope And Provenance
+
+All fields of the corrected maintained prior-expansion score conflict diagnostic record, its synchronized discovery report, history sidecars, and boundary verification script after resolving Issue #432 (AIM-PR428-E0EC-F1, AIM-PR428-E0EC-F2, and F3 Rényi/escort scope and provenance audit).
+
+Selection: Exact maintained ID: AIMech:PriorExpansionScoreConflictDiagnostic
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base e0ec3050952cf97f111dbf5307873595fe08eed9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PriorExpansionScoreConflictDiagnostic | data/curated/PriorExpansionScoreConflictDiagnostic.yaml | maintained | Prior-expansion score conflict diagnostic |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech corpus, curated, seed, and history validation suite | passed | True | AIMech:PriorExpansionScoreConflictDiagnostic | Checked 442 record(s); 0 failed.<br>Checked 1487 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 1124 history record(s); 0 error(s).<br> |
+| check_vendored_sync.py | passed | True | AIMech:PriorExpansionScoreConflictDiagnostic | OK: 22 governed artifacts match the pinned claw revision<br> |
+| aimech check-source | passed | True | AIMech:PriorExpansionScoreConflictDiagnostic | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:PriorExpansionScoreConflictDiagnostic | Exited 0 without output. |
+| pytest tests/test_curated.py | passed | True | AIMech:PriorExpansionScoreConflictDiagnostic | ..............................................                           [100%]<br>46 passed in 2.28s<br> |
+| Constructed prior-expansion score boundaries across non-unit variances and moving-posterior finite-alpha Rényi vs KL limits | passed | True | AIMech:PriorExpansionScoreConflictDiagnostic | {<br>  "coordinate_wise_directional_expansions": {<br>    "location_two_sided_matches_scale_upper_tail": true,<br>    "one_at_a_time_identities_agree": true,<br>    "rows": [<br>      {<br>        "p_location_two_sided": 0.00040695,<br>        "p_scale_upper_tail": 0.00040695,<br>        "s_location": 5.0,<br>        "s_scale": 2.875,<br>        "tau0_sq": 0.25<br>      },<br>      {<br>        "p_location_two_sided": 0.02534732,<br>        "p_scale_upper_tail": 0.02534732,<br>        "s_location": 2.0,<br>        "s_scale": 1.6,<br>        "tau0_sq": 1.0<br>      },<br>      {<br>        "p_location_two_sided": 0.22525291,<br>        "p_scale_upper_tail": 0.22525291,<br>        "s_location": 0.58823529,<br>        "s_scale": 0.22145329,<br>        "tau0_sq": 4.0<br>      }<br>    ]<br>  },<br>  "evans_moshonov_equivalence": {<br>    "exact_equivalence": true,<br>    "p_evans_moshonov": 0.02534732,<br>    "p_score_upper_tail": 0.02534732,<br>    "tested_tau0_sq_values": [<br>      0.25,<br>      1.0,<br>      2.0,<br>      4.0<br>    ],<br>    "z_obs": 2.23606798<br>  },<br>  "fisher_and_renyi": {<br>    "d_varying_kl_analytic": -0.88,<br>    "finite_alpha_matches_escort_and_differs_from_kl": true,<br>    "identities_agree": true,<br>    "neg_d_fixed_posterior_kl": 1.6,<br>    "neg_d_varying_posterior_kl": 0.88,<br>    "non_unit_tau0_sq_4_v_025_score": 0.22145329,<br>    "non_unit_tau0_sq_4_v_025_tau2_derivative": 0.05536332,<br>    "renyi_varying_orders_tau0_sq_1": {<br>      "alpha_0.5": {<br>        "d_kl_limit": -0.88,<br>        "d_renyi_escort": -0.51111111,<br>        "d_renyi_fd": -0.51111111<br>      },<br>      "alpha_2.0": {<br>        "d_kl_limit": -0.88,<br>        "d_renyi_escort": -1.17530864,<br>        "d_renyi_fd": -1.17530864<br>      }<br>    },<br>    "renyi_varying_orders_tau0_sq_4": {<br>      "alpha_0.5": {<br>        "d_kl_limit": -0.1677183,<br>        "d_renyi_escort": -0.12422573,<br>        "d_renyi_fd": -0.12422573<br>      },<br>      "alpha_2.0": {<br>        "d_kl_limit": -0.1677183,<br>        "d_renyi_escort": -0.19313614,<br>        "d_renyi_fd": -0.19313614<br>      }<br>    },<br>    "s_claim_expanded": 1.6,<br>    "s_direct": 1.6,<br>    "s_fisher": 1.6,<br>    "s_tau2_example_4_1": 1.6,<br>    "tested_grid_size": 20,<br>    "varying_posterior_differs_by_cov_term": true<br>  },<br>  "hierarchical_normal_random_effects": {<br>    "s1_lower_mixed": 0.22687596,<br>    "s2_upper_marginal": 0.99722992,<br>    "ss_between": 2.48,<br>    "upper_score_positive_for_grand_mean_shift": true,<br>    "y_grand": 2.0<br>  },<br>  "support_dependent_boundary": {<br>    "boundary_posterior_density": 0.31303529,<br>    "naive_fails_by_boundary_term": true,<br>    "reparameterized_matches_exact": true,<br>    "s_exact_fd": -0.68696471,<br>    "s_naive_eq_1_3": -1.0,<br>    "s_reparameterized": -0.68696471<br>  }<br>}<br> |
+| post-save structured review corpus check | skipped | False | AIMech:PriorExpansionScoreConflictDiagnostic | Skipped at the moment this review input YAML is serialized prior to &#96;record_review.py save&#96;; executed as a mandatory post-save gate immediately after &#96;record_review.py save&#96; writes &#96;reviews/structured/20261024T105900Z-prior-expansion-score-conflict/review.yaml&#96; and &#96;review.md&#96;. |
+
+## Scientific And Domain Assessments
+
+### Prior-expansion score conflict diagnostic identity and neighbor boundaries
+
+identity: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Retain AIMech:PriorExpansionScoreConflictDiagnostic as a distinct DRAFT algorithm concept.
+
+The diagnostic embeds an elicited baseline prior g(theta) into a smooth family g(theta&#124;gamma) with g(theta&#124;gamma_0)=g(theta), evaluates the marginal-likelihood score S(y)=d/d_gamma log p(y&#124;gamma)&#124;_{gamma=gamma_0} via Fisher's identity as the baseline posterior expectation of the log-prior derivative on a fixed support, and calibrates S(y_obs) against prior-predictive or mixed-predictive reference draws. It is distinct from node-splitting, cross-validated prior-likelihood splitting, Gaussian variational message screening, and sequential single-draw randomized score checks.
+
+### Related mappings to AIO:BayesianNetwork and AIO:RandomEffectsModel
+
+grounding: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Both related_match mappings (AIO:BayesianNetwork and AIO:RandomEffectsModel) are accurately scoped.
+
+The curated record declares two related_match mappings: AIO:BayesianNetwork (hierarchical directed Bayesian graphical structure context) and AIO:RandomEffectsModel (two-stage random-effects model class context). Neither target is a conflict-diagnostic procedure, so related_match is appropriate.
+
+### Claim prior-expansion-and-fisher-identity
+
+evidence: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Supported by Nott et al. (2020, Section 1 Eqs. 1.1–1.3; Section 2.1–2.2) and Yang et al. (2026, Section 2.1 Eq. 1).
+
+When differentiation with respect to scalar gamma and integration over theta commute on a gamma-invariant parameter support, Fisher's identity expresses S(y)=d/d_gamma log p(y&#124;gamma)&#124;_{gamma=gamma_0} as the baseline posterior expectation E_{theta&#124;y}[d/d_gamma log g(theta&#124;gamma)&#124;_{gamma=gamma_0}], which depends on y only through any minimal sufficient statistic and is invariant to its choice.
+
+### Claim divergence-and-relative-belief-sensitivity
+
+evidence: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Supported after Issue #432 F3 precision edits distinguishing fixed-baseline F_alpha(gamma) from standard fixed-posterior Rényi divergence, qualifying moment/interchange regularity for alpha&gt;0, and labeling the moving-posterior escort/KL covariance clarification.
+
+Pointwise differentiation of log RB(theta&#124;y,gamma)=log p(y&#124;theta)-log p(y&#124;gamma) at gamma=gamma_0 gives -S(y) for every theta with p(y&#124;theta)&gt;0 (Equation 2.4). Consequently, the fixed-baseline-weighted relative-belief functional F_alpha(gamma)=(alpha-1)^-1*log integral RB(theta&#124;y,gamma)^(alpha-1)*g(theta&#124;y) d_theta motivated by Equation 2.2 (which is distinct for alpha!=1 from standard fixed-posterior Rényi divergence R_alpha(g(theta&#124;y)&#124;&#124;g(theta&#124;gamma))), its alpha-&gt;1 limit, and fixed-posterior KL(g(theta&#124;y)&#124;&#124;g(theta&#124;gamma)) all have derivative -S(y) at gamma=gamma_0 across all orders alpha&gt;0 for which the finite positive likelihood moment E_{g(theta&#124;y)}[p(y&#124;theta)^(alpha-1)] and required log-likelihood/score moments exist and differentiation/limit interchange is justified. As an independently derived clarification of Section 2.2 notation (not an expression explicitly supplied by Nott et al., 2020, PDF pp. 5–6), varying g(theta&#124;y,gamma) inside R_alpha(g(theta&#124;y,gamma)&#124;&#124;g(theta&#124;gamma)) under those regularity conditions adds the order-dependent escort covariance term Cov_{g(theta&#124;y)}(p(y&#124;theta)^(alpha-1), d/d_gamma log g(theta&#124;gamma)&#124;_{gamma=gamma_0})/((alpha-1)*E_{g(theta&#124;y)}[p(y&#124;theta)^(alpha-1)]) for finite alpha!=1, which reduces as alpha-&gt;1 to Cov_{g(theta&#124;y)}(log p(y&#124;theta), d/d_gamma log g(theta&#124;gamma)&#124;_{gamma=gamma_0}).
+
+### Claim prior-predictive-and-multivariate-calibration
+
+evidence: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Supported after resolving AIM-PR428-E0EC-F2 to restrict multi-parameter expansions to one-at-a-time scalar directional checks.
+
+Nott et al. (2020, Section 1, PDF pp. 2–3; Section 2.1, PDF pp. 4–5; Section 2.3, PDF p. 7; Example 4.3, PDF p. 13; Section 5.2, PDF pp. 19–21, 27) treat gamma as a scalar or vary multiple expansion parameters one by one to obtain directional checks, calibrating each scalar score S(y_obs) by upper-tail, lower-tail, or two-sided prior-predictive probabilities under Y~p(y&#124;gamma_0).
+
+### Claim conjugate-exponential-family-equivalence
+
+evidence: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Supported and verified across unit and non-unit baseline prior variances after resolving AIM-PR428-E0EC-F1.
+
+In the conjugate normal location model with bar_x~N(theta,sigma^2/n) and multiplicative variance expansion theta&#124;gamma~N(mu_0,gamma*tau_0^2) at gamma_0=1, both direct marginal differentiation and Fisher's identity yield S_gamma(bar_x)=-tau_0^2/(2*(tau_0^2+sigma^2/n))+tau_0^2*(bar_x-mu_0)^2/(2*(tau_0^2+sigma^2/n)^2)=-1/2+((bar_x-mu_0)^2/(2*tau_0^2))*(tau_0^2/(tau_0^2+sigma^2/n))^2+(sigma^2/n)/(2*(tau_0^2+sigma^2/n)), which equals tau_0^2*S_{tau^2}(bar_x) where S_{tau^2}(bar_x) is the direct variance derivative of Example 4.1 (PDF pp. 10–11). Because both are strictly increasing affine functions of (bar_x-mu_0)^2 for every tau_0^2&gt;0, their upper-tail prior-predictive p-values match the exact Evans–Moshonov prior-predictive tail.
+
+### Claim hierarchical-mixed-predictive-extension
+
+evidence: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Supported by Nott et al. (2020, Section 3, Equations 3.1–3.2, PDF pp. 8–10; Example 4.3, PDF pp. 12–13).
+
+In a two-stage hierarchical model g(theta_1)*g(theta_2&#124;theta_1), the lower-level conditional score is integrated over the observed-data posterior g(theta_1&#124;y_obs) and calibrated under the mixed-predictive distribution m(y), while the upper-level score is calibrated under the marginal prior-predictive distribution p(y).
+
+### Claim support-dependent-expansion-boundary
+
+evidence: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Supported by Nott et al. (2020, Section 5.2, Equations 5.6–5.8, PDF pp. 23–27) and constructed boundary check.
+
+When prior support varies with gamma (as in the distorted trine quantum state estimation example on the Bloch disk), Equation 1.3 fails without first reparameterizing the prior and likelihood onto a fixed domain so that differentiation and integration commute.
+
+### Claim reference-simulation-and-approximation-scope
+
+evidence: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+Supported by Nott et al. (2020, Section 5.1, PDF pp. 14–16; Section 6, PDF p. 28) and Yang et al. (2026, Section 2.1, PDF pp. 4–5).
+
+Without a closed-form sufficient-statistic reduction, exact prior-predictive or mixed-predictive score calibration requires re-estimating the baseline posterior g(theta&#124;Y) for each simulated replicate Y; plug-in point-estimate substitutions and variational approximations alter the diagnostic and are not guaranteed to match exact full-posterior score calibration.
+
+### Complete maintained record, discovery report sync, history sidecars, and Gemini 4 Argon provenance
+
+provenance: supported. Targets: AIMech:PriorExpansionScoreConflictDiagnostic.
+
+All record fields, discovery artifacts, and history sidecars are synchronized and record verified Gemini 4 Argon model provenance.
+
+Verified every field of data/curated/PriorExpansionScoreConflictDiagnostic.yaml, synchronized research/discovery/20261017T082300Z-prior-expansion-score-conflict.json and .md, preserved original history sidecars (2026-10-24T101758Z-antigravity-79cf3e.yaml and 2026-10-24T101759Z-antigravity-29b549.yaml) and initial self-review (20261024T102000Z-prior-expansion-score-conflict), and recorded new Gemini 4 Argon history sidecars (2026-10-24T105702Z-antigravity-6c797d.yaml and 2026-10-24T105704Z-antigravity-bbbab9.yaml).
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T082300Z-prior-expansion-score-conflict.json | supports | No normalized identity match for the prior-expansion score conflict diagnostic across all 442 pinned AIO records and 1486 other maintained curated concepts. Fixed-string and semantic searches confirm this concept is distinct from cross-validated prior-likelihood splitting, DAG separator node-splitting, INLA group-node conflict checking, multiple-testing node-conflict maxT calibration, Gaussian variational message conflict screening, and sequential two-stage randomized score checks. |
+| mapping | sources/aio/aio.json | supports | Inspected AIO:BayesianNetwork and AIO:RandomEffectsModel (plus neighbors AIO:ProbabilisticGraphicalModel and AIO:EvaluationBias) in the pinned AIO snapshot (2026-07-22, commit 397851c547d1c4d8f06ef184f63c1d40bc86937a). The record's two related_match mappings to AIO:BayesianNetwork and AIO:RandomEffectsModel accurately capture directed hierarchical Bayesian and random-effects model context without claiming equivalence or subclass membership. |
+| calculation | research/discovery/prior-expansion-score-conflict-boundaries.py | supports | Constructed numerical boundary script verifying across a 20-point grid of unit and non-unit baseline prior variances tau_0^2 in {0.25, 0.5, 1.0, 2.0, 4.0} and observation variances sigma^2/n in {0.1, 0.25, 1.0, 2.0}: (1) Fisher's identity, the dimensionless normal variance-expansion score S_gamma(bar_x) = tau_0^2 * S_{tau^2}(bar_x), fixed-posterior KL derivative -S(y), and moving-posterior finite-alpha (alpha in {0.5, 2.0}) escort covariance derivatives versus the varying-posterior KL-limit (alpha -&gt; 1) log-likelihood covariance derivative; (2) exact monotonic equivalence with the Evans–Moshonov prior-predictive p-value; (3) coordinate-wise one-at-a-time directional location and scale checks; (4) two-stage hierarchical normal random-effects score decomposition; and (5) support-dependent boundary failure without fixed-domain reparameterization. |
+| nott2020 | https://arxiv.org/pdf/1902.10393; Abstract, PDF p. 1; Section 1, Equations 1.1–1.3, PDF pp. 2–3; Section 2.1–2.3, Equations 2.1–2.4, PDF pp. 4–7; Section 3, Equations 3.1–3.2, PDF pp. 8–10; Section 4, Examples 4.1–4.3, PDF pp. 10–13; Section 5.1–5.2, Equations 5.1–5.8, PDF pp. 14–27; Section 6, PDF p. 28 | supports | Full 31-page PDF of Nott, Seah, Al-Labadi, Evans, Ng, &amp; Englert (2020/2021, arXiv:1902.10393v2) re-verified. Confirms scalar and one-at-a-time coordinate-wise prior expansions (Section 1, PDF pp. 2–3; Example 4.3, PDF p. 13; Section 5.2, PDF pp. 19–21), relative-belief and Rényi/KL sensitivity (Section 2.2, Equations 2.2 and 2.4, PDF pp. 5–6), direct variance differentiation in Example 4.1 (PDF pp. 10–11), two-stage hierarchical mixed-predictive calibration (Section 3, PDF pp. 8–10), plug-in/variational approximations (Section 5.1, PDF pp. 14–16; Section 6, PDF p. 28), and fixed-domain polar reparameterization when support depends on gamma (Section 5.2, PDF pp. 23–27). |
+| yang2026 | https://arxiv.org/pdf/2511.02977v2; Section 2.1, Equation 1 and computational cost discussion, PDF pp. 4–5 | supports | Full 52-page PDF of Yang, Nott, &amp; Presanis (2026, arXiv:2511.02977v2) re-verified for Section 2.1 Equation 1 (Fisher's identity for the prior-expansion score S(y)) and the replicate-posterior simulation cost discussion. |
+
+## Limits And Additional Notes
+
+- Author self-review only; does not constitute independent review approval or status promotion from DRAFT.
+- Supersedes 20261017T083500Z-prior-expansion-score-conflict and 20261024T102000Z-prior-expansion-score-conflict (both preserved as append-only audit history) after resolving Issue #432 (AIM-PR428-E0EC-F1, AIM-PR428-E0EC-F2, and F3 Rényi/escort scope and provenance audit).
+- All 31 pages of Nott et al. (2020, arXiv:1902.10393v2) and all 52 pages of Yang, Nott, &amp; Presanis (2026, arXiv:2511.02977v2) were read in full. No author MCMC code, bowhead whale simulation, or trine quantum state tomography dataset was executed; constructed numerical checks in research/discovery/prior-expansion-score-conflict-boundaries.py verify the analytical identities and boundary conditions.
+- Resolved AIM-PR428-E0EC-F1 (Issue #432): corrected conjugate-exponential-family-equivalence for dimensionless variance expansion theta&#124;gamma~N(mu_0,gamma*tau_0^2) at gamma_0=1 across all tau_0^2&gt;0 and verified against non-unit baseline variances.
+- Resolved AIM-PR428-E0EC-F2 (Issue #432): removed the unsupported covariance-normalized vector quadratic form and restricted prior-predictive-and-multivariate-calibration to scalar one-at-a-time directional expansions.
+- Resolved Issue #432 bounded corrections and F3 scope review: distinguished fixed-baseline F_alpha(gamma) from standard fixed-posterior Rényi divergence, qualified all alpha&gt;0 to orders with finite positive likelihood and score/log-likelihood moments and valid derivative/limit interchange, labeled the moving-posterior escort/KL covariance formula as an independently derived clarification of Section 2.2 notation, narrowed the boundary script docstring to the moving-posterior finite-alpha and fixed/varying KL checks it executes, and recorded verified Gemini 4 Argon model provenance.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261024T105900Z-prior-expansion-score-conflict
+kind: record
+repository: CultureBotAI/AIMech
+title: 'Truthful successor scientific author self-review of prior-expansion score
+  conflict diagnostic after Issue #432 F1/F2/F3 fixes'
+started_at: '2026-10-24T10:53:00Z'
+finished_at: '2026-10-24T10:59:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini 4 Argon
+  independence: self_review
+  independence_basis: 'Truthful successor author self-review superseding 20261017T083500Z-prior-expansion-score-conflict
+    and 20261024T102000Z-prior-expansion-score-conflict after resolving Issue #432
+    (AIM-PR428-E0EC-F1, AIM-PR428-E0EC-F2, and F3 Rényi/escort scope and provenance
+    audit); does not satisfy independent approval.'
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: 'Retain the prior-expansion score conflict diagnostic as a distinct DRAFT
+  algorithm with related_match mappings to AIO:BayesianNetwork and AIO:RandomEffectsModel.
+  All seven claims and locators in data/curated/PriorExpansionScoreConflictDiagnostic.yaml
+  are supported after resolving Issue #432: (1) AIM-PR428-E0EC-F1 by stating the exact
+  dimensionless variance-expansion score S_gamma(bar_x) and chain-rule relation S_gamma(bar_x)=tau_0^2*S_{tau^2}(bar_x)
+  across unit and non-unit baseline prior variances tau_0^2>0, (2) AIM-PR428-E0EC-F2
+  by restricting multi-parameter expansions to scalar one-at-a-time directional checks
+  calibrated by one- or two-sided prior-predictive tails, and (3) F3 by distinguishing
+  the fixed-baseline relative-belief functional F_alpha(gamma) from standard fixed-posterior
+  Rényi divergence, qualifying all alpha>0 to orders where finite positive likelihood
+  moments and required log-likelihood/score moments exist and differentiation/limit
+  interchange is justified, and labeling the moving-posterior finite-alpha escort
+  covariance term and its alpha->1 KL-limit log-likelihood covariance reduction as
+  an independently derived clarification of Section 2.2 notation.'
+source:
+  git_revision: e0ec3050952cf97f111dbf5307873595fe08eed9
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/EvaluationBias.yaml
+    sha256: 6523f8c43f7b140c6dd593069e30b7fc1bdd60b89d01bdf5441d2bc83a12e749
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RandomEffectsModel.yaml
+    sha256: 4e3f50ef012b217822c2b731cce1b07dff14e66826f26d7717a6dab42d482d4c
+    role: context
+  - path: data/curated/CrossValidatedPriorLikelihoodConflictDiagnostic.yaml
+    sha256: 92c4daf84d56e0ea6528ee512063fcf8d7fc8c69795bff9fe19fe5de8c65d119
+    role: context
+  - path: data/curated/GaussianMessageConflictDiagnostic.yaml
+    sha256: adc6c4f1c16288b59515f77401ff4d1c2a02f673a00a91963de6e3fa588c4cff
+    role: context
+  - path: data/curated/INLAGroupNodeConflictDiagnostic.yaml
+    sha256: c97bf3553a26f7bb84a4539bf0cfed7d6bbe5170c7df411deb77ca1cf868f0b1
+    role: context
+  - path: data/curated/MultipleTestingNodeConflictDiagnostic.yaml
+    sha256: 1a21330e57dec49c7dd243afce713439382955663f979a1ec9df393d79798a0c
+    role: context
+  - path: data/curated/PriorExpansionScoreConflictDiagnostic.yaml
+    sha256: a4273d15d5b0aab65f1e895e0600f1a0e528c3b49faa328024f1e326e1e59c29
+    role: target
+  - path: data/curated/SeparatorNodeConflictDiagnostic.yaml
+    sha256: 302a2e72e9e2a174ee433925f4e2e0bcf02f3a2dbc860bcd71e92c97b948e429
+    role: context
+  - path: history/records/PriorExpansionScoreConflictDiagnostic/2026-10-24T101758Z-antigravity-79cf3e.yaml
+    sha256: 745aa6900f85e12cb80ffed008ba4bcfeeaf59a9c65749653e1537affbe3fe07
+    role: context
+  - path: history/records/PriorExpansionScoreConflictDiagnostic/2026-10-24T105702Z-antigravity-6c797d.yaml
+    sha256: 710c52391566d492f4e81afede19d90e6901251fcc4438c512815fccb9926718
+    role: context
+  - path: history/reports/prior-expansion-score-conflict/2026-10-24T101759Z-antigravity-29b549.yaml
+    sha256: 4b85263a56e669c3b727b2eea4b74f98a4d1f93710f30ec7e8a078ee6de3feb0
+    role: context
+  - path: history/reports/prior-expansion-score-conflict/2026-10-24T105704Z-antigravity-bbbab9.yaml
+    sha256: 847833c927c20f780536f92d84a688a780c1eacf85dcf4df22de633f9189a2ec
+    role: context
+  - path: research/discovery/20261017T082300Z-prior-expansion-score-conflict.json
+    sha256: 7d8d3ff33167ba15674e4488f4d1b026f326e9f38c3279d0c21283c635443c66
+    role: context
+  - path: research/discovery/20261017T082300Z-prior-expansion-score-conflict.md
+    sha256: 005ff1797c2a17d8725fce287ccc24a494dd092962d2746f0ada2a10402114c0
+    role: context
+  - path: research/discovery/prior-expansion-score-conflict-boundaries.py
+    sha256: be07cba05309d97d625aecfd1f061b04de4c88850dcd2088e5f70ae25a2b74d0
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: context
+targets:
+- target_id: AIMech:PriorExpansionScoreConflictDiagnostic
+  path: data/curated/PriorExpansionScoreConflictDiagnostic.yaml
+  label: Prior-expansion score conflict diagnostic
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PriorExpansionScoreConflictDiagnostic.yaml
+    role: maintained
+scope:
+  description: 'All fields of the corrected maintained prior-expansion score conflict
+    diagnostic record, its synchronized discovery report, history sidecars, and boundary
+    verification script after resolving Issue #432 (AIM-PR428-E0EC-F1, AIM-PR428-E0EC-F2,
+    and F3 Rényi/escort scope and provenance audit).'
+  selection: 'Exact maintained ID: AIMech:PriorExpansionScoreConflictDiagnostic'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  exclusions:
+  - target: Sequential score-discrepancy conflict diagnostic
+    reason: Separate deferred concept in Yang, Nott, & Presanis (2026); kept distinct
+      from the Nott et al. (2020) prior-expansion score conflict diagnostic.
+  - target: Existing native and AIO neighbors
+    reason: Inspected as identity and mapping context rather than full scientific
+      rereview targets.
+  - target: Source MCMC/variational software and empirical tomography/whale datasets
+    reason: No author MCMC/variational code, bowhead whale simulation, or trine quantum
+      state tomography experiment was executed.
+checks:
+- check_id: required-0
+  name: aimech corpus, curated, seed, and history validation suite
+  command: PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate && PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-curated && PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli seed --check && PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-history --base origin/main
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 442 record(s); 0 failed.
+
+    Checked 1487 curated concept record(s); 0 error(s).
+
+    AIO: 442 records; 0 missing, 0 changed, 0 unexpected.
+
+    Checked 1124 history record(s); 0 error(s).
+
+    '
+- check_id: required-1
+  name: check_vendored_sync.py
+  command: /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python scripts/check_vendored_sync.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    '
+- check_id: required-2
+  name: aimech check-source
+  command: PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: curated-pytest
+  name: pytest tests/test_curated.py
+  command: PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m pytest tests/test_curated.py -q
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '..............................................                           [100%]
+
+    46 passed in 2.28s
+
+    '
+- check_id: calculation
+  name: Constructed prior-expansion score boundaries across non-unit variances and
+    moving-posterior finite-alpha Rényi vs KL limits
+  command: python3 research/discovery/prior-expansion-score-conflict-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"coordinate_wise_directional_expansions\": {\n    \"location_two_sided_matches_scale_upper_tail\"\
+    : true,\n    \"one_at_a_time_identities_agree\": true,\n    \"rows\": [\n    \
+    \  {\n        \"p_location_two_sided\": 0.00040695,\n        \"p_scale_upper_tail\"\
+    : 0.00040695,\n        \"s_location\": 5.0,\n        \"s_scale\": 2.875,\n   \
+    \     \"tau0_sq\": 0.25\n      },\n      {\n        \"p_location_two_sided\":\
+    \ 0.02534732,\n        \"p_scale_upper_tail\": 0.02534732,\n        \"s_location\"\
+    : 2.0,\n        \"s_scale\": 1.6,\n        \"tau0_sq\": 1.0\n      },\n      {\n\
+    \        \"p_location_two_sided\": 0.22525291,\n        \"p_scale_upper_tail\"\
+    : 0.22525291,\n        \"s_location\": 0.58823529,\n        \"s_scale\": 0.22145329,\n\
+    \        \"tau0_sq\": 4.0\n      }\n    ]\n  },\n  \"evans_moshonov_equivalence\"\
+    : {\n    \"exact_equivalence\": true,\n    \"p_evans_moshonov\": 0.02534732,\n\
+    \    \"p_score_upper_tail\": 0.02534732,\n    \"tested_tau0_sq_values\": [\n \
+    \     0.25,\n      1.0,\n      2.0,\n      4.0\n    ],\n    \"z_obs\": 2.23606798\n\
+    \  },\n  \"fisher_and_renyi\": {\n    \"d_varying_kl_analytic\": -0.88,\n    \"\
+    finite_alpha_matches_escort_and_differs_from_kl\": true,\n    \"identities_agree\"\
+    : true,\n    \"neg_d_fixed_posterior_kl\": 1.6,\n    \"neg_d_varying_posterior_kl\"\
+    : 0.88,\n    \"non_unit_tau0_sq_4_v_025_score\": 0.22145329,\n    \"non_unit_tau0_sq_4_v_025_tau2_derivative\"\
+    : 0.05536332,\n    \"renyi_varying_orders_tau0_sq_1\": {\n      \"alpha_0.5\"\
+    : {\n        \"d_kl_limit\": -0.88,\n        \"d_renyi_escort\": -0.51111111,\n\
+    \        \"d_renyi_fd\": -0.51111111\n      },\n      \"alpha_2.0\": {\n     \
+    \   \"d_kl_limit\": -0.88,\n        \"d_renyi_escort\": -1.17530864,\n       \
+    \ \"d_renyi_fd\": -1.17530864\n      }\n    },\n    \"renyi_varying_orders_tau0_sq_4\"\
+    : {\n      \"alpha_0.5\": {\n        \"d_kl_limit\": -0.1677183,\n        \"d_renyi_escort\"\
+    : -0.12422573,\n        \"d_renyi_fd\": -0.12422573\n      },\n      \"alpha_2.0\"\
+    : {\n        \"d_kl_limit\": -0.1677183,\n        \"d_renyi_escort\": -0.19313614,\n\
+    \        \"d_renyi_fd\": -0.19313614\n      }\n    },\n    \"s_claim_expanded\"\
+    : 1.6,\n    \"s_direct\": 1.6,\n    \"s_fisher\": 1.6,\n    \"s_tau2_example_4_1\"\
+    : 1.6,\n    \"tested_grid_size\": 20,\n    \"varying_posterior_differs_by_cov_term\"\
+    : true\n  },\n  \"hierarchical_normal_random_effects\": {\n    \"s1_lower_mixed\"\
+    : 0.22687596,\n    \"s2_upper_marginal\": 0.99722992,\n    \"ss_between\": 2.48,\n\
+    \    \"upper_score_positive_for_grand_mean_shift\": true,\n    \"y_grand\": 2.0\n\
+    \  },\n  \"support_dependent_boundary\": {\n    \"boundary_posterior_density\"\
+    : 0.31303529,\n    \"naive_fails_by_boundary_term\": true,\n    \"reparameterized_matches_exact\"\
+    : true,\n    \"s_exact_fd\": -0.68696471,\n    \"s_naive_eq_1_3\": -1.0,\n   \
+    \ \"s_reparameterized\": -0.68696471\n  }\n}\n"
+- check_id: post-save-review-check
+  name: post-save structured review corpus check
+  command: /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python scripts/record_review.py
+    --repo-root . --schema schema/record_review.yaml check --base origin/main
+  status: skipped
+  required: false
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  summary: Skipped at the moment this review input YAML is serialized prior to `record_review.py
+    save`; executed as a mandatory post-save gate immediately after `record_review.py
+    save` writes `reviews/structured/20261024T105900Z-prior-expansion-score-conflict/review.yaml`
+    and `review.md`.
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T082300Z-prior-expansion-score-conflict.json
+  accessed_at: '2026-10-24T10:56:00Z'
+  support: supports
+  summary: No normalized identity match for the prior-expansion score conflict diagnostic
+    across all 442 pinned AIO records and 1486 other maintained curated concepts.
+    Fixed-string and semantic searches confirm this concept is distinct from cross-validated
+    prior-likelihood splitting, DAG separator node-splitting, INLA group-node conflict
+    checking, multiple-testing node-conflict maxT calibration, Gaussian variational
+    message conflict screening, and sequential two-stage randomized score checks.
+  search_scope: All maintained and generated IDs, names, aliases, and scoped synonyms
+    normalized; fixed-string searches across data, sources, research, history, and
+    reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-24T10:56:00Z'
+  support: supports
+  summary: Inspected AIO:BayesianNetwork and AIO:RandomEffectsModel (plus neighbors
+    AIO:ProbabilisticGraphicalModel and AIO:EvaluationBias) in the pinned AIO snapshot
+    (2026-07-22, commit 397851c547d1c4d8f06ef184f63c1d40bc86937a). The record's two
+    related_match mappings to AIO:BayesianNetwork and AIO:RandomEffectsModel accurately
+    capture directed hierarchical Bayesian and random-effects model context without
+    claiming equivalence or subclass membership.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/prior-expansion-score-conflict-boundaries.py
+  accessed_at: '2026-10-24T10:56:00Z'
+  snapshot_sha256: be07cba05309d97d625aecfd1f061b04de4c88850dcd2088e5f70ae25a2b74d0
+  support: supports
+  summary: 'Constructed numerical boundary script verifying across a 20-point grid
+    of unit and non-unit baseline prior variances tau_0^2 in {0.25, 0.5, 1.0, 2.0,
+    4.0} and observation variances sigma^2/n in {0.1, 0.25, 1.0, 2.0}: (1) Fisher''s
+    identity, the dimensionless normal variance-expansion score S_gamma(bar_x) = tau_0^2
+    * S_{tau^2}(bar_x), fixed-posterior KL derivative -S(y), and moving-posterior
+    finite-alpha (alpha in {0.5, 2.0}) escort covariance derivatives versus the varying-posterior
+    KL-limit (alpha -> 1) log-likelihood covariance derivative; (2) exact monotonic
+    equivalence with the Evans–Moshonov prior-predictive p-value; (3) coordinate-wise
+    one-at-a-time directional location and scale checks; (4) two-stage hierarchical
+    normal random-effects score decomposition; and (5) support-dependent boundary
+    failure without fixed-domain reparameterization.'
+- evidence_id: nott2020
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1902.10393
+  locator: Abstract, PDF p. 1; Section 1, Equations 1.1–1.3, PDF pp. 2–3; Section
+    2.1–2.3, Equations 2.1–2.4, PDF pp. 4–7; Section 3, Equations 3.1–3.2, PDF pp.
+    8–10; Section 4, Examples 4.1–4.3, PDF pp. 10–13; Section 5.1–5.2, Equations 5.1–5.8,
+    PDF pp. 14–27; Section 6, PDF p. 28
+  accessed_at: '2026-10-24T10:55:00Z'
+  snapshot_sha256: 2d36e3af352ac38b3811af3540aed3d115be5f4b4f6ecdadb4ec8fec74d07a99
+  support: supports
+  summary: Full 31-page PDF of Nott, Seah, Al-Labadi, Evans, Ng, & Englert (2020/2021,
+    arXiv:1902.10393v2) re-verified. Confirms scalar and one-at-a-time coordinate-wise
+    prior expansions (Section 1, PDF pp. 2–3; Example 4.3, PDF p. 13; Section 5.2,
+    PDF pp. 19–21), relative-belief and Rényi/KL sensitivity (Section 2.2, Equations
+    2.2 and 2.4, PDF pp. 5–6), direct variance differentiation in Example 4.1 (PDF
+    pp. 10–11), two-stage hierarchical mixed-predictive calibration (Section 3, PDF
+    pp. 8–10), plug-in/variational approximations (Section 5.1, PDF pp. 14–16; Section
+    6, PDF p. 28), and fixed-domain polar reparameterization when support depends
+    on gamma (Section 5.2, PDF pp. 23–27).
+- evidence_id: yang2026
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2511.02977v2
+  locator: Section 2.1, Equation 1 and computational cost discussion, PDF pp. 4–5
+  accessed_at: '2026-10-24T10:55:00Z'
+  snapshot_sha256: 4829e0d63d562483aa6aab88a418c62e6d336cd63e9205ee175bf9e9c1bade2d
+  support: supports
+  summary: Full 52-page PDF of Yang, Nott, & Presanis (2026, arXiv:2511.02977v2) re-verified
+    for Section 2.1 Equation 1 (Fisher's identity for the prior-expansion score S(y))
+    and the replicate-posterior simulation cost discussion.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Prior-expansion score conflict diagnostic identity and neighbor boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - identity
+  - nott2020
+  - yang2026
+  summary: Retain AIMech:PriorExpansionScoreConflictDiagnostic as a distinct DRAFT
+    algorithm concept.
+  details: The diagnostic embeds an elicited baseline prior g(theta) into a smooth
+    family g(theta|gamma) with g(theta|gamma_0)=g(theta), evaluates the marginal-likelihood
+    score S(y)=d/d_gamma log p(y|gamma)|_{gamma=gamma_0} via Fisher's identity as
+    the baseline posterior expectation of the log-prior derivative on a fixed support,
+    and calibrates S(y_obs) against prior-predictive or mixed-predictive reference
+    draws. It is distinct from node-splitting, cross-validated prior-likelihood splitting,
+    Gaussian variational message screening, and sequential single-draw randomized
+    score checks.
+- assessment_id: mapping
+  area: grounding
+  topic: Related mappings to AIO:BayesianNetwork and AIO:RandomEffectsModel
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - mapping
+  - nott2020
+  summary: Both related_match mappings (AIO:BayesianNetwork and AIO:RandomEffectsModel)
+    are accurately scoped.
+  details: 'The curated record declares two related_match mappings: AIO:BayesianNetwork
+    (hierarchical directed Bayesian graphical structure context) and AIO:RandomEffectsModel
+    (two-stage random-effects model class context). Neither target is a conflict-diagnostic
+    procedure, so related_match is appropriate.'
+- assessment_id: prior-expansion-and-fisher-identity
+  area: evidence
+  topic: Claim prior-expansion-and-fisher-identity
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - nott2020
+  - yang2026
+  - calculation
+  summary: Supported by Nott et al. (2020, Section 1 Eqs. 1.1–1.3; Section 2.1–2.2)
+    and Yang et al. (2026, Section 2.1 Eq. 1).
+  details: When differentiation with respect to scalar gamma and integration over
+    theta commute on a gamma-invariant parameter support, Fisher's identity expresses
+    S(y)=d/d_gamma log p(y|gamma)|_{gamma=gamma_0} as the baseline posterior expectation
+    E_{theta|y}[d/d_gamma log g(theta|gamma)|_{gamma=gamma_0}], which depends on y
+    only through any minimal sufficient statistic and is invariant to its choice.
+- assessment_id: divergence-and-relative-belief-sensitivity
+  area: evidence
+  topic: Claim divergence-and-relative-belief-sensitivity
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - nott2020
+  - calculation
+  summary: 'Supported after Issue #432 F3 precision edits distinguishing fixed-baseline
+    F_alpha(gamma) from standard fixed-posterior Rényi divergence, qualifying moment/interchange
+    regularity for alpha>0, and labeling the moving-posterior escort/KL covariance
+    clarification.'
+  details: Pointwise differentiation of log RB(theta|y,gamma)=log p(y|theta)-log p(y|gamma)
+    at gamma=gamma_0 gives -S(y) for every theta with p(y|theta)>0 (Equation 2.4).
+    Consequently, the fixed-baseline-weighted relative-belief functional F_alpha(gamma)=(alpha-1)^-1*log
+    integral RB(theta|y,gamma)^(alpha-1)*g(theta|y) d_theta motivated by Equation
+    2.2 (which is distinct for alpha!=1 from standard fixed-posterior Rényi divergence
+    R_alpha(g(theta|y)||g(theta|gamma))), its alpha->1 limit, and fixed-posterior
+    KL(g(theta|y)||g(theta|gamma)) all have derivative -S(y) at gamma=gamma_0 across
+    all orders alpha>0 for which the finite positive likelihood moment E_{g(theta|y)}[p(y|theta)^(alpha-1)]
+    and required log-likelihood/score moments exist and differentiation/limit interchange
+    is justified. As an independently derived clarification of Section 2.2 notation
+    (not an expression explicitly supplied by Nott et al., 2020, PDF pp. 5–6), varying
+    g(theta|y,gamma) inside R_alpha(g(theta|y,gamma)||g(theta|gamma)) under those
+    regularity conditions adds the order-dependent escort covariance term Cov_{g(theta|y)}(p(y|theta)^(alpha-1),
+    d/d_gamma log g(theta|gamma)|_{gamma=gamma_0})/((alpha-1)*E_{g(theta|y)}[p(y|theta)^(alpha-1)])
+    for finite alpha!=1, which reduces as alpha->1 to Cov_{g(theta|y)}(log p(y|theta),
+    d/d_gamma log g(theta|gamma)|_{gamma=gamma_0}).
+- assessment_id: prior-predictive-and-multivariate-calibration
+  area: evidence
+  topic: Claim prior-predictive-and-multivariate-calibration
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - nott2020
+  - calculation
+  summary: Supported after resolving AIM-PR428-E0EC-F2 to restrict multi-parameter
+    expansions to one-at-a-time scalar directional checks.
+  details: Nott et al. (2020, Section 1, PDF pp. 2–3; Section 2.1, PDF pp. 4–5; Section
+    2.3, PDF p. 7; Example 4.3, PDF p. 13; Section 5.2, PDF pp. 19–21, 27) treat gamma
+    as a scalar or vary multiple expansion parameters one by one to obtain directional
+    checks, calibrating each scalar score S(y_obs) by upper-tail, lower-tail, or two-sided
+    prior-predictive probabilities under Y~p(y|gamma_0).
+- assessment_id: conjugate-exponential-family-equivalence
+  area: evidence
+  topic: Claim conjugate-exponential-family-equivalence
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - nott2020
+  - calculation
+  summary: Supported and verified across unit and non-unit baseline prior variances
+    after resolving AIM-PR428-E0EC-F1.
+  details: In the conjugate normal location model with bar_x~N(theta,sigma^2/n) and
+    multiplicative variance expansion theta|gamma~N(mu_0,gamma*tau_0^2) at gamma_0=1,
+    both direct marginal differentiation and Fisher's identity yield S_gamma(bar_x)=-tau_0^2/(2*(tau_0^2+sigma^2/n))+tau_0^2*(bar_x-mu_0)^2/(2*(tau_0^2+sigma^2/n)^2)=-1/2+((bar_x-mu_0)^2/(2*tau_0^2))*(tau_0^2/(tau_0^2+sigma^2/n))^2+(sigma^2/n)/(2*(tau_0^2+sigma^2/n)),
+    which equals tau_0^2*S_{tau^2}(bar_x) where S_{tau^2}(bar_x) is the direct variance
+    derivative of Example 4.1 (PDF pp. 10–11). Because both are strictly increasing
+    affine functions of (bar_x-mu_0)^2 for every tau_0^2>0, their upper-tail prior-predictive
+    p-values match the exact Evans–Moshonov prior-predictive tail.
+- assessment_id: hierarchical-mixed-predictive-extension
+  area: evidence
+  topic: Claim hierarchical-mixed-predictive-extension
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - nott2020
+  - calculation
+  summary: Supported by Nott et al. (2020, Section 3, Equations 3.1–3.2, PDF pp. 8–10;
+    Example 4.3, PDF pp. 12–13).
+  details: In a two-stage hierarchical model g(theta_1)*g(theta_2|theta_1), the lower-level
+    conditional score is integrated over the observed-data posterior g(theta_1|y_obs)
+    and calibrated under the mixed-predictive distribution m(y), while the upper-level
+    score is calibrated under the marginal prior-predictive distribution p(y).
+- assessment_id: support-dependent-expansion-boundary
+  area: evidence
+  topic: Claim support-dependent-expansion-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - nott2020
+  - calculation
+  summary: Supported by Nott et al. (2020, Section 5.2, Equations 5.6–5.8, PDF pp.
+    23–27) and constructed boundary check.
+  details: When prior support varies with gamma (as in the distorted trine quantum
+    state estimation example on the Bloch disk), Equation 1.3 fails without first
+    reparameterizing the prior and likelihood onto a fixed domain so that differentiation
+    and integration commute.
+- assessment_id: reference-simulation-and-approximation-scope
+  area: evidence
+  topic: Claim reference-simulation-and-approximation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - nott2020
+  - yang2026
+  summary: Supported by Nott et al. (2020, Section 5.1, PDF pp. 14–16; Section 6,
+    PDF p. 28) and Yang et al. (2026, Section 2.1, PDF pp. 4–5).
+  details: Without a closed-form sufficient-statistic reduction, exact prior-predictive
+    or mixed-predictive score calibration requires re-estimating the baseline posterior
+    g(theta|Y) for each simulated replicate Y; plug-in point-estimate substitutions
+    and variational approximations alter the diagnostic and are not guaranteed to
+    match exact full-posterior score calibration.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, discovery report sync, history sidecars, and
+    Gemini 4 Argon provenance
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionScoreConflictDiagnostic
+  evidence_ids:
+  - identity
+  - mapping
+  - nott2020
+  - yang2026
+  - calculation
+  summary: All record fields, discovery artifacts, and history sidecars are synchronized
+    and record verified Gemini 4 Argon model provenance.
+  details: Verified every field of data/curated/PriorExpansionScoreConflictDiagnostic.yaml,
+    synchronized research/discovery/20261017T082300Z-prior-expansion-score-conflict.json
+    and .md, preserved original history sidecars (2026-10-24T101758Z-antigravity-79cf3e.yaml
+    and 2026-10-24T101759Z-antigravity-29b549.yaml) and initial self-review (20261024T102000Z-prior-expansion-score-conflict),
+    and recorded new Gemini 4 Argon history sidecars (2026-10-24T105702Z-antigravity-6c797d.yaml
+    and 2026-10-24T105704Z-antigravity-bbbab9.yaml).
+findings: []
+actions: []
+limitations:
+- Author self-review only; does not constitute independent review approval or status
+  promotion from DRAFT.
+- 'Supersedes 20261017T083500Z-prior-expansion-score-conflict and 20261024T102000Z-prior-expansion-score-conflict
+  (both preserved as append-only audit history) after resolving Issue #432 (AIM-PR428-E0EC-F1,
+  AIM-PR428-E0EC-F2, and F3 Rényi/escort scope and provenance audit).'
+- All 31 pages of Nott et al. (2020, arXiv:1902.10393v2) and all 52 pages of Yang,
+  Nott, & Presanis (2026, arXiv:2511.02977v2) were read in full. No author MCMC code,
+  bowhead whale simulation, or trine quantum state tomography dataset was executed;
+  constructed numerical checks in research/discovery/prior-expansion-score-conflict-boundaries.py
+  verify the analytical identities and boundary conditions.
+notes:
+- 'Resolved AIM-PR428-E0EC-F1 (Issue #432): corrected conjugate-exponential-family-equivalence
+  for dimensionless variance expansion theta|gamma~N(mu_0,gamma*tau_0^2) at gamma_0=1
+  across all tau_0^2>0 and verified against non-unit baseline variances.'
+- 'Resolved AIM-PR428-E0EC-F2 (Issue #432): removed the unsupported covariance-normalized
+  vector quadratic form and restricted prior-predictive-and-multivariate-calibration
+  to scalar one-at-a-time directional expansions.'
+- 'Resolved Issue #432 bounded corrections and F3 scope review: distinguished fixed-baseline
+  F_alpha(gamma) from standard fixed-posterior Rényi divergence, qualified all alpha>0
+  to orders with finite positive likelihood and score/log-likelihood moments and valid
+  derivative/limit interchange, labeled the moving-posterior escort/KL covariance
+  formula as an independently derived clarification of Section 2.2 notation, narrowed
+  the boundary script docstring to the moving-posterior finite-alpha and fixed/varying
+  KL checks it executes, and recorded verified Gemini 4 Argon model provenance.'
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261017T083500Z-prior-expansion-score-conflict
+  relationship: 'Predecessor initial scientific self-review before resolving Issue
+    #432 (AIM-PR428-E0EC-F1, AIM-PR428-E0EC-F2, and F3 scope).'
+- repository: CultureBotAI/AIMech
+  review_id: 20261024T102000Z-prior-expansion-score-conflict
+  relationship: 'Initial Issue #432 self-review preserved as audit history; superseded
+    by this review to record actual 1487-curated/1124-history check outputs, exact
+    claim_id assessments, F3 Rényi/escort scope qualifications, and Gemini 4 Argon
+    model provenance.'
+links:
+- https://github.com/CultureBotAI/AIMech/issues/432
+- https://github.com/CultureBotAI/AIMech/pull/428
+tags:
+- native-concepts
+- model-diagnostics
+- prior-data-conflict
+- self-review
+- issue-432
+```

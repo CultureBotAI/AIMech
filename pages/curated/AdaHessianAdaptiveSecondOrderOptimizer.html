@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdaHessian (Adaptive Second-Order Optimizer) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>AdaHessian (Adaptive Second-Order Optimizer)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdaHessian (Adaptive Second-Order Optimizer)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaHessianAdaptiveSecondOrderOptimizer</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AdaHessian, AdaHessian Optimizer, Adaptive Hessian Diagonal Optimizer
+    </div>
+
+  <div class="detail-desc">
+    An adaptive second-order stochastic optimization algorithm with O(d) memory complexity that approximates the Hessian diagonal at step t via Hutchinson&#39;s method D_t = z odot (H_t z) using a Rademacher vector z in {-1, +1}^d and a Hessian-free matrix-vector product H_t z = d(g_t^T z)/dtheta (Eqs. 8-9), smooths spatial variance via block-diagonal averaging of block size b, D_t^{(s)}[i b + j] = (1/b) sum_{r=1}^b D_t[i b + r] (Eq. 10), tracks a bias-corrected root-mean-square exponential moving average D_bar_t = sqrt(((1 - beta_2) / (1 - beta_2^t)) sum_{i=1}^t beta_2^{t-i} D_i^{(s)} odot D_i^{(s)}) (Eq. 11), and preconditions the bias-corrected gradient EMA m_t by v_t = (D_bar_t)^k for Hessian power 0 &lt;= k &lt;= 1 via theta_{t+1} = theta_t - eta_t m_t / v_t (Eq. 12, Algorithm 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam, AdamW, and RMSProp in that AdaHessian replaces the elementwise squared gradient g_i odot g_i in the second-moment accumulator with the squared spatially averaged Hutchinson Hessian diagonal D_i^{(s)} odot D_i^{(s)} raised to power k in [0, 1]. Distinct from Sophia in that AdaHessian performs block-diagonal spatial averaging across convolutional/attention blocks of size b, accumulates an RMS (L2) moving average of the Hessian diagonal rather than a linear EMA of max(h_t, 0), and applies unclipped power preconditioning m_t / (D_bar_t)^k.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r592-hutchinson-diagonal-and-spatial-block-averaging</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdaHessian computes an unbiased Hessian diagonal estimate D = diag(H) = E[z odot (H z)] using a Rademacher vector z in {-1, +1}^d and a single Hessian-vector backpropagation H z = d(g^T z)/dtheta (Eqs. 8-9), and applies block-diagonal spatial averaging D^{(s)}[i b + j] = (1/b) sum_{r=1}^b D[i b + r] over blocks of size b (e.g., 3x3 convolutional kernels or attention rows, Eq. 10), preserving the strong-convexity spectral bounds alpha &lt;= D_i^{(s)} &lt;= beta and convergence rate (Eqs. 13-19) while reducing single-sample Hutchinson variance without extra computational cost.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r592-primary-pdf">ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Equations (8)-(10) &amp; Figures 4-5, pp. 6-8; Appendix Descending Properties, Eqs. (13)-(19), p. 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r592-rms-hessian-momentum-and-power-preconditioning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By maintaining a bias-corrected root-mean-square exponential moving average D_bar_t of the spatially averaged Hessian diagonal (Eq. 11) and preconditioning the gradient momentum m_t by v_t = (D_bar_t)^k (0 &lt;= k &lt;= 1, Eq. 12), AdaHessian smooths out misleading local curvature spikes on rugged non-convex loss surfaces (Figure 3) and exhibits high robustness to learning-rate scaling up to 10x on Transformer machine translation where AdamW diverges (Table 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r592-primary-pdf">ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Figure 3 &amp; Equations (11)-(12), pp. 6-7; Table 6, p. 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r592-cv-nlp-recsys-empirical-gains</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using the same learning-rate schedule, warmup, weight decay, and (beta_1, beta_2) as first-order baselines, AdaHessian achieves +5.55% higher top-1 accuracy than Adam (+2.67% over AdamW) on ImageNet ResNet18, +0.13/+0.33 BLEU over AdamW on IWSLT14/WMT14, 2.7/1.0 lower perplexity on PTB/WikiText-103, +0.41 GLUE points on SqueezeBERT, and +0.032% test accuracy over AdaGrad on Criteo DLRM.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r592-primary-pdf">ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Abstract, p. 1; Tables 2-5 &amp; Figure 6, pp. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r592-second-backprop-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Computing the Hessian-vector product H z via automatic differentiation requires a second backpropagation pass (2x theoretical FLOPs and 2.27x-2.91x measured per-iteration wall-clock time relative to Adam when run at every step), and PyTorch lacks native second-order backpropagation support for sparse embedding gradients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r592-primary-pdf">ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning</a></span>
+        <span>· <strong>Locator:</strong> Recommendation System section, p. 10; AdaHessian Overhead &amp; Table 8, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires 2x theoretical FLOPs (and 2.27x-2.91x measured runtime vs Adam when computed every step) due to the second backpropagation pass needed for Hutchinson&#39;s Hessian-vector product, unless delayed Hessian updates are used.</li>
+      <li>Approximates the Hessian as a diagonal operator and therefore does not capture off-diagonal curvature rotations across distinct parameter coordinates.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AdaHessian is an adaptive diagonal-Hessian second-order optimizer for training artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r592-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r592-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2006.00719.pdf" target="_blank" rel="noopener">ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhewei Yao, Amir Gholami, Sheng Shen, Mustafa Mustafa, Kurt Keutzer, Michael W. Mahoney
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/aaai/YaoGSMKM21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bb7e2f599903…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r592-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r592-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.00719" target="_blank" rel="noopener">ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhewei Yao, Amir Gholami, Sheng Shen, Mustafa Mustafa, Kurt Keutzer, Michael W. Mahoney
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.00719</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:083f631bd405…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r592-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r592-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/aaai/YaoGSMKM21" target="_blank" rel="noopener">ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhewei Yao, Amir Gholami, Sheng Shen, Mustafa Mustafa, Kurt Keutzer, Michael W. Mahoney
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/aaai/YaoGSMKM21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8977f0306e66…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AAdaHessianAdaptiveSecondOrderOptimizer">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for AdaHessian (Adaptive Second-Order Optimizer)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:AdaHessianAdaptiveSecondOrderOptimizer</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">AdaHessian (Adaptive...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaHessianAdaptiveSecondOrderOptimizer.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaHessianAdaptiveSecondOrderOptimizer.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=AdaHessian%20%28Adaptive%20Second-Order%20Optimizer%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AAdaHessianAdaptiveSecondOrderOptimizer"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,109 @@
+id: AIMech:DyLoRADynamicSearchFreeLowRankAdaptation
+name: DyLoRA (Dynamic Search-Free Low-Rank Adaptation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A dynamic, search-free parameter-efficient low-rank adaptation algorithm for pre-trained models that orders the information content of low-rank adapter matrices across ranks b in Range[r_min, r_max] by sampling a target rank b ~ p_B(.) at each training iteration, truncating the down-projection matrix to its first b rows W_{dw downarrow b} = W_{dw}[1:b, :] and the up-projection matrix to its first b columns W_{up downarrow b} = W_{up}[:, 1:b] in the forward pass h = W_0 x + (alpha / b) W_{up downarrow b} W_{dw downarrow b} x, and updating either the b-truncated prefix or exclusively the b-th row and column (FROZEN mode).
+identity_notes: Distinct from static LoRA (AIMech:LowRankAdaptation), which trains adapter matrices for a single fixed rank r and suffers severe accuracy degradation if truncated to a smaller rank b < r at inference time without retraining from scratch. Distinct from AdaLoRA (AIMech:AdaLoraAdaptiveBudgetLowRankAdaptation), which prunes singular values of SVD-parameterized adapters to a single final static budget allocation across layers rather than ordering prefix representations to support dynamic multi-rank inference from a single checkpoint. Distinct from Nested Dropout (Rippel et al., 2014), which orders vector bottleneck activations using a weighted sum of losses over all truncations rather than sampling one rank b per batch on factorized weight matrices.
+aliases:
+- DyLoRA
+- Dynamic Low-Rank Adaptation
+- Search-Free Dynamic LoRA
+- Nested-Dropout Ordered Low-Rank Adapter Tuning
+definition_evidence:
+- source_id: r646-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r646-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r646-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: dylora-stochastic-rank-truncation-forward-pass-mechanism
+  kind: mechanism
+  statement: At each training iteration, DyLoRA samples an active rank b ~ p_B(.) from a categorical distribution supported on Range[r_min, r_max], slices W_{dw downarrow b} = W_{dw}[1:b, :] in R^{b x d} and W_{up downarrow b} = W_{up}[:, 1:b] in R^{m x b}, and computes the b-truncated adapter output h = W_0 X + (alpha / b) W_{up downarrow b} W_{dw downarrow b} X to evaluate the single-rank batch loss L_{downarrow b}^{DY} without summing over all ranks.
+  evidence:
+  - source_id: r646-primary-pdf
+    locator: Section 4 Equations (5)-(9), Algorithm 1, and Section 5.8 Table 7, pages 4-5, 9
+    relation: supports
+- claim_id: dylora-frozen-mode-single-row-column-update-mechanism
+  kind: mechanism
+  statement: In FROZEN mode (Equation 10 and Algorithm 1 lines 12-15), DyLoRA updates only the b-th row W_{dw}^b = W_{dw}[b, :] and b-th column W_{up}^b = W_{up}[:, b] corresponding to the sampled rank b while keeping lower-indexed rows and columns 1, ..., b - 1 frozen during that step, preventing optimization of higher ranks from overwriting lower-rank representations.
+  evidence:
+  - source_id: r646-primary-pdf
+    locator: Section 4 Equation (10), Algorithm 1, and Section 5.8 Table 4, pages 5, 7-9
+    relation: supports
+- claim_id: dylora-rank-search-time-complexity-reduction-scope
+  kind: scope
+  statement: Because DyLoRA trains a single adapter supporting every rank b in {r_min, ..., r_max} in approximately the same wall-clock time as training static LoRA once at r_max (408.39s vs 399.95s on MRPC for r_max = 8), it reduces rank-selection training time by a factor of 4x to 7x compared to grid-searching static LoRA across candidate ranks.
+  evidence:
+  - source_id: r646-primary-pdf
+    locator: Abstract, Section 5.4 Table 5, and Appendix A Time Complexity, pages 1, 8, 11-12
+    relation: supports
+- claim_id: dylora-roberta-glue-and-gpt2-nlg-application
+  kind: application
+  statement: On RoBERTa-Base across GLUE tasks and GPT-2 Medium across E2E, DART, and WebNLG generation benchmarks, a single DyLoRA model evaluated across ranks 1 through 8 substantially outperforms static LoRA at low ranks (achieving 84.22 vs 54.90 average GLUE score and 68.86 vs 3.38 E2E BLEU at Rank 1) while matching or exceeding static LoRA at Rank 8.
+  evidence:
+  - source_id: r646-primary-pdf
+    locator: Section 5.3 Table 2, Section 5.7 Table 6, and Appendix C Table 9, pages 6, 8-9, 14
+    relation: supports
+- claim_id: dylora-rank-sampling-distribution-and-range-limitation
+  kind: limitation
+  statement: DyLoRA requires pre-specifying the maximum rank r_max and rank-sampling distribution p_B (where geometric distributions favor Rank 1 accuracy while uniform distributions favor higher-rank average accuracy), and FROZEN mode trades a modest reduction in peak accuracy for parameter-update efficiency.
+  evidence:
+  - source_id: r646-primary-pdf
+    locator: Section 5.8 Table 4 and Section 6 Limitations, pages 7-9
+    relation: supports
+evidence_sources:
+- source_id: r646-primary-pdf
+  title: 'DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation'
+  authors: &id001
+  - Mojtaba Valipour
+  - Mehdi Rezagholizadeh
+  - Ivan Kobyzev
+  - Ali Ghodsi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2210.07558.pdf
+  persistent_id: https://dblp.org/rec/conf/eacl/ValipourRKG23
+  version: Proceedings of the 17th Conference of the European Chapter of the Association for Computational Linguistics (EACL 2023) (2023) (644523 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:09:00Z'
+  sha256: 5fbd783656967ab50d22fc0d125e79b156abfdaf46d5d5830547387c0db81512
+- source_id: r646-arxiv-abs
+  title: 'DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2210.07558
+  persistent_id: https://arxiv.org/abs/2210.07558
+  version: arXiv abstract page (6732 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:09:00Z'
+  sha256: 09d0947f01bf98b35e756164c38701a5e87c8cc2d25baec5eb8e20b35b30ddf8
+- source_id: r646-metadata-cr
+  title: 'DyLoRA: Parameter-Efficient Tuning of Pretrained Models using Dynamic Search-Free Low Rank Adaptation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/eacl/ValipourRKG23
+  persistent_id: https://dblp.org/rec/conf/eacl/ValipourRKG23
+  version: Crossref API work record (2055 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:09:00Z'
+  sha256: 5361d315ee004856eb80712ff2948767f908324ab659882cdd07a1b312251f57
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: DyLoRA is a parameter-efficient fine-tuning algorithm for pre-trained Transformer neural networks.
+limitations:
+- Requires selecting the rank range [r_min, r_max], scaling factor alpha, and sampling distribution p_B ahead of training.
+- Updating only the b-th row and column in FROZEN mode slightly reduces average downstream accuracy compared to updating the full prefix 1..b.
+curation:
+  created_at: '2026-10-19T12:09:00Z'
+  updated_at: '2026-10-19T12:09:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,357 @@
+# Scientific author self-review of S-LoRA
+
+- Review: 20261019T123330Z-s-lora-unified-paging-concurrent-lora-serving
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:33:00Z
+- Finished UTC: 2026-10-19T12:33:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain S-LoRA as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/SLoRA.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SLoRA
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 4b6781173274edc082fde944a6f7718d3d013337.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SLoRA | data/curated/SLoRA.yaml | maintained | S-LoRA |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SLoRA | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:SLoRA | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:SLoRA | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:SLoRA | Validated history sidecar files. |
+| python3 s-lora-unified-paging-concurrent-lora-serving-boundaries.py | passed | True | AIMech:SLoRA | [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16, tp_comm_ratio=0.00977&lt;0.01, opt_reward=2.7300&gt;fcfs=2.2500&amp;lcfs=2.6500 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:SLoRA.
+
+S-LoRA is a distinct concept.
+
+Distinct from AIMech:LowRankAdaptation (LoRA), which merges a single adapter W' = W + A B into the base weights and incurs prohibitive weight duplication or serial swapping latency when serving many concurrent adapters, and from AIMech:PagedAttention, which pages only KV cache tensors for a single static weight set. S-LoRA (Ying Sheng, Shiyi Cao, Dacheng Li, Coleman Hooper, Nicholas Lee, Shuo Yang, Christopher Chou, Banghua Zhu, Lianmin Zheng, Kurt Keutzer, Joseph E. Gonzalez, and Ion Stoica, MLSys 2024, arXiv:2311.03285) stores thousands of LoRA adapters in host RAM and dynamically prefetches active adapters into GPU memory. Because a per-layer KV cache tensor has shape (S, H) and a LoRA weight matrix has shape (R, H) sharing the hidden dimension H, S-LoRA allocates both from a unified memory pool partitioned into pages of H elements (where sequence length S uses S pages and rank R uses R pages). Custom Triton/CUDA kernels—Multi-size Batched Gather Matrix-Matrix Multiplication (MBGMM) for prefill and Multi-size Batched Gather Matrix-Vector Multiplication (MBGMV) for decode—compute x A B directly over non-contiguous pages across heterogeneous ranks R without padding, while S-LoRA Tensor Parallelism restricts added multi-GPU communication to 5(N-1)Br/N elements.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:SLoRA.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-5 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:SLoRA.
+
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in s-lora-unified-paging-concurrent-lora-serving-boundaries.py passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16, tp_comm_ratio=0.00977&lt;0.01, opt_reward=2.7300&gt;fcfs=2.2500&amp;lcfs=2.6500
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SLoRA.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T123300Z-s-lora-unified-paging-concurrent-lora-serving.json | supports | No normalized identity match for AIMech:SLoRA across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/s-lora-unified-paging-concurrent-lora-serving-boundaries.py | supports | All constructed boundary assertions in s-lora-unified-paging-concurrent-lora-serving-boundaries.py passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16, tp_comm_ratio=0.00977&lt;0.01, opt_reward=2.7300&gt;fcfs=2.2500&amp;lcfs=2.6500 |
+| r670-primary-pdf | https://arxiv.org/pdf/2311.03285; Full-text PDF | supports | Full-text PDF (Proceedings of the 5th MLSys Conference (MLSys 2024) (2024)) read and verified. |
+| r670-arxiv-abs | https://arxiv.org/abs/2311.03285; arXiv abstract | supports | arXiv abstract read and verified. |
+| r670-metadata-cr | https://dblp.org/search/publ/api?q=S-LoRA+Serving+Thousands+Concurrent+LoRA+Adapters&amp;format=xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SLoRA in Round 670.
+- All pages of Proceedings of the 5th MLSys Conference (MLSys 2024) (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T123330Z-s-lora-unified-paging-concurrent-lora-serving
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of S-LoRA
+started_at: '2026-10-19T12:33:00Z'
+finished_at: '2026-10-19T12:33:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:SLoRA
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 5th MLSys Conference (MLSys 2024) (2024) and pure-Python boundary checks.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain S-LoRA as a distinct DRAFT algorithm. All five claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 4b6781173274edc082fde944a6f7718d3d013337
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/SLoRA.yaml
+    sha256: 8929b5d293a6f1e17c0fa8d4b1ca590ffe92b7ad192f19db5e3adda2a88d0512
+    role: target
+  - path: research/discovery/20261019T123300Z-s-lora-unified-paging-concurrent-lora-serving.json
+    sha256: 363f131758e65cf4fd61f96fb1571329a9b162340eed8c53c040e513f3a16177
+    role: context
+  - path: research/discovery/s-lora-unified-paging-concurrent-lora-serving-boundaries.py
+    sha256: 69598ea748b0bc6d555260c650c653a99c5257762ac74cef82f376da7cae0500
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SLoRA
+  path: data/curated/SLoRA.yaml
+  label: S-LoRA
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SLoRA.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/SLoRA.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SLoRA'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SLoRA
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 s-lora-unified-paging-concurrent-lora-serving-boundaries.py
+  command: python3 research/discovery/s-lora-unified-paging-concurrent-lora-serving-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SLoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16,
+    tp_comm_ratio=0.00977<0.01, opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T123300Z-s-lora-unified-paging-concurrent-lora-serving.json
+  accessed_at: '2026-10-19T12:33:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:SLoRA across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:33:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/s-lora-unified-paging-concurrent-lora-serving-boundaries.py
+  accessed_at: '2026-10-19T12:33:00Z'
+  snapshot_sha256: 69598ea748b0bc6d555260c650c653a99c5257762ac74cef82f376da7cae0500
+  support: supports
+  summary: 'All constructed boundary assertions in s-lora-unified-paging-concurrent-lora-serving-boundaries.py
+    passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16,
+    tp_comm_ratio=0.00977<0.01, opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
+- evidence_id: r670-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2311.03285
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:33:00Z'
+  snapshot_sha256: c8d93e5a2525d3139d4994740a0057a8f447a568c5a31613976c9fd254867db7
+  support: supports
+  summary: Full-text PDF (Proceedings of the 5th MLSys Conference (MLSys 2024) (2024))
+    read and verified.
+- evidence_id: r670-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2311.03285
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:33:00Z'
+  snapshot_sha256: 464ec25dcbdc3e6efd568c1b0d21acd0ffe21738aac99bb1665a325b20963de0
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r670-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=S-LoRA+Serving+Thousands+Concurrent+LoRA+Adapters&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:33:00Z'
+  snapshot_sha256: 60bae89b510ba4b92ef297c23b769f59f82a7cd7c80ab7b2d3097e694fd25527
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:SLoRA
+  evidence_ids:
+  - identity
+  - r670-primary-pdf
+  - r670-arxiv-abs
+  - r670-metadata-cr
+  summary: S-LoRA is a distinct concept.
+  details: Distinct from AIMech:LowRankAdaptation (LoRA), which merges a single adapter
+    W' = W + A B into the base weights and incurs prohibitive weight duplication or
+    serial swapping latency when serving many concurrent adapters, and from AIMech:PagedAttention,
+    which pages only KV cache tensors for a single static weight set. S-LoRA (Ying
+    Sheng, Shiyi Cao, Dacheng Li, Coleman Hooper, Nicholas Lee, Shuo Yang, Christopher
+    Chou, Banghua Zhu, Lianmin Zheng, Kurt Keutzer, Joseph E. Gonzalez, and Ion Stoica,
+    MLSys 2024, arXiv:2311.03285) stores thousands of LoRA adapters in host RAM and
+    dynamically prefetches active adapters into GPU memory. Because a per-layer KV
+    cache tensor has shape (S, H) and a LoRA weight matrix has shape (R, H) sharing
+    the hidden dimension H, S-LoRA allocates both from a unified memory pool partitioned
+    into pages of H elements (where sequence length S uses S pages and rank R uses
+    R pages). Custom Triton/CUDA kernels—Multi-size Batched Gather Matrix-Matrix Multiplication
+    (MBGMM) for prefill and Multi-size Batched Gather Matrix-Vector Multiplication
+    (MBGMV) for decode—compute x A B directly over non-contiguous pages across heterogeneous
+    ranks R without padding, while S-LoRA Tensor Parallelism restricts added multi-GPU
+    communication to 5(N-1)Br/N elements.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:SLoRA
+  evidence_ids:
+  - mapping
+  - r670-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:SLoRA
+  evidence_ids:
+  - r670-primary-pdf
+  - calculation
+  summary: All five claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in s-lora-unified-paging-concurrent-lora-serving-boundaries.py
+    passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16,
+    tp_comm_ratio=0.00977<0.01, opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SLoRA
+  evidence_ids:
+  - identity
+  - mapping
+  - r670-primary-pdf
+  - r670-arxiv-abs
+  - r670-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SLoRA in Round 670.
+- All pages of Proceedings of the 5th MLSys Conference (MLSys 2024) (2024) were read
+  in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

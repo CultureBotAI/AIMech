@@ -1,0 +1,214 @@
+id: AIMech:CatoniStyleHeavyTailedConfidenceSequences
+name: Catoni-style heavy-tailed confidence sequences
+aliases:
+- Catoni Supermartingale Confidence Sequence for Heavy-Tailed Means
+- Infinite-Variance p-Catoni Confidence Sequence
+- Stitched Catoni Law-of-the-Iterated-Logarithm Confidence Sequence
+- Dubins-Savage and Delyon Self-Normalized Heavy-Tailed Confidence Sequences
+concept_kind: mathematical_method
+definition: 'A family of nonasymptotic, anytime-valid sequential confidence sequences (Wang & Ramdas 2023,
+  building on Catoni 2012) for the conditional mean mu of potentially heavy-tailed real-valued stochastic
+  processes (X_t)_{t>=1} knowing only an upper bound sigma^2 on the conditional variance E[(X_t - mu)^2
+  | F_{t-1}] <= sigma^2 (or more generally knowing only a p-th central moment bound E[|X_t - mu|^p | F_{t-1}]
+  <= v_t for 1 < p <= 2 when the variance is infinite), constructed by applying Ville''s maximal inequality
+  to the nonnegative Catoni supermartingales M_t^C = prod_{i=1}^t exp(phi(lambda_i(X_i - mu)) - lambda_i^2
+  sigma^2 / 2) and N_t^C = prod_{i=1}^t exp(-phi(lambda_i(X_i - mu)) - lambda_i^2 sigma^2 / 2) for any
+  influence function phi satisfying -log(1 - x + x^2/2) <= phi(x) <= log(1 + x + x^2/2) (or the p-Catoni
+  influence function -log(1 - x + |x|^p/p) <= phi_p(x) <= log(1 + x + |x|^p/p)) with predictable tuning
+  sequence (lambda_t)_{t>=1}, yielding connected root-finding intervals CI_t^C = {m in R : |sum_{i=1}^t
+  phi(lambda_i(X_i - m))| <= sum_{i=1}^t lambda_i^2 sigma^2 / 2 + log(2/alpha)} (and stitched intervals
+  CI_t^{Cstch}) that achieve logarithmic dependence O(log(1/alpha)) in the error level alpha, match the
+  optimal law-of-the-iterated-logarithm rate O(sqrt(t^{-1} log log t)) for finite variance, and attain
+  width O_tilde(t^{-(p-1)/p} log(1/alpha)) for infinite-variance distributions with 1 < p < 2.'
+identity_notes: No normalized identity match for Catoni-style heavy-tailed confidence sequences across
+  all 442 pinned AIO records and 577 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only lines in Round 182 discovery
+  artifacts where Wang & Ramdas (2023, arXiv:2202.01250) was queued as a pending frontier lead. Distinct
+  from AIMech:SubPsiUniformBoundaryConfidenceSequences (Howard, Ramdas, McAuliffe, & Sekhon 2021), which
+  requires light-tailed sub-psi / sub-gamma / empirical-Bernstein conditions or bounded increments to
+  control exponential processes exp(lambda S_t - psi(lambda) V_t), and from AIMech:BettingConfidenceSequencesForBoundedMeans
+  (Waudby-Smith & Ramdas 2024), which requires observations bounded in [0, 1], whereas CatoniStyleHeavyTailedConfidenceSequences
+  transforms raw unbounded observations inside the exponent via Catoni's M-estimator influence function
+  phi(lambda_i(X_i - m)) (and its p-Catoni generalization phi_p for 1 < p < 2) so that only a 2nd or p-th
+  central moment bound is required without any moment generating function or boundedness assumption.
+definition_evidence:
+- source_id: wang-ramdas2023-catoni-cs
+  locator: Section 1–2, lines 15–52, Table 1 (Problem formulation under conditional variance bound sigma^2
+    and comparison of Dubins-Savage, Self-Normalized, and Catoni-style CSs); Section 6, lines 99–144,
+    Equations 26–38, Lemma 8, Theorems 9–10, Corollaries 10.1–10.2; Section 9, lines 176–196, Equations
+    47–52, Lemma 13, Theorems 14–15 (Infinite-variance p-Catoni confidence sequences for 1 < p < 2)
+  relation: supports
+- source_id: catoni2012-deviation-study
+  locator: Abstract and Section 2 (PAC-Bayesian M-estimator of the heavy-tailed mean using influence functions
+    bounded by +-log(1 +- x + x^2/2))
+  relation: supports
+- source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+  locator: Section 2–3, lines 142–277, Lemma 1 and Theorem 1 (Sub-psi supermartingale framework and epoch
+    stitching technique adapted to stitched Catoni CS in Section 6.2)
+  relation: supports
+claims:
+- claim_id: catoni-influence-supermartingale-and-tightness-necessity
+  kind: mechanism
+  statement: 'For any sequence of random variables (X_t)_{t>=1} satisfying E[X_t | F_{t-1}] = mu and E[(X_t
+    - mu)^2 | F_{t-1}] <= sigma^2, any predictable positive sequence (lambda_t)_{t>=1}, and any influence
+    function phi satisfying -log(1 - x + x^2/2) <= phi(x) <= log(1 + x + x^2/2) (such as the narrowest
+    choice phi(x) = log(1 + x + x^2/2) for x >= 0 and -log(1 - x + x^2/2) for x < 0), the inequality exp(+-phi(lambda_i(X_i
+    - mu))) <= 1 +- lambda_i(X_i - mu) + lambda_i^2(X_i - mu)^2 / 2 implies that M_t^C = prod_{i=1}^t
+    exp(phi(lambda_i(X_i - mu)) - lambda_i^2 sigma^2 / 2) and N_t^C = prod_{i=1}^t exp(-phi(lambda_i(X_i
+    - mu)) - lambda_i^2 sigma^2 / 2) are nonnegative supermartingales with initial value 1 (Lemma 8) and
+    that CI_t^C = {m in R : |sum_{i=1}^t phi(lambda_i(X_i - m))| <= sum_{i=1}^t lambda_i^2 sigma^2 / 2
+    + log(2/alpha)} is a connected (1 - alpha)-confidence sequence (Theorem 9); conversely, Proposition
+    16 proves this variance condition is tight because if E[(Y_t - mu)^2 | F_{t-1}] = v_t > (1 + 2 kappa)
+    sigma^2 on an event S in F_{t-1} of positive probability, there exists lambda_t > 0 for which E[exp(phi(lambda_t(Y_t
+    - mu)) - lambda_t^2 sigma^2 / 2) | F_{t-1}] > 1 on S.'
+  evidence:
+  - source_id: wang-ramdas2023-catoni-cs
+    locator: Section 6, lines 99–114, Equations 26–33, Lemma 8, Theorem 9; Appendix B.3, lines 650–670,
+      Proposition 16
+    relation: supports
+  - source_id: catoni2012-deviation-study
+    locator: Abstract and Section 2 (Influence function bounds -log(1 - x + x^2/2) <= phi(x) <= log(1
+      + x + x^2/2))
+    relation: supports
+- claim_id: comparison-with-dubins-savage-and-delyon-self-normalized-confidence-sequences
+  kind: mechanism
+  statement: 'While the Dubins-Savage confidence sequence CI_t^{DS} = [sum_{i=1}^t lambda_i X_i / sum_{i=1}^t
+    lambda_i +- (2/alpha - 1 + sigma^2 sum_{i=1}^t lambda_i^2) / sum_{i=1}^t lambda_i] (Theorem 2, derived
+    from Lemma 1''s linear supermartingale inequality P(exists t : S_t >= a + b V_t) <= 1/(1 + a b)) suffers
+    polynomial width dependence O(1/alpha) (or O(alpha^{-1/2}) when tuned to alpha), and the Self-Normalized
+    confidence sequence CI_t^{SN} (Lemma 5, Theorem 7, derived from Delyon''s inequality exp(x - x^2/6)
+    <= 1 + x + x^2/3 via M_t^{SN} = prod_{i=1}^t exp(lambda_i(X_i - mu) - lambda_i^2(X_i - mu)^2 / 6 -
+    lambda_i^2 sigma^2 / 3)) achieves O(log(1/alpha)) scaling by placing the quadratic empirical-variance
+    term -(lambda_i^2/6)(X_i - mu)^2 in the exponent at the cost of producing a disconnected three-component
+    union of intervals L_t^{SN} U M_t^{SN} U U_t^{SN} (complement of two anticonfidence intervals when
+    the quadratic discriminants D^+, D^- are positive), the Catoni-style confidence sequence CI_t^C simultaneously
+    preserves connected single-interval topology [u_t, l_t] and logarithmic O(log(1/alpha)) width scaling.'
+  evidence:
+  - source_id: wang-ramdas2023-catoni-cs
+    locator: Section 1, lines 28–39, Table 1; Section 3, lines 53–68, Lemma 1, Theorem 2; Section 5, lines
+      77–98, Lemmas 4–6, Theorem 7; Section 6, lines 99–114, Theorem 9; Appendix B.1–B.2, lines 616–648
+    relation: supports
+- claim_id: nonasymptotic-quadratic-width-bound-and-stitched-iterated-logarithm-rate
+  kind: mechanism
+  statement: Using the cubic upper bound phi(x) <= x - x^2/2 + x^3/3, Theorem 10 proves that whenever
+    the weighted empirical variance sigma_hat_i^2 = (X_i - mu_hat)^2 around mu_hat = sum_{i=1}^t lambda_i
+    X_i / sum_{i=1}^t lambda_i satisfies the discriminant condition Delta_t = (sum_{i=1}^t lambda_i)^2
+    - 2(sum_{i=1}^t lambda_i^3)(sum_{i=1}^t lambda_i^2 sigma_hat_i^2 + sum_{i=1}^t lambda_i^2 sigma^2
+    / 2 + log(2/alpha)) >= 0, the roots [u_t, l_t] of CI_t^C exist and have half-width bounded deterministically
+    by the smaller quadratic root rho_t = (sum_{i=1}^t lambda_i - sqrt(Delta_t)) / sum_{i=1}^t lambda_i^3
+    (Appendix B.4, Equations 34 and 72–76), which yields O(sqrt(t^{-1} log t)) shrinkage under predictable
+    plugin tuning lambda_t = Theta(1/sqrt(t log t)) (Corollary 10.1) and attains the optimal law-of-the-iterated-logarithm
+    rate O(sqrt(t^{-1} log log t)) via geometric epoch stitching CI_t^{Cstch} = cap_{s=1}^t I_s in Section
+    6.2 (Corollary 10.2, Lemma 17).
+  evidence:
+  - source_id: wang-ramdas2023-catoni-cs
+    locator: Section 6.1–6.2, lines 115–144, Theorem 10, Corollaries 10.1–10.2, Equations 34–38; Section
+      8, lines 155–175, Figures 4–5; Appendix B.4–B.5, lines 672–758, Lemma 17
+    relation: supports
+  - source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+    locator: Section 3.1, lines 221–248, Theorem 1 (Geometric epoch stitching over LIL boundaries)
+    relation: supports
+- claim_id: infinite-variance-p-catoni-supermartingale-confidence-sequences
+  kind: mechanism
+  statement: 'When the conditional variance is infinite but the conditional p-th central moment is bounded
+    by E[|X_t - mu|^p | F_{t-1}] <= v_t for known 1 < p < 2, replacing the quadratic Catoni influence
+    function with the p-Catoni influence function satisfying -log(1 - x + |x|^p/p) <= phi_p(x) <= log(1
+    + x + |x|^p/p) makes M_t^{Cp} = prod_{i=1}^t exp(phi_p(lambda_i(X_i - mu)) - lambda_i^p v_i / p) and
+    N_t^{Cp} = prod_{i=1}^t exp(-phi_p(lambda_i(X_i - mu)) - lambda_i^p v_i / p) nonnegative supermartingales
+    (Lemma 13) and yields the connected confidence sequence CI_t^{Cp} = {m in R : |sum_{i=1}^t phi_p(lambda_i(X_i
+    - m))| <= sum_{i=1}^t lambda_i^p v_i / p + log(2/alpha)} (Theorem 14), whose half-width is bounded
+    via the inequality |x + y|^p <= |x|^p + 4|y|^p + p y |x|^{p-1} sgn(x) (Lemma 21) and root analysis
+    of g(r) = 4 A r^p - B r + C (Lemmas 19–20) to contract at rate O_tilde(t^{-(p-1)/p} log(1/alpha))
+    when lambda_t = Theta_tilde(t^{-1/p}) (Theorem 15, Corollary 15.1).'
+  evidence:
+  - source_id: wang-ramdas2023-catoni-cs
+    locator: Section 9, lines 176–196, Equations 47–52, Lemma 13, Theorems 14–15, Corollary 15.1; Appendix
+      C, lines 759–803, Lemmas 19–21
+    relation: supports
+evidence_sources:
+- source_id: wang-ramdas2023-catoni-cs
+  title: Catoni-style confidence sequences for heavy-tailed mean estimation
+  authors:
+  - Hongjian Wang
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2202.01250
+  persistent_id: https://doi.org/10.1016/j.spa.2023.05.007
+  version: arXiv:2202.01250 (published in Stochastic Processes and their Applications 163:168–202, 2023).
+    Complete full-text ar5iv HTML conversion read across Sections 1–10 and Appendices A–C (804 lines,
+    95,733 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T12:50:00Z'
+  sha256: e80a2fc7a2a49108bd3c276657ed1864c0ad1da6f784198574b0b0a92c444fd2
+- source_id: catoni2012-deviation-study
+  title: 'Challenging the empirical mean and empirical variance: A deviation study'
+  authors:
+  - Olivier Catoni
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/11-AIHP454
+  persistent_id: https://doi.org/10.1214/11-AIHP454
+  version: Annales de l'Institut Henri Poincare, Probabilites et Statistiques 48(4):1148–1185, 2012 (arXiv:1009.2048).
+    Publisher Crossref bibliographic and abstract record (2,881 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T12:50:00Z'
+  sha256: af6e53dac76c890dc1f787d9fea25c0b34bc47f8a7dedf80a9e6570ac9e83334
+- source_id: howard-ramdas-mcauliffe-sekhon2021-subpsi
+  title: Time-uniform, nonparametric, nonasymptotic confidence sequences
+  authors:
+  - Steven R. Howard
+  - Aaditya Ramdas
+  - Jon McAuliffe
+  - Jasjeet Sekhon
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1810.08240
+  persistent_id: https://doi.org/10.1214/20-AOS1991
+  version: arXiv:1810.08240 (published in The Annals of Statistics 49(2):1055–1080, 2021). Complete full-text
+    ar5iv HTML conversion read across Sections 1–6 and Appendices A–J (1,696 lines, 221,275 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T12:20:00Z'
+  sha256: aef352a6e271a2317826f200bf481b2aaf956b978323ee8a2b25b589c2ec1732
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Catoni-style and p-Catoni confidence sequences guarantee nonasymptotic time-uniform coverage
+    across all stopping times under heavy-tailed distributions with only finite variance or finite p-th
+    central moment (1 < p < 2), preventing false-positive inflation from continuous peeking in sequential
+    experiments (AIO:DataDredgingBias).
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: Catoni-style supermartingales track conditional means across dependent sequential processes
+    (X_t)_{t>=1} adapted to filtrations (F_t)_{t>=0} with time-varying predictable variance bounds v_t
+    (AIO:TimeSeriesAnalysis).
+limitations:
+- Constructing valid Catoni-style (or p-Catoni) confidence sequences requires a known a priori upper bound
+  sigma^2 on the conditional variance E[(X_t - mu)^2 | F_{t-1}] <= sigma^2 (or a known upper bound v_t
+  on the p-th central moment E[|X_t - mu|^p | F_{t-1}] <= v_t); by Bahadur-Savage-style impossibility
+  and Proposition 16, if the true variance exceeds (1 + 2 kappa) sigma^2 on a positive-probability event,
+  the Catoni process ceases to be a supermartingale and anytime coverage can fail (Section 2, Section
+  7, Appendix B.3).
+- At very small sample sizes t before the discriminant condition Delta_t >= 0 of Theorem 10 is satisfied
+  (for example when a single extreme outlier makes sum_{i=1}^t lambda_i(X_i - m) fail to cross the threshold
+  within the quadratic regime or whenphi is chosen from a bounded influence family), root-finding must
+  be performed numerically via bisection/Newton-Raphson and bounded influence functions phi can yield
+  infinite confidence intervals at small t (Section 6, Remark 2, Theorem 10).
+- Under adversarial contamination where an epsilon-fraction of observations come from an arbitrary corrupting
+  distribution with unbounded moments, standard Catoni-style confidence sequences can be biased unless
+  modified to incorporate Huber-robust contamination budgets (Section 10, Wang & Ramdas 2023 AISTATS).
+- All 804 lines of Wang & Ramdas (2023, arXiv:2202.01250) were read. Constructed numerical checks in research/discovery/catoni-style-heavy-tailed-confidence-sequences-boundaries.py
+  verify Catoni influence bounds, Lemma 8 supermartingale expectations on heavy-tailed Student-t_3 and
+  Proposition 16 tightness failure under underestimated variance, Delyon's inequality and the disconnected
+  3-component topology of Self-Normalized CS vs. connected O(log(1/alpha)) Catoni CS and O(1/alpha) Dubins-Savage
+  CS, Student-t_3 anytime coverage vs. naive CLT peeking failure and Theorem 10's quadratic width bound
+  rho_t, and Section 9's infinite-variance p-Catoni (p = 1.5) Lemma 21 inequality and anytime coverage
+  on symmetric Pareto(alpha_tail = 1.8) streams.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T12:50:00Z'
+  updated_at: '2026-10-17T12:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

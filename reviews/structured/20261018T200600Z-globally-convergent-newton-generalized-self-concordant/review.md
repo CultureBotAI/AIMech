@@ -1,0 +1,524 @@
+# Scientific author self-review of globally convergent regularization homotopy and Nyström Newton method for generalized self-concordant losses
+
+- Review: 20261018T200600Z-globally-convergent-newton-generalized-self-concordant
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T20:05:00Z
+- Finished UTC: 2026-10-18T20:06:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Globally Convergent Regularization Homotopy and Nyström Newton Method for Generalized Self-Concordant Losses as a distinct DRAFT mathematical_method with related LogisticRegression and RidgeRegression mappings. All four claims and locators across Marteau-Ferey, Bach, &amp; Rudi (2019, NeurIPS 32, arXiv:1907.01771v2) are supported with explicit R &#124;&#124;x_lambda^*&#124;&#124; scaling and indirect projection-decomposition constant limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 114f7b045602de268328e243dbb8d39a4480c404.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | data/curated/GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.yaml | maintained | Globally Convergent Regularization Homotopy and Nyström Newton Method for Generalized Self-Concordant Losses |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | All 619 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | Exited 0 without output. |
+| Constructed Marteau-Ferey, Bach, &amp; Rudi 2019 Dikin ellipsoid, regularization homotopy, and Nyström PCG checks | passed | True | AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses | {<br>  "concept_id": "AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses",<br>  "all_passed": true,<br>  "check_1_gsc_dikin_and_regimes": {<br>    "passed": true,<br>    "max_phi_ratio_err": 1.6e-15,<br>    "initial_renorm_decrement": 0.120757,<br>    "dikin_threshold_1_over_7": 0.142857,<br>    "lemma6_function_equivalence_holds": true,<br>    "exact_newton_quadratic_convergence_holds": true,<br>    "relative_anm_linear_convergence_holds": true<br>  },<br>  "check_2_homotopy_globalization_scheme": {<br>    "passed": true,<br>    "direct_init_renorm_decrement_at_lam": 110.2196,<br>    "max_renorm_decrement_along_homotopy": 0.138302,<br>    "phase1_final_renorm_decrement_at_lam": 0.004841,<br>    "dikin_threshold_1_over_7": 0.142857,<br>    "phase1_stages_K": 899,<br>    "theorem1_stage_bound": 3569,<br>    "phase2_steps_T": 7,<br>    "final_suboptimality": 0.0,<br>    "target_eps": 1e-08<br>  },<br>  "check_3_pcg_and_nystrom_projection": {<br>    "passed": true,<br>    "pcg_tau3_relative_error": 0.000643,<br>    "pcg_tau3_theoretical_bound": 0.038476,<br>    "target_rho_1_over_7": 0.142857,<br>    "projector_capacity_C_P": 3e-06,<br>    "nu_full_at_projected_point": 0.000669,<br>    "prop15_upper_bound_3_nuP_plus_s": 0.548732<br>  }<br>} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of globally convergent regularization homotopy and Nyström Newton method for generalized self-concordant losses
+
+identity: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+Distinct from finite-sample self-concordant M-estimation critical sample size bounds, deterministic Banach M-estimator inequalities, and sample-split Newton ERM.
+
+Confirmed via normalized identity check and full-text reading of Marteau-Ferey, Bach, &amp; Rudi (2019, arXiv:1907.01771v2).
+
+### AIO mappings for AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+
+grounding: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+related_match to AIO:LogisticRegression and AIO:RidgeRegression are accurate.
+
+Pinned AIO (2026-07-22) contains LogisticRegression and RidgeRegression broadly without regularization-homotopy Dikin-ellipsoid continuation or Nyström preconditioned conjugate gradient Newton methods.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+Definition accurately captures generalized self-concordance, Dikin-ellipsoid exact/approximate Newton regimes, two-phase regularization homotopy globalization, and Nyström PCG kernel learning.
+
+All equations and claims verified against Sections 1-5 and Appendices A-I of arXiv:1907.01771v2.
+
+### generalized-self-concordant-dikin-ellipsoid-and-three-approximate-newton-regimes
+
+evidence: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+Supported by Sections 2-3 (Definitions 1-2, Lemmas 1-2), Appendices A-B (Propositions 1-5, Lemmas 5-12), and boundary script.
+
+Verified helper identity error 1.6e-15, Lemma 6 function equivalence, exact Newton quadratic contraction, and 1/7-relative ANM linear contraction.
+
+### two-phase-regularization-homotopy-dikin-inclusion-and-global-convergence
+
+evidence: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+Supported by Section 3 (Lemma 3, Theorem 1), Appendix C (Lemmas 13-14, Corollary 3, Propositions 6-8), and boundary script.
+
+Verified Dikin invariant &lt;= 0.138302 &lt;= 1/7 across K = 899 &lt;= 3569 stages and Phase II convergence to suboptimality &lt;= 1e-8.
+
+### nystrom-subspace-projection-and-projector-capacity-excess-risk-preservation
+
+evidence: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+Supported by Section 4 (Theorems 2-3), Appendix D.1-D.4 (Propositions 9-11, Theorems 5-6), Appendices G-H (Propositions 15-19), and boundary script.
+
+Verified Proposition 15 bound nu_lambda(x) = 0.000669 &lt;= 3(nu_{P,lambda}(x) + s_lambda) = 0.548732 under C_P(x_lambda^*, lambda) = 3e-6 &lt;= 1/120.
+
+### preconditioned-conjugate-gradient-approximate-newton-and-condition-free-kernel-complexity
+
+evidence: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+Supported by Section 4 (Lemma 4, Theorem 4), Appendix D.5-D.6 (Propositions 12-14, Theorem 7), Appendix E (Algorithm 1), and boundary script.
+
+Verified 3-step PCG relative error 0.000643 &lt;= 0.038476 &lt;= 1/7 under condition number &lt;= 3.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, two pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T200500Z-globally-convergent-newton-generalized-self-concordant.json | supports | No normalized identity match for globally convergent regularization homotopy and Nyström Newton method for generalized self-concordant losses across 442 pinned AIO records and 618 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LogisticRegression and RidgeRegression in the pinned AIO snapshot (2026-07-22). Provide accurate related_match context. |
+| calculation | research/discovery/globally-convergent-newton-generalized-self-concordant-boundaries.py | supports | Executed pure-Python verification in research/discovery/globally-convergent-newton-generalized-self-concordant-boundaries.py (SHA-256 c371e979cc09409b304becd1ed8dd19f016b99e4f292366069ade3a3103c362d): verified (1) Appendix A.1 Eq. (13) helper identity phi_over(t)/phi_under(t) = e^t (error 1.6e-15), Lemma 6 function-value equivalence inside D_lambda(1/7), Lemma 10 exact Newton quadratic convergence, and Proposition 5 1/7-relative ANM linear convergence; (2) Lemma 3/13 Dikin-ellipsoid inclusion, Proposition 6, and Theorem 1 two-phase regularization homotopy globalization from mu_0 = 7 R &#124;&#124;nabla f(0)&#124;&#124; down to lambda = 1e-4 (maintaining max renormalized decrement 0.138302 &lt;= 1/7 across K = 899 &lt;= 3569 stages and reaching suboptimality &lt;= 1e-8, whereas direct initialization at lambda = 1e-4 has renormalized decrement 110.2196 &gt;&gt; 1/7); and (3) Proposition 12 3-step preconditioned conjugate gradient relative error 0.000643 &lt;= 0.038476 &lt;= 1/7 and Proposition 15 Nyström projector capacity bound. |
+| marteauferey2019-gsc-newton-pdf | https://arxiv.org/pdf/1907.01771; Pages 1-77, Sections 1-5 and Appendices A-I (Definitions 1-9, Lemmas 1-29, Propositions 1-19, Theorems 1-9, Algorithm 1) | supports | All 77 pages of the full-text PDF of Marteau-Ferey, Bach, &amp; Rudi (2019, arXiv:1907.01771v2) read. Checked all definitions, lemmas, propositions, theorems, algorithms, and proofs. |
+| marteauferey2019-gsc-newton-abs | https://arxiv.org/abs/1907.01771; arXiv:1907.01771v2 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| marteauferey2019-gsc-newton-neurips | https://proceedings.neurips.cc/paper/2019/hash/60495b4e033e9f60b32a6607b587aadd-Abstract.html; NeurIPS 32 (2019) proceedings record | supports | NeurIPS 2019 metadata record read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT globally convergent regularization homotopy and Nyström Newton method record, yielding 619 native and 442 unchanged generated records.
+- All 77 PDF pages of arXiv:1907.01771v2 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T200600Z-globally-convergent-newton-generalized-self-concordant
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of globally convergent regularization homotopy
+  and Nyström Newton method for generalized self-concordant losses
+started_at: '2026-10-18T20:05:00Z'
+finished_at: '2026-10-18T20:06:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation,
+    DeterministicBanachContractionAndNewtonKantorovichInequalitiesForSmoothMEstimators,
+    and HigherOrderSmoothRegularizedEmpiricalRiskMinimizationAndSampleSplitNewton,
+    verified Dikin-ellipsoid function equivalence, exact vs. 1/7-relative ANM convergence
+    regimes, Lemma 3/13 Dikin inclusion, Theorem 1 two-phase homotopy globalization,
+    Proposition 12 3-step PCG relative error, and Proposition 15 Nyström projector
+    capacity bounds, and documented five typographical/notational notes in Marteau-Ferey,
+    Bach, & Rudi (2019, arXiv:1907.01771v2, pp. 7, 19, 24, 25, 44, 72). This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Globally Convergent Regularization Homotopy and Nyström Newton Method
+  for Generalized Self-Concordant Losses as a distinct DRAFT mathematical_method with
+  related LogisticRegression and RidgeRegression mappings. All four claims and locators
+  across Marteau-Ferey, Bach, & Rudi (2019, NeurIPS 32, arXiv:1907.01771v2) are supported
+  with explicit R ||x_lambda^*|| scaling and indirect projection-decomposition constant
+  limitations.
+source:
+  git_revision: 114f7b045602de268328e243dbb8d39a4480c404
+  state: working_tree
+  inputs:
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/RidgeRegression.yaml
+    sha256: 7ee3be4552041e1ee2194a78eb0cbefe25283907027a6680395973dbf98636bb
+    role: context
+  - path: data/curated/AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression.yaml
+    sha256: d556ea353e24718124a93f090878e7f8216e93b4afbdae3081a1b97c17b275b8
+    role: context
+  - path: data/curated/GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.yaml
+    sha256: 312e0e9d67ce6bd469f7eefeeb471f48eac971931a38fc52465b41b5ea01293d
+    role: target
+  - path: data/curated/SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.yaml
+    sha256: c761874a688223c4e3b5febdfd064a1b9369889dfeb89edcaab4944bf0328802
+    role: context
+  - path: research/discovery/20261018T200500Z-globally-convergent-newton-generalized-self-concordant.json
+    sha256: 22824075c75937105fff402e48720dfc1f72716f6d9692bab3bc7401f838b98a
+    role: context
+  - path: research/discovery/globally-convergent-newton-generalized-self-concordant-boundaries.py
+    sha256: c371e979cc09409b304becd1ed8dd19f016b99e4f292366069ade3a3103c362d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  path: data/curated/GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.yaml
+  label: Globally Convergent Regularization Homotopy and Nyström Newton Method for
+    Generalized Self-Concordant Losses
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 619 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Marteau-Ferey, Bach, & Rudi 2019 Dikin ellipsoid, regularization
+    homotopy, and Nyström PCG checks
+  command: python3 research/discovery/globally-convergent-newton-generalized-self-concordant-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses\"\
+    ,\n  \"all_passed\": true,\n  \"check_1_gsc_dikin_and_regimes\": {\n    \"passed\"\
+    : true,\n    \"max_phi_ratio_err\": 1.6e-15,\n    \"initial_renorm_decrement\"\
+    : 0.120757,\n    \"dikin_threshold_1_over_7\": 0.142857,\n    \"lemma6_function_equivalence_holds\"\
+    : true,\n    \"exact_newton_quadratic_convergence_holds\": true,\n    \"relative_anm_linear_convergence_holds\"\
+    : true\n  },\n  \"check_2_homotopy_globalization_scheme\": {\n    \"passed\":\
+    \ true,\n    \"direct_init_renorm_decrement_at_lam\": 110.2196,\n    \"max_renorm_decrement_along_homotopy\"\
+    : 0.138302,\n    \"phase1_final_renorm_decrement_at_lam\": 0.004841,\n    \"dikin_threshold_1_over_7\"\
+    : 0.142857,\n    \"phase1_stages_K\": 899,\n    \"theorem1_stage_bound\": 3569,\n\
+    \    \"phase2_steps_T\": 7,\n    \"final_suboptimality\": 0.0,\n    \"target_eps\"\
+    : 1e-08\n  },\n  \"check_3_pcg_and_nystrom_projection\": {\n    \"passed\": true,\n\
+    \    \"pcg_tau3_relative_error\": 0.000643,\n    \"pcg_tau3_theoretical_bound\"\
+    : 0.038476,\n    \"target_rho_1_over_7\": 0.142857,\n    \"projector_capacity_C_P\"\
+    : 3e-06,\n    \"nu_full_at_projected_point\": 0.000669,\n    \"prop15_upper_bound_3_nuP_plus_s\"\
+    : 0.548732\n  }\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T200500Z-globally-convergent-newton-generalized-self-concordant.json
+  accessed_at: '2026-10-18T20:05:00Z'
+  support: supports
+  summary: No normalized identity match for globally convergent regularization homotopy
+    and Nyström Newton method for generalized self-concordant losses across 442 pinned
+    AIO records and 618 maintained IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T20:05:00Z'
+  support: supports
+  summary: Inspected LogisticRegression and RidgeRegression in the pinned AIO snapshot
+    (2026-07-22). Provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/globally-convergent-newton-generalized-self-concordant-boundaries.py
+  accessed_at: '2026-10-18T20:05:00Z'
+  snapshot_sha256: c371e979cc09409b304becd1ed8dd19f016b99e4f292366069ade3a3103c362d
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/globally-convergent-newton-generalized-self-concordant-boundaries.py
+    (SHA-256 c371e979cc09409b304becd1ed8dd19f016b99e4f292366069ade3a3103c362d): verified
+    (1) Appendix A.1 Eq. (13) helper identity phi_over(t)/phi_under(t) = e^t (error
+    1.6e-15), Lemma 6 function-value equivalence inside D_lambda(1/7), Lemma 10 exact
+    Newton quadratic convergence, and Proposition 5 1/7-relative ANM linear convergence;
+    (2) Lemma 3/13 Dikin-ellipsoid inclusion, Proposition 6, and Theorem 1 two-phase
+    regularization homotopy globalization from mu_0 = 7 R ||nabla f(0)|| down to lambda
+    = 1e-4 (maintaining max renormalized decrement 0.138302 <= 1/7 across K = 899
+    <= 3569 stages and reaching suboptimality <= 1e-8, whereas direct initialization
+    at lambda = 1e-4 has renormalized decrement 110.2196 >> 1/7); and (3) Proposition
+    12 3-step preconditioned conjugate gradient relative error 0.000643 <= 0.038476
+    <= 1/7 and Proposition 15 Nyström projector capacity bound.'
+- evidence_id: marteauferey2019-gsc-newton-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1907.01771
+  locator: Pages 1-77, Sections 1-5 and Appendices A-I (Definitions 1-9, Lemmas 1-29,
+    Propositions 1-19, Theorems 1-9, Algorithm 1)
+  accessed_at: '2026-10-18T13:04:00Z'
+  snapshot_sha256: f520e8cee313c802dfda6f95e7d8336a34fdb3abcbf508b221c2100edcef1156
+  support: supports
+  summary: All 77 pages of the full-text PDF of Marteau-Ferey, Bach, & Rudi (2019,
+    arXiv:1907.01771v2) read. Checked all definitions, lemmas, propositions, theorems,
+    algorithms, and proofs.
+- evidence_id: marteauferey2019-gsc-newton-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1907.01771
+  locator: arXiv:1907.01771v2 abstract
+  accessed_at: '2026-10-18T13:04:00Z'
+  snapshot_sha256: ac868ce14413122db2988cdd8d73a2514eff5a25105bd777eac6efc6458ece18
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: marteauferey2019-gsc-newton-neurips
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2019/hash/60495b4e033e9f60b32a6607b587aadd-Abstract.html
+  locator: NeurIPS 32 (2019) proceedings record
+  accessed_at: '2026-10-18T13:07:00Z'
+  snapshot_sha256: 56c131ef2c2b757d295e13186d75d4556e388b2b4ffd4d92db524d28e0c06eac
+  support: supports
+  summary: NeurIPS 2019 metadata record read and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of globally convergent regularization homotopy and Nyström Newton
+    method for generalized self-concordant losses
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - identity
+  - marteauferey2019-gsc-newton-pdf
+  - marteauferey2019-gsc-newton-abs
+  - marteauferey2019-gsc-newton-neurips
+  summary: Distinct from finite-sample self-concordant M-estimation critical sample
+    size bounds, deterministic Banach M-estimator inequalities, and sample-split Newton
+    ERM.
+  details: Confirmed via normalized identity check and full-text reading of Marteau-Ferey,
+    Bach, & Rudi (2019, arXiv:1907.01771v2).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - mapping
+  - marteauferey2019-gsc-newton-pdf
+  summary: related_match to AIO:LogisticRegression and AIO:RidgeRegression are accurate.
+  details: Pinned AIO (2026-07-22) contains LogisticRegression and RidgeRegression
+    broadly without regularization-homotopy Dikin-ellipsoid continuation or Nyström
+    preconditioned conjugate gradient Newton methods.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - marteauferey2019-gsc-newton-pdf
+  - marteauferey2019-gsc-newton-abs
+  - marteauferey2019-gsc-newton-neurips
+  summary: Definition accurately captures generalized self-concordance, Dikin-ellipsoid
+    exact/approximate Newton regimes, two-phase regularization homotopy globalization,
+    and Nyström PCG kernel learning.
+  details: All equations and claims verified against Sections 1-5 and Appendices A-I
+    of arXiv:1907.01771v2.
+- assessment_id: generalized-self-concordant-dikin-ellipsoid-and-three-approximate-newton-regimes
+  area: evidence
+  topic: generalized-self-concordant-dikin-ellipsoid-and-three-approximate-newton-regimes
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - marteauferey2019-gsc-newton-pdf
+  - calculation
+  summary: Supported by Sections 2-3 (Definitions 1-2, Lemmas 1-2), Appendices A-B
+    (Propositions 1-5, Lemmas 5-12), and boundary script.
+  details: Verified helper identity error 1.6e-15, Lemma 6 function equivalence, exact
+    Newton quadratic contraction, and 1/7-relative ANM linear contraction.
+- assessment_id: two-phase-regularization-homotopy-dikin-inclusion-and-global-convergence
+  area: evidence
+  topic: two-phase-regularization-homotopy-dikin-inclusion-and-global-convergence
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - marteauferey2019-gsc-newton-pdf
+  - calculation
+  summary: Supported by Section 3 (Lemma 3, Theorem 1), Appendix C (Lemmas 13-14,
+    Corollary 3, Propositions 6-8), and boundary script.
+  details: Verified Dikin invariant <= 0.138302 <= 1/7 across K = 899 <= 3569 stages
+    and Phase II convergence to suboptimality <= 1e-8.
+- assessment_id: nystrom-subspace-projection-and-projector-capacity-excess-risk-preservation
+  area: evidence
+  topic: nystrom-subspace-projection-and-projector-capacity-excess-risk-preservation
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - marteauferey2019-gsc-newton-pdf
+  - calculation
+  summary: Supported by Section 4 (Theorems 2-3), Appendix D.1-D.4 (Propositions 9-11,
+    Theorems 5-6), Appendices G-H (Propositions 15-19), and boundary script.
+  details: Verified Proposition 15 bound nu_lambda(x) = 0.000669 <= 3(nu_{P,lambda}(x)
+    + s_lambda) = 0.548732 under C_P(x_lambda^*, lambda) = 3e-6 <= 1/120.
+- assessment_id: preconditioned-conjugate-gradient-approximate-newton-and-condition-free-kernel-complexity
+  area: evidence
+  topic: preconditioned-conjugate-gradient-approximate-newton-and-condition-free-kernel-complexity
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - marteauferey2019-gsc-newton-pdf
+  - calculation
+  summary: Supported by Section 4 (Lemma 4, Theorem 4), Appendix D.5-D.6 (Propositions
+    12-14, Theorem 7), Appendix E (Algorithm 1), and boundary script.
+  details: Verified 3-step PCG relative error 0.000643 <= 0.038476 <= 1/7 under condition
+    number <= 3.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  evidence_ids:
+  - identity
+  - mapping
+  - marteauferey2019-gsc-newton-pdf
+  - marteauferey2019-gsc-newton-abs
+  - marteauferey2019-gsc-newton-neurips
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, two pinned AIO mappings and rationales, four scoped limitations, and
+    UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT globally convergent regularization homotopy and Nyström Newton method
+  record, yielding 619 native and 442 unchanged generated records.
+- All 77 PDF pages of arXiv:1907.01771v2 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- newton-method
+- generalized-self-concordance
+- nystrom-approximation
+- self-review
+- discovery-ongoing
+```

@@ -1,0 +1,108 @@
+id: AIMech:DeeBERTDynamicEarlyExitingForAcceleratingBERTInference
+name: DeeBERT (Dynamic Early Exiting for Accelerating BERT Inference)
+concept_kind: algorithm
+review_status: DRAFT
+definition: DeeBERT (Dynamic Early Exiting for Accelerating BERT Inference) is a dynamic multi-exit fine-tuning and inference method for pretrained Transformer language models that inserts one intermediate classification off-ramp f_i(x; theta) after each Transformer layer i = 1..n (where f_n is the original final classifier), trains the network with a two-stage supervised protocol that first fine-tunes the embeddings, all n Transformer layers, and f_n under the final-layer cross-entropy loss L_n and then freezes the backbone and f_n while optimizing only the intermediate off-ramps f_1..f_{n-1} under sum_{i=1}^{n-1} L_i, and accelerates inference by exiting at the first off-ramp i whose output distribution z_i = f_i(x) has Shannon entropy H(z_i) < S.
+identity_notes: Distinct from static layer-dropping and distillation methods (DistilBERT, TinyBERT, BERT-PKD, LayerDrop) that apply fixed depth reduction to all inputs regardless of difficulty, distinct from FastBERT (AIMech:FastBERTSelfDistillingBERTWithAdaptiveInferenceTime) which trains student branches via KL self-distillation from the final classifier's soft labels rather than supervised ground-truth cross-entropy in Stage 2, and distinct from PABEE (AIMech:PABEEPatienceBasedEarlyExitForBERT) which exits based on consecutive cross-layer prediction agreement (patience) rather than single-layer entropy H(z_i) < S.
+aliases:
+- DeeBERT
+- Dynamic Early Exiting for Accelerating BERT Inference
+- DeeBERT Two-Stage Off-Ramp Early Exiting
+definition_evidence:
+- source_id: r812-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r812-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r812-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: deebert-two-stage-off-ramp-fine-tuning-isolation
+  kind: mechanism
+  statement: 'DeeBERT attaches n classification off-ramps with per-layer cross-entropy loss L_i(D; theta) = (1/|D|) sum_{(x,y) in D} H(y, f_i(x; theta)) (Eq. 1) and decouples fine-tuning into two stages: Stage 1 updates embeddings, all n Transformer layers, and the final off-ramp f_n using L_n, while Stage 2 freezes all parameters updated in Stage 1 and updates only the intermediate off-ramps f_1..f_{n-1} using sum_{i=1}^{n-1} L_i, strictly preserving the full-depth Transformer''s predictive capacity at layer n.'
+  evidence:
+  - source_id: r812-primary-pdf
+    locator: Section 3.1 (Fine-Tuning), Equation 1, pp. 2247-2248
+    relation: supports
+  - source_id: r812-primary-pdf
+    locator: verify_two_stage_isolation and main
+    relation: supports
+- claim_id: deebert-entropy-threshold-early-exit-and-layer-saving
+  kind: mechanism
+  statement: At inference time (Algorithm 1), DeeBERT evaluates Transformer layers i = 1..n sequentially and immediately returns z_i = f_i(x) at the first layer satisfying entropy(z_i) < S, achieving analytical expected layer execution savings of 1 - (sum_{i=1}^n i * N_i) / (sum_{i=1}^n n * N_i) (Eq. 2), where N_i is the number of examples exiting at layer i.
+  evidence:
+  - source_id: r812-primary-pdf
+    locator: Section 3.2 (Inference), Algorithm 1 and Equation 2, p. 2248
+    relation: supports
+  - source_id: r812-primary-pdf
+    locator: deebert_early_exit and expected_layer_saving
+    relation: supports
+- claim_id: deebert-glue-inference-acceleration-for-bert-and-roberta
+  kind: application
+  statement: On six GLUE benchmark tasks (SST-2, MRPC, QNLI, RTE, QQP, and MNLI) across both BERT-base and RoBERTa-base, DeeBERT reduces inference time by up to ~40% with minimal accuracy degradation and traces a single continuous quality-efficiency trade-off curve by varying the entropy threshold S without retraining.
+  evidence:
+  - source_id: r812-primary-pdf
+    locator: Section 4.2 (Main Results), Table 1 and Figure 2, pp. 2248-2249
+    relation: supports
+- claim_id: deebert-layerwise-redundancy-and-threshold-sensitivity-limitation
+  kind: limitation
+  statement: Because early off-ramp classifiers can exhibit overconfidence on hard inputs and ensemble effects across layers are absent in single-layer entropy checks, aggressive entropy thresholds S cause accuracy degradation on complex reasoning tasks, and wall-clock speedup requires batch-size-1 or dynamic batching execution.
+  evidence:
+  - source_id: r812-primary-pdf
+    locator: Section 4.1 (Experimental Setup) and Section 4.3 (Layerwise Results), pp. 2248-2250
+    relation: supports
+evidence_sources:
+- source_id: r812-primary-pdf
+  title: 'DeeBERT: Dynamic Early Exiting for Accelerating BERT Inference'
+  authors: &id001
+  - Ji Xin
+  - Raphael Tang
+  - Jaejun Lee
+  - Yaoliang Yu
+  - Jimmy Lin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.12993
+  persistent_id: https://arxiv.org/bibtex/2004.12993
+  version: ACL 2020 (2020) (1292533 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:55:00Z'
+  sha256: 88e2f00353a3ea62b2650b729b21355f07785e1054e8a725866936f2ba2b2963
+- source_id: r812-arxiv-abs
+  title: 'DeeBERT: Dynamic Early Exiting for Accelerating BERT Inference (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.12993
+  persistent_id: https://arxiv.org/abs/2004.12993
+  version: arXiv abstract page (6592 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:55:00Z'
+  sha256: 642fcb71b76cc169dfa928f0d0c399a8d9c893a7b1eaa7de7e1f12975bb0dd64
+- source_id: r812-metadata-cr
+  title: 'DeeBERT: Dynamic Early Exiting for Accelerating BERT Inference (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.12993
+  persistent_id: https://arxiv.org/bibtex/2004.12993
+  version: Crossref API work record (408 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:55:00Z'
+  sha256: fe6ffa55800d54d0d7355f6480a81fb3f1c877e93061888efd29736b2ab6ff8e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: DeeBERT is an adaptive multi-exit neural network training and inference architecture built on pretrained Transformer encoders.
+limitations:
+- Single-layer entropy thresholding H(z_i) < S is vulnerable to overconfident early off-ramp predictions on hard examples when S is large.
+- Instance-adaptive early exiting requires batch size 1 or dynamic stream batching at inference time to translate layer savings directly into wall-clock latency reductions.
+curation:
+  created_at: '2026-10-19T14:55:00Z'
+  updated_at: '2026-10-19T14:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

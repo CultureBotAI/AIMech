@@ -1,0 +1,106 @@
+id: AIMech:TKTransformerKernelModelForReRanking
+name: TK Transformer-Kernel Neural Re-Ranking Model
+concept_kind: architecture
+review_status: DRAFT
+definition: An interpretable, time-budget-constrained neural re-ranking architecture that independently contextualizes query and document sequences by blending lookup word embeddings t_i with l-layer (l in {1, 2, 3}) sinusoidal-positional Transformer outputs via a learned interpolation weight alpha (hat{t}_i = t_i * alpha + context(t_{1:n})_i * (1 - alpha)), computes a single pairwise cosine interaction match-matrix M_{i,j} = cos(hat{q}_i, hat{d}_j), transforms M_{i,j} with Gaussian RBF kernels K_{i,j}^k = exp(-(M_{i,j} - mu_k)^2 / (2 * sigma^2)), and combines log-normalized kernel pooling (s_log^k = sum_i log_b(sum_j K_{i,j}^k)) with document-length-normalized kernel pooling (s_len^k = sum_i (sum_j K_{i,j}^k) / d_len) into a weighted relevance score s = s_log * beta + s_len * gamma.
+identity_notes: Distinct from CEDR-KNRM (AIMech:CEDRContextualizedEmbeddingsForDocumentRanking), which jointly encodes concatenated query-document pairs through 12-layer BERT and pools across L layer-wise similarity matrices with only log-normalized KNRM kernels plus BERT's [CLS] vector; and distinct from standard KNRM and Conv-KNRM, which use uncontextualized word embeddings or fixed-width local CNN n-gram filters without global sequence-wide self-attention or parallel document-length-normalized kernel pooling.
+aliases:
+- TK Model
+- Transformer-Kernel Re-Ranking Model
+- TK Interpretable Time-Budget-Constrained Re-Ranking
+definition_evidence:
+- source_id: r784-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r784-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r784-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: tk-hybrid-alpha-contextualized-term-representation
+  kind: mechanism
+  statement: TK processes query sequence q_{1:m} and document sequence d_{1:n} independently with shared parameters, fusing 300-dimensional pre-trained GloVe word embeddings t_i with positional encodings p_{1:n} through l lightweight Transformer layers (l in {1, 2, 3}, 16 heads of size 32, feed-forward dimension 100) and computing the hybrid-contextualized term representation hat{t}_i = t_i * alpha + context(t_{1:n})_i * (1 - alpha) regulated by an end-to-end learned scalar alpha (Sections 3.1 & 4.3, Equations 1-3).
+  evidence:
+  - source_id: r784-primary-pdf
+    locator: Section 3.1 & Section 4.3, Figure 1 & Equations 1-3, pp. 2-4
+    relation: supports
+  - source_id: r784-primary-pdf
+    locator: hybrid_contextualize() verification
+    relation: supports
+- claim_id: tk-single-match-matrix-and-dual-log-and-length-normalized-rbf-kernels
+  kind: mechanism
+  statement: TK distills all query-document term interactions through a single cosine similarity bottleneck matrix M_{i,j} = cos(hat{q}_i, hat{d}_j) (Equation 4), applies 11 Gaussian RBF kernels K_{i,j}^k = exp(-(M_{i,j} - mu_k)^2 / (2 * sigma^2)) with mu_k in [-1, 1] and sigma = 0.1 (omitting KNRM's exact-match kernel since contextualized vectors do not produce exact 1.0 matches, Equation 5), sums across document positions K_i^k = sum_j K_{i,j}^k (Equation 6), splits into parallel log-normalized (s_log^k = sum_i log_2(K_i^k), Equation 7) and document-length-normalized (s_len^k = sum_i K_i^k / d_len, Equation 8) paths, and combines their linear projections via s = s_log * beta + s_len * gamma (Equations 9-10).
+  evidence:
+  - source_id: r784-primary-pdf
+    locator: Section 3.2 & Section 4.3, Figure 1 & Equations 4-10, pp. 3-4
+    relation: supports
+  - source_id: r784-primary-pdf
+    locator: tk_dual_kernel_score() and main() verification
+    relation: supports
+- claim_id: tk-time-budget-constrained-reranking-and-interpretability-application
+  kind: application
+  statement: With 2 Transformer layers, TK re-ranks 4 documents/ms (40x faster than BERT-Base at 0.1 docs/ms, Table 2) and achieves the highest effectiveness of all evaluated models across MSMARCO-Passage, MSMARCO-Document, and TREC CAR under any query time budget up to 200 ms for MRR@10, 480-600 ms for Recall@10, and 250-300 ms for nDCG@10 (at a 100 ms budget on MSMARCO-Passage, TK's MRR@10 is 10% higher, Recall@10 is 40% higher, and nDCG@10 is 19% higher than BERT-Base, Section 5.2 & Figure 2), while enabling word-by-kernel attribution of ranking decisions (Section 6, Figure 3).
+  evidence:
+  - source_id: r784-primary-pdf
+    locator: Sections 5-6, Tables 2-3 & Figures 2-3, pp. 4-7
+    relation: supports
+- claim_id: tk-unconstrained-bert-ceiling-and-200-token-document-cap-limitation
+  kind: limitation
+  statement: When query latency is unconstrained, 12-layer BERT-Base and 24-layer BERT-Large achieve higher peak effectiveness than TK across all three collections (e.g., 0.376 vs. 0.314 MRR@10 on MSMARCO-Passage and on complex queries exceeding 8 words, Table 2 & Section 5.3), and TK caps document length at 200 tokens, truncating the majority of documents in MSMARCO-Document (Section 4.3).
+  evidence:
+  - source_id: r784-primary-pdf
+    locator: Section 4.3 & Sections 5.1, 5.3, Tables 2-3, pp. 4-7
+    relation: supports
+evidence_sources:
+- source_id: r784-primary-pdf
+  title: Interpretable & Time-Budget-Constrained Contextualization for Re-Ranking
+  authors: &id001
+  - "Sebastian Hofst\xE4tter"
+  - Markus Zlabinger
+  - Allan Hanbury
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.01854.pdf
+  persistent_id: https://arxiv.org/bibtex/2002.01854
+  version: ECAI 2020 (2020) (3903065 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:27:00Z'
+  sha256: 5118668042072bb7e6b94d965c3815c767336c15687b677762d618027025c942
+- source_id: r784-arxiv-abs
+  title: Interpretable & Time-Budget-Constrained Contextualization for Re-Ranking (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.01854
+  persistent_id: https://arxiv.org/abs/2002.01854
+  version: arXiv abstract page (6885 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:27:00Z'
+  sha256: 5a872ffc051fed51b622affccc87a4c74a538f921217dc8cf5f5f376ab649ea2
+- source_id: r784-metadata-cr
+  title: Interpretable & Time-Budget-Constrained Contextualization for Re-Ranking (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2002.01854
+  persistent_id: https://arxiv.org/bibtex/2002.01854
+  version: Crossref API work record (443 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:27:00Z'
+  sha256: dfc199b45966f02a17991ba4e7243baa15e1d356dad6f18307d3a4f20b1b6714
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: TK combines shallow multi-head self-attention Transformer layers with radial-basis-function (RBF) kernel-pooling layers and linear scoring heads.
+limitations:
+- Under unconstrained query time budgets, full cross-encoder BERT-Base and BERT-Large outperform TK in peak ranking accuracy, particularly on complex queries longer than 8 words.
+- Caps document input length at 200 tokens for computational efficiency, truncating the majority of full-length web documents in MSMARCO-Document.
+curation:
+  created_at: '2026-10-19T14:27:00Z'
+  updated_at: '2026-10-19T14:27:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

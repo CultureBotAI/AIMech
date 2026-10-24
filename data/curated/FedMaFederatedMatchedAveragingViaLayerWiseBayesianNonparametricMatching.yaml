@@ -1,0 +1,102 @@
+id: AIMech:FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching
+name: FedMA (Federated Matched Averaging via Layer-Wise Bayesian Nonparametric Matching)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A layer-wise permutation-aware federated learning algorithm (FedMA, Algorithm 1) for modern neural networks (FC layers, CNN channels, and RNN/LSTM hidden states) that accounts for neuron permutation invariance W_1 Pi_j, Pi_j^T W_2 by matching and averaging hidden elements (neurons, convolutional channels, or recurrent states) bottom-up one layer at a time: at layer n, the server solves a Bayesian nonparametric Beta-Bernoulli Process MAP (BBP-MAP, Eq. 6) assignment problem via iterative Hungarian bipartite matching to align client weights {W_{j,n}}_{j=1}^J into global weights W_{G,n} = (1/J) sum_j W_{j,n} Pi_{j,n} (adaptively expanding layer width L in [max_j L_j, sum_j L_j] when distances exceed threshold epsilon), broadcasts W_{G,n}, and has clients permute layer n+1 via Pi_{j,n}^T W_{j,n+1} and retrain remaining layers n+1,...,N with layers 1,...,n frozen.'
+identity_notes: Distinct from coordinate-wise parameter averaging (FedAvg, FedProx) which ignores the permutation invariance of neural network hidden units and averages misaligned neurons, from single-round one-shot Probabilistic Federated Neural Matching (PFNM, which applies only to shallow fully connected networks without layer-wise freezing and retraining), and from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, which fuses models in output logit space using unlabeled server data rather than matching weights layer-by-layer via Hungarian assignment).
+aliases:
+- FedMA
+- Federated Matched Averaging
+- Federated Learning with Matched Averaging
+definition_evidence:
+- source_id: r408-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r408-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r408-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r408-permutation-invariance-of-fc-cnn-and-lstm-layers-and-hungarian-matching
+  kind: mechanism
+  statement: Section 2 establishes exact permutation invariance across fully connected layers (W_1 Pi_j, Pi_j^T W_2, Eq. 2), convolutional channels Conv(x, Pi_{j,n-1}^T W_{j,n}) Pi_{j,n} (Eq. 3), and recurrent hidden-to-hidden matrices Pi^T H Pi (Eq. 4), and formulates matched averaging (Eq. 5) as minimizing sum_{i=1}^L sum_{j,l} pi_{li}^j c(w_{jl}, theta_i) via coordinate-descent Hungarian bipartite matching with MAP solutions theta_i = (1/J) sum_{j,l} pi_{li}^j w_{jl}.
+  evidence:
+  - source_id: r408-primary-pdf
+    locator: Section 2.1-2.3 (Eqs. 1-5), pp. 2-5
+    relation: supports
+- claim_id: r408-bbp-map-nonparametric-adaptive-width-and-bottom-up-layer-freezing
+  kind: mechanism
+  statement: Using the Beta-Bernoulli Process MAP objective (Eq. 6) with distance threshold epsilon and size penalty f(L'), FedMA dynamically adapts each global layer width L in [max_j L_j, sum_j L_j] by spawning new global neurons for unmatched client features, while Algorithm 1 matches and freezes layers bottom-up from n = 1 to N-1 so deeper layers retrain on aligned representations before being matched.
+  evidence:
+  - source_id: r408-primary-pdf
+    locator: Section 2.1 Eq. 6 & Section 2.4 Deep Architectures (Algorithm 1, Figure 1), pp. 3, 5-6
+    relation: supports
+- claim_id: r408-layer-wise-communication-rounds-and-cubic-hungarian-matching-complexity-limitation
+  kind: limitation
+  statement: FedMA requires N-1 sequential layer-wise matching-and-retraining rounds per global pass and incurs Hungarian matching complexity between O(D L^2 + L^3) in the best case and O(D (J L)^2 + (J L)^3) in the worst case per layer (Appendix E), and cannot directly match across residual skip connections without architectural constraints.
+  evidence:
+  - source_id: r408-primary-pdf
+    locator: Section 2.4 Algorithm 1 & Appendix E Practical Considerations, pp. 5-6, 15
+    relation: supports
+- claim_id: r408-heterogeneous-vgg9-cifar10-and-lstm-shakespeare-application
+  kind: application
+  statement: Evaluated on heterogeneous CIFAR-10 with VGG-9, MNIST with CNNs, and Shakespeare next-character prediction with LSTM models, outperforming FedAvg and FedProx in test accuracy, communication efficiency (bits vs. accuracy), and skewed domain-bias handling.
+  evidence:
+  - source_id: r408-primary-pdf
+    locator: Section 4 Experiments (Figures 2-4, Tables 1-3), pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r408-primary-pdf
+  title: Federated Learning with Matched Averaging
+  authors: &id001
+  - Hongyi Wang
+  - Mikhail Yurochkin
+  - Yuekai Sun
+  - Dimitris Papailiopoulos
+  - Yasaman Khazaeni
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=BkluqlSFDS
+  persistent_id: https://openreview.net/forum?id=BkluqlSFDS
+  version: International Conference on Learning Representations (ICLR 2020) (2020) (52391 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:11:00Z'
+  sha256: 765b7000ef5794345a067125907396b872b6bebb25e80a0c2d2b8ea94ed7407c
+- source_id: r408-arxiv-abs
+  title: Federated Learning with Matched Averaging (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.06440
+  persistent_id: https://arxiv.org/abs/2002.06440
+  version: arXiv abstract page (6721 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:11:00Z'
+  sha256: ebd912597f8be6596a40717e70d1439007980aaa7899ba686af1a2b6fd7655ef
+- source_id: r408-metadata-cr
+  title: Federated Learning with Matched Averaging (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=BkluqlSFDS
+  persistent_id: https://openreview.net/forum?id=BkluqlSFDS
+  version: Crossref API work record (369 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:11:00Z'
+  sha256: 0f1307375bcc0a7a1549c88fe0b4d7557582bda606b2ac71fdb9553c9d4bcd27
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedMA is a layer-wise permutation-matching FederatedLearning aggregation algorithm for deep neural networks.
+limitations:
+- Requires layer-by-layer sequential communication and retraining across N-1 layers per pass.
+- Hungarian matching incurs O(D (J L)^2 + (J L)^3) worst-case complexity per layer when client count J and width L are large.
+curation:
+  created_at: '2026-10-19T08:11:00Z'
+  updated_at: '2026-10-19T08:11:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

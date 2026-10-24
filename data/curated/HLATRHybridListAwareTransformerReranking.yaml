@@ -1,0 +1,108 @@
+id: AIMech:HLATRHybridListAwareTransformerReranking
+name: HLATR Hybrid List Aware Transformer Reranking
+concept_kind: architecture
+review_status: DRAFT
+definition: A lightweight list-aware neural reranking architecture for multi-stage text retrieval that couples coarse first-stage retrieval features with fine-grained second-stage interaction-based reranker representations across a candidate document list D'_r of size Z by mapping each document d_i's first-stage retrieval rank order i (0 <= i <= Z) to a learnable position embedding pe_i in R^d, projecting its second-stage pretrained language model reranker representation E^R(q, d_i) via v_i = W_v^T E^R(q, d_i) in R^d, fusing both into an initial sequence matrix H^0 = [LN(pe_1 + v_1), ..., LN(pe_Z + v_Z)]^T in R^{d x Z}, passing H^0 through L Transformer encoder layers H^l = T^l(H^{l-1}) to capture mutual partial-order dependencies among all Z candidate documents simultaneously, and predicting final relevance scores score(q, d_i) = W^T H_i^l trained with a listwise contrastive loss L_{q, D'_r} = -log(exp(score(q, d+)) / sum_{d in D'_r} exp(score(q, d))).
+identity_notes: Distinct from joint retriever-ranker training frameworks such as RocketQAv2 (AIMech:RocketQAv2JointTrainingDensePassageRetrievalAndReranking) and AR2 (AIMech:AR2AdversarialRetrieverRankerForDenseTextRetrieval), which jointly optimize dual-encoder and cross-encoder parameters during training to improve first-stage retrieval rather than adding a post-reranker list-aware Transformer feature-coupling stage; and distinct from static Weighted Combination of two-stage Ranking (WCR), which linearly interpolates scalar retrieval and reranking scores per document independently without modeling cross-document partial-order interactions.
+aliases:
+- HLATR
+- Hybrid List Aware Transformer Reranking
+- Hybrid List Aware Transformer Ranker
+- 'HLATR: Enhance Multi-stage Text Retrieval with Hybrid List Aware Transformer Reranking'
+definition_evidence:
+- source_id: r770-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r770-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r770-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hlatr-multistage-retrieval-order-and-reranker-feature-coupling
+  kind: mechanism
+  statement: HLATR fuses first-stage retrieval rank order i (compatible with both sparse BM25 and dense retrievers such as coCondenser and ANCE) and second-stage PTM reranker representations E^R(q, d_i) by projecting v_i = W_v^T E^R(q, d_i) in R^d (Equation 4, d = 128 in Table 3) and forming H^0 = [LN(pe_1 + v_1), ..., LN(pe_Z + v_Z)]^T via LayerNorm addition with learnable retrieval-order position embeddings pe_i in R^d (Section 3.2.1, Figure 3).
+  evidence:
+  - source_id: r770-primary-pdf
+    locator: Section 3.2.1 & Table 3, Equation 4, Figure 3, pp. 3-4, 6
+    relation: supports
+  - source_id: r770-primary-pdf
+    locator: build_hlatr_input() and main() verification of LayerNorm(pe_i + v_i) coupling and ablation without retrieval order
+    relation: supports
+- claim_id: hlatr-list-aware-transformer-and-listwise-contrastive-loss
+  kind: mechanism
+  statement: A stack of L Transformer encoder layers (L = 4, 2 attention heads, d = 128 in Table 3) processes the entire Z-document candidate list H^0 simultaneously (H^l = T^l(H^{l-1})) to model mutual cross-document influences, followed by linear scoring score(q, d_i) = W^T H_i^l (Equation 5) and listwise contrastive optimization L_{q, D'_r} = -log(exp(score(q, d+)) / sum_{d in D'_r} exp(score(q, d))) over k = 100 negatives per query (Equation 6, Table 3), outperforming both a 2-layer MLP variant HLATR_linear and a binary cross-entropy variant HLATR_bce (Table 5).
+  evidence:
+  - source_id: r770-primary-pdf
+    locator: Sections 3.2.2-3.2.3 & Section 4.3, Equations 5-6, Tables 3 & 5, pp. 4-7
+    relation: supports
+  - source_id: r770-primary-pdf
+    locator: single_head_self_attention() and listwise_contrastive_loss() verification
+    relation: supports
+- claim_id: hlatr-msmarco-passage-and-document-reranking-application
+  kind: application
+  statement: "On MS MARCO Passage and Document ranking benchmarks across sparse (BM25) and dense (coCondenser, ANCE) retrievers paired with BERT-base/large and RoBERTa-base/large rerankers, HLATR consistently improves MRR@10 and MRR@100 over both conventional two-stage reranking and Weighted Combination of two-stage Ranking (WCR, Equation 7)\u2014reaching 43.7 MRR@10 on MS MARCO Passage and 45.9 MRR@10 on MS MARCO Document with RoBERTa-large (Table 2)\u2014while adding only 2ms per 1000 queries on a single V100 GPU (300x-450x faster than BERT rerankers, Table 6)."
+  evidence:
+  - source_id: r770-primary-pdf
+    locator: Sections 4.1-4.3, Equation 7, Tables 2, 4 & 6, pp. 5-8
+    relation: supports
+- claim_id: hlatr-hidden-dimension-overparameterization-limitation
+  kind: limitation
+  statement: Because HLATR operates solely on compressed summary features from the preceding retrieval and reranking stages rather than raw text tokens, increasing its hidden dimension d (e.g., to d = 512) or stacking excessive Transformer layers (beyond the inflection point around 2-4 layers) degrades MRR@10 due to overparameterization (Section 4.3, Figure 4), and HLATR cannot run standalone without precomputed second-stage reranker representations E^R(q, d_i).
+  evidence:
+  - source_id: r770-primary-pdf
+    locator: Section 3.2.1 & Section 4.3 (Hyper-parameters of Transformer), Figure 4, pp. 3-4, 8
+    relation: supports
+evidence_sources:
+- source_id: r770-primary-pdf
+  title: 'HLATR: Enhance Multi-stage Text Retrieval with Hybrid List Aware Transformer Reranking'
+  authors: &id001
+  - Yanzhao Zhang
+  - Dingkun Long
+  - Guangwei Xu
+  - Pengjun Xie
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.10569.pdf
+  persistent_id: https://arxiv.org/bibtex/2205.10569
+  version: arXiv (2022) (374561 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:13:00Z'
+  sha256: a1fa4cde4ab83ff271aa00e042e11d49213b80696227d5aa3103d9a6f26c4620
+- source_id: r770-arxiv-abs
+  title: 'HLATR: Enhance Multi-stage Text Retrieval with Hybrid List Aware Transformer Reranking (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.10569
+  persistent_id: https://arxiv.org/abs/2205.10569
+  version: arXiv abstract page (6213 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:13:00Z'
+  sha256: a8aa2e41560643a38aa288007e1d6cca1525166db91189a51870506c5f26da7a
+- source_id: r770-metadata-cr
+  title: 'HLATR: Enhance Multi-stage Text Retrieval with Hybrid List Aware Transformer Reranking (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2205.10569
+  persistent_id: https://arxiv.org/bibtex/2205.10569
+  version: Crossref API work record (428 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:13:00Z'
+  sha256: c895991d1e03c06ecf3ad1bc99354c44ad46a0cd8da7afa133e34669e8b98f39
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: HLATR is a multi-layer Transformer encoder neural network module with layer-normalized feature coupling and linear score projection for listwise document reranking.
+limitations:
+- Overparameterization with large hidden dimensions (such as d = 512) or deep Transformer stacks (e.g., 6-8 layers) degrades ranking accuracy because HLATR takes compact two-stage summary features rather than raw token sequences as input.
+- Requires an upstream interaction-based reranker pass to produce per-document representations E^R(q, d_i) for all Z candidates before HLATR feature fusion can be applied.
+curation:
+  created_at: '2026-10-19T14:13:00Z'
+  updated_at: '2026-10-19T14:13:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

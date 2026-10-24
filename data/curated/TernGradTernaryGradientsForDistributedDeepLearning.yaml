@@ -1,0 +1,104 @@
+id: AIMech:TernGradTernaryGradientsForDistributedDeepLearning
+name: TernGrad (Stochastic Ternary Gradient Quantization for Distributed Deep Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An unbiased stochastic ternary gradient quantization scheme for distributed synchronous SGD (Wen et al. 2017, Section 3, Equations 4-7) that compresses each worker's gradient vector g_t into ternary levels {-1, 0, +1} scaled by s_t = max_k |g_{tk}| = ||g_t||_infty via g_tilde_t = s_t * sign(g_t) o b_t where each coordinate Bernoulli mask b_{tk} in {0, 1} is sampled independently with probability P(b_{tk} = 1 | g_t) = |g_{tk}| / s_t, combined with layer-wise scalars and coordinate clipping |g_{tk}| <= c * sigma_t to bound the maximum magnitude s_t.
+identity_notes: Distinct from deterministic sign-based compression SignSGD (AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, Bernstein et al. 2018), which maps coordinates deterministically to {-1, +1} without zero level or unbiased probabilistic rounding, and from multi-level L2-norm quantized SGD QSGD (AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding, Alistarh et al. 2017), which normalizes by the Euclidean norm ||g_t||_2 rather than the infinity norm s_t = ||g_t||_infty with layer-wise sigma-clipping.
+aliases:
+- TernGrad
+- Stochastic Ternary Gradient Quantization
+- Ternary Gradients for Distributed Deep Learning
+definition_evidence:
+- source_id: r417-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r417-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r417-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r417-unbiased-ternary-rounding-and-infinity-l1-variance-identity
+  kind: mechanism
+  statement: Conditioned on g_t, TernGrad satisfies E[g_tilde_{tk} | g_t] = s_t sign(g_{tk}) (|g_{tk}| / s_t) = g_{tk} and coordinate second moment E[g_tilde_{tk}^2 | g_t] = s_t |g_{tk}| = ||g_t||_infty |g_{tk}|, yielding total quantization variance E[||g_tilde_t - g_t||_2^2 | g_t] = ||g_t||_infty ||g_t||_1 - ||g_t||_2^2 and almost-sure convergence under light-tailed bounded-variance assumptions (Section 4, Theorem 1).
+  evidence:
+  - source_id: r417-primary-pdf
+    locator: Section 3.1 Ternary Quantization (Eqs. 4-6) & Section 4 Convergence Analysis (Assumption 3, Theorem 1, Appendix A)
+    relation: supports
+- claim_id: r417-layer-wise-quantization-and-sigma-gradient-clipping-variance-reduction
+  kind: mechanism
+  statement: Replacing a single model-wide scalar s_t = ||g_t||_infty with per-layer scalars s_t^{(l)} = ||g_t^{(l)}||_infty (Section 3.2) and clipping coordinate outliers to [-c sigma_t, +c sigma_t] with c = 2.5 before quantization (Section 3.3, Eq. 7) shrinks the maximum scalar s_t and reduces the variance inflation factor kappa = max(|g_t|) / |g_t| across heterogeneous network layers.
+  evidence:
+  - source_id: r417-primary-pdf
+    locator: Section 3.2 Layer-wise Ternarizing & Section 3.3 Gradient Clipping (Eq. 7, Figures 2-3), pp. 1512-1514
+    relation: supports
+- claim_id: r417-parameter-localization-for-unshared-random-seeds-and-clipping-bias-limitation
+  kind: limitation
+  statement: In parameter-server topologies where parameters are evenly sharded across workers, sharing a random seed for b_t allows floating-point scalars s_t to be omitted during worker-to-server push only if each parameter tensor is localized to a single server shard (Section 3.1); additionally, pre-quantization gradient clipping introduces a small truncation bias when |g_{tk}| > c sigma_t.
+  evidence:
+  - source_id: r417-primary-pdf
+    locator: Section 3.1 Parameter Localization & Section 3.3 Gradient Clipping
+    relation: supports
+- claim_id: r417-alexnet-googlenet-and-vgg-imagenet-distributed-training-application
+  kind: application
+  statement: Applied to distributed synchronous SGD training of LeNet, CifarNet, AlexNet, GoogLeNet, and VGG-A on MNIST, CIFAR-10, and ImageNet, achieving 3.04x communication speedup without accuracy loss.
+  evidence:
+  - source_id: r417-primary-pdf
+    locator: Section 5 Experiments (Tables 1-3, Figures 4-6), pp. 1515-1518
+    relation: supports
+evidence_sources:
+- source_id: r417-primary-pdf
+  title: 'TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning'
+  authors: &id001
+  - Wei Wen
+  - Cong Xu
+  - Feng Yan
+  - Chunpeng Wu
+  - Yandan Wang
+  - Yiran Chen
+  - Hai Li
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1705.07878
+  persistent_id: https://papers.nips.cc/paper/2017/hash/2bf283c05b601f21364d052ca0ec798d-Abstract.html
+  version: Advances in Neural Information Processing Systems 30 (NeurIPS 2017), pp. 1509-1519 (2017) (53361 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:20:00Z'
+  sha256: 0c06647103d5d23611511a8fd10edbf862018500f9af3cfb1122af421d62d138
+- source_id: r417-arxiv-abs
+  title: 'TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1705.07878
+  persistent_id: https://arxiv.org/abs/1705.07878
+  version: arXiv abstract page (7234 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:20:00Z'
+  sha256: 977c2ea5ce246d061e4a2f4a8050454864899e01e754da27966cbf6735c997ef
+- source_id: r417-metadata-cr
+  title: 'TernGrad: Ternary Gradients to Reduce Communication in Distributed Deep Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2017/hash/2bf283c05b601f21364d052ca0ec798d-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2017/hash/2bf283c05b601f21364d052ca0ec798d-Abstract.html
+  version: Crossref API work record (472 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:20:00Z'
+  sha256: 2cd4f4b4695b57e07df1954e3e7a4b7b2f6105c80bbe437e40f9360e23d611d5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: TernGrad is a ternary gradient quantization method for distributed data-parallel and federated optimization.
+limitations:
+- Requires layer-wise scaling and gradient clipping (c = 2.5 sigma) to prevent large coordinate outliers from inflating the infinity-norm scalar s_t = ||g_t||_infty.
+- Requires 2 bits per coordinate in general when encoding {-1, 0, +1} without entropy coding.
+curation:
+  created_at: '2026-10-19T08:20:00Z'
+  updated_at: '2026-10-19T08:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

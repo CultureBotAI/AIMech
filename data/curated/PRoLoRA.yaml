@@ -1,0 +1,105 @@
+id: AIMech:PRoLoRA
+name: PRoLoRA
+concept_kind: architecture
+review_status: DRAFT
+definition: A parameter-efficient low-rank adaptation architecture that combines intra-layer hidden-dimension chunk broadcasting with rank-dimension circular roll rotations, a subset of unshared rank vectors, and full-width rectified Kaiming initialization to achieve high effective adapter rank with a fraction of LoRA's trainable parameters.
+identity_notes: 'Distinct from AIMech:LowRankAdaptation (which leaves all r*(h+o) adapter entries unshared, corresponding to the special case u = r) and from inter-layer weight-tying methods such as AIMech:VeraVectorBasedRandomMatrixAdaptation (VeRA) and Tied-LoRA (which share matrices across layers and require matching layer dimensions). PRoLoRA (Partially Rotation-enhanced Low-Rank Adaptation; Sheng Wang, Boyang Xue, Jiacheng Ye, Jiyue Jiang, Liheng Chen, Lingpeng Kong, & Chuan Wu, ACL 2024, arXiv:2402.16902) operates strictly within each layer via four components (Section 3.1, Equations 2-5): (1) Broadcast Reduction partitions the shared rank-(r-u) portion of A and B into m horizontal chunks of width h/m and n vertical chunks of height o/n; (2) Rotation Enhancement differentiates broadcast chunks i in {0..m-1} and j in {0..n-1} by circularly shifting along the rank dimension via A_i = Roll(A_0, i*s_A) and B_j = Roll(B_0, j*s_B); (3) Partially-Sharing Refinement reserves u unshared ranks (A_u in R^{u x h}, B_u in R^{o x u}) so that Delta W = (B_u (+)_h (B_0 (+)_v ... (+)_v B_{n-1})) (A_u (+)_v (A_0 (+)_h ... (+)_h A_{m-1})), breaking the equal-displacement block symmetry of pure rotation with total trainable parameters u(h+o) + h(r-u)/m + o(r-u)/n; and (4) Rectified Initialization samples A_0 ~ U(-g sqrt(3/h), g sqrt(3/h)) using the full matrix fan-in h rather than chunk width h/m.'
+aliases:
+- Partially Rotation-Enhanced Low-Rank Adaptation
+- Partial Rotation Intra-Layer Shared LoRA
+- PRoLoRA Intra-Layer Chunk-Rotated Adaptation
+definition_evidence:
+- source_id: r674-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r674-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r674-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: prolora-chunk-broadcast-rank-roll-and-unshared-rank-decomposition
+  kind: mechanism
+  statement: While pure hidden-dimension chunk broadcasting (CLoRA) replicates identical blocks in B A and rank-axis circular rotation A_i = Roll(A_0, i*s_A), B_j = Roll(B_0, j*s_B) (RoLoRA) still leaves blocks with equal relative displacement (j - i) identical when s_A = s_B, reserving u unshared ranks in PRoLoRA breaks block-wise symmetry while reducing trainable parameters from r(h+o) to u(h+o) + h(r-u)/m + o(r-u)/n.
+  evidence:
+  - source_id: r674-primary-pdf
+    locator: Section 3.1 (Equations 2-4, Figure 1), pp. 3-5
+    relation: supports
+- claim_id: prolora-rectified-kaiming-uniform-initialization-bounds
+  kind: mechanism
+  statement: Because standard Kaiming uniform initialization on a shared chunk A_0 of width h/m would inflate sampling bounds by sqrt(m) relative to the unshared matrix A_u of width h, PRoLoRA rectifies A_0's initialization to U(-g sqrt(3/h), g sqrt(3/h)) using the full layer input dimension h while initializing B to zero.
+  evidence:
+  - source_id: r674-primary-pdf
+    locator: Section 3.1 (Rectified Initialization Strategy, Equation 5) & Section 4.4 (Table 2), pp. 5, 7-8
+    relation: supports
+- claim_id: prolora-application-llama2-instruction-tuning-and-multi-lora-serving
+  kind: application
+  statement: Across MMLU, BBH, GSM8K, TyDi QA, and HumanEval on LLaMA2-7B and LLaMA2-13B, PRoLoRA outperforms rank-16 LoRA (37.53 vs. 36.97 average) using half the trainable parameters (19.99M vs. 40.98M), doubling concurrent multi-LoRA serving capacity in a fixed 20GB GPU memory budget from ~512 to ~1024 adapters without weight-shape restrictions.
+  evidence:
+  - source_id: r674-primary-pdf
+    locator: Section 4.2-4.3 (Tables 2-3), pp. 6-7
+    relation: supports
+- claim_id: prolora-limitation-temporary-chunk-expansion-and-shared-learning-rate-shift
+  kind: limitation
+  statement: Increasing the chunk sharing ratios m and n shifts the optimal learning rate upward relative to unshared parameters, and naive forward execution without custom fused kernels temporarily materializes the expanded roll-broadcasted chunk copies in memory during each layer's computation.
+  evidence:
+  - source_id: r674-primary-pdf
+    locator: Section 4.4 (Figure 2, p. 8) & Section 6 (Limitation, p. 9)
+    relation: supports
+evidence_sources:
+- source_id: r674-primary-pdf
+  title: 'PRoLoRA: Partial Rotation Empowers More Parameter-Efficient LoRA'
+  authors: &id001
+  - Sheng Wang
+  - Boyang Xue
+  - Jiacheng Ye
+  - Jiyue Jiang
+  - Liheng Chen
+  - Lingpeng Kong
+  - Chuan Wu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2402.16902.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=PRoLoRA+Partial+Rotation+Empowers&format=xml
+  version: Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL 2024) (2024) (450805 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:37:00Z'
+  sha256: 908004d1339f3703305877627baf1b47ee1cc9b8ee278d4559d817bab79af30e
+- source_id: r674-arxiv-abs
+  title: 'PRoLoRA: Partial Rotation Empowers More Parameter-Efficient LoRA (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2402.16902
+  persistent_id: https://arxiv.org/abs/2402.16902
+  version: arXiv abstract page (6710 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:37:00Z'
+  sha256: 37981d23b09bab3066f58390ea31d0659426581aaae67c238b4ffca33bfe4cc3
+- source_id: r674-metadata-cr
+  title: 'PRoLoRA: Partial Rotation Empowers More Parameter-Efficient LoRA (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=PRoLoRA+Partial+Rotation+Empowers&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=PRoLoRA+Partial+Rotation+Empowers&format=xml
+  version: Crossref API work record (889 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:37:00Z'
+  sha256: a742aefc63630aa8c5aaffb3789d56a8ad6f7046f19505b12b64595c7e03d09f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PRoLoRA is an intra-layer parameter-sharing low-rank adapter architecture for linear projections in deep neural networks.
+limitations:
+- Higher chunk sharing ratios m and n require larger optimal learning rates than unshared ranks, so applying a single unified learning rate across A_0 and A_u can be suboptimal.
+- Without fused CUDA/CUTLASS kernels, broadcasting and rolling A_0 and B_0 into full-sized matrices allocates temporary per-layer buffer copies during the forward pass.
+- Does not exploit inter-layer weight sharing across distinct transformer blocks.
+curation:
+  created_at: '2026-10-19T12:37:00Z'
+  updated_at: '2026-10-19T12:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

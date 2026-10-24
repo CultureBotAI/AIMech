@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projection-Cost Preserving Sketches for k-Means Clustering and Constrained Low-Rank Approximation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/preprocessing_method.html">Preprocessing Methods</a>
+    <span>/</span>
+    <strong>Projection-Cost Preserving Sketches for k-Means Clustering and Constrained Low-Rank Approximation</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Projection-Cost Preserving Sketches for k-Means Clustering and Constrained Low-Rank Approximation</h1>
+    <span class="badge badge-curated">Preprocessing Methods</span>
+    <span class="detail-id">AIMech:ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Projection-Cost Preserving Sketch (PCPS), Rank-k Projection-Cost Preserving Dimensionality Reduction, Cohen-Elder-Musco-Musco-Persu k-Means Dimensionality Reduction
+    </div>
+
+  <div class="detail-desc">
+    A Rank-k Projection-Cost Preserving Sketch (PCPS) is a linear dimensionality-reduction sketch A_tilde in R^{n x d&#39;} (with d&#39; &lt;&lt; d) of a data matrix A in R^{n x d}, introduced by Cohen, Elder, Musco, Musco, and Persu (2015), such that for all rank-k orthogonal projection matrices P in R^{n x n} simultaneously, there exists a fixed non-negative constant c &gt;= 0 independent of P satisfying (1 - epsilon)*||A - PA||_F^2 &lt;= ||A_tilde - P*A_tilde||_F^2 + c &lt;= (1 + epsilon)*||A - PA||_F^2 (Definition 1, two-sided error) or ||A - PA||_F^2 &lt;= ||A_tilde - P*A_tilde||_F^2 + c &lt;= (1 + epsilon)*||A - PA||_F^2 (Definition 2, one-sided error). Because k-means clustering is equivalent to minimizing ||A - X_C X_C^T A||_F^2 over rank-k cluster indicator projection matrices P = X_C X_C^T, any gamma-approximate solution P_tilde on A_tilde yields a (1 + epsilon)*gamma-approximate solution for A across k-means clustering and general constrained rank-k approximation problems.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:FrequentDirectionsDeterministicMatrixSketching (Round 363), which compresses n rows into ell rows in R^{ell x d} to approximate the row space A^T A in row-update streams, whereas a Projection-Cost Preserving Sketch reduces column dimension from d to d&#39; = O(k/epsilon) or O(k/epsilon^2) in R^{n x d&#39;} so that left rank-k projections P in R^{n x n} (such as k-means cluster indicator projections X_C X_C^T) preserve ||(I - P)A||_F^2 up to a P-independent shift c. Also distinct from AIMech:KMeansPlusPlusSeeding (Round 194), which seeds k-means cluster centers in the ambient dimension d rather than reducing feature dimension d&#39; prior to clustering.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r364-claim-one-sided-and-two-sided-pcps-characterization-and-svd-tightness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Writing C = A A^T, C_tilde = A_tilde A_tilde^T = C + E, and Y = I - P for any rank-k orthogonal projection P, A_tilde is a one-sided PCPS with error epsilon if E &lt;= 0 and sum_{i=1}^k |lambda_i(E)| &lt;= epsilon*||A_{r\k}||_F^2 (Lemma 5), and a two-sided PCPS if E = E_1 + E_2 + E_3 + E_4 with -epsilon_1 C &lt;= E_1 &lt;= epsilon_1 C, sum_{i=1}^k |lambda_i(E_2)| &lt;= epsilon_2*||A_{r\k}||_F^2, tr(E_2) &lt;= epsilon_2&#39;*||A_{r\k}||_F^2, tr(E_3^T C^+ E_3) &lt;= epsilon_3^2*||A_{r\k}||_F^2, and tr(E_4 C^+ E_4^T) &lt;= epsilon_4^2*||A_{r\k}||_F^2 (Lemma 6); consequently, projecting A onto its top m = ceil(k/epsilon) exact or (1 + epsilon&#39;)-approximate right singular vectors yields a one-sided PCPS in dimension d&#39; = ceil(k/epsilon) (Theorems 7-8, and Theorem 9 for general low-rank approximations), which is optimal by a matching simplex-plus-Gaussian-cloud lower bound showing d&#39; &gt;= ceil(k/epsilon) is necessary for SVD reduction (Theorem 21, Appendix A).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r364-primary-pdf">Dimensionality Reduction for k-Means Clustering and Low Rank Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2-3.1, Definitions 1-2 and Lemmas 3-4, pp. 4-7; Section 4.2, Lemmas 5-6, pp. 8-10; Section 5.1-5.3, Theorems 7, 8, and 9, pp. 11-12; Appendix A-B, Theorem 21, pp. 29-34</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r364-claim-spectral-norm-reduction-oblivious-sketching-and-column-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Decomposing A = W_1 B + W_2 B via B_1 = Z^T and B_2 = (sqrt(k)/||A_{r\k}||_F)*(A - A Z Z^T) with 1 &lt;= ||B B^T||_2 &lt;= 2 and tr(B B^T) &lt;= 3k reduces two-sided PCPS construction to spectral norm approximation ||B R R^T B^T - B B^T||_2 &lt; epsilon and trace preservation tr(B_2 R R^T B_2^T) - tr(B_2 B_2^T) &lt;= epsilon*k (Lemma 10, Lemma 11); this establishes (1 + epsilon) PCPS guarantees for oblivious random projections (Theorem 12: d&#39; = O(k/epsilon^2) dense JL, O(k^2/epsilon^2) CountSketch, or O_tilde(k/epsilon^2) OSNAP), non-oblivious random projection AZ onto the row span of RA with d&#39; = O(k/epsilon) (Theorem 16, Lemmas 17-18), randomized leverage-plus-residual column sampling with d&#39; = O(k log(k/delta)/epsilon^2) in O(nnz(A) log(d/delta) + k d log(d/delta)) time (Lemma 13, Theorem 14), and deterministic BSS column selection with d&#39; = O(k/epsilon^2) (Theorem 15).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r364-primary-pdf">Dimensionality Reduction for k-Means Clustering and Low Rank Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, Table 1, p. 2; Section 6, Lemma 10, pp. 12-14; Section 7-8, Lemmas 11, 13, 17, and 18, and Theorems 12, 14, 15, and 16, pp. 14-20; Appendix C, Lemma 26 and Theorem 27, pp. 34-36</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r364-claim-sublinear-log-k-dimension-random-projection-for-kmeans</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For k-means clustering specifically, splitting A = P^* A + (I - P^*)A = B + B_bar where P^* is the optimal k-cluster projection matrix and B has only k distinct rows (the optimal cluster centroids), multiplying by a Johnson-Lindenstrauss matrix R^T with only d&#39; = O(log(k/delta)/epsilon^2) columns—independent of n and d and sublinear in k—simultaneously preserves all pairwise centroid distances (hence ||B - P_tilde B||_F &lt;= (1 + epsilon)*||B R^T - P_tilde B R^T||_F) and the Frobenius norms ||B_bar R^T||_F &lt;= (1 + epsilon)*||B_bar||_F and ||(A - P^* A)R^T||_F &lt;= (1 + epsilon)*||A - P^* A||_F, proving via the triangle inequality (3 + 6*epsilon)*sqrt(gamma) that any gamma-approximate k-means clustering P_tilde of A_tilde = A R^T achieves ||A - P_tilde A||_F^2 &lt;= (9 + epsilon)*gamma*||A - P^* A||_F^2 (Theorem 19).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r364-primary-pdf">Dimensionality Reduction for k-Means Clustering and Low Rank Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, Table 1, p. 2; Section 9, Theorem 19 and Eq. (27), pp. 21-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Achieving (1 + epsilon) relative error for general constrained rank-k approximation requires sketch dimension d&#39; &gt;= Omega(k) (and d&#39; &gt;= ceil(k/epsilon) for SVD-based reduction, Theorem 21), while reducing dimension sublinearly to O(log k / epsilon^2) via oblivious random projection loosens the approximation factor from (1 + epsilon) to (9 + epsilon) and applies only to k-means clustering rather than general rank-k projections (Section 9, p. 21).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Projection-Cost Preserving Sketches are a general class of dimensionality-reduction sketches for k-means and constrained low-rank approximation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides (1 + epsilon) and (9 + epsilon) dimensionality-reduction guarantees for k-means clustering.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Enables streaming and distributed low-rank approximation and Principal Component Analysis.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r364-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r364-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1410.6801.pdf" target="_blank" rel="noopener">Dimensionality Reduction for k-Means Clustering and Low Rank Approximation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael B. Cohen, Sam Elder, Cameron Musco, Christopher Musco, Madalina Persu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1145/2746539.2746569</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9a63055cd089…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r364-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r364-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1410.6801" target="_blank" rel="noopener">Dimensionality Reduction for k-Means Clustering and Low Rank Approximation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael B. Cohen, Sam Elder, Cameron Musco, Christopher Musco, Madalina Persu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1410.6801</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:053cfed56e0d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r364-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r364-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1145/2746539.2746569" target="_blank" rel="noopener">Dimensionality Reduction for k-Means Clustering and Low Rank Approximation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael B. Cohen, Sam Elder, Cameron Musco, Christopher Musco, Madalina Persu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1145/2746539.2746569</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:53671d396f47…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Projection-Cost Preserving Sketches for k-Means Clustering and Constrained Low-Rank Approximation" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Preprocessing Methods</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Projection-Cost...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:DimensionalityReduction (3)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:27:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:27:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Projection-Cost%20Preserving%20Sketches%20for%20k-Means%20Clustering%20and%20Constrained%20Low-Rank%20Approximation"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

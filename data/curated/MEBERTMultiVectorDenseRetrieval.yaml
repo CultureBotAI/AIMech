@@ -1,0 +1,107 @@
+id: AIMech:MEBERTMultiVectorDenseRetrieval
+name: ME-BERT Multi-Vector Dense Retrieval
+concept_kind: architecture
+review_status: DRAFT
+definition: A multi-vector dense retrieval architecture and capacity-bounded representation framework that represents each query as a single projected [CLS] vector f^(1)(x) in R^k and each document as a fixed number m of dense vectors {f_1^(m)(y), ..., f_m^(m)(y)} in R^k obtained by applying a learnable linear projection to the contextualized BERT outputs of the first m document tokens, scoring query-document relevance by the maximum inner product across the m document vectors psi^(m)(x, y) = max_{j in {1..m}} <f^(1)(x), f_j^(m)(y)> so that exact top-K document retrieval reduces to a single maximum inner-product search (MIPS) query over an index of m * |D| vectors.
+identity_notes: Distinct from ColBERT (AIMech:ColBERTContextualizedLateInteraction), which encodes every query token and every document token and sums maximum similarities across all query tokens (requiring multiple MIPS queries per user query plus post-processing rather than a single query vector searched against m fixed vectors per document); and distinct from Poly-encoders (AIMech:PolyEncoderArchitecture), which apply a softmax-weighted attention step over m context codes before computing the final query dot product (preventing direct single-query sublinear MIPS indexing).
+aliases:
+- ME-BERT
+- Multi-Vector BERT Dense Retrieval
+- Multi-Vector Encoding BERT
+definition_evidence:
+- source_id: r778-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r778-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r778-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: mebert-normalized-margin-dimension-bound-and-orthogonal-decomposition-theorem
+  kind: mechanism
+  statement: Defining the normalized margin between query q and documents d_1, d_2 as mu(q, d_1, d_2) = <q, d_1 - d_2> / (||q|| * ||d_1 - d_2||) (Definition 2.1), Lemma 1 proves that preserving the ranking <Phi q, Phi d_1> > <Phi q, Phi d_2> under random projection Phi in R^{k x v} with probability at least 1 - beta requires encoding dimension k >= 2 * (mu^2 / 2 - mu^3 / 3)^(-1) * ln(4 / beta) (Equation 2); Theorem 1 proves that decomposing long documents into m orthogonal segments d = sum_{i=1}^m d^(i) where q aligns with segment i guarantees mu(q, d_1^(i), d_2^(i)) >= mu(q, d_1, d_2), increasing the normalized margin and lowering the required dimension k.
+  evidence:
+  - source_id: r778-primary-pdf
+    locator: Sections 2.2-2.3 & Section 3, Definition 2.1, Lemma 1, Theorem 1, & Appendix A, pp. 3-5, 13-15
+    relation: supports
+  - source_id: r778-primary-pdf
+    locator: normalized_margin(), lemma1_min_dimension(), and main() verification of Theorem 1
+    relation: supports
+- claim_id: mebert-first-m-token-max-inner-product-single-query-mips
+  kind: mechanism
+  statement: ME-BERT encodes query x into a single vector f^(1)(x) = W_Q * [CLS]_Q and document y into m vectors f_j^(m)(y) = W_D * Z_j for its first m tokens j in {1, ..., m}, scoring relevance via psi^(m)(x, y) = max_{j in {1..m}} <f^(1)(x), f_j^(m)(y)> (Section 3, Figure 2); because argmax_{y in D} psi^(m)(x, y) is recovered by finding the pair (y, j) maximizing <f^(1)(x), f_j^(m)(y)>, retrieval executes as a single query lookup in an m * |D|-vector MIPS index without multi-query aggregation or attention post-processing.
+  evidence:
+  - source_id: r778-primary-pdf
+    locator: Section 3 (Multi-Vector Encodings & Inference), Figure 2, pp. 5-6
+    relation: supports
+  - source_id: r778-primary-pdf
+    locator: me_bert_score() and main() verification of flat m*|D| MIPS index equivalence
+    relation: supports
+- claim_id: mebert-long-document-and-open-retrieval-qa-application
+  kind: application
+  statement: "With m = 8 vectors per passage, ME-BERT consistently outperforms single-vector DE-BERT across MS MARCO, TREC-CAR, and four open-retrieval QA benchmarks (NaturalQuestions, TriviaQA, WebQuestions, CuratedTREC, Tables 2-4)\u2014with its largest gains over DE-BERT occurring on long documents where single-vector capacity degrades (Figures 3-4)\u2014and achieves higher retrieval accuracy and lower latency than Poly-encoders while further improving when hybridized with BM25 (ME-HYBRID, Table 2 & Figure 5)."
+  evidence:
+  - source_id: r778-primary-pdf
+    locator: Section 6, Tables 2-5 & Figures 3-5, pp. 7-10
+    relation: supports
+- claim_id: mebert-m-fold-index-footprint-growth-limitation
+  kind: limitation
+  statement: Because ME-BERT indexes m separate k-dimensional vectors for every document in the collection, its dense MIPS index memory footprint and vector count scale linearly by a factor of m (e.g., 8x more indexed vectors for m = 8) compared to a single-vector dual encoder of the same embedding dimension k (Section 3).
+  evidence:
+  - source_id: r778-primary-pdf
+    locator: Section 3 (Inference) & Section 6.3, Figure 5, pp. 5, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r778-primary-pdf
+  title: Sparse, Dense, and Attentional Representations for Text Retrieval
+  authors: &id001
+  - Yi Luan
+  - Jacob Eisenstein
+  - Kristina Toutanova
+  - Michael Collins
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2005.00181.pdf
+  persistent_id: https://arxiv.org/bibtex/2005.00181
+  version: Transactions of the Association for Computational Linguistics (TACL), Vol. 9, pp. 329-345 (2021) (456392 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:21:00Z'
+  sha256: f40e82a15ea8db6b82506f5a4f977a1cc16c30c88421d47cc9353eb0bf79c47c
+- source_id: r778-arxiv-abs
+  title: Sparse, Dense, and Attentional Representations for Text Retrieval (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.00181
+  persistent_id: https://arxiv.org/abs/2005.00181
+  version: arXiv abstract page (6689 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:21:00Z'
+  sha256: 37f4e172c41f6d0321e8f58538938cfe7a113f19b54ea769bd8573b57857eb22
+- source_id: r778-metadata-cr
+  title: Sparse, Dense, and Attentional Representations for Text Retrieval (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2005.00181
+  persistent_id: https://arxiv.org/bibtex/2005.00181
+  version: Crossref API work record (426 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:21:00Z'
+  sha256: 014d36ca25447f26e7c92fd066c603fa0db1596db9eeacf885a9ea935b8f35d9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: ME-BERT uses twin-tower pretrained BERT-large neural encoders with learnable linear projection heads on the query [CLS] token and the first m document tokens.
+limitations:
+- Increases the number of dense vectors stored in the MIPS index by a factor of m (e.g., 8x for m = 8) relative to a single-vector dual encoder.
+- Because the query is still compressed into a single vector, fine-grained token-to-token interaction remains coarser than full all-tokens late interaction.
+curation:
+  created_at: '2026-10-19T14:21:00Z'
+  updated_at: '2026-10-19T14:21:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

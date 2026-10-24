@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradient Centralization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Gradient Centralization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gradient Centralization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GradientCentralizationOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GC, Gradient Centralization Operator, Phi_GC, Projected Zero-Mean Gradient Centralization
+    </div>
+
+  <div class="detail-desc">
+    A hyperparameter-free projected-gradient optimization technique for deep neural networks that operates directly on the weight gradient matrix or unfolded convolutional gradient tensor grad_W L in R^{M x N} (where M = C_in for fully connected layers and M = C_in k_1 k_2 for convolutional layers, and N = C_out) by subtracting the mean across input dimensions from each column vector grad_{w_i} L in R^M before the optimizer step: Phi_GC(grad_{w_i} L) = grad_{w_i} L - (1 / M) sum_{j=1}^M grad_{W_{j,i}} L, or in matrix form Phi_GC(grad_W L) = P grad_W L with orthogonal projection matrix P = I - e e^T (e = (1 / sqrt(M)) 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from activation normalizations (Batch Normalization, Layer Normalization, Group Normalization) and from weight reparameterizations (Weight Normalization, Weight Standardization): whereas Weight Standardization enforces e^T w = 0 directly on weights and therefore breaks pretrained ImageNet checkpoints whose initial weights have non-zero mean e^T w^0 != 0, Gradient Centralization projects gradients onto the hyperplane e^T (w - w^0) = 0, preserving any pretrained initialization w^0 while embedding into SGDM, Adam, or AdamW in a single line of code.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r625-hyperplane-projection-and-weight-mean-conservation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The Gradient Centralization matrix P = I - e e^T (where e = (1 / sqrt(M)) 1) satisfies P^2 = P = P^T and e^T P grad_W L = 0 (Eq. 3 and Eq. 9), so replacing grad_{w^t} L by P grad_{w^t} L performs projected gradient descent on the affine hyperplane e^T (w - w^0) = 0 (Eq. 4), holding e^T w^t = e^T w^0 exactly constant throughout training for any initialization w^0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r625-primary-pdf">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Eq. (3)-(4) &amp; Figure 2, p. 6-7; Appendix A1-A2 Eq. (9), p. 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r625-output-feature-constant-intensity-shift-invariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 4.1 (Eq. 5 and Appendix A1 Eq. 7-8) proves that when SGD or SGDM with Gradient Centralization updates a weight vector w^t = w^0 - P sum_{i=0}^{t-1} alpha^{(i)} grad_{w^{(i)}} L, the output activation difference for any input feature x and constant intensity shift x + gamma 1 satisfies (w^t)^T x - (w^t)^T (x + gamma 1) = -gamma 1^T w^0 for all t, depending only on the initial weight sum 1^T w^0 rather than the learned weights w^t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r625-primary-pdf">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Theorem 4.1, Eq. (5), p. 7-8; Appendix A1 Proof of Theorem 4.1, Eq. (7)-(8), p. 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r625-lipschitz-smoothing-and-gradient-explosion-suppression</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 4.2 (Eq. 6 and Appendix A2 Eq. 10-11) proves that ||Phi_GC(grad_w L)||_2^2 = ||grad_w L||_2^2 - ||e^T grad_w L||_2^2 &lt;= ||grad_w L||_2^2 and ||grad_w Phi_GC(grad_w L)||_2^2 = ||P grad_w^2 L||_2^2 = ||grad_w^2 L||_2^2 - ||e^T grad_w^2 L||_2^2 &lt;= ||grad_w^2 L||_2^2, smoothing the optimization landscape, suppressing gradient explosion, and improving test accuracy across SGDM, Adam, Adagrad, SGDW, and AdamW on CIFAR-100, ImageNet, fine-grained classification, and COCO object detection/segmentation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r625-primary-pdf">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Theorem 4.2, Eq. (6) &amp; Figure 4, p. 8-9; Section 5.2-5.6 Tables 1-9, p. 10-15; Appendix A2 Eq. (10)-(11), p. 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r625-feature-normalization-and-weight-decay-coupling-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Gradient Centralization operates only on weight gradients and does not normalize intermediate feature activations, so deep networks still require activation normalization (such as Batch Normalization or Group Normalization) to train effectively; moreover, when L2 weight decay lambda w is added before projection as P(g^t + lambda w), the mean component of w is not decayed unless decoupled weight decay (SGDW/AdamW) is applied outside P.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r625-primary-pdf">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, p. 5; Section 5.2-5.3, p. 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Does not replace activation normalization layers (Batch Normalization or Group Normalization), which remain necessary to normalize feature scales across layers.</li>
+      <li>Applicable only to weight matrices/tensors with input fan-in dimension M &gt; 1 (convolutional and fully connected weight columns), not to 1D bias vectors or scalar scale parameters.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BatchNormalizationLayer.html" style="font-weight: 600;"><code>AIO:BatchNormalizationLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">BatchNormalization Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Gradient Centralization is a statistics-based zero-mean centering operator on weight gradients complementary to Batch Normalization on activations.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Gradient Centralization regularizes weight and output feature spaces during deep neural network optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r625-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r625-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.01461.pdf" target="_blank" rel="noopener">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hongwei Yong, Jianqiang Huang, Xiansheng Hua, Lei Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/eccv/YongHHZ20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b94013464e17…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r625-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r625-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2004.01461" target="_blank" rel="noopener">Gradient Centralization: A New Optimization Technique for Deep Neural Networks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hongwei Yong, Jianqiang Huang, Xiansheng Hua, Lei Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2004.01461</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:07d234bea32c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r625-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r625-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/eccv/YongHHZ20" target="_blank" rel="noopener">Gradient Centralization: A New Optimization Technique for Deep Neural Networks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hongwei Yong, Jianqiang Huang, Xiansheng Hua, Lei Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/eccv/YongHHZ20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a7beb3267f9b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AGradientCentralizationOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Gradient Centralization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:GradientCentralizationOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Gradient Centralization</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:BatchNormalizationLayer (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:48:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:48:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GradientCentralizationOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GradientCentralizationOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Gradient%20Centralization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AGradientCentralizationOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

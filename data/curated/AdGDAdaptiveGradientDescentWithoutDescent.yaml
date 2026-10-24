@@ -1,0 +1,99 @@
+id: AIMech:AdGDAdaptiveGradientDescentWithoutDescent
+name: AdGD (Adaptive Gradient Descent without Descent)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A line-search-free, function-value-free adaptive gradient descent algorithm (Algorithm 1) that updates iterates via x^{k+1} = x^k - lambda_k nabla f(x^k) using a step size governed by two rules \u2014 bounded growth lambda_k <= sqrt(1 + theta_{k-1}) lambda_{k-1} (or sqrt(1 + theta_{k-1}/2) lambda_{k-1}) where theta_k = lambda_k / lambda_{k-1}, and inverse local curvature bounding lambda_k <= ||x^k - x^{k-1}|| / (2 ||nabla f(x^k) - nabla f(x^{k-1})||) \u2014 guaranteeing global convergence on any convex function with locally Lipschitz gradients without enforcing monotonic decrease of f(x^k)."
+identity_notes: Distinct from backtracking line search (Armijo/Goldstein) in that AdGD never evaluates f(x) or backtracks with extra gradient evaluations per step. Distinct from Polyak's step size in that it requires no knowledge or estimate of f_*. Distinct from the Barzilai-Borwein method in that AdGD caps step-size growth by sqrt(1 + theta_{k-1}) lambda_{k-1} and uses the l2 ratio ||x^k - x^{k-1}|| / (2 ||nabla f(x^k) - nabla f(x^{k-1})||), providing provable convergence for arbitrary locally smooth convex functions where Barzilai-Borwein can diverge.
+aliases:
+- AdGD Optimizer
+- Adaptive Gradient Descent without Line Search
+- Malitsky-Mishchenko Adaptive Gradient Descent
+definition_evidence:
+- source_id: r595-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r595-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r595-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r595-two-step-lyapunov-without-descent-and-local-lipschitz-rate
+  kind: mechanism
+  statement: Without requiring global smoothness L < infinity or monotonic objective descent f(x^{k+1}) <= f(x^k), AdGD (Algorithm 1) decreases the two-step Lyapunov energy ||x^{k+1} - x^*||^2 + (1/2)||x^{k+1} - x^k||^2 + 2 lambda_k (1 + theta_k)(f(x^k) - f_*) at every iteration (Lemma 1, Eq. 5), ensuring bounded iterates, convergence x^k -> x^*, and an ergodic rate f(x_hat^k) - f_* <= D / (2 S_k) = O(1/k) depending only on the local Lipschitz constant L over conv{x^*, x^0, x^1, ...} (Theorem 1).
+  evidence:
+  - source_id: r595-primary-pdf
+    locator: Section 2.2, Lemma 1, Eq. (5) & Theorem 1, Eq. (11), pp. 4-6; Appendix Section 6, pp. 15-16
+    relation: supports
+- claim_id: c-r595-locally-strongly-convex-linear-rate-and-extensions
+  kind: mechanism
+  statement: When f is locally strongly convex and locally smooth on conv{x^*, x^0, x^1, ...} with local condition number kappa = L / mu, replacing sqrt(1 + theta_{k-1}) by sqrt(1 + theta_{k-1}/2) yields linear energy contraction Psi^{k+1} <= (1 - 1/(4 kappa)) Psi^k and O(kappa log(1/epsilon)) iteration complexity (Theorem 2, Eq. 16), while dual-space curvature estimation Lambda_k = min{sqrt(1 + Theta_{k-1}/2) Lambda_{k-1}, ||nabla f(x^k) - nabla f(x^{k-1})|| / (2 ||x^k - x^{k-1}||)} yields the Nesterov-accelerated heuristic AdGD-accel (Algorithm 2).
+  evidence:
+  - source_id: r595-primary-pdf
+    locator: Section 2.3, Theorem 2 & Algorithm 2, pp. 7-8; Appendix Section 6, Eq. (16), p. 16
+    relation: supports
+- claim_id: c-r595-stochastic-adsgd-and-empirical-performance
+  kind: application
+  statement: In the stochastic setting (Algorithm 3, AdSGD), estimating L_k = ||nabla f_{xi^k}(x^k) - nabla f_{xi^k}(x^{k-1})|| / ||x^k - x^{k-1}|| achieves O((kappa^2 / epsilon) log(kappa / epsilon)) complexity with an independent curvature sample and O(kappa^2 log(1/epsilon)) on overparameterized models (Theorem 3, Theorems 6-7), outperforming GD, Nesterov AGD, Armijo line search, and Barzilai-Borwein on logistic regression, cubic regularization, and matrix factorization, and exceeding tuned SGD test accuracy on CIFAR-10 ResNet-18 and DenseNet-121.
+  evidence:
+  - source_id: r595-primary-pdf
+    locator: Section 3.2, Theorem 3 & Algorithm 3, pp. 8-9; Section 4, Figures 1-6, pp. 9-12; Appendix Section 8, Theorems 6-7, pp. 20-22
+    relation: supports
+- claim_id: c-r595-nonconvex-composite-and-kappa2-stochastic-limitations
+  kind: limitation
+  statement: AdGD's two-step Lyapunov proof does not directly extend to general nonconvex objectives or proximal composite minimization, and its stochastic complexity bound incurs an extra factor of kappa (O(kappa^2) vs O(kappa)), while neural network training exhibits noisy early-stage progress during the first 75 epochs and plummeting step sizes once training loss becomes small.
+  evidence:
+  - source_id: r595-primary-pdf
+    locator: Section 3.2, p. 9; Section 4-5, Perspectives 1, 3, & 4, pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r595-primary-pdf
+  title: Adaptive Gradient Descent without Descent
+  authors: &id001
+  - Yura Malitsky
+  - Konstantin Mishchenko
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1910.09529.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/MalitskyM20
+  version: Proceedings of the 37th International Conference on Machine Learning (ICML 2020), PMLR 119:6702-6712 (2020) (1222146 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:18:00Z'
+  sha256: d55bd236a50136d30e28963e04ff6027c4a85e133832d12457443b7a1a47fd1d
+- source_id: r595-arxiv-abs
+  title: Adaptive Gradient Descent without Descent (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.09529
+  persistent_id: https://arxiv.org/abs/1910.09529
+  version: arXiv abstract page (6092 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:18:00Z'
+  sha256: a73d27bdcf0461ad045d14521d7c70bb310fe26641794c248d1c955b964bd511
+- source_id: r595-metadata-cr
+  title: Adaptive Gradient Descent without Descent (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/MalitskyM20
+  persistent_id: https://dblp.org/rec/conf/icml/MalitskyM20
+  version: Crossref API work record (1624 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:18:00Z'
+  sha256: c029d8f2c5bf65517cd68bca3138b72570ec7a90ef98054c39f530f87eb27fa4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdGD and its stochastic variant AdSGD (Algorithm 3) are parameter-free local-curvature-adaptive gradient methods applied to convex optimization, matrix factorization, and deep neural network training.
+limitations:
+- Theoretical convergence guarantees rely on convexity and do not directly extend to general nonconvex objectives or proximal composite splitting (Section 5, Perspectives 1 & 3).
+- The accelerated heuristic AdGD-accel (Algorithm 2) lacks a formal convergence proof, and stochastic AdSGD (Theorem 3) incurs an extra condition-number factor kappa in its worst-case complexity bound.
+curation:
+  created_at: '2026-10-19T11:18:00Z'
+  updated_at: '2026-10-19T11:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

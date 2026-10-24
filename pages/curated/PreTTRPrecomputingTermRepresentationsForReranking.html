@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PreTTR Precomputing Transformer Term Representations · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/architecture.html">Architectures</a>
+    <span>/</span>
+    <strong>PreTTR Precomputing Transformer Term Representations</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">PreTTR Precomputing Transformer Term Representations</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:PreTTRPrecomputingTermRepresentationsForReranking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PreTTR, Precomputing Transformer Term Representations, PreTTR Split-Layer Transformer Re-Ranking
+    </div>
+
+  <div class="detail-desc">
+    A decoupled-layer Transformer document re-ranking architecture and token-representation compression method that applies a cross-segment attention mask in the first l layers L_1, ..., L_l of an n-layer Transformer during training—preventing query tokens ([CLS]; q; [SEP]) from attending to document tokens (d; [SEP]) and vice versa—so that layer-l document token representations s_l in R^{m x d} can be precomputed offline at index time, compressed to dimension e &lt; d via a GELU bottleneck encoder-decoder pre-trained to minimize mean squared error on the attention score matrices of the remaining n - l layers, and concatenated at query time with the layer-l query representations to execute only layers L_{l+1}, ..., L_n (computing only the [CLS] token in the final layer L_n).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from ColBERT (AIMech:ColBERTContextualizedLateInteraction), which encodes queries and documents completely independently through all Transformer layers and interacts only via a parameter-free sum-of-MaxSim dot-product operator at the output; and distinct from standard cross-encoder Transformer distillation (such as TinyBERT or DistilBERT), which reduces total layer count for both query and document at query time rather than precomputing the first l document layers at index time and executing only the upper n - l interaction layers online.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#prettr-lower-layer-cross-segment-attention-masking-and-split-execution</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PreTTR masks cross-segment attention in layers L_1, ..., L_l so query tokens ([CLS]; q; [SEP]) and document tokens (d; [SEP]) attend only within their own segments, while removing the mask in layers L_{l+1}, ..., L_n (Section 4.1, Figures 1-2): this makes index-time document encoding through layers 1..l mathematically independent of the query, reduces query-time Transformer layer traversal cost by approximately (n - l) / n, and further accelerates layer L_n by computing only the [CLS] output representation used by W_combine (Equation 1 &amp; Section 6.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r780-primary-pdf">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</a></span>
+        <span>· <strong>Locator:</strong> Sections 3-4.1 &amp; 6.3, Figures 1-2 &amp; Equation 1, pp. 3-5, 8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r780-primary-pdf">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</a></span>
+        <span>· <strong>Locator:</strong> self_attention_layer() verification of zero difference between masked joint and decoupled index/query encoding</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#prettr-gelu-token-compression-with-upper-layer-attention-mse-loss</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To compress the layer-l token representations s_l in R^{m x d} before disk storage, PreTTR inserts a bottleneck encoder r = GELU(s_l W_comp + b_comp) in R^{m x e} (e &lt; d) and linear batch-normalized decoder s_hat_l in R^{m x d} between layers L_l and L_{l+1}, pre-training the compression parameters on unlabeled text to minimize the average mean squared error of the upper-layer attention score tensors L(a_{l+1}, ..., a_n, a_hat_{l+1}, ..., a_hat_n) = (1 / (n - l)) * sum_{i=l+1}^n MSE(a_i, a_hat_i) (Equation 2) prior to end-to-end relevance fine-tuning (Section 4.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r780-primary-pdf">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Equation 2, p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r780-primary-pdf">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</a></span>
+        <span>· <strong>Locator:</strong> compress_decompress() and attention_mse_loss() verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#prettr-webtrack-and-robust04-speedup-and-storage-reduction-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On TREC WebTrack 2012 and TREC Robust 2004, PreTTR accelerates Vanilla BERT top-100 document re-ranking by up to 42.2x at l = 11 on WebTrack (0.046s vs. 1.941s per query with no statistically significant loss in P@20: 0.3380 vs. 0.3460, Tables 3 &amp; 5) and 9.2x at l = 10 on Robust04 (0.266s vs. 2.437s), generalizes to RoBERTa (up to 56.3x speedup) and DistilBERT (up to 24.1x speedup, Table 6), and reduces ClueWeb09-B token storage by up to 97.5% (from 112 TB to 2.8 TB) when combining spam filtering, e = 128 compression, and 16-bit floats (Section 6.2, p. 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r780-primary-pdf">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 6, Tables 3-6, pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#prettr-per-token-storage-footprint-and-high-layer-graded-relevance-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Even with e = 128 compression and 16-bit floating-point storage, storing per-token representations for web-scale corpora requires multiple terabytes (2.8 TB on ClueWeb09-B and 195 GB at e = 256 on Robust04, Section 6.2), and deferring query-document interaction until the final layer (l = 11) significantly degrades graded relevance metrics (ERR@20 on WebTrack and both P@20 and nDCG@20 on longer Robust04 queries, Table 3 &amp; Section 6.4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r780-primary-pdf">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</a></span>
+        <span>· <strong>Locator:</strong> Sections 6.1-6.2 &amp; 6.4, Tables 3-4, pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires storing compressed contextualized vectors for every token of every document in the corpus (e.g., 195 GB for Robust04 at e = 256 and 2.8 TB for ClueWeb09-B at e = 128 with fp16).</li>
+      <li>Precomputing up to the penultimate layer (l = 11 in a 12-layer BERT) degrades graded relevance metrics (ERR@20 and nDCG@20) and fails on longer, more qualified queries such as TREC Robust 2004.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PreTTR modifies deep Transformer neural networks (BERT, RoBERTa, DistilBERT) with lower-layer cross-segment attention masking and a GELU token-compression bottleneck.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r780-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r780-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.14255.pdf" target="_blank" rel="noopener">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sean MacAvaney, Franco Maria Nardini, Raffaele Perego, Nicola Tonellotto, Nazli Goharian, Ophir Frieder
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.14255</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f40c8c78c996…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r780-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r780-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2004.14255" target="_blank" rel="noopener">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sean MacAvaney, Franco Maria Nardini, Raffaele Perego, Nicola Tonellotto, Nazli Goharian, Ophir Frieder
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2004.14255</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dd4eea1a6a58…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r780-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r780-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2004.14255" target="_blank" rel="noopener">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sean MacAvaney, Franco Maria Nardini, Raffaele Perego, Nicola Tonellotto, Nazli Goharian, Ophir Frieder
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.14255</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dbcfff32f4f4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3APreTTRPrecomputingTermRepresentationsForReranking">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for PreTTR Precomputing Transformer Term Representations" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Architectures</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:PreTTRPrecomputingTermRepresentationsForReranking</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">PreTTR Precomputing...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:23:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:23:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PreTTRPrecomputingTermRepresentationsForReranking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PreTTRPrecomputingTermRepresentationsForReranking.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=PreTTR%20Precomputing%20Transformer%20Term%20Representations"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3APreTTRPrecomputingTermRepresentationsForReranking"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

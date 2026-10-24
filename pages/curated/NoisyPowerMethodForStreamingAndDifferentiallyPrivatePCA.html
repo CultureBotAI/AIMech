@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Hardt-Price Noisy Power Method (NPM), Streaming Power Method (SPM) and Private Power Method (PPM), Coherence-Preserving Differentially Private Subspace Iteration
+    </div>
+
+  <div class="detail-desc">
+    The Noisy Power Method (NPM) for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis is a meta-algorithm and principal-angle convergence framework introduced by Hardt and Price (2014) that computes the dominant k eigenvectors U in R^{d x k} of a symmetric matrix A in R^{d x d} from an initial random orthonormal subspace X_0 in R^{d x p} (p &gt;= k) via L iterations of noisy matrix-block products Y_ell = A X_{ell-1} + G_ell followed by QR orthonormalization Y_ell = X_ell R_ell, proving multiplicative contraction of the k-th principal angle tangent tan theta_k(U, X_ell) whenever both the total spectral norm ||G_ell|| and the target-subspace projection ||U^T G_ell|| of the adaptive perturbation G_ell are bounded relative to the eigengap sigma_k - sigma_{k+1}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not model adversarial or stochastic per-step perturbations G_ell in QR subspace iteration or differential privacy. Distinct from AIMech:RandomizedBlockKrylovMethodsForApproximateSingularValueDecomposition (Round 355), which analyzes exact noise-free block Krylov iterations using Chebyshev polynomials rather than perturbed block power iterations under adaptive noise. Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which pre-inverts (lambda I - A) via SVRG rather than analyzing principal-angle tangent contraction and Gram-Schmidt sign-symmetry coherence preservation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r356-claim-principal-angle-tangent-contraction-and-global-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    If at each step ell of the Noisy Power Method (Figure 1) the perturbation G_ell in R^{d x p} satisfies 5||G_ell|| &lt;= varepsilon*(sigma_k - sigma_{k+1}) and 5||U^T G_ell|| &lt;= (sigma_k - sigma_{k+1})*cos theta_k(U, X_0) for varepsilon &lt; 1/2, then the k-th principal angle tangent contracts at every step as tan theta_k(U, A X_ell + G_ell) &lt;= max(varepsilon, max(varepsilon, (sigma_{k+1}/sigma_k)^{1/4})*tan theta_k(U, X_ell)) (Lemma 2.3) and reaches ||(I - X_L X_L^T)U|| = sin theta_k(U, X_L) &lt;= tan theta_k(U, X_L) &lt;= varepsilon in L = O((sigma_k / (sigma_k - sigma_{k+1}))*log(d*tau/varepsilon)) steps when initialized with a random p-dimensional orthonormal basis X_0 satisfying tan theta_k(U, X_0) &lt;= tau*sqrt(d)/(sqrt(p) - sqrt(k - 1)) with probability 1 - tau^{-Omega(p+1-k)} - e^{-Omega(d)} (Theorem 2.4, Lemma 2.5, and Corollary 1.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r356-primary-pdf">The Noisy Power Method: A Meta Algorithm with Applications</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Figure 1 and Corollary 1.1, pp. 2-3; Section 2.1-2.2, Definition 2.1, Claim 2.2, Lemma 2.3, Theorem 2.4, and Lemma 2.5, pp. 8-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r356-claim-streaming-power-method-sample-complexity-for-round-distributions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any (B, p)-round distribution D over R^d with covariance A = E_{z~D}[z z^T] (Definition 3.1), the O(pd)-space Streaming Power Method (SPM, Figure 2)—which divides n samples into L blocks of size T = floor(n/L) and updates Y_ell = A_ell X_{ell-1} = A X_{ell-1} + G_ell followed by QR factorization—outputs X_L satisfying tan theta(U, X_L) &lt;= varepsilon with probability 9/10 using n &lt;= O_tilde(B p sigma_k max{1/varepsilon^2, B p / (sqrt(p) - sqrt(k-1))^2} log^2(d) / ((sigma_k - sigma_{k+1})^3 d)) samples (Theorem 3.2), yielding n = O_tilde(((lambda_1^2 + sigma^2)^2 (lambda_k^2 + sigma^2) / (varepsilon^2 lambda_k^6)) d k) in the spiked covariance model for p = 2k (Corollary 3.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r356-primary-pdf">The Noisy Power Method: A Meta Algorithm with Applications</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, Figure 2 and Corollaries 1.1-1.2, pp. 3-4; Section 3, Definition 3.1, Theorem 3.2, Corollaries 3.3-3.4, and Lemmas 3.5-3.6, pp. 12-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r356-claim-private-power-method-and-gram-schmidt-sign-symmetry-coherence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the Private Power Method (PPM, Figure 3), injecting Gaussian noise G_ell ~ N(0, ||X_{ell-1}||_infty^2 sigma^2)^{d x p} with sigma = varepsilon^{-1}sqrt(4 p L log(1/delta)) satisfies entry-level (varepsilon, delta)-differential privacy (Claim 4.2); furthermore, because Gram-Schmidt orthonormalization commutes with any orthogonal transformation O sharing A&#39;s eigenbasis (GS(O V) = O * GS(V), Lemmas 4.11-4.12), the inner-product signs (sign(&lt;u_i, x&gt;))_{i=1}^d of any column x of X_ell are uniformly distributed in {-1, 1}^d (Lemma 4.13), bounding max_{ell in [L]} ||X_ell||_infty^2 &lt;= O(mu(A) log(d) / d) in terms of matrix coherence mu(A) = max{d||U||_infty^2, d&#39;||V||_infty^2} (Theorem 4.9) and achieving dimension-free subspace error ||(I - X_L X_L^T)U|| &lt;= O((sigma * sqrt(mu(A) log(d) log(L)) / (sigma_k - sigma_{k+1})) * (sqrt(p) / (sqrt(p) - sqrt(k - 1)))) (Theorem 1.4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r356-primary-pdf">The Noisy Power Method: A Meta Algorithm with Applications</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, Figure 3 and Theorems 1.3-1.4, pp. 5-6; Section 4, Definition 4.8, Theorem 4.9, and Lemmas 4.11-4.14, pp. 16-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Noise tolerance in Corollary 1.1 and Theorem 2.4 requires per-step perturbation spectral norm ||G_ell|| to be smaller than varepsilon*(sigma_k - sigma_{k+1}), causing sample complexity in streaming PCA to scale inversely with the cube of the eigengap (sigma_k - sigma_{k+1})^3 (Section 1.4, pp. 7-8; Theorem 3.2, p. 12).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides a unified meta-algorithm for streaming PCA and differentially private PCA.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Computes low-dimensional spectral subspace projections under noisy matrix-vector products.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r356-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r356-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1311.2495.pdf" target="_blank" rel="noopener">The Noisy Power Method: A Meta Algorithm with Applications</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Moritz Hardt, Eric Price
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/HardtP14.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f646d0a8682d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r356-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r356-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1311.2495" target="_blank" rel="noopener">The Noisy Power Method: A Meta Algorithm with Applications (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Moritz Hardt, Eric Price
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1311.2495</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9bc8cc8f37d1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r356-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r356-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/HardtP14.xml" target="_blank" rel="noopener">The Noisy Power Method: A Meta Algorithm with Applications (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Moritz Hardt, Eric Price
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/HardtP14.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3d81269f6f73…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ANoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Noisy Power Method for...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:PrincipalComponentAnalysis (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:19:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:19:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Noisy%20Power%20Method%20for%20Perturbed%20Subspace%20Iteration%2C%20Streaming%20PCA%2C%20and%20Differentially%20Private%20Spectral%20Analysis"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ANoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

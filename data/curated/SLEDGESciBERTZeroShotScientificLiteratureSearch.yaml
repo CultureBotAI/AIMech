@@ -1,0 +1,105 @@
+id: AIMech:SLEDGESciBERTZeroShotScientificLiteratureSearch
+name: SLEDGE (SciBERT Zero-Shot Domain-Transfer Scientific Literature Search)
+concept_kind: architecture
+review_status: DRAFT
+definition: A two-stage zero-shot domain-transfer scientific literature retrieval and neural re-ranking methodology (MacAvaney, Cohan, & Goharian, EMNLP 2020) that combines first-stage BM25 candidate generation over concatenated scientific article title, abstract, full-text paragraphs, and headings (with optional publication-date filtering and high-k_1 term-saturation tuning k_1 = 3.9, b = 0.55) with a second-stage SciBERT cross-encoder re-ranker trained in a zero-shot transfer regime on general-domain MS MARCO passage ranking pairs (or the MedSyn-filtered 78,895-query Med-MSMARCO medical subset in the fully automatic setting) to score natural-language topic questions against article titles and abstracts.
+identity_notes: Distinct from general-domain BERT passage rerankers (Nogueira & Cho, 2019) and from CEDR (AIMech:CEDRContextualizedEmbeddingsForDocumentRanking). SLEDGE bridges emerging scientific domains lacking in-domain relevance judgments by pairing a scientific pre-trained language model (SciBERT) with out-of-domain relevance supervision transferred from MS MARCO (or lexicon-filtered Med-MSMARCO via the MedSyn layperson medical lexicon) and asymmetric field routing (searching full text with keyword queries or natural-language questions in Stage 1 while re-ranking title+abstract with natural-language questions in Stage 2).
+aliases:
+- SLEDGE
+- SLEDGE Scientific Knowledge Search
+- SLEDGE Zero-Shot SciBERT Scientific Literature Reranking Pipeline
+definition_evidence:
+- source_id: r799-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r799-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r799-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: sledge-two-stage-asymmetric-field-and-scibert-transfer
+  kind: mechanism
+  statement: SLEDGE indexes concatenated scientific article titles, abstracts, full-text paragraphs, and headings (preferring cleaner PubMed XML over PDF text) to retrieve the top 500 candidates using BM25 (tuned via grid search to k_1 = 3.9, b = 0.55 with a >= Jan 1, 2020 date filter in run1), and re-ranks candidates using a Vanilla SciBERT cross-encoder trained on MS MARCO via pairwise cross-entropy L(q, d^+, d^-) = -log(R(q, d^+)) - log(1 - R(q, d^-)) (Equation 1) by scoring the topic's natural-language question field against each candidate's title and abstract.
+  evidence:
+  - source_id: r799-primary-pdf
+    locator: Section 3.1-3.2 (First-Stage Retrieval & Neural Re-Ranking) & Section 5.1, pp. 2-4, Equation (1)
+    relation: supports
+  - source_id: r799-primary-pdf
+    locator: bm25_score and pairwise_cross_entropy_loss verification
+    relation: supports
+- claim_id: sledge-med-msmarco-lexicon-filtered-zero-shot-transfer
+  kind: mechanism
+  statement: In the fully automatic zero-shot setting without human judgments or hyperparameter tuning (run2), SLEDGE mitigates domain shift by filtering the 808,531 MS MARCO training queries with the MedSyn medical terminology lexicon (excluding ambiguous common words such as gas, card, bing, died, map, and fall) to construct Med-MSMARCO (78,895 queries, 9.7% of MS MARCO) for training the SciBERT re-ranker.
+  evidence:
+  - source_id: r799-primary-pdf
+    locator: Section 5.2 (Ranking without hyperparameter tuning & Footnote 5), p. 5
+    relation: supports
+  - source_id: r799-primary-pdf
+    locator: filter_med_msmarco_queries verification
+    relation: supports
+- claim_id: sledge-trec-covid-leaderboard-performance
+  kind: application
+  statement: On Round 1 of the TREC-COVID shared task (51,045 CORD-19 articles, 56 participating teams), SLEDGE run1 tops the manual-run leaderboard with 0.6844 nDCG@10 and 0.6533 P@5 (fully relevant) (and reaches 0.7733 nDCG@10 when using the question field in both stages, Table 3), while automatic SLEDGE run2 achieves 0.6032 nDCG@10 and 0.5667 P@5 (fully relevant, Tables 1-2).
+  evidence:
+  - source_id: r799-primary-pdf
+    locator: Section 5.1-5.3 (Tables 1-3), pp. 4-6
+    relation: supports
+- claim_id: sledge-incidental-mention-and-term-count-limitation
+  kind: limitation
+  statement: Failure analysis on queries such as Query 23 (coronavirus hypertension) shows that Vanilla SciBERT can rank documents with incidental single mentions of a query term above documents with frequent term repetition that BM25 ranks highly, and applying a hard publication-date filter improves top-rank precision but caps total system recall by discarding pre-2020 coronavirus literature (Section 5.3).
+  evidence:
+  - source_id: r799-primary-pdf
+    locator: Section 5.3 (Topic fields and date filtering & Failure cases), pp. 6-7, Figure 3
+    relation: supports
+evidence_sources:
+- source_id: r799-primary-pdf
+  title: 'SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search'
+  authors: &id001
+  - Sean MacAvaney
+  - Arman Cohan
+  - Nazli Goharian
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2005.02365.pdf
+  persistent_id: https://arxiv.org/bibtex/2005.02365
+  version: Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020) (2020) (613799 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:42:00Z'
+  sha256: cebc7ef139ef706a03db7d460c35d068c71f925cfb191a7edd0a80b7a79208c3
+- source_id: r799-arxiv-abs
+  title: 'SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.02365
+  persistent_id: https://arxiv.org/abs/2005.02365
+  version: arXiv abstract page (7149 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:42:00Z'
+  sha256: 54f5861f898074c2f1ad02f414b7bcf8c064586ce7fe81c76531ca724bc14a31
+- source_id: r799-metadata-cr
+  title: 'SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2005.02365
+  persistent_id: https://arxiv.org/bibtex/2005.02365
+  version: Crossref API work record (416 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:42:00Z'
+  sha256: 42f45bdd94a39a4e5e699900aeac44728e28d54a4f72759c526b222cf97abb46
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: SLEDGE is a two-stage hybrid lexical and SciBERT neural network re-ranking architecture for zero-shot scientific literature retrieval.
+limitations:
+- Vanilla SciBERT re-ranking over title+abstract can over-score incidental single mentions of query terms compared to count-based models, and hard publication-date filtering caps recall of pre-2020 relevant articles.
+curation:
+  created_at: '2026-10-19T14:42:00Z'
+  updated_at: '2026-10-19T14:42:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

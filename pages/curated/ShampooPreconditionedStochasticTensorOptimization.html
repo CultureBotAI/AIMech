@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shampoo (Preconditioned Stochastic Tensor Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Shampoo (Preconditioned Stochastic Tensor Optimization)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Shampoo (Preconditioned Stochastic Tensor Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ShampooPreconditionedStochasticTensorOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Shampoo, Shampoo Optimizer, Preconditioned Stochastic Tensor Optimization
+    </div>
+
+  <div class="detail-desc">
+    A structure-aware preconditioned stochastic optimization algorithm over order-k tensor parameter spaces R^{n_1 x ... x n_k} that maintains a separate positive-definite preconditioning matrix H_t^i in R^{n_i x n_i} for each tensor mode i in [k] by accumulating mode-i gradient contractions H_t^i = H_{t-1}^i + mat_i(G_t) mat_i(G_t)^T (with H_0^i = epsilon I_{n_i}) and updates parameters by multiplying the gradient tensor along every mode i by (H_t^i)^{-1/(2k)}, yielding W_{t+1} = W_t - eta L_t^{-1/4} G_t R_t^{-1/4} in the matrix case (k = 2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from diagonal AdaGrad and Adam in that Shampoo maintains full per-mode covariance matrices H_t^i rather than purely elementwise diagonal accumulators, and distinct from full-matrix AdaGrad in that it implicitly preconditions the vectorized gradient via the Kronecker product bigotimes_{i=1}^k (H_t^i)^{1/(2k)} with O(sum_i n_i^2) storage and O(sum_i n_i^3) inversion cost instead of O(prod_i n_i^2) and O(prod_i n_i^3). Distinct from K-FAC in that Shampoo is model-oblivious and relies solely on tensor-contracted outer products of observed gradients rather than architecture-specific activation/backpropagation Fisher factorizations.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r588-kronecker-preconditioning-equivalence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By Lemma 4 and Lemma 12, preconditioning an order-k gradient tensor G_t along each mode i via the mode-i tensor-matrix product G_t x_1 (H_t^1)^{-1/(2k)} ... x_k (H_t^k)^{-1/(2k)} is algebraically equivalent on the vectorized parameter wt = vec(W_t) to a preconditioned gradient step wt+1 = wt - eta H_t^{-1} gt with Kronecker preconditioner H_t = bigotimes_{i=1}^k (H_t^i)^{1/(2k)}, reducing matrix-case memory from m^2 n^2 to m^2 + n^2 and SVD/inversion work from O(m^3 n^3) to O(m^3 + n^3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r588-primary-pdf">Shampoo: Preconditioned Stochastic Tensor Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, p. 3; Lemma 4, p. 6; Section 4.2-4.3 &amp; Lemma 12, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r588-loewner-dominance-and-regret-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under operator monotonicity of the geometric mean of commuting positive semidefinite matrices (Lemma 5, Lemma 8, Lemma 11), the Kronecker product of Shampoo&#39;s mode preconditioners upper-bounds the full-matrix AdaGrad covariance in Loewner order, epsilon I_n + sum_{t=1}^T g_t g_t^T &lt;= r bigotimes_{i=1}^k (epsilon I_{n_i} + sum_{t=1}^T G_t^{(i)})^{1/k}, yielding an O(sqrt(T)) online convex optimization regret bound sum_{t=1}^T (f_t(W_t) - f_t(W^*)) &lt;= sqrt(2r) D prod_{i=1}^k Tr((H_T^i)^{1/(2k)}) (Theorem 7 and Theorem 10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r588-primary-pdf">Shampoo: Preconditioned Stochastic Tensor Optimization</a></span>
+        <span>· <strong>Locator:</strong> Lemma 5-6, p. 6; Theorem 7 &amp; Lemma 8-9, pp. 6-8; Theorem 10 &amp; Lemma 11, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r588-delayed-roots-and-diagonal-fallback</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Recomputing the fractional matrix roots (H_t^i)^{-1/(2k)} via SVD once every 20 to 100 steps amortizes per-step runtime to be comparable to SGD, AdaGrad, and Adam on deep CNNs and Transformer attention models, while dimensions exceeding a size threshold (e.g. 1200) can independently fall back to diagonal preconditioning (Algorithm 3, Theorem 13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r588-primary-pdf">Shampoo: Preconditioned Stochastic Tensor Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5-6, pp. 12-14; Appendix A, Theorem 13, pp. 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r588-block-diagonal-and-large-dimension-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Shampoo treats each parameter tensor independently as a block-diagonal preconditioner that ignores inter-tensor parameter correlations, and storing full n_i x n_i mode preconditioners or computing their SVDs becomes prohibitively expensive when individual tensor dimensions n_i are very large.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r588-primary-pdf">Shampoo: Preconditioned Stochastic Tensor Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5, p. 12; Appendix A, p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Captures only intra-tensor parameter correlations via block-diagonal per-tensor preconditioning and ignores correlations across distinct parameter tensors.</li>
+      <li>Requires O(sum_i n_i^2) memory and O(sum_i n_i^3) spectral decomposition work per tensor, necessitating diagonal fallback or delayed root updates when mode dimensions are large.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Shampoo is a Kronecker-factored tensor preconditioning optimizer for training artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r588-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r588-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1802.09568.pdf" target="_blank" rel="noopener">Shampoo: Preconditioned Stochastic Tensor Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Vineet Gupta, Tomer Koren, Yoram Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/0001KS18</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dedd4fdb7f59…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r588-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r588-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1802.09568" target="_blank" rel="noopener">Shampoo: Preconditioned Stochastic Tensor Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Vineet Gupta, Tomer Koren, Yoram Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1802.09568</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f6dba65683c6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r588-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r588-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/0001KS18" target="_blank" rel="noopener">Shampoo: Preconditioned Stochastic Tensor Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Vineet Gupta, Tomer Koren, Yoram Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/0001KS18</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3f2f5f53a0cd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AShampooPreconditionedStochasticTensorOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Shampoo (Preconditioned Stochastic Tensor Optimization)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ShampooPreconditionedStochasticTensorOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Shampoo...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:11:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:11:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ShampooPreconditionedStochasticTensorOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ShampooPreconditionedStochasticTensorOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Shampoo%20%28Preconditioned%20Stochastic%20Tensor%20Optimization%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AShampooPreconditionedStochasticTensorOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

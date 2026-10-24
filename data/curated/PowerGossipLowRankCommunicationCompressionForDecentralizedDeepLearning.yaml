@@ -1,0 +1,100 @@
+id: AIMech:PowerGossipLowRankCommunicationCompressionForDecentralizedDeepLearning
+name: PowerGossip Low-Rank Communication Compression for Decentralized Deep Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A hyperparameter-free compressed gossip and decentralized stochastic optimization algorithm (PowerGossip) that directly compresses pairwise model parameter matrix differences X_j - X_i in R^(p x q) across connected neighbors (i, j) using linear rank-1 projection operators C_{v_{ij}}(X_j - X_i) = (X_j v_{ij} - X_i v_{ij}) v_{ij}^T updated via alternating power-iteration steps v^(2k+1) = D^(2k) v^(2k) / ||D^(2k) v^(2k)||_2 and v^(2k) = (D^(2k-1))^T v^(2k-1) / ||(D^(2k-1))^T v^(2k-1)||_2 on D^(k) = X_j^(k) - X_i^(k), enabling distributed vector exchange of p_j = X_j v_hat and p_i = X_i v_hat without communicating full p x q matrices or tuning a separate consensus stepsize.
+identity_notes: Introduced by Thijs Vogels, Sai Praneeth Karimireddy, and Martin Jaggi (NeurIPS 2020, Vol. 33, pp. 14171-14181; arXiv:2008.01425). Distinct from PowerSGD (Vogels, Karimireddy, & Jaggi, NeurIPS 2019), which performs centralized all-reduce low-rank approximation of error-compensated gradients rather than pairwise edge-wise model-difference compression; and distinct from Choco-SGD / Choco-Gossip (Koloskova et al., ICML 2019) and DeepSqueeze (Tang et al., 2019), which maintain full-model neighbor replicas or error buffers and require tuning an additional consensus stepsize gamma.
+aliases:
+- PowerGossip
+- PowerGossip Low-Rank Compressed Decentralized SGD
+- Practical Low-Rank Communication Compression in Decentralized Deep Learning
+definition_evidence:
+- source_id: r556-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r556-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r556-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: powergossip-distributed-linear-projection-and-power-iteration-mechanism
+  kind: mechanism
+  statement: Exploiting the linearity of matrix-vector multiplication, connected nodes i and j maintain a shared projection vector v_{ij} = -v_{ji}, locally compute vectors p_j = X_j v_hat and p_i = X_i v_hat for v_hat = v_{ij} / ||v_{ij}||_2, exchange p_j and p_i to form the rank-1 update Q_hat = (p_j - p_i) v_hat^T = C_{v_hat}(X_j - X_i), and update v_{ij} <- p_j - p_i (alternating between X and X^T across s power-iteration steps) while preserving the exact global average X_bar^(t) = X_bar^(0) (Lemma 1).
+  evidence:
+  - source_id: r556-primary-pdf
+    locator: Section 4 Equations (2)-(3), Algorithms 1-2, & Appendix A Lemma 1, pp. 3-4, 12
+    relation: supports
+- claim_id: powergossip-q-linear-consensus-and-asymptotically-independent-sgd-scope
+  kind: scope
+  statement: For any delta-approximate unbiased linear projection operator C satisfying C(X+Y)=C(X)+C(Y), C(C(X))=C(X), and E[C(X)]=delta*X (such as random rank-k subspace projection with delta = k/q) over a mixing matrix W with spectral gap rho = 1 - lambda_2^2 > 0, compressed consensus achieves a parameter-free Q-linear rate (1/N) sum_{i=1}^N E||X_i^(t) - X_bar^(0)||_F^2 <= (1 - rho*delta) (1/N) sum_{i=1}^N ||X_i^(t-1) - X_bar^(0)||_F^2 (Theorem I), and compressed stochastic optimization reaches epsilon-accuracy in O(L*sigma^2 / (n*epsilon^2) + sqrt(L)*(zeta+sigma) / (rho*delta*epsilon^(3/2)) + L / (rho*delta*epsilon)) non-convex rounds (Theorem II).
+  evidence:
+  - source_id: r556-primary-pdf
+    locator: Section 5.1 Assumptions (A4)-(A5) & Section 5.2 Theorems I-II, pp. 5-6
+    relation: supports
+- claim_id: powergossip-peaky-spectrum-and-per-edge-vector-state-limitation
+  kind: limitation
+  statement: Low-rank power-iteration compression outperforms random projections only when inter-worker parameter differences exhibit a peaky singular-value spectrum (whereas on unstructured i.i.d. Gaussian matrices no compressed gossip outperforms uncompressed gossip per bit), and each node must store previous projection vectors v_{ij} scaling linearly with its number of graph neighbors.
+  evidence:
+  - source_id: r556-primary-pdf
+    locator: Section 4.1 Properties, Section 6 Figure 1, & Appendix E.2, pp. 4, 7, 16
+    relation: supports
+- claim_id: powergossip-decentralized-cifar-resnet20-and-wikitext2-lstm-application
+  kind: application
+  statement: Applied to decentralized training of ResNet-20 on CIFAR-10 (8-worker ring, 34x-57x compression) and 3-layer LSTMs on WikiText-2 language modeling (16-worker ring, 35x-122x compression) using the exact centralized SGD learning rate without tuning any compression hyperparameters.
+  evidence:
+  - source_id: r556-primary-pdf
+    locator: Section 6 Experimental analysis, Tables 1-2, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r556-primary-pdf
+  title: Practical Low-Rank Communication Compression in Decentralized Deep Learning
+  authors: &id001
+  - Thijs Vogels
+  - Sai Praneeth Karimireddy
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2008.01425.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/VogelsKJ20
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (2020) (1019404 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:39:00Z'
+  sha256: e142a7e3ce9a67bc8069ad75fc2383de384f34eb63ac0c8b3eeb377f105aeeaf
+- source_id: r556-arxiv-abs
+  title: Practical Low-Rank Communication Compression in Decentralized Deep Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2008.01425
+  persistent_id: https://arxiv.org/abs/2008.01425
+  version: arXiv abstract page (6915 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:39:00Z'
+  sha256: ce8ea6d0833739723f2749491af87d9f17273ac0d692c5a3c31ea121a804e0f9
+- source_id: r556-metadata-cr
+  title: Practical Low-Rank Communication Compression in Decentralized Deep Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/VogelsKJ20
+  persistent_id: https://dblp.org/rec/conf/nips/VogelsKJ20
+  version: Crossref API work record (489 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:39:00Z'
+  sha256: 8ba4f9db83e4618cf91a14865b7ee3fd635dff14bf7d38f06b345fadb51a4c1b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers distributed collaborative model training, whereas PowerGossip is a decentralized peer-to-peer gossip optimization protocol with edge-wise low-rank power-iteration compression.
+limitations:
+- Requires storing per-edge projection vectors v_{ij} for each neighbor connection.
+- Theoretical convergence guarantees (Theorems I-II) are proven for unbiased linear projection operators satisfying Assumption (A5).
+curation:
+  created_at: '2026-10-19T10:39:00Z'
+  updated_at: '2026-10-19T10:39:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

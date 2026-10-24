@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GCFL+ (Gradient Sequence Dynamic Time Warping Clustered Federated Graph Classification) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>GCFL+ (Gradient Sequence Dynamic Time Warping Clustered Federated Graph Classification)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GCFL+ (Gradient Sequence Dynamic Time Warping Clustered Federated Graph Classification)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GcflPlusGradientSequenceDynamicTimeWarpingClusteredFederatedGraphClassification</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GCFL+, GCFL Plus, Graph Clustered Federated Learning Plus, Gradient Sequence Dynamic Time Warping Clustered Federated Graph Classification
+    </div>
+
+  <div class="detail-desc">
+    GCFL+ is a dynamic clustered federated graph classification algorithm for clients holding structure- and feature-heterogeneous (non-IID) graph datasets that tracks a multi-variate time-series matrix Q in R^{n x d} of each client&#39;s GNN gradient norms ||Delta theta_i^t|| over the latest d communication rounds and, whenever a cluster&#39;s weighted mean gradient norm falls below a stationarity threshold (delta_mean &lt; varepsilon_1) while its maximum client gradient norm exceeds a heterogeneity threshold (delta_max &gt; varepsilon_2), computes a pairwise Dynamic Time Warping (DTW) distance matrix beta_k(p, q) = dist(Q(p, :), Q(q, :)) and recursively bi-partitions the cluster via the Stoer-Wagner minimum cut algorithm.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Han Xie, Jing Ma, Li Xiong, and Carl Yang in &#39;Federated Graph Classification over Non-IID Graphs&#39; (NeurIPS 2021, pages 18839-18852; arXiv:2106.13423). Extends vanilla GCFL (Section 4 of the same paper), which bi-partitions client clusters using single-round gradient cosine similarities and is vulnerable to fluctuating GNN gradient norms across rounds; distinct from Euclidean Clustered Federated Learning (CFL, Sattler et al. 2020), which does not track multi-round DTW gradient-norm sequences or analyze GNN Laplacian/feature perturbation bounds; and distinct from FedSage+ (Zhang et al. NeurIPS 2021), which addresses node classification on disjoint subgraphs with missing links.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gcfl-plus-stationarity-and-heterogeneity-bipartition-criteria</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each communication round t, GCFL and GCFL+ evaluate for each client cluster C_k whether the weighted average GNN update norm approaches a stationary point, delta_mean = ||sum_{i in [n]} (|G_i|/|G|) Delta theta_i|| &lt; varepsilon_1 (Equation 4), while individual client updates remain divergent, delta_max = max(||Delta theta_i||) &gt; varepsilon_2 &gt; 0 (Equation 5), triggering top-down cluster bi-partitioning C_k -&gt; {C_{k1}, C_{k2}} via the Stoer-Wagner minimum cut algorithm and maintaining cluster-specific GNN parameters theta_k^{t+1} = theta_k^t + sum_{i in [n_k]} Delta theta_{k,i}^t (Equation 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r514-primary-pdf">Federated Graph Classification over Non-IID Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, Equations (4)-(7), pages 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gcfl-plus-dtw-gradient-norm-sequence-distance-matrix</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To overcome single-round GNN gradient-norm fluctuations in vanilla GCFL (Figure 1a), the server in GCFL+ maintains a rolling time-series matrix Q in R^{n x d} of client gradient norms ||Delta theta_i^t|| over a window of length d (optionally standardized via Q&#39;(i, :) = Q(i, :) / std(Q(i, :)), Equation 20) and computes the cluster pairwise distance matrix beta_k(p, q) = dist(Q(p, :), Q(q, :)) using Dynamic Time Warping (DTW, Equation 8) to drive Stoer-Wagner bi-partitioning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r514-primary-pdf">Federated Graph Classification over Non-IID Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.2, Figure 1 and Equation (8), page 7; Appendix D, Equation (20), page 17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gcfl-plus-bourgain-sgc-structure-and-feature-gradient-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using Bourgain&#39;s metric embedding theorem (Theorem 4.1) on Simple Graph Convolutions f(L, X) = softmax(L^K X Theta) with normalized Laplacian L = D_tilde^{-1/2} A_tilde D_tilde^{-1/2}, Propositions 4.1-4.3 prove that the squared weight difference ||Theta&#39; - Theta||_2^2 is upper-bounded by the graph structure perturbation ||L&#39; - L||_2^2 &lt;= epsilon_L (Equation 12), the node feature perturbation ||X&#39; - X||_2^2 &lt;= epsilon_X (Equation 16), and the task embedding perturbation ||Y_i - Y_j||_2^2 &lt;= epsilon_Y (Equation 19), theoretically justifying that GNN gradient clustering reduces intra-cluster graph structure and feature heterogeneity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r514-primary-pdf">Federated Graph Classification over Non-IID Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 4.4, Theorem 4.1 and Propositions 4.1-4.3, page 6; Appendix B, Equations (9)-(19), pages 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#gcfl-plus-threshold-tuning-and-unencrypted-gradient-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GCFL+ requires offline validation tuning of the stopping and splitting thresholds (varepsilon_1, varepsilon_2) (where overly large varepsilon_2 collapses to single-cluster FedAvg and overly small varepsilon_2 fragments clients into singleton clusters), and transmits unencrypted client GNN gradients without formal differential privacy or cryptographic aggregation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r514-primary-pdf">Federated Graph Classification over Non-IID Graphs</a></span>
+        <span>· <strong>Locator:</strong> Section 6.2, pages 8-9; Section 7, page 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires selecting the stationarity threshold varepsilon_1 and heterogeneity splitting threshold varepsilon_2 via offline validation rounds; setting varepsilon_2 too small fragments clients into singleton clusters.</li>
+      <li>Relies on gradient-norm time series Q in R^{n x d}, which discards directional cosine information between client gradient vectors when computing the DTW distance matrix beta_k.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GCFL+ is a clustered federated learning algorithm for graph classification over non-IID graph datasets under AIO:FederatedLearning.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GCFL+ dynamically bi-partitions clients into homogeneous clusters using Stoer-Wagner minimum cut on Dynamic Time Warping distances of GNN gradient-norm sequences.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r514-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r514-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2106.13423.pdf" target="_blank" rel="noopener">Federated Graph Classification over Non-IID Graphs</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Han Xie, Jing Ma, Li Xiong, Carl Yang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/XieMXY21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d7394906b27b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r514-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r514-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2106.13423" target="_blank" rel="noopener">Federated Graph Classification over Non-IID Graphs (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Han Xie, Jing Ma, Li Xiong, Carl Yang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2106.13423</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6c30ef243771…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r514-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r514-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/XieMXY21" target="_blank" rel="noopener">Federated Graph Classification over Non-IID Graphs (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Han Xie, Jing Ma, Li Xiong, Carl Yang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/XieMXY21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3662530bdc99…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AGcflPlusGradientSequenceDynamicTimeWarpingClusteredFederatedGraphClassification">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for GCFL+ (Gradient Sequence Dynamic Time Warping Clustered Federated Graph Classification)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:GcflPlusGradientSequenceDynamicTimeWarpingClusteredFederatedGraphClassification</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">GCFL+ (Gradient...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:57:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:57:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GcflPlusGradientSequenceDynamicTimeWarpingClusteredFederatedGraphClassification.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GcflPlusGradientSequenceDynamicTimeWarpingClusteredFederatedGraphClassification.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=GCFL%2B%20%28Gradient%20Sequence%20Dynamic%20Time%20Warping%20Clustered%20Federated%20Graph%20Classification%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AGcflPlusGradientSequenceDynamicTimeWarpingClusteredFederatedGraphClassification"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

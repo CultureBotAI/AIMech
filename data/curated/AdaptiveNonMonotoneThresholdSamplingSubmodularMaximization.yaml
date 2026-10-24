@@ -1,0 +1,92 @@
+id: AIMech:AdaptiveNonMonotoneThresholdSamplingSubmodularMaximization
+name: Adaptive Non-Monotone Threshold Sampling for Low-Adaptivity Submodular Maximization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Adaptive Non-Monotone Threshold Sampling (ADAPTIVE-NONMONOTONE-MAX and its core subroutine NON-MONOTONE-THRESHOLD-SAMPLING) is a parallel low-adaptivity algorithm for maximizing a non-negative (possibly non-monotone) submodular set function f: 2^N -> R_>=0 subject to a cardinality constraint |S| <= k, introduced by Fahrbach, Mirrokni, and Zadimoghaddam (2019). For each parallel threshold guess tau = c_1 * (1 + eps_hat)^i * Delta^* / k, NON-MONOTONE-THRESHOLD-SAMPLING (Algorithm 1) iteratively filters candidates A <- {x in A : Delta(x, S) >= tau}, terminates early if |A| < c_3 * k (ensuring every element x in N is selected with probability at most 1 / c_3), finds the largest batch size t = min{floor((1 + eps_hat)^i), |A|} via REDUCED-MEAN (Algorithm 2) on the Bernoulli indicator I_t = 1[Delta(x, S cup T) >= tau], samples T ~ U(A, min{t, k - |S|}), and applies a random-permutation post-filtering step S'' <- S'' cup {x_i in T : Delta(x_i, S cup {x_1, ..., x_{i-1}}) >= tau} (Lines 14-15) before updating S <- S cup T; if the loop breaks early because |A| < c_3 * k, ADAPTIVE-NONMONOTONE-MAX (Algorithm 4) runs unconstrained submodular maximization on A, uniformly downsamples to cardinality k if |U| > k, takes the highest-valued prefix U'''' of a random permutation, and returns argmax_{X in {R, S'', U''''}} f(X).'
+identity_notes: Distinct from AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization (Round 360, Balkanski, Rubinstein, & Singer 2019) and AIMech:ParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime (Round 362, Ene & Nguyen 2019), which require monotone submodular objectives where adding an eps-fraction of below-threshold elements cannot reduce objective value, whereas NON-MONOTONE-THRESHOLD-SAMPLING enforces early candidate-pool termination |A| < c_3 * k (to bound element inclusion probability <= 1/c_3 for Lemma 2.1), adds prefix post-filtering (to prevent negative-marginal elements from degrading S'), and couples threshold sampling with unconstrained maximization and uniform downsampling when |A| < c_3 * k.
+aliases:
+- ADAPTIVE-NONMONOTONE-MAX
+- NON-MONOTONE-THRESHOLD-SAMPLING
+- Fahrbach-Mirrokni-Zadimoghaddam Non-Monotone Low-Adaptivity Submodular Maximization
+definition_evidence:
+- source_id: r370-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r370-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r370-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r370-claim-post-filtered-nonmonotone-threshold-sampling-invariants
+  kind: mechanism
+  statement: For any non-negative submodular function f, threshold tau, and candidate scale factor c >= 1, NON-MONOTONE-THRESHOLD-SAMPLING (Algorithm 1) runs in O(log(n/delta)/varepsilon) adaptive rounds and O(n/varepsilon) expected oracle queries, and conditioned on the high-probability event Z that all REDUCED-MEAN calls (Algorithm 2, Lemma 2.4) succeed (with Pr[Z] >= 1 - delta/2), guarantees that (1) if |S| < k upon termination then |A| < c*k with probability at least 1 - delta/2, and (2) the post-filtered set S' satisfies E[|S'| | Z] >= (1 - varepsilon_hat)*E[|S| | Z]; furthermore, unconditionally (for every realization), the prefix post-filtering step (Lines 14-15) guarantees f(S') >= tau * |S'| (Property 4) and the early stopping rule |A| < c*k (Line 7) guarantees Pr[x in S'] <= Pr[x in S] <= 1/c for every x in N (Property 5, Lemma 2.3).
+  evidence:
+  - source_id: r370-primary-pdf
+    locator: Section 2.1, Definition 2.2, Algorithms 1-2, and Lemmas 2.3-2.4, pp. 4-5; Appendix A, Proof of Lemma 2.3 (Properties 1-5), pp. 16-18
+    relation: supports
+- claim_id: r370-claim-complementary-event-tradeoff-and-downsampling-bound
+  kind: mechanism
+  statement: For threshold tau approx c_1 * OPT / k, if event A_{>= c_3 k} occurs (so |S| = k conditioned on Z), then E[ALG] >= (1 - varepsilon)*(1 - delta)*c_1*OPT*Pr[A_{>= c_3 k} | Z] (Lemma 3.5); if the complementary event A_{< c_3 k} occurs (so |A| < c_3*k), then running an alpha-approximate unconstrained submodular maximization subroutine on A followed by uniform downsampling D ~ U(U, k) (which preserves E[f(D)] >= (k/|U|)*f(U) >= (1/c_3)*f(U) by Lemma 3.3) and applying Lemma 2.1 to g(S) = f(S^* cup S) with Pr[x in S' | Z] <= 1/c_3 yields E[ALG] >= ((1 - varepsilon)*(1 - delta)*alpha / c_3) * [(1 - c_1)*OPT*Pr[A_{< c_3 k} | Z] - OPT/c_3 - 2*E[f(S') | Z]] (Lemma 3.6).
+  evidence:
+  - source_id: r370-primary-pdf
+    locator: Section 2, Lemma 2.1, p. 4; Section 2.2, Algorithm 3 and Lemmas 2.5-2.6, p. 6; Section 3.1-3.2, Algorithm 4, Definition 3.4, and Lemmas 3.3, 3.5, 3.6, pp. 7-9; Appendix B, Proofs of Lemma 3.3 and Lemma B.1, pp. 18-19
+    relation: supports
+- claim_id: r370-claim-logarithmic-adaptivity-and-nearly-linear-query-complexity
+  kind: mechanism
+  statement: Balancing the two complementary bounds of Lemmas 3.5 and 3.6 via max_{c_1,c_3,c_4,beta} min{c_4, (alpha/((1+beta)*c_3))*(1 - c_1 - 1/c_3 - 2*c_4)} subject to beta*c_1*c_3/alpha = 1 - c_1 yields E[ALG]/OPT >= (1 - varepsilon)*(1 - delta)*alpha*(1 - (1 + beta*c_3/alpha)^{-1} - c_3^{-1}) / ((1 + beta)*c_3 + 2*alpha) (Eq. 6); instantiating with 1-round random-subset UNCONSTRAINED-MAX (alpha = 1/4, c_3 = 3, beta = 1/2, c_1 = 1/7) achieves an expected (11/420)*(1 - varepsilon)*(1 - delta) >= 0.026*(1 - varepsilon)*(1 - delta) approximation in O(log(n/delta)/varepsilon) adaptive rounds and O(n*log(k)/varepsilon^2 + delta*n^2) expected oracle queries (Theorem 3.1), while instantiating with (1/2 - varepsilon)-approximate low-adaptivity unconstrained maximization (alpha = 1/2, c_3 = 3.556, beta = 0.5664, c_1 = 0.198989) achieves a 0.039*(1 - varepsilon)*(1 - delta) approximation in O(log(n/delta)/varepsilon) adaptive rounds and O(n*log(k)*log^3(1/varepsilon)/varepsilon^5 + delta*n^2) expected queries (Theorem 3.2).
+  evidence:
+  - source_id: r370-primary-pdf
+    locator: Section 3-3.2, Theorems 3.1 and 3.2, and Equations (5)-(6), pp. 6-7, 10
+    relation: supports
+evidence_sources:
+- source_id: r370-primary-pdf
+  title: Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity
+  authors: &id001
+  - Matthew Fahrbach
+  - Vahab Mirrokni
+  - Morteza Zadimoghaddam
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1808.06932.pdf
+  persistent_id: https://proceedings.mlr.press/v97/fahrbach19a.html
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:1833-1842 (arXiv:1808.06932v3) (2019) (891677 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:33:00Z'
+  sha256: ea74f5414b3bbc886599cd089131e20b4639c31d716adc1f6dc390688ca61385
+- source_id: r370-arxiv-abs
+  title: Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1808.06932
+  persistent_id: https://arxiv.org/abs/1808.06932
+  version: arXiv abstract page (43066 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:33:00Z'
+  sha256: e63852a2c06b2276b974e6cbea5bb10029894c366fdaa653953c354e8098dcf8
+- source_id: r370-metadata-cr
+  title: Non-monotone Submodular Maximization with Nearly Optimal Adaptivity and Query Complexity (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/fahrbach19a.html
+  persistent_id: https://proceedings.mlr.press/v97/fahrbach19a.html
+  version: Crossref API work record (16400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:33:00Z'
+  sha256: f13c1a6db18cd87643dd41d69b6e15f37b46551e68b6cfb2e229ec8898fd914a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Applied to exemplar-based clustering, image summarization, movie recommendation, and viral marketing under cardinality constraints.
+limitations:
+- Achieves a small constant approximation ratio of 0.026 (with 1-round random unconstrained maximization) or 0.039 (with multi-round unconstrained maximization), well below the centralized 1/e - varepsilon approximation ratio, and applies only to cardinality constraints |S| <= k rather than general matroid or knapsack constraints (Table 1 and Section 5, pp. 2, 12).
+curation:
+  created_at: '2026-10-19T07:33:00Z'
+  updated_at: '2026-10-19T07:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

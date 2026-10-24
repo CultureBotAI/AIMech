@@ -1,0 +1,102 @@
+id: AIMech:AutoPromptGradientGuidedDiscretePromptSearch
+name: AutoPrompt Gradient-Guided Discrete Prompt Search
+concept_kind: algorithm
+review_status: DRAFT
+definition: An automated discrete prompt construction and knowledge-probing algorithm for pretrained language models that maps task inputs x_inp into a cloze template containing a prediction token [MASK] and shared discrete trigger tokens x_trig, automatically selects class-associated label token sets V_y via a logistic classifier over [MASK] contextual representations scored against output word embeddings w_out, and iteratively updates each trigger token x_trig^(j) by evaluating the top-k vocabulary candidates V_cand = top-k_{w in V} [w_in^T grad_{x_trig^(j)} log p(y|x_prompt)] under a first-order gradient approximation of the marginalized label log-likelihood p(y|x_prompt) = sum_{w in V_y} p([MASK]=w|x_prompt) while keeping all language model weights frozen.
+identity_notes: Distinct from continuous soft prompt methods such as Prompt Tuning (AIMech:PromptTuning), Prefix-Tuning (AIMech:PrefixTuning), and WARP (AIMech:WARPWordLevelAdversarialReProgramming), which optimize continuous vectors in embedding space, and from manual cloze prompting (LAMA, Petroni et al., 2019) or corpus-mined/paraphrased prompting (LPAQA, Jiang et al., 2020), which do not perform gradient-guided discrete trigger token search.
+aliases:
+- AutoPrompt
+- AutoPrompt Gradient-Guided Prompt Generation
+- Gradient-Guided Discrete Trigger Prompt Search
+definition_evidence:
+- source_id: r718-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r718-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r718-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r718-claim-gradient-trigger-search
+  kind: mechanism
+  statement: AutoPrompt initializes shared trigger tokens [T] to [MASK] and at each step approximates the log-likelihood change of swapping the j-th trigger token x_trig^(j) with vocabulary token w in V via the inner product w_in^T grad_{x_trig^(j)} log p(y|x_prompt), evaluating the top-k candidates V_cand with k forward passes to retain the trigger replacement that maximizes marginalized label likelihood.
+  evidence:
+  - source_id: r718-primary-pdf
+    locator: Section 2.1-2.2, Equations 1-2, p. 3
+    relation: supports
+- claim_id: r718-claim-automated-label-token-selection
+  kind: mechanism
+  statement: For classification tasks whose labels do not directly map to single vocabulary words, AutoPrompt trains a logistic classifier p(y|h^(i)) proportional to exp(h^(i) * y + beta_y) on the [MASK] contextualized representation h^(i) and substitutes the MLM output word embeddings w_out to select the top-k scoring words V_y = top-k_{w in V} [exp(w_out * y + beta_y)] as class label tokens.
+  evidence:
+  - source_id: r718-primary-pdf
+    locator: Section 2.3, Equations 3-5, pp. 3-4
+    relation: supports
+- claim_id: r718-claim-probing-and-low-data-application
+  kind: application
+  statement: Without fine-tuning any model weights, AutoPrompt achieves 91.4% test accuracy with RoBERTa-large on SST-2 sentiment analysis, outperforms finetuned BERT and RoBERTa on low-data SICK-E natural language inference, and reaches 43.34% Precision@1 on the LAMA fact retrieval benchmark (exceeding manual LAMA prompts at 31.10% and LPAQA at 34.10%).
+  evidence:
+  - source_id: r718-primary-pdf
+    locator: Sections 3-6, Tables 1, 2, 4, and 5, Figure 2, pp. 4-9
+    relation: supports
+- claim_id: r718-claim-ungrammatical-imbalance-limitation
+  kind: limitation
+  statement: Discrete prompts discovered by greedy search over vocabulary tokens lack human interpretability and grammaticality, struggle on tasks such as QQP and RTE (performing near chance) or under severe class imbalance where prompts amplify majority-class prior probability, and drop sharply on counterfactual relation extraction sentences where objects are synthetically perturbed (e.g., BERT P@1 dropping from 90.73% to 56.43%).
+  evidence:
+  - source_id: r718-primary-pdf
+    locator: Section 6 & Section 7, Table 5, pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r718-primary-pdf
+  title: 'AutoPrompt: Eliciting Knowledge from Language Models with Automatically Generated Prompts'
+  authors: &id001
+  - Taylor Shin
+  - Yasaman Razeghi
+  - Robert L. Logan IV
+  - Eric Wallace
+  - Sameer Singh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2010.15980.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=AutoPrompt+Eliciting+Knowledge+from+Language+Models+Shin&format=xml
+  version: Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020), pp. 4222-4235 (2020) (663180 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:21:00Z'
+  sha256: 9e77217618c4164472ba73f01c2371ce4a59c2ee8d307c83a874abe5f631129a
+- source_id: r718-arxiv-abs
+  title: 'AutoPrompt: Eliciting Knowledge from Language Models with Automatically Generated Prompts (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.15980
+  persistent_id: https://arxiv.org/abs/2010.15980
+  version: arXiv abstract page (7339 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:21:00Z'
+  sha256: d8287ab498538d502b04b6f72fff35477cac470a33f1659907f4a16841c59b8e
+- source_id: r718-metadata-cr
+  title: 'AutoPrompt: Eliciting Knowledge from Language Models with Automatically Generated Prompts (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=AutoPrompt+Eliciting+Knowledge+from+Language+Models+Shin&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=AutoPrompt+Eliciting+Knowledge+from+Language+Models+Shin&format=xml
+  version: Crossref API work record (930 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:21:00Z'
+  sha256: 990d0c3bc1868ec9b8c3cc80576e2235e9ecfd9e7b308446c827b06552dc1eee
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AutoPrompt probes and adapts frozen pretrained neural language models by searching for discrete trigger tokens using input-embedding gradients.
+limitations:
+- Generated discrete trigger sequences are ungrammatical and lack human interpretability, and greedy discrete search over the vocabulary can be brittle or fail to exceed chance accuracy on tasks such as QQP and RTE.
+- Requires labeled training data to guide the gradient search and is sensitive to severe class imbalance unless training batches are rebalanced; on relation extraction, performance drops substantially when factual context entities are counterfactually perturbed.
+curation:
+  created_at: '2026-10-19T13:21:00Z'
+  updated_at: '2026-10-19T13:21:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

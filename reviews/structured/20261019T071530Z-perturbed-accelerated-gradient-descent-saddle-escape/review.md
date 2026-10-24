@@ -1,0 +1,364 @@
+# Scientific author self-review of Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points
+
+- Review: 20261019T071530Z-perturbed-accelerated-gradient-descent-saddle-escape
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:15:00Z
+- Finished UTC: 2026-10-19T07:15:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base c1a56f78e3e4ec7f27b8dcdc1f814435335a6dd9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape | data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml | maintained | Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape | Validated history sidecar files. |
+| python3 perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py | passed | True | AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape | [PASS] Round 352 Perturbed AGD (Jin et al. 2018): E0=3.6728 &lt; E1_agd=5.0000 (NCE E1=-2.5000), max_lemma4_viol=-1.92e-06, mu1_agd=1.13403 &gt; mu_gd=1.02500, final_x0=0.1517 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.
+
+Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points is a distinct concept.
+
+Distinct from Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization (&#96;AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization&#96;), which uses unaccelerated gradient descent (theta = 1) and requires O~(epsilon^{-2}) iterations rather than O~(epsilon^{-7/4}) via Hamiltonian momentum accumulation and NCE resets, and from Accelerated Gradient and Negative Curvature Exploitation for Non-Convex Optimization (&#96;AIMech:AcceleratedGradientAndNegativeCurvatureExploitationForNonConvexOptimization&#96;), which is a nested-loop algorithm combining Lanczos negative-curvature search with proximal regularized subproblems rather than a single-loop purely gradient-based perturbed AGD method.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py passed with exit code 0: [PASS] Round 352 Perturbed AGD (Jin et al. 2018): E0=3.6728 &lt; E1_agd=5.0000 (NCE E1=-2.5000), max_lemma4_viol=-1.92e-06, mu1_agd=1.13403 &gt; mu_gd=1.02500, final_x0=0.1517
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T071500Z-perturbed-accelerated-gradient-descent-saddle-escape.json | supports | No normalized identity match for AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py | supports | All constructed boundary assertions in perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py passed with exit code 0: [PASS] Round 352 Perturbed AGD (Jin et al. 2018): E0=3.6728 &lt; E1_agd=5.0000 (NCE E1=-2.5000), max_lemma4_viol=-1.92e-06, mu1_agd=1.13403 &gt; mu_gd=1.02500, final_x0=0.1517 |
+| r352-primary-pdf | https://arxiv.org/pdf/1711.10456.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 31st Conference On Learning Theory (COLT 2018), PMLR 75:1042-1085 (arXiv:1711.10456) (2018)) read and verified. |
+| r352-arxiv-abs | https://arxiv.org/abs/1711.10456; arXiv abstract | supports | arXiv abstract read and verified. |
+| r352-metadata-cr | https://proceedings.mlr.press/v75/jin18a.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape in Round 352.
+- All pages of Proceedings of the 31st Conference On Learning Theory (COLT 2018), PMLR 75:1042-1085 (arXiv:1711.10456) (2018) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T071530Z-perturbed-accelerated-gradient-descent-saddle-escape
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Perturbed Accelerated Gradient Descent with
+  Negative-Curvature Reset for Escaping Saddle Points
+started_at: '2026-10-19T07:15:00Z'
+finished_at: '2026-10-19T07:15:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 31st Conference On Learning Theory (COLT 2018), PMLR 75:1042-1085 (arXiv:1711.10456)
+    (2018) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Perturbed Accelerated Gradient Descent with Negative-Curvature Reset
+  for Escaping Saddle Points as a distinct DRAFT algorithm. All three claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: c1a56f78e3e4ec7f27b8dcdc1f814435335a6dd9
+  state: working_tree
+  inputs:
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml
+    sha256: c583d16b37cfb9dc5d0b771cf0b421fa57a18fa529063640334d914ece212ad8
+    role: target
+  - path: research/discovery/20261019T071500Z-perturbed-accelerated-gradient-descent-saddle-escape.json
+    sha256: 328d2e57b41af2be59f82029e374b0ad5b442c9c8a68d32997c1ec7a2fd905d8
+    role: context
+  - path: research/discovery/perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py
+    sha256: 20bcb1dc278a7dee273c102f27f8596dd857a897cc1198d854cb9887b0adef3b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  path: data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml
+  label: Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for
+    Escaping Saddle Points
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py
+  command: python3 research/discovery/perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 352 Perturbed AGD (Jin et al. 2018): E0=3.6728 < E1_agd=5.0000
+    (NCE E1=-2.5000), max_lemma4_viol=-1.92e-06, mu1_agd=1.13403 > mu_gd=1.02500,
+    final_x0=0.1517'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T071500Z-perturbed-accelerated-gradient-descent-saddle-escape.json
+  accessed_at: '2026-10-19T07:15:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:15:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py
+  accessed_at: '2026-10-19T07:15:00Z'
+  snapshot_sha256: 20bcb1dc278a7dee273c102f27f8596dd857a897cc1198d854cb9887b0adef3b
+  support: supports
+  summary: 'All constructed boundary assertions in perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py
+    passed with exit code 0: [PASS] Round 352 Perturbed AGD (Jin et al. 2018): E0=3.6728
+    < E1_agd=5.0000 (NCE E1=-2.5000), max_lemma4_viol=-1.92e-06, mu1_agd=1.13403 >
+    mu_gd=1.02500, final_x0=0.1517'
+- evidence_id: r352-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1711.10456.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:15:00Z'
+  snapshot_sha256: 94672f7a18ca2b8c20b88cd3c09ef59a2504ee496e5c378b84fecd3f963024ef
+  support: supports
+  summary: Full-text PDF (Proceedings of the 31st Conference On Learning Theory (COLT
+    2018), PMLR 75:1042-1085 (arXiv:1711.10456) (2018)) read and verified.
+- evidence_id: r352-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1711.10456
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:15:00Z'
+  snapshot_sha256: e952cca22560ccf362f622d9fe782ea8581c765c675d1f7196cfe15cacced523
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r352-metadata-cr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v75/jin18a.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:15:00Z'
+  snapshot_sha256: 111ddc4fe9fff7889554d6c796125c074c574fbd8e20387480072a1c873837b4
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  evidence_ids:
+  - identity
+  - r352-primary-pdf
+  - r352-arxiv-abs
+  - r352-metadata-cr
+  summary: Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for
+    Escaping Saddle Points is a distinct concept.
+  details: Distinct from Perturbed Gradient Descent for Escaping Saddle Points in
+    Hessian-Lipschitz Optimization (`AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization`),
+    which uses unaccelerated gradient descent (theta = 1) and requires O~(epsilon^{-2})
+    iterations rather than O~(epsilon^{-7/4}) via Hamiltonian momentum accumulation
+    and NCE resets, and from Accelerated Gradient and Negative Curvature Exploitation
+    for Non-Convex Optimization (`AIMech:AcceleratedGradientAndNegativeCurvatureExploitationForNonConvexOptimization`),
+    which is a nested-loop algorithm combining Lanczos negative-curvature search with
+    proximal regularized subproblems rather than a single-loop purely gradient-based
+    perturbed AGD method.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  evidence_ids:
+  - mapping
+  - r352-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  evidence_ids:
+  - r352-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in perturbed-accelerated-gradient-descent-saddle-escape-boundaries.py
+    passed with exit code 0: [PASS] Round 352 Perturbed AGD (Jin et al. 2018): E0=3.6728
+    < E1_agd=5.0000 (NCE E1=-2.5000), max_lemma4_viol=-1.92e-06, mu1_agd=1.13403 >
+    mu_gd=1.02500, final_x0=0.1517'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  evidence_ids:
+  - identity
+  - mapping
+  - r352-primary-pdf
+  - r352-arxiv-abs
+  - r352-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape
+  in Round 352.
+- All pages of Proceedings of the 31st Conference On Learning Theory (COLT 2018),
+  PMLR 75:1042-1085 (arXiv:1711.10456) (2018) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

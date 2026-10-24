@@ -1,0 +1,103 @@
+id: AIMech:PMIDCDomainConditionalPointwiseMutualInformation
+name: Domain Conditional Pointwise Mutual Information (PMI_DC) Scoring
+concept_kind: evaluation_method
+review_status: DRAFT
+definition: "A zero-shot and few-shot multiple-choice scoring method for generative language models that compensates for surface form competition\u2014the rationing of finite probability mass across distinct strings representing the same concept\u2014by selecting the candidate hypothesis y_i that maximizes Domain Conditional Pointwise Mutual Information: arg max_i PMI_DC(x, y_i, domain) = arg max_i log [P(y_i | x) / P(y_i | x_domain)], where P(y_i | x_domain) is the a priori probability of hypothesis y_i within the task domain estimated by conditioning on a short task-specific domain premise string x_domain (typically the trailing cue of the prompt template x, such as 'because' or 'the answer is:')."
+identity_notes: Distinct from standard direct probability arg max_i P(y_i | x) and length-normalized average log-likelihood AVG = (1/l_i) sum_j log P(y_i^j | x, y_i^{<j}), which do not factor out surface-form rarity, and from Contextual Calibration (Zhao et al., ICML 2021, AIMech:CalibrateBeforeUseContextualCalibration), which fits an affine matrix over a fixed closed label set using multiple content-free inputs rather than computing the symmetric log-probability difference log P(y_i | x) - log P(y_i | x_domain) for arbitrary open-set per-question answer options.
+aliases:
+- Domain Conditional Pointwise Mutual Information
+- PMI_DC
+- Domain Conditional PMI Scoring
+- Surface Form Competition PMI_DC Scoring
+definition_evidence:
+- source_id: r730-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r730-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r730-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r730-claim-surface-form-competition-and-symmetry
+  kind: mechanism
+  statement: Because generative LMs allocate probability mass across all valid surface paraphrases of a concept (e.g., 'Bathtub' vs. 'Whirlpool bath', or 'it was 3 AM' vs. 'it was 3:30AM'), direct scoring P(y_i | x) penalizes rare surface forms; by Bayes' rule symmetry arg max_i [P(y_i | x, domain) / P(y_i | domain)] = arg max_i P(x | y_i, domain), PMI_DC simulates scoring-by-premise without requiring the question and options to be manually inverted.
+  evidence:
+  - source_id: r730-primary-pdf
+    locator: Section 1, Section 3.2, and Section 5.1-5.2, Figures 1-3, Table 5, pp. 1-2, 4, 7-8
+    relation: supports
+- claim_id: r730-claim-copa-flipped-eradication-proof
+  kind: mechanism
+  statement: "On 'COPA Flipped'\u2014where cause and effect clauses are swapped with inverted connectives ('because' <-> 'so') so that the LM scores a single fixed premise continuation given each candidate option as context\u2014surface form competition is completely removed, causing uncalibrated LM and AVG scoring to jump to the exact same accuracy as PMI_DC across all 8 GPT-2 and GPT-3 model scales."
+  evidence:
+  - source_id: r730-primary-pdf
+    locator: Section 5.1, Table 5, Figure 3, pp. 7-8
+    relation: supports
+- claim_id: r730-claim-zero-and-few-shot-benchmark-application
+  kind: application
+  statement: Across 16 splits of 13 open-set and closed-set multiple-choice benchmarks (COPA, StoryCloze, HellaSwag, RACE-M/H, ARC-E/C, OpenBookQA, CommonsenseQA, BoolQ, RTE, CB, SST-2, SST-5, AG's News, TREC) and 8 model sizes (GPT-2 125M-1.6B and GPT-3 2.7B-175B), PMI_DC wins or ties on 62.5% to 86.7% of datasets per model scale (outperforming LM, AVG, and Contextual Calibration by >40 percentage points in win rate).
+  evidence:
+  - source_id: r730-primary-pdf
+    locator: Section 4.3-4.5, Tables 1-4 and Table 6, pp. 5-7, 13
+    relation: supports
+- claim_id: r730-claim-internal-coherence-and-joint-option-limitation
+  kind: limitation
+  statement: PMI_DC underperforms AVG on HellaSwag (where adversarial machine-generated distractors test internal continuation coherence rather than premise-hypothesis mutual information) and underperforms direct LM scoring on ARC Easy (which favors a priori likely stock textbook phrases), and PMI_DC still scores each option y_i independently rather than jointly reasoning over the entire set of candidate options (e.g., failing on meta-options like 'all of the above').
+  evidence:
+  - source_id: r730-primary-pdf
+    locator: Section 6 & Section 7, Table 1, pp. 6, 8-9
+    relation: supports
+evidence_sources:
+- source_id: r730-primary-pdf
+  title: 'Surface Form Competition: Why the Highest Probability Answer Isn''t Always Right'
+  authors: &id001
+  - Ari Holtzman
+  - Peter West
+  - Vered Shwartz
+  - Yejin Choi
+  - Luke Zettlemoyer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.08315.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Surface+Form+Competition+Why+the+Highest+Probability+Answer+Holtzman&format=xml
+  version: Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP 2021), pp. 7038-7051 (2021) (4665228 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:33:00Z'
+  sha256: 810c26ceec851aff7b478bab82f09aaf09bd592650f1931869ecaac325974566
+- source_id: r730-arxiv-abs
+  title: 'Surface Form Competition: Why the Highest Probability Answer Isn''t Always Right (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.08315
+  persistent_id: https://arxiv.org/abs/2104.08315
+  version: arXiv abstract page (7306 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:33:00Z'
+  sha256: 158504202d2676331b91bfba598ec764538bf25b0f7f737c8d81c282fc1c763c
+- source_id: r730-metadata-cr
+  title: 'Surface Form Competition: Why the Highest Probability Answer Isn''t Always Right (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Surface+Form+Competition+Why+the+Highest+Probability+Answer+Holtzman&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Surface+Form+Competition+Why+the+Highest+Probability+Answer+Holtzman&format=xml
+  version: Crossref API work record (954 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:33:00Z'
+  sha256: c5e89a324d8f33e92af0db51cccfc82748eb1693d8f7ab48487080618bc38ce6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Domain Conditional PMI scores multiple-choice hypotheses generated by autoregressive neural language models by normalizing against domain-premise likelihoods.
+limitations:
+- Underperforms average log-likelihood (AVG) on benchmarks dominated by internal continuation fluency rather than premise conditioning (such as HellaSwag) and underperforms raw probability (LM) on retrieval-style questions with stock textbook answers (such as ARC Easy).
+- Scores each multiple-choice candidate option independently rather than jointly comparing all options in context, and doubles inference queries on open-set datasets where P(y_i | x_domain) cannot be cached across questions.
+curation:
+  created_at: '2026-10-19T13:33:00Z'
+  updated_at: '2026-10-19T13:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

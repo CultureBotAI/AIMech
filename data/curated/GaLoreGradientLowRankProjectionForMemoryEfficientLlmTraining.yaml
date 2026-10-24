@@ -1,0 +1,109 @@
+id: AIMech:GaLoreGradientLowRankProjectionForMemoryEfficientLlmTraining
+name: GaLore (Gradient Low-Rank Projection)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A memory-efficient full-parameter training strategy (Definitions 3.6 and Algorithm 2) for large language models and deep neural networks that projects each layer's full-rank weight gradient G_t = -nabla_W phi_t(W_t) in R^{m x n} (with m <= n) into a compact low-rank representation R_t = P_t^T G_t Q_t in R^{r x r} (or one-sided R_t = P_t^T G_t in R^{r x n} with r << m) using semi-orthogonal projection matrices P_t in R^{m x r}, Q_t in R^{n x r} obtained from the top-r singular vectors of G_t and refreshed every T iterations. GaLore tracks entry-wise stateful optimizer statistics (such as Adam's first and second moments M_t, V_t in R^{r x n}) exclusively on the projected gradient core R_t to form the normalized low-rank update N_t = rho_t(R_t) = hat{M}_t / (sqrt{hat{V}_t} + epsilon) and projects back to the original parameter space via tilde{G}_t = alpha P_t N_t Q_t^T (or alpha P_t N_t) to update the full-rank weight matrix W_t = W_{t-1} + eta tilde{G}_t, traversing a sequence of low-rank subspaces W_t = W_0 + Delta W_{T_1} + ... + Delta W_{T_k} to achieve full-rank learning with O(mn + mr + 2nr) memory.
+identity_notes: Distinct from Low-Rank Adaptation (LoRA, AIMech:LowRankAdaptation) and ReLoRA, which reparameterize the weight matrix itself as W = W_0 + B A (restricting updates within each phase to a bilinear product B A that alters gradient dynamics and requires mn + 3mr + 3nr memory). GaLore keeps W_t as a single full-rank m x n matrix, never introduces bilinear adaptor factors B A, and reduces optimizer-state memory by projecting the gradient G_t before applying stateful regularizers rho_t.
+aliases:
+- GaLore
+- Gradient Low-Rank Projection
+- 8-bit GaLore
+definition_evidence:
+- source_id: r584-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r584-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r584-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: exponential-decay-of-gradient-stable-rank-in-reversible-and-transformer-networks
+  kind: mechanism
+  statement: Theorem 3.2 and Lemma 3.3 (Equations 6-9, Appendix B.1-B.2) prove that for chained reversible networks whose layer gradients follow the parametric form G_t = (1/N) sum_{i=1}^N (A_i - B_i W_t C_i) with positive semidefinite B_i, C_i and Kronecker operator S = (1/N) sum_{i=1}^N (C_i^T otimes B_i) having two smallest distinct eigenvalues lambda_1 < lambda_2, the vectorized gradient satisfies g_t = (I - eta S) g_{t-1} and the stable rank sr(G_t) = ||G_t||_F^2 / ||G_t||_2^2 decays exponentially via sr(G_t) <= sr(G_{t_0}^||) + ((1 - eta lambda_2)/(1 - eta lambda_1))^{2(t - t_0)} ||G_{t_0} - G_{t_0}^|| ||_F^2 / ||G_{t_0}^|| ||_2^2.
+  evidence:
+  - source_id: r584-primary-pdf
+    locator: Section 3.2, Theorem 3.2, Lemma 3.3, Corollaries 3.4-3.5, pp. 3-4; Appendix B.1-B.3, pp. 13-18
+    relation: supports
+- claim_id: fixed-subspace-contraction-and-multi-subspace-full-rank-weight-composition
+  kind: mechanism
+  statement: Theorem 3.8 (Equation 11, Appendix B.4) proves that under L_A, L_B, L_C Lipschitz continuity of A_i, B_i, C_i and bounded weights ||W_t||_F <= D, projected gradient descent in a fixed subspace R_t = P^T G_t Q contracts at the linear rate ||R_t||_F <= [1 - eta (kappa_{t-1} - L_A - 2 L_B L_C D^2)] ||R_{t-1}||_F where kappa_t = (1/N) sum_i lambda_min(P^T B_{it} P) lambda_min(Q^T C_{it} Q), while periodic SVD re-initialization every T steps (Equation 14) accumulates W_t = W_0 + sum_k Delta W_{T_k} across distinct rank-r subspaces to learn full-rank weights.
+  evidence:
+  - source_id: r584-primary-pdf
+    locator: Section 3.3, Theorem 3.8, Equations (11)-(14), Figure 2, pp. 4-5; Appendix B.4, Equations (55)-(70), pp. 18-19
+    relation: supports
+  - source_id: r584-metadata-cr
+    locator: Bibliographic record (ICML 2024, PMLR 235:61121-61143)
+    relation: supports
+- claim_id: sublinear-optimizer-state-memory-and-8bit-per-layer-llm-pretraining
+  kind: application
+  statement: For an m x n weight matrix with m <= n and rank r, one-sided GaLore (Algorithm 2, Table 1) stores W_t in R^{m x n}, P_t in R^{m x r}, and Adam moments M_t, V_t in R^{r x n} for a total of mn + mr + 2nr parameters (strictly smaller than LoRA's mn + 3mr + 3nr and full-rank Adam's 3mn), reducing optimizer state memory by up to 65.5% (BF16 GaLore) and 82.5% (8-bit GaLore) during LLaMA 1B and 7B pre-training on C4.
+  evidence:
+  - source_id: r584-primary-pdf
+    locator: Section 4.2-4.3, Algorithm 2, Table 1, p. 6; Section 5.1-5.5, Tables 2-4, Figures 1 and 4, pp. 6-9
+    relation: supports
+- claim_id: periodic-svd-computation-and-subspace-switching-frequency-tradeoff
+  kind: limitation
+  statement: GaLore incurs periodic SVD computation overhead every T steps to update the projection matrix P_t (inducing ~8.8%-17% throughput overhead on LLaMA 1B), and switching subspaces either too frequently (which corrupts accumulated momentum/variance fidelity in M_t, V_t) or too infrequently (which stalls optimization in a stale rank-r subspace) degrades convergence.
+  evidence:
+  - source_id: r584-primary-pdf
+    locator: Section 4.1, p. 5; Section 5.5 and Section 6, Figure 5, p. 9; Appendix E, Table 11, p. 23
+    relation: supports
+evidence_sources:
+- source_id: r584-primary-pdf
+  title: 'GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection'
+  authors: &id001
+  - Jiawei Zhao
+  - Zhenyu Zhang
+  - Beidi Chen
+  - Zhangyang Wang
+  - Anima Anandkumar
+  - Yuandong Tian
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2403.03507
+  persistent_id: https://dblp.org/search/publ/api?q=GaLore+Memory-Efficient+LLM+Training+by+Gradient+Low-Rank+Projection&format=json
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR 235:61121-61143 (2024) (918314 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:07:00Z'
+  sha256: 5179e9c9b08362398ac0b0508415d78ff426e1b32cfc82d589b36e2eb60ffcbf
+- source_id: r584-arxiv-abs
+  title: 'GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2403.03507
+  persistent_id: https://arxiv.org/abs/2403.03507
+  version: arXiv abstract page (6748 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:07:00Z'
+  sha256: 32f219e3e4f213c95e738aff4940ddc947dcde13007538fab8a06135fdde314b
+- source_id: r584-metadata-cr
+  title: 'GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=GaLore+Memory-Efficient+LLM+Training+by+Gradient+Low-Rank+Projection&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=GaLore+Memory-Efficient+LLM+Training+by+Gradient+Low-Rank+Projection&format=json
+  version: Crossref API work record (2045 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:07:00Z'
+  sha256: 08e124f3ed839ea7a7af20045862af1c1c41afcced22b4c31a10e9f2a8cc4e18
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: GaLore is a memory-efficient full-parameter optimization strategy for pre-training and fine-tuning deep artificial neural networks and large language models.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Projects high-dimensional m x n weight gradient matrices into compact rank-r SVD subspaces to compress stateful optimizer statistics.
+limitations:
+- Requires computing a truncated SVD on each projected layer's gradient matrix every T iterations.
+- Maintaining existing low-rank moments M_t, V_t across subspace switches introduces a tradeoff in the switching period T.
+curation:
+  created_at: '2026-10-19T11:07:00Z'
+  updated_at: '2026-10-19T11:07:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

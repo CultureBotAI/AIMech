@@ -1,0 +1,103 @@
+id: AIMech:PromptFlFederatedPromptLearningForFoundationModels
+name: 'PromptFL: Federated Continuous Prompt Learning for Foundation Models'
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient federated foundation-model adaptation framework (PromptFL; Guo, Guo, Wang, Tang, and Xu, IEEE Transactions on Mobile Computing 2024) that ships an off-the-shelf pre-trained vision-language foundation model F (such as CLIP with frozen image encoder g(.) and frozen text encoder h(.)) to distributed clients and replaces federated model weight training with collaborative continuous prompt (soft prompt) training. Each client attaches a Prompt Learner consisting of p learnable d-dimensional continuous prompt vectors P in R^{p x d} prepended to each class label embedding K_i (i in {1, ..., k}) to form text features w_i = h(P, K_i) and class probabilities p(y = i | x) = exp(cos[g(x) | h(P, K_i)]) / sum_{j=1}^k exp(cos[g(x) | h(P, K_j)]) (Eq. 1); during local training and server aggregation, gradients are backpropagated and aggregated exclusively with respect to the input-agnostic prompt parameters P (max_{f_prompt} p_{F; f_prompt}(y + v_f | x), Eq. 2), updating only 0.01%--0.1% of the total model parameters.
+identity_notes: Distinct from full-model Federated Averaging (AIMech:FederatedAveraging; McMahan et al., 2017), which updates and communicates 100% of the neural network weights across clients and server. Distinct from centralized vision-language prompt tuning (CoOp; Zhou et al., 2022) and NLP continuous prefix/prompt tuning (Li & Liang, 2021; Lester et al., 2021), which optimize continuous prompts on a single centralized dataset rather than aggregating input-agnostic soft prompt updates across distributed non-IID clients or API-queried frozen backbones. Distinct from federated low-rank weight adapters such as FFA-LoRA (AIMech:FfaLoraFederatedFreezeALowRankAdaptation; Sun et al., ICLR 2024) and FLoRA (AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation; Wang et al., NeurIPS 2024), which inject low-rank matrix increments into internal linear layers rather than prepending continuous prompt vectors to the text encoder input space.
+aliases:
+- PromptFL
+- Federated Prompt Training for Foundation Models
+- CLIP PromptFL
+definition_evidence:
+- source_id: r509-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r509-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r509-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: promptfl-frozen-clip-continuous-prompt-cosine-alignment-and-aggregation-mechanism
+  kind: mechanism
+  statement: In PromptFL (Figure 1, Eq. 1, p. 3; Eq. 2, p. 6), each client keeps both the CLIP image encoder g(.) and text encoder h(.) frozen and optimizes only p continuous d-dimensional prompt vectors P (d = 512 by default) prepended to class-name word embeddings K_i via the softmax cosine-similarity likelihood p(y = i | x) = exp(cos[g(x) | h(P, K_i)]) / sum_{j=1}^k exp(cos[g(x) | h(P, K_j)]), uploading only the input-agnostic prompt updates to the federated server for global averaging.
+  evidence:
+  - source_id: r509-primary-pdf
+    locator: Framework to Learn Prompts in FL & Prompt Learner, Fig. 1, Eq. (1), p. 3; CLIP PromptFL, Eq. (2), pp. 5-6
+    relation: supports
+- claim_id: promptfl-parameter-and-communication-reduction-under-extreme-non-iid-scope
+  kind: scope
+  statement: Across ResNet50 (38.3M parameters) and ViT-B/16 (86.6M parameters) CLIP backbones, PromptFL tunes only 0.1% and 0.01% of parameters respectively (6.3 MB uploaded per round vs 191 MB and 693.3 MB for full fine-tuning FL, a reduction of up to 110x per round and ~3x lower GPU training time per 50 epochs), while maintaining 66.3%--94.12% test accuracy under extreme non-IID (0% class overlap across clients) where full-model Finetuning FL collapses to 22.92%--29.89% (Table 2, p. 5; Figures 2 and 4, pp. 6-7).
+  evidence:
+  - source_id: r509-primary-pdf
+    locator: Table 1, p. 4; Table 2, p. 5; Figure 2, p. 6; Figure 4 & Computation and Communication Cost Analysis, p. 7
+    relation: supports
+- claim_id: promptfl-backbone-ram-footprint-and-inference-flop-overhead-limitation
+  kind: limitation
+  statement: Although PromptFL reduces trainable parameters to 0.01%--0.1%, each client must still store and run forward/backward passes through the frozen pre-trained CLIP backbone (requiring ~600 MB disk storage, 60 GFLOPs inference, and 5.95--9.04 GB GPU memory during training unless offloaded to an inference API; Table 1, p. 4; Figure 4, p. 7).
+  evidence:
+  - source_id: r509-primary-pdf
+    locator: System Feasibility, Table 1, p. 4; Figure 4 GPU Memory Usage, p. 7
+    relation: supports
+- claim_id: promptfl-few-shot-federated-visual-recognition-application
+  kind: application
+  statement: Applied to few-shot (2, 4, 8, and 16 shots) and non-IID federated visual recognition on Caltech101, Flowers102, OxfordPets, and Food101 using ResNet50 and ViT-B/16 CLIP foundation models.
+  evidence:
+  - source_id: r509-primary-pdf
+    locator: Experiments, Table 2, Figures 2-4, pp. 5-7
+    relation: supports
+evidence_sources:
+- source_id: r509-primary-pdf
+  title: 'PromptFL: Let Federated Participants Cooperatively Learn Prompts Instead of Models -- Federated Learning in Age of Foundation Model'
+  authors: &id001
+  - Tao Guo
+  - Song Guo
+  - Junxiao Wang
+  - Xueyang Tang
+  - Wenchao Xu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2208.11625.pdf
+  persistent_id: https://doi.org/10.1109/tmc.2023.3302410
+  version: IEEE Transactions on Mobile Computing, Vol. 23, No. 5, pp. 5179-5194 (2024) (396937 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:52:00Z'
+  sha256: fa87c2b43184c16ce8db0e23829275fc181bec05a88a547cf21bc7332cd9f93f
+- source_id: r509-arxiv-abs
+  title: 'PromptFL: Let Federated Participants Cooperatively Learn Prompts Instead of Models -- Federated Learning in Age of Foundation Model (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2208.11625
+  persistent_id: https://arxiv.org/abs/2208.11625
+  version: arXiv abstract page (6312 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:52:00Z'
+  sha256: 466d9d421adc1837c12e6efe0acee1e170c7e483dc445b220f745ffbcd574a6a
+- source_id: r509-metadata-cr
+  title: 'PromptFL: Let Federated Participants Cooperatively Learn Prompts Instead of Models -- Federated Learning in Age of Foundation Model (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/tmc.2023.3302410
+  persistent_id: https://doi.org/10.1109/tmc.2023.3302410
+  version: Crossref API work record (3788 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:52:00Z'
+  sha256: eaa9848d4a0ee01460eae309a06cfd0be40de5a952e13d8cc9b154e7d789fb0d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: PromptFL is a federated learning framework that collaboratively trains continuous soft prompts on frozen foundation models.
+limitations:
+- Backpropagating gradients from the CLIP cosine similarity loss to the input prompt vectors P still traverses the frozen text encoder Transformer h(.), requiring ~5.95--9.04 GB of device GPU memory (System Feasibility, p. 4; Figure 4, p. 7).
+- Relies on a pre-trained vision-language foundation model whose pre-training distribution covers the visual concepts of the downstream federated task (Preliminaries & Fine-tuning vs. Prompting, pp. 2, 5).
+- When using remote Inference APIs instead of on-device CLIP backbones, clients must query the API with their images or intermediate features (Inference APIs, p. 4).
+curation:
+  created_at: '2026-10-19T09:52:00Z'
+  updated_at: '2026-10-19T09:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

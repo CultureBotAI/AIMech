@@ -1,0 +1,106 @@
+id: AIMech:MORESModularizedTransformerBasedRankingFramework
+name: MORES (Modularized Transformer-Based Ranking Framework)
+concept_kind: architecture
+review_status: DRAFT
+definition: "A modularized Transformer-based document reranking architecture (Gao, Dai, & Callan, EMNLP 2020; initially introduced as EARL in arXiv:2004.13313v1) that decouples neural ranking into three separate Transformer modules\u2014an offline Document Representation Module producing D in R^{d x n}, an online Query Representation Module producing Q in R^{q x n}, and an online Interaction Module composed of stacked Interaction Blocks (IB) that perform query-to-document cross-attention Q_x = LN(Attend(Q, D) + Q) followed by query self-attention Q_self = LN(Attend(Q_x, Q_x) + Q_x) while keeping document representations D unchanged\u2014enabling up to 120x online ranking speedup via offline document representation reuse (Reuse-S1) and projected key-value document representation reuse (Reuse-S2)."
+identity_notes: Distinct from concatenated cross-encoder BERT rankers (which apply quadratic O((d+q)^2) full self-attention across query and document in every layer), from late-interaction ColBERT (AIMech:ColBERTContextualizedLateInteractionOverBERT, which computes MaxSim dot products without learned Transformer Interaction Blocks), and from DC-BERT (AIMech:DCBERTDecouplingQuestionAndDocumentForEfficientContextualEncoding, which feeds concatenated upper-layer query and document tokens into full (d+q)^2 self-attention layers). MORES restricts online interaction in each Interaction Block strictly to query-to-document cross-attention O(q*d) plus query self-attention O(q^2), leaving D fixed so that per-IB key/value projections D_proj = {D W_k, D W_v} can be pre-computed offline under Reuse-S2.
+aliases:
+- MORES
+- MOdualarized REranking System
+- Modularized Transformer-Based Ranking Framework
+- EARL (Speedup Transformer-based Rankers with Pre-computed Representation)
+definition_evidence:
+- source_id: r794-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r794-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r794-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: mores-interaction-block-cross-and-query-self-attention
+  kind: mechanism
+  statement: Given independent document representations D = H_M^{doc} in R^{d x n} and query representations Q = H_N^{qry} in R^{q x n}, each MORES Interaction Block (IB) computes query-to-document cross-attention Q_x = LN(Attend(Q, D) + Q), query-only self-attention Q_self = LN(Attend(Q_x, Q_x) + Q_x), and feed-forward residual refinement IB(Q, D) = LN(FFN(Q_self) + Q_self) (Equations 5-9) while keeping D unchanged across all K Interaction Blocks before scoring via score(qry, doc) = w^T CLS(H_K^{IB}) (Equation 10).
+  evidence:
+  - source_id: r794-primary-pdf
+    locator: Section 3.1 (The MORES Framework), p. 3, Figure 1, Equations (1)-(10)
+    relation: supports
+  - source_id: r794-primary-pdf
+    locator: interaction_block_reuse_s1 and interaction_block_reuse_s2 verification
+    relation: supports
+- claim_id: mores-reuse-s1-and-reuse-s2-offline-precomputation
+  kind: mechanism
+  statement: 'MORES supports two mathematically equivalent offline pre-computation strategies: Document Representation Reuse (Reuse-S1), which stores D in R^{d x n} offline to eliminate the O(n d^2) document self-attention term at query time, and Projected Document Representation Reuse (Reuse-S2), which pre-computes and stores the key and value projections D_proj = {D W_k, D W_v} for each of the l Interaction Blocks (Equations 11-12) to further eliminate the O(n^2 d) online linear projection cost per candidate document (Table 1).'
+  evidence:
+  - source_id: r794-primary-pdf
+    locator: Section 3.2 (Pre-Compute and Reuse Representation), p. 4, Table 1, Equations (11)-(12)
+    relation: supports
+  - source_id: r794-primary-pdf
+    locator: Reuse-S1 vs Reuse-S2 exact output equivalence and complexity ratio verification
+    relation: supports
+- claim_id: mores-ms-marco-noninferiority-and-120x-speedup
+  kind: application
+  statement: Initialized via BERT-weight-assisted layer splitting (where the first 12 - l BERT layers initialize the Query Representation Module and the remaining l layers initialize the Interaction Blocks with copied self-attention weights), MORES with 2x IB achieves statistical non-inferiority within a 2% margin to a full BERT ranker on MS MARCO Dev (0.3456 vs. 0.3527 MRR@10) and TREC 2019 DL (0.7026 vs. 0.7032 NDCG@10) while delivering 124x GPU and CPU speedup on 512-token documents under Reuse-S2 (Table 2 & Table 4).
+  evidence:
+  - source_id: r794-primary-pdf
+    locator: Section 3.3 & Section 4.2-4.3, pp. 4-7, Tables 2-4
+    relation: supports
+- claim_id: mores-storage-footprint-and-deeper-ib-optimization-drop
+  kind: limitation
+  statement: Under Reuse-S2, storing 2*l projected document matrices D W_k and D W_v increases uncompressed storage to 12.0 MB per 512-token document for 2x IB (vs. 1.5 MB under Reuse-S1), and increasing the Interaction Module beyond 2 blocks (3x IB or 4x IB) degrades ranking accuracy (from 0.3456 to 0.3307 MRR@10) due to optimization difficulty of cross-attention layers lacking native cross-attentive pre-training.
+  evidence:
+  - source_id: r794-primary-pdf
+    locator: Section 4.2 (Ranking Effectiveness) & Section 4.3 (Table 4), pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r794-primary-pdf
+  title: Modularized Transfomer-based Ranking Framework
+  authors: &id001
+  - Luyu Gao
+  - Zhuyun Dai
+  - Jamie Callan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.13313.pdf
+  persistent_id: https://arxiv.org/bibtex/2004.13313
+  version: Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020) (2020) (889795 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:37:00Z'
+  sha256: 028be97f0b86b6e150d11bbbe8115e3e482620e8c8cb63287a009a8ae3449444
+- source_id: r794-arxiv-abs
+  title: Modularized Transfomer-based Ranking Framework (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.13313
+  persistent_id: https://arxiv.org/abs/2004.13313
+  version: arXiv abstract page (6208 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:37:00Z'
+  sha256: 9e7c34f9410bb49d1f9a2162f6e650480aa28c3f3e26a3dbb0685cb52ce9a833
+- source_id: r794-metadata-cr
+  title: Modularized Transfomer-based Ranking Framework (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.13313
+  persistent_id: https://arxiv.org/bibtex/2004.13313
+  version: Crossref API work record (380 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:37:00Z'
+  sha256: 55ebf7bff870c1a027c44c6a656807cd7a4ad1ad6a6d014305a54d0ce7cd2555
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: MORES is a modular three-Transformer neural network architecture for document reranking.
+limitations:
+- Reuse-S2 requires storing 2*l projected document matrices per document (12 MB uncompressed per 512-token document for 2x IB), and stacking more than 2 Interaction Blocks degrades accuracy due to cross-attention optimization difficulty.
+curation:
+  created_at: '2026-10-19T14:37:00Z'
+  updated_at: '2026-10-19T14:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,107 @@
+id: AIMech:PruneFlAdaptiveDistributedParameterPruningForFederatedLearning
+name: 'PruneFL: Adaptive and Distributed Parameter Pruning for Federated Learning'
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive distributed parameter pruning and reconfiguration framework for federated learning (PruneFL; Jiang, Wang, Valls, Ko, Lee, Leung, and Tassiulas, IEEE TNNLS 2023) that executes initial iterative pruning on a single selected client prior to federated training and subsequently reconfigures (prunes and regrows) the shared sparse parameter set M = A union P_bar every R_r rounds during multi-client federated training (Algorithm 1). At each reconfiguration step, PruneFL models the single-step empirical risk reduction as Delta(M) approx sum_{j in M} g_j^2 (Eq. 6) and the single-round execution time as T(M) = c + sum_{j in M} t_j, and maximizes the risk-reduction rate Gamma(A union P_bar) = Delta(A union P_bar) / T(A union P_bar) (Eq. 7) over prunable indices P via a greedy O(|P| log |P|) sorting algorithm (Algorithm 2) that orders j in P in non-increasing order of g_j^2 / t_j and includes j while g_j^2 / t_j >= Gamma(A union P_bar).
+identity_notes: Distinct from personalized sparse federated learning methods such as DisPFL (AIMech:DisPflDecentralizedSparseTrainingForPersonalizedFederatedLearning; Dai et al., ICML 2022), which maintain client-specific fixed-density masks over a decentralized peer-to-peer graph rather than dynamically resizing a shared global model mask M_k via an exact greedy optimizer of the risk-reduction-per-unit-time ratio Gamma(M). Distinct from static post-training or lottery-ticket initialization pruning (Frankle & Carbin, 2019), which fixes a predetermined target sparsity ratio and requires rewinding weights to initialization rather than adaptively shrinking and regrowing the active parameter set during ongoing federated optimization.
+aliases:
+- PruneFL
+- Adaptive and Distributed Parameter Pruning for Federated Learning
+definition_evidence:
+- source_id: r508-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r508-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r508-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: prunefl-greedy-risk-reduction-per-time-reconfiguration-optimality-mechanism
+  kind: mechanism
+  statement: "Given non-prunable parameter set A and prunable candidate set P with squared gradient components g_j^2 and per-round execution time costs t_j > 0, Theorem 1 (p. 5; proof via Lemmas 1-2 in Appendix B-1, pp. 14-15) proves that Algorithm 2\u2014which sorts j in P in non-increasing order of g_j^2 / t_j and greedily adds j to P_bar while g_j^2 / t_j >= Gamma(A union P_bar)\u2014finds a global maximizer of Gamma(A union P_bar) = (Delta(A) + sum_{j in P_bar} g_j^2) / (c + T_A + sum_{j in P_bar} t_j) in O(|P| log |P|) time."
+  evidence:
+  - source_id: r508-primary-pdf
+    locator: Section IV-A to IV-C, Eqs. (6)-(7), Algorithm 2, Theorem 1, pp. 4-5; Appendix B-1, Lemmas 1-2, pp. 14-15
+    relation: supports
+- claim_id: prunefl-masked-gradient-stationary-point-convergence-rate-scope
+  kind: scope
+  statement: Under Assumptions 1-4 (L-smoothness, bounded mini-batch variance sigma^2, bounded full-gradient second moment G^2, and non-expansiveness ||w - w odot m||^2 <= ||w - w*||^2 of mask projection), Theorem 2 (p. 6; proof in Appendix B-2, pp. 15-19) proves that PruneFL with step size eta = sqrt(N / K) achieves (1 / K) sum_{k=0}^{K-1} E[||nabla F(w'(k)) odot m_{w'}(k)||^2] <= 2(E[F(w'(0))] - F*) / sqrt(N K) + (4 tau^2 L^2 G^2 / K) + (2 L sigma^2 / sqrt(N K)) = O(1 / sqrt(N K)) + O(1 / K).
+  evidence:
+  - source_id: r508-primary-pdf
+    locator: Section IV-D Convergence Analysis, Assumptions 1-4, Theorem 2, p. 6; Appendix B-2, Lemma 3 and Proof of Theorem 2, pp. 15-19
+    relation: supports
+- claim_id: prunefl-profiling-calibration-and-dense-gradient-accumulation-limitation
+  kind: limitation
+  statement: PruneFL requires offline device profiling to estimate per-parameter round-time coefficients t_j and overhead constant c via linear regression, relies on a trusted client's local dataset for Stage-1 initial pruning, and requires clients to accumulate exponential moving averages of full-dimensional squared gradients g_j^2 across reconfiguration intervals (Section III-A to III-B, pp. 3-4; Section V-A, pp. 6-7).
+  evidence:
+  - source_id: r508-primary-pdf
+    locator: Section III-A Initial Pruning at a Selected Client, Section III-B, pp. 3-4; Section V-A Time Profiling, Fig. 4, pp. 6-7; Appendix A, pp. 12-13
+    relation: supports
+- claim_id: prunefl-raspberry-pi-edge-federated-training-application
+  kind: application
+  statement: Applied to edge-device federated training on Raspberry Pi 4 and Android devices across FEMNIST, CIFAR-10, ImageNet-100, and CelebA using Conv-2, VGG-11, ResNet-18, and MobileNetV2.
+  evidence:
+  - source_id: r508-primary-pdf
+    locator: Section V Experimental Results, Figs. 4-11, Tables I-II, pp. 6-11
+    relation: supports
+evidence_sources:
+- source_id: r508-primary-pdf
+  title: Model Pruning Enables Efficient Federated Learning on Edge Devices
+  authors: &id001
+  - Yuang Jiang
+  - Shiqiang Wang
+  - Victor Valls
+  - Bong Jun Ko
+  - Wei-Han Lee
+  - Kin K. Leung
+  - Leandros Tassiulas
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1909.12326.pdf
+  persistent_id: https://doi.org/10.1109/tnnls.2022.3166101
+  version: IEEE Transactions on Neural Networks and Learning Systems, Vol. 34, No. 12, pp. 10374-10386 (2023) (6843418 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:51:00Z'
+  sha256: 90bb3e9d9991f8ba4f0ad543b0cb56364015aaa790689b52ca298759fb4694a9
+- source_id: r508-arxiv-abs
+  title: Model Pruning Enables Efficient Federated Learning on Edge Devices (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1909.12326
+  persistent_id: https://arxiv.org/abs/1909.12326
+  version: arXiv abstract page (7568 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:51:00Z'
+  sha256: b631d6ac891bf113185052553c14ef35f2d2d3f8e4c01fe2bb41af9c97397107
+- source_id: r508-metadata-cr
+  title: Model Pruning Enables Efficient Federated Learning on Edge Devices (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/tnnls.2022.3166101
+  persistent_id: https://doi.org/10.1109/tnnls.2022.3166101
+  version: Crossref API work record (10134 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:51:00Z'
+  sha256: af3579897425438d7e381e6910df4d9eb777ad24cf74dc48a875b748929a012d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: PruneFL is an adaptive distributed parameter pruning algorithm for federated learning on resource-constrained edge devices.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: PruneFL dynamically optimizes a sparse parameter mask to maximize empirical risk reduction per unit round time.
+limitations:
+- Requires device-specific linear-regression time profiling of t_j and c to calibrate the denominator of Gamma(A union P_bar) (Section V-A, Fig. 4, pp. 6-7).
+- Stage-1 initial pruning relies on a single selected client's local data distribution before federated training begins, which can temporarily bias the initial mask under severe non-IID data until Stage-2 server reconfigurations regrow missing parameters (Section III-A, p. 3; Section V-E, p. 9).
+- Unstructured weight pruning requires sparse tensor algebra libraries (such as custom sparse-dense matrix multiplication kernels) to achieve actual computation and memory savings on edge CPUs (Section V-A, p. 6; Appendix A, pp. 12-13).
+curation:
+  created_at: '2026-10-19T09:51:00Z'
+  updated_at: '2026-10-19T09:51:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

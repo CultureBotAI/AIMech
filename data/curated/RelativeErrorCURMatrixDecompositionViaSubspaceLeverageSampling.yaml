@@ -1,0 +1,101 @@
+id: AIMech:RelativeErrorCURMatrixDecompositionViaSubspaceLeverageSampling
+name: Relative-Error CUR Matrix Decomposition via Subspace Leverage Sampling
+concept_kind: algorithm
+review_status: DRAFT
+definition: Relative-Error CUR Matrix Decomposition via Subspace Leverage Sampling is a randomized low-rank matrix factorization framework introduced by Drineas, Mahoney, and Muthukrishnan (2008) that approximates an arbitrary matrix A in R^{m x n} by actual columns C in R^{m x c} and actual rows R in R^{r x n} of A together with an explicit linking matrix U = W^+ in R^{c x r} so as to achieve a multiplicative (1 + epsilon) relative-error Frobenius norm guarantee ||A - C U R||_F <= (1 + epsilon)||A - A_k||_F. Rather than sampling columns proportionally to raw Euclidean column norms ||A^{(j)}||_2^2 (which permits only additive error bounds), Algorithm 1 samples c = O(k log k / epsilon^2) columns according to the normalized k-right-singular-subspace leverage scores p_j = (1/k)||(V_{A,k})_{(j)}||_2^2 (forming C = A S_C D_C and the optimal CX approximation P_C A = C (C^+ A)), and Algorithm 2 subsequently samples r = O(c log c / epsilon^2) rows of A and C concurrently according to the column-subspace leverage scores q_i = (1/c)||(U_C)_{(i)}||_2^2 of C, setting W = D_R S_R^T C and U = W^+. The analysis reduces column/row projection to generalized l_2 regression via Lemma 1 (Equations 26-27), proving that when sigma_k(S^T U_{A,k}) >= 1/sqrt(2), the rescaled sketch satisfies (S A_k)^+ = V_{A,k} Sigma_{A,k}^{-1} (S U_{A,k})^+ and rank(S A_k) = k.
+identity_notes: "Distinct from Nystr\xF6m Gram Matrix Low-Rank Approximation with Diagonal Sampling (`AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling`), which applies only to symmetric positive semidefinite Gram matrices G and achieves additive error bounds proportional to sum_i G_{ii}^2, and from Principal Component Analysis (`AIO:PrincipalComponentAnalysis`), which represents A_k in dense orthogonal eigenbases that destroy sparsity and interpretability of original rows and columns. Specifically captures the Drineas-Mahoney-Muthukrishnan (2008) subspace leverage sampling probabilities p_j = (1/k)||(V_{A,k})_{(j)}||_2^2, the Lemma 1 pseudoinverse reduction to generalized l_2 regression, and the relative-error CX (Theorem 1) and CUR (Theorem 2) algorithms."
+aliases:
+- Subspace-Sampling Relative-Error CX and CUR Matrix Decomposition
+- Drineas-Mahoney-Muthukrishnan Leverage-Score CUR Decomposition
+- Relative-Error Column-Row Skeleton Factorization
+definition_evidence:
+- source_id: r332-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r332-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r332-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any matrix A in R^{m x n} with rank-k SVD A_k = U_{A,k} Sigma_{A,k} V_{A,k}^T and row-sampling/rescaling matrix S = D S_0^T, Lemma 1 (Equations 26-27) proves that whenever sigma_k(S U_{A,k}) >= 1/sqrt(2), the sketched rank-k factor satisfies rank(S A_k) = k and the exact Moore-Penrose pseudoinverse factorization (S A_k)^+ = V_{A,k} Sigma_{A,k}^{-1} (S U_{A,k})^+, so the generalized regression solution Z_opt = (S B)^+ S A satisfies ||A - B Z_opt||_F <= (1 + epsilon)||A - A_k||_F.
+  evidence:
+  - source_id: r332-primary-pdf
+    locator: Section 4.1-4.2, Theorem 3, Lemma 1, and Equations 23-27, pp. 861-866 (pp. 16-20 of PDF)
+    relation: supports
+  - source_id: r332-arxiv-abs
+    locator: 'Abstract: relative-error CX and CUR matrix decompositions via subspace sampling'
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: Theorem 1 and Theorem 2 prove that sampling c = O(k log k / epsilon^2) columns of A with probabilities p_j >= beta ||(V_{A,k})_{(j)}||_2^2 / k (where sum_{j=1}^n ||(V_{A,k})_{(j)}||_2^2 = k) yields ||A - C (C^+ A)||_F <= (1 + epsilon)||A - A_k||_F, and subsequently sampling r = O(c log c / epsilon^2) rows with probabilities q_i >= beta ||(U_C)_{(i)}||_2^2 / c and setting U = W^+ = (D_R S_R^T C)^+ yields ||A - C U R||_F <= (1 + epsilon)||A - A_k||_F with high probability, recovering A exactly (||A - C U R||_F = 0) whenever rank(A) <= k and the sampled subspace sketches have full rank k.
+  evidence:
+  - source_id: r332-primary-pdf
+    locator: Section 3.1-3.2, Algorithm 1 (Theorem 1, Equation 4) and Algorithm 2 (Theorem 2, Equation 9), pp. 855-858 (pp. 10-13 of PDF)
+    relation: supports
+  - source_id: r332-metadata-cr
+    locator: SIMAX 30(2):844-881 bibliographic record
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Computing the exact subspace leverage scores p_j = (1/k)||(V_{A,k})_{(j)}||_2^2 requires the top-k right singular subspace V_{A,k} of A (costing O(min(m,n) m n) via exact SVD), and replacing subspace leverage sampling by Euclidean column-norm sampling p_j = ||A^{(j)}||_2^2 / ||A||_F^2 fails to achieve relative error when a low-norm column carries an entire top-k singular direction while rank-1 high-norm columns dominate ||A||_F^2.
+  evidence:
+  - source_id: r332-primary-pdf
+    locator: Section 1.3 and Section 3.1, Discussion of SVD cost O(min{m,n}mn) and contrast with additive-error norm sampling, pp. 847-848, 856
+    relation: supports
+evidence_sources:
+- source_id: r332-primary-pdf
+  title: Relative-Error CUR Matrix Decompositions
+  authors: &id001
+  - Petros Drineas
+  - Michael W. Mahoney
+  - S. Muthukrishnan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0708.3696.pdf
+  persistent_id: https://doi.org/10.1137/07070471X
+  version: SIAM Journal on Matrix Analysis and Applications (SIMAX) 30(2):844-881 (2008) (976864 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:55:00Z'
+  sha256: 5fd13aef3a94aa76c8bd654192d22fe783823ede8908071ba5ad05a17846e016
+- source_id: r332-arxiv-abs
+  title: Relative-Error CUR Matrix Decompositions (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0708.3696
+  persistent_id: https://arxiv.org/abs/0708.3696
+  version: arXiv abstract page (7121 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:55:00Z'
+  sha256: e33fe0139529f67fbf33adbb10884c7950e8bf6f113b3f202d6da61c564017ae
+- source_id: r332-metadata-cr
+  title: Relative-Error CUR Matrix Decompositions (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1137/07070471X
+  persistent_id: https://doi.org/10.1137/07070471X
+  version: Crossref API work record (5339 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:55:00Z'
+  sha256: e4325ae94385cf3d4c47079644e9ba3ed3e91977a0747e2fd4248d7f573c47ca
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: narrow_match
+  rationale: Constructs interpretable low-rank CX and CUR matrix factorizations from actual columns and rows of A with relative-error Frobenius guarantees.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Uses the top-k singular subspace leverage scores of A_k to select actual columns and rows achieving (1+epsilon)||A - A_k||_F.
+limitations:
+- Requires computing or approximating the top-k right singular vectors V_{A,k} to form the column leverage scores p_j = (1/k)||(V_{A,k})_{(j)}||_2^2, and requires r = O(c log c / epsilon^2) rows scaling with the number of sampled columns c.
+curation:
+  created_at: '2026-10-19T06:55:00Z'
+  updated_at: '2026-10-19T06:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

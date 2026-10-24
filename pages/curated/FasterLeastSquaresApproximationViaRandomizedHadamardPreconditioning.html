@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faster Least Squares Approximation via Randomized Hadamard Preconditioning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Faster Least Squares Approximation via Randomized Hadamard Preconditioning</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Faster Least Squares Approximation via Randomized Hadamard Preconditioning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FasterLeastSquaresApproximationViaRandomizedHadamardPreconditioning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DMMS Faster Least Squares Approximation, Randomized Hadamard Preconditioned Sketch-and-Solve Least Squares, Fast Johnson-Lindenstrauss Least Squares Solver
+    </div>
+
+  <div class="detail-desc">
+    Faster Least Squares Approximation via Randomized Hadamard Preconditioning is a randomized sketch-and-solve algorithm for overconstrained l_2 regression min_{x in R^d} ||b - A x||_2 (with n &gt;&gt; d) introduced by Drineas, Mahoney, Muthukrishnan, and Sarlos (2011) that beats the classical O(n d^2) QR/SVD complexity in O(n d log n + d^3 log^2 n / epsilon) time. Algorithm 1 preconditions the design matrix A and response b by a Randomized Hadamard Transform H D (where D = diag(sigma_1, ..., sigma_n) has i.i.d. Rademacher +/-1 signs and H is the normalized n x n Walsh-Hadamard matrix), uniformly samples and rescales r = O(d log n log(d log n) + d log n / epsilon) rows via S^T, and computes tilde{x}_opt = (S^T H D A)^+ S^T H D b. The analysis decouples the random projection X = S^T H D from the linear-algebraic perturbation via two deterministic structural conditions on the column orthonormal basis U_A of A and orthogonal residual b^perp = b - A x_opt (Equations 8-9): (i) sigma_min^2(X U_A) &gt;= 1/sqrt(2) and (ii) ||U_A^T X^T X b^perp||_2^2 &lt;= epsilon Z^2 / 2 (where Z = ||b^perp||_2), under which Lemma 1 and Lemma 2 prove both the residual bound ||b - A tilde{x}_opt||_2 &lt;= (1 + epsilon) Z and the parameter error bound ||x_opt - tilde{x}_opt||_2 &lt;= sqrt(epsilon) (kappa(A) sqrt(gamma^{-2} - 1)) ||x_opt||_2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Subsampled Randomized Hadamard Transform Subspace Embedding (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`), which analyzes only the matrix-Chernoff singular value bounds of Phi V for a fixed orthonormal basis V without the response-residual cross-term condition ||U_A^T X^T X b^perp||_2^2 &lt;= epsilon Z^2 / 2 or parameter recovery bounds ||x_opt - tilde{x}_opt||_2, and from CountSketch Input-Sparsity Subspace Embedding and Regression (`AIMech:CountSketchInputSparsitySubspaceEmbeddingAndRegression`). Specifically captures the Drineas et al. (2011) Randomized Hadamard leverage-flattening Lemma 3, the deterministic two-condition least-squares perturbation framework (Lemmas 1-2, Equations 8-21), and the Algorithm 1 / Algorithm 2 fast least-squares solvers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any n x d full-rank matrix A = U_A Sigma_A V_A^T, exact least-squares minimizer x_opt = A^+ b, and orthogonal residual b^perp = b - A x_opt with Z = ||b^perp||_2, Lemma 1 and Lemma 2 prove that whenever the sketching operator X satisfies Condition (8) sigma_min^2(X U_A) &gt;= 1/sqrt(2) and Condition (9) ||U_A^T X^T X b^perp||_2^2 &lt;= epsilon Z^2 / 2, the sketched normal equations obey (X U_A)^T X U_A z_opt = (X U_A)^T X b^perp where U_A z_opt = A(tilde{x}_opt - x_opt), yielding ||z_opt||_2^2 &lt;= epsilon Z^2, ||b - A tilde{x}_opt||_2 &lt;= (1 + epsilon) Z, and ||x_opt - tilde{x}_opt||_2 &lt;= (sqrt(epsilon) / sigma_min(A)) Z &lt;= sqrt(epsilon) (kappa(A) sqrt(gamma^{-2} - 1)) ||x_opt||_2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r333-primary-pdf">Faster Least Squares Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Structural Conditions (Equations 8-9), Lemma 1 (Equations 10-19), and Lemma 2 (Equations 20-21), pp. 6-8 of PDF (pp. 229-232)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r333-arxiv-abs">Faster Least Squares Approximation (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: (1+epsilon) residual and kappa(A) sqrt(gamma^{-2}-1) parameter approximation in O(nd log n) time</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemma 3 proves that applying the Randomized Hadamard Transform H D to any n x d orthonormal matrix U_A flattens all row leverage scores simultaneously to ||(H D U_A)_{(i)}||_2^2 &lt;= (2 d log(40 n d)) / n for all i in [n] with probability at least 0.95, enabling uniform row sampling of r = max(48^2 d log(40 n d) log(100^2 d log(40 n d)), 40 d log(40 n d) / epsilon) rows in Algorithm 1 to satisfy both Conditions (8) and (9) in O(n d log r + r d^2) total time (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r333-primary-pdf">Faster Least Squares Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Theorem 1, p. 4 of PDF; Section 4.2, Lemma 3 (Equation 23), Lemma 4, and Lemma 5, pp. 8-13 of PDF</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r333-metadata-cr">Faster Least Squares Approximation (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Numerische Mathematik 117(2):219-249 bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without Randomized Hadamard preconditioning H D, uniform row sampling S^T A on a design matrix A with a spiky high-leverage row (||(U_A)_{(i)}||_2^2 = 1) misses that row with probability (1 - 1/n)^r, producing a rank-deficient sampled matrix sigma_min(S^T A) = 0 and singular normal equations; moreover, direct sketch-and-solve requires r = Omega(d / epsilon) rows scaling inversely with epsilon.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r333-primary-pdf">Faster Least Squares Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 1 and Section 4.2, Discussion of non-uniform leverage scores and 1/epsilon sample complexity of direct sketch-and-solve, pp. 2-5, 8-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Direct sketch-and-solve requires r = O(d log n / epsilon) rows scaling linearly in 1/epsilon, and parameter recovery error ||x_opt - tilde{x}_opt||_2 scales with the condition number kappa(A) and sqrt(gamma^{-2} - 1) when only a small fraction gamma of ||b||_2 lies in range(A).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Solves overconstrained linear least-squares regression min_x ||b - A x||_2 in o(n d^2) time via Randomized Hadamard preconditioning and row sampling.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Provides worst-case (1+epsilon) residual and parameter recovery guarantees for overconstrained l_2 regression.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Uses the Subsampled Randomized Hadamard Transform X = S^T H D to reduce n equations to r &lt;&lt; n equations.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r333-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r333-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0710.1435.pdf" target="_blank" rel="noopener">Faster Least Squares Approximation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Petros Drineas, Michael W. Mahoney, S. Muthukrishnan, Tamas Sarlos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/s00211-010-0331-6</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c1f41f66c34c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r333-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r333-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0710.1435" target="_blank" rel="noopener">Faster Least Squares Approximation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Petros Drineas, Michael W. Mahoney, S. Muthukrishnan, Tamas Sarlos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0710.1435</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:991896986978…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r333-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r333-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1007/s00211-010-0331-6" target="_blank" rel="noopener">Faster Least Squares Approximation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Petros Drineas, Michael W. Mahoney, S. Muthukrishnan, Tamas Sarlos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/s00211-010-0331-6</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bfa6425f0278…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFasterLeastSquaresApproximationViaRandomizedHadamardPreconditioning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Faster Least Squares Approximation via Randomized Hadamard Preconditioning" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FasterLeastSquaresApproximationViaRandomizedHadamardPreconditioning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Faster Least Squares...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:LinearRegression (3)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:56:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:56:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FasterLeastSquaresApproximationViaRandomizedHadamardPreconditioning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FasterLeastSquaresApproximationViaRandomizedHadamardPreconditioning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Faster%20Least%20Squares%20Approximation%20via%20Randomized%20Hadamard%20Preconditioning"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFasterLeastSquaresApproximationViaRandomizedHadamardPreconditioning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

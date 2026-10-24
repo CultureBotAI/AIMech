@@ -1,0 +1,106 @@
+id: AIMech:KATEkNNAugmentedInContextExampleSelection
+name: KATE kNN-Augmented In-Context Example Selection
+concept_kind: algorithm
+review_status: DRAFT
+definition: A non-parametric in-context demonstration selection algorithm for pretrained language models that maps training instances and a test input into a shared vector space using a pretrained or task-fine-tuned sentence encoder, retrieves the k nearest training neighbors to the test input under Euclidean or cosine similarity, and concatenates those retrieved input-output pairs in distance-sorted order as the conditioning context for autoregressive prediction.
+identity_notes: Distinct from datastore-interpolated language modeling such as kNN-LM and kNN-MT, which interpolate a language model's next-token output probability distribution with a non-parametric kNN distribution over cached hidden states, because KATE operates purely at the input prompt level using an external sentence encoder without accessing the target language model's internal hidden states or modifying its decoding distribution. Also distinct from LM-scored contrastive prompt retrieval (AIMech:EPREfficientPromptRetrievalForInContextLearning), which trains a custom bi-encoder using positive and hard-negative labels scored by the target language model itself.
+aliases:
+- KATE
+- kNN-Augmented In-Context Example Selection
+- KATE Nearest-Neighbor In-Context Demonstration Retrieval
+definition_evidence:
+- source_id: r734-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r734-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r734-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: kate-sentence-encoder-knn-retrieval-mechanism
+  kind: mechanism
+  statement: Given a test query x_test and a training pool D_T = {(x_i, y_i)}, KATE encodes all inputs with a sentence encoder mu_theta, computes similarity scores s_i via negative Euclidean distance or cosine similarity, selects the top-k nearest neighbors ordered by distance, and concatenates their input-target pairs before x_test as the prompt for the frozen language model.
+  evidence:
+  - source_id: r734-primary-pdf
+    locator: Section 2.3 & Algorithm 1, pp. 3-4
+    relation: supports
+- claim_id: kate-task-related-encoder-finetuning-mechanism
+  kind: mechanism
+  statement: "Fine-tuning the retrieval sentence encoder on semantically aligned tasks\u2014such as natural language inference and semantic textual similarity (NLI+STS-B) for open-domain question answering or domain-matched sentiment data\u2014improves the quality of retrieved in-context examples compared to unaligned encoders."
+  evidence:
+  - source_id: r734-primary-pdf
+    locator: Section 3.1 & Section 4.1-4.3, pp. 4-7, Tables 4-7
+    relation: supports
+- claim_id: kate-nlu-and-nlg-benchmark-application
+  kind: application
+  statement: KATE is applied to few-shot sentiment transfer (SST-2 to IMDB), controlled table-to-text generation (ToTTo), and open-domain question answering (Natural Questions, WebQuestions, and TriviaQA) with GPT-3, substantially outperforming random demonstration sampling and standalone kNN majority voting.
+  evidence:
+  - source_id: r734-primary-pdf
+    locator: Section 4.1-4.3, pp. 5-7, Tables 4, 5, and 7
+    relation: supports
+  - source_id: r734-metadata-cr
+    locator: DBLP bibliographic record Jiachang Liu et al.
+    relation: supports
+- claim_id: kate-dissimilar-encoder-task-mismatch-limitation
+  kind: limitation
+  statement: When the sentence encoder is fine-tuned on an objective that diverges from the downstream task structure (such as applying an STS-B similarity encoder to table-to-text generation or sentiment transfer), KATE's downstream accuracy can degrade relative to an un-finetuned pretrained RoBERTa encoder.
+  evidence:
+  - source_id: r734-primary-pdf
+    locator: Section 4.1 & Section 4.2, pp. 5-6, Tables 4-5
+    relation: supports
+evidence_sources:
+- source_id: r734-primary-pdf
+  title: What Makes Good In-Context Examples for GPT-3?
+  authors: &id001
+  - Jiachang Liu
+  - Dinghan Shen
+  - Yizhe Zhang
+  - Bill Dolan
+  - Lawrence Carin
+  - Weizhu Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2101.06804.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=What+Makes+Good+In-Context+Examples+for+GPT-3+Liu&h=5&format=xml
+  version: 'Proceedings of Deep Learning Inside Out (DeeLIO 2022): The 3rd Workshop on Knowledge Extraction and Integration for Deep Learning Architectures (ACL 2022) (2022) (410612 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:37:00Z'
+  sha256: 2507fe260f51ca707b3b8bd623fae7250f3c4ccbd3a36e430ae71219b33544c4
+- source_id: r734-arxiv-abs
+  title: What Makes Good In-Context Examples for GPT-3? (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2101.06804
+  persistent_id: https://arxiv.org/abs/2101.06804
+  version: arXiv abstract page (7248 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:37:00Z'
+  sha256: 2e35bb8dc68cc539867583ba9042132c00c7d9ef66ab0748916539b941419617
+- source_id: r734-metadata-cr
+  title: What Makes Good In-Context Examples for GPT-3? (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=What+Makes+Good+In-Context+Examples+for+GPT-3+Liu&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=What+Makes+Good+In-Context+Examples+for+GPT-3+Liu&h=5&format=xml
+  version: Crossref API work record (922 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:37:00Z'
+  sha256: b74d1163241c8b1bafb3823c5fc0d666b264b014b403f06f12dbbf91e95e1f0c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: KATE retrieves nearest-neighbor in-context demonstrations in a neural sentence encoder space to condition a frozen neural language model.
+limitations:
+- Requires encoding a large labeled training datastore and performing nearest-neighbor lookup for every test query, and its gains depend on the availability of a sufficiently large retrieval pool.
+- Selects each neighbor independently by surface/semantic input similarity without modeling compositional interactions among the chosen examples.
+curation:
+  created_at: '2026-10-19T13:37:00Z'
+  updated_at: '2026-10-19T13:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

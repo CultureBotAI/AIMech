@@ -1,0 +1,103 @@
+id: AIMech:FedDynDynamicRegularizationForFederatedLearning
+name: FedDyn Dynamic Regularization for Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-efficient federated optimization method (FedDyn) in which each active device k in P_t at round t minimizes a dynamically regularized local risk objective theta_k^t = argmin_theta [ L_k(theta) - <nabla L_k(theta_k^{t-1}), theta> + (alpha / 2) ||theta - theta^{t-1}||^2 ], recursively updates its local gradient state via the exact first-order optimality relation nabla L_k(theta_k^t) = nabla L_k(theta_k^{t-1}) - alpha * (theta_k^t - theta^{t-1}), and transmits only theta_k^t to the server, which updates a server state vector h^t = h^{t-1} - (alpha / m) * (sum_{k in P_t} theta_k^t - P * theta^{t-1}) == (1/m) sum_{k=1}^m nabla L_k(theta_k^t) and forms the next global model theta^t = (1/P) sum_{k in P_t} theta_k^t - (1/alpha) * h^t, ensuring that local optima dynamically align with stationary points of the global empirical loss L(theta) = (1/m) sum_{k=1}^m L_k(theta) under arbitrary statistical heterogeneity and partial participation without extra communication payload per round.
+identity_notes: Distinct from FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization, which penalizes (mu/2)||theta - theta^{t-1}||^2 without the dynamic linear gradient-alignment term -<nabla L_k(theta_k^{t-1}), theta>, so client minimizers do not align with theta* when nabla L_k(theta*) != 0), from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which doubles communication payload by transmitting control variate updates Delta c_i alongside model parameters), and from FedNova (AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization). No pinned AIO class covers FedDyn.
+aliases:
+- FedDyn
+- Federated Learning Based on Dynamic Regularization
+- Dynamic Regularized Federated Optimization
+definition_evidence:
+- source_id: r387-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r387-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r387-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r387-dynamic-regularization-stationary-alignment-and-h-invariant
+  kind: mechanism
+  statement: By augmenting L_k(theta) with -<nabla L_k(theta_k^{t-1}), theta> + (alpha/2)||theta - theta^{t-1}||^2, exact local minimization enforces nabla L_k(theta_k^t) - nabla L_k(theta_k^{t-1}) + alpha(theta_k^t - theta^{t-1}) = 0 (Eq. 2), so the server recursion h^t = h^{t-1} - (alpha/m)(sum_{k in P_t} theta_k^t - P * theta^{t-1}) maintains the exact invariant h^t = (1/m) sum_{k=1}^m nabla L_k(theta_k^t) at every round t >= 1 even under partial participation P < m, and any fixed point theta_k^infty = theta^infty = theta* satisfies (1/m) sum_{k=1}^m nabla L_k(theta*) = 0.
+  evidence:
+  - source_id: r387-primary-pdf
+    locator: Section 2.2 FedDyn Method, Algorithm 1, Equations 1-3, and Appendix A.1 Lemma 2, pp. 3-5, 13
+    relation: supports
+- claim_id: r387-communication-round-convergence-rates
+  kind: mechanism
+  statement: Under P-out-of-m partial client participation and L-smooth local losses, Theorems 1, 2, and 3 prove that FedDyn achieves O((1/T) sqrt(m/P) (L * D^2 + (1/L) * zeta_*^2)) convergence for convex losses, linear convergence (1 + mu / alpha)^{-(T-1)} with alpha = max(5*(m/P)*mu, 30*L) (i.e. O((m/P)*(L/mu) log(1/eps)) communication rounds independent of heterogeneity zeta_*^2) for mu-strongly convex losses, and O((L/T)*(m/P)) ergodic gradient norm decay for nonconvex losses.
+  evidence:
+  - source_id: r387-primary-pdf
+    locator: Section 3 Theorems 1, 2, 3, and 4, and Table 1, pp. 5-6
+    relation: supports
+- claim_id: r387-stateful-client-gradient-and-exact-subproblem-limitation
+  kind: limitation
+  statement: Requires each client k to maintain a persistent local gradient state nabla L_k(theta_k^{t-1}) in R^d across communication rounds (making it unsuitable for purely stateless cross-device settings where clients participate only once) and assumes exact or high-accuracy minimization of the local regularized subproblem.
+  evidence:
+  - source_id: r387-primary-pdf
+    locator: Section 2.2 Algorithm 1 and Section 3 Theorems 1-3 assumptions, pp. 4-6
+    relation: supports
+- claim_id: r387-heterogeneous-federated-vision-and-nlp-application
+  kind: application
+  statement: Applied to federated classification and language modeling on CIFAR-10, CIFAR-100, MNIST, Fashion-MNIST, Shakespeare, and StackOverflow across IID, Dirichlet non-IID, and 10%/1% partial participation regimes, achieving target accuracy in 3x-5x fewer communication rounds than FedAvg, FedProx, and SCAFFOLD.
+  evidence:
+  - source_id: r387-primary-pdf
+    locator: Section 4 Experiments, Tables 2-3 & Figure 1, pp. 6-8
+    relation: supports
+evidence_sources:
+- source_id: r387-primary-pdf
+  title: Federated Learning Based on Dynamic Regularization
+  authors: &id001
+  - Durmus Alp Emre Acar
+  - Yue Zhao
+  - Ramon Matas Navarro
+  - Matthew Mattina
+  - Paul N. Whatmough
+  - Venkatesh Saligrama
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2111.04263.pdf
+  persistent_id: https://openreview.net/forum?id=B7v4QMR6Z9w
+  version: International Conference on Learning Representations (ICLR 2021) (2021) (115210 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:50:00Z'
+  sha256: b953517a3bc4f6988e2cb9f52a7937c5e6a882c3fc27d0272cb47cb188fa3b88
+- source_id: r387-arxiv-abs
+  title: Federated Learning Based on Dynamic Regularization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2111.04263
+  persistent_id: https://arxiv.org/abs/2111.04263
+  version: arXiv abstract page (7061 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:50:00Z'
+  sha256: e9fca89d3d29c07eab7b7d1c358668c764fd7f492592f9ac852ecaeb62f940ff
+- source_id: r387-metadata-cr
+  title: Federated Learning Based on Dynamic Regularization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=B7v4QMR6Z9w
+  persistent_id: https://openreview.net/forum?id=B7v4QMR6Z9w
+  version: Crossref API work record (411 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:50:00Z'
+  sha256: de824877494e5dd05c72cb82fe2b8571bcbdca81b1ddf07b31905a1f6ce21457
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedDyn is a federated learning optimization algorithm that dynamically modifies client risk objectives with a linear gradient-alignment term and quadratic proximal penalty.
+limitations:
+- Requires stateful clients that store nabla L_k(theta_k^{t-1}) in R^d between rounds of participation.
+- Theoretical guarantees assume exact minimization of the local dynamically regularized objective at each active client.
+curation:
+  created_at: '2026-10-19T07:50:00Z'
+  updated_at: '2026-10-19T07:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

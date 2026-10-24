@@ -1,0 +1,111 @@
+id: AIMech:SketchyFrequentDirectionsAdaptiveRegularizationOptimization
+name: Sketchy (Frequent-Directions Sketched Adaptive Regularization / S-AdaGrad and S-Shampoo)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A memory-efficient matrix-preconditioned adaptive optimization framework\u2014instantiated as Sketchy AdaGrad (S-AdaGrad) for vector parameters and Sketchy Shampoo (S-Shampoo) for tensor parameters\u2014that tracks a rank-ell Frequent Directions (FD) sketch of the gradient covariance (or its left and right Kronecker factors) and adds dynamic isotropic regularization equal to the cumulative deflated ell-th eigenvalue mass rho_{1:t} I, sandwiching the true covariance (G_bar_t <= G_t <= G_bar_t + rho_{1:t} I) in sublinear O(m ell + n ell) accumulator memory."
+identity_notes: Distinct from Shampoo (AIMech:ShampooPreconditionedStochasticTensorOptimization), which materializes full m x m and n x n left and right Kronecker covariance factors in O(m^2 + n^2) memory. Distinct from GGT (AIMech:GgtEfficientFullMatrixAdaptiveRegularization), which stores a sliding window of r full-model gradient copies in O(m n r) superlinear memory. Distinct from Ada-FD and FD-SON, which add a static diagonal perturbation delta I rather than the dynamic cumulative escaped spectral mass rho_{1:t} I and suffer Omega(T^{3/4}) or Omega(T) worst-case regret on general online convex problems.
+aliases:
+- Sketchy Optimizer
+- S-AdaGrad
+- S-Shampoo
+- Sketchy AdaGrad and Sketchy Shampoo
+- Frequent-Directions Sketched Matrix Preconditioning
+definition_evidence:
+- source_id: r645-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r645-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r645-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: sketchy-escaped-mass-loewner-sandwich-mechanism
+  kind: mechanism
+  statement: At each step t, Frequent Directions (Algorithm 1) eigendecomposes G_bar_{t-1} + M_t, retains the top ell - 1 eigendirections deflated by the ell-th eigenvalue rho_t = lambda_ell^{(t)}, and accumulates the cumulative escaped mass rho_{1:t} = sum_{s=1}^t rho_s; Lemma 10 and Remark 11 prove that G_tilde_t = G_bar_t + rho_{1:t} I = G_t + sum_{s=1}^t rho_s N_s satisfies the two-sided Loewner sandwich G_bar_t <= G_t <= G_tilde_t.
+  evidence:
+  - source_id: r645-primary-pdf
+    locator: Section 2 Algorithm 1, Section 4.1 Algorithm 2, and Appendix B.4.1 Lemma 10 and Remark 11, pages 2-3, 6, 19
+    relation: supports
+- claim_id: sketchy-shampoo-sublinear-kronecker-sketch-mechanism
+  kind: mechanism
+  statement: For an m x n matrix parameter X_t, Sketchy Shampoo (Algorithm 3) maintains rank-ell Frequent Directions sketches L_bar_t and R_bar_t of the exponentially weighted left and right gradient outer products G_t G_t^T and G_t^T G_t together with escaped masses rho_{1:t}^L and rho_{1:t}^R, updating X_{t+1} = X_t - eta * (L_bar_t + rho_{1:t}^L I_m)^{-1/4} G_t (R_bar_t + rho_{1:t}^R I_n)^{-1/4} in sublinear O(m ell + n ell) accumulator memory.
+  evidence:
+  - source_id: r645-primary-pdf
+    locator: Section 3.4 Figure 1 and Section 4.2-4.3 Algorithm 3 and Observation 6, pages 5, 7
+    relation: supports
+- claim_id: sketchy-additive-tail-spectrum-regret-bound-scope
+  kind: scope
+  statement: Theorem 3 and Corollary 4 prove that without exp-concavity or low-rank curvature assumptions, S-AdaGrad achieves Regret_T <= D (sqrt(2) tr(G_T^{1/2}) + sqrt(d (d - ell) Omega_ell / 2)) using O(d ell) memory, where Omega_ell = min_{k < ell} (ell - k)^{-1} sum_{i=k+1}^d lambda_i(G_T) <= sum_{i=ell}^d lambda_i(G_T), matching full-matrix AdaGrad regret up to an additive tail-eigenvalue term.
+  evidence:
+  - source_id: r645-primary-pdf
+    locator: Section 3.3 Table 1, Section 4.1 Theorem 3 and Corollary 4, and Appendix B.4, pages 4, 6, 19-21
+    relation: supports
+- claim_id: sketchy-resnet-conformer-gnn-training-application
+  kind: application
+  statement: With sketch rank ell = 256 (a 4x accumulator memory reduction on 1024-dimensional blocks), S-Shampoo outperforms Adam and nearly matches full Shampoo on ImageNet ResNet-50 (77.18% vs 76.76% validation accuracy) and LibriSpeech 16-layer Conformer while avoiding Shampoo's overfitting on OGBG-MolPCBA graph neural networks.
+  evidence:
+  - source_id: r645-primary-pdf
+    locator: Section 5.1-5.2 Figures 2-3, pages 8-9
+    relation: supports
+- claim_id: sketchy-exponential-moving-average-and-svd-update-limitation
+  kind: limitation
+  statement: Applying Frequent Directions to unweighted cumulative gradient sums in deep learning causes the escaped mass rho_{1:T} to exceed ||G_T|| due to rotating eigenspaces and lack of unweighted spectral decay, requiring exponential moving average decay beta_2 < 1 and periodic rank-ell SVD updates.
+  evidence:
+  - source_id: r645-primary-pdf
+    locator: Section 4.3 Exponentially Weighted FD and Section 6 Discussion, pages 7, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r645-primary-pdf
+  title: 'Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions'
+  authors: &id001
+  - Vladimir Feinberg
+  - Xinyi Chen
+  - Y. Jennifer Sun
+  - Rohan Anil
+  - Elad Hazan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2302.03764.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/FeinbergCSAH23
+  version: Advances in Neural Information Processing Systems 36 (NeurIPS 2023) (2023) (837235 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:08:00Z'
+  sha256: 2fa3e0b340d906ff6fa02ac844c0e379b70b47e5da37bddb5fba954cb2156be6
+- source_id: r645-arxiv-abs
+  title: 'Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2302.03764
+  persistent_id: https://arxiv.org/abs/2302.03764
+  version: arXiv abstract page (6612 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:08:00Z'
+  sha256: 17cf9610b6c4b94063a3a723b9ec28d5b0721c06001f6ec04b9e39d9e81013ad
+- source_id: r645-metadata-cr
+  title: 'Sketchy: Memory-efficient Adaptive Regularization with Frequent Directions (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/FeinbergCSAH23
+  persistent_id: https://dblp.org/rec/conf/nips/FeinbergCSAH23
+  version: Crossref API work record (2005 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:08:00Z'
+  sha256: 69e5d9d4030cf3f6f4211531c0bf4e84f1f69f364c7cbbec792701779688922b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Sketchy (S-Shampoo and S-AdaGrad) is a sublinear-memory second-order adaptive optimizer for training deep neural networks including ResNet-50, Conformer, and graph neural networks.
+limitations:
+- Requires exponential moving average decay (beta_2 < 1) in non-convex deep learning so that Kronecker covariance factors maintain low intrinsic dimension and fast spectral decay.
+- Each Frequent Directions update requires a factored SVD of [beta_2^{1/2} B_t; G_t], motivating step-skipping (e.g., updating every 10 steps) to amortize compute overhead.
+curation:
+  created_at: '2026-10-19T12:08:00Z'
+  updated_at: '2026-10-19T12:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

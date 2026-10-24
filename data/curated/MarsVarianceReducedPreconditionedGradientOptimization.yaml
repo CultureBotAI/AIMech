@@ -1,0 +1,109 @@
+id: AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+name: MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A unified variance-reduced preconditioned stochastic optimization framework for training large deep models that combines an Online Mirror Descent / matrix-preconditioned update x_{t+1} = argmin_x { eta_t <m_t, x> + (1/2) ||x - x_t||_{H_t}^2 } with a scaled STORM-style stochastic recursive momentum estimator. At step t, MARS forms the variance-reduced gradient surrogate c_t = nabla f(x_t, xi_t) + gamma_t (beta_1 / (1 - beta_1))(nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) with scaling factor gamma_t in [0, 1] (clipped to L2 norm 1 for stability), accumulates m_t = beta_1 m_{t-1} + (1 - beta_1) c_t, and applies preconditioned updates yielding MARS-AdamW, MARS-Lion, and MARS-Shampoo (including Newton-Schulz orthogonalized MARS-Muon), alongside a single-pass approximate variant MARS-approx that replaces nabla f(x_{t-1}, xi_t) with nabla f(x_{t-1}, xi_{t-1}).
+identity_notes: 'Distinct from unpreconditioned STORM (AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization), AdamW, Lion (AIMech:LionEvoSignMomentumOptimizer), and Shampoo (AIMech:ShampooKroneckerFactoredPreconditionedOptimizer): MARS unifies preconditioned adaptive optimization and recursive variance reduction through Proposition 3.2, introducing the control-variate scaling factor gamma_t that continuously interpolates between standard exponential moving average momentum (gamma_t = 0) and full recursive momentum (gamma_t = 1) before applying diagonal, elementwise-sign, or orthogonal-matrix preconditioning H_t.'
+aliases:
+- MARS Optimizer Framework
+- MARS-AdamW and MARS-Lion and MARS-Shampoo
+- Make Variance Reduction Shine
+definition_evidence:
+- source_id: r604-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r604-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r604-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: preconditioned-omd-equivalence-for-adamw-lion-and-shampoo
+  kind: mechanism
+  statement: Section 3.1 (p. 3-4) shows that any optimizer update of the Online Mirror Descent form x_{t+1} = argmin_x { eta_t <m_t, x> + (1/2) ||x - x_t||_{H_t}^2 } = x_t - eta_t H_t^{-1} m_t recovers Adam (with diagonal H_t = sqrt(v_t + eps)), Lion (with diagonal H_t = diag(|m_t|) yielding H_t^{-1} m_t = sign(m_t)), and idealized Shampoo / Muon (with spectral preconditioner H_t = (m_t m_t^T)^{1/2} yielding the orthogonal polar factor U_t V_t^T of m_t = U_t Sigma_t V_t^T).
+  evidence:
+  - source_id: r604-primary-pdf
+    locator: Section 3.1, Eqs. 3.1-3.4, p. 3-4
+    relation: supports
+- claim_id: scaled-storm-recursive-momentum-and-proposition-3-2-identity
+  kind: mechanism
+  statement: Proposition 3.2 (p. 4) proves that the scaled STORM momentum recursion m_t = beta_1 m_{t-1} + (1 - beta_1) nabla f(x_t, xi_t) + gamma_t beta_1 (nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) is algebraically equivalent to a standard EMA update m_t = beta_1 m_{t-1} + (1 - beta_1) c_t applied to the variance-reduced gradient estimator c_t = nabla f(x_t, xi_t) + gamma_t (beta_1 / (1 - beta_1))(nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)), allowing c_t (with optional unit-ball norm clipping Clip(c_t, 1)) to be plugged directly into AdamW (Algorithm 2), Lion (Algorithm 3), and Shampoo/Muon (Algorithm 4).
+  evidence:
+  - source_id: r604-primary-pdf
+    locator: Section 3.2-3.3, Proposition 3.2 and Algorithms 1-4, p. 4-6
+    relation: supports
+- claim_id: optimal-o-epsilon-minus-3-nonconvex-preconditioned-complexity-theorem-4-2
+  kind: scope
+  statement: Under L-average-smooth nonconvex stochastic objectives with bounded variance sigma^2 and bounded condition-number drift of the positive-definite preconditioners {H_t} (Assumption 4.1), Theorem 4.2 and Corollary 4.3 (Section 4, p. 6-7) prove that MARS with gamma_t = 1 achieves E[||nabla F(x_hat)||_2] <= epsilon within O(epsilon^{-3}) stochastic gradient queries, improving over the O(epsilon^{-4}) rate of unreduced preconditioned SGD and Adam.
+  evidence:
+  - source_id: r604-primary-pdf
+    locator: Section 4, Assumption 4.1, Theorem 4.2, and Corollary 4.3, p. 6-7
+    relation: supports
+- claim_id: gpt2-pretraining-token-and-wall-clock-efficiency
+  kind: application
+  statement: On GPT-2 fineWeb pretraining across 125M (small), 355M (medium), and 770M (large) parameter scales, MARS-AdamW, MARS-Lion, and MARS-Shampoo consistently achieve lower validation perplexity and higher downstream zero-shot accuracy than AdamW, Lion, and Muon while reducing training tokens and wall-clock time by up to 35-50%.
+  evidence:
+  - source_id: r604-primary-pdf
+    locator: Section 5, Figures 1-4 and Tables 1-4, p. 7-9
+    relation: supports
+- claim_id: exact-storm-double-gradient-cost-versus-mars-approx-bias
+  kind: limitation
+  statement: "Exact MARS (Algorithms 1-4) requires evaluating both nabla f(x_t, xi_t) and nabla f(x_{t-1}, xi_t) on the same minibatch xi_t\u2014doubling per-step backward passes\u2014whereas the single-pass practical approximation MARS-approx (Algorithm 5, p. 6) replaces nabla f(x_{t-1}, xi_t) with the cached previous minibatch gradient nabla f(x_{t-1}, xi_{t-1}), introducing cross-minibatch variance that requires a smaller scaling factor gamma_t (typically gamma_t in [0.025, 0.05])."
+  evidence:
+  - source_id: r604-primary-pdf
+    locator: Section 3.3, Algorithm 5 and Remark on MARS-approx, p. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r604-primary-pdf
+  title: 'MARS: Unleashing the Power of Variance Reduction for Training Large Models'
+  authors: &id001
+  - Huizhuo Yuan
+  - Yifeng Liu
+  - Shuang Wu
+  - Xun Zhou
+  - Quanquan Gu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2411.10438
+  persistent_id: https://dblp.org/rec/conf/icml/Yuan0WZG25
+  version: Proceedings of the 42nd International Conference on Machine Learning (ICML 2025, PMLR 267, arXiv:2411.10438) (2025) (3838718 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:27:00Z'
+  sha256: 921b00e1d0e8f97b9f9e03c52072860fd7c46edbe97a56723be1b8ca89c706f9
+- source_id: r604-arxiv-abs
+  title: 'MARS: Unleashing the Power of Variance Reduction for Training Large Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2411.10438
+  persistent_id: https://arxiv.org/abs/2411.10438
+  version: arXiv abstract page (6898 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:27:00Z'
+  sha256: c319d2b0607104bf4d91b321afffee7b19ce6c00e7804f1cb06466a2f77bac74
+- source_id: r604-metadata-cr
+  title: 'MARS: Unleashing the Power of Variance Reduction for Training Large Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/Yuan0WZG25
+  persistent_id: https://dblp.org/rec/conf/icml/Yuan0WZG25
+  version: Crossref API work record (1864 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:27:00Z'
+  sha256: 2af8c66c1377aec9d4c52ad55af6b0129b487d3e036f1ad85a03743933e47ca9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MARS is a variance-reduced preconditioned optimization framework for training large transformer language models and neural networks.
+limitations:
+- Exact MARS requires two stochastic gradient evaluations per iteration on the same minibatch xi_t (at x_t and x_{t-1}), doubling per-step gradient computation cost.
+- The single-pass variant MARS-approx avoids the second backward pass by substituting nabla f(x_{t-1}, xi_{t-1}) for nabla f(x_{t-1}, xi_t), which introduces cross-minibatch noise and necessitates tuning a smaller variance-reduction scaling coefficient gamma_t.
+curation:
+  created_at: '2026-10-19T11:27:00Z'
+  updated_at: '2026-10-19T11:27:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

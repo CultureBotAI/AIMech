@@ -1,0 +1,103 @@
+id: AIMech:EfBvUnifiedErrorFeedbackAndVarianceReductionWithBiasVarianceDecomposition
+name: EF-BV Unified Error Feedback and Variance Reduction with Bias-Variance Decomposition
+concept_kind: algorithm
+review_status: DRAFT
+definition: A unified distributed compressed proximal gradient algorithm (Algorithm 1) operating over the two-parameter bias-variance compressor class C(eta, omega) (where ||E[C(x)] - x|| <= eta ||x|| and E[||C(x) - E[C(x)]||^2] <= omega ||x||^2, with parallel average variance omega_av <= omega) that decouples the worker control-variate scaling parameter lambda in h_i^{t+1} = h_i^t + lambda C_i^t(nabla f_i(x^t) - h_i^t) from the master gradient-estimate scaling parameter nu in g^{t+1} = h^t + nu (1/n) sum_i C_i^t(nabla f_i(x^t) - h_i^t), recovering EF21 when nu = lambda and DIANA when nu = 1 while achieving faster convergence with optimal lambda^* = min((1 - eta)/((1 - eta)^2 + omega), 1) and nu^* = min((1 - eta)/((1 - eta)^2 + omega_av), 1).
+identity_notes: Distinct from standalone DIANA (Mishchenko et al., 2019; restricted to unbiased compressors eta = 0 with nu = 1) and standalone EF21 (Richtarik et al., NeurIPS 2021; restricted to nu = lambda and unable to exploit 1/n parallel variance reduction when omega_av = omega/n < omega). EF-BV (Condat, Yi, & Richtarik, NeurIPS 2022, arXiv:2205.04180) unifies both mechanisms and introduces the C(eta, omega) compressor class including mix-(k, k') and comp-(k, k').
+aliases:
+- EF-BV
+- Error Feedback with Bias-Variance Decomposition
+- EF-BV Distributed Compressed Gradient Method
+definition_evidence:
+- source_id: r564-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r564-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r564-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: ef-bv-bias-variance-compressor-class-and-dual-scaling-parameters-mechanism
+  kind: mechanism
+  statement: For compressors C_i^t in C(eta, omega) with relative bias eta in [0, 1), individual variance omega >= 0, and parallel aggregated variance omega_av <= omega (Equation 6), EF-BV (Algorithm 1) updates each worker's control variate as h_i^{t+1} = h_i^t + lambda d_i^t with d_i^t = C_i^t(nabla f_i(x^t) - h_i^t) and forms the master gradient estimator g^{t+1} = h^t + nu d^t before taking x^{t+1} = prox_{gamma R}(x^t - gamma g^{t+1}), where Proposition 2 yields optimal contraction factors r = (1 - lambda^* + lambda^* eta)^2 + (lambda^*)^2 omega and r_av = (1 - nu^* + nu^* eta)^2 + (nu^*)^2 omega_av.
+  evidence:
+  - source_id: r564-primary-pdf
+    locator: Section 2.3-2.5 Proposition 1-2 pp. 4-6 & Section 3 Algorithm 1 p. 7
+    relation: supports
+- claim_id: ef-bv-kurdyka-lojasiewicz-linear-and-nonconvex-sublinear-convergence-scope
+  kind: scope
+  statement: Under the Polyak-Lojasiewicz or Kurdyka-Lojasiewicz condition with constant mu > 0 (Theorems 1-2), EF-BV with step size gamma = 1 / (L + tilde{L} sqrt(r_av / r) / s^*) (or 2L in the composite case) achieves linear convergence E[Psi^t] <= (max(1 - gamma mu, (r+1)/2))^t Psi^0, improving over EF21's complexity O((tilde{L}/mu)(1/(1-r)) log(1/eps)) by the parallel variance reduction factor sqrt(r_av / r) in Eq. (12), and achieves O(1/t) stationarity in smooth nonconvex optimization (Theorem 3).
+  evidence:
+  - source_id: r564-primary-pdf
+    locator: Section 4 Theorems 1-2 & Remark 3 Eq. (12) p. 8, Section 5 Theorem 3 p. 10
+    relation: supports
+  - source_id: r564-arxiv-abs
+    locator: Abstract
+    relation: supports
+- claim_id: ef-bv-strictly-less-than-unit-relative-bias-and-full-worker-participation-limitation
+  kind: limitation
+  statement: Requires the compressor relative bias to satisfy eta < 1 (since scaling lambda in (0, 1] reduces variance quadratically as lambda^2 omega but cannot reduce relative bias below eta) and maintains a d-dimensional control variate h_i^t at every worker.
+  evidence:
+  - source_id: r564-primary-pdf
+    locator: Section 2.3 p. 4, Section 2.5 Proposition 1-2 pp. 5-6 & Algorithm 1 p. 7
+    relation: supports
+- claim_id: ef-bv-distributed-optimization-with-hybrid-comp-and-mix-compressors-application
+  kind: application
+  statement: Applied to distributed convex and nonconvex regularized logistic regression using hybrid biased-and-random compressors such as comp-(k, k') (composition of Top-k' and Rand-k) and mix-(k, k') (mixture of Top-k and Rand-k').
+  evidence:
+  - source_id: r564-primary-pdf
+    locator: Section 6 p. 10 & Appendices A & C Propositions 4-5 pp. 15-18
+    relation: supports
+evidence_sources:
+- source_id: r564-primary-pdf
+  title: 'EF-BV: A Unified Theory of Error Feedback and Variance Reduction Mechanisms for Biased and Unbiased Compression in Distributed Optimization'
+  authors: &id001
+  - Laurent Condat
+  - Kai Yi
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.04180.pdf
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2205.04180
+  version: Advances in Neural Information Processing Systems (NeurIPS 2022) (2022) (921990 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:47:00Z'
+  sha256: 403d41e75269486da3d7673fa4a69c9c095ff4f16473858b6b1873411d595842
+- source_id: r564-arxiv-abs
+  title: 'EF-BV: A Unified Theory of Error Feedback and Variance Reduction Mechanisms for Biased and Unbiased Compression in Distributed Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.04180
+  persistent_id: https://arxiv.org/abs/2205.04180
+  version: arXiv abstract page (7405 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:47:00Z'
+  sha256: 660ae02a8499c6e72c070f8dc0f39a4d8791c0aa2ed10d8cff0121de34addb77
+- source_id: r564-metadata-cr
+  title: 'EF-BV: A Unified Theory of Error Feedback and Variance Reduction Mechanisms for Biased and Unbiased Compression in Distributed Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2205.04180
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2205.04180
+  version: Crossref API work record (16920 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:47:00Z'
+  sha256: 1077b6ac9d788e4abdb5a86783ee83a1cc70453ee87dc816a40ee8157cda5a9a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: EF-BV is a distributed and federated compressed optimization algorithm unifying error feedback and variance reduction.
+limitations:
+- Requires compressor relative bias eta < 1 since linear pre-scaling cannot reduce bias below eta.
+- Each worker must store and update a full d-dimensional control variate h_i^t across iterations.
+curation:
+  created_at: '2026-10-19T10:47:00Z'
+  updated_at: '2026-10-19T10:47:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

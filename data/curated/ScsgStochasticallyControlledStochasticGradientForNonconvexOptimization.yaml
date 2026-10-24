@@ -1,0 +1,93 @@
+id: AIMech:ScsgStochasticallyControlledStochasticGradientForNonconvexOptimization
+name: SCSG (Stochastically Controlled Stochastic Gradient) for Non-Convex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A variance-reduced stochastic optimization algorithm (Lei, Ju, Chen, & Jordan 2017) for smooth non-convex finite-sum and online optimization min_x f(x) = (1/n) sum_{i=1}^n f_i(x) that replaces SVRG's full-dataset outer gradient pass with a subsampled without-replacement batch I_j subset {1, ..., n} of size B_j <= n, sets the anchor gradient g_j = (1/B_j) sum_{i in I_j} nabla f_i(xtilde_{j-1}), draws a geometrically distributed number of inner-loop steps N_j ~ Geom(B_j / (B_j + b_j)) (so E[N_j] = B_j / b_j), performs b_j-minibatch variance-reduced updates v_{k-1}^{(j)} = nabla f_{I'_{k-1}}(x_{k-1}^{(j)}) - nabla f_{I'_{k-1}}(xtilde_{j-1}) + g_j, and sets xtilde_j = x_{N_j}^{(j)}, achieving E||nabla f(xhat)||_2^2 <= varepsilon in O(min{varepsilon^{-5/3}, n^{2/3} varepsilon^{-1}} + min{varepsilon^{-1}, n}) (equivalently O(min{varepsilon_g^{-10/3}, n^{2/3} varepsilon_g^{-2}} + min{varepsilon_g^{-2}, n}) for E||nabla f(xhat)||_2 <= varepsilon_g) stochastic gradient evaluations.
+identity_notes: Distinct from classical SVRG (Johnson & Zhang 2013; Reddi et al. 2016; Allen-Zhu & Hazan 2016), which computes a full n-sample gradient at every outer epoch (incurring an unavoidable O(n + n^{2/3} / varepsilon_g^2) cost even when n >> varepsilon_g^{-2}) and uses a fixed deterministic epoch length m with uniform random iterate selection; from SAGA (Defazio et al. 2014, AIMech:SagaFastIncrementalGradientMethodWithSupportForNonStronglyConvexCompositeObjectives), which stores O(n*d) gradient tables; and from recursive path-integrated estimators (SARAH, SPIDER, SNVRG, STORM, PAGE), which update the gradient estimate incrementally from x_{t-1} rather than from a geometrically terminated epoch anchor xtilde_{j-1}.
+aliases:
+- SCSG
+- Non-Convex SCSG
+- Stochastically Controlled Stochastic Gradient
+definition_evidence:
+- source_id: r375-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r375-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r375-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r375-claim-geometric-epoch-telescoping-and-one-epoch-bound
+  kind: mechanism
+  statement: 'For any sequence {D_k}_{k >= 0} and geometric stopping time N_j ~ Geom(gamma) on {0, 1, 2, ...} with P(N_j = k) = gamma^k (1 - gamma) and gamma = B_j / (B_j + b_j), the exact expectation identity E_{N_j}[D_{N_j} - D_{N_j + 1}] = (1 / E[N_j]) * E_{N_j}[D_0 - D_{N_j}] = (b_j / B_j) * (D_0 - E_{N_j}[D_{N_j}]) (Lemma A.2) telescopes single-step descent directly into an epoch-level bound on the terminal iterate xtilde_j = x_{N_j}^{(j)} without storing intermediate inner-loop iterates: for step size eta_j * L * (B_j / b_j)^{2/3} <= c_0, E||nabla f(xtilde_j)||_2^2 <= (2 / (eta_j * (1 - 2 * eta_j * L))) * (b_j / B_j) * E[f(xtilde_{j-1}) - f(xtilde_j)] + (I(B_j < n) / B_j) * (6 / (1 - 2 * eta_j * L)) * S^2 (Theorem 3.1).'
+  evidence:
+  - source_id: r375-primary-pdf
+    locator: Section 3, Theorem 3.1; Appendix A, Lemma A.2; Appendix B, Lemma B.1 and Theorem B.1
+    relation: supports
+- claim_id: r375-claim-sample-size-independent-and-finite-sum-complexity-regimes
+  kind: mechanism
+  statement: Setting step size eta_j = (b_j / B_j)^{2/3} / (6L) and outer batch size B_j = min{n, S^2 / varepsilon} (where varepsilon denotes target squared gradient norm E||nabla f(xhat)||_2^2 <= varepsilon, i.e., varepsilon = varepsilon_g^2) gives total expected stochastic gradient complexity O(B^{-1/3} * L * Delta_f / (varepsilon * b^{1/3}) + B) = O((min{S^2 / varepsilon, n})^{2/3} * (L * Delta_f / (S^2 * b^{1/3})) + min{S^2 / varepsilon, n}) = O(min{varepsilon^{-5/3}, n^{2/3} * varepsilon^{-1}}) (Theorem 3.2, Corollary 3.3, Table 1), strictly dominating both SGD O(varepsilon^{-2}) when varepsilon << 1 and SVRG O(n + n^{2/3} * varepsilon^{-1}) in the practical large-data regime where varepsilon^{-1} < n without ever computing a full pass over all n examples.
+  evidence:
+  - source_id: r375-primary-pdf
+    locator: Section 1, Table 1; Section 3.2, Theorem 3.2, Corollaries 3.1-3.3, Figure 1
+    relation: supports
+- claim_id: r375-claim-polyak-lojasiewicz-and-dnn-warm-start-applications
+  kind: application
+  statement: Under the mu-Polyak-Lojasiewicz condition 1/2 * ||nabla f(x)||_2^2 >= mu * (f(x) - f^*), SCSG achieves E[f(xhat) - f^*] <= varepsilon in O((min{L/mu * (L / (mu * b))^{1/3}, n^{2/3} * L / (mu * b^{1/3})} + min{n, S^2 / (mu * varepsilon)}) * log(1/varepsilon)) gradient evaluations (Theorem 4.3, Table 2); on MNIST 3-layer fully connected and LeNet convolutional neural networks, SCSG with polynomially growing batch sizes B_j propto j^{3/2} outperforms mini-batch SGD from random initialization without needing an SGD warm-start.
+  evidence:
+  - source_id: r375-primary-pdf
+    locator: Section 4, Table 2, Theorem 4.3; Section 5, Experiments, Figures 2-3
+    relation: supports
+evidence_sources:
+- source_id: r375-primary-pdf
+  title: Non-convex Finite-Sum Optimization Via SCSG Methods
+  authors: &id001
+  - Lihua Lei
+  - Cheng Ju
+  - Jianbo Chen
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1706.09156
+  persistent_id: https://papers.nips.cc/paper/2017/hash/2eb5657d37f474e4c4cf01e4882b8962-Abstract.html
+  version: Advances in Neural Information Processing Systems (NeurIPS 2017), Vol. 30, pp. 2348-2358 (arXiv:1706.09156v3) (2017) (53568 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:38:00Z'
+  sha256: 0e538f5216a0b2f499b71cdc5672392f585ed4d2dcdc3ef8bd03ae93dc80ec5b
+- source_id: r375-arxiv-abs
+  title: Non-convex Finite-Sum Optimization Via SCSG Methods (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1706.09156
+  persistent_id: https://arxiv.org/abs/1706.09156
+  version: arXiv abstract page (6200 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:38:00Z'
+  sha256: 060517232df123b0ac8d7c6c7745069efba65a5afe98692e1f613b8d21c6baaf
+- source_id: r375-metadata-cr
+  title: Non-convex Finite-Sum Optimization Via SCSG Methods (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2017/hash/2eb5657d37f474e4c4cf01e4882b8962-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2017/hash/2eb5657d37f474e4c4cf01e4882b8962-Abstract.html
+  version: Crossref API work record (528 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:38:00Z'
+  sha256: 6de5db2f23b688f7438fd630e1eb56db8074e8ebe61fc2f4f4b858e9727523ba
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Provides non-convex and PL finite-sum stochastic optimization applicable to regularized empirical risk minimization and deep classifiers.
+limitations:
+- Achieves O(min(varepsilon_g^{-10/3}, n^{2/3} varepsilon_g^{-2})) for E||nabla f(x)||_2 <= varepsilon_g because it anchors inner-loop variance reduction at a fixed epoch reference point xtilde_{j-1}, which is suboptimal by a factor of varepsilon_g^{-1/3} (online) or n^{1/6} (finite-sum) compared to recursive path-integrated estimators such as SPIDER, SNVRG, STORM, and PAGE (Section 3.2, Table 1).
+curation:
+  created_at: '2026-10-19T07:38:00Z'
+  updated_at: '2026-10-19T07:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

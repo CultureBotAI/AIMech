@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post-Local Stochastic Gradient Descent · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Post-Local Stochastic Gradient Descent</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Post-Local Stochastic Gradient Descent</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PostLocalSgdTwoPhaseDistributedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Post-Local SGD, Two-Phase Post-Local SGD, Hierarchical Post-Local SGD
+    </div>
+
+  <div class="detail-desc">
+    A two-phase distributed stochastic gradient optimization algorithm across K parallel workers with local mini-batch size B_loc that sets the inter-worker model-averaging period H_{(t)} via a piecewise schedule around transition step t&#39; (typically the first learning-rate decay): during Phase 1 (t &lt;= t&#39;), it sets H_{(t)} = 1 so workers synchronize after every step as standard large-batch mini-batch SGD (using standard linear scaling and warmup schedules), and during Phase 2 (t &gt; t&#39;), it switches to H_{(t)} = H &gt; 1 sequential local SGD steps w_{(t)+h+1}^k = w_{(t)+h}^k - gamma_{(t)} g_{(t)+h}^k per worker before global model averaging w_{(t+1)} = (1 / K) sum_{k=1}^K w_{(t)+H}^k.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard single-phase Local SGD / Parallel SGD (which uses constant H &gt; 1 from initialization t = 0 and suffers early optimization degradation at large K and H), from gradual local-step warmup schedules, and from outer-momentum wrappers (SlowMo): Post-Local SGD specifically delays local multi-step updates until the trajectory enters the basin of a local minimum at the first learning-rate decay t&#39;, simultaneously preserving Phase-1 optimization stability and injecting K-fold amplified structured gradient noise in Phase 2 to escape sharp minima.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r622-two-phase-schedule-and-phase1-equivalence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Post-Local SGD defines the worker synchronization interval as H_{(t)} = 1 for t &lt;= t&#39; and H_{(t)} = H &gt; 1 for t &gt; t&#39; (Section 3 and Algorithm 2); during Phase 1 (t &lt;= t&#39;), the update is algebraically identical to synchronous mini-batch SGD with effective batch size K B_loc, allowing direct reuse of linear learning-rate scaling and gradual warmup without hyperparameter retuning while avoiding the early-epoch optimization degradation of cold-started Local SGD.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r622-primary-pdf">Don&#39;t Use Large Mini-Batches, Use Local SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 1 Eq. (1)-(2) &amp; Figure 1, p. 1-2; Section 3, p. 4; Appendix B.4.2 &amp; C.1 Algorithm 2, p. 23-26</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r622-sde-anisotropic-noise-amplification-and-flat-minima</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the Euler-Maruyama stochastic differential equation approximation of SGD (Section 5, Eq. 3-4), each worker&#39;s local update with mini-batch size B_loc experiences anisotropic gradient noise covariance approximately K * Sigma(w) — K times larger than the globally averaged mini-batch SGD noise covariance Sigma(w) = (1 / (K B_loc) - 1 / N) K(w) — which acts as computation-free structured noise injection during Phase 2 and drives Post-Local SGD to flatter minima with significantly lower dominant Hessian eigenvalues.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r622-primary-pdf">Don&#39;t Use Large Mini-Batches, Use Local SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 5 &amp; Section 5.1, Eq. (3)-(4) &amp; Figure 4, p. 8-9; Appendix C.4 Figures 13-15, p. 28-30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r622-large-batch-generalization-and-compression-compatibility</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Post-Local SGD closes the large-batch generalization gap on CIFAR-10/100 (ResNet-20, DenseNet-40-12, WideResNet-28-10 at K B_loc up to 4096) and ImageNet (ResNet-50 at K B_loc up to 16384), improves upon LARS, and composes directly with gradient compression (signSGD and EF-signSGD, Algorithms 3-4) and hierarchical multi-rack synchronization (Hierarchical Local SGD, Algorithm 5, Eq. 5-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r622-primary-pdf">Don&#39;t Use Large Mini-Batches, Use Local SGD</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Tables 2-5, p. 6-8; Appendix C.5.5 Algorithms 3-4, p. 32-34; Appendix D-E Algorithm 5 &amp; Eq. (5)-(6), p. 35-40</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r622-transition-timing-and-extreme-local-steps-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Turning on local updates too early (e.g., at epoch 0 or via short linear/exponential local-step warmup before the trajectory stabilizes) degrades training loss and final accuracy when K and H are large, whereas delaying the switch until the second learning-rate decay sacrifices communication savings and risks trapping the model in a sharper minimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r622-primary-pdf">Don&#39;t Use Large Mini-Batches, Use Local SGD</a></span>
+        <span>· <strong>Locator:</strong> Appendix B.4.2 Figures 10-11, p. 23-25; Appendix C.2 Figure 12, p. 27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sensitive to the phase-transition time t&#39;: switching to local SGD before the model enters the influence basin of a local minimum (e.g., before the first learning-rate decay) can cause training instability at large H, while switching too late (e.g., at the second decay) reduces communication savings and can fail to escape sharp minima.</li>
+      <li>During Phase 1 (t &lt;= t&#39;), Post-Local SGD performs full synchronization at every iteration (H_{(t)} = 1), so communication savings are realized only during Phase 2 (t &gt; t&#39;).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Post-Local SGD is a two-phase local-update distributed SGD algorithm closely related to federated averaging (Local SGD) that Periodic-averages worker models after H local steps in Phase 2.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Post-Local SGD is designed to close the large-batch generalization gap in distributed training of deep neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r622-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r622-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1808.07217.pdf" target="_blank" rel="noopener">Don&#39;t Use Large Mini-Batches, Use Local SGD</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tao Lin, Sebastian U. Stich, Kumar Kshitij Patel, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LinSPJ20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b520f48bd682…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r622-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r622-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1808.07217" target="_blank" rel="noopener">Don&#39;t Use Large Mini-Batches, Use Local SGD (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tao Lin, Sebastian U. Stich, Kumar Kshitij Patel, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1808.07217</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:75ef433cfdb1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r622-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r622-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/LinSPJ20" target="_blank" rel="noopener">Don&#39;t Use Large Mini-Batches, Use Local SGD (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tao Lin, Sebastian U. Stich, Kumar Kshitij Patel, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LinSPJ20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0d4808ecd5bc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3APostLocalSgdTwoPhaseDistributedOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Post-Local Stochastic Gradient Descent" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:PostLocalSgdTwoPhaseDistributedOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Post-Local Stochastic...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PostLocalSgdTwoPhaseDistributedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PostLocalSgdTwoPhaseDistributedOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Post-Local%20Stochastic%20Gradient%20Descent"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3APostLocalSgdTwoPhaseDistributedOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

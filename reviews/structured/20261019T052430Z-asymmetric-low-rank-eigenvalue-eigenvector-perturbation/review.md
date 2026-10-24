@@ -1,0 +1,391 @@
+# Scientific author self-review of Asymmetric Low-Rank Matrix Eigenvalue and Linear-Form Eigenvector Perturbation Analysis
+
+- Review: 20261019T052430Z-asymmetric-low-rank-eigenvalue-eigenvector-perturbation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T05:24:00Z
+- Finished UTC: 2026-10-19T05:24:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Asymmetric Low-Rank Matrix Eigenvalue and Linear-Form Eigenvector Perturbation Analysis as a distinct DRAFT mathematical_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 56faa41a956ae210b4289b9abfbe0c6bc3cd4f50.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis | data/curated/AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.yaml | maintained | Asymmetric Low-Rank Matrix Eigenvalue and Linear-Form Eigenvector Perturbation Analysis |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis | Validated history sidecar files. |
+| python3 asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py | passed | True | AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis | {<br>  "n": 64,<br>  "lambda_star": 1.0,<br>  "sigma_base": 0.045,<br>  "neumann_series_identity_max_err": 6.686262654653774e-12,<br>  "mean_u_star_H2_u_star_asymmetric": 0.003799,<br>  "mean_u_star_H2_u_star_symmetric": 0.134921,<br>  "mean_asym_eigenvalue_err": 0.036197,<br>  "mean_sym_eigenvalue_err": 0.137407,<br>  "mean_vanilla_svd_err": 0.136917,<br>  "mean_entrywise_eigenvector_linf_err": 0.125859,<br>  "asymmetrized_dilation_singular_value_err": 0.023881,<br>  "averaged_svd_singular_value_err": 0.03945<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.
+
+Asymmetric Low-Rank Matrix Eigenvalue and Linear-Form Eigenvector Perturbation Analysis is a distinct concept.
+
+Resolved against all 442 pinned AIO concepts and 680 maintained AIMech concepts. Distinct from &#96;AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices&#96; (Abbe, Fan, Wang, &amp; Zhong 2020, which analyzes *symmetric* random matrices $H_{ij} = H_{ji}$ via leave-one-out decoupling where the leading eigenvalue suffers $O(n\sigma^2/\lambda^\star)$ upward bias, whereas Chen, Cheng, &amp; Fan 2021 exploit *asymmetry* $H_{ij} \perp H_{ji}$ via combinatorial Neumann-series walk partitions to eliminate the $O(n\sigma^2/\lambda^\star)$ eigenvalue bias without knowing heteroscedastic noise variances) and from &#96;AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation&#96; (Fan, Wang, &amp; Zhong 2018, which is deterministic in $\&#124;\mathbf{H}\&#124;_\infty$ for symmetric matrices).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py passed with exit code 0: {
+  "n": 64,
+  "lambda_star": 1.0,
+  "sigma_base": 0.045,
+  "neumann_series_identity_max_err": 6.686262654653774e-12,
+  "mean_u_star_H2_u_star_asymmetric": 0.003799,
+  "mean_u_star_H2_u_star_symmetric": 0.134921,
+  "mean_asym_eigenvalue_err": 0.036197,
+  "mean_sym_eigenvalue_err": 0.137407,
+  "mean_vanilla_svd_err": 0.136917,
+  "mean_entrywise_eigenvector_linf_err": 0.125859,
+  "asymmetrized_dilation_singular_value_err": 0.023881,
+  "averaged_svd_singular_value_err": 0.03945
+}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T052400Z-asymmetric-low-rank-eigenvalue-eigenvector-perturbation.json | supports | No normalized identity match for AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py | supports | All constructed boundary assertions in asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py passed with exit code 0: {<br>  "n": 64,<br>  "lambda_star": 1.0,<br>  "sigma_base": 0.045,<br>  "neumann_series_identity_max_err": 6.686262654653774e-12,<br>  "mean_u_star_H2_u_star_asymmetric": 0.003799,<br>  "mean_u_star_H2_u_star_symmetric": 0.134921,<br>  "mean_asym_eigenvalue_err": 0.036197,<br>  "mean_sym_eigenvalue_err": 0.137407,<br>  "mean_vanilla_svd_err": 0.136917,<br>  "mean_entrywise_eigenvector_linf_err": 0.125859,<br>  "asymmetrized_dilation_singular_value_err": 0.023881,<br>  "averaged_svd_singular_value_err": 0.03945<br>} |
+| ccf2021-asym-pdf | https://arxiv.org/pdf/1811.12804.pdf; Full-text PDF | supports | Full-text PDF (arXiv:1811.12804v5 full-text PDF (37 pages), published in The Annals of Statistics 49(1):435-458 (2021).) read and verified. |
+| ccf2021-asym-abs | https://arxiv.org/abs/1811.12804; arXiv abstract | supports | arXiv abstract read and verified. |
+| ccf2021-asym-cr | https://api.crossref.org/works/10.1214/20-AOS1963; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis in Round 286.
+- All pages of arXiv:1811.12804v5 full-text PDF (37 pages), published in The Annals of Statistics 49(1):435-458 (2021). were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T052430Z-asymmetric-low-rank-eigenvalue-eigenvector-perturbation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Asymmetric Low-Rank Matrix Eigenvalue and
+  Linear-Form Eigenvector Perturbation Analysis
+started_at: '2026-10-19T05:24:00Z'
+finished_at: '2026-10-19T05:24:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+    against existing AIMech and AIO records and verified all claims against arXiv:1811.12804v5
+    full-text PDF (37 pages), published in The Annals of Statistics 49(1):435-458
+    (2021). and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Asymmetric Low-Rank Matrix Eigenvalue and Linear-Form Eigenvector
+  Perturbation Analysis as a distinct DRAFT mathematical_method. All three claims
+  are supported by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 56faa41a956ae210b4289b9abfbe0c6bc3cd4f50
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.yaml
+    sha256: a0b21f3e6338514ad27a614146c80ec9e348a30daaa7ebb3e33e6ccbc8f77f08
+    role: target
+  - path: research/discovery/20261019T052400Z-asymmetric-low-rank-eigenvalue-eigenvector-perturbation.json
+    sha256: 3a81496a06426e86c35723a017cc0c3537a46e79ca648d4a65ce67134c833e10
+    role: context
+  - path: research/discovery/asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py
+    sha256: 6b6652be667a0d6f1a1784e0130f35783d38ef74c9f1306bad0cc359a6ad0bdd
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  path: data/curated/AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.yaml
+  label: Asymmetric Low-Rank Matrix Eigenvalue and Linear-Form Eigenvector Perturbation
+    Analysis
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py
+  command: python3 research/discovery/asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"n\": 64,\n  \"lambda_star\": 1.0,\n  \"sigma_base\": 0.045,\n \
+    \ \"neumann_series_identity_max_err\": 6.686262654653774e-12,\n  \"mean_u_star_H2_u_star_asymmetric\"\
+    : 0.003799,\n  \"mean_u_star_H2_u_star_symmetric\": 0.134921,\n  \"mean_asym_eigenvalue_err\"\
+    : 0.036197,\n  \"mean_sym_eigenvalue_err\": 0.137407,\n  \"mean_vanilla_svd_err\"\
+    : 0.136917,\n  \"mean_entrywise_eigenvector_linf_err\": 0.125859,\n  \"asymmetrized_dilation_singular_value_err\"\
+    : 0.023881,\n  \"averaged_svd_singular_value_err\": 0.03945\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T052400Z-asymmetric-low-rank-eigenvalue-eigenvector-perturbation.json
+  accessed_at: '2026-10-19T05:24:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T05:24:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py
+  accessed_at: '2026-10-19T05:24:00Z'
+  snapshot_sha256: 6b6652be667a0d6f1a1784e0130f35783d38ef74c9f1306bad0cc359a6ad0bdd
+  support: supports
+  summary: "All constructed boundary assertions in asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py\
+    \ passed with exit code 0: {\n  \"n\": 64,\n  \"lambda_star\": 1.0,\n  \"sigma_base\"\
+    : 0.045,\n  \"neumann_series_identity_max_err\": 6.686262654653774e-12,\n  \"\
+    mean_u_star_H2_u_star_asymmetric\": 0.003799,\n  \"mean_u_star_H2_u_star_symmetric\"\
+    : 0.134921,\n  \"mean_asym_eigenvalue_err\": 0.036197,\n  \"mean_sym_eigenvalue_err\"\
+    : 0.137407,\n  \"mean_vanilla_svd_err\": 0.136917,\n  \"mean_entrywise_eigenvector_linf_err\"\
+    : 0.125859,\n  \"asymmetrized_dilation_singular_value_err\": 0.023881,\n  \"averaged_svd_singular_value_err\"\
+    : 0.03945\n}"
+- evidence_id: ccf2021-asym-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1811.12804.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T05:24:00Z'
+  snapshot_sha256: f17027214e3ccb55370fe48c5480c0baa5fd7d6eb20aeb41826b1cf84f6d59e9
+  support: supports
+  summary: Full-text PDF (arXiv:1811.12804v5 full-text PDF (37 pages), published in
+    The Annals of Statistics 49(1):435-458 (2021).) read and verified.
+- evidence_id: ccf2021-asym-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1811.12804
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T05:24:00Z'
+  snapshot_sha256: 7cd20903a4e3913b8c69ea6fe7dcd056f58def10919fc1da27a6efc08652d795
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: ccf2021-asym-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/20-AOS1963
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T05:24:00Z'
+  snapshot_sha256: 1ed07900f2751eb2821965c7bf0454f9727847c0f2d200acdee172e82810ace7
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  evidence_ids:
+  - identity
+  - ccf2021-asym-pdf
+  - ccf2021-asym-abs
+  - ccf2021-asym-cr
+  summary: Asymmetric Low-Rank Matrix Eigenvalue and Linear-Form Eigenvector Perturbation
+    Analysis is a distinct concept.
+  details: Resolved against all 442 pinned AIO concepts and 680 maintained AIMech
+    concepts. Distinct from `AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices`
+    (Abbe, Fan, Wang, & Zhong 2020, which analyzes *symmetric* random matrices $H_{ij}
+    = H_{ji}$ via leave-one-out decoupling where the leading eigenvalue suffers $O(n\sigma^2/\lambda^\star)$
+    upward bias, whereas Chen, Cheng, & Fan 2021 exploit *asymmetry* $H_{ij} \perp
+    H_{ji}$ via combinatorial Neumann-series walk partitions to eliminate the $O(n\sigma^2/\lambda^\star)$
+    eigenvalue bias without knowing heteroscedastic noise variances) and from `AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation`
+    (Fan, Wang, & Zhong 2018, which is deterministic in $\|\mathbf{H}\|_\infty$ for
+    symmetric matrices).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  evidence_ids:
+  - mapping
+  - ccf2021-asym-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  evidence_ids:
+  - ccf2021-asym-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: "All constructed boundary assertions in asymmetric-low-rank-eigenvalue-eigenvector-perturbation-boundaries.py\
+    \ passed with exit code 0: {\n  \"n\": 64,\n  \"lambda_star\": 1.0,\n  \"sigma_base\"\
+    : 0.045,\n  \"neumann_series_identity_max_err\": 6.686262654653774e-12,\n  \"\
+    mean_u_star_H2_u_star_asymmetric\": 0.003799,\n  \"mean_u_star_H2_u_star_symmetric\"\
+    : 0.134921,\n  \"mean_asym_eigenvalue_err\": 0.036197,\n  \"mean_sym_eigenvalue_err\"\
+    : 0.137407,\n  \"mean_vanilla_svd_err\": 0.136917,\n  \"mean_entrywise_eigenvector_linf_err\"\
+    : 0.125859,\n  \"asymmetrized_dilation_singular_value_err\": 0.023881,\n  \"averaged_svd_singular_value_err\"\
+    : 0.03945\n}"
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  evidence_ids:
+  - identity
+  - mapping
+  - ccf2021-asym-pdf
+  - ccf2021-asym-abs
+  - ccf2021-asym-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AsymmetricLowRankEigenvalueAndLinearFormEigenvectorPerturbationAnalysis
+  in Round 286.
+- All pages of arXiv:1811.12804v5 full-text PDF (37 pages), published in The Annals
+  of Statistics 49(1):435-458 (2021). were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

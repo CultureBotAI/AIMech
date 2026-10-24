@@ -1,0 +1,100 @@
+id: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate
+name: FedBABU (Federated Averaging with Body Aggregation and Body Update)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A decoupled representation-learning federated optimization algorithm (Oh, Kim, & Yun 2022, Section 5, Algorithms 1-2) that decomposes the deep network parameters theta = {theta_ext, theta_cls} into a feature extractor body theta_ext and a linear classification head theta_cls in R^{C x d}, freezes theta_cls = theta_{G,cls}^0 at its shared random orthogonal initialization (learning rate alpha_cls = 0) throughout all federated training rounds so clients update and server-aggregate only the body theta_ext against fixed shared class templates, and subsequently adapts the model to each client via local fine-tuning.
+identity_notes: Distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which actively updates each client's local linear head theta_{i,cls} via local gradient steps before updating the shared body in every round, whereas FedBABU keeps a single shared random orthogonal head completely frozen (alpha_cls = 0) during federated representation learning so all clients share identical fixed class decision boundaries.
+aliases:
+- FedBABU
+- Federated Averaging with Body Aggregation and Body Update
+- Frozen Orthogonal-Head Body-Only Federated Representation Learning
+definition_evidence:
+- source_id: r424-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r424-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r424-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r424-head-update-degradation-of-personalization-and-shared-orthogonal-template-mechanism
+  kind: mechanism
+  statement: Jointly updating and aggregating the classifier head theta_cls under non-IID client label distributions (as in FedAvg) causes divergent local head updates for missing classes that degrade the feature extractor's personalization capability (Section 3, Tables 1-3); freezing theta_cls at a shared orthogonal initialization forces all clients to map each class to the same fixed row template of theta_{G,cls}^0 without inter-client head interference (Section 4-5).
+  evidence:
+  - source_id: r424-primary-pdf
+    locator: Section 3-4 Empirical Observations on Decoupled Parameter Updates (Tables 1-5, Figures 1-2) & Section 5 FedBABU
+    relation: supports
+- claim_id: r424-single-epoch-head-or-full-fine-tuning-rapid-personalization
+  kind: mechanism
+  statement: Because the body theta_{G,ext}^T learned with a frozen orthogonal head already produces well-clustered class representations, fine-tuning each client's local model after federated training converges within 1 to 5 local epochs and outperforms personalized baselines including FedPer, LG-FedAvg, FedRep, Per-FedAvg, andDitto (Section 5.2, Tables 6-8).
+  evidence:
+  - source_id: r424-primary-pdf
+    locator: Section 5.2 Experimental Results (Tables 6-9, Figure 3), pp. 6-9
+    relation: supports
+- claim_id: r424-classification-head-architecture-and-local-finetuning-data-limitation
+  kind: limitation
+  statement: Restricted to supervised classification architectures with an explicit final linear classifier layer theta_cls, and personalized deployment requires labeled local data on each target client to perform the post-training fine-tuning step (Algorithm 2).
+  evidence:
+  - source_id: r424-primary-pdf
+    locator: Section 5 Algorithm 1-2 & Appendix B-C
+    relation: supports
+- claim_id: r424-cifar10-cifar100-and-shard-partitioned-mobile-net-resnet-application
+  kind: application
+  statement: Applied to federated image classification on shard-partitioned CIFAR-10 and CIFAR-100 with ConvNet, MobileNet, ResNet, and VGG backbones under varying client participation rates and local epoch budgets.
+  evidence:
+  - source_id: r424-primary-pdf
+    locator: Section 5.2 & Appendix D-I (Tables 6-9, Tables 13-22)
+    relation: supports
+evidence_sources:
+- source_id: r424-primary-pdf
+  title: 'FedBABU: Toward Enhanced Representation for Federated Image Classification'
+  authors: &id001
+  - Jaehoon Oh
+  - SangMook Kim
+  - Se-Young Yun
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2106.06042
+  persistent_id: https://openreview.net/forum?id=HuaYQfggn5u
+  version: International Conference on Learning Representations (ICLR 2022) (2022) (95273 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:27:00Z'
+  sha256: 02f54062a558ef942573e36757f9f40e543b5edf150bb24f148f385d552598b5
+- source_id: r424-arxiv-abs
+  title: 'FedBABU: Toward Enhanced Representation for Federated Image Classification (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.06042
+  persistent_id: https://arxiv.org/abs/2106.06042
+  version: arXiv abstract page (6864 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:27:00Z'
+  sha256: dfea86449d924f1e4660fcf5e06bad8d2525e74d2ecbddbe22ca5322c18ddb2b
+- source_id: r424-metadata-cr
+  title: 'FedBABU: Toward Enhanced Representation for Federated Image Classification (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=HuaYQfggn5u
+  persistent_id: https://openreview.net/forum?id=HuaYQfggn5u
+  version: Crossref API work record (348 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:27:00Z'
+  sha256: b0442817d33f9cce94fe6f264fb48e4f25129cda52d6c40593cc9f447bfd1e96
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedBABU is a body-only federated representation learning and personalization algorithm within Federated Learning.
+limitations:
+- Requires feature dimension d >= number of classes C to initialize exact pairwise orthogonal class rows in theta_{G,cls}^0 (otherwise relies on random near-orthogonal rows).
+- Does not train a personalized head during the federated rounds themselves, requiring a post-training local fine-tuning pass on each client.
+curation:
+  created_at: '2026-10-19T08:27:00Z'
+  updated_at: '2026-10-19T08:27:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

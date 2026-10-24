@@ -1,0 +1,114 @@
+id: AIMech:AdoptModifiedAdamOptimalConvergenceAnyBeta2
+name: ADOPT (Adaptive Gradient Descent with Optimal Convergence)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive first-order stochastic optimization algorithm that modifies Adam in two structural ways so that it converges to first-order stationary points at the optimal rate O(1/sqrt(T)) for any second-moment decay parameter beta_2 in [0, 1) without bounded-gradient assumptions. Specifically, ADOPT initializes v_0 = g_0 circ g_0 and m_1 = g_1 / max(sqrt(v_0), eps), and for t >= 2 updates the second moment v_{t-1} = beta_2 v_{t-2} + (1 - beta_2) g_{t-1} circ g_{t-1} using the previous gradient g_{t-1} (decorrelating the denominator from the current stochastic gradient g_t) and normalizes the current gradient before first-order momentum accumulation via m_t = beta_1 m_{t-1} + (1 - beta_1) g_t / max(sqrt(v_{t-1}), eps), followed by theta_t = theta_{t-1} - alpha_t m_t.
+identity_notes: 'Distinct from Adam, AMSGrad (Reddi et al. 2018), AdaBelief (AIMech:AdaBeliefAdaptiveStepSizesByGradientBelief), and LaProp: whereas Adam updates m_t = beta_1 m_{t-1} + (1 - beta_1) g_t and divides m_t by sqrt(v_t) (creating statistical correlation between numerator g_t and denominator v_t that causes divergence on Reddi et al.''s counterexample when beta_2 is small), and whereas LaProp normalizes g_t by the contemporaneous sqrt(v_t) before momentum (failing the decorrelation requirement), ADOPT simultaneously lags the second moment by one step (v_{t-1}) and places coordinate-wise normalization inside the momentum recursion.'
+aliases:
+- ADOPT Optimizer
+- Modified Adam with Optimal Convergence for Any Beta2
+- Clipped ADOPT
+definition_evidence:
+- source_id: r603-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r603-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r603-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lagged-second-moment-decorrelation-and-pre-momentum-normalization
+  kind: mechanism
+  statement: 'ADOPT replaces Adam''s contemporaneous normalization m_t / sqrt(v_t + eps^2) with pre-momentum normalization by the lagged second moment v_{t-1}: m_t = beta_1 m_{t-1} + (1 - beta_1) g_t / max(sqrt(v_{t-1}), eps), ensuring that v_{t-1} is measurable with respect to history g_{0:t-1} and conditionally independent of the current stochastic gradient noise in g_t while preventing past gradients in m_{t-1} from correlating with v_{t-1} (Section 3.3, Table 1 & Figure 1, p. 6-7).'
+  evidence:
+  - source_id: r603-primary-pdf
+    locator: Section 3.1-3.3, Algorithms 2-3, Table 1, and Figure 1, p. 4-7
+    relation: supports
+- claim_id: virtual-iterate-lemmas-g7-g8-and-clipped-adopt
+  kind: mechanism
+  statement: In the theoretical analysis via the virtual iterate phi_t = (1 / (1 - beta_1)) theta_t - (beta_1 / (1 - beta_1)) theta_{t-1} (Definition G.6, p. 24), Lemma G.7 establishes phi_t - phi_{t-1} = -(beta_1 / (1 - beta_1))(alpha_t - alpha_{t-1}) m_{t-1} - alpha_t g_t / sqrt(v_{t-1} + eps^2) and Lemma G.8 bounds ||phi_t - theta_t|| = (beta_1 / (1 - beta_1)) alpha_t ||m_t||; Clipped ADOPT (Algorithm 2) additionally clips normalized updates at c_t = c_0 t^{1/4} so that ||m_t|| <= sqrt(D) c_t holds without assuming bounded gradients.
+  evidence:
+  - source_id: r603-primary-pdf
+    locator: Section 3.2, Algorithm 2, p. 5; Appendix G.2, Definition G.6 and Lemmas G.7-G.8, p. 24-25
+    relation: supports
+- claim_id: optimal-nonconvex-convergence-for-any-beta2-theorems-1-through-4
+  kind: scope
+  statement: Under L-smooth nonconvex objectives with generalized affine-variance noise E||g_t||^2 <= C_0 + C_1 ||nabla f(theta_t)||^2 (Assumptions 1-3), Theorems 1-2 (p. 5-6) prove that Clipped ADOPT converges for any beta_1, beta_2 in [0, 1) at the optimal rate min_{t<=T} E[||nabla f(theta_t)||^2] = O(1/sqrt(T)) without bounded gradients, and Theorems 3-4 (p. 6-7) establish the same O(1/sqrt(T)) rate for unclipped ADOPT (Algorithm 3) under bounded gradients ||g_t|| <= G.
+  evidence:
+  - source_id: r603-primary-pdf
+    locator: Section 3.2-3.3, Theorems 1, 2, 3, and 4, p. 5-7
+    relation: supports
+- claim_id: reddi-counterexample-resolution-and-deep-learning-benchmarks
+  kind: application
+  statement: On the convex stochastic counterexample of Reddi et al. (2018) where Adam converges to the suboptimal boundary +1 instead of the global optimum -1, ADOPT converges to -1 while ablations removing either decorrelation (v_{t-1}) or pre-momentum normalization fail; empirically, ADOPT outperforms Adam and AdamW on ImageNet Swin Transformer classification, NVAE generative modeling, LLaMA language model pretraining, and GPT-2 fine-tuning.
+  evidence:
+  - source_id: r603-primary-pdf
+    locator: Section 3.3, Figure 1, p. 7; Section 5, Figures 2-6 and Tables 2-3, p. 7-10
+    relation: supports
+- claim_id: first-step-initialization-and-unclipped-bounded-gradient-requirement
+  kind: limitation
+  statement: Because ADOPT normalizes g_t using the previous step's second moment v_{t-1}, the initial step t = 0 cannot perform a normalized parameter update and must be used solely to initialize v_0 = g_0 circ g_0 (or m_1 = g_1 / max(sqrt(v_0), eps)); moreover, unclipped ADOPT (Algorithm 3) still requires a bounded-gradient assumption ||g_t|| <= G for its theoretical O(1/sqrt(T)) guarantee unless paired with the time-growing clip threshold c_t = c_0 t^{1/4} of Algorithm 2.
+  evidence:
+  - source_id: r603-primary-pdf
+    locator: Section 3.2-3.3, Algorithms 2-3 and Assumption 4, p. 5-7; Section 6, p. 10
+    relation: supports
+evidence_sources:
+- source_id: r603-primary-pdf
+  title: 'ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate'
+  authors: &id001
+  - Shohei Taniguchi
+  - Keno Harada
+  - Gouki Minegishi
+  - Yuta Oshima
+  - Seong Cheol Jeong
+  - Go Nagahara
+  - Tomoshi Iiyama
+  - Masahiro Suzuki
+  - Yusuke Iwasawa
+  - Yutaka Matsuo
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2411.02853
+  persistent_id: https://dblp.org/rec/conf/nips/TaniguchiHMOJNI24
+  version: Advances in Neural Information Processing Systems 37 (NeurIPS 2024, arXiv:2411.02853) (2024) (1480175 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:26:00Z'
+  sha256: 8b93d4881ef5e9089ebce3f350db1962f675dc9dfe32c6a113c8b9bd12efafdb
+- source_id: r603-arxiv-abs
+  title: 'ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2411.02853
+  persistent_id: https://arxiv.org/abs/2411.02853
+  version: arXiv abstract page (7063 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:26:00Z'
+  sha256: daa472e65b23db7455146448093e2b7246a4734a58bc425b61f53e5ed7469bfa
+- source_id: r603-metadata-cr
+  title: 'ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/TaniguchiHMOJNI24
+  persistent_id: https://dblp.org/rec/conf/nips/TaniguchiHMOJNI24
+  version: Crossref API work record (2400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:26:00Z'
+  sha256: 61f9a01e9bd60e06dfa6eaac8b35d4d6ba181311a9e4b79abc3946d2e75e50d1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: ADOPT is an adaptive stochastic gradient optimizer for training deep artificial neural networks with guaranteed convergence across arbitrary beta_2 values.
+limitations:
+- Requires dedicating the initial gradient evaluation g_0 to initializing the second-moment state v_0 = g_0 circ g_0 before normalized momentum updates begin at t = 1.
+- Unclipped ADOPT (Algorithm 3) relies on bounded stochastic gradients (Assumption 4) for worst-case theoretical guarantees unless augmented with the c_t = c_0 t^{1/4} clipping operator of Clipped ADOPT (Algorithm 2).
+curation:
+  created_at: '2026-10-19T11:26:00Z'
+  updated_at: '2026-10-19T11:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

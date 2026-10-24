@@ -1,0 +1,106 @@
+id: AIMech:SoRASparseLowRankAdaptation
+name: SoRA (Sparse Low-Rank Adaptation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive-rank parameter-efficient fine-tuning algorithm that initializes low-rank adaptation matrices W_d in R^{r_max x q} and W_u in R^{p x r_max} with a large upper-bound rank r_max, inserts a trainable gating vector g in R^{r_max} via z = W_u (g o (W_d x)), optimizes g using the proximal gradient soft-thresholding update g_{t+1} = T_{eta_t lambda}(g_t - eta_t nabla_g L_0(Delta_t)) under l1 sparsity regularization, and eliminates rows of W_d and columns of W_u indexed by zero entries I^(k) = {i | g_i^(k) = 0} after training to recover a concise LoRA module of rank r_max - |I^(k)|.
+identity_notes: Distinct from AdaLoRA (AIMech:AdaLoRAAdaptiveBudgetAllocationForLoRA, which imposes explicit SVD orthogonality penalties R(U, V) = ||U^T U - I_p||_F^2 + ||V^T V - I_q||_F^2 and prunes triplets using heuristic moving-average weight-gradient sensitivity scores), from DyLoRA (AIMech:DyLoRADynamicSearchFreeLowRankAdaptation, which trains prefix sub-ranks via nested-dropout-style random rank sampling without sparse gating), and from RoSA (AIMech:RoSA, which trains a low-rank matrix plus a separate full-dimensional sparse residual matrix W^S). Formulated by Ding, Lv, Wang, Chen, Zhou, Liu, and Sun (EMNLP 2023, arXiv:2311.11696).
+aliases:
+- Sparse Low-Rank Adaptation
+- SoRA Proximal-Gradient Adaptive-Rank LoRA
+- Soft-Thresholded Gated Sparse Low-Rank Adaptation
+definition_evidence:
+- source_id: r689-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r689-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r689-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: sora-proximal-gradient-soft-thresholding-gate-update
+  kind: mechanism
+  statement: SoRA inserts an element-wise gate g in R^{r_max} between down-projection and up-projection matrices so that z = W_u (g o (W_d x)), and updates g at step t via the proximal gradient mapping g_{t+1} = T_{eta_t lambda}(g_t - eta_t nabla_g L_0(Delta_t)) for the l1-regularized objective L(Delta) = L_0(Delta) + lambda sum_{k=1}^K ||g^(k)||_1, where T_xi(x) = sign(x) max(|x| - xi, 0) with threshold xi = eta_t lambda.
+  evidence:
+  - source_id: r689-primary-pdf
+    locator: Section 3.1-3.2, Eq. 6-11 and Eq. 13-14, p. 4
+    relation: supports
+- claim_id: sora-zero-rank-post-pruning-and-svd-regularizer-elimination
+  kind: mechanism
+  statement: 'Upon training completion, SoRA identifies the zero-gate index set I^(k) = {i in [1 : r_max] | g_i^(k) = 0}, drops the I^(k)-th rows of W_d^(k) and columns of W_u^(k), and absorbs the non-zero gate entries g_tilde^(k) into W_tilde_u^(k) diag(g_tilde^(k)) to execute inference as a standard LoRA module of rank r_max - |I^(k)| while avoiding AdaLoRA''s orthogonality regularizer and reducing per-epoch training time by approximately 30%.'
+  evidence:
+  - source_id: r689-primary-pdf
+    locator: Section 3.1 Post-pruning Eq. 12, Section 3.2 & Section 4.6 Table 4, p. 4-5, 8
+    relation: supports
+- claim_id: sora-glue-adaptation-and-sparsifying-scheduler-application
+  kind: application
+  statement: SoRA is applied to parameter-efficient fine-tuning of DeBERTaV3-base and RoBERTa-large across all eight GLUE benchmark tasks, outperforming LoRA and AdaLoRA with 31.5% and 28.3% fewer retained parameters respectively, and uses a progressive threshold-enlarging sparsifying scheduler (Algorithm 1) to characterize task-specific memorization and generalization compression inflection points.
+  evidence:
+  - source_id: r689-primary-pdf
+    locator: Section 3.3 Algorithm 1 & Section 4.2-4.4 Tables 1-2 and Figures 2-3, p. 5-8
+    relation: supports
+- claim_id: sora-unverified-cross-modal-instruction-tuning-limitation
+  kind: limitation
+  statement: Unlike fixed-budget pruning methods, SoRA controls retained parameter count indirectly through the sparsity threshold xi = eta_t lambda rather than an exact cardinality constraint, and its sparsity behavior in cross-modal and open-ended instruction-tuning regimes is not evaluated in the primary study.
+  evidence:
+  - source_id: r689-primary-pdf
+    locator: Section 4.5, p. 8 & Limitations section, p. 9
+    relation: supports
+evidence_sources:
+- source_id: r689-primary-pdf
+  title: Sparse Low-rank Adaptation of Pre-trained Language Models
+  authors: &id001
+  - Ning Ding
+  - Xingtai Lv
+  - Qiaosen Wang
+  - Yulin Chen
+  - Bowen Zhou
+  - Zhiyuan Liu
+  - Maosong Sun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2311.11696.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=2311.11696&format=xml
+  version: Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP 2023) (2023) (2175155 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:52:00Z'
+  sha256: 8e5548817f51daceebb823d4306c57e43df2d7162f5b3922c5dd730ab7043ace
+- source_id: r689-arxiv-abs
+  title: Sparse Low-rank Adaptation of Pre-trained Language Models (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2311.11696
+  persistent_id: https://arxiv.org/abs/2311.11696
+  version: arXiv abstract page (6921 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:52:00Z'
+  sha256: bca845abb8bd327e46e301b5fc195341f42fa8525c55f1697f6de09ac9ba5520
+- source_id: r689-metadata-cr
+  title: Sparse Low-rank Adaptation of Pre-trained Language Models (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=2311.11696&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=2311.11696&format=xml
+  version: Crossref API work record (739 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:52:00Z'
+  sha256: ceb73f4d68bda4077aeef32afe3354b6faf011c26728001c754d53aac4607c49
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: SoRA applies l1-regularized proximal gradient soft-thresholding to induce sparsity over the intermediate rank gate of low-rank adaptation modules.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SoRA adapts pre-trained neural network weight matrices via sparse gated low-rank decomposition.
+limitations:
+- Controls final retained parameter count indirectly through the soft-thresholding hyperparameter xi = eta_t lambda rather than a hard parameter budget.
+curation:
+  created_at: '2026-10-19T12:52:00Z'
+  updated_at: '2026-10-19T12:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,92 @@
+id: AIMech:BerrutApproximatedCodedComputingForStragglerResilientNonPolynomialDistributedComputation
+name: Berrut Approximated Coded Computing for Straggler-Resilient Non-Polynomial Distributed Computation
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A numerically stable straggler-resilient coded computing scheme over the real numbers R for approximately evaluating arbitrary (possibly non-polynomial) functions f: V -> U across K input data blocks X = (X_0, ..., X_{K-1}) using N + 1 worker nodes, in which the master encodes the dataset via Berrut''s pole-free barycentric rational interpolant u(z) = sum_{i=0}^{K-1} (((-1)^i / (z - alpha_i)) / sum_{j=0}^{K-1} ((-1)^j / (z - alpha_j))) X_i at first-kind Chebyshev nodes alpha_j = cos((2j + 1) pi / (2K)), assigns coded shares X_hat_r = u(z_r) at second-kind Chebyshev nodes z_r = cos(r pi / N) to workers r in {0, ..., N}, and decodes f(X_j) approx r_{Berrut, F}(alpha_j) in O(|F|) time from any subset F of n + 1 = N + 1 - s non-straggling worker evaluations f(u(z_tilde_i)) using Berrut''s rational interpolant r_{Berrut, F}(z) = sum_{i=0}^n (((-1)^i / (z - z_tilde_i)) / sum_{j=0}^n ((-1)^j / (z - z_tilde_j))) f(u(z_tilde_i)).'
+identity_notes: 'Distinct from Lagrange Coded Computing (AIMech:LagrangeCodedComputingForResilientSecureAndPrivateDistributedLearning, which is restricted to multivariate polynomials of degree deg(f), requires a hard recovery threshold of (K - 1) deg(f) + 1 workers, and suffers exponential Vandermonde ill-conditioning over R): Berrut Approximated Coded Computing (BACC, Jahani-Nezhad & Maddah-Ali, IEEE TPAMI 2023) replaces polynomial interpolation with Berrut''s alternating-sign barycentric rational interpolant over first- and second-kind Chebyshev nodes, enabling straggler-resilient approximate evaluation of arbitrary non-polynomial functions (such as deep neural network gradients) from any number of surviving workers with a logarithmically bounded Lebesgue constant.'
+aliases:
+- Berrut Approximated Coded Computing
+- BACC
+- Berrut Rational Coded Computing
+definition_evidence:
+- source_id: r547-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r547-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r547-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: bacc-pole-free-chebyshev-rational-encoding-and-decoding
+  kind: mechanism
+  statement: BACC encodes K data blocks at first-kind Chebyshev nodes alpha_j = cos((2j + 1) pi / (2K)) via u(z) in Eq. 18 (satisfying u(alpha_j) = X_j exactly), evaluates f(u(z_r)) at second-kind Chebyshev nodes z_r = cos(r pi / N), and reconstructs r_{Berrut, F}(z) from any surviving worker subset F in O(|F|) operations (Eq. 21) without real poles for any distribution of surviving nodes (Lemma 1).
+  evidence:
+  - source_id: r547-primary-pdf
+    locator: Section II Definition 5 & Lemma 1 p. 4 Eq. 12-13; Section III p. 6-7 Eq. 18-21
+    relation: supports
+- claim_id: bacc-logarithmic-lebesgue-constant-and-straggler-error-bound
+  kind: scope
+  statement: For any subset X_n of n + 1 = N + 1 - s surviving workers at second-kind Chebyshev nodes (with s < N - 2), the worst-case Lebesgue constant occurs when the s stragglers are consecutive (Lemma 6) and is bounded logarithmically by Lambda_n <= (((s + 1)(s + 3) pi^2 / 4) + 1)(1 + pi^2 (s + 1) ln(N - s)) (Theorem 7); for g(z) = f(u(z)) in C^2[-1, 1], the uniform approximation error satisfies ||r_{Berrut, F}(z) - g(z)|| <= 2(1 + R) sin((s + 1) pi / (2N)) (||g''|| + ||g'||) with R = (s + 1)(s + 3) pi^2 / 4 (Theorem 9).
+  evidence:
+  - source_id: r547-primary-pdf
+    locator: Section IV Lemma 6, Theorem 7, Corollary 8, & Theorem 9 p. 7-8 Eq. 22; Appendix VIII p. 16-19
+    relation: supports
+- claim_id: bacc-approximation-bias-and-consecutive-straggler-limitation
+  kind: limitation
+  statement: Unlike exact finite-field coded computing, BACC returns an approximate evaluation whose error Bound 2(1 + R) sin((s + 1) pi / (2N)) grows cubically with the number of consecutive stragglers s via R = (s + 1)(s + 3) pi^2 / 4 when s becomes a large fraction of N.
+  evidence:
+  - source_id: r547-primary-pdf
+    locator: Section IV Lemma 6 & Theorem 9 p. 7-8; Section V Fig. 2 & Fig. 5 p. 9-11
+    relation: supports
+evidence_sources:
+- source_id: r547-primary-pdf
+  title: 'Berrut Approximated Coded Computing: Straggler Resistance Beyond Polynomial Computing'
+  authors: &id001
+  - Tayyebeh Jahani-Nezhad
+  - Mohammad Ali Maddah-Ali
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2009.08327.pdf
+  persistent_id: https://dblp.org/rec/journals/pami/Jahani-NezhadM23
+  version: IEEE Transactions on Pattern Analysis and Machine Intelligence (2023) (1095553 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:30:00Z'
+  sha256: 226dbf36ec38c753636fe2244bba5b76f63a497822860ca2d6cf9296f5c1d99d
+- source_id: r547-arxiv-abs
+  title: 'Berrut Approximated Coded Computing: Straggler Resistance Beyond Polynomial Computing (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2009.08327
+  persistent_id: https://arxiv.org/abs/2009.08327
+  version: arXiv abstract page (7518 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:30:00Z'
+  sha256: 5e67f1727d25593e0931e9712f1c188a4403a183161d82496209327835e74190
+- source_id: r547-metadata-cr
+  title: 'Berrut Approximated Coded Computing: Straggler Resistance Beyond Polynomial Computing (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/pami/Jahani-NezhadM23
+  persistent_id: https://dblp.org/rec/journals/pami/Jahani-NezhadM23
+  version: Crossref API work record (5968 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:30:00Z'
+  sha256: d77efa0b93b55c7c44403da2149ebbf7ee638762448c14236d9b1d80fb77636f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Berrut Approximated Coded Computing provides straggler-resilient approximate gradient evaluation across distributed worker nodes for deep neural network training.
+limitations:
+- Produces an approximate rather than exact evaluation of f(X_j), with error scaling as O((s + 1)^3 sin((s + 1) pi / (2N))) when s consecutive Chebyshev worker nodes straggle.
+- Does not by itself provide information-theoretic data privacy against curious workers without additional random noise padding.
+curation:
+  created_at: '2026-10-19T10:30:00Z'
+  updated_at: '2026-10-19T10:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

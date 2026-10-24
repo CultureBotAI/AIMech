@@ -1,0 +1,105 @@
+id: AIMech:TermTiltedEmpiricalRiskMinimizationAndHierarchicalMultiObjectiveTilting
+name: TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective Tilting)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A parametric family of exponentially tilted risk minimization objectives and batch/stochastic first-order solvers (Li, Beirami, Sanjabi, & Smith 2021, Sections 1-4, Equations 2-4, Lemmas 1-7, Theorems 1-10, Algorithms 1-4) that generalizes standard Empirical Risk Minimization (ERM) via a real-valued tilt hyperparameter t in R \ {0}: R_tilde(t; theta) := (1 / t) log((1 / N) sum_{i in [N]} exp(t f(x_i; theta))) (Equation 2), with continuous extension R_tilde(0; theta) = R_bar(theta) = (1 / N) sum_{i in [N]} f(x_i; theta), R_tilde(-inf; theta) = min_{i in [N]} f(x_i; theta), and R_tilde(+inf; theta) = max_{i in [N]} f(x_i; theta) (Lemma 2). Its tilted gradient dynamically reweights individual sample gradients exponentially by their relative loss: grad_theta R_tilde(t; theta) = sum_{i in [N]} w_i(t; theta) grad_theta f(x_i; theta) with w_i(t; theta) = exp(t f(x_i; theta)) / sum_{j in [N]} exp(t f(x_j; theta)) = (1 / N) exp(t (f(x_i; theta) - R_tilde(t; theta))) (Lemma 1, Equation 3), magnifying high-loss samples to reduce loss variance and promote fairness when t > 0 or suppressing high-loss outliers when t < 0. For compound problems involving both group fairness/imbalance and sample-level noise across groups g in [G], hierarchical multi-objective TERM optimizes J_tilde(t, tau; theta) := (1 / t) log((1 / N) sum_{g in [G]} |g| exp(t R_tilde_g(tau; theta))) where R_tilde_g(tau; theta) := (1 / tau) log((1 / |g|) sum_{x in g} exp(tau f(x; theta))) (Equation 4).'
+identity_notes: Distinct from q-FFL (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which raises positive losses to a polynomial power (1/(q+1)) F_k^{q+1}(w) for q >= 0 only and cannot take negative exponents to suppress outliers or nest hierarchical group/sample tilts; and distinct from Agnostic Federated Learning (AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization, Mohri et al. 2019), which solves a hard minimax saddle-point problem min_w max_{lambda in Lambda} L_lambda(w) rather than a smooth, tunable cumulant-generating log-sum-exp objective spanning min-loss (t -> -inf), average-loss (t -> 0), and max-loss (t -> +inf).
+aliases:
+- TERM
+- Tilted Empirical Risk Minimization
+- Hierarchical Multi-Objective Tilted Empirical Risk Minimization
+- t-Tilted Empirical Risk Minimization
+definition_evidence:
+- source_id: r496-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r496-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r496-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r496-claim-1
+  kind: mechanism
+  statement: Under generalized linear model and strict-saddle assumptions (Assumptions 1-4), as the tilt parameter t in R increases, the t-tilted solution theta_breve(t) in argmin_theta R_tilde(t; theta) monotonically reduces empirical loss variance (d/dt var(f(theta_breve(t))) < 0, Theorem 4), monotonically increases the cosine similarity between the loss vector f(theta_breve(t)) and the all-ones vector 1_N (d/dt s(f(theta_breve(t)), 1_N) > 0, Theorem 5), and increases the Shannon entropy H(w(tau; theta_breve(t))) of the tilted gradient weights (Theorem 6), while trading off average loss against max-loss for t > 0 (Theorem 2) and against min-loss for t < 0 (Theorem 3).
+  evidence:
+  - source_id: r496-primary-pdf
+    locator: Section 2, pp. 3-4; Appendix E, pp. 23-29, Theorems 1-8
+    relation: supports
+- claim_id: r496-claim-2
+  kind: mechanism
+  statement: Hierarchical multi-objective TERM J_tilde(t, tau; theta) (Equation 4) recovers sample-level TERM R_tilde(t; theta) when tau = t (Lemma 7), has closed-form factored gradient weights w_{g,x}(t, tau; theta) = w_g(t, tau; theta) w_{g,x}(tau; theta) (Lemma 6, Equations 44-52), and is solved in the stochastic setting (Algorithm 2) by maintaining a tilted moving-average estimator R_tilde_{g,tau} <- (1/tau) log((1 - lambda) exp(tau R_tilde_{g,tau}) + lambda exp(tau R_tilde_{B,tau})) and sampling groups from a Gumbel-Softmax distribution with logits R_tilde_{g,tau} + (1/t) log |g| and temperature 1/t.
+  evidence:
+  - source_id: r496-primary-pdf
+    locator: Sections 3-4, pp. 4-5, Equation 4, Algorithm 1; Appendix C, pp. 19-20, Lemmas 6-7; Appendix H, pp. 34-35, Algorithms 2-4
+    relation: supports
+- claim_id: r496-claim-3
+  kind: limitation
+  statement: For t < 0, R_tilde(t; theta) can become non-convex with spurious local minima even when individual losses f(x_i; theta) are strongly convex (requiring continuation from t = 0) and can overfit to structured or adversarial outliers (Section 5.1 & Appendix H.1, Figure 14); for t -> +inf, the local smoothness constant beta(t) scales linearly as O(t) (Lemma 4, Equation 31), slowing gradient-descent convergence rate (1 - beta_min / (C_1 + C_2 t))^m (Theorem 13).
+  evidence:
+  - source_id: r496-primary-pdf
+    locator: Appendix B, pp. 17-18, Lemma 4; Appendix H.1, pp. 35-36, Theorem 13, Figure 8; Appendix I.2, p. 39, Figure 14
+    relation: supports
+- claim_id: r496-claim-4
+  kind: application
+  statement: Applied to robust regression on Drug Discovery under 20%-80% target corruption, robust DNN classification on CIFAR-10 with noisy labels and crowd-sourced spammers, fair PCA on Default Credit, fair federated learning on Vehicle sensor data, and hierarchical class-imbalance plus 30% label-noise classification on HIV-1 (achieving 0.778 rare-class and 0.900 overall accuracy with TERM_sc vs. 0.240 and 0.831 for ERM at 1:20 imbalance).
+  evidence:
+  - source_id: r496-primary-pdf
+    locator: Section 5, pp. 5-8, Tables 1-3, Figures 3-5; Appendix I.2, pp. 38-41, Tables 5-8
+    relation: supports
+evidence_sources:
+- source_id: r496-primary-pdf
+  title: Tilted Empirical Risk Minimization
+  authors: &id001
+  - Tian Li
+  - Ahmad Beirami
+  - Maziar Sanjabi
+  - Virginia Smith
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2007.01162.pdf
+  persistent_id: https://openreview.net/forum?id=K5YasWXZT3O
+  version: International Conference on Learning Representations (ICLR 2021) (2021) (2113607 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:39:00Z'
+  sha256: b46ffa1681aa32e38faa6c043197ef59f5f40eb79d0fd930b1a727519a3c463e
+- source_id: r496-arxiv-abs
+  title: Tilted Empirical Risk Minimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.01162
+  persistent_id: https://arxiv.org/abs/2007.01162
+  version: arXiv abstract page (1614 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:39:00Z'
+  sha256: 5e5cd6764462be8fa799d99856da7691f2d655a39d4cfb491c8bebe4b977db8b
+- source_id: r496-metadata-cr
+  title: Tilted Empirical Risk Minimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=K5YasWXZT3O
+  persistent_id: https://openreview.net/forum?id=K5YasWXZT3O
+  version: Crossref API work record (330 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:39:00Z'
+  sha256: 505a9450f7da84bcb265c45798878e1ce1b64e54c0a3e291f97cc21c8159a4ec
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:GeneralizedLinearModel
+  relation: related_match
+  rationale: TERM's theoretical guarantees on variance reduction, gradient-weight entropy, and min/average/max loss trade-offs (Theorems 1-8) are derived for exponential-family Generalized Linear Model losses alongside applications in Fair PCA (AIO:PrincipalComponentAnalysis) and Fair Federated Learning (AIO:FederatedLearning).
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Stochastic group-level TERM is applied directly to fair federated learning across heterogeneous devices (Appendix I.2, Table 7, Figure 16).
+limitations:
+- Negative tilt values (t < 0) induce non-convexity even when the base loss is strongly convex and fail under structured or adversarial outlier corruption (Appendix H.1 & Appendix I.2, Figure 14).
+- Large positive tilt values (t >> 0) increase the objective's smoothness constant linearly with t (Lemma 4), requiring smaller step sizes O(1/t) (Theorem 13).
+curation:
+  created_at: '2026-10-19T09:39:00Z'
+  updated_at: '2026-10-19T09:39:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

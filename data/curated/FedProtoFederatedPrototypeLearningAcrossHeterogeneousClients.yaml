@@ -1,0 +1,104 @@
+id: AIMech:FedProtoFederatedPrototypeLearningAcrossHeterogeneousClients
+name: FedProto (Federated Prototype Learning across Heterogeneous Clients)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A gradient-free and parameter-free heterogeneous federated learning framework (Tan, Long, Liu, Zhou, Lu, Jiang, & Zhang 2022, Sections Problem Setting & Methodology, Equations 2-8, Algorithm 1, Theorems 1-2) in which each client i with potentially heterogeneous model architecture F_i(phi_i, nu_i) = g_i(nu_i) o f_i(phi_i) computes local class prototypes C_i^{(j)} = (1 / |D_{i,j}|) sum_{(x,y) in D_{i,j}} f_i(phi_i; x) in a shared d_c-dimensional embedding space (Equation 3), transmits only its local prototype set C_i to the central server, receives back global class prototypes C_bar^{(j)} aggregated across the subset of clients N_j holding class j via sample-weighted averaging (Equation 6), and updates its local model parameters omega_i = (phi_i, nu_i) by minimizing the prototype-regularized local objective L(D_i, omega_i) = L_S(F_i(omega_i; x), y) + lambda sum_j d(C_i^{(j)}, C_bar_i^{(j)}) (Equations 7-8).
+identity_notes: Distinct from FedPer (AIMech:FedPerFederatedLearningWithPersonalizationLayers, Arivazhagan et al. 2019) and FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which exchange and average homogeneous base-layer weight tensors in parameter space; and distinct from FedGen (AIMech:FedGenDataFreeFederatedKnowledgeDistillationViaServerLatentGenerator, Zhu, Hong, & Zhou 2021), which trains a conditional generator on the server from uploaded classifier heads rather than aggregating mean class feature prototypes C_bar^{(j)} across architecturally heterogeneous encoders.
+aliases:
+- FedProto
+- Federated Prototype Learning
+- FedProto-mh
+definition_evidence:
+- source_id: r474-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r474-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r474-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r474-heterogeneous-architecture-prototype-aggregation-mechanism
+  kind: mechanism
+  statement: By exchanging only d_c-dimensional class prototype vectors C_i^{(j)} rather than gradients or model weights omega_i, FedProto allows clients with distinct neural architectures F_i (e.g., different convolutional channel widths or strides in FedProto-mh) and partially overlapping class subsets to align their embedding spaces around global class centroids C_bar^{(j)} while reducing communicated parameters by orders of magnitude (Tan et al. 2022, Methodology & Experiments, Equations 3-8, Table 1).
+  evidence:
+  - source_id: r474-primary-pdf
+    locator: Methodology (Equations 3-8, Algorithm 1), pp. 3-4, and Experiments (Table 1), pp. 6-7
+    relation: supports
+- claim_id: r474-nonconvex-one-round-deviation-and-convergence-rate-mechanism
+  kind: mechanism
+  statement: Under L_1-Lipschitz smoothness of local objectives, bounded stochastic gradient variance sigma^2 and norm G, and L_2-Lipschitz continuity of local embedding functions f_i(phi_i) (Assumptions 1-4), Theorem 1 bounds the one-round expected loss change by E[L_{(t+1)E+1/2}] <= L_{tE+1/2} - (eta - L_1 eta^2 / 2) sum_{e=1/2}^{E-1} ||nabla L_{tE+e}||_2^2 + (L_1 E eta^2 / 2) sigma^2 + lambda L_2 eta E G, and Theorem 2 establishes non-convex convergence to an epsilon-stationary point in T = 2 Delta / (E epsilon (2 eta - L_1 eta^2) - E eta (L_1 eta sigma^2 + 2 lambda L_2 G)) rounds (Tan et al. 2022, Convergence Analysis, Equations 9-19).
+  evidence:
+  - source_id: r474-primary-pdf
+    locator: Convergence Analysis (Assumptions 1-4, Theorems 1-2, Corollary 1, Equations 9-19), pp. 4-5, and Supplement pp. 12-16
+    relation: supports
+- claim_id: r474-few-shot-non-iid-and-model-heterogeneous-fl-application
+  kind: application
+  statement: Applied to n-way k-shot statistically and architecturally heterogeneous federated classification on MNIST, FEMNIST, and CIFAR-10 (Tan et al. 2022, Experiments, Tables 1-4, Figures 2-4).
+  evidence:
+  - source_id: r474-primary-pdf
+    locator: Experiments (Tables 1-4, Figures 2-4), pp. 6-7 & 10-11
+    relation: supports
+- claim_id: r474-shared-embedding-dimension-and-lambda-tuning-limitation
+  kind: limitation
+  statement: Requires all heterogeneous client encoders f_i to map into a common prototype dimension d_c and requires tuning the prototype regularization weight lambda (Corollary 1 requires lambda < ||nabla L_{tE+1/2}||_2^2 / (L_2 E G) to prevent server prototype aggregation from increasing the local objective) (Tan et al. 2022, Corollary 1, Figure 4, & Supplement p. 12).
+  evidence:
+  - source_id: r474-primary-pdf
+    locator: Corollary 1 (Equation 17), p. 5, Figure 4, p. 7, and Additional Notation, p. 12
+    relation: supports
+evidence_sources:
+- source_id: r474-primary-pdf
+  title: 'FedProto: Federated Prototype Learning across Heterogeneous Clients'
+  authors: &id001
+  - Yue Tan
+  - Guodong Long
+  - Lu Liu
+  - Tianyi Zhou
+  - Qinghua Lu
+  - Jing Jiang
+  - Chengqi Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2105.00243.pdf
+  persistent_id: https://arxiv.org/abs/2105.00243
+  version: AAAI 2022 (2022) (1780 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:17:00Z'
+  sha256: 7917a3ebf5690b5c740f836f4fe72c5b87c9cca3f9367d4ffe99753a3c248682
+- source_id: r474-arxiv-abs
+  title: 'FedProto: Federated Prototype Learning across Heterogeneous Clients (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2105.00243
+  persistent_id: https://arxiv.org/abs/2105.00243
+  version: arXiv abstract page (782 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:17:00Z'
+  sha256: 212623fe822ded22b9e6965d75a48e3f869774c67270ffe26453991cc52d9cb4
+- source_id: r474-metadata-cr
+  title: 'FedProto: Federated Prototype Learning across Heterogeneous Clients (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2105.00243
+  persistent_id: https://arxiv.org/abs/2105.00243
+  version: Crossref API work record (338 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:17:00Z'
+  sha256: 80b980e785950b3db593cc9c512cab895d98374c3fa83a69d8836ff4eb84c250
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedProto is a prototype-aggregation federated learning algorithm within the broader FederatedLearning category.
+limitations:
+- Requires all clients' representation layers f_i to output embeddings of identical dimension d_c so class prototypes can be averaged on the server.
+- Does not produce a single standalone classifier on the server without pairing global prototypes with a pre-trained or client-side feature extractor.
+curation:
+  created_at: '2026-10-19T09:17:00Z'
+  updated_at: '2026-10-19T09:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

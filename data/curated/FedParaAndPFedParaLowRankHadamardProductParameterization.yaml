@@ -1,0 +1,101 @@
+id: AIMech:FedParaAndPFedParaLowRankHadamardProductParameterization
+name: FedPara and pFedPara (Low-Rank Hadamard Product Parameterization for Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-efficient layer parameterization for federated learning and its personalized variant (Hyeon-Woo, Ye-Bin, & Oh 2022, Section 2, Equations 1-4, Propositions 1-3) that expresses each weight matrix W in R^{m x n} as the Hadamard (element-wise) product of two low-rank matrices W = W_1 odot W_2 = (X_1 Y_1^T) odot (X_2 Y_2^T) with X_1 in R^{m x r_1}, Y_1 in R^{n x r_1}, X_2 in R^{m x r_2}, and Y_2 in R^{n x r_2} (and 4D convolutional kernels via Tucker mode-1/mode-2 products W_conv = (T_1 x_1 X_1 x_2 Y_1) odot (T_2 x_1 X_2 x_2 Y_2)), transmitting only the low-rank factors during federated aggregation; in pFedPara (Section 2.3, Equation 4), W = W_1 odot (W_2 + 1) = W_1 odot W_2 + W_1 transfers only the global factor W_1 to the server while keeping W_2 strictly local on each client.
+identity_notes: Distinct from PowerSGD (AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback, Vogels et al. 2019), which compresses full-model gradients via power-iteration low-rank approximations with error feedback rather than reparameterizing the model weights via an unconstrained-rank Hadamard product of low-rank factors, and from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which splits personalization by network depth (shared body vs local head) rather than intra-layer Hadamard decomposition W_1 odot (W_2 + 1).
+aliases:
+- FedPara and pFedPara
+- FedPara
+- pFedPara
+- Low-Rank Hadamard Product Federated Parameterization
+definition_evidence:
+- source_id: r439-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r439-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r439-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r439-hadamard-rank-multiplication-and-minimal-parameter-propositions
+  kind: mechanism
+  statement: By Proposition 1, for W_1 = X_1 Y_1^T of rank <= r_1 and W_2 = X_2 Y_2^T of rank <= r_2, the Hadamard product W = W_1 odot W_2 satisfies rank(W) <= r_1 r_2 and achieves full rank min(m, n) whenever r_1 r_2 >= min(m, n); by Proposition 2, for any fixed target rank bound R^2 = r_1 r_2, choosing r_1 = r_2 = R uniquely minimizes the total parameter count to 2 R (m + n), and Proposition 3 extends the same rank bound rank(W^{(1)}) = rank(W^{(2)}) <= R^2 to 4D convolutional tensors with 2 R (O + I + R K_1 K_2) parameters.
+  evidence:
+  - source_id: r439-primary-pdf
+    locator: Section 2.1-2.2 Low-Rank Hadamard Product and Convolutional Extension (Propositions 1, 2, and 3) & Appendix A Proofs
+    relation: supports
+- claim_id: r439-pfedpara-global-personal-additive-multiplicative-decomposition
+  kind: mechanism
+  statement: In pFedPara (Section 2.3, Eq. 4), parameterizing each layer as W = W_1 odot (W_2 + 1) = W_1 + W_1 odot W_2 decomposes the weight matrix into an additive global low-rank component W_glo = W_1 (aggregated across clients by the server) and a client-specific residual W_per = W_1 odot W_2 modulated by the local factor W_2, halving communication cost relative to FedPara while preserving rank(W) <= r_1 (r_2 + 1).
+  evidence:
+  - source_id: r439-primary-pdf
+    locator: Section 2.3 Personalized FedPara (pFedPara, Equation 4) & Section 3.3 Personalized FL Evaluation
+    relation: supports
+- claim_id: r439-bilinear-factor-nonconvexity-and-small-kernel-overhead-limitation
+  kind: limitation
+  statement: Introduces four-factor multilinear product landscapes during local gradient updates and requires 2 R (O + I + R K_1 K_2) < O I K_1 K_2 (i.e., R <= sqrt(O I / 2)) to achieve parameter savings on convolutional layers.
+  evidence:
+  - source_id: r439-primary-pdf
+    locator: Section 2.1 Property 1 & Section 2.2 Convolutional Layer Extension
+    relation: supports
+- claim_id: r439-communication-efficient-vgg-resnet-and-lstm-federated-training-application
+  kind: application
+  statement: Applied to communication-efficient federated training of VGG16, ResNet-18, and LSTM models on CIFAR-10, CIFAR-100, CINIC-10, and Shakespeare under IID and non-IID partitions, reducing communication costs by 3x to 10x at matching or higher accuracy.
+  evidence:
+  - source_id: r439-primary-pdf
+    locator: Section 3 Experiments (Figures 3-6, Tables 1-3)
+    relation: supports
+evidence_sources:
+- source_id: r439-primary-pdf
+  title: 'FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning'
+  authors: &id001
+  - Nam Hyeon-Woo
+  - Moon Ye-Bin
+  - Tae-Hyun Oh
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2108.06098
+  persistent_id: https://openreview.net/forum?id=d71n4ftoCBy
+  version: International Conference on Learning Representations (ICLR 2022) (2022) (84265 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:42:00Z'
+  sha256: 1ae6352c22b20bd958ded83df7bc2f458f12d1d8617825097ee97dbe10f2bc01
+- source_id: r439-arxiv-abs
+  title: 'FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2108.06098
+  persistent_id: https://arxiv.org/abs/2108.06098
+  version: arXiv abstract page (16400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:42:00Z'
+  sha256: 2ce8fd75c1921a814f5951fff349d4966323fd232cfe4f2c988253be7fe0050f
+- source_id: r439-metadata-cr
+  title: 'FedPara: Low-Rank Hadamard Product for Communication-Efficient Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=d71n4ftoCBy
+  persistent_id: https://openreview.net/forum?id=d71n4ftoCBy
+  version: Crossref API work record (356 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:42:00Z'
+  sha256: 239bffd350aba97528ed91c7ae240d98711050b5ba65915e4909e7d1edfaeccb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedPara and pFedPara are communication-efficient and personalized federated learning methods based on low-rank Hadamard weight parameterization.
+limitations:
+- Requires reconstructing W = (X_1 Y_1^T) odot (X_2 Y_2^T) during forward and backward passes.
+- Parameter compression requires choosing rank hyperparameter R < sqrt(m n / (2(m + n))).
+curation:
+  created_at: '2026-10-19T08:42:00Z'
+  updated_at: '2026-10-19T08:42:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

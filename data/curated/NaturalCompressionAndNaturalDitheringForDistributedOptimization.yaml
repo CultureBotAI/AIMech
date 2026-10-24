@@ -1,0 +1,103 @@
+id: AIMech:NaturalCompressionAndNaturalDitheringForDistributedOptimization
+name: Natural Compression and Natural Dithering for Distributed Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A family of unbiased power-of-two randomized quantization operators for distributed and in-network gradient aggregation (Horv\xE1th et al. 2022): Natural Compression C_nat (Definition 1) rounds any non-zero scalar t = (-1)^s 2^e (1 + m) stochastically to sign(t) 2^{floor(log_2 |t|)} with probability p(t) = (2^{ceil(log_2 |t|)} - |t|) / 2^{floor(log_2 |t|)} = 1 - m and to sign(t) 2^{ceil(log_2 |t|)} with probability 1 - p(t) = m (dropping the IEEE 754 mantissa and transmitting only the sign and 8-bit exponent), while Natural Dithering D_nat^{p,s} (Definition 6) quantizes normalized vector coordinates |x_i| / ||x||_p onto s exponentially spaced power-of-two levels {0, 2^{1-s}, 2^{2-s}, ..., 2^{-1}, 1}."
+identity_notes: Distinct from QSGD / Standard Random Dithering D_sta^{p,s} (AIMech:QSGDQuantizedStochasticGradientDescent, Alistarh et al. 2017, which uses uniformly spaced linear levels {0, 1/s, 2/s, ..., 1} rather than geometric power-of-two levels {2^{1-s}, ..., 1} and requires float multiplication rather than integer bit-shift addition), from TernGrad (AIMech:TernGradTernaryGradientsForDistributedDeepLearning, which uses a single l_infinity ternary level), and from biased Top-k / SignSGD compressors requiring error-feedback memory.
+aliases:
+- Natural Compression
+- Natural Dithering
+- C_nat and D_nat Power-of-Two Gradient Quantization
+definition_evidence:
+- source_id: r415-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r415-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r415-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r415-c-nat-exact-one-eighth-relative-variance-and-composition-theorem
+  kind: mechanism
+  statement: Theorem 3 proves that Natural Compression C_nat is unbiased (E[C_nat(x)] = x) and belongs to B(1/8) with tight worst-case relative variance omega = 1/8 attained at |t| = (4/3) 2^a (where E[C_nat(t)^2]/t^2 = max_{1 <= theta <= 2} (3 theta - 2)/theta^2 = 9/8), whereas unbiased integer rounding C_int has omega = infinity (Theorem 4); furthermore, Theorem 5 proves that composing any C_1 in B(omega_1) and C_2 in B(omega_2) yields C_1 o C_2 in B(omega_1 omega_2 + omega_1 + omega_2), so composing C_nat with any compressor C in B(omega) incurs only C_nat o C in B((9/8) omega + 1/8).
+  evidence:
+  - source_id: r415-primary-pdf
+    locator: Section 2.2-2.4 (Theorems 3, 4, and 5) & Appendix C.1-C.3 (Eqs. 6-9)
+    relation: supports
+- claim_id: r415-natural-dithering-variance-bound-and-exponential-level-efficiency
+  kind: mechanism
+  statement: Theorem 7 proves that Natural Dithering D_nat^{p,s} with s geometric levels satisfies D_nat^{p,s} in B(omega) with omega = 1/8 + d^{1/r} 2^{1-s} min{1, d^{1/r} 2^{1-s}} (r = min{p, 2}), and Theorem 8 proves that D_nat^{p,s} is a subset-level coarsening of standard linear dithering D_sta^{p,2^{s-1}} with E[||D_nat^{p,s}(x) - x||^2] <= (9/8) E[||D_sta^{p,2^{s-1}}(x) - x||^2] + (1/8) ||x||^2, reducing the number of quantization levels from u = 2^{s-1} to s for comparable variance.
+  evidence:
+  - source_id: r415-primary-pdf
+    locator: Section 3 (Definitions 6-7, Theorems 7 and 8, Figure 5) & Appendix C.4-C.5
+    relation: supports
+- claim_id: r415-non-vanishing-asymptotic-variance-floor-and-stochastic-rounding-rng-limitation
+  kind: limitation
+  statement: Because D_nat^{p,s} converges to C_nat rather than the identity operator as the number of levels s -> infinity, its worst-case relative variance cannot drop below the floor omega = 1/8 (Appendix A.2.3), and generating uniform random bits for stochastic mantissa rounding introduces a 10-15% CPU/GPU compression overhead relative to deterministic rounding (Appendix B).
+  evidence:
+  - source_id: r415-primary-pdf
+    locator: Appendix A.2.3 (Figure 18) & Appendix B Implementation Optimization
+    relation: supports
+- claim_id: r415-bidirectional-compressed-sgd-and-in-network-aggregation-application
+  kind: application
+  statement: Integrated into Distributed SGD with bidirectional worker (C_{W_i}) and master/switch (C_M) compression (Algorithm 1, Theorem 9) and SwitchML-style integer In-Network Aggregation on CIFAR-10, ImageNet (ResNet-50, AlexNet), and Neural Collaborative Filtering.
+  evidence:
+  - source_id: r415-primary-pdf
+    locator: Section 4 Distributed SGD (Algorithm 1, Theorem 9) & Section 5 Experiments (Figures 8-12)
+    relation: supports
+evidence_sources:
+- source_id: r415-primary-pdf
+  title: Natural Compression for Distributed Deep Learning
+  authors: &id001
+  - "Samuel Horv\xE1th"
+  - Chen-Yu Ho
+  - "\u013Dudov\xEDt Horv\xE1th"
+  - Atal Narayan Sahu
+  - Marco Canini
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1905.10988
+  persistent_id: https://doi.org/10.1007/s12532-022-00221-9
+  version: Mathematical Programming Computation, Vol. 14, pp. 623-669 (2022) (120357 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:18:00Z'
+  sha256: b8c10d345778cf31aeea66726434eeb90a14d3bba936393a33174ffe4826e8c8
+- source_id: r415-arxiv-abs
+  title: Natural Compression for Distributed Deep Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.10988
+  persistent_id: https://arxiv.org/abs/1905.10988
+  version: arXiv abstract page (7866 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:18:00Z'
+  sha256: b7b5715f728ee73a3b904bd1b967111f405e3253bbc4aea5c423abd58cecb9c3
+- source_id: r415-metadata-cr
+  title: Natural Compression for Distributed Deep Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1007/s12532-022-00221-9
+  persistent_id: https://doi.org/10.1007/s12532-022-00221-9
+  version: Crossref API work record (394 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:18:00Z'
+  sha256: 54d6beff9ff013cdf7ce7a338ec5b179b053b81460d438f56d9d1a966fab8670
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Natural Compression and Natural Dithering provide unbiased communication-compression operators for distributed and federated gradient aggregation.
+limitations:
+- Natural dithering has a non-vanishing asymptotic relative variance floor omega = 1/8 as s -> infinity.
+- Stochastic mantissa rounding incurs a 10-15% random-number generation overhead compared to deterministic power-of-two rounding.
+curation:
+  created_at: '2026-10-19T08:18:00Z'
+  updated_at: '2026-10-19T08:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

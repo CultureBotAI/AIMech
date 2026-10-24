@@ -1,0 +1,104 @@
+id: AIMech:OrthogonalScoreAndWeightedDoubleSelectionPostSelectionInferenceInHighDimensionalQuantileRegression
+name: Orthogonal Score and Weighted Double-Selection Post-Selection Inference in High-Dimensional Quantile Regression
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A post-selection inference methodology (introduced by Alexandre Belloni, Victor Chernozhukov, and Kengo Kato in 2019) for a target treatment or regression coefficient $\\alpha_\\tau$ in high-dimensional approximately sparse conditional quantile regression models $y_i = d_i\\alpha_\\tau + x_i'\\beta_\\tau + \\epsilon_i$ with $\\mathrm{P}(\\epsilon_i \\le 0 \\mid d_i, z_i) = \\tau$ and $p \\gg n$ control basis functions $x_i = X(z_i)$ without beta-min separation assumptions. To immunize inference against model-selection mistakes in the nuisance vector $\\beta_\\tau$, the method constructs the Neyman-orthogonal quantile score $\\psi_i(\\alpha, \\beta, v_i) = (\\tau - \\mathbb{I}\\{y_i \\le d_i\\alpha + x_i'\\beta\\})v_i$ using the conditional-density-weighted residual instrument $v_i = f_\\tau(0 \\mid z_i, d_i)(d_i - x_i'\\theta_\\tau)$, where $f_\\tau(0 \\mid z_i, d_i)$ is the conditional error density at zero and $\\theta_\\tau = \\arg\\min_\\theta \\mathrm{E}[f_\\tau^2(0 \\mid z_i, d_i)(d_i - x_i'\\theta)^2]$ solves the density-weighted projection of $d_i$ onto $x_i$ so that $\\partial_\\beta \\mathrm{E}[\\psi_i(\\alpha_\\tau, \\beta_\\tau, v_i)] = 0$ and $\\partial_{\\theta}\\mathrm{E}[\\psi_i(\\alpha_\\tau, \\beta_\\tau, v_i)] = 0$ (Section 2.1, Equations 2.6\u20132.9). Given the outcome $\\ell_1$-penalized quantile regression support $\\widehat{S}_y$ (Equation 2.11), conditional density estimates $\\widehat{f}_i$ via difference quotients of local quantile regressions (Equations 2.15\u20132.16), and the heteroscedastic Lasso auxiliary support $\\widehat{S}_d = \\operatorname{supp}(\\widehat{\\theta}_\\tau)$ of $\\widehat{f}_i d_i$ on $\\widehat{f}_i x_i$ (Equation 2.12), the *Orthogonal Score Estimator* $\\widehat{\\alpha}_\\tau$ (Algorithm 2.1, p. 8) refits $\\widetilde{\\beta}_\\tau$ on $\\widecheck{T} \\supseteq \\widehat{S}_y \\cup \\widehat{S}_d$ and minimizes the self-normalized criterion $L_n(\\alpha) = |\\mathrm{E}_n[\\widehat{\\psi}_i(\\alpha)]|^2 / \\mathrm{E}_n[\\widehat{\\psi}_i^2(\\alpha)]$, while the *Weighted Double-Selection Quantile Estimator* $\\widecheck{\\alpha}_\\tau$ (Algorithm 2.2, p. 9) solves the $\\widehat{f}_i$-weighted quantile regression $(\\widecheck{\\alpha}_\\tau, \\widecheck{\\beta}_\\tau) \\in \\arg\\min_{(\\alpha, \\beta): \\operatorname{supp}(\\beta) \\subseteq \\widecheck{T}} \\mathrm{E}_n[\\widehat{f}_i\\rho_\\tau(y_i - d_i\\alpha - x_i'\\beta)]$, with both estimators sharing the first-order Bahadur representation $\\sigma_n^{-1}\\sqrt{n}(\\widehat{\\alpha}_\\tau - \\alpha_\\tau) = \\sigma_n^{-1}\\sqrt{n}(\\widecheck{\\alpha}_\\tau - \\alpha_\\tau) + o_P(1) \\xrightarrow{d} N(0, 1)$ uniformly over approximately sparse models (Theorem 1, p. 14)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 669 maintained AIMech concepts. Distinct from `AIMech:L1PenalizedAndPostPenalizedQuantileRegressionProcessInHighDimensionalSparseModels` (Belloni & Chernozhukov 2011, which establishes estimation rates for single-equation $\ell_1$-QR and Post-$\ell_1$-QR processes under restricted nonlinearity but does not construct Neyman-orthogonal scores, density-weighted auxiliary Lasso projections $\widehat{f}_i d_i$ on $\widehat{f}_i x_i$, or valid post-selection confidence intervals without beta-min conditions), distinct from `AIMech:PostDoubleSelectionInferenceForHighDimensionalTreatmentEffects` (Belloni, Chernozhukov, & Hansen 2014, which performs unweighted least-squares double selection for conditional mean models whereas unweighted double selection in heteroscedastic quantile regression violates Neyman orthogonality $\mathrm{E}[f_\tau(0 \mid z_i, d_i)(d_i - x_i'\vartheta)x_i] \ne 0$ when $f_\tau$ varies across observations), and distinct from `AIMech:SmoothlyClippedAbsoluteDeviationAndOracleHighDimensionalQuantileRegression` (Wu & Liu 2009 / Wang, Wu, & Li 2012, which rely on folded-concave penalties and beta-min signal separation).
+aliases:
+- Orthogonal Score Quantile Regression Estimator
+- Weighted Double-Selection Quantile Regression
+- Belloni-Chernozhukov-Kato Post-Selection Quantile Inference
+- Debiased Post-Selection Quantile Regression
+definition_evidence:
+- source_id: bck2019-psqr-pdf
+  locator: Section 1, pp. 1-5, Equations (1.1)-(1.5); Section 2, pp. 5-13, Equations (2.6)-(2.18), Algorithms 2.1-2.2, Comments 2.1-2.5; Section 3, pp. 13-16, Conditions R.1-R.6, Theorem 1, Corollaries 1-2
+  relation: supports
+- source_id: bck2019-psqr-abs
+  locator: arXiv:1312.7186 abstract
+  relation: supports
+- source_id: bck2019-psqr-crossref
+  locator: DOI:10.1080/01621459.2018.1442339 bibliographic record
+  relation: supports
+claims:
+- claim_id: density-weighted-instrument-neyman-orthogonality-and-semiparametric-efficiency
+  kind: mechanism
+  statement: "For the quantile score $\\psi_i(\\alpha, \\beta, v_i) = (\\tau - \\mathbb{I}\\{y_i \\le d_i\\alpha + x_i'\\beta + r_{i\\tau}\\})v_i$, the Gateaux derivative with respect to the nuisance vector $\\beta$ at $(\\alpha_\\tau, \\beta_\\tau)$ is $-\\mathrm{E}[f_\\tau(0 \\mid z_i, d_i)v_i x_i]$. Setting $v_i = w_{i\\tau}(d_i - x_i'\\theta_\\tau)$ with minimax weight $w_{i\\tau} = f_\\tau(0 \\mid z_i, d_i)$ and $\\theta_\\tau = \\arg\\min_\\theta \\mathrm{E}[f_\\tau^2(0 \\mid z_i, d_i)(d_i - x_i'\\theta)^2]$ (Section 2.1, pp. 6\u20137, Equations 2.7\u20132.9) satisfies the exact orthogonality condition $\\mathrm{E}[f_\\tau(0 \\mid z_i, d_i)v_i x_i] = \\mathrm{E}[f_\\tau^2(0 \\mid z_i, d_i)(d_i - x_i'\\theta_\\tau)x_i] = 0$ and minimizes the asymptotic variance $\\sigma_\\tau^2 = \\tau(1-\\tau)\\mathrm{E}[v_i^2] / (\\mathrm{E}[f_\\tau(0 \\mid z_i, d_i)d_i v_i])^2 = \\tau(1-\\tau) / \\mathrm{E}[v_i^2]$ (Equation 2.6, Comment 2.2), whereas an unweighted residual $d_i - x_i'\\vartheta$ fails orthogonality under heteroscedasticity unless multiplied by $f_\\tau^{-1}(0 \\mid z_i, d_i)$ at the cost of strictly larger asymptotic variance."
+  evidence:
+  - source_id: bck2019-psqr-pdf
+    locator: Section 2.1, pp. 5-7, Equations (2.6)-(2.9); Section 2.2, pp. 9-10, Comment 2.2, Equation (2.14)
+    relation: supports
+- claim_id: first-order-equivalence-of-orthogonal-score-and-weighted-double-selection-under-approximate-sparsity
+  kind: mechanism
+  statement: "Under Conditions R.1\u2013R.6 (allowing $s^2\\log^3(p \\vee n) = o(n)$ and density estimation error $\\bar{\\mathcal{E}}_f^2\\sqrt{s\\log(p \\vee n)} + s\\bar{\\mathcal{E}}_f\\sqrt{\\log(p \\vee n)} = o(1)$, Section 3.1, pp. 13\u201314), Theorem 1 (Section 3.2, p. 14, Equation 3.22) proves that the Orthogonal Score Estimator $\\widehat{\\alpha}_\\tau$ (Algorithm 2.1) and the Weighted Double-Selection Quantile Estimator $\\widecheck{\\alpha}_\\tau$ (Algorithm 2.2, which refits $\\widehat{f}_i$-weighted quantile regression on $\\widecheck{T} = \\widehat{S}_y \\cup \\widehat{S}_d$ without forming the score criterion $L_n(\\alpha)$) satisfy the identical first-order Bahadur expansion $\\sigma_n^{-1}\\sqrt{n}(\\widehat{\\alpha}_\\tau - \\alpha_\\tau) = \\frac{\\sigma_n^{-1}}{\\mathrm{E}[v_i^2]}\\frac{1}{\\sqrt{n}}\\sum_{i=1}^n \\psi_i(\\alpha_\\tau, \\beta_\\tau, v_i) + o_P(1) \\xrightarrow{d} N(0, 1)$ and $\\sigma_n^{-1}\\sqrt{n}(\\widecheck{\\alpha}_\\tau - \\alpha_\\tau) = \\frac{\\sigma_n^{-1}}{\\mathrm{E}[v_i^2]}\\frac{1}{\\sqrt{n}}\\sum_{i=1}^n \\psi_i(\\alpha_\\tau, \\beta_\\tau, v_i) + o_P(1) \\xrightarrow{d} N(0, 1)$, so $\\sqrt{n}(\\widehat{\\alpha}_\\tau - \\widecheck{\\alpha}_\\tau) = o_P(1)$."
+  evidence:
+  - source_id: bck2019-psqr-pdf
+    locator: Section 2.2, pp. 7-9, Algorithms 2.1-2.2; Section 3.1-3.2, pp. 13-16, Conditions R.1-R.6, Theorem 1, Corollaries 1-2, Equations (3.22)-(3.23); Appendix A, pp. 21-27
+    relation: supports
+- claim_id: pivotal-self-normalized-penalties-and-higher-order-quantile-quotient-density-estimation
+  kind: scope
+  statement: "Comment 2.1 (Section 2.2, p. 9, Equations 2.11\u20132.12) specifies pivotal penalty levels $\\lambda_\\tau = 1.1\\sqrt{n\\tau(1-\\tau)}\\,\\Phi^{-1}(1 - \\gamma / (2p))$ with standardized loadings $\\widehat{\\gamma}_{\\tau,j} = \\sqrt{\\mathrm{E}_n[x_{ij}^2]}$ for outcome $\\ell_1$-QR and $\\lambda = 1.1\\sqrt{n}\\,2\\Phi^{-1}(1 - \\gamma / (2p))$ with self-normalized heteroscedastic loadings $\\widehat{\\Gamma}_{\\tau,j} = \\sqrt{\\mathrm{E}_n[\\widehat{f}_i^2 x_{ij}^2(\\widehat{f}_i d_i - \\widehat{f}_i x_i'\\widehat{\\theta}_\\tau)^2]}$ for the auxiliary treatment projection. To satisfy the density rate condition R.6 when $s$ grows with $n$, Section 2.2 (pp. 10\u201311, Equations 2.15\u20132.16) estimates $f_i = 1 / Q^{(1)}(\\tau \\mid z_i, d_i)$ from finite-difference quotients of neighboring conditional quantile fits $\\widehat{Q}(\\tau \\pm h \\mid z_i, d_i)$, reducing bias from $O(h^2)$ for the second-order central difference $2h / \\{\\widehat{Q}(\\tau + h) - \\widehat{Q}(\\tau - h)\\}$ (Equation 2.15) to $O(h^4)$ via fourth-order Richardson extrapolation $h / \\left[\\frac{2}{3}\\{\\widehat{Q}(\\tau + h) - \\widehat{Q}(\\tau - h)\\} - \\frac{1}{12}\\{\\widehat{Q}(\\tau + 2h) - \\widehat{Q}(\\tau - 2h)\\}\\right]$ with bandwidth $h = O(s^{1/2}(\\log p)^{1/2}n^{-1/2} \\wedge s^{1/10}(\\log p)^{1/10}n^{-1/10})$."
+  evidence:
+  - source_id: bck2019-psqr-pdf
+    locator: Section 2.2, pp. 9-11, Comments 2.1-2.3, Equations (2.11)-(2.16); Supplementary Appendix Section 2, pp. 34-43, Lemma 8
+    relation: supports
+evidence_sources:
+- source_id: bck2019-psqr-pdf
+  title: Valid Post-Selection Inference in High-Dimensional Approximately Sparse Quantile Regression Models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  - Kengo Kato
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1312.7186.pdf
+  persistent_id: https://doi.org/10.1080/01621459.2018.1442339
+  version: arXiv:1312.7186v4 full-text PDF with Supplementary Appendix (88 pages, 694047 bytes); published in Journal of the American Statistical Association 114(526):749-768 (2019).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:02:00Z'
+  sha256: fa2ac0bfa128d9f74a544a66184432d24a088cd2377e938588bb45997f1f3f70
+- source_id: bck2019-psqr-abs
+  title: Valid Post-Selection Inference in High-Dimensional Approximately Sparse Quantile Regression Models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  - Kengo Kato
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1312.7186
+  persistent_id: https://arxiv.org/abs/1312.7186
+  version: arXiv:1312.7186 abstract page (6397 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:02:00Z'
+  sha256: 7b5cb69fbb95dacc449e38301368e3271ee86142bdd53f027eb9c880293e9f0b
+- source_id: bck2019-psqr-crossref
+  title: Valid Post-Selection Inference in High-Dimensional Approximately Sparse Quantile Regression Models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  - Kengo Kato
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1080/01621459.2018.1442339
+  persistent_id: https://doi.org/10.1080/01621459.2018.1442339
+  version: Crossref API metadata (2957 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:02:00Z'
+  sha256: 992f3d6113910d136b12907fd0243562f3c7760a974265d19102c0337a97fb7f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Uses L1-penalized quantile regression and heteroscedastic Lasso projections for double selection of outcome and treatment nuisance supports.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Performs valid post-selection inference for linear conditional quantile regression models.
+limitations:
+- Uniform asymptotic normality requires the sparsity and density-estimation rate conditions s^2 log^3(p v n) = o(n) and E_bar_f^2 sqrt(s log(p v n)) + s E_bar_f sqrt(log(p v n)) = o(1) (Condition R.6, p. 14), which are stronger than the s log p = o(n) rate needed for point estimation alone.
+- Unlike conditional mean regression, the orthogonal score psi_i is non-smooth in alpha, so the Orthogonal Score Estimator requires grid search or smooth approximation to minimize L_n(alpha), while the Weighted Double-Selection Estimator requires positive estimated conditional densities f_hat_i > 0.
+- 'Primary-source typographical audit of Belloni, Chernozhukov, & Kato (2019, arXiv:1312.7186v4) uncovered four mathematical and typographical issues that are corrected in this record: (1) Section 2.2 Eq. (2.16) (p. 11) writes the fourth-order conditional density estimator denominator as ''(3/4){Q_hat(tau + h | z_i, d_i) - Q_hat(tau - h | z_i, d_i)} - (1/12){Q_hat(tau + 2h | z_i, d_i) - Q_hat(tau - 2h | z_i, d_i)}''; by Taylor expansion, (3/4)*(2h Q''(tau)) - (1/12)*(4h Q''(tau)) = (7/6) h Q''(tau) != h Q''(tau) (yielding an inconsistent limit (6/7) f_tau) and (3/4)*(1/3 h^3 Q''''''(tau)) - (1/12)*(8/3 h^3 Q''''''(tau)) = (1/36) h^3 Q''''''(tau) != 0, whereas the exact 4th-order Richardson coefficient on {Q_hat(tau + h) - Q_hat(tau - h)} is 2/3 since (2/3)*2h - (1/12)*4h = h and (2/3)*(1/3)h^3 - (1/12)*(8/3)h^3 = 0; (2) Section 1 p. 5 line 11 spells ''heteroscedsaticity''; (3) Supplementary Appendix Section 1.2 p. 4 (PDF p. 31) spells ''large sample sieve estimatin''; and (4) Supplementary Appendix Section 2.2 p. 11 (PDF p. 38) writes ''To estimate theta_{theta tau} and v_i'' with a duplicated subscript ''theta'' instead of ''theta_tau''.'
+curation:
+  created_at: '2026-10-19T05:02:00Z'
+  updated_at: '2026-10-19T05:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

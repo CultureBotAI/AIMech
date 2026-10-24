@@ -1,0 +1,115 @@
+id: AIMech:SLoRA
+name: S-LoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A scalable multi-adapter inference serving algorithm and memory management architecture that decouples batched base-model computation from on-the-fly low-rank adapter evaluation, jointly manages dynamic KV caches and heterogeneous-rank LoRA weights in a single H-page Unified Paging memory pool, executes padding-free non-contiguous gather matrix multiplications (MBGMM and MBGMV), and aligns multi-GPU adapter tensor parallelism with base-model all-reduce collectives.
+identity_notes: "Distinct from AIMech:LowRankAdaptation (LoRA), which merges a single adapter W' = W + A B into the base weights and incurs prohibitive weight duplication or serial swapping latency when serving many concurrent adapters, and from AIMech:PagedAttention, which pages only KV cache tensors for a single static weight set. S-LoRA (Ying Sheng, Shiyi Cao, Dacheng Li, Coleman Hooper, Nicholas Lee, Shuo Yang, Christopher Chou, Banghua Zhu, Lianmin Zheng, Kurt Keutzer, Joseph E. Gonzalez, and Ion Stoica, MLSys 2024, arXiv:2311.03285) stores thousands of LoRA adapters in host RAM and dynamically prefetches active adapters into GPU memory. Because a per-layer KV cache tensor has shape (S, H) and a LoRA weight matrix has shape (R, H) sharing the hidden dimension H, S-LoRA allocates both from a unified memory pool partitioned into pages of H elements (where sequence length S uses S pages and rank R uses R pages). Custom Triton/CUDA kernels\u2014Multi-size Batched Gather Matrix-Matrix Multiplication (MBGMM) for prefill and Multi-size Batched Gather Matrix-Vector Multiplication (MBGMV) for decode\u2014compute x A B directly over non-contiguous pages across heterogeneous ranks R without padding, while S-LoRA Tensor Parallelism restricts added multi-GPU communication to 5(N-1)Br/N elements."
+aliases:
+- Scalable LoRA Serving with Unified Paging
+- S-LoRA Concurrent Multi-Adapter Serving
+definition_evidence:
+- source_id: r670-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r670-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r670-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: slora-unified-paging-interleaved-kv-and-adapter-pool
+  kind: mechanism
+  statement: Exploiting the shared hidden dimension H between KV cache tensors of shape (S, H) and LoRA weight matrices of shape (R, H), S-LoRA's Unified Paging statically allocates a single GPU memory pool of H-element pages in which a KV cache of sequence length S occupies S pages and a LoRA weight tensor of rank R occupies R interleaved non-contiguous pages, eliminating external fragmentation during dynamic adapter loading.
+  evidence:
+  - source_id: r670-primary-pdf
+    locator: Section 5.1 (Unified Paging) & Figure 3, pp. 4-5
+    relation: supports
+- claim_id: slora-mbgmm-and-mbgmv-non-contiguous-heterogeneous-kernels
+  kind: mechanism
+  statement: Rather than merging adapters into W or padding heterogeneous ranks to use dense batched GEMM, S-LoRA batches the shared base projection x W across all requests and executes x A B on the fly using Multi-size Batched Gather Matrix-Matrix Multiplication (MBGMM) during prefill and Multi-size Batched Gather Matrix-Vector Multiplication (MBGMV) during decode directly over non-contiguous page indices.
+  evidence:
+  - source_id: r670-primary-pdf
+    locator: Section 4.1 (Batching) & Section 5.3 (Custom Kernels for heterogeneous LoRA batching on Non-Contiguous Memory), pp. 3-5, Equations (1)-(2) & Figure 1
+    relation: supports
+- claim_id: slora-tensor-parallelism-communication-fusion
+  kind: mechanism
+  statement: Across N GPUs under Megatron-LM tensor parallelism, S-LoRA partitions A_1, B_1 column-wise (with an all-gather on the r-dimensional intermediate vector) and A_2 row-wise, B_2 column-wise (with an all-reduce on the r-dimensional vector and fusion into the base model's final all-reduce), incurring only 5(N-1)Br/N additional communication versus 2(N-1)Bh/N for the base model.
+  evidence:
+  - source_id: r670-primary-pdf
+    locator: Section 6.1 (Partition Strategy) & Section 6.2 (Communication and Memory Cost Analysis), p. 6, Figure 4
+    relation: supports
+- claim_id: slora-application-serving-thousands-of-concurrent-adapters
+  kind: application
+  statement: Evaluated on LLaMA-7B/13B/30B/70B across synthetic power-law workloads and real LMSYS Chatbot Arena traces, S-LoRA serves up to 2,000 concurrent LoRA adapters on a single A100 (80GB) GPU, improving throughput by up to 4x over vLLM-packed and up to 30x over HuggingFace PEFT.
+  evidence:
+  - source_id: r670-primary-pdf
+    locator: Section 7 (Evaluation), Table 3 & Figures 5-8, pp. 6-9
+    relation: supports
+- claim_id: slora-limitation-on-the-fly-overhead-for-single-adapter-and-pcie-bandwidth
+  kind: limitation
+  statement: When serving only one or two static adapters, S-LoRA's separated on-the-fly x A B computation has slightly lower throughput than merging W' = W + A B once into the base model, and under highly uniform request distributions with rapid adapter churn across batches, PCIe host-to-GPU prefetching bandwidth can still bottleneck adapter loading.
+  evidence:
+  - source_id: r670-primary-pdf
+    locator: Section 5.2 (Prefetching and Overlapping) & Section 7.5 (Ablation Study, Figure 9), pp. 5, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r670-primary-pdf
+  title: 'S-LoRA: Serving Thousands of Concurrent LoRA Adapters'
+  authors: &id001
+  - Ying Sheng
+  - Shiyi Cao
+  - Dacheng Li
+  - Coleman Hooper
+  - Nicholas Lee
+  - Shuo Yang
+  - Christopher Chou
+  - Banghua Zhu
+  - Lianmin Zheng
+  - Kurt Keutzer
+  - Joseph E. Gonzalez
+  - Ion Stoica
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2311.03285
+  persistent_id: https://dblp.org/search/publ/api?q=S-LoRA+Serving+Thousands+Concurrent+LoRA+Adapters&format=xml
+  version: Proceedings of the 5th MLSys Conference (MLSys 2024) (2024) (737811 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:33:00Z'
+  sha256: c8d93e5a2525d3139d4994740a0057a8f447a568c5a31613976c9fd254867db7
+- source_id: r670-arxiv-abs
+  title: 'S-LoRA: Serving Thousands of Concurrent LoRA Adapters (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2311.03285
+  persistent_id: https://arxiv.org/abs/2311.03285
+  version: arXiv abstract page (7637 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:33:00Z'
+  sha256: 464ec25dcbdc3e6efd568c1b0d21acd0ffe21738aac99bb1665a325b20963de0
+- source_id: r670-metadata-cr
+  title: 'S-LoRA: Serving Thousands of Concurrent LoRA Adapters (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=S-LoRA+Serving+Thousands+Concurrent+LoRA+Adapters&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=S-LoRA+Serving+Thousands+Concurrent+LoRA+Adapters&format=xml
+  version: Crossref API work record (880 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:33:00Z'
+  sha256: 60bae89b510ba4b92ef297c23b769f59f82a7cd7c80ab7b2d3097e694fd25527
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: S-LoRA serves thousands of concurrent low-rank adapted transformer neural networks via unified memory paging and heterogeneous gather-matmul kernels.
+limitations:
+- When serving only 1 or 2 static adapters, computing x A B on the fly incurs minor kernel launch and arithmetic overhead compared to merging W + A B directly into the base weights.
+- If incoming requests switch across hundreds of distinct high-rank adapters faster than the lookahead queue prediction window, host-to-GPU PCIe transfer latency may not be fully hidden by computation.
+curation:
+  created_at: '2026-10-19T12:33:00Z'
+  updated_at: '2026-10-19T12:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

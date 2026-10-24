@@ -1,0 +1,105 @@
+id: AIMech:FedGmaGradientMaskedAveragingForFederatedLearning
+name: Gradient Masked Averaging for Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A server-side federated aggregation algorithm (FedGMA / GMA; Tenison, Sreeramadas, Mugunthan, Oyallon, Rish, and Belilovsky, TMLR 2023) that replaces sign-agnostic parameter averaging with an elementwise soft agreement mask over client multi-step pseudo-gradient updates. At communication round t, after each participating client n in C performs K local gradient steps from w_{t-1} to produce sample-weighted update Delta_t^n = (s_n / sum_{k in C} s_k)(w_t^n - w_{t-1}) and aggregate update Delta_t = sum_{n in C} Delta_t^n, the server computes for each coordinate j the directional agreement score A_j = |(1 / |C|) sum_{n in C} sign(Delta_{t,j}^n)| in [0, 1] and applies the soft mask [m_tilde_tau]_j = 1 if A_j >= tau else A_j (with threshold tau in [0, 1]) to update w_t = w_{t-1} + eta_g (m_tilde_tau odot Delta_t).
+identity_notes: Distinct from centralized sample-level hard binary AND-Mask (Parascandolo et al., 2020) and SAND-Mask (Shahtalebi et al., 2021), which mask single-step sample or environment gradients with hard zeroing or tanh-based magnitude scaling in centralized training; FedGMA operates at the federated server aggregation stage across client multi-step pseudo-gradients Delta_t^n and uses a piecewise-linear soft agreement mask [m_tilde_tau]_j = 1 if A_j >= tau else A_j compatible with non-adaptive (FedAvg, FedProx) and adaptive (FedAdam, FedYogi) server optimizers. Distinct from FedAvg (AIMech:FederatedAveraging), which corresponds to the unmasked degenerate limit tau = 0 where m_tilde_0 = 1.
+aliases:
+- FedGMA
+- Gradient Masked Averaging
+- Gradient Masked FedAvg
+- GMA Federated Aggregation
+definition_evidence:
+- source_id: r500-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r500-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r500-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedgma-soft-sign-agreement-mask-mechanism
+  kind: mechanism
+  statement: At each server communication round t, FedGMA computes the coordinate-wise sign agreement score A_j = |(1 / |C|) sum_{n in C} sign(Delta_{t,j}^n)| across participating client updates Delta_t^n and constructs the soft mask [m_tilde_tau]_j = 1 when A_j >= tau and [m_tilde_tau]_j = A_j when A_j < tau, updating the global parameters via w_t = w_{t-1} + eta_g (m_tilde_tau odot Delta_t) (or applying m_tilde_tau odot Delta_t to the adaptive server step z_t / (sqrt(v_t) + eps) in FedAdam and FedYogi) so that coordinates with cross-client directional consensus take full steps while spurious client-specific directions are attenuated.
+  evidence:
+  - source_id: r500-primary-pdf
+    locator: Section 3.2, Eq. (3) and Algorithm 1, pp. 4-5; Appendix B Algorithm 2, p. 16
+    relation: supports
+- claim_id: fedgma-nonconvex-convergence-and-subgaussian-mask-stability
+  kind: scope
+  statement: Under L-smoothness (Assumption 4.1), bounded gradients (Assumption 4.2), bounded local and global gradient variances sigma_{l,j}^2 and sigma_{g,j}^2 (Assumptions 4.3-4.4), and random mask coordinates with inf_{j<=d} E[m_t^j] >= alpha > 0 (Assumption 4.5), Proposition 4.8 proves that for eta_g = O(1) and eta_l < 0.001 alpha / (K L), Gradient Masked FedAvg achieves (1/T) sum_{t=0}^{T-1} ||nabla f(w_t)||^2 <= O(1 / sqrt(alpha^2 T) + 1 / (alpha^2 T)); furthermore, Proposition A.1 shows that for independent sigma-sub-Gaussian coordinate updates delta^n with (1/N) card({n | E[delta^n] > 0}) > tau, the soft mask equals 1 with probability at least 1 - O(exp(-(inf_{mu^n > 0} mu^n)^2 / sigma^2)).
+  evidence:
+  - source_id: r500-primary-pdf
+    locator: Section 4 Method Analysis, Assumptions 4.1-4.5, Lemmas 4.6-4.7, Proposition 4.8, pp. 5-7; Appendix G Proposition A.1, p. 22
+    relation: supports
+- claim_id: fedgma-threshold-degeneracy-and-low-participation-limitation
+  kind: limitation
+  statement: When the agreement threshold tau is set to 0, [m_tilde_tau]_j = 1 for all coordinates so FedGMA degenerates to naive FedAvg and underfits invariant features, whereas large tau near 1 attenuates almost all coordinates and impedes fitting; moreover, when only 2 clients participate per round (Appendix D.3 Table 5), any sign disagreement yields A_j = 0 so most parameters do not update in that round, reducing participating-client accuracy (-3.3%) despite improving non-participating client accuracy (+5.8%), and Proposition 4.8's theoretical analysis relies on an independent Bernoulli mask simplification rather than the deterministic sign mask.
+  evidence:
+  - source_id: r500-primary-pdf
+    locator: Section 4 discussion, p. 8; Appendix D.3 Table 5, p. 17; Appendix D.1 Effect of Tau, p. 18
+    relation: supports
+- claim_id: fedgma-heterogeneous-and-ood-federated-classification-application
+  kind: application
+  statement: Applied as a drop-in server aggregation rule for FedAvg, FedProx, FedAdam, and FedYogi on label-skewed, quantity-skewed, real-world user-partitioned (FEMNIST), and spurious color-correlated out-of-distribution (FedCMNIST) image classification benchmarks (MNIST, FMNIST, CIFAR-10, CIFAR-100, TinyImageNet).
+  evidence:
+  - source_id: r500-primary-pdf
+    locator: Section 5 Experiments, Tables 1-4, pp. 8-12
+    relation: supports
+evidence_sources:
+- source_id: r500-primary-pdf
+  title: Gradient Masked Averaging for Federated Learning
+  authors: &id001
+  - Irene Tenison
+  - Sai Aravind Sreeramadas
+  - Vaikkunth Mugunthan
+  - Edouard Oyallon
+  - Irina Rish
+  - Eugene Belilovsky
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2201.11986.pdf
+  persistent_id: https://dblp.org/rec/journals/tmlr/TenisonSMORB23
+  version: Transactions on Machine Learning Research (TMLR 10/2023) (2023) (3382319 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:43:00Z'
+  sha256: 93a137ff244f24b46ba1fabd906ce7f580d33ba278df60c4306f7b940b46c173
+- source_id: r500-arxiv-abs
+  title: Gradient Masked Averaging for Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2201.11986
+  persistent_id: https://arxiv.org/abs/2201.11986
+  version: arXiv abstract page (7332 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:43:00Z'
+  sha256: b24ec278505003d05766fffe754e4e97af47162be6dcb85562b25a1fd299da48
+- source_id: r500-metadata-cr
+  title: Gradient Masked Averaging for Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/tmlr/TenisonSMORB23
+  persistent_id: https://dblp.org/rec/journals/tmlr/TenisonSMORB23
+  version: Crossref API work record (2005 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:43:00Z'
+  sha256: 5ee0a4ac1591a4225e1230a11141ebf945f56569307a9da22fa401ce45e991e8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedGMA is a specific sign-agreement soft gradient-masked server aggregation algorithm within federated learning.
+limitations:
+- Setting the agreement threshold tau = 0 reduces the soft mask to the all-ones vector and degenerates to naive parameter averaging, whereas setting tau close to 1 over-attenuates updates and degrades accuracy (Appendix D.1, p. 18).
+- In extreme partial participation with only 2 sampled clients per round, any opposite-sign coordinate has agreement score A_j = 0 and does not update, lowering participating-client accuracy (-3.3% on FMNIST, Appendix D.3 Table 5, p. 17).
+- The non-convex convergence rate in Proposition 4.8 relies on a simplified independent Bernoulli mask assumption (Assumption 4.5) rather than the deterministic sign-agreement mask of Eq. 3 (Section 4, p. 8).
+curation:
+  created_at: '2026-10-19T09:43:00Z'
+  updated_at: '2026-10-19T09:43:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

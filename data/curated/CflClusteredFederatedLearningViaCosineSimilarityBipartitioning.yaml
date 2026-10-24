@@ -1,0 +1,103 @@
+id: AIMech:CflClusteredFederatedLearningViaCosineSimilarityBipartitioning
+name: CFL (Clustered Federated Learning via Cosine Similarity Bipartitioning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A recursive model-agnostic clustered federated learning algorithm (Sattler, M\xFCller, & Samek 2021, Algorithm 1 & Algorithm 2) that detects client data incongruence whenever a cluster model theta^* approaches a stationary point of its aggregate empirical risk (0 <= ||sum_{i in c} (|D_i|/|D_c|) Delta theta_i|| < varepsilon_1) while individual client update norms remain large (max_{i in c} ||Delta theta_i|| > varepsilon_2 > 0, Eqs. 32-33), computes the pairwise cosine similarity matrix alpha_{i,j} = <Delta theta_i, Delta theta_j> / (||Delta theta_i|| ||Delta theta_j||) (Eq. 13), and recursively bipartitions the cluster into c_1 cup c_2 = c by minimizing the maximum cross-cluster similarity argmin_{c_1 cup c_2 = c} max_{i in c_1, j in c_2} alpha_{i,j} in O(|c|^3) time whenever the separation bound gamma_max < sqrt((1 - alpha_cross^max) / 2) (Eq. 39) holds."
+identity_notes: Distinct from IFCA (AIMech:IfcaIterativeFederatedClusteringAlgorithm, Ghosh et al. 2020), which requires specifying a fixed number of clusters k upfront and broadcasts all k cluster models to every client in each round for minimum-loss cluster assignment, whereas CFL requires no prior knowledge of k, communicates only a single cluster model per client per round, and recursively splits clusters top-down at stationary points via gradient cosine-similarity minimax bipartitioning.
+aliases:
+- CFL
+- Clustered Federated Learning via Cosine Similarity Bipartitioning
+- Recursive Cosine-Similarity Bipartitioning for Clustered Federated Learning
+definition_evidence:
+- source_id: r414-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r414-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r414-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r414-cosine-similarity-separation-theorem-for-incongruent-distributions
+  kind: mechanism
+  statement: Theorem 1 (Separation Theorem) and Corollary 1 prove that for m clients drawn from k incongruent data-generating distributions at a stationary point theta^* of the global objective with relative empirical gradient noise gamma_i = ||nabla R_{I(i)}(theta^*) - nabla r_i(theta^*)|| / ||nabla R_{I(i)}(theta^*)|| < 1, the minimum intra-cluster cosine similarity satisfies alpha_intra^min >= 1 - 2 gamma_max^2 while the minimax bipartition achieves cross-cluster similarity alpha_cross^max <= cos(pi / (k - 1)) H_{i^*,j^*} + sqrt(1 - cos^2(pi / (k - 1))) sqrt(1 - H_{i^*,j^*}^2) (where H_{i,j} = sqrt(1 - gamma_i^2) sqrt(1 - gamma_j^2) - gamma_i gamma_j), guaranteeing exact separation whenever the separation gap g(alpha) = alpha_intra^min - alpha_cross^max > 0.
+  evidence:
+  - source_id: r414-primary-pdf
+    locator: Section IV-A Separation Theorem (Theorem 1, Corollary 1, Definition 2, Eqs. 17-31) & Appendix A (Lemmas 2-4, Proof of Theorem 5)
+    relation: supports
+- claim_id: r414-stationary-point-incongruence-criterion-and-orthogonal-encryption-invariance
+  kind: mechanism
+  statement: Splitting only when ||sum_{i in c} (|D_i|/|D_c|) Delta theta_i|| < varepsilon_1 and max_{i in c} ||Delta theta_i|| > varepsilon_2 prevents premature splitting on congruent clients while recursively building a parameter tree enabling instant warm-start re-clustering under distribution shifts; furthermore, because inner products and Euclidean norms are invariant under orthonormal transformations (<P x, P y> = <x, y>, ||P x|| = ||x||), CFL operates identically on client weight updates encrypted with a shared random permutation or orthogonal matrix P (Section V-B).
+  evidence:
+  - source_id: r414-primary-pdf
+    locator: Section IV-B-C (Eqs. 32-44, Algorithm 2, Figure 2) & Section V Privacy Preservation (Eqs. 45-46)
+    relation: supports
+- claim_id: r414-stationary-point-wait-and-threshold-hyperparameter-limitation
+  kind: limitation
+  statement: CFL must wait for the current cluster model to approach a stationary point (||Delta theta_c|| < varepsilon_1) before triggering each bipartition step, and requires tuning the stationarity threshold varepsilon_1 and client incongruence threshold varepsilon_2.
+  evidence:
+  - source_id: r414-primary-pdf
+    locator: Section IV-B (Eqs. 32-39, Table I)
+    relation: supports
+- claim_id: r414-label-swap-and-rotated-mnist-cifar10-and-agnews-clustering-application
+  kind: application
+  statement: Applied to multi-task federated learning under label-swapped and rotated MNIST, CIFAR-10, and AG-News benchmarks with CNN and LSTM architectures, recovering the ground-truth client clusters and outperforming single-model FL.
+  evidence:
+  - source_id: r414-primary-pdf
+    locator: Section VI Experiments (Figures 3-8, Tables II-III)
+    relation: supports
+evidence_sources:
+- source_id: r414-primary-pdf
+  title: 'Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints'
+  authors: &id001
+  - Felix Sattler
+  - "Klaus-Robert M\xFCller"
+  - Wojciech Samek
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1910.01991
+  persistent_id: https://doi.org/10.1109/TNNLS.2020.3015958
+  version: IEEE Transactions on Neural Networks and Learning Systems, Vol. 32, No. 8, pp. 3710-3722 (2021) (64460 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:17:00Z'
+  sha256: 9645442ff9099ebf346484be38b5083dd3fb86535b6f5fccf58f888e4528b7fd
+- source_id: r414-arxiv-abs
+  title: 'Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.01991
+  persistent_id: https://arxiv.org/abs/1910.01991
+  version: arXiv abstract page (7048 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:17:00Z'
+  sha256: 654f764040a494bffe2a416ce62b07cf3b66ed78b260549282898b6e847b80d8
+- source_id: r414-metadata-cr
+  title: 'Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TNNLS.2020.3015958
+  persistent_id: https://doi.org/10.1109/TNNLS.2020.3015958
+  version: Crossref API work record (400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:17:00Z'
+  sha256: 71e54573e3b8c534de021d1ebd4558020838679df21c0692f4f1ed6a26748334
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: CFL is a clustered multi-task optimization algorithm within Federated Learning.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: CFL uses agglomerative minimax-linkage bipartitioning over pairwise client gradient cosine similarities to construct a hierarchical cluster tree.
+limitations:
+- Requires waiting for the cluster model to reach approximate stationarity before each bipartition step.
+- Requires setting stationarity and incongruence norm thresholds (varepsilon_1, varepsilon_2).
+curation:
+  created_at: '2026-10-19T08:17:00Z'
+  updated_at: '2026-10-19T08:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,101 @@
+id: AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning
+name: FedDF (Ensemble Distillation for Robust Model Fusion in Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A server-side ensemble distillation framework for federated model fusion (FedDF, Algorithm 1 for homogeneous models and Algorithm 3 for heterogeneous model prototypes) in which, at each communication round t, the server initializes each student prototype from the coordinate-wise parameter average x_{t,0}^l = (1/|S_t^l|) sum_{k in S_t^l} x_hat_t^k of participating clients in architecture group l, and then executes N_distill steps of knowledge distillation on unlabeled or synthetically generated server mini-batches d by minimizing the Kullback-Leibler divergence KL(sigma((1/|S_t|) sum_{k in S_t} f(x_hat_t^k, d)), sigma(f(x_{t,j}^l, d))) between the softmax of the ensemble-averaged client logits and the student model logits.
+identity_notes: Distinct from coordinate-wise parameter-averaging schemes such as FedAvg, FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization), FedNova (AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization), and FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam), which cannot fuse heterogeneous neural network architectures and suffer functional collapse when averaging heavily drifted non-linear client weights, and from FedMA (AIMech:FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching, which performs layer-wise Hungarian permutation alignment in weight space without unlabeled server-side logit distillation).
+aliases:
+- FedDF
+- Federated Distillation Fusion
+- Ensemble Distillation for Robust Model Fusion in Federated Learning
+definition_evidence:
+- source_id: r407-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r407-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r407-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r407-logit-ensemble-kl-distillation-and-heterogeneous-architecture-fusion
+  kind: mechanism
+  statement: In homogeneous FedDF (Algorithm 1), initializing the server student from the uniform parameter average x_{t,0} = (1/|S_t|) sum_{k in S_t} x_hat_t^k and refining it via gradient descent on KL(sigma((1/|S_t|) sum_{k in S_t} f(x_hat_t^k, d)), sigma(f(x_t, d))) tolerates large numbers of local training epochs and learning rates where FedAvg diverges, while heterogeneous FedDF (Algorithm 3) fuses knowledge across p distinct model architectures M^1,...,M^p by distilling the full cross-architecture logit average into each prototype architecture.
+  evidence:
+  - source_id: r407-primary-pdf
+    locator: Section 3.1-3.2 (Algorithm 1), Section 4.1-4.2 (Figures 3-6, Tables 1-2), and Appendix A (Algorithm 3), pp. 3-8, 16
+    relation: supports
+- claim_id: r407-multi-source-domain-adaptation-ensemble-generalization-bound
+  kind: mechanism
+  statement: Viewing each client k as a local source domain D_k and the distillation distribution as D, Theorem 5.1 (and Theorem D.1) bounds the expected risk of the uniform client ensemble by L_D((1/K) sum_k h_{D_hat_k}) <= L_{D_hat}(h_{D_hat}) + (1/K) sum_k ((1/2) d_{H Delta H}(D_k, D) + lambda_k) + O(sqrt(log(K * tau_H(2m) / delta) / m)), establishing that the ensemble risk is at most the centralized pooled risk plus average H-Delta-H domain discrepancy.
+  evidence:
+  - source_id: r407-primary-pdf
+    locator: Section 5 Understanding Ensemble Distillation (Theorem 5.1, Figure 7) & Appendix D (Theorem D.1), pp. 8-9, 24-25
+    relation: supports
+- claim_id: r407-unlabeled-proxy-data-or-generator-and-server-compute-limitation
+  kind: limitation
+  statement: FedDF requires access at the server to an unlabeled proxy dataset (out-of-domain or synthetic data from a pretrained generator) and incurs additional server-side forward passes across |S_t| teacher models and N_distill student optimization steps in each communication round.
+  evidence:
+  - source_id: r407-primary-pdf
+    locator: Section 3.2 Discussion & Section 4.1 Ablation Study of Public Data (Figure 5), pp. 4-7
+    relation: supports
+- claim_id: r407-cifar-imagenet-agnews-sst2-and-heterogeneous-resnet-vgg-shufflenet-application
+  kind: application
+  statement: Evaluated on homogeneous and heterogeneous federated learning across CIFAR-10, CIFAR-100, ImageNet, AG News, and SST2 (fusing ResNet-8, VGG-9, MobileNetV2, and ShuffleNetV2 prototypes, and fine-tuning DistilBERT), outperforming FedAvg, FedProx, FedAvgM, and FedMA under severe Dirichlet non-IID partitions (alpha = 0.01 to 1.0).
+  evidence:
+  - source_id: r407-primary-pdf
+    locator: Section 4 Empirical Results (Tables 1-3, Figures 3-6), pp. 5-8
+    relation: supports
+evidence_sources:
+- source_id: r407-primary-pdf
+  title: Ensemble Distillation for Robust Model Fusion in Federated Learning
+  authors: &id001
+  - Tao Lin
+  - Lingjing Kong
+  - Sebastian U. Stich
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/18df51b97ccd68128e994804f3eccc87-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/18df51b97ccd68128e994804f3eccc87-Abstract.html
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 2351-2363 (2020) (86229 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:10:00Z'
+  sha256: 1fb3f82ed65c55db6ba6153060765c06275d5d9a09cb4e2b89b6bcaec7eb4585
+- source_id: r407-arxiv-abs
+  title: Ensemble Distillation for Robust Model Fusion in Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.07242
+  persistent_id: https://arxiv.org/abs/2006.07242
+  version: arXiv abstract page (7107 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:10:00Z'
+  sha256: 3eb89e50673e7cb3f348c920ca3a960b36bbb37aa0f33345bd59fd7b4186b868
+- source_id: r407-metadata-cr
+  title: Ensemble Distillation for Robust Model Fusion in Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/18df51b97ccd68128e994804f3eccc87-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/18df51b97ccd68128e994804f3eccc87-Abstract.html
+  version: Crossref API work record (429 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:10:00Z'
+  sha256: a2405b3537feebdfe54a3eeba5578c43e32320e34f5c460909bafd562ab605de
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedDF is a FederatedLearning model-fusion algorithm that aggregates client models via server-side ensemble logit distillation.
+limitations:
+- Requires an unlabeled proxy dataset or synthetic data generator at the server to evaluate client and student logits.
+- Incurs additional server-side compute to run forward passes over participating client models during distillation.
+curation:
+  created_at: '2026-10-19T08:10:00Z'
+  updated_at: '2026-10-19T08:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

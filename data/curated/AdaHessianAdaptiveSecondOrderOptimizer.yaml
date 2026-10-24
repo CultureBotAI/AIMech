@@ -1,0 +1,103 @@
+id: AIMech:AdaHessianAdaptiveSecondOrderOptimizer
+name: AdaHessian (Adaptive Second-Order Optimizer)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive second-order stochastic optimization algorithm with O(d) memory complexity that approximates the Hessian diagonal at step t via Hutchinson's method D_t = z odot (H_t z) using a Rademacher vector z in {-1, +1}^d and a Hessian-free matrix-vector product H_t z = d(g_t^T z)/dtheta (Eqs. 8-9), smooths spatial variance via block-diagonal averaging of block size b, D_t^{(s)}[i b + j] = (1/b) sum_{r=1}^b D_t[i b + r] (Eq. 10), tracks a bias-corrected root-mean-square exponential moving average D_bar_t = sqrt(((1 - beta_2) / (1 - beta_2^t)) sum_{i=1}^t beta_2^{t-i} D_i^{(s)} odot D_i^{(s)}) (Eq. 11), and preconditions the bias-corrected gradient EMA m_t by v_t = (D_bar_t)^k for Hessian power 0 <= k <= 1 via theta_{t+1} = theta_t - eta_t m_t / v_t (Eq. 12, Algorithm 1).
+identity_notes: Distinct from Adam, AdamW, and RMSProp in that AdaHessian replaces the elementwise squared gradient g_i odot g_i in the second-moment accumulator with the squared spatially averaged Hutchinson Hessian diagonal D_i^{(s)} odot D_i^{(s)} raised to power k in [0, 1]. Distinct from Sophia in that AdaHessian performs block-diagonal spatial averaging across convolutional/attention blocks of size b, accumulates an RMS (L2) moving average of the Hessian diagonal rather than a linear EMA of max(h_t, 0), and applies unclipped power preconditioning m_t / (D_bar_t)^k.
+aliases:
+- AdaHessian
+- AdaHessian Optimizer
+- Adaptive Hessian Diagonal Optimizer
+definition_evidence:
+- source_id: r592-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r592-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r592-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r592-hutchinson-diagonal-and-spatial-block-averaging
+  kind: mechanism
+  statement: AdaHessian computes an unbiased Hessian diagonal estimate D = diag(H) = E[z odot (H z)] using a Rademacher vector z in {-1, +1}^d and a single Hessian-vector backpropagation H z = d(g^T z)/dtheta (Eqs. 8-9), and applies block-diagonal spatial averaging D^{(s)}[i b + j] = (1/b) sum_{r=1}^b D[i b + r] over blocks of size b (e.g., 3x3 convolutional kernels or attention rows, Eq. 10), preserving the strong-convexity spectral bounds alpha <= D_i^{(s)} <= beta and convergence rate (Eqs. 13-19) while reducing single-sample Hutchinson variance without extra computational cost.
+  evidence:
+  - source_id: r592-primary-pdf
+    locator: Equations (8)-(10) & Figures 4-5, pp. 6-8; Appendix Descending Properties, Eqs. (13)-(19), p. 15
+    relation: supports
+- claim_id: c-r592-rms-hessian-momentum-and-power-preconditioning
+  kind: mechanism
+  statement: By maintaining a bias-corrected root-mean-square exponential moving average D_bar_t of the spatially averaged Hessian diagonal (Eq. 11) and preconditioning the gradient momentum m_t by v_t = (D_bar_t)^k (0 <= k <= 1, Eq. 12), AdaHessian smooths out misleading local curvature spikes on rugged non-convex loss surfaces (Figure 3) and exhibits high robustness to learning-rate scaling up to 10x on Transformer machine translation where AdamW diverges (Table 6).
+  evidence:
+  - source_id: r592-primary-pdf
+    locator: Figure 3 & Equations (11)-(12), pp. 6-7; Table 6, p. 11
+    relation: supports
+- claim_id: c-r592-cv-nlp-recsys-empirical-gains
+  kind: application
+  statement: Using the same learning-rate schedule, warmup, weight decay, and (beta_1, beta_2) as first-order baselines, AdaHessian achieves +5.55% higher top-1 accuracy than Adam (+2.67% over AdamW) on ImageNet ResNet18, +0.13/+0.33 BLEU over AdamW on IWSLT14/WMT14, 2.7/1.0 lower perplexity on PTB/WikiText-103, +0.41 GLUE points on SqueezeBERT, and +0.032% test accuracy over AdaGrad on Criteo DLRM.
+  evidence:
+  - source_id: r592-primary-pdf
+    locator: Abstract, p. 1; Tables 2-5 & Figure 6, pp. 8-10
+    relation: supports
+- claim_id: c-r592-second-backprop-overhead-limitation
+  kind: limitation
+  statement: Computing the Hessian-vector product H z via automatic differentiation requires a second backpropagation pass (2x theoretical FLOPs and 2.27x-2.91x measured per-iteration wall-clock time relative to Adam when run at every step), and PyTorch lacks native second-order backpropagation support for sparse embedding gradients.
+  evidence:
+  - source_id: r592-primary-pdf
+    locator: Recommendation System section, p. 10; AdaHessian Overhead & Table 8, pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r592-primary-pdf
+  title: 'ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning'
+  authors: &id001
+  - Zhewei Yao
+  - Amir Gholami
+  - Sheng Shen
+  - Mustafa Mustafa
+  - Kurt Keutzer
+  - Michael W. Mahoney
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2006.00719.pdf
+  persistent_id: https://dblp.org/rec/conf/aaai/YaoGSMKM21
+  version: Proceedings of the AAAI Conference on Artificial Intelligence, 35(12):10665-10673 (2021) (1818831 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:15:00Z'
+  sha256: bb7e2f599903e0714059e710378dc891baed238722922a15f2d2689ed7626b3b
+- source_id: r592-arxiv-abs
+  title: 'ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.00719
+  persistent_id: https://arxiv.org/abs/2006.00719
+  version: arXiv abstract page (8066 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:15:00Z'
+  sha256: 083f631bd405a9462cad922cc70251ee09259cfb82d0f6b410591ac10fd78d60
+- source_id: r592-metadata-cr
+  title: 'ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/aaai/YaoGSMKM21
+  persistent_id: https://dblp.org/rec/conf/aaai/YaoGSMKM21
+  version: Crossref API work record (2057 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:15:00Z'
+  sha256: 8977f0306e660b044ab5e6221b325084aeae30a45c463aefa368841b03a4c8bf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdaHessian is an adaptive diagonal-Hessian second-order optimizer for training artificial neural networks.
+limitations:
+- Requires 2x theoretical FLOPs (and 2.27x-2.91x measured runtime vs Adam when computed every step) due to the second backpropagation pass needed for Hutchinson's Hessian-vector product, unless delayed Hessian updates are used.
+- Approximates the Hessian as a diagonal operator and therefore does not capture off-diagonal curvature rotations across distinct parameter coordinates.
+curation:
+  created_at: '2026-10-19T11:15:00Z'
+  updated_at: '2026-10-19T11:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallel Greedy Submodular Maximization in Logarithmic Adaptivity and Nearly-Linear Time via Poly-Logarithmic Batch Filtering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Parallel Greedy Submodular Maximization in Logarithmic Adaptivity and Nearly-Linear Time via Poly-Logarithmic Batch Filtering</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Parallel Greedy Submodular Maximization in Logarithmic Adaptivity and Nearly-Linear Time via Poly-Logarithmic Batch Filtering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Ene-Nguyen Nearly-Linear-Time Low-Adaptivity Submodular Maximization, Poly-Logarithmic Batch Filtering for Adaptive Submodular Maximization, Nearly-Optimal Adaptivity and Query Complexity Submodular Greedy Algorithm
+    </div>
+
+  <div class="detail-desc">
+    Parallel Greedy Submodular Maximization in Logarithmic Adaptivity and Nearly-Linear Time is a randomized parallel value-oracle algorithm introduced by Ene and Nguyen (2018, 2019) for maximizing a monotone non-negative submodular function f : 2^V -&gt; R_{&gt;=0} subject to a cardinality constraint |S| &lt;= k. Operating over O(1/epsilon) outer phases (each increasing f(S) by at least epsilon*M/100) and O(ln n / epsilon) inner iterations per phase with block size ell = epsilon^2 * k / (100 ln n), the algorithm samples only m = O((ln n)^2 / epsilon^4) random subsets R_1, ..., R_m ~ U(U_t, ell): if max_j f(R_j | S) &gt;= (1 - 10*epsilon)*(ell/k)*(M - Old), it adds R_max to S; otherwise it draws Theta(ln n / epsilon) batches of m random subsets, selects a batch i satisfying avg_i &lt;= (1 - 8*epsilon)*(ell/k)*(M - Old) and sum_{e in U_t} v_{i,e} &lt;= |U_t|*(1 - 8*epsilon)*(M - Old)/k, and filters out U_t^- = {e in U_t : v_{i,e} &lt; (1 - 7*epsilon)*(M - Old)/k}, achieving a (1 - 1/e - O(epsilon)) approximation in O(ln n / epsilon^2) adaptive rounds and O(n poly(log n, 1/epsilon)) total oracle queries.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization (Round 360), which requires a polynomial number O(n * (k + log n)^2) of random set samples per adaptive round to concentrate every individual element&#39;s marginal gain to within O(OPT/k); Ene and Nguyen (2019) instead sample only poly-logarithmically many random sets m = O((ln n)^2 / epsilon^4) and bound the aggregate loss of OPT deterministically against the empirical batch average avg_i (Claim 9), reducing total oracle queries and running time to nearly-linear O(n poly(log n, 1/epsilon)). Also distinct from AIMech:RandGreeDiRandomizedDistributedSubmodularMaximization (Round 361), which is a two-round MapReduce partitioning algorithm with Omega(k) sequential adaptivity per machine.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r362-claim-expected-block-density-and-polylog-batch-filtering</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any monotone submodular function f, current solution S, unfiltered pool U_t, and block size ell &lt;= |U_t|, submodularity and random-permutation coupling imply E_{R~U(U_t, ell)}[f(e | S union (R\{e})) | e in R] &gt;= E_{R~U(U_t, ell)}[f(e | S union (R\{e})) | e notin R], which establishes the deterministic expectation inequality E_{R~U(U_t, ell)}[f(R | S)] &gt;= (ell / |U_t|) * sum_{e in U_t} E[f(e | S union R)] (Claim 6); consequently, if E[f(R | S)] &gt;= (1 - 9*epsilon)*(ell/k)*(M - Old), sampling m = Theta((ln n)^2 / epsilon^4) sets finds R_max with f(R_max | S) &gt;= (1 - 10*epsilon)*(ell/k)*(M - Old) with probability at least 1 - 1/n^2 (Lemma 4), whereas if E[f(R | S)] &lt;= (1 - 9*epsilon)*(ell/k)*(M - Old), then with probability at least 1 - 1/n^3 at least one of Theta(ln n / epsilon) batches satisfies the empirical density conditions and filters out at least an epsilon-fraction |U_t^-| &gt;= epsilon*|U_t| of elements (Lemma 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r362-primary-pdf">Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Algorithm 1, p. 5; Section 2.1, Lemma 4, Lemma 5, and Claim 6, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r362-claim-deterministic-aggregate-opt-survival-invariant</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without requiring per-element marginal gain estimates v_{i,e} to concentrate individually, conditioning on successful batch selection guarantees by deterministic submodularity and monotonicity that in every filtering step t, f(OPT intersect U_{t+1} | S) &gt;= f(OPT intersect U_t | S) - (ell/k)*(M - Old) - |OPT intersect U_t^-|*(1 - 7*epsilon)*(M - Old)/k, maintaining the phase invariant f((OPT intersect U_t) union S) &gt;= M - ((t - 1)*ell/k)*(M - Old) - (|OPT \ (U_t union S)| / k)*(1 - 7*epsilon)*(M - Old) (Claim 9); combined with at most 6*ln(n)/epsilon gain iterations per phase (Claim 8), this invariant forces f((OPT intersect U_t) union S) - f(S) &gt; 0 and bounds the number of filtering iterations per phase by at most 2*ln(n)/epsilon (Claim 10, Lemma 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r362-primary-pdf">Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Lemma 7, Claim 8, Claim 9, and Claim 10, pp. 9-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r362-claim-nearly-optimal-adaptivity-and-nearly-linear-query-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across O(1/epsilon) outer phases and 2*epsilon^{-1}*ln(n) parallel geometric guesses for M in [f(OPT)/(1 + epsilon), f(OPT)], every gain step satisfies M - f(S union R_max) &lt;= (M - f(S))*exp(-(1 - 11*epsilon)*|R_max|/k), inductively ensuring M - f(S) &lt;= M*exp(-(1 - 11*epsilon)*|S|/k) and feasibility |S| &lt;= k (Lemma 12), achieving a (1 - 1/e - epsilon) approximation with high probability in O(ln(n)/epsilon^2) adaptive rounds and O(n*poly(log n, 1/epsilon)) total function evaluations and additional running time (Theorem 2, Lemma 11).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r362-primary-pdf">Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Theorem 2, p. 2; Section 2, p. 4; Section 2.1, Lemmas 11 and 12, pp. 11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Restricted to monotone non-negative submodular functions under a cardinality constraint |S| &lt;= k, and the poly(log n, 1/epsilon) query overhead per element involves O((ln n)^3 / epsilon^5) samples per filtering step across 2*epsilon^{-1}*ln(n) parallel guesses for M (Section 2, pp. 4-5).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Enables nearly-linear-time, logarithmic-adaptivity parallel exemplar clustering and experimental design.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selects cardinality-constrained representative subsets in O(ln n / epsilon^2) adaptive rounds with nearly-linear query complexity.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r362-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r362-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1804.05379.pdf" target="_blank" rel="noopener">Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alina Ene, Huy L. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1137/1.9781611975482.18</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f5bd35bad545…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r362-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r362-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1804.05379" target="_blank" rel="noopener">Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alina Ene, Huy L. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1804.05379</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0be4afd6f9d3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r362-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r362-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1137/1.9781611975482.18" target="_blank" rel="noopener">Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alina Ene, Huy L. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1137/1.9781611975482.18</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c6b5174e31cd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Parallel Greedy Submodular Maximization in Logarithmic Adaptivity and Nearly-Linear Time via Poly-Logarithmic Batch Filtering" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Parallel Greedy...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:Clustering (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:25:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:25:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Parallel%20Greedy%20Submodular%20Maximization%20in%20Logarithmic%20Adaptivity%20and%20Nearly-Linear%20Time%20via%20Poly-Logarithmic%20Batch%20Filtering"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

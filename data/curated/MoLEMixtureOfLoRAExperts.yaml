@@ -1,0 +1,99 @@
+id: AIMech:MoLEMixtureOfLoRAExperts
+name: MoLE (Mixture of LoRA Experts)
+concept_kind: architecture
+review_status: DRAFT
+definition: A hierarchical modular composition architecture for pre-trained Low-Rank Adaptation (LoRA) modules that treats each layer of N frozen trained LoRAs as a distinct expert, concatenates and normalizes their layer outputs E_{Delta theta_i}(x) in R^{L x d} into E_Omega(x) in R^{N L d}, projects them via a learnable gating embedding e in R^{(N L d) x N} and temperature-scaled softmax G(eps_i) = exp(eps_i / tau) / sum_j exp(eps_j / tau) to weight each LoRA expert's output, and regularizes gating entropy across M blocks via the balancing loss L_balance = -log(prod_{i=0}^{N-1} q^(i)).
+identity_notes: Distinct from LoraHub (AIMech:LoraHub, which optimizes static scalar weights per LoRA module via gradient-free black-box optimization), from LoRA-Flow (AIMech:LoRAFlow, which computes token-level gates directly from the pre-LoRA hidden state x^l_t without concatenating LoRA expert outputs or optimizing a log-product gating balancing loss), and from LoRAMoE (AIMech:LoRAMoE, which trains LoRA experts from scratch inside FFN blocks with a localized balancing constraint to prevent world knowledge forgetting during SFT rather than composing separately pre-trained frozen LoRAs). Formulated by Wu, Huang, and Wei (ICLR 2024, arXiv:2404.13628).
+aliases:
+- Mixture of LoRA Experts
+- MoLE Hierarchical LoRA Composition
+- Layer-Wise Gated Mixture of Pre-Trained LoRA Experts
+definition_evidence:
+- source_id: r686-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r686-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r686-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: mole-output-conditioned-hierarchical-layer-gating
+  kind: mechanism
+  statement: For a set of N frozen trained LoRAs Omega = {Delta theta_i}_{i=0}^{N-1} at a given block or layer, MoLE computes each LoRA's output E_{Delta theta_i}(x) in R^{L x d}, concatenates and normalizes them into E_Omega(x) = Normalization(E_{Delta theta_0}(x) oplus ... oplus E_{Delta theta_{N-1}}(x)) in R^{xi} (xi = N L d), computes logits eps = Flatten(E_Omega(x))^T e in R^N, and combines expert outputs via O(x) = F_theta(x) + sum_{i=0}^{N-1} [exp(eps_i / tau) / sum_j exp(eps_j / tau)] E_{Delta theta_i}(x).
+  evidence:
+  - source_id: r686-primary-pdf
+    locator: Section 3.2 Mixture of LoRA Experts, Eq. 7-13, p. 5-6
+    relation: supports
+- claim_id: mole-gating-balancing-loss-and-proportional-masking
+  kind: mechanism
+  statement: To prevent gating entropy collapse toward a single early-stage dominant LoRA expert during training, MoLE adds the gating balancing loss L_balance = -log(prod_{i=0}^{N-1} q^(i)) where q^(i) = (1/M) sum_{k=1}^M exp(eps_i^k / tau) / sum_{j=1}^N exp(eps_j^k / tau) across M gated blocks, and at inference time supports manual masking of undesired LoRAs with proportional redistribution of the remaining gating weights without retraining.
+  evidence:
+  - source_id: r686-primary-pdf
+    locator: Section 1 Figure 1, Section 3.3 Eq. 14-16 & Section 5 Table 7 and Figure 8, p. 1, 6, 8-9, 12, 14
+    relation: supports
+- claim_id: mole-multimodal-and-nlp-composition-application
+  kind: application
+  statement: MoLE is applied to multi-subject text-to-image diffusion composition with DreamBooth on Stable Diffusion V2.1 and to multi-task NLP composition on FLAN-T5 across WMT translation, Struct-to-Text, Closed-Book QA, Big-Bench Hard (BBH), and NLI, outperforming normalized linear arithmetic, SVDiff, PEMs, and LoraHub.
+  evidence:
+  - source_id: r686-primary-pdf
+    locator: Section 4.1-4.2, Tables 1-3 & Section 5 Tables 6-10, p. 6-9, 12-13
+    relation: supports
+- claim_id: mole-very-large-expert-array-and-matrix-granularity-limitation
+  kind: limitation
+  statement: When the number of composed LoRAs scales to very large arrays (such as 128 LoRAs on BBH), composition performance degrades relative to moderate expert counts (e.g., 48 LoRAs), and applying gating at overly fine parameter-matrix granularity (m-MoLE) underperforms block-wise (b-MoLE) and layer-wise (l-MoLE) gating due to excessive control interfering with intra-layer parameter relationships.
+  evidence:
+  - source_id: r686-primary-pdf
+    locator: Section 5 Coarse-to-fine gating analysis, Section 6 Limitations & Tables 6 and 9, p. 8-9, 12-13
+    relation: supports
+evidence_sources:
+- source_id: r686-primary-pdf
+  title: Mixture of LoRA Experts
+  authors: &id001
+  - Xun Wu
+  - Shaohan Huang
+  - Furu Wei
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2404.13628.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=2404.13628&format=xml
+  version: International Conference on Learning Representations (ICLR 2024) (2024) (7915789 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:49:00Z'
+  sha256: 415b8d661e5e8dba53a4794d9360777591a561e982fc6ba678b83cd61b061b01
+- source_id: r686-arxiv-abs
+  title: Mixture of LoRA Experts (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2404.13628
+  persistent_id: https://arxiv.org/abs/2404.13628
+  version: arXiv abstract page (6302 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:49:00Z'
+  sha256: d2cb6e24cd1a789780766b21c8682af1083a12f76fca18406f14a956c25191ee
+- source_id: r686-metadata-cr
+  title: Mixture of LoRA Experts (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=2404.13628&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=2404.13628&format=xml
+  version: Crossref API work record (636 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:49:00Z'
+  sha256: 16ddc5ec05b1e36007daaf32a49ceb670891b586519954f5251bab89020be529
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: MoLE is a hierarchical mixture-of-experts neural network composition architecture over pre-trained low-rank adapter layers.
+limitations:
+- Composition accuracy declines when scaling to very large arrays of 128 simultaneous LoRA experts, and parameter-matrix-level gating (m-MoLE) underperforms intermediate block-level (b-MoLE) and layer-level (l-MoLE) gating granularities.
+curation:
+  created_at: '2026-10-19T12:49:00Z'
+  updated_at: '2026-10-19T12:49:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

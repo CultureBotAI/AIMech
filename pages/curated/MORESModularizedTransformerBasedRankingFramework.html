@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MORES (Modularized Transformer-Based Ranking Framework) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/architecture.html">Architectures</a>
+    <span>/</span>
+    <strong>MORES (Modularized Transformer-Based Ranking Framework)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MORES (Modularized Transformer-Based Ranking Framework)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:MORESModularizedTransformerBasedRankingFramework</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MORES, MOdualarized REranking System, Modularized Transformer-Based Ranking Framework, EARL (Speedup Transformer-based Rankers with Pre-computed Representation)
+    </div>
+
+  <div class="detail-desc">
+    A modularized Transformer-based document reranking architecture (Gao, Dai, &amp; Callan, EMNLP 2020; initially introduced as EARL in arXiv:2004.13313v1) that decouples neural ranking into three separate Transformer modules—an offline Document Representation Module producing D in R^{d x n}, an online Query Representation Module producing Q in R^{q x n}, and an online Interaction Module composed of stacked Interaction Blocks (IB) that perform query-to-document cross-attention Q_x = LN(Attend(Q, D) + Q) followed by query self-attention Q_self = LN(Attend(Q_x, Q_x) + Q_x) while keeping document representations D unchanged—enabling up to 120x online ranking speedup via offline document representation reuse (Reuse-S1) and projected key-value document representation reuse (Reuse-S2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from concatenated cross-encoder BERT rankers (which apply quadratic O((d+q)^2) full self-attention across query and document in every layer), from late-interaction ColBERT (AIMech:ColBERTContextualizedLateInteractionOverBERT, which computes MaxSim dot products without learned Transformer Interaction Blocks), and from DC-BERT (AIMech:DCBERTDecouplingQuestionAndDocumentForEfficientContextualEncoding, which feeds concatenated upper-layer query and document tokens into full (d+q)^2 self-attention layers). MORES restricts online interaction in each Interaction Block strictly to query-to-document cross-attention O(q*d) plus query self-attention O(q^2), leaving D fixed so that per-IB key/value projections D_proj = {D W_k, D W_v} can be pre-computed offline under Reuse-S2.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mores-interaction-block-cross-and-query-self-attention</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given independent document representations D = H_M^{doc} in R^{d x n} and query representations Q = H_N^{qry} in R^{q x n}, each MORES Interaction Block (IB) computes query-to-document cross-attention Q_x = LN(Attend(Q, D) + Q), query-only self-attention Q_self = LN(Attend(Q_x, Q_x) + Q_x), and feed-forward residual refinement IB(Q, D) = LN(FFN(Q_self) + Q_self) (Equations 5-9) while keeping D unchanged across all K Interaction Blocks before scoring via score(qry, doc) = w^T CLS(H_K^{IB}) (Equation 10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r794-primary-pdf">Modularized Transfomer-based Ranking Framework</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 (The MORES Framework), p. 3, Figure 1, Equations (1)-(10)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r794-primary-pdf">Modularized Transfomer-based Ranking Framework</a></span>
+        <span>· <strong>Locator:</strong> interaction_block_reuse_s1 and interaction_block_reuse_s2 verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mores-reuse-s1-and-reuse-s2-offline-precomputation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MORES supports two mathematically equivalent offline pre-computation strategies: Document Representation Reuse (Reuse-S1), which stores D in R^{d x n} offline to eliminate the O(n d^2) document self-attention term at query time, and Projected Document Representation Reuse (Reuse-S2), which pre-computes and stores the key and value projections D_proj = {D W_k, D W_v} for each of the l Interaction Blocks (Equations 11-12) to further eliminate the O(n^2 d) online linear projection cost per candidate document (Table 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r794-primary-pdf">Modularized Transfomer-based Ranking Framework</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Pre-Compute and Reuse Representation), p. 4, Table 1, Equations (11)-(12)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r794-primary-pdf">Modularized Transfomer-based Ranking Framework</a></span>
+        <span>· <strong>Locator:</strong> Reuse-S1 vs Reuse-S2 exact output equivalence and complexity ratio verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#mores-ms-marco-noninferiority-and-120x-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Initialized via BERT-weight-assisted layer splitting (where the first 12 - l BERT layers initialize the Query Representation Module and the remaining l layers initialize the Interaction Blocks with copied self-attention weights), MORES with 2x IB achieves statistical non-inferiority within a 2% margin to a full BERT ranker on MS MARCO Dev (0.3456 vs. 0.3527 MRR@10) and TREC 2019 DL (0.7026 vs. 0.7032 NDCG@10) while delivering 124x GPU and CPU speedup on 512-token documents under Reuse-S2 (Table 2 &amp; Table 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r794-primary-pdf">Modularized Transfomer-based Ranking Framework</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 &amp; Section 4.2-4.3, pp. 4-7, Tables 2-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#mores-storage-footprint-and-deeper-ib-optimization-drop</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Reuse-S2, storing 2*l projected document matrices D W_k and D W_v increases uncompressed storage to 12.0 MB per 512-token document for 2x IB (vs. 1.5 MB under Reuse-S1), and increasing the Interaction Module beyond 2 blocks (3x IB or 4x IB) degrades ranking accuracy (from 0.3456 to 0.3307 MRR@10) due to optimization difficulty of cross-attention layers lacking native cross-attentive pre-training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r794-primary-pdf">Modularized Transfomer-based Ranking Framework</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Ranking Effectiveness) &amp; Section 4.3 (Table 4), pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Reuse-S2 requires storing 2*l projected document matrices per document (12 MB uncompressed per 512-token document for 2x IB), and stacking more than 2 Interaction Blocks degrades accuracy due to cross-attention optimization difficulty.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MORES is a modular three-Transformer neural network architecture for document reranking.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r794-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r794-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.13313.pdf" target="_blank" rel="noopener">Modularized Transfomer-based Ranking Framework</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.13313</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:028be97f0b86…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r794-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r794-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2004.13313" target="_blank" rel="noopener">Modularized Transfomer-based Ranking Framework (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2004.13313</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9e7c34f9410b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r794-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r794-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2004.13313" target="_blank" rel="noopener">Modularized Transfomer-based Ranking Framework (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luyu Gao, Zhuyun Dai, Jamie Callan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.13313</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:55ebf7bff870…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AMORESModularizedTransformerBasedRankingFramework">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for MORES (Modularized Transformer-Based Ranking Framework)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Architectures</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:MORESModularizedTransformerBasedRankingFramework</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">MORES (Modularized...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:37:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:37:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MORESModularizedTransformerBasedRankingFramework.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MORESModularizedTransformerBasedRankingFramework.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=MORES%20%28Modularized%20Transformer-Based%20Ranking%20Framework%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AMORESModularizedTransformerBasedRankingFramework"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

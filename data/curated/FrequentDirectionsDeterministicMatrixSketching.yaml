@@ -1,0 +1,96 @@
+id: AIMech:FrequentDirectionsDeterministicMatrixSketching
+name: Frequent Directions Deterministic Row-Update Matrix Sketching via Singular-Value Shrinkage
+concept_kind: algorithm
+review_status: DRAFT
+definition: Frequent Directions (FrequentDirections and Fast-FrequentDirections) is a deterministic row-update streaming matrix sketching algorithm introduced by Liberty (2013) and analyzed with tight relative-error and space-optimality bounds by Ghashami, Liberty, Phillips, and Woodruff (2015, 2016). Given an input matrix A in R^{n x d} streamed one row a_i at a time, the algorithm maintains a sketch B in R^{ell x d} (or R^{2*ell x d} in Fast-FrequentDirections) by inserting incoming rows into zero-valued rows of B, computing the SVD [U, Sigma, V] = svd(B) once B has no zero rows, setting delta_i = sigma_ell^2, and shrinking all squared singular values via B <- sqrt(max(Sigma^2 - delta_i I, 0)) * V^T so that at least the last row of B (or last ell + 1 rows in Fast-FrequentDirections) is zeroed out while reducing ||B||_F^2 at least ell times faster than any single unit direction.
+identity_notes: Distinct from AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching (Round 330, Liberty KDD 2013), which established only the flat-spectrum Frobenius covariance error bound ||A^T A - B^T B||_2 <= 2||A||_F^2/ell without rank-k tail residuals or relative-error projection bounds; this record captures Ghashami, Liberty, Phillips, and Woodruff's (2015, 2016) tail-residual relative-error covariance and rank-k projection analysis (||A^T A - B^T B||_2 <= ||A - A_k||_F^2/(ell - k), ||A - pi_B^k(A)||_F^2 <= (ell/(ell - k))||A - A_k||_F^2) and matching Grassmannian/Index space-optimality lower bounds. Also distinct from AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA (Round 356) and AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm (Round 357), which are randomized iterative subspace estimators rather than deterministic Misra-Gries-style singular-value shrinkage sketches.
+aliases:
+- Tail-Residual Frequent Directions Sketching
+- Fast-FrequentDirections
+- Space-Optimal FrequentDirections Rank-k Projection Sketch
+definition_evidence:
+- source_id: r363-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r363-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r363-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r363-claim-three-shrinkage-properties-and-covariance-projection-bounds
+  kind: mechanism
+  statement: 'Let Delta = sum_{i=1}^n delta_i be the total squared singular mass subtracted during FrequentDirections (Algorithms 2.1 and 3.1); the sketch B satisfies three invariants for every unit vector x in R^d: (Property 1) ||Ax||^2 - ||Bx||^2 >= 0 (A^T A >= B^T B), (Property 2) ||Ax||^2 - ||Bx||^2 <= Delta, and (Property 3) Delta*ell <= ||A||_F^2 - ||B||_F^2; bootstrapping Property 3 on the top-k singular vectors y_1, ..., y_k of A yields Delta*(ell - k) <= ||A - A_k||_F^2, proving that for all 0 <= k < ell, 0 <= ||A^T A - B^T B||_2 <= Delta <= ||A - A_k||_F^2 / (ell - k) (Theorem 1.1) and ||A - pi_B^k(A)||_F^2 <= (1 + k/(ell - k))*||A - A_k||_F^2 (Theorem 1.2).'
+  evidence:
+  - source_id: r363-primary-pdf
+    locator: Section 1.4, Theorems 1.1 and 1.2, p. 4; Section 2-2.1, Algorithm 2.1 and Properties 1, 2, and 3, pp. 5-7
+    relation: supports
+- claim_id: r363-claim-fast-amortized-runtime-and-mergeable-summaries
+  kind: mechanism
+  statement: Fast-FrequentDirections (Algorithm 3.1) doubles the sketch buffer to 2*ell x d and triggers SVD plus shrinkage by delta = sigma_ell^2 only once every ell + 1 row insertions (zeroing the last ell + 1 rows), reducing total running time from O(n*d*ell^2) to O((n/ell)*d*ell^2) = O(n*d*ell) with O(d*ell) amortized (and worst-case via active/maintenance double buffering) update time per row (Theorem 1.5, Section 3.2); moreover, sketches B_1, B_2 of A_1, A_2 are mergeable by running Algorithm 3.1 on B' = [B_1; B_2], preserving Properties 1-3 with Delta = Delta_1 + Delta_2 + delta (Section 3.1).
+  evidence:
+  - source_id: r363-primary-pdf
+    locator: Section 1.4, Theorem 1.5, p. 4; Section 3, Algorithm 3.1, pp. 7-8; Section 3.1-3.2, p. 8
+    relation: supports
+- claim_id: r363-claim-matching-space-lower-bounds-for-covariance-and-subspace-sketching
+  kind: mechanism
+  statement: Via packing on the Grassmannian manifold (Kapralov-Talwar / Absil-Edelman-Koev), any matrix sketch B satisfying ||A^T A - B^T B||_2 <= ||A - A_k||_F^2 / (ell - k) (or <= varepsilon*||A - A_k||_F^2 with ell = ceil(k + 1/varepsilon)) requires Omega(d*ell) = Omega(d*k + d/varepsilon) bits of space (Theorems 1.3 and 4.1); furthermore, a one-way communication reduction from the Index problem on B = [I, R; e_{i_1}, ..., e_{i_k}] using the singular value 2 + zeta (where zeta = (sqrt(5) - 1)/2 approx 0.618) of rank-2 pairs Z_ell = (e_{i_ell} + R_{i_ell}, e_{i_ell}) proves that any row-update streaming algorithm outputting a rank-k projection P with ||A - AP||_F^2 <= (1 + varepsilon)*||A - A_k||_F^2 with probability >= 2/3 requires Omega(k*d/varepsilon) bits of space (Theorems 1.4 and 4.2, Lemma 4.1), establishing that FrequentDirections with ell = ceil(k + k/varepsilon) is space-optimal up to logarithmic word-size factors.
+  evidence:
+  - source_id: r363-primary-pdf
+    locator: Section 1.4, Theorems 1.3 and 1.4, p. 4; Section 4-4.3, Theorem 4.1, Lemma 4.1, Theorem 4.2, Fact 4.3, Lemmas 4.2-4.3, and Corollaries 4.1-4.2, pp. 9-18
+    relation: supports
+evidence_sources:
+- source_id: r363-primary-pdf
+  title: 'Frequent Directions: Simple and Deterministic Matrix Sketching'
+  authors: &id001
+  - Mina Ghashami
+  - Edo Liberty
+  - Jeff M. Phillips
+  - David P. Woodruff
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1501.01711.pdf
+  persistent_id: https://api.crossref.org/works/10.1137/15m1009718
+  version: SIAM Journal on Computing 45(5):1762-1792 (arXiv:1501.01711) (2016) (968280 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:26:00Z'
+  sha256: 8c4a9578f1924787b8d9ea10f4537973423b8b67d7089c0101506bb69cf2d263
+- source_id: r363-arxiv-abs
+  title: 'Frequent Directions: Simple and Deterministic Matrix Sketching (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1501.01711
+  persistent_id: https://arxiv.org/abs/1501.01711
+  version: arXiv abstract page (6799 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:26:00Z'
+  sha256: a203efbfa173ca6e738285f5c9359cf8a3da142094a3fd7aeaa842f6349a0d38
+- source_id: r363-metadata-cr
+  title: 'Frequent Directions: Simple and Deterministic Matrix Sketching (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1137/15m1009718
+  persistent_id: https://api.crossref.org/works/10.1137/15m1009718
+  version: Crossref API work record (5085 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:26:00Z'
+  sha256: cefaa27b99c66b5f0217932ed220b939a5c82afa22d05b6f2f5e002306c9b119
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Computes deterministic streaming low-rank covariance and subspace approximations for Principal Component Analysis.
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: FrequentDirections is a deterministic streaming matrix sketching method for dimensionality reduction and low-rank approximation.
+limitations:
+- Requires O(n*d*ell) floating-point operations (dominated by periodic SVD computations on 2*ell x d matrices), which is slower in wall-clock runtime than O(nnz(A)) CountSketch/feature-hashing embeddings when input matrices are extremely sparse, and operates in the row-update streaming model rather than general entry-wise turnstile streams with arbitrary deletions (Section 5, p. 18; Section 6.3, p. 23).
+curation:
+  created_at: '2026-10-19T07:26:00Z'
+  updated_at: '2026-10-19T07:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

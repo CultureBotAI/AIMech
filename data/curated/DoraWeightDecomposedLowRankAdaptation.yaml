@@ -1,0 +1,105 @@
+id: AIMech:DoraWeightDecomposedLowRankAdaptation
+name: Weight-Decomposed Low-Rank Adaptation (DoRA)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Weight-Decomposed Low-Rank Adaptation (DoRA) is a parameter-efficient fine-tuning (PEFT) method that decomposes a pretrained weight matrix W_0 in R^{d x k} into a trainable 1 x k column-wise magnitude vector m = ||W_0||_c and a directional matrix V = W_0, and applies Low-Rank Adaptation (LoRA) exclusively to the directional component: W'' = m * (V + Delta V) / ||V + Delta V||_c = m * (W_0 + B A) / ||W_0 + B A||_c, where B in R^{d x r} and A in R^{r x k} with rank r << min(d, k) while W_0 remains frozen. By decoupling magnitude and direction updates, DoRA reproduces the negative-slope magnitude-direction update correlation characteristic of full fine-tuning (FT) while merging W'' back into a single d x k matrix prior to deployment with zero additional inference latency.'
+identity_notes: Distinct from standard Low-Rank Adaptation (LoRA, Hu et al., 2022), which updates W' = W_0 + B A directly without column-wise directional normalization ||W_0 + B A||_c or an independent magnitude vector m, causing LoRA to exhibit a positive coupling between magnitude and directional changes that struggles to make fine-grained directional adjustments without simultaneous large magnitude shifts. Also distinct from Weight Normalization (Salimans & Kingma, 2016), which trains full weight matrices V from random initialization rather than freezing W_0 and adapting V via a low-rank increment Delta V = B A.
+aliases:
+- DoRA
+- Weight-Decomposed Low-Rank Adaptation
+- DoRA PEFT
+- Magnitude-Direction Decomposed Low-Rank Adaptation
+definition_evidence:
+- source_id: r651-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r651-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r651-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r651-claim-magnitude-direction-decomposition
+  kind: mechanism
+  statement: DoRA initializes the trainable magnitude vector m = ||W_0||_c in R^{1 x k} and frozen directional base V = W_0 so that W' = m * (W_0 + B A) / ||W_0 + B A||_c exactly equals W_0 at initialization (when B = 0), and during fine-tuning updates only m (k parameters) and the low-rank factors B and A, adding just k / (d * k) = 1/d fractional parameter overhead over LoRA.
+  evidence:
+  - source_id: r651-primary-pdf
+    locator: Section 3.2, Equation (5) and Figure 2, p. 4-5
+    relation: supports
+- claim_id: r651-claim-gradient-stabilization-and-detached-norm
+  kind: mechanism
+  statement: Under DoRA's reparameterization V' = V + Delta V, the gradients with respect to magnitude m and directional increment Delta V are scaled by 1 / ||V'||_c, and detaching ||V + Delta V||_c from backpropagation (treating ||V'||_c as a constant C during the backward pass) leaves the magnitude gradient nabla_m L unchanged while eliminating computational graph overhead for the column norm.
+  evidence:
+  - source_id: r651-primary-pdf
+    locator: Section 3.3 (Gradient Analysis of DoRA), Equations (6)-(9) and Table 2, p. 5-6
+    relation: supports
+- claim_id: r651-claim-llm-vlm-finetuning-applications
+  kind: application
+  statement: DoRA consistently outperforms LoRA across commonsense reasoning fine-tuning on LLaMA-7B/13B, LLaMA2-7B, and LLaMA3-8B, visual instruction tuning on LLaVA-1.5-7B, and image/video-text understanding on VL-BART, and retains its accuracy advantage even at very low ranks (r = 4 to 8) while merging into W_0 with zero inference overhead.
+  evidence:
+  - source_id: r651-primary-pdf
+    locator: Section 4.1-4.3, Tables 3, 4, 5 & Figure 4, p. 6-9
+    relation: supports
+- claim_id: r651-claim-training-memory-and-norm-compute-limitation
+  kind: limitation
+  statement: Although detaching ||V + Delta V||_c substantially reduces backward-pass memory compared to full backpropagation through the column norm, DoRA still requires materializing or computing the column-wise norms ||W_0 + B A||_c during each forward pass of training, incurring a modest training-time memory and compute overhead relative to vanilla LoRA.
+  evidence:
+  - source_id: r651-primary-pdf
+    locator: Section 3.3, Table 2 (Training memory savings of detaching ||V + Delta V||_c), p. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r651-primary-pdf
+  title: 'DoRA: Weight-Decomposed Low-Rank Adaptation'
+  authors: &id001
+  - Shih-Yang Liu
+  - Chien-Yi Wang
+  - Hongxu Yin
+  - Pavlo Molchanov
+  - Yu-Chiang Frank Wang
+  - KT Cheng
+  - Min-Hung Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2402.09353.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/LiuWY0WCC24.html
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR 235:32100-32121 (2024) (7830644 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:14:00Z'
+  sha256: f048986e4d0b1c5b0a3f6c3c709ab245a5bcb993aa92704d6170304b413f08a4
+- source_id: r651-arxiv-abs
+  title: 'DoRA: Weight-Decomposed Low-Rank Adaptation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2402.09353
+  persistent_id: https://arxiv.org/abs/2402.09353
+  version: arXiv abstract page (6911 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:14:00Z'
+  sha256: 6e7d6de337ee2c510b24e6055113800db57eadcab398f76223e32eb05a5f3509
+- source_id: r651-metadata-cr
+  title: 'DoRA: Weight-Decomposed Low-Rank Adaptation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/LiuWY0WCC24.html
+  persistent_id: https://dblp.org/rec/conf/icml/LiuWY0WCC24.html
+  version: Crossref API work record (3455 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:14:00Z'
+  sha256: 851fa6217aa442145f819dd09cf20c981d36d22c02c533075445a437ea710962
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: DoRA is a parameter-efficient fine-tuning algorithm for adapting linear projection layers in pretrained deep neural networks and large language models.
+limitations:
+- Computing the column-wise Euclidean norm ||W_0 + B A||_c during every training step adds a modest forward-pass compute and activation-memory overhead compared to standard LoRA.
+- When combined with quantized base weights (e.g., QDoRA / 4-bit NF4), computing ||W_0 + B A||_c requires dequantizing W_0 or maintaining precomputed norm approximations.
+curation:
+  created_at: '2026-10-19T12:14:00Z'
+  updated_at: '2026-10-19T12:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

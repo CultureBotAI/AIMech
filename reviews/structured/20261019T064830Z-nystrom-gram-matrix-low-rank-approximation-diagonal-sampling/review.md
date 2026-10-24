@@ -1,0 +1,359 @@
+# Scientific author self-review of Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling
+
+- Review: 20261019T064830Z-nystrom-gram-matrix-low-rank-approximation-diagonal-sampling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T06:48:00Z
+- Finished UTC: 2026-10-19T06:48:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/NystromGramMatrixLowRankApproximationWithDiagonalSampling.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base ea0bdd79d6b8778a89cd3cdf9482fe08ba8eeb41.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling | data/curated/NystromGramMatrixLowRankApproximationWithDiagonalSampling.yaml | maintained | Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling | Validated history sidecar files. |
+| python3 nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py | passed | True | AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling | [PASS] Round 328 Nystrom Gram matrix low-rank approximation boundary checks succeeded. |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling.
+
+Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling is a distinct concept.
+
+Distinct from classical Principal Component Analysis (&#96;AIO:PrincipalComponentAnalysis&#96;), which requires O(n^3) eigendecomposition of the full n x n Gram matrix G, and from oblivious random projection subspace embeddings (&#96;AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding&#96;). Specifically captures the Drineas &amp; Mahoney (2005) rank-k truncated pseudoinverse Nyström estimator tilde{G}_k = C W_k^+ C^T with diagonal-squared importance sampling p_i propto G_{ii}^2, the Lemma 4 feature-space projection equivalence tilde{G}_k = X^T hat{U}_k hat{U}_k^T X, the Section 5.2 Equation 47 Schur complement identity A - tilde{A} = [[0, 0], [0, A_{22} - A_{21} A_{11}^{-1} A_{12}]], and the Theorem 3 additive spectral and Frobenius error guarantees.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py passed with exit code 0: [PASS] Round 328 Nystrom Gram matrix low-rank approximation boundary checks succeeded.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T064800Z-nystrom-gram-matrix-low-rank-approximation-diagonal-sampling.json | supports | No normalized identity match for AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py | supports | All constructed boundary assertions in nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py passed with exit code 0: [PASS] Round 328 Nystrom Gram matrix low-rank approximation boundary checks succeeded. |
+| r328-primary-pdf | https://www.jmlr.org/papers/volume6/drineas05a/drineas05a.pdf; Full-text PDF | supports | Full-text PDF (Journal of Machine Learning Research (JMLR) 6:2153-2175 (2005)) read and verified. |
+| r328-arxiv-abs | https://www.jmlr.org/papers/volume6/drineas05a/drineas05a.pdf; arXiv abstract | supports | arXiv abstract read and verified. |
+| r328-metadata-cr | https://www.jmlr.org/papers/v6/drineas05a.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling in Round 328.
+- All pages of Journal of Machine Learning Research (JMLR) 6:2153-2175 (2005) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T064830Z-nystrom-gram-matrix-low-rank-approximation-diagonal-sampling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Nyström Gram Matrix Low-Rank Approximation
+  with Diagonal Sampling
+started_at: '2026-10-19T06:48:00Z'
+finished_at: '2026-10-19T06:48:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+    against existing AIMech and AIO records and verified all claims against Journal
+    of Machine Learning Research (JMLR) 6:2153-2175 (2005) and pure-Python boundary
+    checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: ea0bdd79d6b8778a89cd3cdf9482fe08ba8eeb41
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/NystromGramMatrixLowRankApproximationWithDiagonalSampling.yaml
+    sha256: a76825ecc523c3d64714ed3e014cd20828745484abc1af5136fcd2c17da65863
+    role: target
+  - path: research/discovery/20261019T064800Z-nystrom-gram-matrix-low-rank-approximation-diagonal-sampling.json
+    sha256: 761d4fe0a96aee3be17ab53becd2fdd9c8d59d6b841dc689cfcf1a6c23999b95
+    role: context
+  - path: research/discovery/nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py
+    sha256: b0f216ccd8a112bc31cbfb77172c6c801312ed4b6ab2ed4e466692608cf96931
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  path: data/curated/NystromGramMatrixLowRankApproximationWithDiagonalSampling.yaml
+  label: Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NystromGramMatrixLowRankApproximationWithDiagonalSampling.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/NystromGramMatrixLowRankApproximationWithDiagonalSampling.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py
+  command: python3 research/discovery/nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 328 Nystrom Gram matrix low-rank approximation boundary checks
+    succeeded.'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T064800Z-nystrom-gram-matrix-low-rank-approximation-diagonal-sampling.json
+  accessed_at: '2026-10-19T06:48:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T06:48:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py
+  accessed_at: '2026-10-19T06:48:00Z'
+  snapshot_sha256: b0f216ccd8a112bc31cbfb77172c6c801312ed4b6ab2ed4e466692608cf96931
+  support: supports
+  summary: 'All constructed boundary assertions in nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py
+    passed with exit code 0: [PASS] Round 328 Nystrom Gram matrix low-rank approximation
+    boundary checks succeeded.'
+- evidence_id: r328-primary-pdf
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/volume6/drineas05a/drineas05a.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T06:48:00Z'
+  snapshot_sha256: c77749b8ae991b1cd8a147373deec7bea2206c39f9c413c0c1792b4631723965
+  support: supports
+  summary: Full-text PDF (Journal of Machine Learning Research (JMLR) 6:2153-2175
+    (2005)) read and verified.
+- evidence_id: r328-arxiv-abs
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/volume6/drineas05a/drineas05a.pdf
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T06:48:00Z'
+  snapshot_sha256: 4a3499ed5a96a7bd04e4c0f877e3f7be7bf7e4c9348279d5cf21577e159d465b
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r328-metadata-cr
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/v6/drineas05a.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T06:48:00Z'
+  snapshot_sha256: 4a3499ed5a96a7bd04e4c0f877e3f7be7bf7e4c9348279d5cf21577e159d465b
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  evidence_ids:
+  - identity
+  - r328-primary-pdf
+  - r328-arxiv-abs
+  - r328-metadata-cr
+  summary: Nyström Gram Matrix Low-Rank Approximation with Diagonal Sampling is a
+    distinct concept.
+  details: Distinct from classical Principal Component Analysis (`AIO:PrincipalComponentAnalysis`),
+    which requires O(n^3) eigendecomposition of the full n x n Gram matrix G, and
+    from oblivious random projection subspace embeddings (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`).
+    Specifically captures the Drineas & Mahoney (2005) rank-k truncated pseudoinverse
+    Nyström estimator tilde{G}_k = C W_k^+ C^T with diagonal-squared importance sampling
+    p_i propto G_{ii}^2, the Lemma 4 feature-space projection equivalence tilde{G}_k
+    = X^T hat{U}_k hat{U}_k^T X, the Section 5.2 Equation 47 Schur complement identity
+    A - tilde{A} = [[0, 0], [0, A_{22} - A_{21} A_{11}^{-1} A_{12}]], and the Theorem
+    3 additive spectral and Frobenius error guarantees.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  evidence_ids:
+  - mapping
+  - r328-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  evidence_ids:
+  - r328-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in nystrom-gram-matrix-low-rank-approximation-diagonal-sampling-boundaries.py
+    passed with exit code 0: [PASS] Round 328 Nystrom Gram matrix low-rank approximation
+    boundary checks succeeded.'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  evidence_ids:
+  - identity
+  - mapping
+  - r328-primary-pdf
+  - r328-arxiv-abs
+  - r328-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling
+  in Round 328.
+- All pages of Journal of Machine Learning Research (JMLR) 6:2153-2175 (2005) were
+  read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

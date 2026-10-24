@@ -1,0 +1,103 @@
+id: AIMech:FedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection
+name: FedFV (Federated Fair Averaging via Loss-Ordered Internal and Historical External Gradient Projection)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A fair federated optimization algorithm (Wang, Fan, Qi, Wen, Wang, & Yu 2021, Section 3, Definitions 1-3, Algorithms 1-3, Theorems 1-4) that mitigates performance unfairness caused by conflicting client gradients (g_i . g_j < 0) with large magnitude disparities by sequentially eliminating internal conflicts among selected clients S_t and external conflicts against unselected clients h not in S_t before server model updates. In round t, after receiving pseudo-gradients g_k^t = theta^t - theta_k^t and local losses l_k^t from k in S_t (|S_t| = m), the server updates its global gradient history GH = [g_1^{t_1}, ..., g_K^{t_K}] and sorts S_t in ascending order of training loss l_{i_1}^t <= ... <= l_{i_m}^t to form the projection target order list PO_t = [g_{i_1}^t, ..., g_{i_m}^t]. In MitigateInternalConflict (Algorithm 2), the top (1 - alpha)m lowest-loss clients k in S_t^alpha iteratively project their gradient g_k^{PC} onto the normal plane of each conflicting target g_{i_j}^t in PO_t (when g_k^{PC} . g_{i_j}^t < 0 and k != i_j) via g_k^{PC} <- g_k^{PC} - ((g_{i_j}^t . g_k^{PC}) / ||g_{i_j}^t||^2) g_{i_j}^t, while the alpha m highest-loss clients retain their original gradients, producing g^t = (1/m) sum_{k=1}^m g_k^{PC}. For t >= tau, MitigateExternalConflict (Algorithm 3) iterates over past rounds t - i (for i = tau, ..., 1), sums historical gradients g_con = sum_{k : t_k = t-i, g^t . g_k^{t_k} < 0} g_k^{t_k}, and when g^t . g_con < 0 projects g^t <- g^t - ((g^t . g_con) / ||g_con||^2) g_con, before rescaling g^t <- (g^t / ||g^t||) ||(1/m) sum_{k in S_t} g_k^t|| and updating theta^{t+1} = theta^t - g^t.'
+identity_notes: Distinct from FedMGDA+ (AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization, Hu et al. 2022), which normalizes local pseudo-gradients to unit L2 norm and solves a box-constrained simplex quadratic program min_{lambda in Delta_m, ||lambda - p||_inf <= eps} ||sum_i lambda_i g_i||^2 without normal-plane gradient projection or historical external-conflict buffers; and distinct from q-FFL (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which reweights client losses by (1/(q+1)) F_k^{q+1}(w) using a Lipschitz upper-bound step size without detecting negative cosine similarities g_i . g_j < 0 or projecting conflicting gradients onto normal hyperplanes.
+aliases:
+- FedFV
+- Federated Fair Averaging
+- Federated Learning with Fair Averaging
+definition_evidence:
+- source_id: r494-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r494-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r494-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r494-claim-1
+  kind: mechanism
+  statement: Under pairwise cosine bounds eps_1 <= |cos(g_i^{(t_i)}, g_j^{(t_j)})| <= eps_2 (0 < eps_1 <= eps_2 <= 1), iteratively projecting client gradients onto the normal plane of g_k in ascending index order k = 1, ..., m bounds the residual conflict with the projected average g_bar' by |g_k . g_bar'| <= ((m - 1) / m) (max_i ||g_i||)^2 f(m, k, eps_1, eps_2) where f(m, k, eps_1, eps_2) = eps_2^2 (1 - eps_1^2)^{1/2} (1 - (1 - eps_1^2)^{(m-k)/2}) / (1 - (1 - eps_1^2)^{1/2}), which decreases monotonically with k so that placing higher-loss clients later in PO_t guarantees them smaller upper-bounded conflict with g_bar' (Theorems 1-2, Appendix A.1-A.2).
+  evidence:
+  - source_id: r494-primary-pdf
+    locator: Sections 3.2 & 3.4, pp. 3-4, Theorems 1-2; Appendix A.1-A.2, p. 7, Equations 2-8
+    relation: supports
+- claim_id: r494-claim-2
+  kind: mechanism
+  statement: To mitigate external conflicts against unselected or dropped-out clients h not in S_t, FedFV maintains a server trace GH of each client's most recent update g_k^{t_k} and sequentially projects g^t onto the normal plane of the sum g_con of conflicting historical gradients from round t - i in chronological order i = tau, tau - 1, ..., 1 before rescaling ||g^t|| to ||(1/m) sum_{k in S_t} g_k^t|| (Definition 3, Algorithm 3, Algorithm 1 line 10).
+  evidence:
+  - source_id: r494-primary-pdf
+    locator: Section 3.3, pp. 3-4, Definition 3, Algorithm 3, Algorithm 1 line 10
+    relation: supports
+- claim_id: r494-claim-3
+  kind: limitation
+  statement: Setting alpha = 0 (forcing all selected clients, including highest-loss clients, to project their gradients) can increase test accuracy variance when all clients participate (e.g., variance 13.76 on 3-client Fashion-MNIST versus 1.77 at alpha = 2/3), and Theorem 4's multi-client Pareto stationarity guarantee on L-smooth convex objectives requires cos(g_bar, g_bar') >= 1/2 and ||g_bar|| >= ||g_bar'|| with step size eta <= 1 / L.
+  evidence:
+  - source_id: r494-primary-pdf
+    locator: Section 3.4, p. 4, Theorems 3-4; Section 5.2, pp. 5-6, Table 3
+    relation: supports
+- claim_id: r494-claim-4
+  kind: application
+  statement: Evaluated on non-IID shard-partitioned CIFAR-10 (100 clients, 10% participation), MNIST (200 clients), and class-partitioned Fashion-MNIST (3 clients), outperforming FedAvg, q-FedAvg, FedMGDA+, and FedFA in average accuracy, worst-5% accuracy (32.24% vs. 19.84% for FedAvg on CIFAR-10 at alpha = 0.1, tau = 10), and convergence speed.
+  evidence:
+  - source_id: r494-primary-pdf
+    locator: Section 5, pp. 5-6, Tables 2-4, Figure 2
+    relation: supports
+evidence_sources:
+- source_id: r494-primary-pdf
+  title: Federated Learning with Fair Averaging
+  authors: &id001
+  - Zheng Wang
+  - Xiaoliang Fan
+  - Jianzhong Qi
+  - Chenglu Wen
+  - Cheng Wang
+  - Rongshan Yu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.14937.pdf
+  persistent_id: https://www.ijcai.org/proceedings/2021/223
+  version: Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence (IJCAI 2021) (2021) (2143252 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:37:00Z'
+  sha256: fbf79ef7d223f80fca3845e4fa90fe8939b7ebfa67dd5c9bfa17dc2773461c66
+- source_id: r494-arxiv-abs
+  title: Federated Learning with Fair Averaging (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.14937
+  persistent_id: https://arxiv.org/abs/2104.14937
+  version: arXiv abstract page (1059 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:37:00Z'
+  sha256: 7ee7635a11cd2a1f8c4ff6ff7856d158a81a84cddf7f1909d6042107f0891a25
+- source_id: r494-metadata-cr
+  title: Federated Learning with Fair Averaging (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.ijcai.org/proceedings/2021/223
+  persistent_id: https://www.ijcai.org/proceedings/2021/223
+  version: Crossref API work record (463 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:37:00Z'
+  sha256: 0e8d9f3bff4611a64e9469f6aadd601a37f09b7795285365e86dd3d1df9e3bd3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedFV is a server-side gradient projection and aggregation algorithm within Federated Learning.
+limitations:
+- Requires the server to store a history table GH of K full-dimensional client gradients to perform external conflict mitigation (Algorithm 1 line 4 & Algorithm 3).
+- Multi-client Pareto stationarity analysis (Theorem 4) is restricted to differentiable, L-smooth, convex objectives under the condition cos(g_bar, g_bar') >= 1/2.
+curation:
+  created_at: '2026-10-19T09:37:00Z'
+  updated_at: '2026-10-19T09:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

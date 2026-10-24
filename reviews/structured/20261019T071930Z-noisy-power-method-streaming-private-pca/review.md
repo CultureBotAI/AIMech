@@ -1,0 +1,362 @@
+# Scientific author self-review of Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis
+
+- Review: 20261019T071930Z-noisy-power-method-streaming-private-pca
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:19:00Z
+- Finished UTC: 2026-10-19T07:19:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base d334f033291a9ecfe0d23cb1c10fc2031acb26ec.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA | data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml | maintained | Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA | Validated history sidecar files. |
+| python3 noisy-power-method-streaming-private-pca-boundaries.py | passed | True | AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA | [PASS] Round 356 Noisy Power Method (Hardt &amp; Price 2014): tan_0=2.4717-&gt;tan_L=0.00618&lt;=eps=0.080, gs_comm_err=0.00e+00, lemma412_err=0.00e+00 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.
+
+Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis is a distinct concept.
+
+Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not model adversarial or stochastic per-step perturbations G_ell in QR subspace iteration or differential privacy. Distinct from AIMech:RandomizedBlockKrylovMethodsForApproximateSingularValueDecomposition (Round 355), which analyzes exact noise-free block Krylov iterations using Chebyshev polynomials rather than perturbed block power iterations under adaptive noise. Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which pre-inverts (lambda I - A) via SVRG rather than analyzing principal-angle tangent contraction and Gram-Schmidt sign-symmetry coherence preservation.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in noisy-power-method-streaming-private-pca-boundaries.py passed with exit code 0: [PASS] Round 356 Noisy Power Method (Hardt &amp; Price 2014): tan_0=2.4717-&gt;tan_L=0.00618&lt;=eps=0.080, gs_comm_err=0.00e+00, lemma412_err=0.00e+00
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T071900Z-noisy-power-method-streaming-private-pca.json | supports | No normalized identity match for AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/noisy-power-method-streaming-private-pca-boundaries.py | supports | All constructed boundary assertions in noisy-power-method-streaming-private-pca-boundaries.py passed with exit code 0: [PASS] Round 356 Noisy Power Method (Hardt &amp; Price 2014): tan_0=2.4717-&gt;tan_L=0.00618&lt;=eps=0.080, gs_comm_err=0.00e+00, lemma412_err=0.00e+00 |
+| r356-primary-pdf | https://arxiv.org/pdf/1311.2495.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems (NeurIPS) 27, pp. 2861-2869 (2014)) read and verified. |
+| r356-arxiv-abs | https://arxiv.org/abs/1311.2495; arXiv abstract | supports | arXiv abstract read and verified. |
+| r356-metadata-cr | https://dblp.org/rec/conf/nips/HardtP14.xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA in Round 356.
+- All pages of Advances in Neural Information Processing Systems (NeurIPS) 27, pp. 2861-2869 (2014) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T071930Z-noisy-power-method-streaming-private-pca
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Noisy Power Method for Perturbed Subspace
+  Iteration, Streaming PCA, and Differentially Private Spectral Analysis
+started_at: '2026-10-19T07:19:00Z'
+finished_at: '2026-10-19T07:19:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems (NeurIPS) 27, pp. 2861-2869 (2014) and
+    pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA,
+  and Differentially Private Spectral Analysis as a distinct DRAFT algorithm. All
+  three claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: d334f033291a9ecfe0d23cb1c10fc2031acb26ec
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml
+    sha256: 7c755a9931f777633150460a16dd8a8ec785333581c2c88c23a0e4b0f9f70271
+    role: target
+  - path: research/discovery/20261019T071900Z-noisy-power-method-streaming-private-pca.json
+    sha256: fcfaaee818fe51e14a4246aaa286966d85e46695e519e3243f4359686ad2a582
+    role: context
+  - path: research/discovery/noisy-power-method-streaming-private-pca-boundaries.py
+    sha256: 6f77b524d2a62abec6f3d531891ca22234ba49619e46d095274d4a5b6e1bb608
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  path: data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml
+  label: Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially
+    Private Spectral Analysis
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 noisy-power-method-streaming-private-pca-boundaries.py
+  command: python3 research/discovery/noisy-power-method-streaming-private-pca-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 356 Noisy Power Method (Hardt & Price 2014): tan_0=2.4717->tan_L=0.00618<=eps=0.080,
+    gs_comm_err=0.00e+00, lemma412_err=0.00e+00'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T071900Z-noisy-power-method-streaming-private-pca.json
+  accessed_at: '2026-10-19T07:19:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:19:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/noisy-power-method-streaming-private-pca-boundaries.py
+  accessed_at: '2026-10-19T07:19:00Z'
+  snapshot_sha256: 6f77b524d2a62abec6f3d531891ca22234ba49619e46d095274d4a5b6e1bb608
+  support: supports
+  summary: 'All constructed boundary assertions in noisy-power-method-streaming-private-pca-boundaries.py
+    passed with exit code 0: [PASS] Round 356 Noisy Power Method (Hardt & Price 2014):
+    tan_0=2.4717->tan_L=0.00618<=eps=0.080, gs_comm_err=0.00e+00, lemma412_err=0.00e+00'
+- evidence_id: r356-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1311.2495.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:19:00Z'
+  snapshot_sha256: f646d0a8682def300c9b6fb109c62dd44d5b3caa2a43af4838f773e28c71ed67
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems (NeurIPS)
+    27, pp. 2861-2869 (2014)) read and verified.
+- evidence_id: r356-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1311.2495
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:19:00Z'
+  snapshot_sha256: 9bc8cc8f37d1f3c80243d3e7eb50b9c91463818295f536ca00804d057a68167a
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r356-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/nips/HardtP14.xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:19:00Z'
+  snapshot_sha256: 3d81269f6f73c5ecff097fe3189a9612d7446cb6655e5a5f7e85538bfcf3f0ab
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  evidence_ids:
+  - identity
+  - r356-primary-pdf
+  - r356-arxiv-abs
+  - r356-metadata-cr
+  summary: Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and
+    Differentially Private Spectral Analysis is a distinct concept.
+  details: Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis)
+    and DimensionalityReduction (AIO:DimensionalityReduction), which do not model
+    adversarial or stochastic per-step perturbations G_ell in QR subspace iteration
+    or differential privacy. Distinct from AIMech:RandomizedBlockKrylovMethodsForApproximateSingularValueDecomposition
+    (Round 355), which analyzes exact noise-free block Krylov iterations using Chebyshev
+    polynomials rather than perturbed block power iterations under adaptive noise.
+    Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation
+    (Round 354), which pre-inverts (lambda I - A) via SVRG rather than analyzing principal-angle
+    tangent contraction and Gram-Schmidt sign-symmetry coherence preservation.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  evidence_ids:
+  - mapping
+  - r356-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  evidence_ids:
+  - r356-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in noisy-power-method-streaming-private-pca-boundaries.py
+    passed with exit code 0: [PASS] Round 356 Noisy Power Method (Hardt & Price 2014):
+    tan_0=2.4717->tan_L=0.00618<=eps=0.080, gs_comm_err=0.00e+00, lemma412_err=0.00e+00'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  evidence_ids:
+  - identity
+  - mapping
+  - r356-primary-pdf
+  - r356-arxiv-abs
+  - r356-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+  in Round 356.
+- All pages of Advances in Neural Information Processing Systems (NeurIPS) 27, pp.
+  2861-2869 (2014) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

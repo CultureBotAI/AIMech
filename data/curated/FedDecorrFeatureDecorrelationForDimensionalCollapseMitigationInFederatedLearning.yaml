@@ -1,0 +1,102 @@
+id: AIMech:FedDecorrFeatureDecorrelationForDimensionalCollapseMitigationInFederatedLearning
+name: FedDecorr (Federated Feature Decorrelation Regularization for Mitigating Dimensional Collapse)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A heterogeneous federated representation learning algorithm (Shi et al. 2023, Sections 3.3-4, Theorem 1, Proposition 1, Equations 6-9, Algorithm 1) that counteracts heterogeneity-induced dimensional collapse of feature representations by adding a local feature-decorrelation regularizer L_FedDecorr(w, X) := (1 / d^2) ||K||_F^2 to the client classification loss min_w ell(w, X, y) + beta * L_FedDecorr(w, X) (Equations 8-9), where K = (1 / N) sum_{i=1}^N z_hat_i z_hat_i^T in R^{d x d} is the empirical sample correlation matrix of z-score standardized d-dimensional penultimate features z_hat_i = (z_i - z_bar) / sqrt(Var(z)), exploiting the algebraic identity sum_{i=1}^d (lambda_i - (1/d) sum_{j=1}^d lambda_j)^2 = ||K||_F^2 - d (Proposition 1, Equation 7) to minimize singular-value variance in O(N d^2) time without computing singular value decompositions.
+identity_notes: Distinct from self-supervised cross-view invariance and redundancy-reduction losses such as Barlow Twins (AIMech:BarlowTwinsSelfSupervisedLearningViaRedundancyReduction, Zbontar et al. 2021) and VICReg (AIMech:VicRegVarianceInvarianceCovarianceRegularization, Bardes et al. 2022), which operate on paired augmented views in self-supervised pretraining rather than mitigating non-IID client label-skew dimensional collapse (Theorem 1) in supervised federated learning; and distinct from parameter-space proximal or control-variate federated optimizers such as FedProx and SCAFFOLD.
+aliases:
+- FedDecorr
+- Federated Feature Decorrelation Regularization
+- Dimensional Collapse Mitigation via Feature Correlation Frobenius Regularization
+definition_evidence:
+- source_id: r459-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r459-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r459-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r459-correlation-frobenius-singular-value-variance-identity-mechanism
+  kind: mechanism
+  statement: Proves that under cross-entropy gradient flow, skewed local class frequencies mu_c reduce the rank of the driving matrix G(t), causing local and aggregated representations to collapse onto a low-dimensional subspace (Theorem 1, Equations 3-5), and mitigates this collapse by penalizing (1 / d^2) ||K||_F^2 on z-score normalized features z_hat_i, which equals (1 / d^2)(sum_{i=1}^d (lambda_i - 1)^2 + d) and therefore uniformizes the singular values lambda_1, ..., lambda_d of K without requiring an explicit SVD (Proposition 1, Equations 7-9).
+  evidence:
+  - source_id: r459-primary-pdf
+    locator: Section 3.3 Theorem 1, Section 4 Proposition 1 (Equations 6-9), and Appendices A-B (Equations 32-51), pp. 4-6, 13-18
+    relation: supports
+- claim_id: r459-plug-and-play-local-feature-regularizer-scope
+  kind: scope
+  statement: Acts as a plug-and-play client-side representation regularizer compatible with standard federated optimization backbones (including FedAvg, FedProx, MOON, and FedRS) with zero communication overhead and negligible O(N d^2) mini-batch computation.
+  evidence:
+  - source_id: r459-primary-pdf
+    locator: Section 4 Algorithm 1 & Section 5.1-5.2 Experimental Results (Tables 1-3), pp. 6-8
+    relation: supports
+- claim_id: r459-minibatch-size-sensitivity-for-correlation-estimation-limitation
+  kind: limitation
+  statement: Relies on mini-batch sample mean and variance normalization to estimate the d x d correlation matrix K, so very small local mini-batch sizes N produce noisy correlation estimates and degraded regularization effectiveness.
+  evidence:
+  - source_id: r459-primary-pdf
+    locator: Section 4 Equations 7-8 & Section 5.3 Ablation Study on Mini-Batch Size (Figure 5b), pp. 6, 9
+    relation: supports
+- claim_id: r459-heterogeneous-federated-vision-classification-application
+  kind: application
+  statement: Applied to heterogeneous federated visual classification on CIFAR-10, CIFAR-100, Tiny-ImageNet, and PACS across Dirichlet label skew and multi-domain shift.
+  evidence:
+  - source_id: r459-primary-pdf
+    locator: Section 5 Experiments (Tables 1-3, Figures 3-5) & Appendix E, pp. 7-9, 20-22
+    relation: supports
+evidence_sources:
+- source_id: r459-primary-pdf
+  title: Towards Understanding and Mitigating Dimensional Collapse in Heterogeneous Federated Learning
+  authors: &id001
+  - Yujun Shi
+  - Jian Liang
+  - Wenqing Zhang
+  - Vincent Y. F. Tan
+  - Song Bai
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2210.00226.pdf
+  persistent_id: https://arxiv.org/abs/2210.00226
+  version: Eleventh International Conference on Learning Representations (ICLR 2023) (2023) (2544 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:02:00Z'
+  sha256: 592ff7fee08b6bddcca265a22e0ff74065cd5fdbd84b54dd4cedee2f1a8dd96c
+- source_id: r459-arxiv-abs
+  title: Towards Understanding and Mitigating Dimensional Collapse in Heterogeneous Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2210.00226
+  persistent_id: https://arxiv.org/abs/2210.00226
+  version: arXiv abstract page (1519 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:02:00Z'
+  sha256: b42dbc63ed8ec5664cc3621fc85d3f3fd6d0b97c3ac6dbd02df4a15f322ce9e1
+- source_id: r459-metadata-cr
+  title: Towards Understanding and Mitigating Dimensional Collapse in Heterogeneous Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2210.00226
+  persistent_id: https://arxiv.org/abs/2210.00226
+  version: Crossref API work record (371 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:02:00Z'
+  sha256: 3eb4b4e6090ebcf353b4df610cc5d6306c50fbcb5c4c392d4b5ce80c9e3eeefe
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedDecorr is a heterogeneous federated learning method that regularizes local feature correlation matrices to prevent representation dimensional collapse.
+limitations:
+- Sensitive to very small local mini-batch sizes N because z-score standardization and correlation matrix estimation K require sufficient batch statistics.
+- Addresses penultimate feature-space dimensional collapse but does not directly debias the final linear classifier layer under missing classes.
+curation:
+  created_at: '2026-10-19T09:02:00Z'
+  updated_at: '2026-10-19T09:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

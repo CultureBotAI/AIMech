@@ -1,0 +1,108 @@
+id: AIMech:SpectralObservableOperatorAlgorithmForLearningHiddenMarkovModels
+name: Spectral Observable Operator Algorithm (LEARN-HMM) for Learning Hidden Markov Models
+concept_kind: algorithm
+review_status: DRAFT
+definition: A polynomial-time spectral method-of-moments algorithm (LEARN-HMM, introduced by Daniel Hsu, Sham M. Kakade, and Tong Zhang in 2009/2012) for learning the observable operator representation of an $m$-state, $n$-observation Hidden Markov Model (HMM) from marginal unigram, bigram, and trigram probabilities $(P_1, P_{2,1}, P_{3,x,1})$ without nonconvex Baum-Welch / EM local-optima susceptibility. Under the structural factorization $P_1 = O\vec{\pi}$, $P_{2,1} = O T \mathrm{diag}(\vec{\pi}) O^\top$, and $P_{3,x,1} = O A_x T \mathrm{diag}(\vec{\pi}) O^\top$ where $A_x = T\mathrm{diag}(O_{x,1},\dots,O_{x,m})$, any matrix $U\in\mathbb{R}^{n\times m}$ whose columns span $\mathrm{range}(O)$ (such as the top-$m$ left singular vectors of $P_{2,1}$) defines transformed $m$-dimensional observable parameters $\vec{b}_1 = U^\top P_1$, $\vec{b}_\infty = (P_{2,1}^\top U)^\dagger P_1$, and $B_x = (U^\top P_{3,x,1})(U^\top P_{2,1})^\dagger$ satisfying the exact similarity relation $B_x = (U^\top O) A_x (U^\top O)^{-1}$ (Lemma 3). Consequently, for every sequence length $t$, $\Pr[x_1,\dots,x_t] = \vec{b}_\infty^\top B_{x_t}\cdots B_{x_1} \vec{b}_1$ and internal state beliefs update recursively via $\vec{b}_{t+1} = B_{x_t}\vec{b}_t / (\vec{b}_\infty^\top B_{x_t}\vec{b}_t)$ with $L_1$ total-variation error $O(t\sqrt{m/(\sigma_m(O)^4 \sigma_m(T)^2 N)})$ independent of the observation alphabet size $n$ (Theorem 6).
+identity_notes: 'Resolved against all 442 pinned AIO concepts and 701 maintained AIMech concepts. Distinct from `AIO:MarkovChain`, `AIO:PrincipalComponentAnalysis`, and `AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels`: whereas tensor decomposition recovers individual columns of $O$ and $T$ via third-order tensor power iterations, Hsu-Kakade-Zhang''s LEARN-HMM directly estimates the similarity-transformed observable operators $B_x = (U^\top P_{3,x,1})(U^\top P_{2,1})^\dagger$ via SVD and matrix pseudoinverse without recovering $O$ or $T$ explicitly (Theorem 6).'
+aliases:
+- Hsu-Kakade-Zhang Spectral HMM Learning Algorithm (LEARN-HMM)
+- Observable Operator Model Spectral HMM Estimation
+- Trigram Pseudoinverse Spectral Hidden Markov Model Algorithm
+definition_evidence:
+- source_id: hkz2012-spectralhmm-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: hkz2012-spectralhmm-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: hkz2012-spectralhmm-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-observable-operator-similarity-equivalence-and-joint-probability-factorization
+  kind: mechanism
+  statement: Given an $m$-state HMM with initial state distribution $\vec{\pi}>0$, transition matrix $T\in\mathbb{R}^{m\times m}$, observation matrix $O\in\mathbb{R}^{n\times m}$, and state-observation operators $A_x = T\mathrm{diag}(O_{x,1},\dots,O_{x,m})$, Lemma 2 proves that if $\mathrm{rank}(O) = \mathrm{rank}(T) = m$ and $U\in\mathbb{R}^{n\times m}$ satisfies $\mathrm{range}(U) = \mathrm{range}(O)$ (assured when $U$ comprises the top-$m$ left singular vectors of $P_{2,1} = O T \mathrm{diag}(\vec{\pi}) O^\top$), then $U^\top O$ is invertible; Lemma 3 further establishes that $\vec{b}_1 = U^\top P_1$, $\vec{b}_\infty = (P_{2,1}^\top U)^\dagger P_1$, and $B_x = (U^\top P_{3,x,1})(U^\top P_{2,1})^\dagger$ obey $B_x = (U^\top O) A_x (U^\top O)^{-1}$, $\vec{b}_1 = (U^\top O)\vec{\pi}$, and $\vec{b}_\infty^\top = \vec{1}_m^\top (U^\top O)^{-1}$, yielding exact joint probabilities $\Pr[x_1,\dots,x_t] = \vec{b}_\infty^\top B_{x_t}\cdots B_{x_1}\vec{b}_1$ for all $t\ge 1$.
+  evidence:
+  - source_id: hkz2012-spectralhmm-pdf
+    locator: Section 3.1, Lemmas 1-3, Equations (1)-(6), pp. 5-7
+    relation: supports
+  - source_id: hkz2012-spectralhmm-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-polynomial-sample-complexity-and-alphabet-size-independence-for-joint-and-conditional-distributions
+  kind: mechanism
+  statement: Theorem 6 proves that for an HMM with $m$ hidden states and minimum singular values $\sigma_m(O), \sigma_m(T) > 0$, the empirical estimates $(\hat{b}_1,\hat{b}_\infty,\{\hat{B}_x\})$ computed by Algorithm LEARN-HMM from $N \ge C (t^2/\varepsilon^2)(m/(\sigma_m(O)^4 \sigma_m(T)^2))\log(1/\delta)$ sample triples satisfy $\sum_{x_1,\dots,x_t}|\Pr[x_1,\dots,x_t] - \widehat{\Pr}[x_1,\dots,x_t]| \le \varepsilon$ with probability at least $1-\delta$, where the sample complexity is completely independent of the discrete observation cardinality $n$; furthermore, under observation diversity $\pi_{\min} > 0$, Theorem 7 establishes conditional filtering stability $\mathrm{KL}(\Pr[x_t|\text{history}] \| \widehat{\Pr}[x_t|\text{history}]) \le \varepsilon$ over arbitrarily long horizons $t$ via recursive state normalization.
+  evidence:
+  - source_id: hkz2012-spectralhmm-pdf
+    locator: Section 2.2-2.3, Theorems 1 & 2, pp. 3-5; Section 3.2, Algorithm LEARN-HMM, p. 6; Section 5-6, Theorems 6 & 7, pp. 9-19
+    relation: supports
+  - source_id: hkz2012-spectralhmm-cr
+    locator: Journal of Computer and System Sciences 78(5):1460-1480 (2012) metadata
+    relation: supports
+- claim_id: claim-scope-multi-observation-window-extensions-and-explicit-parameter-recovery
+  kind: scope
+  statement: Corollary 11 and Section 3.3 extend LEARN-HMM to rank-deficient single-step observation matrices by replacing single observations with length-$\ell$ observation windows whenever the $\ell$-step compound observation matrix has rank $m$, while Appendix C shows that if for some $x$ the eigenvalues of $\mathrm{diag}(O_{x,1},\dots,O_{x,m})$ are separated, the eigendecomposition of $B_x = (U^\top O) A_x (U^\top O)^{-1}$ also recovers the explicit columns of $O$ and $T$ up to permutation.
+  evidence:
+  - source_id: hkz2012-spectralhmm-pdf
+    locator: Section 2.3 & 3.3, Corollary 11, pp. 5, 7-8; Appendix C, pp. 26-27
+    relation: supports
+- claim_id: claim-limitation-rank-degeneracy-of-transition-or-observation-matrix-and-singular-value-conditioning
+  kind: limitation
+  statement: Single-window LEARN-HMM fails when $\mathrm{rank}(O) < m$ or $\mathrm{rank}(T) < m$ because $P_{2,1} = O T \mathrm{diag}(\vec{\pi}) O^\top$ has rank strictly less than $m$ so $U^\top O$ is singular and $(U^\top P_{2,1})^\dagger$ cannot invert the hidden state space, and its sample complexity scales inversely with $\sigma_m(O)^4 \sigma_m(T)^2$.
+  evidence:
+  - source_id: hkz2012-spectralhmm-pdf
+    locator: Section 2.1, Condition 1 & Remark 4, p. 3; Section 3.1, Lemma 2, p. 6
+    relation: supports
+evidence_sources:
+- source_id: hkz2012-spectralhmm-pdf
+  title: A Spectral Algorithm for Learning Hidden Markov Models
+  authors: &id001
+  - Daniel Hsu
+  - Sham M. Kakade
+  - Tong Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0811.4413.pdf
+  persistent_id: https://doi.org/10.1016/j.jcss.2011.12.025
+  version: arXiv:0811.4413v6 full-text PDF (30 pages), published in Journal of Computer and System Sciences 78(5):1460-1480 (2012). (315993 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:06:00Z'
+  sha256: 44dc45f529dbba6b7dd9d6ead02eb1d04b8e712149e5af429c2b957cc71b1684
+- source_id: hkz2012-spectralhmm-abs
+  title: A Spectral Algorithm for Learning Hidden Markov Models (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0811.4413
+  persistent_id: https://arxiv.org/abs/0811.4413
+  version: arXiv abstract page (7020 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:06:00Z'
+  sha256: 7f1276749011027dc9736b81b658e1eb3d4426c5e20affa43c3197adb4ffc9ee
+- source_id: hkz2012-spectralhmm-cr
+  title: A Spectral Algorithm for Learning Hidden Markov Models (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1016/j.jcss.2011.12.025
+  persistent_id: https://doi.org/10.1016/j.jcss.2011.12.025
+  version: Crossref API work record (3479 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:06:00Z'
+  sha256: bde908167e7ac6146ce7949d7e9d0430def559510c4d73926071f0ccfebc4f6d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Estimates Hidden Markov Model sequence and conditional probabilities using observable operator representations.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Uses the top-m singular subspace U of the bigram matrix P_{2,1} to project observations onto an m-dimensional state space.
+limitations:
+- Requires $\mathrm{rank}(O) = \mathrm{rank}(T) = m$ and $\vec{\pi} > 0$ (or multi-step windowing when single observations are rank-deficient), and sample complexity scales as $O(1/(\sigma_m(O)^4 \sigma_m(T)^2))$.
+curation:
+  created_at: '2026-10-19T06:06:00Z'
+  updated_at: '2026-10-19T06:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

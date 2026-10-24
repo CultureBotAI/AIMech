@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shift-and-Invert Preconditioning for Faster Leading Eigenvector Computation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Shift-and-Invert Preconditioning for Faster Leading Eigenvector Computation</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Shift-and-Invert Preconditioning for Faster Leading Eigenvector Computation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Garber-Hazan-Jin-Kakade-Musco-Netrapalli-Sidford Shift-and-Invert PCA, Shifted-and-Inverted Power Method with Sum-of-Non-Convex SVRG, Robust Shift-and-Invert Preconditioned Eigenvector Estimation
+    </div>
+
+  <div class="detail-desc">
+    Shift-and-Invert Preconditioning for Faster Leading Eigenvector Computation is a matrix-free spectral estimation framework introduced by Garber, Hazan, Jin, Kakade, Musco, Netrapalli, and Sidford (2016) that computes an epsilon-approximate top eigenvector x (x^T Sigma x &gt;= (1 - epsilon) lambda_1(Sigma)) of an explicit matrix Sigma = A^T A (A in R^{n x d}) or a streaming covariance matrix Sigma = E_{a ~ D}[a a^T] by reducing leading eigenvector computation to a logarithmic sequence of inexact linear system solves in the shifted matrix B_lambda = lambda I - Sigma with shift parameter lambda in [(1 + gap / 150) lambda_1, (1 + gap / 100) lambda_1] where gap = (lambda_1 - lambda_2) / lambda_1. Because B_lambda^{-1} shares the top eigenvector v_1 of Sigma while amplifying the relative eigenvalue ratio to lambda_1(B_lambda^{-1}) / lambda_2(B_lambda^{-1}) = (lambda - lambda_2) / (lambda - lambda_1) &gt;= 100 (Section 3.1, Theorem 4), tracking progress via the B-norm tangent potential function G(x) = ||P_{v_1^perp} x||_B / ||P_{v_1} x||_B (Section 3.2, Lemma 3) proves that each shifted-and-inverted power step only requires an inexact linear solver achieving constant relative error in the B norm (Theorem 5, Corollary 6, Theorem 8). Decomposing f(w) = (1/2) w^T B w - b^T w into possibly non-convex row components psi_i(w) = (1/2) w^T ((lambda ||a_i||_2^2 / ||A||_F^2) I - a_i a_i^T) w - (1/n) b^T w with importance sampling probabilities p_i = ||a_i||_2^2 / ||A||_F^2 and applying sum-of-non-convex SVRG (Theorem 9, Lemma 11, Theorem 12) decouples the input sparsity nnz(A) from the spectral gap, achieving offline runtime O~((nnz(A) + d sr(A) / gap^2) log(1/epsilon)) (Theorem 16), accelerated offline runtime O~((nnz(A)^{3/4} (d sr(A))^{1/4} / sqrt(gap)) log(1/epsilon)) (Theorem 17), and minimax-optimal online sample complexity O(v(D) / (gap * epsilon)) (Theorem 25, Theorem 32).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Randomized Block Krylov Methods for Stronger and Faster Approximate SVD (`AIMech:RandomizedBlockKrylovMethodsForStrongerAndFasterApproximateSVD`), which applies polynomial Krylov subspace iteration with full matrix-matrix multiplications in O(nnz(A) k log(d) / sqrt(epsilon)) time where nnz(A) and 1/sqrt(gap) are multiplied together, whereas Shift-and-Invert Preconditioning with SVRG additively separates nnz(A) from d sr(A) / gap^2 and achieves true log(1/epsilon) linear convergence in both offline and O(d)-memory streaming PCA.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r354-claim-b-norm-tangent-potential-and-inexact-shift-invert-contraction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For B = lambda I - Sigma with (1 + gap/150) lambda_1 &lt;= lambda &lt;= (1 + gap/100) lambda_1, the B-norm tangent potential G(x) = ||P_{v_1^perp} x||_B / ||P_{v_1} x||_B tightly brackets the Rayleigh quotient error epsilon = lambda_1 - x^T Sigma x via epsilon / (lambda - lambda_1) &lt;= G(x)^2 &lt;= (1 + (lambda - lambda_1)/(lambda_1 gap))(1 + 2 epsilon / (lambda_1 gap)) epsilon / (lambda - lambda_1) (Lemma 3), contracts by a factor of at least 100 under exact application of B^{-1} (Theorem 4), and contracts in expectation E[G(tilde{x})] &lt;= (4/25) G(x) whenever an inexact linear solver approximates B^{-1} x within relative B-norm error 1/1000 of the scaled identity guess x / (lambda - x^T Sigma x) (Theorem 5 and Corollary 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r354-primary-pdf">Faster Eigenvector Computation via Shift-and-Invert Preconditioning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.4, Lemmas 1-3, Theorems 4-5, and Corollary 6, pp. 7-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r354-claim-sum-of-nonconvex-svrg-improved-stable-rank-variance-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Splitting the strongly convex quadratic f(x) = (1/2) x^T B x - b^T x into possibly non-convex row components psi_i(x) = (1/2) x^T ((lambda ||a_i||_2^2 / ||A||_F^2) I - a_i a_i^T) x - (1/n) b^T x and sampling row i with probability p_i = ||a_i||_2^2 / ||A||_F^2 satisfies the collective variance bound sum_{i=1}^n (1/p_i) ||grad psi_i(x) - grad psi_i(x^{opt})||_2^2 &lt;= (4 lambda_1 ||A||_F^2 / (lambda - lambda_1))(f(x) - f(x^{opt})) (Lemma 11), enabling sum-of-non-convex SVRG (Theorem 9) to halve the B-norm solver error in time O(nnz(A) + d sr(A) / gap^2) (Theorem 12)—improving stable-rank dependence from sr(A)^2 to sr(A)—and in O((nnz(A)^{3/4} (d sr(A))^{1/4} / sqrt(gap)) log(d/gap)) via proximal acceleration (Theorem 15).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r354-primary-pdf">Faster Eigenvector Computation via Shift-and-Invert Preconditioning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3, Theorem 9, Lemma 11, and Theorems 12, 15, 16, 17, pp. 16-23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r354-claim-minimax-optimal-streaming-pca-sample-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the online statistical setting Sigma = E_{a ~ D}[a a^T] with variance parameter v(D) = ||E[(a a^T)^2]||_2 / lambda_1^2, combining online median-of-means Rayleigh quotient estimation (Theorem 18) with streaming SVRG linear system solves (Corollary 24) refines an O(gap)-approximate initial vector x_0 to an epsilon-approximate top eigenvector (x^T Sigma x &gt;= (1 - epsilon)lambda_1) using O(v(D) / (gap * epsilon)) samples (or |v_1^T x| &gt;= 1 - epsilon using O(v(D) / (gap^2 * epsilon)) samples) in O(d) space and O(d) amortized time per sample (Theorem 25), matching the Gaussian spike model minimax lower bound of Theorem 32.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r354-primary-pdf">Faster Eigenvector Computation via Shift-and-Invert Preconditioning</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.3, Theorem 18, Lemmas 19-20, Corollary 24, and Theorem 25, pp. 24-28; Section 7, Lemma 31 and Theorem 32, pp. 32-33</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a polylogarithmic-overhead shift-and-eigengap estimation phase (Section 6, Algorithm 1) in the offline setting to bracket lambda_1 and gap within constant factors, and in the online streaming setting requires a warm-start vector x_0 within O(gap) of the top eigenvector (Section 5.3, Theorem 25).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Computes the leading principal component eigenvector of explicit data matrices and streaming covariance distributions.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Accelerates spectral dimensionality reduction, spectral clustering, and low-rank projection.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r354-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r354-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1605.08754.pdf" target="_blank" rel="noopener">Faster Eigenvector Computation via Shift-and-Invert Preconditioning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dan Garber, Elad Hazan, Chi Jin, Sham M. Kakade, Cameron Musco, Praneeth Netrapalli, Aaron Sidford
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v48/garber16.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:884a3c64988d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r354-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r354-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1605.08754" target="_blank" rel="noopener">Faster Eigenvector Computation via Shift-and-Invert Preconditioning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dan Garber, Elad Hazan, Chi Jin, Sham M. Kakade, Cameron Musco, Praneeth Netrapalli, Aaron Sidford
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1605.08754</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e160db1aef11…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r354-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r354-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v48/garber16.html" target="_blank" rel="noopener">Faster Eigenvector Computation via Shift-and-Invert Preconditioning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dan Garber, Elad Hazan, Chi Jin, Sham M. Kakade, Cameron Musco, Praneeth Netrapalli, Aaron Sidford
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v48/garber16.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3df5773bd184…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AShiftAndInvertPreconditioningForFasterEigenvectorComputation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Shift-and-Invert Preconditioning for Faster Leading Eigenvector Computation" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Shift-and-Invert...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:PrincipalComponentAnalysis (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:17:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:17:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ShiftAndInvertPreconditioningForFasterEigenvectorComputation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ShiftAndInvertPreconditioningForFasterEigenvectorComputation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Shift-and-Invert%20Preconditioning%20for%20Faster%20Leading%20Eigenvector%20Computation"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AShiftAndInvertPreconditioningForFasterEigenvectorComputation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

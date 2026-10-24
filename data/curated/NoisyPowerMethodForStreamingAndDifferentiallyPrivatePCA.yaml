@@ -1,0 +1,94 @@
+id: AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA
+name: Noisy Power Method for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis
+concept_kind: algorithm
+review_status: DRAFT
+definition: The Noisy Power Method (NPM) for Perturbed Subspace Iteration, Streaming PCA, and Differentially Private Spectral Analysis is a meta-algorithm and principal-angle convergence framework introduced by Hardt and Price (2014) that computes the dominant k eigenvectors U in R^{d x k} of a symmetric matrix A in R^{d x d} from an initial random orthonormal subspace X_0 in R^{d x p} (p >= k) via L iterations of noisy matrix-block products Y_ell = A X_{ell-1} + G_ell followed by QR orthonormalization Y_ell = X_ell R_ell, proving multiplicative contraction of the k-th principal angle tangent tan theta_k(U, X_ell) whenever both the total spectral norm ||G_ell|| and the target-subspace projection ||U^T G_ell|| of the adaptive perturbation G_ell are bounded relative to the eigengap sigma_k - sigma_{k+1}.
+identity_notes: Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not model adversarial or stochastic per-step perturbations G_ell in QR subspace iteration or differential privacy. Distinct from AIMech:RandomizedBlockKrylovMethodsForApproximateSingularValueDecomposition (Round 355), which analyzes exact noise-free block Krylov iterations using Chebyshev polynomials rather than perturbed block power iterations under adaptive noise. Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which pre-inverts (lambda I - A) via SVRG rather than analyzing principal-angle tangent contraction and Gram-Schmidt sign-symmetry coherence preservation.
+aliases:
+- Hardt-Price Noisy Power Method (NPM)
+- Streaming Power Method (SPM) and Private Power Method (PPM)
+- Coherence-Preserving Differentially Private Subspace Iteration
+definition_evidence:
+- source_id: r356-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r356-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r356-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r356-claim-principal-angle-tangent-contraction-and-global-convergence
+  kind: mechanism
+  statement: If at each step ell of the Noisy Power Method (Figure 1) the perturbation G_ell in R^{d x p} satisfies 5||G_ell|| <= varepsilon*(sigma_k - sigma_{k+1}) and 5||U^T G_ell|| <= (sigma_k - sigma_{k+1})*cos theta_k(U, X_0) for varepsilon < 1/2, then the k-th principal angle tangent contracts at every step as tan theta_k(U, A X_ell + G_ell) <= max(varepsilon, max(varepsilon, (sigma_{k+1}/sigma_k)^{1/4})*tan theta_k(U, X_ell)) (Lemma 2.3) and reaches ||(I - X_L X_L^T)U|| = sin theta_k(U, X_L) <= tan theta_k(U, X_L) <= varepsilon in L = O((sigma_k / (sigma_k - sigma_{k+1}))*log(d*tau/varepsilon)) steps when initialized with a random p-dimensional orthonormal basis X_0 satisfying tan theta_k(U, X_0) <= tau*sqrt(d)/(sqrt(p) - sqrt(k - 1)) with probability 1 - tau^{-Omega(p+1-k)} - e^{-Omega(d)} (Theorem 2.4, Lemma 2.5, and Corollary 1.1).
+  evidence:
+  - source_id: r356-primary-pdf
+    locator: Section 1, Figure 1 and Corollary 1.1, pp. 2-3; Section 2.1-2.2, Definition 2.1, Claim 2.2, Lemma 2.3, Theorem 2.4, and Lemma 2.5, pp. 8-11
+    relation: supports
+- claim_id: r356-claim-streaming-power-method-sample-complexity-for-round-distributions
+  kind: mechanism
+  statement: "For any (B, p)-round distribution D over R^d with covariance A = E_{z~D}[z z^T] (Definition 3.1), the O(pd)-space Streaming Power Method (SPM, Figure 2)\u2014which divides n samples into L blocks of size T = floor(n/L) and updates Y_ell = A_ell X_{ell-1} = A X_{ell-1} + G_ell followed by QR factorization\u2014outputs X_L satisfying tan theta(U, X_L) <= varepsilon with probability 9/10 using n <= O_tilde(B p sigma_k max{1/varepsilon^2, B p / (sqrt(p) - sqrt(k-1))^2} log^2(d) / ((sigma_k - sigma_{k+1})^3 d)) samples (Theorem 3.2), yielding n = O_tilde(((lambda_1^2 + sigma^2)^2 (lambda_k^2 + sigma^2) / (varepsilon^2 lambda_k^6)) d k) in the spiked covariance model for p = 2k (Corollary 3.3)."
+  evidence:
+  - source_id: r356-primary-pdf
+    locator: Section 1.1, Figure 2 and Corollaries 1.1-1.2, pp. 3-4; Section 3, Definition 3.1, Theorem 3.2, Corollaries 3.3-3.4, and Lemmas 3.5-3.6, pp. 12-15
+    relation: supports
+- claim_id: r356-claim-private-power-method-and-gram-schmidt-sign-symmetry-coherence
+  kind: mechanism
+  statement: In the Private Power Method (PPM, Figure 3), injecting Gaussian noise G_ell ~ N(0, ||X_{ell-1}||_infty^2 sigma^2)^{d x p} with sigma = varepsilon^{-1}sqrt(4 p L log(1/delta)) satisfies entry-level (varepsilon, delta)-differential privacy (Claim 4.2); furthermore, because Gram-Schmidt orthonormalization commutes with any orthogonal transformation O sharing A's eigenbasis (GS(O V) = O * GS(V), Lemmas 4.11-4.12), the inner-product signs (sign(<u_i, x>))_{i=1}^d of any column x of X_ell are uniformly distributed in {-1, 1}^d (Lemma 4.13), bounding max_{ell in [L]} ||X_ell||_infty^2 <= O(mu(A) log(d) / d) in terms of matrix coherence mu(A) = max{d||U||_infty^2, d'||V||_infty^2} (Theorem 4.9) and achieving dimension-free subspace error ||(I - X_L X_L^T)U|| <= O((sigma * sqrt(mu(A) log(d) log(L)) / (sigma_k - sigma_{k+1})) * (sqrt(p) / (sqrt(p) - sqrt(k - 1)))) (Theorem 1.4).
+  evidence:
+  - source_id: r356-primary-pdf
+    locator: Section 1.2, Figure 3 and Theorems 1.3-1.4, pp. 5-6; Section 4, Definition 4.8, Theorem 4.9, and Lemmas 4.11-4.14, pp. 16-22
+    relation: supports
+evidence_sources:
+- source_id: r356-primary-pdf
+  title: 'The Noisy Power Method: A Meta Algorithm with Applications'
+  authors: &id001
+  - Moritz Hardt
+  - Eric Price
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1311.2495.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/HardtP14.xml
+  version: Advances in Neural Information Processing Systems (NeurIPS) 27, pp. 2861-2869 (2014) (319444 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:19:00Z'
+  sha256: f646d0a8682def300c9b6fb109c62dd44d5b3caa2a43af4838f773e28c71ed67
+- source_id: r356-arxiv-abs
+  title: 'The Noisy Power Method: A Meta Algorithm with Applications (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1311.2495
+  persistent_id: https://arxiv.org/abs/1311.2495
+  version: arXiv abstract page (6232 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:19:00Z'
+  sha256: 9bc8cc8f37d1f3c80243d3e7eb50b9c91463818295f536ca00804d057a68167a
+- source_id: r356-metadata-cr
+  title: 'The Noisy Power Method: A Meta Algorithm with Applications (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/HardtP14.xml
+  persistent_id: https://dblp.org/rec/conf/nips/HardtP14.xml
+  version: Crossref API work record (517 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:19:00Z'
+  sha256: 3d81269f6f73c5ecff097fe3189a9612d7446cb6655e5a5f7e85538bfcf3f0ab
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Provides a unified meta-algorithm for streaming PCA and differentially private PCA.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Computes low-dimensional spectral subspace projections under noisy matrix-vector products.
+limitations:
+- Noise tolerance in Corollary 1.1 and Theorem 2.4 requires per-step perturbation spectral norm ||G_ell|| to be smaller than varepsilon*(sigma_k - sigma_{k+1}), causing sample complexity in streaming PCA to scale inversely with the cube of the eigengap (sigma_k - sigma_{k+1})^3 (Section 1.4, pp. 7-8; Theorem 3.2, p. 12).
+curation:
+  created_at: '2026-10-19T07:19:00Z'
+  updated_at: '2026-10-19T07:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

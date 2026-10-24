@@ -1,0 +1,501 @@
+# Scientific author self-review of Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection
+
+- Review: 20261018T222700Z-information-theoretic-limits-binary-graphical-model-selection
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T22:26:00Z
+- Finished UTC: 2026-10-18T22:27:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection as a distinct DRAFT mathematical_method with related_match LogisticRegression and LassoRegression mappings. All three claims and locators across Santhanam &amp; Wainwright (2012, IEEE Transactions on Information Theory 58(7):4117-4134, arXiv:0905.2639v1) are supported with explicit maximum-neighborhood-weight exp(omega/2) barriers, decoder computational complexity, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 65802fd377966077b26a9d34c589e478f2720d50.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | data/curated/InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml | maintained | Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | Validated 631 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | Checked 442 record(s); 0 drift. |
+| aimech validate-history | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | Validated 284 history file(s). |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | Vendored record_review files match. |
+| aimech check-source | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | Exited 0 without output. |
+| Constructed Santhanam-Wainwright 2012 Ising divergence identities, clique-minus-edge likelihood ratio, Fano ensemble KL bounds, spin-flipping lemma, and matching-number bounds | passed | True | AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection | {<br>  "all_passed": true,<br>  "results": [<br>    {<br>      "check": "example1_hardcore_and_divergence_identities_eqs_18_22",<br>      "passed": true,<br>      "mass_extreme_theta6": 0.99998771,<br>      "tv_distance_g1_g2_theta6": 6.14e-06,<br>      "symmetrized_kl_diff": 0.0,<br>      "j_divergence_diff": 1.1102230246251565e-16<br>    },<br>    {<br>      "check": "clique_minus_edge_lemma1_and_fano_ensembles",<br>      "passed": true,<br>      "ratio_exact": 14.23615939,<br>      "ratio_comb_diff": 1.7763568394002505e-14,<br>      "ratio_lb_eq29": 0.28057614,<br>      "mu_exact": 0.86873332,<br>      "mu_lb_eq30": -0.56179702,<br>      "s_ens_b_exact": 0.06029549,<br>      "s_ens_b_ub_lemma2": 6.4153709,<br>      "s_ens_b_ub_lemma3": 16.05239198,<br>      "s_ens_a_exact": 0.3797091<br>    },<br>    {<br>      "check": "flipping_lemma8_matching_bound_lemma4_and_mean_separation_lemma6",<br>      "passed": true,<br>      "flipping_lemma_all_configs_hold": true,<br>      "j_divergence_exact": 0.22583608,<br>      "j_lb_lemma4": 0.00135593,<br>      "max_mu_diff_exact": 0.46211716,<br>      "mu_diff_lb_lemma6": 0.00033898<br>    }<br>  ]<br>} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection
+
+identity: supported. Targets: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.
+
+Distinct from nodewise L1-regularized Ising logistic regression, Gaussian Lasso neighborhood selection, and linear Gaussian regression support recovery limits.
+
+Confirmed via normalized identity check and full-text reading of Santhanam &amp; Wainwright (2012).
+
+### AIO mappings for AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+
+grounding: supported. Targets: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.
+
+related_match to AIO:LogisticRegression and AIO:LassoRegression are accurate.
+
+Pinned AIO (2026-07-22) contains LogisticRegression and LassoRegression without binary graphical model Fano capacity bounds or maximum-likelihood/mean-projection decoders.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.
+
+Definition accurately captures Theorems 1-4, Corollaries 1-4, and Lemmas 1-8.
+
+All equations and claims verified against arXiv:0905.2639v1 (pp. 1-29).
+
+### clique-minus-edge-mean-saturation-and-fano-necessary-sample-complexity-bounds
+
+evidence: supported. Targets: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.
+
+Supported by Section 3.1 (Theorem 1, Corollary 1) and Sections 4.1-4.3 (Lemmas 1-2, Equations 17-32) and boundary script.
+
+Verified exact combinatorial likelihood ratio q_{st}/(1 - q_{st}) = 14.23615939 and Fano Ensemble A &amp; B KL bounds.
+
+### fkg-likelihood-ratio-bound-and-bounded-edge-necessary-conditions
+
+evidence: supported. Targets: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.
+
+Supported by Section 3.1 (Theorem 2, Corollary 2) and Section 4.4 (Lemma 3, Equations 33-34) and boundary script.
+
+Verified Lemma 3 FKG inequality upper bound on S(theta(G^{st}) &#124;&#124; theta(G^{uv})).
+
+### matching-number-chernoff-achievability-and-mean-parameter-projection-decoding
+
+evidence: supported. Targets: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.
+
+Supported by Section 3.2 (Theorems 3-4, Corollaries 3-4) and Section 5 and Appendices A-B (Lemmas 3-8, Equations 35-58) and boundary script.
+
+Verified spin-flipping inequality across all 16 spin configurations, Lemma 4 matching-number divergence bound, and Lemma 6 pairwise mean separation.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, three claims and locators, three primary sources with exact SHA-256 digests, two pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T222600Z-information-theoretic-limits-binary-graphical-model-selection.json | supports | No normalized identity match for Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection across 442 pinned AIO records and 630 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LogisticRegression and LassoRegression in the pinned AIO snapshot (2026-07-22). Provide accurate related_match context. |
+| calculation | research/discovery/information-theoretic-limits-binary-graphical-model-selection-boundaries.py | supports | Executed pure-Python verification in research/discovery/information-theoretic-limits-binary-graphical-model-selection-boundaries.py (SHA-256 12945caa196806f908e72df65c84e869c6cfbe02fb84ef20c25a5ea937e49459): verified (1) 3-node 2-edge Ising hard-core saturation limit (Example 1, p. 4: extreme-spin mass 0.99998771 and pairwise total variation distance 6.14e-06 at theta = 6.0) and exact identities (error &lt;= 1.11e-16) for symmetrized KL divergence S(theta &#124;&#124; theta') (Eq. 22) and averaged log-partition divergence J(theta &#124;&#124; theta') (Eq. 20); (2) exact combinatorial likelihood ratio q_{st}/(1 - q_{st}) = 14.23615939 (diff 1.78e-14) on K_6 \ {(0,1)} at lambda = 0.45, Lemma 1 lower bounds (Eqs. 29-30), Ensemble A symmetrized KL 2 lambda tanh(lambda) = 0.3797091, and Ensemble B symmetrized KL 0.06029549 &lt;= Lemma 2 &amp; Lemma 3 upper bounds; and (3) exact spin-flipping inequality &#124;Delta(x') - Delta(x)&#124; &gt;= lambda across all 2^4 configurations (Lemma 8, Eq. 56), matching-number divergence lower bound J(theta(G) &#124;&#124; theta(G')) = 0.22583608 &gt;= 0.00135593 (Lemma 4, Eq. 38), and pairwise mean separation 0.46211716 &gt;= 0.00033898 (Lemma 6, p. 21). |
+| sw2012-binary-graphical-limits-pdf | https://arxiv.org/pdf/0905.2639.pdf; Pages 1-29, Sections 1-6 and Appendices A-B (Theorems 1-4, Corollaries 1-4, Lemmas 1-8, Equations 1-58) | supports | All 29 pages of Santhanam &amp; Wainwright (2012, IEEE Transactions on Information Theory 58(7):4117-4134, arXiv:0905.2639v1) read and verified. |
+| sw2012-binary-graphical-limits-abs | https://arxiv.org/abs/0905.2639; arXiv:0905.2639 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| sw2012-binary-graphical-limits-cr | https://api.crossref.org/works/10.1109/TIT.2012.2191659; DOI:10.1109/TIT.2012.2191659 Crossref metadata | supports | IEEE Transactions on Information Theory 2012 Crossref metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection record, yielding 631 native and 442 unchanged generated records.
+- All 29 PDF pages of arXiv:0905.2639v1 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T222700Z-information-theoretic-limits-binary-graphical-model-selection
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Information-Theoretic Limits of High-Dimensional
+  Binary Graphical Model Selection
+started_at: '2026-10-18T22:26:00Z'
+finished_at: '2026-10-18T22:27:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from HighDimensionalIsingModelSelectionViaL1RegularizedLogisticRegression,
+    HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso, and InformationTheoreticLimitsOfHighDimensionalNoisySparsityRecovery,
+    verified Theorems 1-4, Corollaries 1-4, and Lemmas 1-8, and documented six primary-source
+    typographical notes in Santhanam & Wainwright (2012, arXiv:0905.2639v1). This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Information-Theoretic Limits of High-Dimensional Binary Graphical
+  Model Selection as a distinct DRAFT mathematical_method with related_match LogisticRegression
+  and LassoRegression mappings. All three claims and locators across Santhanam & Wainwright
+  (2012, IEEE Transactions on Information Theory 58(7):4117-4134, arXiv:0905.2639v1)
+  are supported with explicit maximum-neighborhood-weight exp(omega/2) barriers, decoder
+  computational complexity, and primary-source typographical limitations.
+source:
+  git_revision: 65802fd377966077b26a9d34c589e478f2720d50
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/curated/HighDimensionalGaussianGraphicalModelNeighborhoodSelectionWithTheLasso.yaml
+    sha256: 9db249ebd0a792b5640ff3b86920d4be08de3b540a208ecacd337fe67928ce95
+    role: context
+  - path: data/curated/HighDimensionalIsingModelSelectionViaL1RegularizedLogisticRegression.yaml
+    sha256: 34d1bc1aae2d4a12b49038316128795ffa77752a255c18b3a6dd97aa3fa927d7
+    role: context
+  - path: data/curated/InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml
+    sha256: bf010f2a9c8eea2bfa570bcd55e0bae3060590e71c17efd2b0d2b1b942ff1ad9
+    role: target
+  - path: data/curated/InformationTheoreticLimitsOfHighDimensionalNoisySparsityRecovery.yaml
+    sha256: 23da895df6290bc700078b2e8e11b44e9d75d28bb48c87a91debc1967d920984
+    role: context
+  - path: research/discovery/20261018T222600Z-information-theoretic-limits-binary-graphical-model-selection.json
+    sha256: 149d8f54481fce5abed96ffecd6d9ac0900ab5d513c518902784b39adacdc748
+    role: context
+  - path: research/discovery/information-theoretic-limits-binary-graphical-model-selection-boundaries.py
+    sha256: 12945caa196806f908e72df65c84e869c6cfbe02fb84ef20c25a5ea937e49459
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  path: data/curated/InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml
+  label: Information-Theoretic Limits of High-Dimensional Binary Graphical Model Selection
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 631 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 record(s); 0 drift.
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 284 history file(s).
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored record_review files match.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Santhanam-Wainwright 2012 Ising divergence identities, clique-minus-edge
+    likelihood ratio, Fano ensemble KL bounds, spin-flipping lemma, and matching-number
+    bounds
+  command: python3 research/discovery/information-theoretic-limits-binary-graphical-model-selection-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"all_passed\": true,\n  \"results\": [\n    {\n      \"check\":\
+    \ \"example1_hardcore_and_divergence_identities_eqs_18_22\",\n      \"passed\"\
+    : true,\n      \"mass_extreme_theta6\": 0.99998771,\n      \"tv_distance_g1_g2_theta6\"\
+    : 6.14e-06,\n      \"symmetrized_kl_diff\": 0.0,\n      \"j_divergence_diff\"\
+    : 1.1102230246251565e-16\n    },\n    {\n      \"check\": \"clique_minus_edge_lemma1_and_fano_ensembles\"\
+    ,\n      \"passed\": true,\n      \"ratio_exact\": 14.23615939,\n      \"ratio_comb_diff\"\
+    : 1.7763568394002505e-14,\n      \"ratio_lb_eq29\": 0.28057614,\n      \"mu_exact\"\
+    : 0.86873332,\n      \"mu_lb_eq30\": -0.56179702,\n      \"s_ens_b_exact\": 0.06029549,\n\
+    \      \"s_ens_b_ub_lemma2\": 6.4153709,\n      \"s_ens_b_ub_lemma3\": 16.05239198,\n\
+    \      \"s_ens_a_exact\": 0.3797091\n    },\n    {\n      \"check\": \"flipping_lemma8_matching_bound_lemma4_and_mean_separation_lemma6\"\
+    ,\n      \"passed\": true,\n      \"flipping_lemma_all_configs_hold\": true,\n\
+    \      \"j_divergence_exact\": 0.22583608,\n      \"j_lb_lemma4\": 0.00135593,\n\
+    \      \"max_mu_diff_exact\": 0.46211716,\n      \"mu_diff_lb_lemma6\": 0.00033898\n\
+    \    }\n  ]\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T222600Z-information-theoretic-limits-binary-graphical-model-selection.json
+  accessed_at: '2026-10-18T22:26:00Z'
+  support: supports
+  summary: No normalized identity match for Information-Theoretic Limits of High-Dimensional
+    Binary Graphical Model Selection across 442 pinned AIO records and 630 maintained
+    IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T22:26:00Z'
+  support: supports
+  summary: Inspected LogisticRegression and LassoRegression in the pinned AIO snapshot
+    (2026-07-22). Provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/information-theoretic-limits-binary-graphical-model-selection-boundaries.py
+  accessed_at: '2026-10-18T22:26:00Z'
+  snapshot_sha256: 12945caa196806f908e72df65c84e869c6cfbe02fb84ef20c25a5ea937e49459
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/information-theoretic-limits-binary-graphical-model-selection-boundaries.py
+    (SHA-256 12945caa196806f908e72df65c84e869c6cfbe02fb84ef20c25a5ea937e49459): verified
+    (1) 3-node 2-edge Ising hard-core saturation limit (Example 1, p. 4: extreme-spin
+    mass 0.99998771 and pairwise total variation distance 6.14e-06 at theta = 6.0)
+    and exact identities (error <= 1.11e-16) for symmetrized KL divergence S(theta
+    || theta'') (Eq. 22) and averaged log-partition divergence J(theta || theta'')
+    (Eq. 20); (2) exact combinatorial likelihood ratio q_{st}/(1 - q_{st}) = 14.23615939
+    (diff 1.78e-14) on K_6 \ {(0,1)} at lambda = 0.45, Lemma 1 lower bounds (Eqs.
+    29-30), Ensemble A symmetrized KL 2 lambda tanh(lambda) = 0.3797091, and Ensemble
+    B symmetrized KL 0.06029549 <= Lemma 2 & Lemma 3 upper bounds; and (3) exact spin-flipping
+    inequality |Delta(x'') - Delta(x)| >= lambda across all 2^4 configurations (Lemma
+    8, Eq. 56), matching-number divergence lower bound J(theta(G) || theta(G'')) =
+    0.22583608 >= 0.00135593 (Lemma 4, Eq. 38), and pairwise mean separation 0.46211716
+    >= 0.00033898 (Lemma 6, p. 21).'
+- evidence_id: sw2012-binary-graphical-limits-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/0905.2639.pdf
+  locator: Pages 1-29, Sections 1-6 and Appendices A-B (Theorems 1-4, Corollaries
+    1-4, Lemmas 1-8, Equations 1-58)
+  accessed_at: '2026-10-18T15:02:00Z'
+  snapshot_sha256: 63398ef0dfc3f23b024155afe5f62fcaca825799f4fa510defa844249c0c6af9
+  support: supports
+  summary: All 29 pages of Santhanam & Wainwright (2012, IEEE Transactions on Information
+    Theory 58(7):4117-4134, arXiv:0905.2639v1) read and verified.
+- evidence_id: sw2012-binary-graphical-limits-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/0905.2639
+  locator: arXiv:0905.2639 abstract
+  accessed_at: '2026-10-18T15:02:00Z'
+  snapshot_sha256: 21071f8c7ca508359b35aa3381c1cb37518c8473a7c4ae545f797b2b05f1a16c
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: sw2012-binary-graphical-limits-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1109/TIT.2012.2191659
+  locator: DOI:10.1109/TIT.2012.2191659 Crossref metadata
+  accessed_at: '2026-10-18T15:02:00Z'
+  snapshot_sha256: cea8bf9f01058745545e236cea6d0e86396f0d5fbacc3a527f100ed77a3052ff
+  support: supports
+  summary: IEEE Transactions on Information Theory 2012 Crossref metadata read and
+    verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of Information-Theoretic Limits of High-Dimensional Binary Graphical
+    Model Selection
+  outcome: supported
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  evidence_ids:
+  - identity
+  - sw2012-binary-graphical-limits-pdf
+  - sw2012-binary-graphical-limits-abs
+  - sw2012-binary-graphical-limits-cr
+  summary: Distinct from nodewise L1-regularized Ising logistic regression, Gaussian
+    Lasso neighborhood selection, and linear Gaussian regression support recovery
+    limits.
+  details: Confirmed via normalized identity check and full-text reading of Santhanam
+    & Wainwright (2012).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  outcome: supported
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  evidence_ids:
+  - mapping
+  - sw2012-binary-graphical-limits-pdf
+  summary: related_match to AIO:LogisticRegression and AIO:LassoRegression are accurate.
+  details: Pinned AIO (2026-07-22) contains LogisticRegression and LassoRegression
+    without binary graphical model Fano capacity bounds or maximum-likelihood/mean-projection
+    decoders.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  evidence_ids:
+  - sw2012-binary-graphical-limits-pdf
+  - sw2012-binary-graphical-limits-abs
+  - sw2012-binary-graphical-limits-cr
+  summary: Definition accurately captures Theorems 1-4, Corollaries 1-4, and Lemmas
+    1-8.
+  details: All equations and claims verified against arXiv:0905.2639v1 (pp. 1-29).
+- assessment_id: clique-minus-edge-mean-saturation-and-fano-necessary-sample-complexity-bounds
+  area: evidence
+  topic: clique-minus-edge-mean-saturation-and-fano-necessary-sample-complexity-bounds
+  outcome: supported
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  evidence_ids:
+  - sw2012-binary-graphical-limits-pdf
+  - calculation
+  summary: Supported by Section 3.1 (Theorem 1, Corollary 1) and Sections 4.1-4.3
+    (Lemmas 1-2, Equations 17-32) and boundary script.
+  details: Verified exact combinatorial likelihood ratio q_{st}/(1 - q_{st}) = 14.23615939
+    and Fano Ensemble A & B KL bounds.
+- assessment_id: fkg-likelihood-ratio-bound-and-bounded-edge-necessary-conditions
+  area: evidence
+  topic: fkg-likelihood-ratio-bound-and-bounded-edge-necessary-conditions
+  outcome: supported
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  evidence_ids:
+  - sw2012-binary-graphical-limits-pdf
+  - calculation
+  summary: Supported by Section 3.1 (Theorem 2, Corollary 2) and Section 4.4 (Lemma
+    3, Equations 33-34) and boundary script.
+  details: Verified Lemma 3 FKG inequality upper bound on S(theta(G^{st}) || theta(G^{uv})).
+- assessment_id: matching-number-chernoff-achievability-and-mean-parameter-projection-decoding
+  area: evidence
+  topic: matching-number-chernoff-achievability-and-mean-parameter-projection-decoding
+  outcome: supported
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  evidence_ids:
+  - sw2012-binary-graphical-limits-pdf
+  - calculation
+  summary: Supported by Section 3.2 (Theorems 3-4, Corollaries 3-4) and Section 5
+    and Appendices A-B (Lemmas 3-8, Equations 35-58) and boundary script.
+  details: Verified spin-flipping inequality across all 16 spin configurations, Lemma
+    4 matching-number divergence bound, and Lemma 6 pairwise mean separation.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection
+  evidence_ids:
+  - identity
+  - mapping
+  - sw2012-binary-graphical-limits-pdf
+  - sw2012-binary-graphical-limits-abs
+  - sw2012-binary-graphical-limits-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of InformationTheoreticLimitsOfHighDimensionalBinaryGraphicalModelSelection.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, three claims and locators, three primary sources with exact SHA-256
+    digests, two pinned AIO mappings and rationales, four scoped limitations, and
+    UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Information-Theoretic Limits of High-Dimensional Binary Graphical
+  Model Selection record, yielding 631 native and 442 unchanged generated records.
+- All 29 PDF pages of arXiv:0905.2639v1 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- ising-model
+- graphical-models
+- information-theoretic-limits
+- fano-inequality
+- self-review
+- discovery-ongoing
+```

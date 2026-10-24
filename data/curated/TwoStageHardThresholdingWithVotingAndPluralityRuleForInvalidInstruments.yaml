@@ -1,0 +1,107 @@
+id: AIMech:TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments
+name: Two-Stage Hard Thresholding with Voting and Plurality Rule for Invalid Instruments
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A causal-effect estimation and confidence-interval construction methodology (introduced by Zijian Guo, Hyunseung Kang, T. Tony Cai, and Dylan S. Small in 2018) for linear instrumental variables models with potentially invalid instruments ($Y_i = D_i\\beta^* + \\mathbf{Z}_i^T\\boldsymbol{\\pi}^* + \\mathbf{X}_i^T\\boldsymbol{\\phi}^* + e_i$, $D_i = \\mathbf{Z}_i^T\\boldsymbol{\\gamma}^* + \\mathbf{X}_i^T\\boldsymbol{\\psi}^* + \\epsilon_{i2}$) that replaces the 50% majority-validity condition ($|\\mathcal{V}^*| > |\\mathcal{S}^*|/2$) with the strictly weaker *plurality rule* $|\\mathcal{V}^*| > \\max_{c \\ne 0}|\\{j \\in \\mathcal{S}^* : \\pi_j^*/\\gamma_j^* = c\\}|$ (Assumption 1, Equation 7). Given reduced-form estimators $\\widehat{\\boldsymbol{\\Gamma}}$ and $\\widehat{\\boldsymbol{\\gamma}}$ (from OLS in low dimensions or Debiased Scaled Lasso in high dimensions $p \\gg n$, Equations 5 and 22\u201326), Stage 1 estimates the set of relevant instruments $\\widehat{\\mathcal{S}} = \\{j : |\\widehat{\\gamma}_j| \\ge \\widehat{\\sigma}_2\\sqrt{\\|\\widehat{\\boldsymbol{\\Omega}}_{j\\cdot}\\|_2^2 / n}\\,\\sqrt{2.01\\log p_z}\\}$ via first-stage hard thresholding (Equation 9); Stage 2 computes for each $j \\in \\widehat{\\mathcal{S}}$ the ratio candidate $\\widetilde{\\beta}^{[j]} = \\widehat{\\Gamma}_j / \\widehat{\\gamma}_j$, noise-adjusted violation vector $\\widetilde{\\boldsymbol{\\pi}}^{[j]} = \\widehat{\\boldsymbol{\\Gamma}} - \\widetilde{\\beta}^{[j]}\\widehat{\\boldsymbol{\\gamma}}$, and standard errors $\\widehat{\\mathrm{SE}}(\\widetilde{\\pi}_k^{[j]})$ (Equations 10\u201311), forms the pairwise symmetric voting matrix $\\widehat{V}_{k,j} = \\mathbf{1}\\left(|\\widetilde{\\pi}_k^{[j]}| \\le \\widehat{\\mathrm{SE}}(\\widetilde{\\pi}_k^{[j]})\\sqrt{2.01\\log|\\widehat{\\mathcal{S}}|}\\,\\text{ and }\\,|\\widetilde{\\pi}_j^{[k]}| \\le \\widehat{\\mathrm{SE}}(\\widetilde{\\pi}_j^{[k]})\\sqrt{2.01\\log|\\widehat{\\mathcal{S}}|}\\right)$ (Equations 12\u201314), selects the valid-instrument set $\\widehat{\\mathcal{V}} = \\arg\\max_{\\mathcal{V}_m}\\|\\widehat{\\mathbf{V}}_{\\cdot m}\\|_0$ receiving the plurality of votes (Equations 15\u201316), and constructs the asymptotically normal one-step GMM point estimator $\\widehat{\\beta}$ and confidence interval $\\mathrm{CI}_{\\alpha}$ on $\\widehat{\\mathcal{V}}$ (Equations 17\u201319, Theorems 1\u20133)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 668 maintained AIMech concepts. Distinct from `AIMech:SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability` (Kang, Zhang, Cai, & Small 2016, which uses $\ell_1$ penalization of $\boldsymbol{\alpha}$ and requires the strict 50% majority condition $|\mathcal{V}^*| > |\mathcal{S}^*|/2$ plus restricted isometry/mutual incoherence conditions for point estimation only, without providing asymptotically normal confidence intervals or handling weakly relevant instruments separated from strong ones via two-stage hard thresholding and pairwise voting), distinct from `AIMech:SelfTuningPivotalHighDimensionalInstrumentalVariablesAndSensitivityConfidenceSets` (Gautier & Rose 2011/2021, which solves a self-normalized conic program for high-dimensional endogenous regressors under user-specified instrument-invalidity sensitivity bounds $\Upsilon$ rather than identifying the valid instrument set $\mathcal{V}^*$ data-adaptively via the plurality rule and pairwise symmetric voting), and distinct from `AIMech:PenalizedFocusedGeneralizedMethodOfMomentsForHighDimensionalEndogenousRegression` (Fan & Liao 2014, which selects sparse endogenous regressors using valid over-identifying moments via folded-concave penalized Focused GMM).
+aliases:
+- TSHT
+- Two-Stage Hard Thresholding with Voting
+- Plurality-Rule Invalid Instrument Estimator
+- Guo-Kang-Cai-Small Two-Stage Hard Thresholding IV
+definition_evidence:
+- source_id: gkcs2018-tsht-pdf
+  locator: Section 2, pp. 5-9, Equations (1)-(8), Definition 1, Assumption 1; Section 3, pp. 9-19, Equations (9)-(28); Section 4, pp. 19-24, Assumptions 2-6, Theorems 1-3, Proposition 1
+  relation: supports
+- source_id: gkcs2018-tsht-abs
+  locator: arXiv:1603.05224 abstract
+  relation: supports
+- source_id: gkcs2018-tsht-crossref
+  locator: DOI:10.1111/rssb.12275 bibliographic record
+  relation: supports
+claims:
+- claim_id: plurality-rule-identification-and-stage-1-first-stage-hard-thresholding
+  kind: mechanism
+  statement: 'Under the reduced-form equations $\boldsymbol{\Gamma}^* = \beta^*\boldsymbol{\gamma}^* + \boldsymbol{\pi}^*$ with relevant instrument set $\mathcal{S}^* = \{j : \gamma_j^* \ne 0\}$ and valid subset $\mathcal{V}^* = \{j \in \mathcal{S}^* : \pi_j^* = 0\}$ (Section 2.2, p. 8, Equation 6), Assumption 1 (Equation 7) establishes that $(\beta^*, \boldsymbol{\pi}^*)$ is uniquely identified whenever $|\mathcal{V}^*| > \max_{c \ne 0}|\{j \in \mathcal{S}^* : \pi_j^* / \gamma_j^* = c\}|$ (the plurality rule), strictly relaxing the 50% majority rule $|\mathcal{V}^*| > |\mathcal{S}^*| / 2$ whenever invalid instruments do not all share the same ratio bias $\pi_j^* / \gamma_j^* = c$. Stage 1 (Section 3.1, p. 10, Equation 9) estimates $\mathcal{S}^*$ by hard thresholding $\widehat{\mathcal{S}} = \{1 \le j \le p_z : |\widehat{\gamma}_j| \ge \widehat{\sigma}_2\sqrt{\|\widehat{\boldsymbol{\Omega}}_{j\cdot}\|_2^2 / n}\,\sqrt{2.01\log p_z}\}$, screening out zero and near-zero first-stage instruments whose division $\widehat{\Gamma}_j / \widehat{\gamma}_j$ would otherwise destabilize Stage 2.'
+  evidence:
+  - source_id: gkcs2018-tsht-pdf
+    locator: Section 2.2, pp. 8-9, Equations (6)-(8), Assumption 1; Section 3.1, pp. 9-10, Equation (9)
+    relation: supports
+- claim_id: pairwise-symmetric-voting-matrix-and-plurality-support-recovery
+  kind: mechanism
+  statement: "For each candidate $j \\in \\widehat{\\mathcal{S}}$, Stage 2 (Section 3.2, pp. 10\u201311, Equations 10\u201312) forms the trial causal estimator $\\widetilde{\\beta}^{[j]} = \\widehat{\\Gamma}_j / \\widehat{\\gamma}_j$, the invalidity residual $\\widetilde{\\pi}_k^{[j]} = \\widehat{\\Gamma}_k - \\widetilde{\\beta}^{[j]}\\widehat{\\gamma}_k$ with variance scaling $\\widehat{R}_k^{[j]} = \\widehat{\\sigma}_1^2 + (\\widetilde{\\beta}^{[j]})^2\\widehat{\\sigma}_2^2 - 2\\widetilde{\\beta}^{[j]}\\widehat{\\sigma}_{12}$ and standard error $\\widehat{\\mathrm{SE}}(\\widetilde{\\pi}_k^{[j]}) = \\sqrt{\\widehat{R}_k^{[j]}\\|(\\widehat{\\boldsymbol{\\Omega}}_{k\\cdot} - (\\widehat{\\gamma}_k / \\widehat{\\gamma}_j)\\widehat{\\boldsymbol{\\Omega}}_{j\\cdot})^T\\mathbf{W}\\mathbf{P}_{\\mathbf{X}}^\\perp\\|_2^2 / n}$ (Equation 11), and defines the symmetric voting indicator $\\widehat{V}_{k,j} = \\mathbf{1}\\left(|\\widetilde{\\pi}_k^{[j]}| \\le \\widehat{\\mathrm{SE}}(\\widetilde{\\pi}_k^{[j]})\\sqrt{2.01\\log|\\widehat{\\mathcal{S}}|}\\text{ and }|\\widetilde{\\pi}_j^{[k]}| \\le \\widehat{\\mathrm{SE}}(\\widetilde{\\pi}_j^{[k]})\\sqrt{2.01\\log|\\widehat{\\mathcal{S}}|}\\right)$ (Equation 14) so candidates $k$ and $j$ mutually vote for each other if and only if they yield statistically indistinguishable ratio estimates. Under Assumptions 2\u20135 (in low dimensions) or Assumptions 4\u20136 (in high dimensions $p \\gg n$ via Debiased Scaled Lasso, Section 3.7, Equations 22\u201326), Theorem 1 (p. 20) and Theorem 3 (p. 22) prove that the plurality winner $\\widehat{\\mathcal{V}} = \\arg\\max_{\\mathcal{V}_m}\\|\\widehat{\\mathbf{V}}_{\\cdot m}\\|_0$ (Equation 16) satisfies $\\mathcal{V}^*^{\\mathrm{str}} \\subseteq \\widehat{\\mathcal{V}} \\subseteq \\mathcal{V}^*$ with probability at least $1 - C p^{-c}$, and $\\widehat{\\mathcal{V}} = \\mathcal{V}^*$ whenever all valid instruments are strong."
+  evidence:
+  - source_id: gkcs2018-tsht-pdf
+    locator: Section 3.2-3.3, pp. 10-13, Equations (10)-(16); Section 3.7, pp. 16-19, Equations (22)-(28); Section 4.1-4.3, pp. 19-23, Theorems 1 & 3; Appendix B-C, pp. 33-53
+    relation: supports
+- claim_id: root-n-asymptotic-normality-and-impossibility-of-inference-without-separation
+  kind: scope
+  statement: "Given $\\widehat{\\mathcal{V}}$ from Stage 2, the one-step GMM estimator $\\widehat{\\beta} = \\frac{\\widehat{\\boldsymbol{\\gamma}}_{\\widehat{\\mathcal{V}}}^T\\widehat{\\mathbf{A}}\\widehat{\\boldsymbol{\\Gamma}}_{\\widehat{\\mathcal{V}}}}{\\widehat{\\boldsymbol{\\gamma}}_{\\widehat{\\mathcal{V}}}^T\\widehat{\\mathbf{A}}\\widehat{\\boldsymbol{\\gamma}}_{\\widehat{\\mathcal{V}}}}$ with optimal weight matrix $\\widehat{\\mathbf{A}} = (\\widehat{\\sigma}_1^2\\widehat{\\boldsymbol{\\Omega}}_{\\widehat{\\mathcal{V}}})^{-1}$ (or $\\mathbf{I}_{|\\widehat{\\mathcal{V}}|}$ in high dimensions, Equations 17 and 27) and confidence interval $\\mathrm{CI}_{\\alpha} = [\\widehat{\\beta} - z_{1-\\alpha/2}\\sqrt{\\widehat{V}_{\\beta}/n},\\, \\widehat{\\beta} + z_{1-\\alpha/2}\\sqrt{\\widehat{V}_{\\beta}/n}]$ (Equations 18\u201319) satisfy $\\sqrt{n}(\\widehat{\\beta} - \\beta^*) / \\sqrt{\\widehat{V}_{\\beta}} \\xrightarrow{d} N(0, 1)$ and $\\lim_{n\\to\\infty}\\mathbb{P}(\\beta^* \\in \\mathrm{CI}_{\\alpha}) = 1 - \\alpha$ (Theorem 2, p. 21; Theorem 3, p. 22), achieving the oracle asymptotic variance $V_{\\beta}^* = \\sigma_1^2 / (\\boldsymbol{\\gamma}_{\\mathcal{V}^*}^{\\mathrm{str}}^T\\boldsymbol{\\Omega}_{\\mathcal{V}^*,\\mathrm{str}}^{-1}\\boldsymbol{\\gamma}_{\\mathcal{V}^*}^{\\mathrm{str}})$. Conversely, Proposition 1 (Section 4.4, p. 23, Equations 30\u201331) proves that if invalid instruments violate the separation condition by having local invalidity $|\\pi_j^* / \\gamma_j^*| \\le \\widetilde{\\tau}_j = \\sqrt{\\frac{\\sigma_1^2 + (\\beta^* + \\pi_j^*/\\gamma_j^*)^2\\sigma_2^2 - 2(\\beta^* + \\pi_j^*/\\gamma_j^*)\\sigma_{12}}{n}\\,(\\Omega_{jj} + (\\gamma_j^*/\\gamma_1^*)^2\\Omega_{11} - 2(\\gamma_j^*/\\gamma_1^*)\\Omega_{1j})}$, then the true parameter $(\\beta^*, \\boldsymbol{\\pi}^*)$ is statistically indistinguishable in total variation distance from an alternative valid-instrument model with shifted causal effect $\\beta^* + \\pi_j^*/\\gamma_j^*$ when $|\\mathcal{V}^*| < p_z / 2$."
+  evidence:
+  - source_id: gkcs2018-tsht-pdf
+    locator: Section 3.4, pp. 13-14, Equations (17)-(19); Section 4.2-4.4, pp. 21-24, Theorems 2-3, Proposition 1, Equations (29)-(31); Appendix D, pp. 53-60
+    relation: supports
+evidence_sources:
+- source_id: gkcs2018-tsht-pdf
+  title: Confidence Intervals for Causal Effects with Invalid Instruments by Using Two-Stage Hard Thresholding with Voting
+  authors:
+  - Zijian Guo
+  - Hyunseung Kang
+  - T. Tony Cai
+  - Dylan S. Small
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1603.05224.pdf
+  persistent_id: https://doi.org/10.1111/rssb.12275
+  version: 'arXiv:1603.05224v3 full-text PDF (63 pages, 831572 bytes); published in Journal of the Royal Statistical Society: Series B (Statistical Methodology) 80(4):793-815 (2018).'
+  access_level: full_text
+  accessed_at: '2026-10-19T05:00:00Z'
+  sha256: 0ef075b24ff26df02f667c67c82b6e32e8781abd04810e0304ebc628c68c1f7d
+- source_id: gkcs2018-tsht-abs
+  title: Confidence Intervals for Causal Effects with Invalid Instruments by Using Two-Stage Hard Thresholding with Voting
+  authors:
+  - Zijian Guo
+  - Hyunseung Kang
+  - T. Tony Cai
+  - Dylan S. Small
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1603.05224
+  persistent_id: https://arxiv.org/abs/1603.05224
+  version: arXiv:1603.05224 abstract page (6679 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:00:00Z'
+  sha256: 439929441535be11b9abf8894258350b9eeefc438b7c2a5a6ce3cb163d1940b0
+- source_id: gkcs2018-tsht-crossref
+  title: Confidence Intervals for Causal Effects with Invalid Instruments by Using Two-Stage Hard Thresholding with Voting
+  authors:
+  - Zijian Guo
+  - Hyunseung Kang
+  - T. Tony Cai
+  - Dylan S. Small
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1111/rssb.12275
+  persistent_id: https://doi.org/10.1111/rssb.12275
+  version: Crossref API metadata (5631 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:00:00Z'
+  sha256: 992fedbb392f8e953adc91de4159e5a92a64d0f880ee1e3ea17a9dbd90ff1e48
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: TSHT estimates causal effects in linear structural instrumental variables regression models using two-stage hard thresholding and pairwise voting across reduced-form linear regressions.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: High-dimensional TSHT (Section 3.7) uses Debiased Scaled Lasso for first-stage and reduced-form estimation and generalizes L1-based sisVIVE from majority rule to plurality rule.
+limitations:
+- 'Point identification and root-n confidence interval validity require the plurality rule |V*| > max_{c != 0} |{j in S* : pi_j* / gamma_j* = c}| (Assumption 1); if a coordinated group of invalid instruments sharing an identical ratio pi_j* / gamma_j* = c outnumbers the valid instruments, TSHT votes for the biased cluster.'
+- Proposition 1 (Section 4.4, p. 23) proves that when fewer than 50% of relevant instruments are valid (|V*| < |S*|/2), consistent selection of V* requires minimum invalidity separation |pi_j* / gamma_j* - c| >= C * sqrt(log p / n) (Assumption 5); local violations of order O(1/sqrt(n)) cannot be detected without majority validity.
+- 'Primary-source typographical audit of Guo, Kang, Cai, & Small (2018, arXiv:1603.05224v3) uncovered five minor notation and typographical errors that are corrected in this record: (1) Section 2.1 p. 6 line 19 writes ''the exclusion restriction and no unmeasured confounding imply phi* = psi* = 0 and consequently, pi* = 0'', where phi* and psi* are the baseline covariate coefficient vectors rather than the direct-effect and confounder vectors kappa* = eta* = 0; (2) Section 3.3 p. 11 line 2 writes ''the set P* = {j : pi_j* != 0} defined in Definition 1'' instead of P* = {j : pi_j* = 0}; (3) Section 3.7 p. 16 line 5 spells ''handle the csae when n << p'' (''csae''), and the second optimization display for {gamma_tilde, psi_tilde} writes ''argmin_{Gamma in R^{p_z}, Psi in R^{p_x}}'' instead of ''argmin_{gamma in R^{p_z}, psi in R^{p_x}}''; (4) Appendix A Remark 1 p. 33 writes ''beta = <gamma, Gamma> / <gamma, Gamma>'' instead of ''beta = <gamma, Gamma> / <gamma, gamma> = <gamma, Gamma> / ||gamma||_2^2''; and (5) Appendix C.2 Eq. (42) p. 38 writes ''Theta_{12}(Sigma^{-1})_{kk}'' inside the second factor of the asymptotic variance instead of ''(Sigma^{-1})_{kk}''.'
+curation:
+  created_at: '2026-10-19T05:00:00Z'
+  updated_at: '2026-10-19T05:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

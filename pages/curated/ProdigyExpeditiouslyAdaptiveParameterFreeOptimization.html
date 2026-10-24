@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prodigy (Expeditiously Adaptive Parameter-Free Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Prodigy (Expeditiously Adaptive Parameter-Free Optimization)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Prodigy (Expeditiously Adaptive Parameter-Free Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ProdigyExpeditiouslyAdaptiveParameterFreeOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Prodigy Optimizer, Prodigy Parameter-Free Learner, Weighted D-Adaptation (Prodigy)
+    </div>
+
+  <div class="detail-desc">
+    A parameter-free adaptive optimization algorithm that estimates the initial distance to the solution D = ||x_0 - x_*|| online via a monotonically non-decreasing lower bound d_{k+1} = max(d_k, d_hat_{k+1}) and places d_i^2-weighted gradient norms inside the AdaGrad/Adam step-size denominator — setting eta_k = d_k^2 lambda_k / sqrt(d_k^2 G^2 + sum_{i=0}^k d_i^2 lambda_i^2 ||g_i||^2) in Gradient Descent (Algorithm 1), gamma_{k+1} = 1 / sqrt(lambda_{k+1} G^2 + sum_{i=0}^k lambda_i ||g_i||^2) with lambda_k = d_k^2 in Dual Averaging (Algorithm 2), and scaling moments by d_k and d_k^2 with sqrt(beta_2) EMA tracking of r_{k+1} and s_{k+1} in Adam (Algorithm 3) — improving the worst-case non-asymptotic convergence rate of D-Adaptation by a factor of O(sqrt(log(D / d_0))).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard D-Adaptation in that Prodigy weights each historical squared gradient norm in the step-size denominator by d_i^2 rather than unweighted ||g_i||^2, yielding a provably larger step size d_k^2 / sqrt(sum_{i=0}^k d_i^2 ||g_i||^2) &gt;= d_k / sqrt(sum_{i=0}^k ||g_i||^2) and reducing the dependence on the initial distance underestimate D / d_0 from O(log(D / d_0)) to the optimal O(sqrt(log(D / d_0))). Distinct from DoG in that Prodigy estimates D via a dual lower bound d_hat_{k+1} rather than the maximum iterate displacement max_{i&lt;=k} ||x_i - x_0|| and naturally supports coordinatewise Adam preconditioning.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r590-d2-weighted-stepsize-and-sqrt-log-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By weighting historical squared gradients in the denominator by d_i^2 (and optional non-decreasing weights lambda_i), Prodigy produces step sizes eta_k = d_k^2 / sqrt(sum_{i=0}^k d_i^2 ||g_i||^2) that are provably larger than D-Adaptation&#39;s d_k / sqrt(sum_{i=0}^k ||g_i||^2) and bounds min_{t&lt;N} d_{t+1} / sqrt(sum_{k=0}^t d_k^2) &lt;= 4 sqrt(log_{2+}(d_N / d_0)) / sqrt(N) (Lemma 1), achieving O(G D sqrt(log_{2+}(D / d_0)) / sqrt(n)) convergence in Dual Averaging (Theorem 2) and improving upon D-Adaptation by O(sqrt(log(D / d_0))).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r590-primary-pdf">Prodigy: An Expeditiously Adaptive Parameter-Free Learner</a></span>
+        <span>· <strong>Locator:</strong> Section 2, pp. 2-4; Lemma 1 &amp; Theorems 1-2, pp. 3-4; Appendix A.2-A.4, pp. 15-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r590-adam-exponential-weighting-derivation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Setting exponential weights lambda_k = beta_2^{-k/2} in Prodigy&#39;s step-size identity yields the Adam variant (Algorithm 3), which scales first and second moment updates by d_k and d_k^2 (m_{k+1} = beta_1 m_k + (1 - beta_1) d_k g_k, v_{k+1} = beta_2 v_k + (1 - beta_2) d_k^2 g_k^2) and tracks numerator r_{k+1} and l_1-norm denominator s_{k+1} using exponential moving average factor sqrt(beta_2) to update d_hat_{k+1} = r_{k+1} / ||s_{k+1}||_1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r590-primary-pdf">Prodigy: An Expeditiously Adaptive Parameter-Free Learner</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 3, p. 6; Section 5, pp. 6-7; Appendix A.5, Algorithm 4 &amp; Theorem 7, pp. 22-25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#c-r590-exponentially-bounded-lower-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    D-Adaptation, DoG, and Prodigy all belong to the class of exponentially bounded optimization algorithms satisfying ||x_k - x_0|| &lt;= 2^k d_0 for G-bounded gradients (Definition 1, Theorem 3), for which any algorithm without problem constants G and D suffers a worst-case lower bound min_{k&lt;=n} f(x_k) - f_* &gt;= D G sqrt(log_2(D / x_1)) / (2 sqrt(n + 1)) (Theorem 4), proving that Prodigy&#39;s sqrt(log(D / d_0)) dependence is optimal within this class.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r590-primary-pdf">Prodigy: An Expeditiously Adaptive Parameter-Free Learner</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Definition 1 &amp; Theorems 3-4, pp. 4-5; Appendix B, Theorems 8-9, pp. 25-27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r590-fast-growing-weights-and-da-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Prodigy&#39;s Dual Averaging convergence analysis requires monotonically decreasing step sizes gamma_{k+1} and therefore only holds for fixed weights lambda_k = d_k^2, while in the Gradient Descent variant choosing exponentially growing weights lambda_k = beta_2^{-k^p} requires p &lt; 1/3 to guarantee worst-case convergence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r590-primary-pdf">Prodigy: An Expeditiously Adaptive Parameter-Free Learner</a></span>
+        <span>· <strong>Locator:</strong> Section 2, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Dual Averaging Prodigy (Algorithm 2) requires monotonically decreasing step sizes gamma_{k+1} and therefore cannot incorporate arbitrary increasing gradient weights beyond lambda_k = d_k^2.</li>
+      <li>Maintains additional running state vectors (s_k in R^p alongside m_k and v_k) compared to standard Adam.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Prodigy is a parameter-free adaptive optimizer for training and fine-tuning artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r590-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r590-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2306.06101.pdf" target="_blank" rel="noopener">Prodigy: An Expeditiously Adaptive Parameter-Free Learner</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Konstantin Mishchenko, Aaron Defazio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/MishchenkoD24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:afac6e5d1d4e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r590-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r590-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2306.06101" target="_blank" rel="noopener">Prodigy: An Expeditiously Adaptive Parameter-Free Learner (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Konstantin Mishchenko, Aaron Defazio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2306.06101</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bee91e979dc9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r590-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r590-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/MishchenkoD24" target="_blank" rel="noopener">Prodigy: An Expeditiously Adaptive Parameter-Free Learner (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Konstantin Mishchenko, Aaron Defazio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/MishchenkoD24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a8c4296bb75b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AProdigyExpeditiouslyAdaptiveParameterFreeOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Prodigy (Expeditiously Adaptive Parameter-Free Optimization)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ProdigyExpeditiouslyAdaptiveParameterFreeOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Prodigy (Expeditiously...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:13:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:13:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ProdigyExpeditiouslyAdaptiveParameterFreeOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ProdigyExpeditiouslyAdaptiveParameterFreeOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Prodigy%20%28Expeditiously%20Adaptive%20Parameter-Free%20Optimization%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AProdigyExpeditiouslyAdaptiveParameterFreeOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

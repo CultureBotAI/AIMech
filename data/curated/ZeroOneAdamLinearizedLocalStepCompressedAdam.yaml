@@ -1,0 +1,107 @@
+id: AIMech:ZeroOneAdamLinearizedLocalStepCompressedAdam
+name: 0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A single-stage communication-efficient distributed Adam optimization algorithm that linearizes Adam updates to support simultaneous 1-bit error-compensated compression and periodic local steps (reducing average communication volume to between 0 and 1 bit per parameter) via two coupled schedules: (1) an adaptive variance-freezing step index set T_v subseteq {0, ..., T-1} (with exponentially growing intervals k_{j+1} - k_j = 2^{floor(j/kappa)}) on which workers perform full-precision gradient AllReduce to update v_{t+1} = beta_2 v_t + (1 - beta_2)(g_bar_t)^2 while reusing the stale v_{t+1} = v_t for all t not in T_v, and (2) a synchronization step index set T_u with bounded local-step horizon max_j (t_{j+1} - t_j) <= H on which workers accumulate local steps in an auxiliary buffer u_{t+1/2}^{(i)} = u_t^{(i)} + gamma_t m_t^{(i)}, execute two-pass error-compensated 1bit-AllReduce(u_{t+1/2}^{(i)}) to obtain u_bar_{t+1/2}, and simultaneously synchronize model parameters x_{t+1}^{(i)} = x_{t''}^{(i)} - u_bar_{t+1/2} / sqrt(v_t + eps) and linearly reconstruct local momentum m_{t+1}^{(i)} = u_bar_{t+1/2} / sum_{h=t''}^t gamma_h without additional optimizer-state communication.'
+identity_notes: Distinct from 1-bit Adam (AIMech:OneBitAdamErrorCompensatedPreconditionedMomentum, Tang et al. 2021), which is a special case of Algorithm 4 with T_v = {0, ..., T_0 - 1} and T_u = {0, ..., T - 1} (requiring a long continuous full-precision warmup stage that can take >50% of wall-clock training time and disallowing local steps). Distinct from Qsparse-local-SGD (Basu et al. 2019) and Local SGD (Stich 2018), which apply local steps to linear SGD without adaptive second-moment preconditioning or linear momentum state reconstruction from compressed trajectory buffers.
+aliases:
+- 0/1 Adam
+- Zero-One Adam
+- Linearized Local-Step Compressed Adam
+- 0/1 Adam Optimizer
+definition_evidence:
+- source_id: r631-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r631-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r631-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r631-adaptive-variance-freezing-and-linear-momentum-reconstruction
+  kind: mechanism
+  statement: Because adjacent Adam variance updates ||v_t - v_{t-1}|| decay smoothly and roughly exponentially while local and global optimizer states ||v_t^{(0)} - v_t|| and ||m_t^{(0)} - m_t|| remain separated by a constant gap without synchronization (Figure 1), 0/1 Adam freezes v_t between scheduled variance updates k_j in T_v (with k_{j+1} - k_j = 2^{floor(j/kappa)}, kappa = 16) so that all workers share an identical denominator sqrt(v_t + eps); over local steps between synchronizations t' and t in T_u, the model displacement x_t^{(i)} - x_{t'}^{(i)} is strictly linear in the accumulated buffer u_{t+1/2}^{(i)} = sum_{k=t'}^t gamma_k m_k^{(i)}, allowing a single error-compensated 1bit-AllReduce(u_{t+1/2}^{(i)}) to both synchronize parameters x_{t+1}^{(i)} = x_{t'}^{(i)} - u_bar_{t+1/2} / sqrt(v_t + eps) and linearly reconstruct synchronized momentum m_{t+1}^{(i)} = u_bar_{t+1/2} / sum_{h=t'}^t gamma_h (Algorithm 1 Lines 5-11).
+  evidence:
+  - source_id: r631-primary-pdf
+    locator: Section 3 Figure 1, Section 4 Algorithm 1 & Section 6 Policy for T_v and T_u, pp. 3-5, 8
+    relation: supports
+- claim_id: r631-nonconvex-convergence-without-uniform-variance-lower-bound
+  kind: scope
+  statement: 'Under L-Lipschitz gradients, bounded stochastic variance sigma^2, bounded gradient infinity norm ||g_t||_inf <= G_inf (eliminating 1-bit Adam''s restrictive uniform coordinate variance lower bound v_min > 0 via Lemma 2: beta_2^{m/2} sqrt(v_1 + eps) <= sqrt(v_t + eps) <= sqrt(G_inf^2 + eps)), bounded compressor error Delta^2, and maximum local-step interval H (Assumptions 1-5), if m = |T_v| <= log(1 - beta_1) / log(beta_2) and gamma_t = min{sqrt(n / (sigma^2 T)), 1 / (4 L sqrt(G_inf^2 + eps)), 2 sqrt(G_inf^2 + eps) / L, 1/6}, Theorem 1 proves (1/T) sum_{t=0}^{T-1} E||grad f(x_tilde_t)||^2 <= O(sigma / sqrt(n T) + H^2 Delta^2 (m + n) / T + 1 / T), where compression (Delta) and local steps (H) affect only non-dominating O(1/T) terms.'
+  evidence:
+  - source_id: r631-primary-pdf
+    locator: Section 5 Assumptions 1-5, Theorem 1 & Appendix D.2-D.3 Lemmas 2, 4, 8-10, pp. 6, 18-34
+    relation: supports
+- claim_id: r631-sub-1bit-volume-reduction-and-gpt2-bert-throughput-gain
+  kind: application
+  statement: On up to 128 V100 GPUs across BERT-Base, BERT-Large, GPT-2 (117M parameters, 48 layers), and ResNet-18 on ImageNet, 0/1 Adam reduces average per-parameter communication volume to 0.42 bits on BERT-Large and 0.48 bits on GPT-2 (up to 87% data volume reduction and 54% fewer communication rounds compared to 1-bit Adam's 3.27 and 3.8 bits/parameter, Figure 4) and achieves up to 2x higher training throughput and wall-clock time reduction over 1-bit Adam while matching GLUE average accuracy (81.6 on BERT-Base, 83.6 on BERT-Large), ImageNet Top-1 accuracy (69.88% vs 69.93%), and GPT-2 zero-shot WikiText-103 perplexity (28.07 vs 28.37) and LAMBADA accuracy (33.51% vs 33.21%).
+  evidence:
+  - source_id: r631-primary-pdf
+    locator: Section 6.1-6.2 Tables 1-2 & Figures 2-5, pp. 7-9
+    relation: supports
+  - source_id: r631-metadata-cr
+    locator: ICLR 2023 bibliographic record (conf/iclr/LuLZSH23)
+    relation: supports
+- claim_id: r631-variance-update-budget-and-local-step-freezing-coupling
+  kind: limitation
+  statement: 0/1 Adam's convergence guarantee requires the total number of full-precision variance updates m = |T_v| to satisfy m <= log(1 - beta_1) / log(beta_2) so that beta_2^m >= 1 - beta_1 in Lemmas 2, 9, and 10, and requires stopping variance updates whenever the local-step synchronization interval exceeds 1 (t_{j+1} - t_j > 1) because local momentum approximation noise scales with the learning rate and requires a frozen variance denominator across local steps.
+  evidence:
+  - source_id: r631-primary-pdf
+    locator: Section 5 Theorem 1, Section 6 Policy for T_v and T_u & Section 6.2 Figure 5, pp. 6, 8-9
+    relation: supports
+evidence_sources:
+- source_id: r631-primary-pdf
+  title: Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam
+  authors: &id001
+  - Yucheng Lu
+  - Conglong Li
+  - Minjia Zhang
+  - Christopher De Sa
+  - Yuxiong He
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2202.06009.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/LuLZSH23
+  version: Eleventh International Conference on Learning Representations (ICLR 2023) / arXiv:2202.06009v3 (2023) (1834538 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:54:00Z'
+  sha256: 72b16e3d1b774c1eea29dc3f96c88b3f99af18253fddac61dab84f70d0c9776a
+- source_id: r631-arxiv-abs
+  title: Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2202.06009
+  persistent_id: https://arxiv.org/abs/2202.06009
+  version: arXiv abstract page (6625 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:54:00Z'
+  sha256: e11f20d80dc11b8e189f0dec51a62b90dc9d61c2b22811f6e995c179a7b90cc3
+- source_id: r631-metadata-cr
+  title: Maximizing Communication Efficiency for Large-scale Training via 0/1 Adam (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/LuLZSH23
+  persistent_id: https://dblp.org/rec/conf/iclr/LuLZSH23
+  version: Crossref API work record (1918 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:54:00Z'
+  sha256: f336352b0520744e852b22c111917f4ef65febdffeb0722bdcc19ce62102e035
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: 0/1 Adam is a distributed communication-efficient adaptive optimizer for pre-training large transformer and convolutional neural networks.
+limitations:
+- Requires the total number of variance updates m = |T_v| to be bounded by log(1 - beta_1) / log(beta_2) (approx. 2301 updates for beta_1 = 0.9, beta_2 = 0.999) and requires halting variance updates once local steps are active (t_{j+1} - t_j > 1).
+- Without local steps (setting T_u = {0, ..., T-1}), adaptive variance freezing alone reduces data volume toward 1 bit per parameter (~1.02-1.04 bits/param) but yields only 1.2x-1.3x wall-clock speedup because fixed per-round communication initialization and compression latencies dominate at 64-128 GPUs (Table 3, Figure 5).
+- Local-step intervals t_{j+1} - t_j must be kept at 1 during learning-rate warmup and grown inversely proportional to the decaying learning rate (clipped at H = 16) to bound linear momentum approximation error.
+curation:
+  created_at: '2026-10-19T11:54:00Z'
+  updated_at: '2026-10-19T11:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

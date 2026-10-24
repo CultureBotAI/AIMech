@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedRolex (Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FedRolex (Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedRolex (Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedRolex, Rolling Sub-Model Extraction Federated Learning, Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction
+    </div>
+
+  <div class="detail-desc">
+    A partial-training (PT) model-heterogeneous federated learning algorithm (Alam, Liu, Yan, &amp; Zhang 2022, Section 3, Equations 3-6, Algorithm 1, Appendix A.1 Lemmas 1-2, Appendix A.2 Equation 10) that trains a global server model theta (which can be larger than the largest client model) across resource-heterogeneous clients n in {1, ..., N} with model capacity proportions beta_n in (0, 1] without requiring public data and while preserving compatibility with secure aggregation. In communication round j, for each layer i of the global model with K_i total nodes/kernels and rolling offset j_hat = j mod K_i, the server extracts client n&#39;s sub-model node index set via a deterministic circularly advancing rolling window S_{n,i}^{(j)} = {j_hat, j_hat + 1, ..., j_hat + floor(beta_n K_i) - 1} if j_hat + floor(beta_n K_i) &lt;= K_i, and {j_hat, ..., K_i - 1} U {0, ..., j_hat + floor(beta_n K_i) - 1 - K_i} otherwise (Equation 4), broadcasts the sub-model theta_{n, S_{n,i}^{(j)}}^{(j)} for local SGD training on D_n (Equation 3), and updates each global parameter [i, k] by selective averaging theta_{[i,k]}^{(j+1)} = (1 / sum_{m in M_k} p_m) sum_{m in M_k} p_m theta_{m,[i,k]}^{(j)} over the active clients M_k subset of M that updated parameter [i, k] in round j (Equation 10).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from HeteroFL (AIMech:HeteroFlWidthScaledSubnetworkAggregationForHeterogeneousFederatedLearning, Diao et al. 2021) and FjORD (AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning, Horvath et al. 2021), which use static prefix sub-model extraction S_{n,i}^{(j)} = {0, 1, ..., floor(beta_n K_i) - 1} independent of round j (Equation 6) so that the global server model cannot exceed the largest client model and higher-index parameters are never trained on low-capacity clients&#39; data; and distinct from Federated Dropout (Caldas et al. 2018), which extracts random node subsets each round (Equation 5) and requires O(I log I + I(m-1) log log I) expected rounds rather than m I rounds to update all I sub-models at least m times.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r489-claim-1</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedRolex extracts layer i of client n&#39;s sub-model in round j using a rolling window S_{n,i}^{(j)} of size floor(beta_n K_i) starting at j_hat = j mod K_i with circular wraparound modulo K_i (Equation 4) and aggregates returned sub-model parameters at the server via selective averaging theta_{[i,k]}^{(j+1)} = (1 / sum_{m in M_k} p_m) sum_{m in M_k} p_m theta_{m,[i,k]}^{(j)} over the subset M_k of participating clients whose rolling window covered parameter [i, k] (Algorithm 1, Equation 10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r489-primary-pdf">FedRolex: Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, pp. 4-5, Equation 4, Algorithm 1; Appendix A.2, p. 16, Equation 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r489-claim-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By Lemmas 1 and 2 (Appendix A.1, Equations 7-9), random sub-model selection (Federated Dropout, Equation 5) requires E[N] = I sum_{i=1}^I (1/i) = I int_0^infty (1 - (1 - e^{-t})^I) dt ~ I log I rounds to select all I indices once and I int_0^infty (1 - (1 - S_m(t) e^{-t})^I) dt ~ I log I + I(m-1) log log I rounds to select all indices at least m times, whereas FedRolex&#39;s deterministic rolling window trains every index m times in exactly m I rounds and can train a global server model gamma &gt; 1 times larger than the largest client model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r489-primary-pdf">FedRolex: Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.3.1-3.3.2 &amp; 4.4, pp. 5-6 &amp; 9; Appendix A.1, pp. 14-15, Lemmas 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r489-claim-3</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A full nonconvex optimization convergence proof for rolling sub-model extraction is left open beyond the statistical coverage analysis, and when the server model scaling ratio gamma = {2, 4, 8, 16} grows large relative to small client models on small datasets, global model accuracy still drops as gamma increases.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r489-primary-pdf">FedRolex: Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.4 &amp; 5, pp. 9-10, Figure 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r489-claim-4</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to model-heterogeneous cross-device federated training of PreResNet18 on CIFAR-10 and CIFAR-100 and a 3-layer Transformer language model on Stack Overflow across five client capacity tiers beta in {1, 1/2, 1/4, 1/8, 1/16}, outperforming HeteroFL and Federated Dropout under both low and high data heterogeneity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r489-primary-pdf">FedRolex: Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction</a></span>
+        <span>· <strong>Locator:</strong> Section 4, pp. 6-10, Tables 2-4, Figures 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Provides a statistical node-coverage analysis rather than a full nonconvex optimization convergence proof, and global accuracy still degrades when the server-to-client capacity ratio gamma is very large on small datasets.</li>
+      <li>Addresses training a large global server model across heterogeneous clients, leaving post-training sub-model deployment selection for individual resource-constrained clients as a separate step.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedRolex is a partial-training model-heterogeneous federated learning algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r489-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r489-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2212.01548.pdf" target="_blank" rel="noopener">FedRolex: Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samiul Alam, Luyang Liu, Ming Yan, Mi Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2212.01548</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3b1602263d82…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r489-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r489-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2212.01548" target="_blank" rel="noopener">FedRolex: Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samiul Alam, Luyang Liu, Ming Yan, Mi Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2212.01548</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:279f03e215ca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r489-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r489-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2212.01548" target="_blank" rel="noopener">FedRolex: Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samiul Alam, Luyang Liu, Ming Yan, Mi Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2212.01548</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d844ccd88e81…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FedRolex (Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FedRolex...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:32:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:32:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FedRolex%20%28Model-Heterogeneous%20Federated%20Learning%20with%20Rolling%20Sub-Model%20Extraction%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,95 @@
+id: AIMech:ExpandoMonoDuoT5MultiStageDocumentRanking
+name: 'Expando-Mono-Duo: Multi-Stage Text Ranking with Pretrained Sequence-to-Sequence Models'
+concept_kind: architecture
+review_status: DRAFT
+definition: 'A four-stage retrieve-and-rerank architecture (Pradeep, Nogueira, & Lin, 2021) built on pretrained sequence-to-sequence Transformers (T5) that comprises: (1) Stage H_-1 (''Expando'', doc2query-T5), which expands corpus documents prior to indexing with top-k sampled predicted queries; (2) Stage H_0, which retrieves top-k_0 candidates R_0 from the expanded inverted index via BM25 while passing unexpanded original texts downstream; (3) Stage H_1 (''Mono'', monoT5), which performs pointwise target-word reranking on R_0 to select top-k_1 candidates R_1 (k_1 <= k_0); and (4) Stage H_2 (''Duo'', duoT5), which formats all k_1(k_1 - 1) ordered candidate pairs (d_i, d_j) into ''Query: q Document0: d_i Document1: d_j Relevant:'' to estimate pairwise preference probabilities p_{i,j} = P(d_i > d_j | d_i, d_j, q) via target-token (''true''/''false'') logits and aggregates them using SUM, SUM-LOG, SYM-SUM (s_i = sum_{j != i} (p_{i,j} + (1 - p_{j,i}))), or SYM-SUM-LOG.'
+identity_notes: 'Distinct from standalone pointwise MonoT5 (AIMech:MonoT5DocumentRankingWithPretrainedSeq2SeqModels) and encoder-only BERT cascade DuoBERT (AIMech:DuoBERTMultiStageDocumentRankingWithBERT). Expando-Mono-Duo unifies pre-indexing sequence-to-sequence expansion (H_-1) with pointwise (H_1) and pairwise (H_2) sequence-to-sequence T5 reranking, introducing duoT5 on prompt ''Query: q Document0: d_i Document1: d_j Relevant:'' with relative positional encoding extension to 1,024 tokens and symmetric log/probability pairwise aggregation (SYM-SUM-LOG, Eq. 8).'
+aliases:
+- Expando-Mono-Duo T5 Multi-Stage Ranking Architecture
+- DuoT5 Pairwise Sequence-to-Sequence Reranker
+- Expando-Mono-Duo Design Pattern
+definition_evidence:
+- source_id: r788-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r788-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r788-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: expando-mono-duo-four-stage-and-duot5-aggregation-mechanism
+  kind: mechanism
+  statement: 'Expando-Mono-Duo augments documents at Stage H_-1 with top-k sampled doc2query-T5 queries prior to BM25 indexing (Stage H_0), strips expansion queries before scoring top-k_0 candidates with pointwise monoT5 (Stage H_1), and reranks the top-k_1 candidates with pairwise duoT5 (Stage H_2) over all k_1(k_1 - 1) ordered pairs (d_i, d_j) using prompt ''Query: q Document0: d_i Document1: d_j Relevant:'' (Eq. 4) and symmetric pairwise aggregation SYM-SUM s_i = sum_{j != i} (p_{i,j} + (1 - p_{j,i})) (Eq. 7) or SYM-SUM-LOG s_i = sum_{j != i} (log p_{i,j} + log(1 - p_{j,i})) (Eq. 8).'
+  evidence:
+  - source_id: r788-primary-pdf
+    locator: Section 3.1-3.4, Equations (1)-(8), Figure 1, pp. 3-6; Section 4.1, p. 8
+    relation: supports
+  - source_id: r788-primary-pdf
+    locator: duot5_sum, duot5_sum_log, duot5_sym_sum, and duot5_sym_sum_log verification
+    relation: supports
+- claim_id: expando-mono-duo-additive-stage-gains-scope
+  kind: scope
+  statement: Across MS MARCO passage and document ranking, TREC 2020 Deep Learning Track, and TREC-COVID, each stage (H_-1 doc2query-T5, H_1 monoT5, and H_2 duoT5) contributes statistically significant, cumulative gains in MRR and nDCG, with SYM-SUM and SYM-SUM-LOG outperforming asymmetric SUM and SUM-LOG by combining evidence from both (d_i, d_j) and (d_j, d_i) orderings.
+  evidence:
+  - source_id: r788-primary-pdf
+    locator: Section 5.1-5.5, Tables 1-5, Figure 4, pp. 13-20
+    relation: supports
+- claim_id: expando-mono-duo-quadratic-pairwise-and-model-size-limitation
+  kind: limitation
+  statement: Stage H_2 (duoT5) requires k_1(k_1 - 1) sequence-to-sequence forward passes per query (e.g., 2,450 inferences for k_1 = 50 with 1,024-token context), restricting pairwise reranking to small candidate sets k_1 for early precision, and duoT5 fails to improve over monoT5 if the duoT5 model is smaller than the preceding monoT5 model.
+  evidence:
+  - source_id: r788-primary-pdf
+    locator: Section 3.4, p. 6; Section 4.2, p. 10; Section 5.1, Table 1, Condition (6) vs (9), p. 14
+    relation: supports
+evidence_sources:
+- source_id: r788-primary-pdf
+  title: The Expando-Mono-Duo Design Pattern for Text Ranking with Pretrained Sequence-to-Sequence Models
+  authors: &id001
+  - Ronak Pradeep
+  - Rodrigo Nogueira
+  - Jimmy Lin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2101.05667.pdf
+  persistent_id: https://arxiv.org/bibtex/2101.05667
+  version: arXiv preprint arXiv:2101.05667 (2021) (696575 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:31:00Z'
+  sha256: 5f5ea918fa4f204342bcf67fcd73d69862a7fc668add5701da281e9e9746c9f6
+- source_id: r788-arxiv-abs
+  title: The Expando-Mono-Duo Design Pattern for Text Ranking with Pretrained Sequence-to-Sequence Models (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2101.05667
+  persistent_id: https://arxiv.org/abs/2101.05667
+  version: arXiv abstract page (6609 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:31:00Z'
+  sha256: 0508ae62210976dcb6a70c92d900a68c49a48d425a30d0c4c72d3e15e1491bd5
+- source_id: r788-metadata-cr
+  title: The Expando-Mono-Duo Design Pattern for Text Ranking with Pretrained Sequence-to-Sequence Models (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2101.05667
+  persistent_id: https://arxiv.org/bibtex/2101.05667
+  version: Crossref API work record (431 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:31:00Z'
+  sha256: eff097e19959719f8e9027033cc4820e0fafb36b47ecdddd7807cee1784b37b1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Expando-Mono-Duo is a multi-stage neural text ranking architecture built on pretrained T5 sequence-to-sequence Transformer models.
+limitations:
+- Pairwise duoT5 requires k_1(k_1 - 1) forward passes per query over 1,024-token sequences and only improves ranking when the duoT5 model capacity is at least as large as the monoT5 stage.
+curation:
+  created_at: '2026-10-19T14:31:00Z'
+  updated_at: '2026-10-19T14:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

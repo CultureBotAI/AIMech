@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOAP (ShampoO with Adam in the Preconditioner&#39;s Eigenbasis) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>SOAP (ShampoO with Adam in the Preconditioner&#39;s Eigenbasis)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SOAP (ShampoO with Adam in the Preconditioner&#39;s Eigenbasis)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SoapShampooWithAdamInPreconditionerEigenbasis</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SOAP, SOAP Optimizer, ShampoO with Adam in the Preconditioner&#39;s eigenbasis
+    </div>
+
+  <div class="detail-desc">
+    A second-order stochastic optimization algorithm (ShampoO with Adam in the Preconditioner&#39;s eigenbasis) that maintains Kronecker-factored gradient covariance EMAs L &lt;- beta_2 L + (1 - beta_2) G G^T and R &lt;- beta_2 R + (1 - beta_2) G^T G along with their eigenvector bases Q_L, Q_R (updated every f steps via power iteration and QR decomposition), projects the gradient G&#39; = Q_L^T G Q_R and first-moment EMA M&#39; = Q_L^T M Q_R into Shampoo&#39;s eigenbasis, continually updates an elementwise second-moment EMA V &lt;- beta_2 V + (1 - beta_2)(G&#39; odot G&#39;) in the rotated space at every step, applies the Adam preconditioned step N&#39; = M&#39; / (sqrt(V_hat) + epsilon), and rotates the update back to the original parameter space via N = Q_L N&#39; Q_R^T.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Shampoo in that SOAP establishes an exact equivalence between idealized Shampoo (with exponent 1/2 and trace scaling) and idealized Adafactor in Shampoo&#39;s eigenbasis (Claim 1), and replaces rank-1 Adafactor with full coordinatewise Adam second-moment tracking V updated at every step inside the rotated eigenbasis (Q_L, Q_R), preventing stale-preconditioner degradation when Q_L and Q_R are recomputed infrequently every f steps. Distinct from GaLore in that SOAP maintains exponential moving averages of G G^T and G^T G on both sides of a 2D layer and stores first-moment momentum M in the original parameter space before projecting into the updated eigenbasis.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r589-shampoo-adafactor-eigenbasis-equivalence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Idealized Shampoo with matrix power 1/2 and trace normalization H_hat = (L otimes R) / Trace(L), W_t &lt;- W_{t-1} - eta L^{-1/2} G_t R^{-1/2} / Trace(L)^{-1/2}, is algebraically equivalent to running idealized Adafactor in the eigenbasis (Q_L, Q_R) of L = E_B[G_B G_B^T] and R = E_B[G_B^T G_B] because the row and column second-moment marginals A_i = e_i^T E_B[G&#39;_B odot G&#39;_B] 1_m and C_j = (1_n^T E_B[G&#39;_B odot G&#39;_B])_j in the rotated basis equal the eigenvalues lambda_i(L) and mu_j(R) (Claim 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r589-primary-pdf">SOAP: Improving and Stabilizing Shampoo using Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Algorithms 1-2 &amp; Claim 1, pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r589-rotated-adam-and-qr-power-iteration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SOAP continually updates the elementwise second-moment matrix V &lt;- beta_2 V + (1 - beta_2)(G&#39; odot G&#39;) at every step in the rotated coordinate basis G&#39; = Q_L^T G Q_R while updating the eigenbases Q_L, Q_R only every f steps via a single power-iteration matrix multiplication followed by QR decomposition (Algorithm 3 and Algorithm 4), introducing only one additional hyperparameter (preconditioning frequency f) beyond AdamW and degrading significantly more slowly than Shampoo as f increases up to 100.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r589-primary-pdf">SOAP: Improving and Stabilizing Shampoo using Adam</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 3-4, p. 6; Section 6.2 &amp; Figure 1, pp. 3, 8; Figure 7, pp. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r589-llm-pretraining-speedup-and-critical-batch</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On 360M and 660M parameter language model pre-training in the large-batch regime, SOAP reduces the number of training iterations by over 40% and wall-clock time by over 35% compared to AdamW (and by approximately 20% in both metrics compared to DistributedShampoo), while improving scaling toward the ideal linear critical batch size.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r589-primary-pdf">SOAP: Improving and Stabilizing Shampoo using Adam</a></span>
+        <span>· <strong>Locator:</strong> Abstract, p. 1; Section 6.1-6.4 &amp; Figures 1-5, pp. 7-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r589-space-and-per-step-projection-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Full two-sided SOAP requires 2m^2 + 2n^2 + 3mn memory and m^3 + n^3 + 2m^2 n + 2mn^2 per-step matrix-multiplication overhead for an m x n layer (more per-step projection work than Shampoo&#39;s m^3 + n^3 + m^2 n + mn^2), requiring identity-basis fallback on huge vocabulary embedding/output dimensions or one-sided/factorized approximations to reduce memory below AdamW.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r589-primary-pdf">SOAP: Improving and Stabilizing Shampoo using Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 item 3, p. 7; Section 7.1-7.3, pp. 10-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Incurs 2m^2 + 2n^2 + 3mn state memory and m^3 + n^3 + 2m^2 n + 2mn^2 per-step matrix-multiplication overhead on 2D layers unless one-sided or factorized approximations are used.</li>
+      <li>Cannot maintain full eigenbasis rotation matrices on layers with very large vocabulary dimensions (such as LLM embedding and output projection layers), where the rotation matrix for the large dimension must be fixed to the identity.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SOAP is a Kronecker-eigenbasis preconditioned Adam optimizer for training artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r589-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r589-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2409.11321.pdf" target="_blank" rel="noopener">SOAP: Improving and Stabilizing Shampoo using Adam</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikhil Vyas, Depen Morwani, Rosie Zhao, Mujin Kwun, Itai Shapira, David Brandfonbrener, Lucas Janson, Sham Kakade
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/0001MZSBJK25</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d6f33bb71eab…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r589-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r589-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2409.11321" target="_blank" rel="noopener">SOAP: Improving and Stabilizing Shampoo using Adam (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikhil Vyas, Depen Morwani, Rosie Zhao, Mujin Kwun, Itai Shapira, David Brandfonbrener, Lucas Janson, Sham Kakade
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2409.11321</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6b90ff5efde8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r589-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r589-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/0001MZSBJK25" target="_blank" rel="noopener">SOAP: Improving and Stabilizing Shampoo using Adam (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikhil Vyas, Depen Morwani, Rosie Zhao, Mujin Kwun, Itai Shapira, David Brandfonbrener, Lucas Janson, Sham Kakade
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/0001MZSBJK25</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8ccbc2ce42e0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ASoapShampooWithAdamInPreconditionerEigenbasis">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for SOAP (ShampoO with Adam in the Preconditioner&#39;s Eigenbasis)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:SoapShampooWithAdamInPreconditionerEigenbasis</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">SOAP (ShampoO with...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:12:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:12:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SoapShampooWithAdamInPreconditionerEigenbasis.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SoapShampooWithAdamInPreconditionerEigenbasis.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=SOAP%20%28ShampoO%20with%20Adam%20in%20the%20Preconditioner%27s%20Eigenbasis%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASoapShampooWithAdamInPreconditionerEigenbasis"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

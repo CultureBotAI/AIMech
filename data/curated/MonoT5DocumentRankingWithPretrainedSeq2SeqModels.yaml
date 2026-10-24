@@ -1,0 +1,96 @@
+id: AIMech:MonoT5DocumentRankingWithPretrainedSeq2SeqModels
+name: 'MonoT5: Document Ranking with a Pretrained Sequence-to-Sequence Model'
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A sequence-to-sequence pointwise document and passage reranking method (Nogueira, Jiang, Pradeep, & Lin, Findings of EMNLP 2020) that formats each query-document pair as the text prompt ''Query: q Document: d Relevant:'', fine-tunes a pretrained encoder-decoder Transformer (T5) to generate single-token relevance target words (''true'' for relevant, ''false'' for non-relevant), and computes the candidate''s relevance score at inference time by applying a softmax exclusively over the first-step decoder logits of the ''true'' and ''false'' tokens: P(Relevant=1 | q, d) = exp(z_true) / (exp(z_true) + exp(z_false)).'
+identity_notes: Distinct from encoder-only classification-based rerankers such as monoBERT (which attach a randomly initialized linear classification head to the [CLS] token representation) and pairwise rerankers such as duoBERT (AIMech:DuoBERTMultiStageDocumentRankingWithBERT). By mapping relevance decisions onto pretrained single-token vocabulary logits ('true' and 'false') via the T5 language modeling head, MonoT5 exploits latent semantic and polarity knowledge from pretraining, yielding substantially higher data efficiency in low-resource regimes.
+aliases:
+- MonoT5 Pointwise Sequence-to-Sequence Reranker
+- T5 Target-Word Generation Document Ranking
+- Sequence-to-Sequence Target-Word Relevance Ranking
+definition_evidence:
+- source_id: r787-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r787-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r787-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: monot5-two-token-target-logit-softmax-mechanism
+  kind: mechanism
+  statement: 'MonoT5 formats each query q and document d into the sequence-to-sequence prompt ''Query: q Document: d Relevant:'' (Eq. 1), trains a T5 encoder-decoder to emit single SentencePiece tokens ''true'' or ''false'', and at inference time normalizes exclusively over the two target logits (z_true, z_false) via softmax rather than raw logits or full-vocabulary softmax; for full-length documents exceeding 512 tokens, it segments documents into overlapping 10-sentence sliding windows (stride 5) and selects the maximum passage relevance probability.'
+  evidence:
+  - source_id: r787-primary-pdf
+    locator: Section 2, Equation (1), p. 2; Section 3.2, p. 3
+    relation: supports
+  - source_id: r787-primary-pdf
+    locator: format_monot5_prompt, monot5_relevance_prob, and maxp_document_prob verification
+    relation: supports
+- claim_id: monot5-zero-shot-and-low-data-regime-scope
+  kind: scope
+  statement: Because MonoT5 reuses the pretrained sequence-to-sequence output generation head rather than learning a randomly initialized [CLS] linear layer from scratch, it achieves superior data efficiency in low-resource regimes (reaching ~45% of full-data gain over BM25 with only 2k training examples where BERT-base underperforms BM25) and state-of-the-art zero-shot transfer on TREC Robust04.
+  evidence:
+  - source_id: r787-primary-pdf
+    locator: Section 4.1-4.3, Tables 1-4, pp. 3-7
+    relation: supports
+- claim_id: monot5-single-token-target-word-and-length-limitation
+  kind: limitation
+  statement: MonoT5 requires target relevance labels that tokenize into single SentencePiece tokens (or else requires multi-subword logit aggregation), degrades severely if mapped to semantically meaningless subword targets ('_ab' vs '_de') in low-data regimes, and incurs high computational cost for large encoder-decoder backbones (e.g., T5-3B) with a 512-token input window.
+  evidence:
+  - source_id: r787-primary-pdf
+    locator: Section 2, p. 2; Section 3.2, p. 3; Section 4.3, Table 4, pp. 6-7
+    relation: supports
+evidence_sources:
+- source_id: r787-primary-pdf
+  title: Document Ranking with a Pretrained Sequence-to-Sequence Model
+  authors: &id001
+  - Rodrigo Nogueira
+  - Zhiying Jiang
+  - Ronak Pradeep
+  - Jimmy Lin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2003.06713.pdf
+  persistent_id: https://arxiv.org/bibtex/2003.06713
+  version: 'Findings of the Association for Computational Linguistics: EMNLP 2020 (2020) (113836 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T14:30:00Z'
+  sha256: 49cfcb0bcf6c5ea6b9efdb30a070c4f4268839d52e74ad5c3e27872cace61a3e
+- source_id: r787-arxiv-abs
+  title: Document Ranking with a Pretrained Sequence-to-Sequence Model (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2003.06713
+  persistent_id: https://arxiv.org/abs/2003.06713
+  version: arXiv abstract page (6698 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:30:00Z'
+  sha256: 8cd07e0f6c64cbfadc869be2b3175520d943f94021d6032a17ca862670c31fd5
+- source_id: r787-metadata-cr
+  title: Document Ranking with a Pretrained Sequence-to-Sequence Model (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2003.06713
+  persistent_id: https://arxiv.org/bibtex/2003.06713
+  version: Crossref API work record (409 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:30:00Z'
+  sha256: 6d5b681f5a58043f9d130288365409162d958f6f593c3a1ba863e8a654640fe4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: MonoT5 is a neural sequence-to-sequence Transformer reranking method built on pretrained T5 encoder-decoder models.
+limitations:
+- Requires single-token SentencePiece target words to avoid multi-subword logit aggregation and relies on sliding-window MaxP segmentation for documents exceeding 512 tokens.
+curation:
+  created_at: '2026-10-19T14:30:00Z'
+  updated_at: '2026-10-19T14:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

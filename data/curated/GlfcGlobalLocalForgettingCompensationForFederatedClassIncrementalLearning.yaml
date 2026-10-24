@@ -1,0 +1,104 @@
+id: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning
+name: GLFC (Global-Local Forgetting Compensation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: GLFC (Global-Local Forgetting Compensation) is a federated class-incremental learning (FCIL) algorithm that mitigates both local catastrophic forgetting caused by client class imbalance between old and new classes and global catastrophic forgetting caused by non-i.i.d. cross-client class distributions by combining (1) a local class-aware gradient compensation loss L_GC that normalizes per-sample binary cross-entropy by separate old-class and new-class average gradient magnitudes (G_o and G_n), (2) a class-semantic relation distillation loss L_RD that aligns current predictions P_l^t(X_{lb}^t, Theta_l^{r,t}) with hybrid targets Y_l^t(X_{lb}^t, Theta_l^{t-1}) incorporating soft old-class probabilities from the globally selected best old model Theta^{t-1}, and (3) a proxy server S_P that detects task transitions via local prediction entropy jumps and selects Theta^{t-1} using perturbed prototype gradients nabla Gamma_{lc}.
+identity_notes: Introduced by Jiahua Dong, Lixu Wang, Zhen Fang, Gan Sun, Shichao Xu, Xiao Wang, and Qi Zhu in 'Federated Class-Incremental Learning' (CVPR 2022, pp. 10154-10163, DOI:10.1109/CVPR52688.2022.00992; arXiv:2203.11473). Distinct from FedWeIT (Yoon et al. ICML 2021), which addresses task-incremental federated continual learning with known task IDs at test time and parameter decomposition into masked base weights and sparse task-adaptive weights rather than single-head class-incremental learning; and distinct from centralized class-incremental learning methods (iCaRL, Rebuffi et al. CVPR 2017; PODNet, Douillard et al. ECCV 2020), which assume a single centralized exemplar store without heterogeneous client groups S_o, S_b, S_n or proxy-server prototype gradient reconstruction.
+aliases:
+- GLFC
+- Global-Local Forgetting Compensation
+- Global-Local Forgetting Compensation for Federated Class-Incremental Learning
+definition_evidence:
+- source_id: r515-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r515-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r515-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: glfc-class-aware-gradient-compensation-loss
+  kind: mechanism
+  statement: For a mini-batch {(x_{li}^t, y_{li}^t)}_{i=1}^b on client S_l at incremental task t, GLFC measures the output-layer gradient scalar G_{li}^t = P_l^t(x_{li}^t, Theta_l^{r,t})_{y_{li}^t} - 1 (Equation 2), computes separate mean gradient magnitudes G_n for new classes y_{li}^t in Y_l^t and G_o for old classes y_{li}^t in U_{j=1}^{t-1} Y_l^j (Equation 3), and reweights binary cross-entropy via L_GC = (1/b) sum_{i=1}^b (|G_{li}^t| / bar_G_i) D_CE(P_l^t(x_{li}^t, Theta_l^{r,t}), y_{li}^t) (Equation 4), equalizing the aggregate gradient update magnitude between minority old exemplars and majority new-class samples.
+  evidence:
+  - source_id: r515-primary-pdf
+    locator: Section 4.1, Equations (2)-(4), page 4
+    relation: supports
+- claim_id: glfc-class-semantic-relation-distillation-loss
+  kind: mechanism
+  statement: To preserve inter-class semantic relations across old classes C^p = sum_{i=1}^{t-1} C^i and new classes C^t, GLFC constructs hybrid targets Y_l^t(X_{lb}^t, Theta_l^{t-1}) in R^{b x (C^p + C^t)} by replacing the first C^p dimensions of one-hot ground-truth labels Y_{lb}^t with soft probabilities P_l^{t-1}(X_{lb}^t, Theta_l^{t-1}) predicted by the previous task model Theta_l^{t-1}, and minimizes the Kullback-Leibler divergence L_RD = D_KL(P_l^t(X_{lb}^t, Theta_l^{r,t}) || Y_l^t(X_{lb}^t, Theta_l^{t-1})) (Equation 5) jointly with L_GC in L_l = lambda_1 L_GC + lambda_2 L_RD (Equation 6).
+  evidence:
+  - source_id: r515-primary-pdf
+    locator: Section 4.1, Equations (5)-(6), page 4
+    relation: supports
+- claim_id: glfc-entropy-jump-detection-and-proxy-server-prototype-gradient-selection
+  kind: mechanism
+  statement: Clients detect the arrival of new classes without prior task-transition knowledge when the increase in mean prediction entropy H_l^{r,t} = (1/|X_l^t|) sum_i H(P_l^t(x_{li}^t, Theta_l^{r,t})) satisfies H_l^{r,t} - H_l^{r-1,t} >= r_h = 1.2 (Equation 7); upon transition, each client perturbs class-mean prototypes x^p_{lc} via latent Gaussian noise backpropagation (Equations 10-11) and transmits shallow network gradients nabla Gamma_{lc} (Equation 8) to the proxy server S_P, which reconstructs prototype images via L-BFGS (Equation 9) and evaluates candidate client models across all reconstructed classes to broadcast the best old model Theta^{t-1} for relation distillation.
+  evidence:
+  - source_id: r515-primary-pdf
+    locator: Section 4.2, Equations (7)-(11), pages 5-6; Supplementary Algorithm 1, page 12
+    relation: supports
+- claim_id: glfc-fcil-benchmark-gains-on-cifar100-imagenet-subset-and-tiny-imagenet
+  kind: application
+  statement: On federated class-incremental benchmarks with 10 incremental tasks and non-i.i.d. client streams (including dynamically arriving clients in S_o, S_b, and S_n), GLFC improves average top-1 accuracy by 6.0%-14.1% on CIFAR-100, 7.6%-13.9% on ImageNet-Subset, and 5.3%-11.6% on Tiny-ImageNet over federated adaptations of iCaRL, BiC, PODNet, DDE+iCaRL, GeoDL+iCaRL, and SS-IL (Tables 1-3).
+  evidence:
+  - source_id: r515-primary-pdf
+    locator: Section 5.2, Tables 1-3, pages 6-8
+    relation: supports
+evidence_sources:
+- source_id: r515-primary-pdf
+  title: Federated Class-Incremental Learning
+  authors: &id001
+  - Jiahua Dong
+  - Lixu Wang
+  - Zhen Fang
+  - Gan Sun
+  - Shichao Xu
+  - Xiao Wang
+  - Qi Zhu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2203.11473.pdf
+  persistent_id: https://dblp.org/rec/conf/cvpr/DongWFSXW022
+  version: CVPR 2022 (2022) (1266424 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:58:00Z'
+  sha256: fde0980a2a5e1f7ae3f2de8d805a082e8a8ca2a8573f59e15b8e8aeab9177e01
+- source_id: r515-arxiv-abs
+  title: Federated Class-Incremental Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2203.11473
+  persistent_id: https://arxiv.org/abs/2203.11473
+  version: arXiv abstract page (6698 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:58:00Z'
+  sha256: f47c3caff455bb8c5b6de95cbe7c0a7d9e4526c60be7876d9cc268c8c2b790d0
+- source_id: r515-metadata-cr
+  title: Federated Class-Incremental Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/cvpr/DongWFSXW022
+  persistent_id: https://dblp.org/rec/conf/cvpr/DongWFSXW022
+  version: Crossref API work record (4460 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:58:00Z'
+  sha256: 8e713776ba720c10caea0a7636bb4af809a4fb7122de8474ffa5cd30edbc8dad
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: GLFC is a specific federated class-incremental learning algorithm that compensates for local and global catastrophic forgetting across distributed clients under AIO:FederatedLearning.
+limitations:
+- Requires each client S_l to maintain a bounded local exemplar memory M_l (e.g., 2,000 samples divided across seen classes via herding) to supply old-class samples for L_GC; when exemplar memory is completely disabled (GLFC-w/oMem), CIFAR-100 average accuracy drops by 10.6%-12.0%.
+- Proxy-server selection of the best historical model Theta^{t-1} requires L-BFGS gradient inversion over shallow encoder gradients nabla Gamma_{lc} whenever a task transition is detected.
+curation:
+  created_at: '2026-10-19T09:58:00Z'
+  updated_at: '2026-10-19T09:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

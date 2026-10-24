@@ -1,0 +1,102 @@
+id: AIMech:NoisyChannelLanguageModelPrompting
+name: Noisy Channel Language Model Prompting
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A few-shot language model prompting and prompt-tuning method for text classification that applies Bayes'' rule under a uniform class prior P(c_i) = 1/|C| to reparameterize class prediction arg max_{c_i in C} P(c_i | x) as maximizing the conditional probability of generating the entire input text x given the verbalized label v(c_i): P_LM(x | v(c^1), x^1, ..., v(c^K), x^K, v(c_i)) in concatenation-based demonstrations, prod_{j=1}^K P_LM(x | v(c^j), x^j, v(c_i)) in ensemble-based demonstrations, or P_LM(x | u_1...u_n, v(c_i)) in channel prompt tuning with trainable prefix embeddings u_1...u_n and frozen causal LM weights.'
+identity_notes: Distinct from direct prompting and direct Prompt Tuning (AIMech:InContextLearning, AIMech:PromptTuning), which compute P_LM(v(c_i) | x) and collapse when training labels are imbalanced or when test labels are unseen during training, and from zero-shot Domain Conditional PMI (Holtzman et al., EMNLP 2021, AIMech:PMIDCDomainConditionalPointwiseMutualInformation), which reweights zero-shot direct continuations by a domain premise rather than training continuous channel prompts u_1...u_n or multiplying K reversed demonstration likelihoods.
+aliases:
+- Noisy Channel Prompting
+- Channel Prompt Tuning
+- Noisy Channel Language Model Prompting for Few-Shot Classification
+- Generative Channel Model Prompting and Ensemble Demonstrations
+definition_evidence:
+- source_id: r729-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r729-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r729-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r729-claim-input-token-amplification-and-ensemble
+  kind: mechanism
+  statement: By computing P_LM(x | v(c_i)) = prod_{t'=1}^{t_x} P_LM(x_{t'} | v(c_i), x_{1..t'-1}), noisy channel prompting requires the language model to explain every token in the input x rather than only the label verbalizer token(s), amplifying supervision signals in low-data regimes; furthermore, ensemble-based demonstrations prod_{j=1}^K P_LM(v(c_i)|x^j, v(c^j), x) or prod_{j=1}^K P_LM(x|v(c^j), x^j, v(c_i)) reduce self-attention memory from O(K^2) to O(K) and eliminate sensitivity to demonstration ordering.
+  evidence:
+  - source_id: r729-primary-pdf
+    locator: Section 1, Section 3, and Section 4.1.1-4.1.3, Table 1, pp. 1, 3-4
+    relation: supports
+- claim_id: r729-claim-imbalance-and-unseen-label-robustness
+  kind: mechanism
+  statement: 'Because the verbalized label v(c_i) appears only in the conditioning prefix rather than the target output space of the LM head, channel prompt tuning P_LM(x | u_1...u_n, v(c_i)) does not overfit to the unconditional training label distribution: it remains accurate under extreme training label imbalance (including p^- = 0 where negative examples are completely absent from training) and generalizes to unseen test labels and cross-dataset label spaces where all direct tuning methods fail (50.0% random accuracy on binary tasks).'
+  evidence:
+  - source_id: r729-primary-pdf
+    locator: Section 6.3-6.4 & Section 7, Figures 4-5, Table 5, pp. 7-9
+    relation: supports
+- claim_id: r729-claim-eleven-dataset-few-shot-application
+  kind: application
+  statement: Across 11 text classification benchmarks with GPT-2 Large at K = 16 examples, channel demonstration methods outperform the strongest calibrated direct baseline (Direct++) by +3.1% average and +7.2% worst-case accuracy (58.9%/50.8% vs. 55.8%/43.6%), and channel prompt tuning outperforms direct prompt tuning by +13.3% average and +23.5% worst-case accuracy (61.7%/53.0% vs. 48.4%/29.5%).
+  evidence:
+  - source_id: r729-primary-pdf
+    locator: Section 6.1-6.2, Tables 3-4, pp. 5-6
+    relation: supports
+- claim_id: r729-claim-inference-cost-and-large-k-limitation
+  kind: limitation
+  statement: At inference time, noisy channel prompting requires |C| separate forward passes over the full input sequence x (one per candidate class c_i in C), cannot be directly applied to non-classification generation tasks without an external prior model or to bidirectional masked language models without modifying pretraining objectives, and is surpassed by direct head tuning or full fine-tuning when training data is abundant (K >= 64 or Full) or when the task is far from language modeling (such as TREC question-type classification).
+  evidence:
+  - source_id: r729-primary-pdf
+    locator: Section 6.2-6.3 & Section 7, Table 4, Figure 3, pp. 6-7, 9
+    relation: supports
+evidence_sources:
+- source_id: r729-primary-pdf
+  title: Noisy Channel Language Model Prompting for Few-Shot Text Classification
+  authors: &id001
+  - Sewon Min
+  - Mike Lewis
+  - Hannaneh Hajishirzi
+  - Luke Zettlemoyer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2108.04106.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Noisy+Channel+Language+Model+Prompting+for+Few-Shot+Text+Classification+Min&format=xml
+  version: 'Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL 2022, Volume 1: Long Papers), pp. 5316-5330 (2022) (1530386 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:32:00Z'
+  sha256: a7fdc5ed43b8a751f99f0dd94b349fc362f1716a73e08c6d98166593cff310ae
+- source_id: r729-arxiv-abs
+  title: Noisy Channel Language Model Prompting for Few-Shot Text Classification (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2108.04106
+  persistent_id: https://arxiv.org/abs/2108.04106
+  version: arXiv abstract page (6969 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:32:00Z'
+  sha256: abed6d17abc45ef860ef604aa9b6936ae3e4523d6698391cba99132b592c98d5
+- source_id: r729-metadata-cr
+  title: Noisy Channel Language Model Prompting for Few-Shot Text Classification (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Noisy+Channel+Language+Model+Prompting+for+Few-Shot+Text+Classification+Min&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Noisy+Channel+Language+Model+Prompting+for+Few-Shot+Text+Classification+Min&format=xml
+  version: Crossref API work record (928 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:32:00Z'
+  sha256: 159f9ad2fd124a59ce3502c244df5fa95cb4b0ec411f1a40784c2457ea48b0ec
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Noisy Channel Language Model Prompting adapts frozen causal Transformer neural language models to few-shot classification by conditioning on verbalized labels to score the input sequence.
+limitations:
+- Inference cost scales linearly with the number of classes |C| because computing P_LM(x | v(c_i)) requires running a separate forward pass over the input sequence x for every candidate label c_i.
+- Restricted to causal language models and closed-set classification tasks (not directly applicable to masked LMs or open-ended generation), and trails direct head tuning when K >= 64 or on tasks whose label structure diverges from natural text continuation (such as TREC).
+curation:
+  created_at: '2026-10-19T13:32:00Z'
+  updated_at: '2026-10-19T13:32:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CFL (Clustered Federated Learning via Cosine Similarity Bipartitioning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>CFL (Clustered Federated Learning via Cosine Similarity Bipartitioning)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CFL (Clustered Federated Learning via Cosine Similarity Bipartitioning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CflClusteredFederatedLearningViaCosineSimilarityBipartitioning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CFL, Clustered Federated Learning via Cosine Similarity Bipartitioning, Recursive Cosine-Similarity Bipartitioning for Clustered Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A recursive model-agnostic clustered federated learning algorithm (Sattler, Müller, &amp; Samek 2021, Algorithm 1 &amp; Algorithm 2) that detects client data incongruence whenever a cluster model theta^* approaches a stationary point of its aggregate empirical risk (0 &lt;= ||sum_{i in c} (|D_i|/|D_c|) Delta theta_i|| &lt; varepsilon_1) while individual client update norms remain large (max_{i in c} ||Delta theta_i|| &gt; varepsilon_2 &gt; 0, Eqs. 32-33), computes the pairwise cosine similarity matrix alpha_{i,j} = &lt;Delta theta_i, Delta theta_j&gt; / (||Delta theta_i|| ||Delta theta_j||) (Eq. 13), and recursively bipartitions the cluster into c_1 cup c_2 = c by minimizing the maximum cross-cluster similarity argmin_{c_1 cup c_2 = c} max_{i in c_1, j in c_2} alpha_{i,j} in O(|c|^3) time whenever the separation bound gamma_max &lt; sqrt((1 - alpha_cross^max) / 2) (Eq. 39) holds.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from IFCA (AIMech:IfcaIterativeFederatedClusteringAlgorithm, Ghosh et al. 2020), which requires specifying a fixed number of clusters k upfront and broadcasts all k cluster models to every client in each round for minimum-loss cluster assignment, whereas CFL requires no prior knowledge of k, communicates only a single cluster model per client per round, and recursively splits clusters top-down at stationary points via gradient cosine-similarity minimax bipartitioning.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r414-cosine-similarity-separation-theorem-for-incongruent-distributions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 (Separation Theorem) and Corollary 1 prove that for m clients drawn from k incongruent data-generating distributions at a stationary point theta^* of the global objective with relative empirical gradient noise gamma_i = ||nabla R_{I(i)}(theta^*) - nabla r_i(theta^*)|| / ||nabla R_{I(i)}(theta^*)|| &lt; 1, the minimum intra-cluster cosine similarity satisfies alpha_intra^min &gt;= 1 - 2 gamma_max^2 while the minimax bipartition achieves cross-cluster similarity alpha_cross^max &lt;= cos(pi / (k - 1)) H_{i^*,j^*} + sqrt(1 - cos^2(pi / (k - 1))) sqrt(1 - H_{i^*,j^*}^2) (where H_{i,j} = sqrt(1 - gamma_i^2) sqrt(1 - gamma_j^2) - gamma_i gamma_j), guaranteeing exact separation whenever the separation gap g(alpha) = alpha_intra^min - alpha_cross^max &gt; 0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r414-primary-pdf">Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints</a></span>
+        <span>· <strong>Locator:</strong> Section IV-A Separation Theorem (Theorem 1, Corollary 1, Definition 2, Eqs. 17-31) &amp; Appendix A (Lemmas 2-4, Proof of Theorem 5)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r414-stationary-point-incongruence-criterion-and-orthogonal-encryption-invariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Splitting only when ||sum_{i in c} (|D_i|/|D_c|) Delta theta_i|| &lt; varepsilon_1 and max_{i in c} ||Delta theta_i|| &gt; varepsilon_2 prevents premature splitting on congruent clients while recursively building a parameter tree enabling instant warm-start re-clustering under distribution shifts; furthermore, because inner products and Euclidean norms are invariant under orthonormal transformations (&lt;P x, P y&gt; = &lt;x, y&gt;, ||P x|| = ||x||), CFL operates identically on client weight updates encrypted with a shared random permutation or orthogonal matrix P (Section V-B).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r414-primary-pdf">Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints</a></span>
+        <span>· <strong>Locator:</strong> Section IV-B-C (Eqs. 32-44, Algorithm 2, Figure 2) &amp; Section V Privacy Preservation (Eqs. 45-46)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r414-stationary-point-wait-and-threshold-hyperparameter-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    CFL must wait for the current cluster model to approach a stationary point (||Delta theta_c|| &lt; varepsilon_1) before triggering each bipartition step, and requires tuning the stationarity threshold varepsilon_1 and client incongruence threshold varepsilon_2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r414-primary-pdf">Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints</a></span>
+        <span>· <strong>Locator:</strong> Section IV-B (Eqs. 32-39, Table I)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r414-label-swap-and-rotated-mnist-cifar10-and-agnews-clustering-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to multi-task federated learning under label-swapped and rotated MNIST, CIFAR-10, and AG-News benchmarks with CNN and LSTM architectures, recovering the ground-truth client clusters and outperforming single-model FL.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r414-primary-pdf">Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints</a></span>
+        <span>· <strong>Locator:</strong> Section VI Experiments (Figures 3-8, Tables II-III)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires waiting for the cluster model to reach approximate stationarity before each bipartition step.</li>
+      <li>Requires setting stationarity and incongruence norm thresholds (varepsilon_1, varepsilon_2).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CFL is a clustered multi-task optimization algorithm within Federated Learning.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClustering.html" style="font-weight: 600;"><code>AIO:HierarchicalClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Hierarchical Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CFL uses agglomerative minimax-linkage bipartitioning over pairwise client gradient cosine similarities to construct a hierarchical cluster tree.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r414-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r414-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1910.01991" target="_blank" rel="noopener">Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Felix Sattler, Klaus-Robert Müller, Wojciech Samek
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TNNLS.2020.3015958</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9645442ff909…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r414-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r414-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.01991" target="_blank" rel="noopener">Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Felix Sattler, Klaus-Robert Müller, Wojciech Samek
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.01991</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:654f764040a4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r414-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r414-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/TNNLS.2020.3015958" target="_blank" rel="noopener">Clustered Federated Learning: Model-Agnostic Distributed Multi-Task Optimization under Privacy Constraints (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Felix Sattler, Klaus-Robert Müller, Wojciech Samek
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TNNLS.2020.3015958</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:71e54573e3b8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ACflClusteredFederatedLearningViaCosineSimilarityBipartitioning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for CFL (Clustered Federated Learning via Cosine Similarity Bipartitioning)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:CflClusteredFederatedLearningViaCosineSimilarityBipartitioning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">CFL (Clustered...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:17:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:17:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CflClusteredFederatedLearningViaCosineSimilarityBipartitioning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CflClusteredFederatedLearningViaCosineSimilarityBipartitioning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=CFL%20%28Clustered%20Federated%20Learning%20via%20Cosine%20Similarity%20Bipartitioning%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ACflClusteredFederatedLearningViaCosineSimilarityBipartitioning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

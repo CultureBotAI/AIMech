@@ -1,0 +1,101 @@
+id: AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization
+name: Agnostic Federated Learning via Minimax Distributionally Robust Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A distributionally robust federated learning framework and stochastic minimax optimization algorithm (Agnostic Federated Learning, AFL) that replaces fixed empirical sample-proportion risk minimization with the agnostic minimax objective min_{h in H} L_{D_Lambda}(h) = min_{h in H} max_{lambda in Lambda} sum_{k=1}^p lambda_k L_{D_k}(h) over a subset Lambda of the domain mixture simplex Delta_p. AFL controls generalization via the weighted Rademacher complexity R_m(G, Lambda) and the chi-squared skewness parameter s(Lambda || m_bar) = 1 + max_{lambda in Lambda} chi^2(lambda || m_bar), and optimizes the empirical saddle-point objective via Stochastic-AFL projected gradient descent-ascent w_{t+1} = Pi_W(w_t - gamma_w * delta_w L(w_t, lambda_t)), lambda_{t+1} = Pi_Lambda(lambda_t + gamma_lambda * delta_lambda L(w_t, lambda_t)) using unbiased PerDomain or Weighted stochastic gradients.
+identity_notes: Distinct from q-Fair Federated Learning (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, which minimizes a smooth alpha-fair sum of (1/(q+1)) F_k^{q+1}(w) without maintaining dual simplex mixture weights lambda in Delta_p or solving a saddle-point problem) and from standard FedAvg (AIMech:FederatedAveragingCommunicationEfficientDecentralizedDeepLearning, which minimizes the fixed empirical sample-weighted mixture sum_k (m_k / m) L_k(w) and can suffer a constant excess agnostic risk even as m_k -> infinity by Proposition 1).
+aliases:
+- Agnostic Federated Learning
+- AFL
+- Stochastic-AFL
+- Minimax Agnostic Federated Optimization
+definition_evidence:
+- source_id: r398-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r398-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r398-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r398-proposition1-uniform-mixture-excess-agnostic-risk-and-good-intent-fairness
+  kind: mechanism
+  statement: Proposition 1 proves that even in the infinite-sample limit m_k -> infinity with equal domain weights on two binary distributions D_1(x, 1) = 1 and D_2(x, 1) = D_2(x, 0) = 1/2, the uniform-mixture predictor h_U(x) = 3/4 incurs strictly higher worst-case cross-entropy risk than the agnostic minimax predictor h_{D_Lambda}(x) = 1/2 by a constant gap (1/2) log(4/3) > 0, motivating good-intent fairness across protected or heterogeneous domains.
+  evidence:
+  - source_id: r398-primary-pdf
+    locator: Section 3.2 Comparison with Standard Federated Learning (Proposition 1) & Section 3.3 Fairness in Learning, pp. 3-4
+    relation: supports
+- claim_id: r398-skewness-weighted-rademacher-generalization-and-stochastic-afl-convergence
+  kind: mechanism
+  statement: Theorem 2, Lemma 3, and Corollary 4 bound the uniform generalization gap between expected and empirical agnostic risk in terms of the weighted Rademacher complexity R_m(G, Lambda), the chi-squared skewness s(Lambda || m_bar) = 1 + max_{lambda in Lambda} chi^2(lambda || m_bar) = max_{lambda in Lambda} sum_{k=1}^p lambda_k^2 / m_bar_k, and an l_1 epsilon-cover Lambda_epsilon, while Theorem 5 and Lemmas 6, 8, and 9 prove O(1/sqrt(T)) saddle-point convergence for Stochastic-AFL under PerDomain and Weighted stochastic gradients.
+  evidence:
+  - source_id: r398-primary-pdf
+    locator: Section 4 Learning Guarantees (Theorem 2, Lemma 3, Corollary 4) & Section 5 Algorithm (Theorem 5, Lemmas 6, 8, 9), pp. 4-7
+    relation: supports
+- claim_id: r398-large-domain-count-skewness-and-lambda-gradient-variance-limitation
+  kind: limitation
+  statement: When the number of domains p is large and Lambda = Delta_p is the full simplex, the skewness parameter s(Delta_p || m_bar) = max_k (m / m_k) grows inversely with the smallest client sample fraction, weakening generalization unless Lambda is constrained near m_bar or clients are grouped into clusters, and single-domain sampling for delta_lambda L has O(p M^2) variance (Lemma 6).
+  evidence:
+  - source_id: r398-primary-pdf
+    locator: Section 4 Discussion after Lemma 3, Section 5 Lemma 6, and Section 7 Discussion, pp. 5-8
+    relation: supports
+- claim_id: r398-adult-fashion-mnist-and-language-modeling-fairness-application
+  kind: application
+  statement: Applied to federated income classification (Adult), image classification across clothing categories (Fashion-MNIST), and multi-domain language modeling (Cornell Movie + Penn Treebank), consistently reducing worst-domain test loss and perplexity compared to uniform FedAvg.
+  evidence:
+  - source_id: r398-primary-pdf
+    locator: Section 6 Experiments (Tables 1-3, Figure 5), pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r398-primary-pdf
+  title: Agnostic Federated Learning
+  authors: &id001
+  - Mehryar Mohri
+  - Gary Sivek
+  - Ananda Theertha Suresh
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/mohri19a.html
+  persistent_id: https://doi.org/10.48550/arXiv.1902.00146
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:4615-4625 (2019) (90100 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:01:00Z'
+  sha256: f8d6c099b98946bebaab8c66a2e150a5236676e9777660b35cd4ac6c6ab76352
+- source_id: r398-arxiv-abs
+  title: Agnostic Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1902.00146
+  persistent_id: https://arxiv.org/abs/1902.00146
+  version: arXiv abstract page (6863 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:01:00Z'
+  sha256: d35a0804e57eacccb0b54640b54d1bb2d1da4ec9f0eb5bab9d3f391b4734812b
+- source_id: r398-metadata-cr
+  title: Agnostic Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.1902.00146
+  persistent_id: https://doi.org/10.48550/arXiv.1902.00146
+  version: Crossref API work record (350 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:01:00Z'
+  sha256: 447f9db927b3a558bae78d5d11ea2e48fcdd5ece1c138b606a883ed52378a5f1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: Agnostic Federated Learning is a distributionally robust minimax formulation and stochastic saddle-point optimization algorithm within FederatedLearning.
+limitations:
+- Unconstrained simplex optimization over a large number of small-sample clients p inflates the skewness parameter s(Delta_p || m_bar) = max_k (m / m_k), requiring domain clustering or simplex regularization.
+- Uniform single-domain stochastic gradients for lambda have variance scaling linearly with the number of domains p (O(p M^2)).
+curation:
+  created_at: '2026-10-19T08:01:00Z'
+  updated_at: '2026-10-19T08:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

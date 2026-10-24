@@ -1,0 +1,108 @@
+id: AIMech:BasisLearnCustomMatrixBasisSecondOrderFederatedOptimization
+name: Basis Learn (BL1, BL2, and BL3)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A family of communication-efficient second-order distributed and federated optimization algorithms (BL1, BL2, and BL3) for minimizing f(x) = (1/n) sum_{i=1}^n f_i(x) that transforms each client i's local Hessian nabla^2 f_i(x) into a custom matrix basis {B_i^{jl}} of R^{d x d} or the symmetric matrix space S^d via nabla^2 f_i(x) = sum_{j,l} h_{jl}^i(nabla^2 f_i(x)) B_i^{jl} before applying lossy matrix compression. When local generalized linear model (GLM) data vectors {a_{ij}}_{j=1}^m lie in an r-dimensional subspace G_i subseteq R^d spanned by {v_{it}}_{t=1}^r ( transmitted once to the server at cost r d floats without revealing raw data a_{ij}), the outer-product basis V_{itl} = v_{it} v_{il}^T concentrates all non-zero Hessian coefficients into an r x r block gamma_{itl}(x) = (1/m) sum_{j=1}^m phi_{ij}''(a_{ij}^T x) alpha_{ijt} alpha_{ijl} (r^2 << d^2 floats). BL1 integrates custom-basis Hessian learning L_i^{k+1} = L_i^k + alpha C_i^k(h^i(nabla^2 f_i(z^k)) - L_i^k) with bidirectional model/gradient compression, while BL2 and BL3 extend basis learning to partial client participation using Frobenius-error shifting (BL2) or positive semidefinite basis decomposition (BL3).
+identity_notes: Distinct from standard-basis FedNL (which compresses dense d x d Hessian differences directly in the canonical matrix basis E_{jl} = e_j e_l^T) and from NewtonLearn (which requires revealing raw local data vectors a_{ij} to the server to send m scalar coefficients). Basis Learn sends only the r subspace basis vectors {v_{it}}_{t=1}^r once before training and learns the sparse r x r basis coefficient matrix L_i^k under bidirectional compression and partial participation.
+aliases:
+- Basis Learn
+- BL1 Basis Learn with Bidirectional Compression
+- BL2 Basis Learn with Partial Participation
+- BL3 Positive Semidefinite Basis Learn
+definition_evidence:
+- source_id: r578-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r578-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r578-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lossless-subspace-outer-product-hessian-basis-reduction
+  kind: mechanism
+  statement: For any local generalized linear model f_i(x) = (1/m) sum_{j=1}^m phi_{ij}(a_{ij}^T x) whose feature vectors {a_{ij}}_{j=1}^m span an r-dimensional subspace G_i subseteq R^d with basis {v_{it}}_{t=1}^r (a_{ij} = sum_{t=1}^r alpha_{ijt} v_{it}), Equation (5) and Lemma B.1 show that the r^2 outer-product matrices V_{itl} = v_{it} v_{il}^T are linearly independent and represent nabla^2 f_i(x) = sum_{t,l=1}^r gamma_{itl}(x) V_{itl} exactly using only r^2 coefficients instead of d^2 entries, without revealing the local data vectors a_{ij} to the server.
+  evidence:
+  - source_id: r578-primary-pdf
+    locator: Section 2.3, Equations (4)-(5), Table 1, pp. 5-6; Appendix B.3, Lemma B.1, pp. 28-29
+    relation: supports
+- claim_id: bl1-bidirectional-compressed-basis-learning-linear-and-superlinear-rates
+  kind: mechanism
+  statement: In BL1 (Algorithm 1), each client i updates its basis-coefficient estimate L_i^{k+1} = L_i^k + alpha S_i^k with S_i^k = C_i^k(h^i(nabla^2 f_i(z^k)) - L_i^k), while the server updates H^{k+1} = H^k + (alpha / n) sum_{i=1}^n sum_{j,l} (S_i^k)_{jl} B_i^{jl}, takes the projected Newton step x^{k+1} = z^k - [H^k]_mu^{-1} g^k, and broadcasts compressed model differences v^k = Q^k(x^{k+1} - z^k). Theorems 4.9 and 4.10 prove condition-number-independent local linear convergence E[Phi_1^k] <= (1 - min{A_M, p}/2)^k Phi_1^0 and local superlinear convergence E[||x^{k+1} - x^*||^2 / ||x^k - x^*||^2] <= theta_1^k (A_M H^2 / (8 B M_1^2 mu^2) + 2 N_B R^2 / mu^2) Phi_2^0.
+  evidence:
+  - source_id: r578-primary-pdf
+    locator: Section 4, Algorithm 1, Theorems 4.9 and 4.10, pp. 9-10
+    relation: supports
+  - source_id: r578-metadata-cr
+    locator: Abstract
+    relation: supports
+- claim_id: bl2-and-bl3-partial-participation-and-composed-rank-r-unbiased-compressors
+  kind: application
+  statement: BL2 (Algorithm 2, Theorems 4.12-4.13) and BL3 (Algorithm 3, Theorems 5.4-5.5) unify custom matrix bases with partial client participation (sampling tau out of n clients per round) and guarantee positive definiteness without matrix eigenvalue projection via either Frobenius error shifts l_i^k I (BL2) or positive semidefinite symmetric basis matrices B_i^{jl} >= 0 (BL3), while Proposition 3.2 constructs a contractive matrix compressor C_2 of parameter delta = R / (d (omega_1 + 1)(omega_2 + 1)) by composing Rank-R SVD truncation with unbiased vector compressors Q_1^i, Q_2^i.
+  evidence:
+  - source_id: r578-primary-pdf
+    locator: Section 3, Lemma 3.1 and Proposition 3.2, pp. 7-8; Sections 4-5, Algorithms 2-3, pp. 11-15
+    relation: supports
+- claim_id: one-time-basis-transmission-and-full-rank-data-limitation
+  kind: limitation
+  statement: Basis Learn requires a one-time preprocessing step (such as local feature-matrix SVD) and initial transmission of the client basis matrices (costing r d floats per client in the GLM subspace setting), and its lossless dimension reduction from d^2 to r^2 diminishes when local data matrices have full rank r = d.
+  evidence:
+  - source_id: r578-primary-pdf
+    locator: Section 2.3, Table 1, pp. 5-6; Section 6.1, p. 17
+    relation: supports
+evidence_sources:
+- source_id: r578-primary-pdf
+  title: 'Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning'
+  authors: &id001
+  - Xun Qian
+  - Rustem Islamov
+  - Mher Safaryan
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2111.01847
+  persistent_id: https://proceedings.mlr.press/v151/qian22a.html
+  version: Proceedings of the 25th International Conference on Artificial Intelligence and Statistics (AISTATS 2022), PMLR 151:680-720 (2022) (18500092 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:01:00Z'
+  sha256: be413251d60b3c3ec9f7444c4bda6ade5515ca3a92fbe4cdd11973711d429b3a
+- source_id: r578-arxiv-abs
+  title: 'Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2111.01847
+  persistent_id: https://arxiv.org/abs/2111.01847
+  version: arXiv abstract page (6759 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:01:00Z'
+  sha256: 03d8df189562a618c05231882da53d041e4cc372ee33bd77fbd922fd9a88eddf
+- source_id: r578-metadata-cr
+  title: 'Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v151/qian22a.html
+  persistent_id: https://proceedings.mlr.press/v151/qian22a.html
+  version: Crossref API work record (4043 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:01:00Z'
+  sha256: f1ee5a4ea660992724fd833f3ae7b3404ff6a769b2206ede36403c7d8b3c8439
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: Basis Learn (BL1, BL2, BL3) is a second-order federated optimization family with bidirectional compression and partial client participation.
+- target: AIO:GeneralizedLinearModel
+  relation: related_match
+  rationale: Exploits the rank-r subspace structure of local Generalized Linear Model Hessians to achieve lossless r^2-coefficient basis representations without revealing client data.
+limitations:
+- Requires an initial communication phase of O(r d) floats per client to share the local subspace basis with the server.
+- Local linear and superlinear convergence guarantees hold within an explicit neighborhood around the strongly convex minimizer x^*.
+curation:
+  created_at: '2026-10-19T11:01:00Z'
+  updated_at: '2026-10-19T11:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

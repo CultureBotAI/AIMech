@@ -1,0 +1,109 @@
+id: AIMech:TTQTrainedTernaryQuantization
+name: TTQ (Trained Ternary Quantization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: TTQ (Trained Ternary Quantization) is a neural network weight quantization method that compresses full-precision weights into 2-bit asymmetric ternary values {-W_l^n, 0, +W_l^p} per layer l by normalizing latent full-precision weights w_tilde_l into [-1, 1], thresholding by Delta_l = t * max(|w_tilde_l|) (or a constant sparsity ratio r), and jointly training both the asymmetric positive and negative scaling coefficients (W_l^p, W_l^n) via summed intra-bucket gradients (Eq. 7) and the ternary assignments via asymmetrically scaled latent-weight gradients dL/dw_tilde_l in {W_l^p * dL/dw_l^t, 1 * dL/dw_l^t, W_l^n * dL/dw_l^t} (Eq. 8).
+identity_notes: Distinct from symmetric Ternary Weight Networks (TWN), which tie positive and negative ternary magnitudes to a single analytical scale W_l with heuristic threshold 0.7 * E(|w|), and distinct from uniform k-bit weight quantizers such as DoReFa-Net (AIMech:DoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients).
+aliases:
+- TTQ
+- Trained Ternary Quantization
+definition_evidence:
+- source_id: r823-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r823-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r823-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: ttq-asymmetric-ternary-quantization-and-threshold-rule
+  kind: mechanism
+  statement: TTQ normalizes latent full-precision weights w_tilde_l to [-1, 1] via maximum-magnitude division (Eq. 5) and assigns ternary weights w_l^t = +W_l^p for w_tilde_l > Delta_l, 0 for |w_tilde_l| <= Delta_l, and -W_l^n for w_tilde_l < -Delta_l (Eq. 6), where the threshold Delta_l = t * max(|w_tilde_l|) (Eq. 9, typically t = 0.05) or is set to maintain a constant layer sparsity ratio r.
+  evidence:
+  - source_id: r823-primary-pdf
+    locator: Section 3, Equations 5-6 and 9, pp. 3-4
+    relation: supports
+  - source_id: r823-primary-pdf
+    locator: ttq_quantize
+    relation: supports
+- claim_id: ttq-joint-scale-and-latent-assignment-gradient-backpropagation
+  kind: mechanism
+  statement: During backpropagation, TTQ updates the per-layer positive and negative scaling coefficients via dL/dW_l^p = sum_{i in I_l^p} dL/dw_l^t(i) and dL/dW_l^n = sum_{i in I_l^n} dL/dw_l^t(i) (Eq. 7) and updates the latent weights via piecewise scaled gradients dL/dw_tilde_l = W_l^p * dL/dw_l^t for w_tilde_l > Delta_l, 1 * dL/dw_l^t for |w_tilde_l| <= Delta_l, and W_l^n * dL/dw_l^t for w_tilde_l < -Delta_l (Eq. 8).
+  evidence:
+  - source_id: r823-primary-pdf
+    locator: Section 3, Equations 7-8 and Figure 1, pp. 3-4
+    relation: supports
+  - source_id: r823-primary-pdf
+    locator: ttq_backward and main
+    relation: supports
+- claim_id: ttq-16x-weight-compression-exceeding-or-matching-fp32-on-cifar-and-imagenet
+  kind: application
+  statement: TTQ reduces weight storage from 32 bits to 2 bits (~16x model compression) with 30%-50% zero-weight sparsity while outperforming full-precision baselines on CIFAR-10 (ResNet-20, 32, 44, 56) and AlexNet on ImageNet (57.5% vs. 57.2% top-1 accuracy) and matching ResNet-18 within 3% top-1 accuracy.
+  evidence:
+  - source_id: r823-primary-pdf
+    locator: Section 4.1-4.2, Tables 1-3 and Figures 2-3, pp. 5-7
+    relation: supports
+- claim_id: ttq-full-precision-activations-and-first-last-layer-exclusion
+  kind: limitation
+  statement: TTQ quantizes only network weights (keeping activations and gradients in 32-bit floating point) and leaves the first convolutional layer and final fully connected layer in full precision across CIFAR-10 and ImageNet experiments.
+  evidence:
+  - source_id: r823-primary-pdf
+    locator: Section 4.1 (p. 5) and Section 4.2 (AlexNet and ResNet-18, pp. 5-7)
+    relation: supports
+evidence_sources:
+- source_id: r823-primary-pdf
+  title: Trained Ternary Quantization
+  authors: &id001
+  - Chenzhuo Zhu
+  - Song Han
+  - Huizi Mao
+  - William J. Dally
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1612.01064
+  persistent_id: https://arxiv.org/bibtex/1612.01064
+  version: ICLR 2017 (2017) (711048 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:06:00Z'
+  sha256: 05b50804a456aecea73a033212c1a4ea5d33020c640ee3b3ca9b8a5f19c85d39
+- source_id: r823-arxiv-abs
+  title: Trained Ternary Quantization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1612.01064
+  persistent_id: https://arxiv.org/abs/1612.01064
+  version: arXiv abstract page (7027 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:06:00Z'
+  sha256: f1c7c8c0dde9a6104a8523e4385373538b3683bc1699dee0c443ba4dbc4aedd1
+- source_id: r823-metadata-cr
+  title: Trained Ternary Quantization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1612.01064
+  persistent_id: https://arxiv.org/bibtex/1612.01064
+  version: Crossref API work record (366 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:06:00Z'
+  sha256: 6c0f423562fd47e2d19c623a7812185fb8c2b9a9d7b137c1e9488fdb9537f3ef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: TTQ is a ternary weight quantization method for compressing deep neural networks to 2-bit weight representations.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: TTQ induces controlled zero-weight sparsity via layer threshold Delta_l while learning asymmetric non-zero ternary scales.
+limitations:
+- Quantizes only weights while keeping activations and gradients in full precision.
+- Leaves the first convolutional layer and the final classification layer in full precision to preserve accuracy.
+curation:
+  created_at: '2026-10-19T15:06:00Z'
+  updated_at: '2026-10-19T15:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

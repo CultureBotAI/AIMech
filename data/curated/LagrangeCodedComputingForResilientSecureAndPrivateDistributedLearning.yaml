@@ -1,0 +1,103 @@
+id: AIMech:LagrangeCodedComputingForResilientSecureAndPrivateDistributedLearning
+name: Lagrange Coded Computing for Straggler-Resilient, Byzantine-Secure, and T-Private Distributed Polynomial Evaluation
+concept_kind: algorithm
+review_status: DRAFT
+definition: A universal algebraic coded distributed computing framework proposed by Yu, Li, Raviv, Mousavi Kalan, Soltanolkotabi, and Avestimehr (AISTATS 2019) that evaluates an arbitrary multivariate polynomial f of degree deg(f) across K dataset batches (X_1, ..., X_K) with T-collusion information-theoretic data privacy, S-straggler resiliency, and A-Byzantine adversary security by encoding the K data batches and T uniform random noise masks (Z_{K+1}, ..., Z_{K+T}) via a degree-(K+T-1) Lagrange interpolation polynomial u(z), evaluating f(u(alpha_i)) on N workers, and decoding f(X_1), ..., f(X_K) via Reed-Solomon polynomial interpolation whenever (K + T - 1) deg(f) + S + 2A + 1 <= N.
+identity_notes: Distinct from Gradient Coding for Straggler-Resilient Distributed Optimization (AIMech:GradientCodingForStragglerResilientDistributedOptimization, which linearly encodes partial gradients computed on uncoded replicated data blocks without data privacy or general polynomial universality) and from DRACO (AIMech:DracoByzantineResilientDistributedTrainingViaRedundantGradients, which treats gradient evaluation as a black-box function requiring a 2A + 1 multiplicative redundancy factor rather than a 2A additive worker overhead). Lagrange Coded Computing / LCC (Yu et al., AISTATS 2019, PMLR 89:1215-1225 / arXiv:1806.00939, Section III-IV, Theorems 1-2, Equation 2, pp. 4-6) fixes K + T distinct interpolation nodes beta_1, ..., beta_{K+T} in F_q and constructs the degree-(K+T-1) Lagrange polynomial u(z) = sum_{j=1}^K X_j prod_{k != j} (z - beta_k)/(beta_j - beta_k) + sum_{j=K+1}^{K+T} Z_j prod_{k != j} (z - beta_k)/(beta_j - beta_k), assigning worker i the single coded share tilde{X}_i = u(alpha_i). Each worker computes tilde{Y}_i = f(tilde{X}_i) = f(u(alpha_i)), an evaluation of a composed polynomial of degree at most (K + T - 1) deg(f), enabling the master to recover {f(X_j) = f(u(beta_j))}_{j=1}^K from any N - S responding workers with up to A Byzantine errors whenever N >= (K + T - 1) deg(f) + S + 2A + 1.
+aliases:
+- Lagrange Coded Computing
+- LCC
+- Lagrange Polynomial Coded Distributed Computing
+definition_evidence:
+- source_id: r537-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r537-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r537-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lcc-lagrange-polynomial-data-encoding-and-reed-solomon-composition-decoding
+  kind: mechanism
+  statement: LCC selects distinct field elements beta_1, ..., beta_{K+T} and alpha_1, ..., alpha_N (with {alpha_i} cap {beta_j}_{j=1}^K = empty when T > 0), encodes K dataset blocks and T uniform random masks via u(z) so worker i stores tilde{X}_i = u(alpha_i) (Equation 2), evaluates tilde{Y}_i = f(tilde{X}_i) locally, and decodes the degree-((K+T-1) deg(f)) composed polynomial f(u(z)) from N - S responses with up to A errors via Reed-Solomon syndrome decoding (Equation 4) to evaluate f(X_j) = f(u(beta_j)).
+  evidence:
+  - source_id: r537-primary-pdf
+    locator: Section IV-B, Equation (2), p. 6; Appendix A-B, Algorithms 1-2 & Equation (4), pp. 10-11
+    relation: supports
+- claim_id: lcc-optimal-resiliency-security-privacy-tradeoff-theorems
+  kind: scope
+  statement: Theorem 1 and Lemma 2 prove that LCC is S-resilient, A-secure, and information-theoretically T-private (I(X; tilde{X}_T) = 0 for any |T| <= T via the MDS property of U^{bottom}) whenever (K + T - 1) deg(f) + S + 2A + 1 <= N, and Theorem 2 and Lemma 1 prove that LCC achieves the information-theoretically optimal recovery threshold R_{LCC}(N, K, f) + T deg(f) among all linear encoding schemes.
+  evidence:
+  - source_id: r537-primary-pdf
+    locator: Section III, Theorems 1-2, p. 4; Section V, Lemma 1, p. 7; Appendix C, Lemma 2, p. 11
+    relation: supports
+- claim_id: lcc-polynomial-degree-scaling-and-vandermonde-conditioning-limitation
+  kind: limitation
+  statement: LCC applies directly only to computations expressible or approximated as multivariate polynomials of moderate degree deg(f) because the required recovery threshold scales linearly with (K + T - 1) deg(f), and real-valued Lagrange interpolation can suffer numerical conditioning errors unless embedded into a finite field F_q.
+  evidence:
+  - source_id: r537-primary-pdf
+    locator: Section III-A, Table I, p. 5; Section VI, p. 8
+    relation: supports
+- claim_id: lcc-distributed-least-squares-linear-regression-gradient-application
+  kind: application
+  statement: Applied to straggler-resilient distributed gradient descent for least-squares linear regression (evaluating the degree-2 polynomial f(bar{X}_k) = bar{X}_k bar{X}_k^T w with recovery threshold R_{LCC} = 2 ceil(n/r) - 1) on Amazon EC2 clusters, achieving 6.79x-13.43x speedup over uncoded execution and 2.36x-4.29x over Gradient Coding.
+  evidence:
+  - source_id: r537-primary-pdf
+    locator: Section VI, Figure 2, pp. 7-8; Appendix K, Tables II-IV, pp. 17-18
+    relation: supports
+evidence_sources:
+- source_id: r537-primary-pdf
+  title: 'Lagrange Coded Computing: Optimal Design for Resiliency, Security, and Privacy'
+  authors: &id001
+  - Qian Yu
+  - Songze Li
+  - Netanel Raviv
+  - Seyed Mohammadreza Mousavi Kalan
+  - Mahdi Soltanolkotabi
+  - A. Salman Avestimehr
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1806.00939.pdf
+  persistent_id: https://dblp.org/rec/conf/aistats/YuLRKSA19.xml
+  version: Proceedings of the 22nd International Conference on Artificial Intelligence and Statistics (AISTATS 2019), PMLR 89:1215-1225 (2019) (952246 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:20:00Z'
+  sha256: 23c525bbab09cd4cf060f744703bb5d613bcdc5b075d476b16cae33b0536de86
+- source_id: r537-arxiv-abs
+  title: 'Lagrange Coded Computing: Optimal Design for Resiliency, Security, and Privacy (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1806.00939
+  persistent_id: https://arxiv.org/abs/1806.00939
+  version: arXiv abstract page (7902 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:20:00Z'
+  sha256: 98fbfcad5ed57557f118bcfada79d5b0efa2525b9a96a5357e505b6eb23cb5e1
+- source_id: r537-metadata-cr
+  title: 'Lagrange Coded Computing: Optimal Design for Resiliency, Security, and Privacy (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/aistats/YuLRKSA19.xml
+  persistent_id: https://dblp.org/rec/conf/aistats/YuLRKSA19.xml
+  version: Crossref API work record (554 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:20:00Z'
+  sha256: df0fe629b7c279f4aeda3f0fbacdbfd31281848169041d5cb0cb110aa74e269a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression is a primary distributed learning task accelerated by Lagrange Coded Computing via degree-2 polynomial gradient encoding.
+limitations:
+- Requires the target computation f(X_i) to be a multivariate polynomial of bounded degree deg(f), as the recovery threshold (K + T - 1) deg(f) + S + 2A + 1 grows linearly with deg(f).
+- Guaranteeing information-theoretic T-privacy requires embedding real-valued datasets into a finite field F_q and pre-distributing coded dataset shares across workers.
+curation:
+  created_at: '2026-10-19T10:20:00Z'
+  updated_at: '2026-10-19T10:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

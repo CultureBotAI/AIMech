@@ -1,0 +1,96 @@
+id: AIMech:RsaByzantineRobustStochasticAggregationForHeterogeneousDatasets
+name: Byzantine-Robust Stochastic Aggregation for Heterogeneous Datasets
+concept_kind: algorithm
+review_status: DRAFT
+definition: A family of Byzantine-robust distributed stochastic learning methods for heterogeneous (non-i.i.d.) worker datasets that reformulates distributed consensus optimization by introducing local worker variables x_i and a master variable x_0 coupled through an l_1-norm (or general l_p-norm, p >= 1) consensus penalty sum_{i in R} lambda ||x_i - x_0||_p, updating each regular worker via local stochastic gradient plus penalty subgradient and updating the master via the sum of bounded dual-norm subgradients from all workers.
+identity_notes: Distinct from gradient-averaging or robust gradient-aggregation rules that assume i.i.d. worker gradients (Krum, Bulyan, Trimmed-Mean, Coordinate-Wise Median, Geometric Median / RFA), and distinct from proximal heterogeneous federated optimization without Byzantine robustness (FedProx). Specifically denotes the l_1-norm and l_p-norm Regularized Stochastic Aggregation (RSA) methods of Li, Xu, Chen, Giannakis, & Ling (AAAI 2019, Eqs. 5-11, Proposition 1, Theorems 1-4).
+aliases:
+- RSA
+- l1-RSA
+- lp-RSA
+- Byzantine-Robust Stochastic Aggregation
+definition_evidence:
+- source_id: r522-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r522-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r522-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r522-lp-penalized-master-worker-subgradient-recursion
+  kind: mechanism
+  statement: In l_1-norm RSA (Eqs. 5-8) and general l_p-norm RSA (Eqs. 9-11, p >= 1), regular worker i in R updates x_i^{k+1} = x_i^k - alpha^{k+1}(nabla F(x_i^k, xi_i^k) + lambda * sign(x_i^k - x_0^k)) (or dual-norm subgradient in partial_{x_i}||x_i^k - x_0^k||_p), while the master updates x_0^{k+1} = x_0^k - alpha^{k+1}(nabla f_0(x_0^k) + lambda * (sum_{i in R} sign(x_0^k - x_i^k) + sum_{j in B} sign(x_0^k - z_j^k))), bounding every Byzantine worker's influence in dual l_b-norm (1/b + 1/p = 1) by at most lambda regardless of the magnitude of z_j^k.
+  evidence:
+  - source_id: r522-primary-pdf
+    locator: Section 'Byzantine-Robust Stochastic Aggregation (RSA)', Eqs. 5-11 and Proposition 1, pp. 3-4
+    relation: supports
+- claim_id: r522-exact-consensus-and-heterogeneous-convergence
+  kind: scope
+  statement: Theorem 1 proves that in the absence of Byzantine workers (B = empty), the l_p-penalized objective (Eq. 9) achieves exact consensus x_i^* = x_0^* = tilde_x^* whenever lambda >= lambda_0 := max_{i in R} ||nabla E[F(tilde_x^*, xi_i)]||_b, and Theorems 2-3 establish O(1/(k+1)) sublinear convergence to a bounded O(lambda^2 q^2) neighborhood of tilde_x^* under arbitrary heterogeneous worker distributions D_i.
+  evidence:
+  - source_id: r522-primary-pdf
+    locator: Section 'Theoretical Guarantees', Proposition 1 and Theorems 1-3, pp. 4-5; Supplementary Material pp. 10-16
+    relation: supports
+- claim_id: r522-nonzero-asymptotic-error-neighborhood-limitation
+  kind: limitation
+  statement: When q > 0 Byzantine workers are present, RSA converges to a non-zero asymptotic error neighborhood Delta_1 = O(lambda^2 q^2) / mu^2 around the true consensus optimum tilde_x^* (Theorems 2-3), creating a trade-off between choosing lambda >= lambda_0 large enough for consensus across heterogeneous workers and keeping lambda small to minimize Byzantine bias.
+  evidence:
+  - source_id: r522-primary-pdf
+    locator: Section 'Theoretical Guarantees', Theorems 1-3 and discussion of Delta_1, pp. 4-5
+    relation: supports
+evidence_sources:
+- source_id: r522-primary-pdf
+  title: 'RSA: Byzantine-Robust Stochastic Aggregation Methods for Distributed Learning from Heterogeneous Datasets'
+  authors: &id001
+  - Liping Li
+  - Wei Xu
+  - Tianyi Chen
+  - Georgios B. Giannakis
+  - Qing Ling
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1811.03761.pdf
+  persistent_id: https://dblp.org/rec/conf/aaai/LiXCGL19.json
+  version: Proceedings of the Thirty-Third AAAI Conference on Artificial Intelligence (AAAI 2019), pp. 1544-1551 (2019) (1036706 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:05:00Z'
+  sha256: 53fc621eff8ec566e876f9c50caeffe95fd55d91a8b1bcaba570716766f1a48b
+- source_id: r522-arxiv-abs
+  title: 'RSA: Byzantine-Robust Stochastic Aggregation Methods for Distributed Learning from Heterogeneous Datasets (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1811.03761
+  persistent_id: https://arxiv.org/abs/1811.03761
+  version: arXiv abstract page (7599 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:05:00Z'
+  sha256: dabe400bbf9355098e78d49e8df8afe86a925798eeeace201b78a77137576854
+- source_id: r522-metadata-cr
+  title: 'RSA: Byzantine-Robust Stochastic Aggregation Methods for Distributed Learning from Heterogeneous Datasets (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/aaai/LiXCGL19.json
+  persistent_id: https://dblp.org/rec/conf/aaai/LiXCGL19.json
+  version: Crossref API work record (2033 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:05:00Z'
+  sha256: b301e871574d9499e8198e59730673cb23c17afebf03832bca106557a70c1dbc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: RSA is a Byzantine-robust distributed stochastic learning and model aggregation method over heterogeneous worker datasets.
+limitations:
+- Converges to a non-zero error neighborhood proportional to lambda^2 * q^2 when q > 0 Byzantine workers are present.
+- Requires selecting the penalty hyperparameter lambda large enough (lambda >= lambda_0) to enforce consensus across heterogeneous workers without excessively amplifying Byzantine bias.
+curation:
+  created_at: '2026-10-19T10:05:00Z'
+  updated_at: '2026-10-19T10:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

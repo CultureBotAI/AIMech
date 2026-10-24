@@ -1,0 +1,104 @@
+id: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+name: Moshpit SGD and Moshpit All-Reduce
+concept_kind: algorithm
+review_status: DRAFT
+definition: A fault-tolerant, communication-efficient decentralized averaging protocol (Moshpit All-Reduce, Algorithm 1) and distributed local stochastic gradient optimization method (Moshpit SGD, Algorithm 2) designed for training on heterogeneous, unreliable, or preemptible compute nodes. Instead of running fragile global Ring All-Reduce across all N peers or slow sparse-graph gossip, Moshpit All-Reduce dynamically partitions peers into small independent groups of size at most M using Distributed Hash Table (DHT) matchmaking keyed by tuples of their d - 1 most recent Butterfly All-Reduce chunk indices C_i^t = (c_i^{t-d+1}, ..., c_i^t), ensuring that any two peers grouped together at round t join different groups at round t + 1. Moshpit SGD interleaves tau local SGD steps on active peers P_{k+1} with periodic Moshpit All-Reduce synchronization, achieving topology-independent exponential averaging and Local-SGD-equivalent iteration complexity even under peer churn.
+identity_notes: Distinct from global Ring/Butterfly All-Reduce (where a single straggler or failed peer stalls the entire cluster) and from gossip or PushSum decentralized SGD (whose convergence rate degrades with the spectral gap 1 - lambda_2(M) of a fixed sparse communication graph). Moshpit All-Reduce uses DHT-coordinated hypercube chunk-history keys to form disjoint small All-Reduce groups whose expected squared distortion contracts exponentially at rate ((r - 1)/N + r/N^2)^T independent of graph spectral gap.
+aliases:
+- Moshpit SGD
+- Moshpit All-Reduce
+- Moshpit Averaging
+definition_evidence:
+- source_id: r580-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r580-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r580-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hypercube-chunk-index-dht-matchmaking-and-exact-full-grid-averaging
+  kind: mechanism
+  statement: In Moshpit All-Reduce (Algorithm 1), each peer i maintains a group key C_i^t = (c_i^{t-d+1}, ..., c_i^t) of its d - 1 previous Butterfly All-Reduce chunk indices so that peers sharing a group in round t are assigned distinct group keys in round t + 1. Theorem C.1 proves that when N = M^d peers occupy a full d-dimensional hypercube without failures, Moshpit All-Reduce computes the exact global average (1/M^d) sum_{j=1}^{M^d} theta_j across all peers in exactly d communication rounds, and Theorem 3.1 proves almost-sure convergence to the global average under random peer orderings whenever each worker has a non-zero probability of completing a round.
+  evidence:
+  - source_id: r580-primary-pdf
+    locator: Section 3.1, Algorithm 1, Equations (1)-(3), Theorem 3.1, pp. 4-5; Appendix C.1-C.2, Theorem C.1, pp. 21-23
+    relation: supports
+- claim_id: exponential-distortion-contraction-and-binomial-dropout-variance-reduction
+  kind: mechanism
+  statement: Under random splitting of N peers into r disjoint groups of sizes M_1^k, ..., M_r^k, Theorem 3.2 (Theorem C.3) proves that the expected average squared distortion from the mean bar{theta} contracts after T rounds by ((r - 1)/N + r/N^2)^T, and Theorem C.4 (with Lemma C.1) proves that when peers drop out independently with survival probability p >= 2/3 and grid size M >= 11, the output variance of Moshpit Averaging satisfies E[||theta_i^T - E_theta[theta_i^T]||^2] <= 2 sigma^2 / (M (M / 3)^{T - 1}).
+  evidence:
+  - source_id: r580-primary-pdf
+    locator: Section 3.2.1, Theorem 3.2, Equation (5), p. 5; Appendix C.3-C.4, Theorem C.3, Lemma C.1, and Theorem C.4, Equations (18)-(26), pp. 23-31
+    relation: supports
+  - source_id: r580-metadata-cr
+    locator: Bibliographic record
+    relation: supports
+- claim_id: moshpit-sgd-convergence-under-peer-vanishing-and-linear-programming-load-balancing
+  kind: application
+  statement: Under bounded local gradient variance sigma^2 (Assumption 3.1) and bounded peer-vanishing drift Delta_{pv}^k and averaging error gamma^2 delta_{aq}^2 (Assumption 3.2), Theorems 3.3 and 3.4 prove that Moshpit SGD (Algorithm 2) matches Centralized Local-SGD iteration complexity in both mu-strongly convex/convex and L-smooth nonconvex regimes without any spectral-gap factor, while Appendix G formulates a linear program min_{w, xi} xi subject to sum_{i=1}^M w_i = 1, w_i >= 0, and xi >= (1 - w_i + (M - 1) w_i) / b_i to balance Butterfly All-Reduce partition weights w_i across peers with heterogeneous bandwidths b_i.
+  evidence:
+  - source_id: r580-primary-pdf
+    locator: Section 3.2.2, Algorithm 2, Assumptions 3.1-3.2, Theorems 3.3-3.4, pp. 6-7; Appendix D and G, pp. 31-45
+    relation: supports
+- claim_id: partially-occupied-grid-and-adaptive-optimizer-pseudo-gradient-limitation
+  kind: limitation
+  statement: When the active peer count N is much smaller than the hypercube capacity M^d, deterministic hypercube coordinates can produce uneven or singleton groups (Section 4.1), and when combined with adaptive optimizers such as LAMB on language model pretraining, direct parameter averaging can diverge unless workers recover pseudo-gradients after averaging to update local optimizer statistics (Section 4.3).
+  evidence:
+  - source_id: r580-primary-pdf
+    locator: Section 4.1, Observation 4, p. 8; Section 4.3, p. 10; Appendix C.1, p. 22
+    relation: supports
+evidence_sources:
+- source_id: r580-primary-pdf
+  title: 'Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices'
+  authors: &id001
+  - Max Ryabinin
+  - Eduard Gorbunov
+  - Vsevolod Plokhotnyuk
+  - Gennady Pekhimenko
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2103.03239
+  persistent_id: https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&format=json
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 18195-18211 (2021) (1341860 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:03:00Z'
+  sha256: 54fe0d1a22d8a68be5f3f1d9709ad12e05470e59686075ea326fd23828686140
+- source_id: r580-arxiv-abs
+  title: 'Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.03239
+  persistent_id: https://arxiv.org/abs/2103.03239
+  version: arXiv abstract page (7152 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:03:00Z'
+  sha256: 65f71dc6d803f393e8a67f3281e0f1b57053012abd33495de0136f19cd6512aa
+- source_id: r580-metadata-cr
+  title: 'Moshpit SGD: Communication-Efficient Decentralized Training on Heterogeneous Unreliable Devices (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&format=json
+  version: Crossref API work record (1896 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:03:00Z'
+  sha256: ed897f73133e135028458fd5a57cb9f283b2e3710402330bf794ae0139bf70d4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Moshpit SGD and Moshpit All-Reduce enable fault-tolerant decentralized and federated training across unreliable, heterogeneous devices with dynamic peer participation.
+limitations:
+- Requires a Distributed Hash Table (such as Kademlia DHT) and background asynchronous matchmaking RPCs to assemble groups before each averaging round.
+- On single-node multi-GPU servers with reliable high-speed PCIe/NVLink interconnect, TCP-based Moshpit All-Reduce has higher overhead than direct Ring All-Reduce.
+curation:
+  created_at: '2026-10-19T11:03:00Z'
+  updated_at: '2026-10-19T11:03:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

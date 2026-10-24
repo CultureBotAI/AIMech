@@ -1,0 +1,97 @@
+id: AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis
+name: Implicit Regularization in Nonconvex Statistical Estimation by Leave-One-Out Trajectory Analysis
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A general nonconvex optimization and statistical estimation analysis framework (introduced by Cong Ma, Kaizheng Wang, Yuejie Chi, and Yuxin Chen in 2020) proving that vanilla unregularized gradient descent $\\boldsymbol{x}^{t+1} = \\boldsymbol{x}^t - \\eta_t\\nabla f(\\boldsymbol{x}^t)$ following spectral initialization automatically stays within a *Region of Incoherence and Contraction* (RIC) without requiring explicit projection, gradient clipping/trimming, or incoherence-enforcing regularization penalties. Theorem 5 formulates the general leave-one-out trajectory perturbation recipe: for each sample or row/column index $l$, an auxiliary leave-one-out loss $f^{(l)}(\\boldsymbol{x})$ drops the randomness associated with $l$, producing a leave-one-out gradient trajectory $\\boldsymbol{x}^{t,(l)}$ that is statistically independent of the $l$-th measurement while remaining $\\|\\boldsymbol{x}^t - \\boldsymbol{x}^{t,(l)}\\|_2$-close to the full trajectory $\\boldsymbol{x}^t$. By inductively coupling $\\ell_2$ restricted strong convexity contraction with leave-one-out proximity, the framework proves linear convergence and entrywise/incoherence control for (1) nonconvex phase retrieval $f(\\boldsymbol{x}) = \\frac{1}{4m}\\sum_{j=1}^m (|\\boldsymbol{a}_j^*\\boldsymbol{x}|^2 - y_j)^2$ under $m \\gtrsim n\\log n$ maintaining $\\max_l |\\boldsymbol{a}_l^*(\\boldsymbol{x}^t - \\boldsymbol{x}^\\star)| \\lesssim \\sqrt{\\log m}\\|\\boldsymbol{x}^\\star\\|_2$ (Theorem 1); (2) noisy and noiseless low-rank matrix completion $f(\\boldsymbol{X}) = \\frac{1}{4p}\\|\\mathcal{P}_\\Omega(\\boldsymbol{X}\\boldsymbol{X}^T - \\boldsymbol{M}^\\star)\\|_F^2$ maintaining row-wise incoherence $\\|\\boldsymbol{X}^t\\widehat{\\boldsymbol{H}}^t - \\boldsymbol{X}^\\star\\|_{2,\\infty}$ (Theorem 2); and (3) blind deconvolution $f(\\boldsymbol{h},\\boldsymbol{x}) = \\sum_{j=1}^m |\\boldsymbol{b}_j^*\\boldsymbol{h}\\boldsymbol{x}^*\\boldsymbol{a}_j - y_j|^2$ under $m \\gtrsim \\mu^2 n\\text{poly}\\log m$ (Theorems 3\u20134)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 679 maintained AIMech concepts. Distinct from `AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices` (Abbe, Fan, Wang, & Zhong 2020, which analyzes static leading eigenvectors of a single symmetric matrix rather than iterative nonconvex gradient descent trajectories $\boldsymbol{x}^{t+1} = \boldsymbol{x}^t - \eta_t\nabla f(\boldsymbol{x}^t)$ across $t \ge 0$) and from `AIMech:TopKRankingSpectralAndRegularizedMLEByLeaveOneOutAnalysis` (Chen, Fan, Ma, & Wang 2019, which analyzes strongly convex $\ell_2$-regularized BTL logistic MLE and reversible Markov chains rather than unregularized nonconvex quadratic/quartic phase retrieval, low-rank matrix completion, and bilinear blind deconvolution).
+aliases:
+- Implicit Regularization of Vanilla Gradient Descent in Nonconvex Estimation
+- Ma-Wang-Chi-Chen Leave-One-Out Nonconvex Trajectory Analysis
+- Region of Incoherence and Contraction Leave-One-Out Recipe
+definition_evidence:
+- source_id: mwcc2020-impreg-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: mwcc2020-impreg-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: mwcc2020-impreg-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-leave-one-out-trajectory-recipe-in-region-of-incoherence-and-contraction
+  kind: mechanism
+  statement: "When restricted strong convexity and smoothness hold on a Region of Incoherence and Contraction (RIC) around the ground truth $\\boldsymbol{x}^\\star$ (Conditions 1A\u20131C) and the leave-one-out gradient difference $\\|\\nabla f(\\boldsymbol{x}) - \\nabla f^{(l)}(\\boldsymbol{x})\\|_2$ is small (Condition 2A), Theorem 5 proves by mathematical induction on iteration $t$ that vanilla gradient descent simultaneously contracts linearly in $\\ell_2$ norm and maintains $\\ell_2$ proximity $\\|\\boldsymbol{x}^t - \\boldsymbol{x}^{t,(l)}\\|_2$ to the leave-one-out trajectory $\\boldsymbol{x}^{t,(l)}$, which decouples statistical dependence and preserves incoherence without projection (Section 2, Theorem 5, pp. 466\u2013470)."
+  evidence:
+  - source_id: mwcc2020-impreg-pdf
+    locator: Section 2, Conditions 1A-2B and Theorem 5 (pp. 466-470)
+    relation: supports
+- claim_id: claim-unregularized-wirtinger-flow-phase-retrieval-linear-convergence
+  kind: mechanism
+  statement: For Gaussian phase retrieval with $m \ge C n\log n$ measurements, Theorem 1 and Lemma 1 prove that unregularized Wirtinger gradient descent from spectral initialization satisfies $\text{dist}(\boldsymbol{x}^t, \boldsymbol{x}^\star) \le (1 - \eta/2)^t \delta\|\boldsymbol{x}^\star\|_2$, $\max_{1\le l\le m} \|\boldsymbol{x}^t - \boldsymbol{x}^{t,(l)}\|_2 \lesssim \sqrt{(\log n)/m}\|\boldsymbol{x}^\star\|_2$, and $\max_{1\le l\le m}|\boldsymbol{a}_l^*(\boldsymbol{x}^t - \boldsymbol{x}^\star)| \lesssim \sqrt{\log m}\|\boldsymbol{x}^\star\|_2$ across all iterations $0 \le t \le T_0 = n^c$ (Section 1.3.1 Theorem 1, Section 3 Lemma 1).
+  evidence:
+  - source_id: mwcc2020-impreg-pdf
+    locator: Section 1.3.1 (Theorem 1, p. 458), Section 3 (Lemma 1 and Proof, pp. 470-476)
+    relation: supports
+- claim_id: claim-projection-free-nonconvex-matrix-completion-and-blind-deconvolution
+  kind: application
+  statement: "For rank-$r$ positive semidefinite matrix completion under sampling rate $p \\gtrsim \\text{poly}(\\mu, r, \\kappa)\\log^3(n)/n$ (Theorem 2) and subspace blind deconvolution under $m \\gtrsim \\mu^2 n\\log^9 m$ (Theorems 3\u20134), vanilla factored gradient descent without projection onto incoherence sets contracts linearly in Frobenius/Euclidean norm and entrywise $\\|\\cdot\\|_{2,\\infty}$ norm down to the optimal noise floor (Sections 1.3.2\u20131.3.3, Theorems 2\u20134, Sections 4\u20135)."
+  evidence:
+  - source_id: mwcc2020-impreg-pdf
+    locator: Sections 1.3.2-1.3.3 (Theorems 2-4, pp. 460-464), Sections 4-5 (pp. 476-491)
+    relation: supports
+evidence_sources:
+- source_id: mwcc2020-impreg-pdf
+  title: 'Implicit Regularization in Nonconvex Statistical Estimation: Gradient Descent Converges Linearly for Phase Retrieval, Matrix Completion, and Blind Deconvolution'
+  authors: &id001
+  - Cong Ma
+  - Kaizheng Wang
+  - Yuejie Chi
+  - Yuxin Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1711.10467.pdf
+  persistent_id: https://doi.org/10.1007/s10208-019-09429-9
+  version: arXiv:1711.10467v3 full-text PDF (134 pages), published in Foundations of Computational Mathematics 20(3):451-632 (2020). (3057214 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:22:00Z'
+  sha256: a0a8dbe8ecc5370b5603aa9cd4d0a71fbd9d9c781bd44a9e99d2f4393d9f9d04
+- source_id: mwcc2020-impreg-abs
+  title: 'Implicit Regularization in Nonconvex Statistical Estimation: Gradient Descent Converges Linearly for Phase Retrieval, Matrix Completion, and Blind Deconvolution (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1711.10467
+  persistent_id: https://arxiv.org/abs/1711.10467
+  version: arXiv abstract page (8281 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:22:00Z'
+  sha256: 96b02c473c4b5c604610915ae32b46c41351c1808c3642d90d5bc1ee028ff2ce
+- source_id: mwcc2020-impreg-cr
+  title: 'Implicit Regularization in Nonconvex Statistical Estimation: Gradient Descent Converges Linearly for Phase Retrieval, Matrix Completion, and Blind Deconvolution (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1007/s10208-019-09429-9
+  persistent_id: https://doi.org/10.1007/s10208-019-09429-9
+  version: Crossref API work record (12092 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:22:00Z'
+  sha256: 43d0a59f40ff061268a0450ff8cdc3765ef93764765275efbf49cff764f318f6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Spectral initialization via leading eigenvectors/singular vectors initiates the nonconvex gradient trajectory.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Rank-r factored matrix completion recovers low-dimensional latent matrix factors.
+limitations:
+- The leave-one-out inductive guarantees hold for polynomially many iterations 0 <= t <= T_0 = O(n^c) because a union bound is taken over all m leave-one-out sequences and iterations t.
+- In Theorem 2 for nonconvex matrix completion, the sample complexity bound scales polynomially in the rank r and condition number kappa (O(kappa^4 mu^3 r^4 n log^3 n)) rather than the information-theoretic linear scaling in r.
+curation:
+  created_at: '2026-10-19T05:22:00Z'
+  updated_at: '2026-10-19T05:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

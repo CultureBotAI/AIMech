@@ -1,0 +1,101 @@
+id: AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian
+name: RFA Robust Federated Aggregation via Smoothed Weiszfeld Geometric Median
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-robust and secure-aggregation-compatible federated learning algorithm (RFA, Algorithm 1) that replaces the weighted arithmetic mean in FedAvg with an approximate weighted l_2 geometric median (GM) argmin_{v in R^d} sum_{i in S_t} alpha_i ||v - w_i^{(t)}||_2 computed via R steps of the Smoothed Weiszfeld algorithm (Algorithm 2). At each inner iteration r = 0,...,R-1, the server and clients execute a linear Secure Average oracle call to form v^{(r+1)} = (sum_{i in S_t} beta_i^{(r)} w_i^{(t)}) / (sum_{i in S_t} beta_i^{(r)}) with smoothed inverse-distance weights beta_i^{(r)} = alpha_i / max(nu, ||v^{(r)} - w_i^{(t)}||_2) for smoothing parameter nu > 0, alongside communication-reduced One-Step RFA (R = 1, Algorithm 3) and Personalized RFA (Algorithm 4).
+identity_notes: Distinct from Coordinate-wise Median and Trimmed Mean (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning, which compute coordinate-separable l_1 medians or trimmed means that cannot be implemented via a small number of linear Secure Aggregation sum queries and lack rotation equivariance) and from Krum (AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent, which requires server inspection of all O(m^2) pairwise client model distances, incompatible with cryptographic Secure Average oracles).
+aliases:
+- RFA
+- Robust Federated Aggregation
+- Smoothed Weiszfeld Geometric Median Federated Aggregation
+- One-Step RFA
+definition_evidence:
+- source_id: r402-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r402-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r402-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r402-smoothed-weiszfeld-surrogate-convergence-and-secure-aggregation-privacy
+  kind: mechanism
+  statement: Algorithm 2 derives the Smoothed Weiszfeld update as exact alternating minimization of the jointly convex surrogate G(v, eta) = (1/2) sum_{i=1}^m alpha_i (||v - w_i||_2^2 / eta_i + eta_i) over v in R^d and eta_i >= nu, with Proposition 2 proving O(1 / (nu_bar R)) convergence to the geometric median objective and Proposition 3 bounding each device's normalized weight beta_i^{(r)} / sum_j beta_j^{(r)} <= (1 + (m - 1) nu_bar / B)^{-1} across R linear Secure Average oracle calls.
+  evidence:
+  - source_id: r402-primary-pdf
+    locator: Section IV The RFA Algorithm and Convergence (Algorithm 2, Propositions 2 and 3), pp. 1144-1146
+    relation: supports
+- claim_id: r402-corruption-tolerance-up-to-half-and-heterogeneous-local-sgd-convergence
+  kind: mechanism
+  statement: For corruption level rho < 1/2 (measuring the total weight of corrupted devices), Theorem 4 proves that RFA with tail-averaged local SGD on strongly convex least-squares objectives achieves linear convergence in communication rounds T up to a neighborhood controlled by geometric median tolerance epsilon^2 / m^2, local SGD noise sigma^2 / N_0, and bounded input/output heterogeneity Omega^2 = Omega_X^2 * Omega_{Y|X}^2, amplified by (1 - 2*rho)^{-2} (or (1 - 2*rho)^{-4} when rho > 1/3).
+  evidence:
+  - source_id: r402-primary-pdf
+    locator: Section IV-A Convergence Analysis (Assumptions 1-3, Theorem 4, Corollary 5), pp. 1146-1148
+    relation: supports
+- claim_id: r402-r-round-secure-average-communication-overhead-and-heterogeneity-amplification-limitation
+  kind: limitation
+  statement: Executing R steps of the Smoothed Weiszfeld algorithm increases per-round communication and cryptographic Secure Average invocations by a factor of R (unless approximated by One-Step RFA with R = 1), and the heterogeneity neighborhood in Theorem 4 scales with (1 - 2*rho)^{-4} as the corruption fraction rho approaches the 1/2 breakdown point.
+  evidence:
+  - source_id: r402-primary-pdf
+    locator: Section IV Proposition 3, Section IV-A Theorem 4, and Section IV-B Practical Extensions (Algorithms 3-4), pp. 1145-1148
+    relation: supports
+- claim_id: r402-femnist-sent140-and-shakespeare-corruption-defense-application
+  kind: application
+  statement: Evaluated on federated character recognition (EMNIST), sentiment analysis (Sent140), and character-level language modeling (Shakespeare) under data poisoning, label flipping, and omniscient parameter corruption up to rho < 1/2, outperforming FedAvg and Coordinate-wise Median with 3 steps of Smoothed Weiszfeld or One-Step RFA.
+  evidence:
+  - source_id: r402-primary-pdf
+    locator: Section V Numerical Experiments (Figures 2-6, Table I), pp. 1148-1152
+    relation: supports
+evidence_sources:
+- source_id: r402-primary-pdf
+  title: Robust Aggregation for Federated Learning
+  authors: &id001
+  - Krishna Pillutla
+  - Sham M. Kakade
+  - Zaid Harchaoui
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TSP.2022.3153135
+  persistent_id: https://doi.org/10.1109/TSP.2022.3153135
+  version: IEEE Transactions on Signal Processing, Vol. 70, pp. 1142-1154 (2022) (2022) (150219 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:05:00Z'
+  sha256: 4f53ba8e0d4f2ace0782fd2ca3b2094ff381987481275c0005783211e7544155
+- source_id: r402-arxiv-abs
+  title: Robust Aggregation for Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1912.13445
+  persistent_id: https://arxiv.org/abs/1912.13445
+  version: arXiv abstract page (6503 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:05:00Z'
+  sha256: 1241ddb7cee6a8c2976268b6f478b16c59422bcd0d49dcca4222b60f1c318918
+- source_id: r402-metadata-cr
+  title: Robust Aggregation for Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TSP.2022.3153135
+  persistent_id: https://doi.org/10.1109/TSP.2022.3153135
+  version: Crossref API work record (326 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:05:00Z'
+  sha256: d6f2028031424899cbb1004206930dbcea98846577ce1f58fb9772e8cd09f429
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: RFA is a geometric-median-based Byzantine-robust aggregation algorithm for FederatedLearning compatible with secure aggregation.
+limitations:
+- Multi-step Smoothed Weiszfeld requires R sequential rounds of linear Secure Aggregation per federated update.
+- Theoretical error bounds degrade by (1 - 2*rho)^{-4} as the corrupted device weight fraction rho approaches 1/2.
+curation:
+  created_at: '2026-10-19T08:05:00Z'
+  updated_at: '2026-10-19T08:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simplified TinyBERT (Knowledge Distillation for Document Retrieval) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/learning_paradigm.html">Learning Paradigms</a>
+    <span>/</span>
+    <strong>Simplified TinyBERT (Knowledge Distillation for Document Retrieval)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Simplified TinyBERT (Knowledge Distillation for Document Retrieval)</h1>
+    <span class="badge badge-curated">Learning Paradigms</span>
+    <span class="detail-id">AIMech:SimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Simplified TinyBERT, Simplified TinyBERT for Document Retrieval, One-Step Hard-Label TinyBERT Distillation for Document Ranking
+    </div>
+
+  <div class="detail-desc">
+    A knowledge distillation method for passage-level BERT-MaxP document re-ranking (Chen, He, Hui, Sun, &amp; Sun, ECIR 2021) that simplifies TinyBERT&#39;s two-step task-specific distillation stage by (1) merging intermediate-layer distillation (attention MSE L_attn, hidden-state MSE L_hidn, and embedding MSE L_emb) and prediction-layer soft-label cross-entropy distillation (L_soft) into a single joint optimization step L = L_attn + L_hidn + L_emb + L_soft, and (2) adding ground-truth hard-label cross-entropy L_hard over teacher-filtered positive and negative document passages to form L_h = L_attn + L_hidn + L_emb + L_soft + L_hard, reducing task-specific distillation time by 42%-52% while enabling a 15x faster 3-layer student (L3_H384) to outperform its 12-layer BERT-Base teacher.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from original TinyBERT (Jiao et al., 2020, which splits task-specific distillation into two sequential steps—first optimizing L_attn + L_hidn + L_emb and then optimizing L_soft alone without hard labels) and from Margin-MSE (AIMech:MarginMSECrossArchitectureKnowledgeDistillationForNeuralRanking, which distills pairwise score margins across heterogeneous ranking architectures without intermediate layer matching). Simplified TinyBERT jointly optimizes all five losses L_h = L_attn + L_hidn + L_emb + L_soft + L_hard in one task-specific step over top-5 teacher-filtered positive passages per relevant document.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#simplified-tinybert-one-step-joint-hard-and-intermediate-loss</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Simplified TinyBERT merges the two task-specific distillation steps of TinyBERT into a single joint objective L = L_attn + L_hidn + L_emb + L_soft (Equation 1) and incorporates ground-truth binary relevance cross-entropy L_hard over balanced query-passage pairs (constructed by reserving the top-5 teacher-scored passages from relevant documents as positives and sampling negatives from irrelevant documents) to optimize L_h = L_attn + L_hidn + L_emb + L_soft + L_hard (Equation 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r797-primary-pdf">Simplified TinyBERT: Knowledge Distillation for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 (Method) &amp; Section 4.1 (Data preprocessing), pp. 3-5, Equations (1)-(2)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r797-primary-pdf">Simplified TinyBERT: Knowledge Distillation for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> simplified_tinybert_loss and filter_positive_passages_by_teacher verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#simplified-tinybert-training-time-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Merging the two task-specific distillation steps into a single step reduces second-stage training time on 3.3M MS MARCO query-passage pairs by 42%-52% across student configurations: from 29.95h to 14.37h (2.08x) for L6_H768, from 20.45h to 11.30h (1.81x) for L6_H384, from 18.93h to 10.05h (1.88x) for L3_H768, and from 15.87h to 9.22h (1.72x) for L3_H384 (Table 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r797-primary-pdf">Simplified TinyBERT: Knowledge Distillation for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Simplified TinyBERT can be trained faster, Table 3), p. 6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r797-primary-pdf">Simplified TinyBERT: Knowledge Distillation for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> second-stage training time savings verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#simplified-tinybert-ms-marco-and-trec-dl-15x-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When distilling BERT-Base (L12_H768, 109M parameters, 22.9G FLOPs) on MS MARCO document ranking with BERT-MaxP aggregation, Simplified TinyBERT improves the 6-layer student L6_H768 (2x speedup) to 0.3848 MRR@10 on MS MARCO Dev and 0.6774 NDCG@10 on TREC 2019 DL Test, and enables the 3-layer student L3_H384 (17M parameters, 1.5G FLOPs, 15x speedup) to achieve 0.3614 MRR@10 on MS MARCO Dev and 0.6698 NDCG@10 on TREC 2019 DL Test, significantly outperforming both standard TinyBERT (0.3453 MRR@10, 0.6230 NDCG@10) and the 12-layer BERT-Base teacher (0.3523 MRR@10, 0.6644 NDCG@10, Table 1 &amp; Table 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r797-primary-pdf">Simplified TinyBERT: Knowledge Distillation for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Results), pp. 4-6, Tables 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#simplified-tinybert-general-distillation-and-large-pair-requirement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When student hidden dimensions differ from the teacher (such as H=384 in L3_H384 vs. H=768 in BERT-Base), Simplified TinyBERT still requires a 3-epoch general distillation stage over 3.5 GB of English Wikipedia text prior to task-specific distillation and relies on millions of teacher-scored query-passage pairs (3.3M pairs) for convergence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r797-primary-pdf">Simplified TinyBERT: Knowledge Distillation for Document Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 &amp; Section 4.1 (Dataset), pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Students with reduced hidden dimension (such as L3_H384) require a general distillation stage over 3.5 GB of Wikipedia text and 3.3M teacher-filtered query-passage training pairs.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Simplified TinyBERT is a multi-layer knowledge distillation paradigm for compressing Transformer neural network document rankers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r797-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r797-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2009.07531.pdf" target="_blank" rel="noopener">Simplified TinyBERT: Knowledge Distillation for Document Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xuanang Chen, Ben He, Kai Hui, Le Sun, Yingfei Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2009.07531</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:df55beb15eb0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r797-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r797-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2009.07531" target="_blank" rel="noopener">Simplified TinyBERT: Knowledge Distillation for Document Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xuanang Chen, Ben He, Kai Hui, Le Sun, Yingfei Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2009.07531</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:67e40127fa41…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r797-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r797-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2009.07531" target="_blank" rel="noopener">Simplified TinyBERT: Knowledge Distillation for Document Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xuanang Chen, Ben He, Kai Hui, Le Sun, Yingfei Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2009.07531</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bba4b2e2de57…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ASimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Simplified TinyBERT (Knowledge Distillation for Document Retrieval)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Learning Paradigms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:SimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Simplified TinyBERT...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:40:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:40:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Simplified%20TinyBERT%20%28Knowledge%20Distillation%20for%20Document%20Retrieval%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

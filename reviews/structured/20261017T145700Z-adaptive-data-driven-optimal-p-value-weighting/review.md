@@ -1,0 +1,518 @@
+# Scientific author self-review of Adaptive data-driven optimal p-value weighting
+
+- Review: 20261017T145700Z-adaptive-data-driven-optimal-p-value-weighting
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T14:55:00Z
+- Finished UTC: 2026-10-17T14:57:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Adaptive data-driven optimal p-value weighting as a distinct DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims and locators across Durand (2019 Electronic Journal of Statistics 13(2):3336-3385) are supported with explicit asymptotic regime, Multiplicative Estimation, and multi-group concave-relaxation limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained AdaptiveDataDrivenOptimalPValueWeighting record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base dfd136bdcc4447adac3c010692fb9dbd8ff5804c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AdaptiveDataDrivenOptimalPValueWeighting | data/curated/AdaptiveDataDrivenOptimalPValueWeighting.yaml | maintained | Adaptive data-driven optimal p-value weighting |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | All 589 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | Exited 0 without output. |
+| Constructed adaptive data-driven optimal p-value weighting checks | passed | True | AIMech:AdaptiveDataDrivenOptimalPValueWeighting | {<br>  "concept_id": "AIMech:AdaptiveDataDrivenOptimalPValueWeighting",<br>  "primary_source": {<br>    "authors": "Guillermo Durand",<br>    "year": 2019,<br>    "title": "Adaptive p-value weighting with power optimality",<br>    "venue": "Electronic Journal of Statistics 13(2):3336-3385",<br>    "arxiv": "1710.01094v2",<br>    "doi": "10.1214/19-EJS1578"<br>  },<br>  "claim1_mwbh_addow_fixed_point_and_lcm_concavity": {<br>    "trials": 40,<br>    "mismatches_addow_vs_wbh_terminal": 0,<br>    "mismatches_lemma_a5_step_up": 0,<br>    "max_monotonicity_violation": 0.0,<br>    "max_fixed_point_error": 0.0,<br>    "max_lcm_concavity_violation": 0.0,<br>    "max_gaddow_concavity_violation": 5.811e-05<br>  },<br>  "claim2_asymptotic_power_optimality_and_me_equivalence": {<br>    "max_weight_diff_G_vs_P_under_ME": 0.0,<br>    "max_budget_saturation_error": 0.0,<br>    "asymp_fdr_ce": 0.05,<br>    "asymp_fdr_me_C1_15": 0.043478,<br>    "expected_alpha_over_C1_15": 0.043478,<br>    "asymp_power_addow_ce": 0.131404,<br>    "asymp_power_pro2": 0.131404,<br>    "asymp_power_pro1": 0.131199,<br>    "asymp_power_abh": 0.127344,<br>    "asymp_power_hzz": 0.130514,<br>    "asymp_power_ihw": 0.119278,<br>    "asymp_power_bh": 0.117761<br>  },<br>  "claim3_remark3_1_section6_4_ihw_suboptimality_counterexample": {<br>    "w_ihw_group1_group2": [<br>      0.51401,<br>      1.054<br>    ],<br>    "w_addow_ce_group1_group2": [<br>      1.86593,<br>      1.29499<br>    ],<br>    "asymp_power_ihw": 0.20932,<br>    "asymp_power_bh": 0.216218,<br>    "asymp_power_addow_ce": 0.229168,<br>    "asymp_fdr_bh_pi0_alpha": 0.539,<br>    "asymp_fdr_ihw": 0.566215,<br>    "asymp_fdr_addow_ce": 0.7,<br>    "mc_power_ihw": 0.21465,<br>    "mc_power_bh": 0.21713,<br>    "mc_power_addow_ce": 0.23123,<br>    "mc_fdr_bh": 0.5335,<br>    "mc_fdr_ihw": 0.56447,<br>    "mc_fdr_addow_ce": 0.69793<br>  },<br>  "claim4_section7_cross_addow_stabilization_and_theorem7_1": {<br>    "fdr_addow_weak_signal": 0.09417,<br>    "fdr_craddow_weak_signal": 0.048,<br>    "fdr_reduction_weak_signal": 0.04617,<br>    "pow_addow_strong_signal": 0.16854,<br>    "pow_craddow_strong_signal": 0.15817,<br>    "pow_bh_strong_signal": 0.14437,<br>    "tpr_addow_strong_signal": 0.67417,<br>    "tpr_craddow_strong_signal": 0.63267,<br>    "tpr_bh_strong_signal": 0.5775,<br>    "fdr_craddow_strong_signal": 0.04632<br>  },<br>  "all_checks_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### AdaptiveDataDrivenOptimalPValueWeighting versus CovariatePoweredCrossWeightedMultipleTesting, AdaptivePValueThresholding, and SelectivelyTraversedAccumulationRulesForStructuredFDRControl
+
+identity: supported. Targets: AIMech:AdaptiveDataDrivenOptimalPValueWeighting.
+
+Retain Adaptive data-driven optimal p-value weighting as a distinct DRAFT mathematical_method.
+
+AdaptiveDataDrivenOptimalPValueWeighting generalizes WBH to Multi-Weighted BH (MWBH) with threshold-dependent weight functions W_hat^*(u) optimized over the null-proportion-weighted budget K_hat = {sum_g (m_g/m) pi_hat_{g,0} w_g &lt;= 1} so that maximizing total rejections is equivalent to maximizing true-discovery power without requiring evenly distributed nulls (Lemma B.3, Theorem 5.2), whereas CovariatePoweredCrossWeightedMultipleTesting (IHW) optimizes static weights over the unadjusted budget K_0 = {sum_g (m_g/m) w_g &lt;= 1} and can lose power relative to unweighted BH when group null proportions differ (Remark 3.1, Section 6.4).
+
+### Mapping to AIO:DataDredgingBias
+
+grounding: supported. Targets: AIMech:AdaptiveDataDrivenOptimalPValueWeighting.
+
+Related mapping to DataDredgingBias is supported.
+
+ADDOW and crADDOW control the false discovery rate across heterogeneous hypothesis groups while learning group weights and group null proportions, preventing false-discovery inflation (AIO:DataDredgingBias).
+
+### multi-weighted-bh-step-up-fixed-point-and-grenander-lcm-concavity
+
+evidence: supported. Targets: AIMech:AdaptiveDataDrivenOptimalPValueWeighting.
+
+Supported by Section 4.1-4.3 Eq. 4.1-4.7, Remark 4.1, Remark 9.2, Lemma A.5, and Lemma C.6.
+
+Verified exact step-up fixed-point equivalence between MWBH(W_hat^*) and single-step WBH(W_hat^*(u_hat)) across 40 random 2-group instances (mismatches = 0, monotonicity violation = 0.0, Grenander LCM concavity violation = 0.0).
+
+### asymptotic-fdr-control-and-power-optimality-over-wbh-and-mwbh-under-multiplicative-estimation
+
+evidence: supported. Targets: AIMech:AdaptiveDataDrivenOptimalPValueWeighting.
+
+Supported by Section 5.1-5.2 Theorems 5.1-5.2, Corollaries 5.1-5.3, and Appendix B Lemma B.3.
+
+Verified Lemma B.3 exact equivalence between maximizing G^infty_w(u) and maximizing P^infty_w(u) over K^infty under Multiplicative Estimation (max weight discrepancy = 0.0), Theorem 5.1 asymptotic FDR = alpha/C (0.05 for C=1.0, 0.043478 for C=1.15), and Theorem 5.2 asymptotic power dominance of ADDOW (0.131404) over Pro1 (0.131199), HZZ (0.130514), ABH (0.127344), IHW (0.119278), and BH (0.117761).
+
+### suboptimality-of-size-investing-ihw-under-uneven-null-proportions
+
+evidence: supported. Targets: AIMech:AdaptiveDataDrivenOptimalPValueWeighting.
+
+Supported by Section 3.3 Remark 3.1 and Section 6.4 Figure 6.
+
+Verified the Remark 3.1 and Section 6.4 uneven-null counterexample where size-investing IHW has strictly lower power than unweighted BH both asymptotically (0.20932 &lt; 0.216218 &lt; 0.229168) and in Monte Carlo (0.21465 &lt; 0.21713 &lt; 0.23123) while incurring higher FDR than BH (0.566215 &gt; 0.539).
+
+### f-fold-cross-weighted-craddow-finite-sample-stabilization-and-strong-signal-equivalence
+
+evidence: supported. Targets: AIMech:AdaptiveDataDrivenOptimalPValueWeighting.
+
+Supported by Section 7.1-7.3 Theorem 7.1, Figure 7, and Appendix E Eq. E.1.
+
+Verified 5-fold crADDOW reducing weak-signal finite-sample FDR from 0.09417 (&gt; 0.05) to 0.048 (&lt;= 0.05) while maintaining strong-signal TPR 0.63267 vs. BH 0.5775 (Theorem 7.1).
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:AdaptiveDataDrivenOptimalPValueWeighting.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of AdaptiveDataDrivenOptimalPValueWeighting.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T145500Z-adaptive-data-driven-optimal-p-value-weighting.json | supports | No normalized identity match for adaptive data-driven optimal p-value weighting across 442 pinned AIO records and 588 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias provides adaptive group-weighted false-discovery rate control context via related_match. |
+| calculation | research/discovery/adaptive-data-driven-optimal-p-value-weighting-boundaries.py | supports | Constructed analytical and numerical checks for MWBH fixed-point equivalence and Grenander LCM concavity (Lemma A.5, Lemma C.6), asymptotic FDR control and power optimality under Multiplicative Estimation (Theorems 5.1-5.2, Lemma B.3), the uneven-null counterexample where size-investing IHW underperforms unweighted BH (Remark 3.1, Section 6.4), and F-fold cross-weighted crADDOW stabilization and strong-signal equivalence (Section 7, Theorem 7.1). |
+| durand2019-addow-ar5iv | https://ar5iv.labs.arxiv.org/html/1710.01094; Sections 1-9 and Appendices A-E (lines 1-1118, Theorems 5.1, 5.2, 7.1, Corollaries 5.1-5.3, Lemmas A.5, B.3, C.6) | supports | All 1,118 lines of the full-text ar5iv HTML conversion of arXiv:1710.01094v2 read. Checked all theorems, corollaries, lemmas, remarks, simulation setups, and proofs across Sections 1-9 and Appendices A-E. |
+| durand2019-addow-crossref | https://api.crossref.org/works/10.1214/19-EJS1578; Electronic Journal of Statistics Vol. 13, Issue 2, pp. 3336-3385 publication record | supports | Official Electronic Journal of Statistics 13(2):3336-3385 Crossref record read and verified. |
+| durand2019-addow-abs | https://arxiv.org/abs/1710.01094; arXiv:1710.01094v2 abstract and EJS 2019 metadata | supports | arXiv:1710.01094v2 abstract and EJS 2019 metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Adaptive data-driven optimal p-value weighting record, yielding 589 native and 442 unchanged generated records.
+- All 1,118 lines of Durand (2019, arXiv:1710.01094v2) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T145700Z-adaptive-data-driven-optimal-p-value-weighting
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Adaptive data-driven optimal p-value weighting
+started_at: '2026-10-17T14:55:00Z'
+finished_at: '2026-10-17T14:57:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from CovariatePoweredCrossWeightedMultipleTesting
+    (IHW), AdaptivePValueThresholding (AdaPT), and SelectivelyTraversedAccumulationRulesForStructuredFDRControl
+    (STAR), the role of the null-proportion-weighted budget K_hat versus IHW's unadjusted
+    budget K_0 when nulls are unevenly distributed across groups (Remark 3.1, Section
+    6.4), the Multiplicative Estimation (ME) requirement in Lemma B.3 and Theorems
+    5.1-5.2, and finite-sample weak-signal overfitting prior to F-fold crADDOW stabilization
+    (Section 7). This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Adaptive data-driven optimal p-value weighting as a distinct DRAFT
+  mathematical_method with a related DataDredgingBias mapping. All four claims and
+  locators across Durand (2019 Electronic Journal of Statistics 13(2):3336-3385) are
+  supported with explicit asymptotic regime, Multiplicative Estimation, and multi-group
+  concave-relaxation limitations.
+source:
+  git_revision: dfd136bdcc4447adac3c010692fb9dbd8ff5804c
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/curated/AdaptiveDataDrivenOptimalPValueWeighting.yaml
+    sha256: 87961708f5770edc0a05f6048c36f9d50507a48e453db008ec06cf37d9ecb32b
+    role: target
+  - path: data/curated/ConditionalCalibrationForFalseDiscoveryRateControl.yaml
+    sha256: 6167290e8178827ea950c80549426c871ba5e2b6d727b42b4a536d860e097946
+    role: context
+  - path: data/curated/CovariatePoweredCrossWeightedMultipleTesting.yaml
+    sha256: 84d7094933c475533243366de9802790a89da87fb149ceffcb6ff304eacd3cf9
+    role: context
+  - path: data/curated/SelectivelyTraversedAccumulationRulesForStructuredFDRControl.yaml
+    sha256: d701f5a7c2cc640bfc6cfa0d3fd87253f9f6a5f231a80bcaa14901dbf52486a9
+    role: context
+  - path: research/discovery/20261017T145500Z-adaptive-data-driven-optimal-p-value-weighting.json
+    sha256: 6a4bf148a0c7ae928ec81906de47ef5dcd8af15d630d568155bad91f337f7367
+    role: context
+  - path: research/discovery/adaptive-data-driven-optimal-p-value-weighting-boundaries.py
+    sha256: f1d278cc2731b192fdfd3d00352cbee849761fe5c38973a92c5baca38509ec42
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  path: data/curated/AdaptiveDataDrivenOptimalPValueWeighting.yaml
+  label: Adaptive data-driven optimal p-value weighting
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AdaptiveDataDrivenOptimalPValueWeighting.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained AdaptiveDataDrivenOptimalPValueWeighting
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:AdaptiveDataDrivenOptimalPValueWeighting'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 589 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed adaptive data-driven optimal p-value weighting checks
+  command: python3 research/discovery/adaptive-data-driven-optimal-p-value-weighting-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:AdaptiveDataDrivenOptimalPValueWeighting\"\
+    ,\n  \"primary_source\": {\n    \"authors\": \"Guillermo Durand\",\n    \"year\"\
+    : 2019,\n    \"title\": \"Adaptive p-value weighting with power optimality\",\n\
+    \    \"venue\": \"Electronic Journal of Statistics 13(2):3336-3385\",\n    \"\
+    arxiv\": \"1710.01094v2\",\n    \"doi\": \"10.1214/19-EJS1578\"\n  },\n  \"claim1_mwbh_addow_fixed_point_and_lcm_concavity\"\
+    : {\n    \"trials\": 40,\n    \"mismatches_addow_vs_wbh_terminal\": 0,\n    \"\
+    mismatches_lemma_a5_step_up\": 0,\n    \"max_monotonicity_violation\": 0.0,\n\
+    \    \"max_fixed_point_error\": 0.0,\n    \"max_lcm_concavity_violation\": 0.0,\n\
+    \    \"max_gaddow_concavity_violation\": 5.811e-05\n  },\n  \"claim2_asymptotic_power_optimality_and_me_equivalence\"\
+    : {\n    \"max_weight_diff_G_vs_P_under_ME\": 0.0,\n    \"max_budget_saturation_error\"\
+    : 0.0,\n    \"asymp_fdr_ce\": 0.05,\n    \"asymp_fdr_me_C1_15\": 0.043478,\n \
+    \   \"expected_alpha_over_C1_15\": 0.043478,\n    \"asymp_power_addow_ce\": 0.131404,\n\
+    \    \"asymp_power_pro2\": 0.131404,\n    \"asymp_power_pro1\": 0.131199,\n  \
+    \  \"asymp_power_abh\": 0.127344,\n    \"asymp_power_hzz\": 0.130514,\n    \"\
+    asymp_power_ihw\": 0.119278,\n    \"asymp_power_bh\": 0.117761\n  },\n  \"claim3_remark3_1_section6_4_ihw_suboptimality_counterexample\"\
+    : {\n    \"w_ihw_group1_group2\": [\n      0.51401,\n      1.054\n    ],\n   \
+    \ \"w_addow_ce_group1_group2\": [\n      1.86593,\n      1.29499\n    ],\n   \
+    \ \"asymp_power_ihw\": 0.20932,\n    \"asymp_power_bh\": 0.216218,\n    \"asymp_power_addow_ce\"\
+    : 0.229168,\n    \"asymp_fdr_bh_pi0_alpha\": 0.539,\n    \"asymp_fdr_ihw\": 0.566215,\n\
+    \    \"asymp_fdr_addow_ce\": 0.7,\n    \"mc_power_ihw\": 0.21465,\n    \"mc_power_bh\"\
+    : 0.21713,\n    \"mc_power_addow_ce\": 0.23123,\n    \"mc_fdr_bh\": 0.5335,\n\
+    \    \"mc_fdr_ihw\": 0.56447,\n    \"mc_fdr_addow_ce\": 0.69793\n  },\n  \"claim4_section7_cross_addow_stabilization_and_theorem7_1\"\
+    : {\n    \"fdr_addow_weak_signal\": 0.09417,\n    \"fdr_craddow_weak_signal\"\
+    : 0.048,\n    \"fdr_reduction_weak_signal\": 0.04617,\n    \"pow_addow_strong_signal\"\
+    : 0.16854,\n    \"pow_craddow_strong_signal\": 0.15817,\n    \"pow_bh_strong_signal\"\
+    : 0.14437,\n    \"tpr_addow_strong_signal\": 0.67417,\n    \"tpr_craddow_strong_signal\"\
+    : 0.63267,\n    \"tpr_bh_strong_signal\": 0.5775,\n    \"fdr_craddow_strong_signal\"\
+    : 0.04632\n  },\n  \"all_checks_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T145500Z-adaptive-data-driven-optimal-p-value-weighting.json
+  accessed_at: '2026-10-17T14:55:00Z'
+  support: supports
+  summary: No normalized identity match for adaptive data-driven optimal p-value weighting
+    across 442 pinned AIO records and 588 maintained IDs, names, aliases and scoped
+    synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T14:55:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias
+    provides adaptive group-weighted false-discovery rate control context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/adaptive-data-driven-optimal-p-value-weighting-boundaries.py
+  accessed_at: '2026-10-17T14:55:00Z'
+  snapshot_sha256: f1d278cc2731b192fdfd3d00352cbee849761fe5c38973a92c5baca38509ec42
+  support: supports
+  summary: Constructed analytical and numerical checks for MWBH fixed-point equivalence
+    and Grenander LCM concavity (Lemma A.5, Lemma C.6), asymptotic FDR control and
+    power optimality under Multiplicative Estimation (Theorems 5.1-5.2, Lemma B.3),
+    the uneven-null counterexample where size-investing IHW underperforms unweighted
+    BH (Remark 3.1, Section 6.4), and F-fold cross-weighted crADDOW stabilization
+    and strong-signal equivalence (Section 7, Theorem 7.1).
+- evidence_id: durand2019-addow-ar5iv
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1710.01094
+  locator: Sections 1-9 and Appendices A-E (lines 1-1118, Theorems 5.1, 5.2, 7.1,
+    Corollaries 5.1-5.3, Lemmas A.5, B.3, C.6)
+  accessed_at: '2026-10-17T14:55:00Z'
+  snapshot_sha256: a6eddfe1e0a9ea8136d1088cc6b9da218426d0cd9ed7a3a4db3fc0ffdf3543ca
+  support: supports
+  summary: All 1,118 lines of the full-text ar5iv HTML conversion of arXiv:1710.01094v2
+    read. Checked all theorems, corollaries, lemmas, remarks, simulation setups, and
+    proofs across Sections 1-9 and Appendices A-E.
+- evidence_id: durand2019-addow-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/19-EJS1578
+  locator: Electronic Journal of Statistics Vol. 13, Issue 2, pp. 3336-3385 publication
+    record
+  accessed_at: '2026-10-17T14:55:00Z'
+  snapshot_sha256: 792010392cd70a1ef92b7c10fe3326f5eda717498e7a608e2da973fd17475e65
+  support: supports
+  summary: Official Electronic Journal of Statistics 13(2):3336-3385 Crossref record
+    read and verified.
+- evidence_id: durand2019-addow-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1710.01094
+  locator: arXiv:1710.01094v2 abstract and EJS 2019 metadata
+  accessed_at: '2026-10-17T14:55:00Z'
+  snapshot_sha256: ee606b72127354a287093bc8d42cbe265c0d615640bbf6d9d392f8be377526a9
+  support: supports
+  summary: arXiv:1710.01094v2 abstract and EJS 2019 metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: AdaptiveDataDrivenOptimalPValueWeighting versus CovariatePoweredCrossWeightedMultipleTesting,
+    AdaptivePValueThresholding, and SelectivelyTraversedAccumulationRulesForStructuredFDRControl
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  evidence_ids:
+  - identity
+  - durand2019-addow-ar5iv
+  - durand2019-addow-crossref
+  summary: Retain Adaptive data-driven optimal p-value weighting as a distinct DRAFT
+    mathematical_method.
+  details: AdaptiveDataDrivenOptimalPValueWeighting generalizes WBH to Multi-Weighted
+    BH (MWBH) with threshold-dependent weight functions W_hat^*(u) optimized over
+    the null-proportion-weighted budget K_hat = {sum_g (m_g/m) pi_hat_{g,0} w_g <=
+    1} so that maximizing total rejections is equivalent to maximizing true-discovery
+    power without requiring evenly distributed nulls (Lemma B.3, Theorem 5.2), whereas
+    CovariatePoweredCrossWeightedMultipleTesting (IHW) optimizes static weights over
+    the unadjusted budget K_0 = {sum_g (m_g/m) w_g <= 1} and can lose power relative
+    to unweighted BH when group null proportions differ (Remark 3.1, Section 6.4).
+- assessment_id: mapping
+  area: grounding
+  topic: Mapping to AIO:DataDredgingBias
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  evidence_ids:
+  - mapping
+  - durand2019-addow-ar5iv
+  summary: Related mapping to DataDredgingBias is supported.
+  details: ADDOW and crADDOW control the false discovery rate across heterogeneous
+    hypothesis groups while learning group weights and group null proportions, preventing
+    false-discovery inflation (AIO:DataDredgingBias).
+- assessment_id: multi-weighted-bh-step-up-fixed-point-and-grenander-lcm-concavity
+  area: evidence
+  topic: multi-weighted-bh-step-up-fixed-point-and-grenander-lcm-concavity
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  evidence_ids:
+  - durand2019-addow-ar5iv
+  - durand2019-addow-abs
+  - calculation
+  summary: Supported by Section 4.1-4.3 Eq. 4.1-4.7, Remark 4.1, Remark 9.2, Lemma
+    A.5, and Lemma C.6.
+  details: Verified exact step-up fixed-point equivalence between MWBH(W_hat^*) and
+    single-step WBH(W_hat^*(u_hat)) across 40 random 2-group instances (mismatches
+    = 0, monotonicity violation = 0.0, Grenander LCM concavity violation = 0.0).
+- assessment_id: asymptotic-fdr-control-and-power-optimality-over-wbh-and-mwbh-under-multiplicative-estimation
+  area: evidence
+  topic: asymptotic-fdr-control-and-power-optimality-over-wbh-and-mwbh-under-multiplicative-estimation
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  evidence_ids:
+  - durand2019-addow-ar5iv
+  - durand2019-addow-crossref
+  - calculation
+  summary: Supported by Section 5.1-5.2 Theorems 5.1-5.2, Corollaries 5.1-5.3, and
+    Appendix B Lemma B.3.
+  details: Verified Lemma B.3 exact equivalence between maximizing G^infty_w(u) and
+    maximizing P^infty_w(u) over K^infty under Multiplicative Estimation (max weight
+    discrepancy = 0.0), Theorem 5.1 asymptotic FDR = alpha/C (0.05 for C=1.0, 0.043478
+    for C=1.15), and Theorem 5.2 asymptotic power dominance of ADDOW (0.131404) over
+    Pro1 (0.131199), HZZ (0.130514), ABH (0.127344), IHW (0.119278), and BH (0.117761).
+- assessment_id: suboptimality-of-size-investing-ihw-under-uneven-null-proportions
+  area: evidence
+  topic: suboptimality-of-size-investing-ihw-under-uneven-null-proportions
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  evidence_ids:
+  - durand2019-addow-ar5iv
+  - calculation
+  summary: Supported by Section 3.3 Remark 3.1 and Section 6.4 Figure 6.
+  details: Verified the Remark 3.1 and Section 6.4 uneven-null counterexample where
+    size-investing IHW has strictly lower power than unweighted BH both asymptotically
+    (0.20932 < 0.216218 < 0.229168) and in Monte Carlo (0.21465 < 0.21713 < 0.23123)
+    while incurring higher FDR than BH (0.566215 > 0.539).
+- assessment_id: f-fold-cross-weighted-craddow-finite-sample-stabilization-and-strong-signal-equivalence
+  area: evidence
+  topic: f-fold-cross-weighted-craddow-finite-sample-stabilization-and-strong-signal-equivalence
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  evidence_ids:
+  - durand2019-addow-ar5iv
+  - calculation
+  summary: Supported by Section 7.1-7.3 Theorem 7.1, Figure 7, and Appendix E Eq.
+    E.1.
+  details: Verified 5-fold crADDOW reducing weak-signal finite-sample FDR from 0.09417
+    (> 0.05) to 0.048 (<= 0.05) while maintaining strong-signal TPR 0.63267 vs. BH
+    0.5775 (Theorem 7.1).
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+  evidence_ids:
+  - identity
+  - mapping
+  - durand2019-addow-ar5iv
+  - durand2019-addow-crossref
+  - durand2019-addow-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of AdaptiveDataDrivenOptimalPValueWeighting.yaml: stable
+    ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation
+    metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Adaptive data-driven optimal p-value weighting record, yielding
+  589 native and 442 unchanged generated records.
+- All 1,118 lines of Durand (2019, arXiv:1710.01094v2) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- multiple-testing
+- false-discovery-rate
+- p-value-weighting
+- grenander-estimator
+- cross-weighting
+- self-review
+- discovery-ongoing
+```

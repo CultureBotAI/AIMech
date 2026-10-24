@@ -1,0 +1,102 @@
+id: AIMech:L2gdLooplessLocalGradientDescentForMixtureFederatedLearning
+name: L2GD (Loopless Local Gradient Descent for Mixture Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A personalized federated optimization formulation and randomized loopless algorithm (Hanzely & Richtarik 2020, Section 2, Equation 2; Section 4, Algorithm 1, Equations 14-15) that minimizes the penalized mixture objective min_{x_1, ..., x_n in R^d} F(x) = (1/n) sum_{i=1}^n f_i(x_i) + (lambda / (2 n)) sum_{i=1}^n ||x_i - bar_x||^2 (where bar_x = (1/n) sum_{i=1}^n x_i) by flipping a coin xi_k ~ Bernoulli(p) at each iteration k: with probability 1 - p (xi_k = 0), every client i performs a purely local gradient step x_i^{k+1} = x_i^k - (alpha / (1 - p)) nabla f_i(x_i^k); with probability p (xi_k = 1), the server computes bar_x^k and every client takes an averaging-contraction step x_i^{k+1} = (1 - alpha lambda / p) x_i^k + (alpha lambda / p) bar_x^k.'
+identity_notes: Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which solves nested bi-level Moreau envelope subproblems at every local step using an auxiliary global variable w, and from Local SGD / FedAvg (AIMech:FederatedAveraging, McMahan et al. 2017), which forces full consensus x_1 = ... = x_n (the lambda -> infinity limit) and suffers O(alpha) bias on heterogeneous objectives, whereas L2GD is an unbiased variance-reduced stochastic solver on the two-term sum F(x) = f(x) + lambda psi(x) that converges linearly to the exact mixture optimum x^*(lambda) for any constant step size.
+aliases:
+- L2GD
+- Loopless Local Gradient Descent
+- Mixture Federated Learning with L2GD
+definition_evidence:
+- source_id: r445-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r445-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r445-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r445-exact-kkt-gradient-average-identity-and-spectrum-interpolation
+  kind: mechanism
+  statement: For every penalty parameter lambda in (0, infinity), the unique minimizer x^*(lambda) = (x_1^*(lambda), ..., x_n^*(lambda)) of F(x) = f(x) + lambda psi(x) satisfies nabla f_i(x_i^*(lambda)) + lambda(x_i^*(lambda) - bar_x^*(lambda)) = 0 and therefore the exact zero-sum gradient identity (1/n) sum_{i=1}^n nabla f_i(x_i^*(lambda)) = 0 (Theorem 3.2, Eq. 5), while interpolating monotonically between purely local training at lambda = 0 (Theorem 3.1) and the classical consensus global optimum x^*(lambda) -> 1 x^* with x_i^*(lambda) - bar_x^*(lambda) = -(1/lambda) nabla f_i(x^*) + o(1/lambda) as lambda -> infinity (Theorem 3.5).
+  evidence:
+  - source_id: r445-primary-pdf
+    locator: Section 3 Properties of the Optimal Solution (Theorems 3.1-3.5, Equations 4-9), pp. 4-6
+    relation: supports
+- claim_id: r445-unbiased-two-summand-sgd-equivalence-and-optimal-communication-probability
+  kind: mechanism
+  statement: Interpreting F(x) = f(x) + lambda psi(x) as a two-summand finite sum and sampling G(x^k) = nabla f(x^k) / (1 - p) with probability 1 - p and lambda nabla psi(x^k) / p with probability p makes G(x^k) an unbiased estimator E[G(x^k) | x^k] = nabla F(x^k) (Section 4.1, Eq. 13); applying control variates (L2GD+) or non-uniform sampling achieves global linear convergence O(max(L / ((1 - p) mu), lambda / (p mu)) log(1/epsilon)) where the optimal communication probability p^* = lambda / (lambda + L) minimizes expected communication rounds to O((lambda L / (lambda + L)) / mu * log(1/epsilon)) (Theorems 4.4, 5.2, and Corollary 4.5).
+  evidence:
+  - source_id: r445-primary-pdf
+    locator: Section 4.1-4.3 Convergence of L2GD (Equations 13-17, Theorem 4.4, Corollary 4.5) & Section 5 Variance Reduced L2GD+ (Theorem 5.2), pp. 6-12
+    relation: supports
+- claim_id: r445-variance-floor-without-control-variates-and-strong-convexity-limitation
+  kind: limitation
+  statement: Because nabla f_i(x_i^*(lambda)) = -lambda(x_i^*(lambda) - bar_x^*(lambda)) != 0 whenever client optima differ and lambda > 0, vanilla L2GD with constant step size alpha converges to an O(alpha sigma_*^2) neighborhood of x^*(lambda) unless diminishing step sizes or the variance-reduced control-variate extension L2GD+ (Section 5) are used.
+  evidence:
+  - source_id: r445-primary-pdf
+    locator: Section 4.3 Theorem 4.4 Neighborhood Analysis & Section 5 L2GD+ with Control Variates, pp. 8-11
+    relation: supports
+- claim_id: r445-personalized-l2-regularized-logistic-regression-federated-application
+  kind: application
+  statement: Applied to personalized federated l_2-regularized logistic regression across heterogeneous LIBSVM client datasets (a1a, mushrooms, madelon, phishing), reducing communication rounds relative to full-consensus gradient descent as heterogeneity increases.
+  evidence:
+  - source_id: r445-primary-pdf
+    locator: Section 6 Experiments (Figures 1-4), pp. 13-15
+    relation: supports
+evidence_sources:
+- source_id: r445-primary-pdf
+  title: Federated Learning of a Mixture of Global and Local Models
+  authors: &id001
+  - Filip Hanzely
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2002.05516
+  persistent_id: https://arxiv.org/abs/2002.05516
+  version: arXiv preprint arXiv:2002.05516 (2020) (108100 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:48:00Z'
+  sha256: 20107b7a9e9b567940d86f64ed23c112100eacd78d9d34868ad1b3484417b8f8
+- source_id: r445-arxiv-abs
+  title: Federated Learning of a Mixture of Global and Local Models (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.05516
+  persistent_id: https://arxiv.org/abs/2002.05516
+  version: arXiv abstract page (2846 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:48:00Z'
+  sha256: f1b9b1e06e9c73cf01bb138b32f7354ec700592ff5d5604014862a943402060b
+- source_id: r445-metadata-cr
+  title: Federated Learning of a Mixture of Global and Local Models (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.05516
+  persistent_id: https://arxiv.org/abs/2002.05516
+  version: Crossref API work record (270 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:48:00Z'
+  sha256: 985ae86e7cc125907a09155f0c2a8404d1034b39f9045337a0b4fe07f1bf35ab
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: L2GD formulates and solves personalized federated learning as a quadratically coupled mixture of local and global models with randomized loopless communication.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Evaluated on personalized federated l_2-regularized logistic classification.
+limitations:
+- Linear convergence guarantees require mu-strongly convex and L-smooth local objectives f_i.
+- Exact convergence with constant step size requires maintaining control variates (L2GD+).
+curation:
+  created_at: '2026-10-19T08:48:00Z'
+  updated_at: '2026-10-19T08:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

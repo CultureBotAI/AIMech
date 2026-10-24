@@ -1,0 +1,106 @@
+id: AIMech:AdaBoundAndAmsBoundDynamicLearningRateBoundsOptimization
+name: AdaBound and AMSBound Dynamic Learning-Rate Bounds Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'AdaBound and AMSBound are first-order adaptive stochastic optimization algorithms (Luo, Xiong, Liu, & Sun, ICLR 2019) that eliminate both extremely large and extremely small late-stage learning rates in Adam and AMSGrad by clipping the element-wise adaptive learning rate alpha / sqrt(V_t) to a pair of dynamic monotone bound functions [eta_l(t), eta_u(t)]: eta_hat_t = Clip(alpha / sqrt(V_t), eta_l(t), eta_u(t)), eta_t = eta_hat_t / sqrt(t), and x_{t+1} = Pi_{F, diag(eta_t^{-1})}(x_t - eta_t odot m_t), where V_t = diag(v_t) for AdaBound and V_t = diag(v_hat_t) with v_hat_t = max(v_hat_{t-1}, v_t) for AMSBound, and where the non-decreasing lower bound eta_l(t) (initialized at 0) and non-increasing upper bound eta_u(t) (initialized at infinity) both converge smoothly to a constant final step size alpha* as t -> infinity, inducing a continuous transition from adaptive gradient methods early in training to SGD (with momentum) asymptotically.'
+identity_notes: Distinct from Adam (Kingma & Ba, 2015), which sets eta_l(t) = 0 and eta_u(t) = infinity and can fail to converge on convex problems due to either huge or tiny learning rates (Theorems 1-3); distinct from AMSGrad (Reddi et al., 2018), which enforces non-increasing step sizes via v_hat_t = max(v_hat_{t-1}, v_t) to curb large learning rates but does not bound tiny learning rates from below; distinct from SWATS (Keskar & Socher, 2017), which performs a discrete hard switch from Adam to SGD at a thresholded step rather than a continuous dynamic-bound transformation; and distinct from Padam (Chen et al., 2020), which scales the second-moment denominator exponent to v_hat_t^p with p in (0, 1/2] rather than clipping step sizes to time-varying bounds [eta_l(t), eta_u(t)].
+aliases:
+- AdaBound
+- AMSBound
+- Adaptive Gradient Methods with Dynamic Bound of Learning Rate
+- Dynamic Learning-Rate Bound Adaptive Moment Estimation
+definition_evidence:
+- source_id: r608-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r608-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r608-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: theorem1-nonconvergence-of-adam-from-tiny-learning-rates
+  kind: mechanism
+  statement: Theorem 1 (Section 3, p. 4 & Appendix B, Eqs. 2-3, p. 12-13) proves that for the 1D online convex optimization sequence over F = [-2, 2] with f_t(x) = -100 for x < 0, f_t(x) = -x for 0 <= x <= 1 and t mod C = 1, f_t(x) = 2x for 0 <= x <= 1 and t mod C = 2, and 0 otherwise, where C in N satisfies 5 * beta_2^{C-2} <= (1 - beta_2)/(4 - beta_2) (Eq. 3), Adam with beta_1 = 0 and any initial step size alpha > 0 satisfies V_{Ct+1} - 4 V_{Ct} >= (4 - beta_2)[(1 - beta_2)/(4 - beta_2) - 5 * beta_2^{C-2}] >= 0, keeping x_t >= 0 for all t in N and suffering non-vanishing average regret R_T / T >= 100 as T -> infinity because the corrective gradient +2 at t mod C = 2 is scaled down by a larger second-moment accumulator than the wrong-direction gradient -1 at t mod C = 1.
+  evidence:
+  - source_id: r608-primary-pdf
+    locator: Section 3, Theorem 1, p. 4; Appendix B, Eqs. 2-3, p. 12-13
+    relation: supports
+- claim_id: theorem4-and-theorem5-online-convex-regret-bounds
+  kind: mechanism
+  statement: Theorems 4 and 5 and Corollary 4.1 (Section 4, p. 5 & Appendix E-F, p. 14-17) prove that under beta_1 = beta_{11}, beta_{1t} <= beta_1, beta_1 / sqrt(beta_2) < 1, monotone bounds eta_l(t+1) >= eta_l(t) > 0 and eta_u(t+1) <= eta_u(t) converging to alpha* with L_infty = eta_l(1) and R_infty = eta_u(1), bounded diameter ||x - y||_infty <= D_infty, and bounded gradients ||nabla f_t(x)||_2 <= G_2, both AdaBound (Algorithm 2) and AMSBound (Algorithm 3) satisfy R_T <= (D_infty^2 sqrt(T) / (2(1 - beta_1))) sum_{i=1}^d eta_hat_{T,i}^{-1} + (D_infty^2 / (2(1 - beta_1))) sum_{t=1}^T sum_{i=1}^d beta_{1t} eta_{t,i}^{-1} + (2 sqrt(T) - 1) R_infty G_2^2 / (1 - beta_1) = O(sqrt(T)) when beta_{1t} = beta_1 lambda^{t-1} or beta_{1t} = beta_1 / t.
+  evidence:
+  - source_id: r608-primary-pdf
+    locator: Section 4, Theorem 4 & Corollary 4.1, p. 5-6; Appendix E-F, Theorem 5, p. 14-17
+    relation: supports
+- claim_id: canonical-rational-bound-functions-and-deep-network-generalization
+  kind: application
+  statement: Using the canonical bound functions eta_l(t) = (1 - 1 / ((1 - beta)t + 1)) alpha* and eta_u(t) = (1 + 1 / ((1 - beta)t)) alpha* with default alpha = 0.001, alpha* = 0.1, beta_1 = 0.9, and beta_2 = 0.999 (Section 4-5, p. 6-9; Appendix G-H, p. 17-19), AdaBound and AMSBound match the early convergence speed of Adam/AMSGrad while improving CIFAR-10 test accuracy by ~2% over Adam on DenseNet-121 and surpassing SGDM by ~1% on ResNet-34, and reduce Penn Treebank test perplexity by over 2.8% relative to Adam on 3-layer LSTM language models while remaining robust across alpha* in [0.001, 1] and beta in [beta_1, beta_2].
+  evidence:
+  - source_id: r608-primary-pdf
+    locator: Section 4-5, Table 2 & Figures 2-4, p. 6-9; Appendix G-H, Figures 5-8, p. 17-19
+    relation: supports
+  - source_id: r608-arxiv-abs
+    locator: Abstract
+    relation: supports
+- claim_id: modest-gains-on-shallow-models-and-bound-schedule-specification
+  kind: limitation
+  statement: Section 5.4-6 (p. 8-9) notes that on simple shallow architectures such as a 1-layer perceptron on MNIST or a 1-layer LSTM on Penn Treebank, the test accuracy or perplexity improvement of AdaBound and AMSBound over Adam and SGD is modest (~1.1% on 1-layer LSTM), that on recurrent language modeling tasks AdaBound and AMSBound do not match Adam's very earliest-epoch drop in perplexity, and that the algorithms require specifying two dynamic bound schedules eta_l(t) and eta_u(t) together with a target SGD step size alpha*.
+  evidence:
+  - source_id: r608-primary-pdf
+    locator: Section 5.2, 5.4, 5.5, and Section 6 Future Work, p. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r608-primary-pdf
+  title: Adaptive Gradient Methods with Dynamic Bound of Learning Rate
+  authors: &id001
+  - Liangchen Luo
+  - Yuanhao Xiong
+  - Yan Liu
+  - Xu Sun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1902.09843.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/LuoXLS19
+  version: 7th International Conference on Learning Representations (ICLR 2019) (2019) (733067 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:31:00Z'
+  sha256: d2bca40bc2d348608628fea856e97894f5dc44270c4925767a88cb12a86cba29
+- source_id: r608-arxiv-abs
+  title: Adaptive Gradient Methods with Dynamic Bound of Learning Rate (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1902.09843
+  persistent_id: https://arxiv.org/abs/1902.09843
+  version: arXiv abstract page (7160 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:31:00Z'
+  sha256: 6e646d4b86524889413fc857b698c234c5262019dc6259ab981ccc1538877cc2
+- source_id: r608-metadata-cr
+  title: Adaptive Gradient Methods with Dynamic Bound of Learning Rate (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/LuoXLS19
+  persistent_id: https://dblp.org/rec/conf/iclr/LuoXLS19
+  version: Crossref API work record (1767 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:31:00Z'
+  sha256: 4c9119222166e89d26e595062fa5f0d74a32f912a97ed00dfa75b8264066f5d1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdaBound and AMSBound are designed to train feedforward, convolutional (DenseNet-121, ResNet-34), and recurrent (LSTM) deep neural networks with rapid initial progress and strong out-of-sample generalization.
+limitations:
+- Improvements over vanilla Adam and SGD are modest on shallow architectures such as a 1-layer MNIST perceptron or a 1-layer LSTM compared with deeper ResNet, DenseNet, and 3-layer LSTM models (Section 5.2, 5.4, 6, p. 7-9).
+- On Penn Treebank LSTM language modeling, AdaBound and AMSBound exhibit smoother learning curves and lower final perplexity than Adam and SGD, but do not match Adam's rapid perplexity drop during the very earliest training epochs (Section 5.4, Figure 4, p. 8).
+- Requires specifying functional forms for the lower and upper dynamic bounds eta_l(t) and eta_u(t) and the asymptotic SGD target step size alpha* (Section 4, 6, p. 6, 9).
+curation:
+  created_at: '2026-10-19T11:31:00Z'
+  updated_at: '2026-10-19T11:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

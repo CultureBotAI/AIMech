@@ -1,0 +1,95 @@
+id: AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding
+name: QSGD (Quantized Stochastic Gradient Descent) with Elias Coding
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-efficient family of unbiased stochastic gradient quantization and lossless prefix-coding schemes (Alistarh, Grubic, Li, Tomioka, & Vojnovic 2017) for distributed data-parallel optimization on R^n that, given a number of quantization levels s >= 1 and a vector v != 0, maps each coordinate v_i to Q_s(v)_i = ||v||_2 * sgn(v_i) * xi_i(v, s) where xi_i(v, s) is independently rounded to (l_i + 1)/s with probability p_i = s * |v_i| / ||v||_2 - l_i and to l_i/s with probability 1 - p_i (for l_i = floor(s * |v_i| / ||v||_2)), and encodes the resulting sparse integer tuple (||v||_2, signs, non-zero run-length gaps, and quantization levels k_i = s * xi_i) via Elias recursive gamma/omega integer coding, guaranteeing unbiasedness E[Q_s(v)] = v, variance E[||Q_s(v) - v||_2^2] <= min(n / s^2, n^{1/2} / s) * ||v||_2^2, and expected communication <= (3/2 + 1/2 * log_2(2(s^2 + n)/s)) * s(s + n^{1/2}) + F bits per step (<= 2.818 * n + 32 bits when s = n^{1/2} with only 2x variance blowup).
+identity_notes: Distinct from biased 1-bit sign compression signSGD (Bernstein et al. 2018, AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization), which discards the l_2 norm ||v||_2 and uses deterministic sign(v_i) without unbiased stochastic rounding or Elias run-length coding; from 1-bit SGD with error feedback (Seide et al. 2014; Karimireddy et al. 2019), which maintains a local residual memory e_t; and from post-training neural weight quantization (such as GPTQ or AWQ), which quantizes trained model weights for inference rather than stochastically quantizing and Elias-coding gradients during distributed SGD/SVRG training.
+aliases:
+- QSGD
+- Quantized SGD
+- Quantized Stochastic Gradient Descent
+- QSVRG (Quantized SVRG)
+definition_evidence:
+- source_id: r378-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r378-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r378-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r378-claim-unbiased-stochastic-quantization-variance-and-sparsity-bounds
+  kind: mechanism
+  statement: For any v in R^n and quantization level count s >= 1, the stochastic rounding operator Q_s(v) satisfies E[Q_s(v)] = v (unbiasedness), E[||Q_s(v) - v||_2^2] = (||v||_2^2 / s^2) * sum_{i=1}^n p_i * (1 - p_i) <= min(n / s^2, n^{1/2} / s) * ||v||_2^2 (since sum_i p_i(1 - p_i) <= min(n, sum_i p_i) and sum_i p_i <= s * ||v||_1 / ||v||_2 <= s * n^{1/2}), and expected support size (induced sparsity) E[||Q_s(v)||_0] <= s^2 + s * n^{1/2} (Lemma 3.1, Lemma A.5).
+  evidence:
+  - source_id: r378-primary-pdf
+    locator: Section 3.1, Lemma 3.1; Appendix A, Proof of Lemma 3.1 and Lemma A.5
+    relation: supports
+- claim_id: r378-claim-elias-coding-communication-complexity-tradeoff
+  kind: mechanism
+  statement: By encoding the index gaps between non-zero coordinates of Q_s(v) and their non-zero integer quantization levels k_i in {1, ..., s} with Elias recursive prefix codes (which use log_2(k) + O(log log k) bits for integer k >= 1 and satisfy Jensen's inequality on concave code-length upper bounds), QSGD transmits at most (3/2 + 1/2 * log_2(2(s^2 + n) / s)) * s * (s + n^{1/2}) + F bits in expectation (where F = 32 is float precision for ||v||_2); in particular, at s = n^{1/2}, QSGD increases gradient second-moment variance by at most 1 + min(n/s^2, n^{1/2}/s) = 2 while transmitting <= 2.818 * n + 32 bits per step instead of 32*n bits (~11.3x compression) (Theorem 3.4, Corollary 3.3, Theorem A.6).
+  evidence:
+  - source_id: r378-primary-pdf
+    locator: Section 3.1-3.2, Theorem 3.2, Corollary 3.3, Theorem 3.4; Appendix A, Lemmas A.1-A.5 and Theorem A.6
+    relation: supports
+- claim_id: r378-claim-qsvrg-nonconvex-and-multi-gpu-bucketed-training
+  kind: application
+  statement: Extending Q_{n^{1/2}} to variance-reduced finite-sum optimization in Quantized SVRG (QSVRG, Theorem B.2 / G.2) achieves linear convergence E[f(y^{(P+1)}) - f(x^*)] <= (1/2)^P * (f(x_0) - f(x^*)) using <= P * (F + 2.8*n) * (T + 1) bits per processor, matching optimal communication lower bounds up to constants; in smooth non-convex and asynchronous optimization (Theorems C.1 and D.1) and bucketed d-block quantization (Section 3.3, variance min(d/s^2, d^{1/2}/s)) on 16-GPU ImageNet AlexNet, CIFAR-10 ResNet-110, and AN4 speech LSTM, 4-bit and 2-bit QSGD achieve 2.5x-3x end-to-end training speedups without accuracy loss.
+  evidence:
+  - source_id: r378-primary-pdf
+    locator: Section 3.3-5, Table 1, Figures 1-2; Appendix B-D, Theorems B.2, C.1, D.1, and G.2
+    relation: supports
+evidence_sources:
+- source_id: r378-primary-pdf
+  title: 'QSGD: Communication-Efficient SGD via Gradient Quantization and Encoding'
+  authors: &id001
+  - Dan Alistarh
+  - Demjan Grubic
+  - Jerry Li
+  - Ryota Tomioka
+  - Milan Vojnovic
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1610.02132
+  persistent_id: https://papers.nips.cc/paper/2017/hash/6c340f25839e6acdc73414517203f5f0-Abstract.html
+  version: Advances in Neural Information Processing Systems (NeurIPS 2017), Vol. 30, pp. 1709-1720 (arXiv:1610.02132v3) (2017) (107806 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:41:00Z'
+  sha256: 3bd13b1eab4338d01a9017d5f19aa8716655131ebe4dd76f7f4f8eb2a1ee1abd
+- source_id: r378-arxiv-abs
+  title: 'QSGD: Communication-Efficient SGD via Gradient Quantization and Encoding (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1610.02132
+  persistent_id: https://arxiv.org/abs/1610.02132
+  version: arXiv abstract page (7776 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:41:00Z'
+  sha256: a259a0dd960b32f3558f19ce7147e8f2bbbdc3a4a71b81ab738dd09796519938
+- source_id: r378-metadata-cr
+  title: 'QSGD: Communication-Efficient SGD via Gradient Quantization and Encoding (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2017/hash/6c340f25839e6acdc73414517203f5f0-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2017/hash/6c340f25839e6acdc73414517203f5f0-Abstract.html
+  version: Crossref API work record (567 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:41:00Z'
+  sha256: f2bfd70587b86c0ba1cfdec722cd456d8bcc235ec54a6c797b40c65bfecfc51a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Provides communication-efficient quantized SGD and SVRG for convex, strongly convex, and non-convex empirical risk and neural network classification.
+limitations:
+- Depends on a second-moment bound E[||gtilde(x)||_2^2] <= B (stronger than a pure central variance bound E[||gtilde(x) - nabla f(x)||_2^2] <= sigma^2 when gradients are large far from optimum), and aggressive 2-bit quantization on small convolutional kernels can degrade accuracy unless bucket sizes or precision (4-bit/8-bit) are increased (Section 2, Section 5, Appendix C).
+curation:
+  created_at: '2026-10-19T07:41:00Z'
+  updated_at: '2026-10-19T07:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

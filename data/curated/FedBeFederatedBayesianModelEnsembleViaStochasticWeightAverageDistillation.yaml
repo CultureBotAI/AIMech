@@ -1,0 +1,99 @@
+id: AIMech:FedBeFederatedBayesianModelEnsembleViaStochasticWeightAverageDistillation
+name: FedBE (Federated Bayesian Model Ensemble via Stochastic Weight Average Distillation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A Bayesian server-side model aggregation algorithm for multi-round federated learning (Chen & Chao 2021, Sections 3-4, Equations 3-9, Algorithm 1) that treats client-updated models {w_i; i in S} as stochastic gradient trajectories to construct an approximate global model posterior p(w | D) on the server \u2014 either by fitting a SWAG-style diagonal Gaussian N(mu, Sigma_diag) with mu = sum_i (|D_i|/|D|) w_i and Sigma_diag = diag(sum_i (|D_i|/|D|) (w_i - mu)^2) (Equation 5) or a Dirichlet simplex convex-combination distribution w^{(m)} = sum_i (gamma_i^{(m)} |D_i| / sum_{i'} gamma_{i'}^{(m)} |D_{i'}|) w_i with gamma^{(m)} ~ Dir(alpha) (Equations 6-7) \u2014 samples M global models {w^{(m)} ~ p(w | D)}_{m=1}^M to form a Bayesian model ensemble {w_bar} U {w_i} U {w^{(m)}} that generates ensemble pseudo-labels p_hat_j = (1/M') sum_{m'=1}^{M'} p(y | x_j; w^{(m')}) (Equation 4) on an unlabeled server dataset U = {x_j}_{j=1}^J, and distills the pseudo-labeled set T = {(x_j, p_hat_j)}_{j=1}^J into a single student global model w using Stochastic Weight Averaging (SWA) with a cyclical learning rate schedule eta_SWA (Algorithm 1)."
+identity_notes: Distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which distills only the direct average of client logits without fitting a Gaussian or Dirichlet global parameter posterior p(w | D), sampling additional higher-quality global models w^{(m)} ~ p(w | D), or applying cyclical Stochastic Weight Averaging (SWA) during server distillation; and distinct from FedPA (AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance, Al-Shedivat et al. 2021), which estimates local client posteriors via MCMC and shrinkage covariance on clients rather than server-side Bayesian ensemble distillation.
+aliases:
+- FedBE
+- Federated Bayesian Ensemble
+- Bayesian Model Ensemble for Federated Learning
+definition_evidence:
+- source_id: r475-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r475-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r475-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r475-gaussian-and-dirichlet-posterior-ensemble-curvature-mechanism
+  kind: mechanism
+  statement: FedBE constructs p(w | D) from uploaded client weights {w_i} via either a diagonal Gaussian N(mu, Sigma_diag) (Equation 5) or a Dirichlet simplex distribution over convex client combinations (Equations 6-7), and shows via second-order linearization around w_bar (Equations 8-9) that the Bayesian ensemble prediction (1/M) sum_m p(y | x; w^{(m)}) differs from p(y | x; w_bar) by O(Omega^2) where Omega = max_m ||w^{(m)} - w_bar||, improving calibration and accuracy under non-IID client drift (Chen & Chao 2021, Section 3.3, Figure 1).
+  evidence:
+  - source_id: r475-primary-pdf
+    locator: Section 3.3 (Equations 5-9, Figure 1), pp. 4-5
+    relation: supports
+- claim_id: r475-swa-ensemble-knowledge-distillation-mechanism
+  kind: mechanism
+  statement: To summarize the Bayesian model ensemble {w_bar} U {w_i; i in S} U {w^{(m)}}_{m=1}^M into a single global model w for multi-round communication without overfitting to noisy early-round ensemble pseudo-labels p_hat_j on unlabeled server data U, FedBE minimizes the cross-entropy distillation loss -(1/J) sum_j p_hat_j^T log p(y | x_j; w) using Stochastic Weight Averaging (SWA) with a cyclical learning rate schedule eta_SWA and averages traversed student checkpoints (Chen & Chao 2021, Section 4, Algorithm 1, & Appendix C.4 Figure 11).
+  evidence:
+  - source_id: r475-primary-pdf
+    locator: Section 4 (Algorithm 1), pp. 5-6, and Appendix C.4 (Figure 11), p. 19
+    relation: supports
+- claim_id: r475-deep-network-non-iid-federated-classification-application
+  kind: application
+  statement: Applied to non-IID and partial-participation federated image classification with deeper neural networks (ConvNet, ResNet-20/32/44/56, MobileNetV2) on CIFAR-10, CIFAR-100, and Tiny-ImageNet, including out-of-domain unlabeled server datasets and compatibility with FedProx, FedAvgM, and SCAFFOLD (Chen & Chao 2021, Section 5, Tables 1-6).
+  evidence:
+  - source_id: r475-primary-pdf
+    locator: Section 5 (Experiments, Tables 1-6, Figures 2-5), pp. 6-9
+    relation: supports
+- claim_id: r475-unlabeled-server-data-and-server-distillation-compute-limitation
+  kind: limitation
+  statement: Requires access to an unlabeled dataset U at the server and incurs extra server-side forward inference passes across M' ensemble models plus SWA knowledge distillation epochs at every communication round (Chen & Chao 2021, Sections 4, 6, & Appendix D.1).
+  evidence:
+  - source_id: r475-primary-pdf
+    locator: Section 4, p. 5, Section 6, p. 9, and Appendix D.1, p. 20
+    relation: supports
+evidence_sources:
+- source_id: r475-primary-pdf
+  title: 'FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning'
+  authors: &id001
+  - Hong-You Chen
+  - Wei-Lun Chao
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2009.01974.pdf
+  persistent_id: https://arxiv.org/abs/2009.01974
+  version: ICLR 2021 (2021) (1922 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:18:00Z'
+  sha256: 836b0245c888e758f637de99e678ccbbd34ecc1d56160ef76aea54e0efcbf347
+- source_id: r475-arxiv-abs
+  title: 'FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2009.01974
+  persistent_id: https://arxiv.org/abs/2009.01974
+  version: arXiv abstract page (796 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:18:00Z'
+  sha256: 059b29ee3d710709369e9db526dd5b2b7e0f6f20ef88b8b2af5dda0d71b80c79
+- source_id: r475-metadata-cr
+  title: 'FedBE: Making Bayesian Model Ensemble Applicable to Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2009.01974
+  persistent_id: https://arxiv.org/abs/2009.01974
+  version: Crossref API work record (257 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:18:00Z'
+  sha256: a48d58d95f16d12d4377a2d748cda17cf7b23e8c0ac8559747725eb58d81d685
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedBE is a Bayesian model ensemble aggregation algorithm for federated learning within the broader FederatedLearning category.
+limitations:
+- Requires an unlabeled proxy dataset U on the server to perform ensemble knowledge distillation.
+- Constructing diagonal Gaussian or Dirichlet posteriors in weight space assumes client models share a homogeneous neural network architecture.
+curation:
+  created_at: '2026-10-19T09:18:00Z'
+  updated_at: '2026-10-19T09:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

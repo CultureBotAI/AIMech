@@ -1,0 +1,112 @@
+id: AIMech:SparTermLearningTermBasedSparseRepresentation
+name: SparTerm Learning Term-Based Sparse Representation for Fast Text Retrieval
+concept_kind: architecture
+review_status: DRAFT
+definition: A term-based sparse retrieval representation framework that maps an input text p into a vocabulary-sized sparse vector p' = F(p) odot G(p) in R^v by taking the element-wise product of (1) a dense semantic importance predictor F(p) = sum_{i=0}^L ReLU(Transform(h_i) E^T + b) initialized from a pre-trained Masked Language Model (MLM) head and summed over token positions, and (2) a sparse binary gating controller G(p) in {0, 1}^v that activates either literal bag-of-words terms only (G(p) = BoW(p)) or literal terms plus non-overlapping threshold-binarized expansion terms (G_{le} = (Binarizer(G) odot ~BoW(p)) + BoW(p)).
+identity_notes: Distinct from SPLADE (AIMech:SPLADESparseLexicalAndExpansionModel), which eliminates the separate binary gating network G(p) and achieves sparsity by applying log(1 + ReLU(.)) to MLM logits under differentiable FLOPS regularization; and distinct from EPIC (AIMech:EPICExpansionViaPredictionOfImportanceWithContextualization), which produces dense |V|-dimensional document vectors scaled by softplus token weights and a sigmoid [CLS] quality gate without binary gating or inverted-index full-ranking execution.
+aliases:
+- SparTerm
+- SparTerm Sparse Representation Framework
+- Learning Term-based Sparse Representation for Fast Text Retrieval
+definition_evidence:
+- source_id: r782-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r782-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r782-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: sparterm-mlm-initialized-relu-summed-importance-predictor
+  kind: mechanism
+  statement: SparTerm's importance predictor F(p) encodes each token w_i of passage p with BERT into contextualized hidden state h_i, projects h_i to a vocabulary-sized logit vector I_i = Transform(h_i) E^T + b in R^v using a GELU + LayerNorm linear transformation and shared word embedding matrix E initialized from BERT's pre-trained MLM head (Equation 2), and sums non-negative activations across all L passage tokens via I = sum_{i=0}^L ReLU(I_i) (Equation 3).
+  evidence:
+  - source_id: r782-primary-pdf
+    locator: Section 3.2, Figure 2b & Equations 2-3, p. 3
+    relation: supports
+  - source_id: r782-primary-pdf
+    locator: importance_predictor() and sparterm_representation() verification
+    relation: supports
+- claim_id: sparterm-orthogonal-binary-gating-controller-and-weighted-bce-training
+  kind: mechanism
+  statement: To enforce sparsity (||G(p)|| < lambda, G(p) in {0, 1}^v) while preserving natural-language input to BERT, SparTerm's gating controller operates in either literal-only mode G(p) = BoW(p) or expansion-enhanced mode G_{le} = G_e + BoW(p) where G_e = Binarizer(G) odot (~BoW(p)) (with binarization threshold 0.7, Equations 4-6 & Section 4.2), pre-training the gating distribution G via asymmetric binary cross-entropy loss L_exp = -lambda_1 sum_{T_j=0} log(1 - G_j) - lambda_2 sum_{T_k=1} log(G_k) (lambda_1 = 1e-3, lambda_2 = 1.0, Equation 8) before end-to-end ranking optimization with L_rank (Equations 7 & 9).
+  evidence:
+  - source_id: r782-primary-pdf
+    locator: Sections 3.3-3.4 & 4.2, Figure 2c & Equations 4-9, pp. 3-5
+    relation: supports
+  - source_id: r782-primary-pdf
+    locator: expansion_enhanced_gating(), expansion_bce_loss(), and ranking_nll_loss()
+    relation: supports
+- claim_id: sparterm-msmarco-passage-and-document-full-ranking-application
+  kind: application
+  statement: "On MS MARCO Passage full ranking, SparTerm (expansion-enhanced) achieves 27.94 Dev MRR@10 and 92.45% Recall@1000\u2014outperforming BM25 (18.6 / 85.71%), DeepCT (24.3 / 91.0%), Doc2query (21.5 / 89.1%), and Doc2query-T5 on MRR@10 (27.7, Table 2)\u2014while on MS MARCO Document ranking with PassageRetrievalMax it reaches 29.0 MRR@10, surpassing BM25 (24.5) and HDCT(decay) (28.7, Table 3)."
+  evidence:
+  - source_id: r782-primary-pdf
+    locator: Sections 5.1-5.2, Tables 2-3, pp. 5-6
+    relation: supports
+- claim_id: sparterm-non-differentiable-binarizer-frozen-gate-limitation
+  kind: limitation
+  statement: Because the step-function Binarizer(G) in Equation 4 is non-differentiable and the Gating Controller uses an independent 110M-parameter BERT_base network that does not share weights with the Importance Predictor, the Gating Controller must be pre-trained separately for 50k steps and then frozen during the subsequent 100k ranking fine-tuning steps (Section 4.2).
+  evidence:
+  - source_id: r782-primary-pdf
+    locator: Section 4.2 (Implementation), p. 5
+    relation: supports
+evidence_sources:
+- source_id: r782-primary-pdf
+  title: 'SparTerm: Learning Term-based Sparse Representation for Fast Text Retrieval'
+  authors: &id001
+  - Yang Bai
+  - Xiaoguang Li
+  - Gang Wang
+  - Chaoliang Zhang
+  - Lifeng Shang
+  - Jun Xu
+  - Zhaowei Wang
+  - Fangshan Wang
+  - Qun Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2010.00768.pdf
+  persistent_id: https://arxiv.org/bibtex/2010.00768
+  version: arXiv (2020) (1940008 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:25:00Z'
+  sha256: 37e706096680aca9ec971ff15d87a25c3c9fb4a8b5e0f4306ecfabdbb8e84644
+- source_id: r782-arxiv-abs
+  title: 'SparTerm: Learning Term-based Sparse Representation for Fast Text Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.00768
+  persistent_id: https://arxiv.org/abs/2010.00768
+  version: arXiv abstract page (7168 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:25:00Z'
+  sha256: 0c7d625eb398808e345c81a2f4b0229c10efe54d2a747121a5d37d5cce894f86
+- source_id: r782-metadata-cr
+  title: 'SparTerm: Learning Term-based Sparse Representation for Fast Text Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2010.00768
+  persistent_id: https://arxiv.org/bibtex/2010.00768
+  version: Crossref API work record (492 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:25:00Z'
+  sha256: be3c0f8b3200be47b47b6f58fd07462f3154442268248524855dc6103747e1f5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SparTerm pairs two 12-layer BERT-base neural networks with MLM-initialized GELU+LayerNorm vocabulary projection heads to predict term importance and binary expansion gates.
+limitations:
+- The Gating Controller requires a separate 110M-parameter BERT-base encoder that does not share weights with the Importance Predictor.
+- Because hard threshold binarization is non-differentiable, the Gating Controller parameters must be trained first on parallel text and held fixed during ranking loss optimization.
+curation:
+  created_at: '2026-10-19T14:25:00Z'
+  updated_at: '2026-10-19T14:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

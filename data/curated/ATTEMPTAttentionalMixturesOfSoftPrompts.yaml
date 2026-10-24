@@ -1,0 +1,102 @@
+id: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+name: ATTEMPT (Attentional Mixtures of Prompt Tuning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A modular parameter-efficient multi-task language model tuning method that pre-trains reusable soft source prompts on high-resource tasks and adapts a completely frozen language model to one or more target tasks by training a lightweight bottleneck-and-LayerNorm attention module G and a target soft prompt P_target to generate an instance-wise soft prompt P_instance(X) = P_target + sum_{j=1}^{t+1} a_j P_j as an input-conditioned attentional interpolation over the frozen source prompts and target prompt.
+identity_notes: Introduced by Akari Asai, Mohammadreza Salehi, Matthew E. Peters, and Hannaneh Hajishirzi (EMNLP 2022, arXiv:2205.11961). Distinct from SPoT (Vu et al., ACL 2022; AIMech Round 698), which uses a single source prompt only as a static initialization and overwrites its parameters during target fine-tuning, and distinct from MPT (Wang et al., ICLR 2023; AIMech Round 702), which learns a single shared prompt factorized with rank-one multiplicative task vectors rather than an instance-wise attention gate over modular frozen source prompts. Both single-target-task ATTEMPT and multi-task ATTEMPT-m (which shares the attention module G across N target tasks) are covered within this single record.
+aliases:
+- ATTEMPT
+- ATTEMPT-m
+- ATTEntional Mixtures of Prompt Tuning
+- Attentional Mixtures of Soft Prompts for Multi-Task Tuning
+definition_evidence:
+- source_id: r704-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r704-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r704-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: attempt-input-prompt-attention-and-interpolation-mechanism
+  kind: mechanism
+  statement: Given an input embedding sequence X in R^{l x d}, t frozen pre-trained source prompts P_1, ..., P_t in R^{m x d}, and a newly initialized target prompt P_target = P_{t+1} in R^{m x d}, ATTEMPT applies dimension-wise max-pooling to obtain X_hat in R^d and P_hat_j in R^d, projects X_hat through a bottleneck attention network G with H_down = W_down^T(X_hat), H_up = W_up^T(SiLU(H_down)), and H_out = LayerNorm(H_up) (W_down in R^{d x r}, W_up in R^{r x d}, r < d), computes temperature-scaled softmax weights a_j = exp(P_hat_j H_out / T) / sum_{k=1}^{t+1} exp(P_hat_k H_out / T) (Eq. 3, with T = d exp(1)), and forms the instance-wise soft prompt P_instance(X) = P_target + sum_{j=1}^{t+1} a_j P_j (Eq. 4), assigning effective weight 1 + a_{t+1} in (1, 2) to P_target so the target prompt always receives non-vanishing gradient updates even when no source task is relevant.
+  evidence:
+  - source_id: r704-primary-pdf
+    locator: Section 3.2.1 Input-prompt Attentions, Eq. 3, pp. 3-4; Section 3.2.2 Prompt Interpolation, Eq. 4, p. 4; Appendix C.5, p. 15
+    relation: supports
+- claim_id: attempt-layer-independent-parameter-efficiency-scope
+  kind: scope
+  statement: When sharing the attention module G (with 2 r d + 2 d parameters) across N target tasks, ATTEMPT introduces exactly d m + (2 r d + 2 d) / N = d(m + 2(r + 1) / N) trainable parameters per target task, which is strictly independent of the number of Transformer layers in the backbone language model (updating 96k parameters per task on GLUE with T5-base and 172k parameters per task with T5-XL, compared to 6M for Adapter and 2M for BitFit on T5-XL).
+  evidence:
+  - source_id: r704-primary-pdf
+    locator: Section 3.3 Multi-task Training and Inference, p. 4; Section 3.4 Parameter Efficiency of ATTEMPT, pp. 4-5; Table 1, p. 6; Appendix A.3 Figure 7, p. 14
+    relation: supports
+- claim_id: attempt-multi-task-nlu-and-few-shot-domain-adaptation-application
+  kind: application
+  statement: Evaluated across 21 NLP datasets using 6 high-resource source tasks (MNLI, QNLI, QQP, SST-2, SQuAD, ReCoRD) with a frozen T5-base backbone, ATTEMPT-m achieves 85.8% average score on GLUE (outperforming Prompt Tuning at 72.2%, SPoT at 82.3%, HyperFormer at 84.8%, HyperDecoder at 83.7%, and full fine-tuning at 84.9% while updating 96k vs. 220M parameters per task), 74.1% average on SuperGLUE, 72.8 average F1 on MRQA 2019, and outperforms fine-tuning, Adapter, SPoT, and HyperFormer in 4/16/32-shot domain adaptation on BoolQ and CB.
+  evidence:
+  - source_id: r704-primary-pdf
+    locator: Section 5.1 Main Results, Tables 1-2, pp. 6-7; Section 5.2 Few-shot Domain Adaptations, Table 3, p. 7; Section 5.3 Table 4, p. 8
+    relation: supports
+- claim_id: attempt-prepended-prompt-length-memory-footprint-limitation
+  kind: limitation
+  statement: Because ATTEMPT prepends m = 100 soft prompt tokens to the input sequence and loads multiple source prompts alongside the attention module, it increases training peak GPU memory footprint on T5-base (13.7 GB vs. 8.5 GB for Prompt Tuning and 5.9 GB for Adapter at batch size 32) and can experience negative transfer if unrelated QA source prompts (SQuAD, ReCoRD) are included on certain target tasks such as RTE.
+  evidence:
+  - source_id: r704-primary-pdf
+    locator: 'Section 5.3 Modularity: effects of variable source prompts, Figure 5a, p. 8; Section 7 Limitations, p. 9; Appendix C.10 Memory Footprints, Table 9, pp. 17-18'
+    relation: supports
+evidence_sources:
+- source_id: r704-primary-pdf
+  title: 'ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts'
+  authors: &id001
+  - Akari Asai
+  - Mohammadreza Salehi
+  - Matthew E. Peters
+  - Hannaneh Hajishirzi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.11961.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&format=xml
+  version: Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022) (2022) (825304 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:07:00Z'
+  sha256: b8db9743df75fca84425c1f36cde04045e0987b2d0897d8b75527ab09b8591d3
+- source_id: r704-arxiv-abs
+  title: 'ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.11961
+  persistent_id: https://arxiv.org/abs/2205.11961
+  version: arXiv abstract page (6772 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:07:00Z'
+  sha256: 5cd8b756d9d59c7b32b858369d869480209a3cd55d7e94c1e86ca7582c2ce949
+- source_id: r704-metadata-cr
+  title: 'ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&format=xml
+  version: Crossref API work record (772 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:07:00Z'
+  sha256: 341fc62029e40336a42ee978ef640973a71a373db9b806eee617bac23ea38308
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: ATTEMPT adapts frozen pre-trained Transformer language models via an input-conditioned attentional mixture over pre-trained source soft prompts and a task-specific target soft prompt.
+limitations:
+- Prepending m = 100 soft prompt tokens and loading multiple source prompts increases peak GPU memory during training on smaller backbones (13.7 GB on T5-base vs. 5.9 GB for Adapter).
+- Including source prompts from tasks with mismatched structure (such as extractive QA source prompts SQuAD and ReCoRD when transferring to RTE entailment) can cause mild negative transfer unless modularly excluded.
+curation:
+  created_at: '2026-10-19T13:07:00Z'
+  updated_at: '2026-10-19T13:07:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

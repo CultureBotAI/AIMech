@@ -1,0 +1,99 @@
+id: AIMech:HyperdecoderInstanceSpecificDecoderAdapter
+name: Hyperdecoder (Encoder-Conditioned Instance-Specific Decoder Adapter Hypernetwork)
+concept_kind: architecture
+review_status: DRAFT
+definition: A parameter-efficient multi-task encoder-decoder Transformer architecture that places shared trainable parallel adapters in the frozen encoder, mean-pools the final encoder hidden states h into a two-layer ReLU MLP to form an instance embedding e = MLP(mean(h)), and feeds [e; l_i] (concatenated with a learned decoder layer embedding l_i) into a shared two-layer hypernetwork to generate unique parallel decoder adapter parameters (W_d, W_u, b_d, b_u) for every input instance and decoder layer.
+identity_notes: Introduced by Hamish Ivison and Matthew E. Peters (Findings of EMNLP 2022, pp. 1715-1730, arXiv:2203.08304). Distinct from HyperFormer (Karimi Mahabadi et al., ACL/IJCNLP 2021; AIMech Round 703), which generates sequential adapters for both the encoder and decoder conditioned on learned static task embeddings (producing identical parameters for all instances within a task and requiring task IDs at inference), whereas Hyperdecoder uses non-generated shared parallel adapters in the encoder and generates instance-specific parallel adapters solely in the decoder conditioned on the encoded input text without requiring task embeddings.
+aliases:
+- Hyperdecoder
+- Hyperdecoders
+- Encoder-Conditioned Instance-Specific Decoder Adapter Hypernetwork
+definition_evidence:
+- source_id: r705-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r705-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r705-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hyperdecoder-encoder-conditioned-parallel-adapter-generation-mechanism
+  kind: mechanism
+  statement: In Hyperdecoder, each layer augments its frozen feedforward module FF with a pre-LayerNorm parallel adapter y = FF(LayerNorm(x)) + Adapter(x) where Adapter(x) = W_u(ReLU(W_d x + b_d)) + b_u (Eqs. 1-2); while encoder adapter weights are learned directly across all tasks, the decoder adapters for layer i are generated per input instance by pooling encoder hidden states h into e = MLP(mean(h)) (Eq. 8) and passing x_hyp = [e; l_i] through a shared two-layer hypernetwork h_hyp = ReLU(W_0 [e; l_i] + b_0), W_u = W_1 h_hyp + b_1, W_d = W_2 h_hyp + b_2, b_u = W_3 h_hyp + b_3, b_d = W_4 h_hyp + b_4 (Eqs. 3-7 & 9).
+  evidence:
+  - source_id: r705-primary-pdf
+    locator: Section 2.1 Adapter Layers, Eqs. 1-2, p. 2; Section 2.2 Adapter-generating Hypernetworks, Eqs. 3-7, p. 2; Section 2.3 Encoder-conditioned Decoders, Eqs. 8-9, pp. 2-3
+    relation: supports
+- claim_id: hyperdecoder-task-free-out-of-domain-and-parameter-count-scope
+  kind: scope
+  statement: Because Hyperdecoder conditions its decoder hypernetwork on the encoded input representation e = MLP(mean(h)) rather than a learned task embedding, its total trainable parameter count l(2 a_enc d + a_enc + d) + 2 d^2 + (d + e_l) b + b(2 a_dec d + a_dec + d) (Appendix D.1 & D.3) is strictly independent of the number of tasks t and enables zero-shot out-of-domain transfer to unseen datasets without dataset-identifying task prefixes.
+  evidence:
+  - source_id: r705-primary-pdf
+    locator: Section 1 Introduction, pp. 1-2; Section 3.1.2 MRQA, p. 3; Section 4.2 MRQA, pp. 5-6; Appendix D.1 & D.3 Parameters, p. 14
+    relation: supports
+- claim_id: hyperdecoder-glue-and-mrqa-multi-task-application
+  kind: application
+  statement: On multi-task GLUE with T5_large v1.1 + LM, Hyperdecoder trains 2.9% of parameters and achieves 86.5 average test score (25-run mean, reaching 86.9 in ablations), outperforming Full Finetuning (86.3 at 100% parameters), HyperFormer (71.5 at 8.8%), HyperFormer++ (76.9 at 4.6%), Task Hypernet (54.3 at 2.7%), and Modular Hypernet (84.5 at 4.8%), and on MRQA 2019 with T5_base v1.1 + LM achieves 79.5 in-domain F1 and 60.2 out-of-domain F1 (surpassing Full Finetuning at 58.8 out-of-domain F1).
+  evidence:
+  - source_id: r705-primary-pdf
+    locator: Section 4.1 GLUE, Tables 1-2, pp. 4-5; Section 4.2 MRQA, Tables 4-5, pp. 5-6; Section 5.2 Ablations, Tables 8-9, p. 8
+    relation: supports
+- claim_id: hyperdecoder-summarisation-interference-and-encoder-generation-limitation
+  kind: limitation
+  statement: Generating encoder adapters via either task-conditioned or input-conditioned hypernetworks degrades GLUE performance relative to directly learned encoder adapters (dropping from 86.9 to 57.9 for Task-Generated and 82.8 for Generated-Generated in Table 8), and when jointly training on combined abstractive summarisation and NLI datasets, Hyperdecoder underperforms full fine-tuning on summarisation (16.8 vs. 18.4 average R2 in Table 6) due to information compression in mean-pooling long input sequences.
+  evidence:
+  - source_id: r705-primary-pdf
+    locator: Section 4.3 Summarisation & NLI, Table 6, p. 6; Section 5.2 Ablations, Table 8, p. 8; Section 7 Limitations, p. 9; Appendix F Table 13, p. 16
+    relation: supports
+evidence_sources:
+- source_id: r705-primary-pdf
+  title: 'Hyperdecoders: Instance-specific decoders for multi-task NLP'
+  authors: &id001
+  - Hamish Ivison
+  - Matthew E. Peters
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2203.08304.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Hyperdecoders+Instance-specific+decoders&format=xml
+  version: 'Findings of the Association for Computational Linguistics: EMNLP 2022 (2022) (1648763 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:08:00Z'
+  sha256: d87244826a357de5b5e6e1ebaa114194ec517803fb74315b5b2daf583b1e612b
+- source_id: r705-arxiv-abs
+  title: 'Hyperdecoders: Instance-specific decoders for multi-task NLP (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2203.08304
+  persistent_id: https://arxiv.org/abs/2203.08304
+  version: arXiv abstract page (5975 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:08:00Z'
+  sha256: 557e029e6467eee081c83f1c6ccf3469fcd248cada605d3cc01dc6a27777aa6a
+- source_id: r705-metadata-cr
+  title: 'Hyperdecoders: Instance-specific decoders for multi-task NLP (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Hyperdecoders+Instance-specific+decoders&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Hyperdecoders+Instance-specific+decoders&format=xml
+  version: Crossref API work record (821 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:08:00Z'
+  sha256: 9afed0799cf3b76102f03fc5c0620ef6a20586ea4c60d8fdfb9691cc66d34823
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Hyperdecoder adapts encoder-decoder Transformer neural networks using an encoder-conditioned hypernetwork that dynamically generates instance-specific parallel adapter weights in the decoder.
+limitations:
+- Mean-pooling encoder token representations into a single fixed-length vector e compresses fine-grained sequence information, limiting gains on long-sequence generation tasks such as abstractive summarisation.
+- Generating encoder adapters via hypernetworks performs significantly worse than training standard shared parallel adapters in the encoder.
+curation:
+  created_at: '2026-10-19T13:08:00Z'
+  updated_at: '2026-10-19T13:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

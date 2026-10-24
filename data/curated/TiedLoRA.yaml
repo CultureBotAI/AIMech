@@ -1,0 +1,100 @@
+id: AIMech:TiedLoRA
+name: Tied-LoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient fine-tuning algorithm that enhances low-rank adaptation by sharing low-rank projection matrices across transformer layers while pairing them with diagonal scaling vectors and selectively freezing or updating subsets of the projection matrices and scaling vectors.
+identity_notes: Distinct from standard LoRA (AIMech:LoRA, which assigns independent untied projection matrices B_i and A_i to every adapted layer without diagonal scaling vectors), from VeRA (AIMech:VeRA, which freezes untied randomly initialized matrices B_i and A_i and trains only scaling vectors, a special case termed LoRA_vbuA in the Tied-LoRA taxonomy), and from PRoLoRA (AIMech:PRoLoRA, which tiles intra-layer chunks via roll-based partial rotation and block-shared submatrices rather than tying full low-rank projection matrices across transformer layers with selective training of {v, B, u, A}). Formulated by Renduchintala, Konuk, and Kuchaiev (NAACL 2024, arXiv:2311.09578).
+aliases:
+- Tied Low-Rank Adaptation
+- Weight-Tied Selective Low-Rank Adaptation
+- Tied-LoRA Weight-Tied PEFT
+definition_evidence:
+- source_id: r677-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r677-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r677-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: tiedlora-unified-scaling-projection-formulation
+  kind: mechanism
+  statement: Tied-LoRA parameterizes the adaptation update of the i-th pretrained weight matrix W_0^i in R^{d x k} as W^i = W_0^i + (alpha / r) Diagonal(v_i) B_i Diagonal(u_i) A_i, where A_i in R^{r x k} and B_i in R^{d x r} are low-rank projection matrices of rank r << min(d, k), u_i in R^r and v_i in R^d are scaling vectors, and each group of parameters in {v, B, u, A} can be independently tied across all L layers or kept untied and independently set as trainable or frozen.
+  evidence:
+  - source_id: r677-primary-pdf
+    locator: Section 2 Methodology, Eq. 2 and Table 1, p. 2-3
+    relation: supports
+- claim_id: tiedlora-tl6-parameter-count-scaling
+  kind: mechanism
+  statement: In the Tied-LoRA TL6 configuration (Tied-LoRA_vbua), the low-rank projection matrices A and B are shared across all L transformer layers and trained jointly with untied layer-specific scaling vectors v_i and u_i, reducing the total number of trainable parameters across L adapted linear layers of square dimension d from 2 L d r in standard LoRA to 2 d r + L d + L r, so that cross-layer rank increases scale independently of the layer count L for the shared projection matrices.
+  evidence:
+  - source_id: r677-primary-pdf
+    locator: Section 2.1 Configuration Parameter Counts, Table 1, p. 2-3
+    relation: supports
+- claim_id: tiedlora-multi-task-language-adaptation
+  kind: application
+  statement: Tied-LoRA is applied to parameter-efficient fine-tuning of large language models across extractive question answering, summarization, natural language inference, commonsense reasoning, arithmetic reasoning, and translation tasks, where the TL6 configuration retains comparable accuracy to standard LoRA across low and high ranks while requiring approximately 12.5% to 13% of the trainable parameters.
+  evidence:
+  - source_id: r677-primary-pdf
+    locator: Section 3 Experiments & Section 4 Results and Analysis, Table 2, p. 3-6
+    relation: supports
+- claim_id: tiedlora-dimension-matching-and-frozen-projection-degradation
+  kind: limitation
+  statement: Cross-layer weight tying in Tied-LoRA requires adapted weight matrices within a tied group to share identical input and output dimensions, and configurations that freeze randomly initialized tied projection matrices while training only scaling vectors degrade sharply on complex generation tasks such as arithmetic reasoning (GSM8k) and machine translation.
+  evidence:
+  - source_id: r677-primary-pdf
+    locator: Section 4 Results and Analysis & Limitations, p. 4-6
+    relation: supports
+evidence_sources:
+- source_id: r677-primary-pdf
+  title: 'Tied-LoRA: Enhancing parameter efficiency of LoRA with Weight Tying'
+  authors: &id001
+  - Adithya Renduchintala
+  - Tugrul Konuk
+  - Oleksii Kuchaiev
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2311.09578
+  persistent_id: https://dblp.org/rec/conf/naacl/RenduchintalaKK24.xml
+  version: 'Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL 2024) (2024) (369885 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T12:40:00Z'
+  sha256: a37ba02f5d0bc67feeb913dae8a26a57d09ca9cc9c6c116586ea8ace66a546d9
+- source_id: r677-arxiv-abs
+  title: 'Tied-LoRA: Enhancing parameter efficiency of LoRA with Weight Tying (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2311.09578
+  persistent_id: https://arxiv.org/abs/2311.09578
+  version: arXiv abstract page (6175 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:40:00Z'
+  sha256: 88d2c05748500729083b538e500d0c82fe67a642d09dff7e28581f766d2cf6cb
+- source_id: r677-metadata-cr
+  title: 'Tied-LoRA: Enhancing parameter efficiency of LoRA with Weight Tying (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/naacl/RenduchintalaKK24.xml
+  persistent_id: https://dblp.org/rec/conf/naacl/RenduchintalaKK24.xml
+  version: Crossref API work record (756 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:40:00Z'
+  sha256: 0d39df6306c659586102e7ca747ddad8838fed7a86df4f1e12c3504341716c59
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Tied-LoRA adapts pretrained neural network weight matrices using weight-tied low-rank projections and diagonal scaling vectors.
+limitations:
+- Cross-layer weight tying requires the adapted linear projections within a tied group to share matching matrix dimensions.
+- Configurations that freeze both tied low-rank projection matrices and train only scaling vectors underperform substantially on complex reasoning and sequence generation tasks.
+curation:
+  created_at: '2026-10-19T12:40:00Z'
+  updated_at: '2026-10-19T12:40:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

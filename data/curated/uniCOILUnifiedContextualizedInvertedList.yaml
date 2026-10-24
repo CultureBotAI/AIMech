@@ -1,0 +1,108 @@
+id: AIMech:uniCOILUnifiedContextualizedInvertedList
+name: uniCOIL Unified Contextualized Inverted List Sparse Retrieval
+concept_kind: architecture
+review_status: DRAFT
+definition: A learned sparse retrieval architecture that extends Contextualized Inverted List (COIL) by reducing the token representation dimension to d = 1 so the Transformer encoder outputs scalar contextualized term weights, applying a ReLU operation on the output term weights to guarantee non-negativity, expanding corpus documents prior to encoding with doc2query-T5 predicted queries to resolve exact-match vocabulary mismatch, and quantizing both document and query term weights into 8-bit integer impact scores that are indexed and evaluated via inner products in unmodified standard inverted indexes such as Lucene/Anserini.
+identity_notes: Distinct from COIL (AIMech:COILContextualizedInvertedList), which stores d = 32 real-valued contextualized token vectors requiring custom vector-inverted-list infrastructure (~40 GB index on MS MARCO) and allows negative weights; distinct from DeepCT (AIMech:DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval), which trains a regression model on pseudo-ground-truth term frequencies without document expansion or query-term weighting and still relies on BM25's IDF/length-normalization formula; and distinct from SPLADE (AIMech:SPLADESparseLexicalAndExpansionModel), which performs end-to-end MLM-logit vocabulary expansion rather than combining d = 1 COIL scalar impact weighting with external doc2query-T5 expansion.
+aliases:
+- uniCOIL
+- Unified Contextualized Inverted List
+- uniCOIL Sparse Impact Retrieval
+definition_evidence:
+- source_id: r775-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r775-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r775-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: unicoil-scalar-relu-projection-and-8bit-impact-quantization
+  kind: mechanism
+  statement: uniCOIL reduces COIL's token representation dimension from d = 32 to d = 1 to produce scalar term weights, adds a ReLU activation on the output term weights to force non-negative values amenable to inverted-index traversal, and quantizes both document and query term weights into 8-bit integer impact scores (Section 3), compressing the MS MARCO passage index to 1.3 GB in standard Lucene/Anserini compared to ~40 GB for COIL-tok, 26 GB for TCT-ColBERTv2, and 154 GB for ColBERT (Section 4).
+  evidence:
+  - source_id: r775-primary-pdf
+    locator: Section 3 & Section 4, pp. 3-5
+    relation: supports
+  - source_id: r775-primary-pdf
+    locator: unicoil_term_impacts() and inverted_index_impact_score() verification of ReLU clamping and 8-bit quantization
+    relation: supports
+- claim_id: unicoil-doc2query-t5-expansion-compensating-scalar-degeneration
+  kind: mechanism
+  statement: "Within the two-component sparse learned retrieval decomposition (expansion model + term weighting model, Section 2), unexpanded uniCOIL achieves 0.315 MRR@10 on MS MARCO Dev (below 32-dimensional COIL-tok's 0.341), but combining uniCOIL with doc2query-T5 document expansion raises MRR@10 to 0.352\u2014surpassing both unexpanded COIL-tok (0.341) and DeepImpact (0.326) without requiring multi-dimensional weight vectors or custom retrieval infrastructure (Section 3, Table 2)."
+  evidence:
+  - source_id: r775-primary-pdf
+    locator: Sections 2-3, Table 2 rows (2a)-(2h), pp. 2-4
+    relation: supports
+  - source_id: r775-primary-pdf
+    locator: main() verification that doc2query-expanded uniCOIL outperforms unexpanded uniCOIL under vocabulary mismatch
+    relation: supports
+- claim_id: unicoil-tct-colbertv2-dense-sparse-hybrid-fusion-application
+  kind: application
+  statement: "When top-1000 sparse candidates from doc2query-T5-expanded uniCOIL are fused with top-1000 dense candidates from TCT-ColBERTv2 by normalizing both score distributions into range(0, 1) and computing s_dense + alpha * s_sparse, the hybrid system achieves 0.378 MRR@10 on MS MARCO Passage Dev\u2014matching TCT-ColBERTv2 + DeepImpact (0.378) and outperforming standalone RocketQA (0.370), ColBERT (0.360), and COIL-full (0.355) (Section 3, Table 2 rows (3a)-(4g))."
+  evidence:
+  - source_id: r775-primary-pdf
+    locator: Section 3, Table 2 rows (3a)-(4g), pp. 3-4
+    relation: supports
+  - source_id: r775-primary-pdf
+    locator: minmax_normalize() and hybrid fusion verification
+    relation: supports
+- claim_id: unicoil-external-expansion-dependency-and-exact-match-limitation
+  kind: limitation
+  statement: Because uniCOIL's scalar token weighting only assigns impact scores to tokens present in its input text, without an external document-expansion stage (such as doc2query-T5) it remains restricted to exact lexical matching and suffers a 2.6-point MRR@10 drop relative to 32-dimensional COIL-tok (0.315 vs. 0.341, Section 2 & Section 3, Table 2).
+  evidence:
+  - source_id: r775-primary-pdf
+    locator: Section 2 (Expansions for sparse representation) & Section 3, Table 2 rows (2e) & (2g), pp. 2-4
+    relation: supports
+evidence_sources:
+- source_id: r775-primary-pdf
+  title: A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques
+  authors: &id001
+  - Jimmy Lin
+  - Xueguang Ma
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.14807.pdf
+  persistent_id: https://arxiv.org/bibtex/2106.14807
+  version: arXiv (2021) (168427 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:18:00Z'
+  sha256: c5189bebaab0b0e27457931748a94ef7b8b745ee633a2124724bf36511dde2af
+- source_id: r775-arxiv-abs
+  title: A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.14807
+  persistent_id: https://arxiv.org/abs/2106.14807
+  version: arXiv abstract page (6277 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:18:00Z'
+  sha256: d4f96c94155284bb765cdd063f6f2e541a69327a329b4a0fa0fd62e09ea7bea8
+- source_id: r775-metadata-cr
+  title: A Few Brief Notes on DeepImpact, COIL, and a Conceptual Framework for Information Retrieval Techniques (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2106.14807
+  persistent_id: https://arxiv.org/bibtex/2106.14807
+  version: Crossref API work record (403 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:18:00Z'
+  sha256: e1043019a7aa8c2df79a7d9e0cee7d656a778c7238ccb39d21f43b0d94cc5242
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: uniCOIL uses a pretrained Transformer neural network encoder with a 1-dimensional ReLU projection head to predict contextualized scalar term impacts.
+limitations:
+- Without external document expansion (such as doc2query-T5), uniCOIL cannot score terms absent from the document and underperforms 32-dimensional COIL-tok (0.315 vs. 0.341 MRR@10 on MS MARCO Dev).
+- Relies on a two-step offline indexing pipeline (sequence-to-sequence document expansion followed by Transformer impact encoding and quantization) rather than single-model end-to-end vocabulary expansion.
+curation:
+  created_at: '2026-10-19T14:18:00Z'
+  updated_at: '2026-10-19T14:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

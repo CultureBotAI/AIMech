@@ -1,0 +1,356 @@
+# Scientific author self-review of AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling
+
+- Review: 20261019T151630Z-amis-adaptive-multiple-importance-sampling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T15:16:00Z
+- Finished UTC: 2026-10-19T15:16:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 2daef395c3da542ee4921bbdbb8f9038f6a23165.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling | data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml | maintained | AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling | Validated history sidecar files. |
+| python3 amis-adaptive-multiple-importance-sampling-boundaries.py | passed | True | AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling | [PASS] Round 833 AMIS boundary verification passed: dm_unbiased_err=1.29e-14, dm_var_ratio=0.0019, delta_rec_err=1.42e-14, omega_rec_err=4.44e-16, eval_count=2800, ess_init=400.0 (sigma=1.00), lemma1_mse=0.0032&lt;0.3041, banana_ess=274.1&gt;214.8, banana_mse=0.1150&lt;0.1288 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.
+
+AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling is a distinct concept.
+
+No AIO class represents Adaptive Multiple Importance Sampling (AMIS); MarkovChain (AIO:MarkovChain) is the closest broad match covering iterative stochastic simulation and Monte Carlo sampling processes.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in amis-adaptive-multiple-importance-sampling-boundaries.py passed with exit code 0: [PASS] Round 833 AMIS boundary verification passed: dm_unbiased_err=1.29e-14, dm_var_ratio=0.0019, delta_rec_err=1.42e-14, omega_rec_err=4.44e-16, eval_count=2800, ess_init=400.0 (sigma=1.00), lemma1_mse=0.0032&lt;0.3041, banana_ess=274.1&gt;214.8, banana_mse=0.1150&lt;0.1288
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T151600Z-amis-adaptive-multiple-importance-sampling.json | supports | No normalized identity match for AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/amis-adaptive-multiple-importance-sampling-boundaries.py | supports | All constructed boundary assertions in amis-adaptive-multiple-importance-sampling-boundaries.py passed with exit code 0: [PASS] Round 833 AMIS boundary verification passed: dm_unbiased_err=1.29e-14, dm_var_ratio=0.0019, delta_rec_err=1.42e-14, omega_rec_err=4.44e-16, eval_count=2800, ess_init=400.0 (sigma=1.00), lemma1_mse=0.0032&lt;0.3041, banana_ess=274.1&gt;214.8, banana_mse=0.1150&lt;0.1288 |
+| r833-primary-pdf | https://arxiv.org/pdf/0907.1254; Full-text PDF | supports | Full-text PDF (Scandinavian Journal of Statistics 39(4):798-812 (arXiv:0907.1254v5) (2012)) read and verified. |
+| r833-arxiv-abs | https://arxiv.org/abs/0907.1254; arXiv abstract | supports | arXiv abstract read and verified. |
+| r833-metadata-cr | https://arxiv.org/abs/0907.1254; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling in Round 833.
+- All pages of Scandinavian Journal of Statistics 39(4):798-812 (arXiv:0907.1254v5) (2012) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T151630Z-amis-adaptive-multiple-importance-sampling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of AMIS Adaptive Multiple Importance Sampling
+  with Past-Weight Recycling
+started_at: '2026-10-19T15:16:00Z'
+finished_at: '2026-10-19T15:16:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+    against existing AIMech and AIO records and verified all claims against Scandinavian
+    Journal of Statistics 39(4):798-812 (arXiv:0907.1254v5) (2012) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: 2daef395c3da542ee4921bbdbb8f9038f6a23165
+  state: working_tree
+  inputs:
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml
+    sha256: f38ddde0646c9f940e88ee5557510dedfd92e763d7d679c2e9e200f992938a31
+    role: target
+  - path: research/discovery/20261019T151600Z-amis-adaptive-multiple-importance-sampling.json
+    sha256: 0e7584310ebc3518a08a6d0b8ac642ad69b125f629f552681caac023338810e6
+    role: context
+  - path: research/discovery/amis-adaptive-multiple-importance-sampling-boundaries.py
+    sha256: 78b048197d7103bc976d8ff3f5e84cdb59b9e0ad591d9548777d7858d32e9ee5
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  path: data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml
+  label: AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 amis-adaptive-multiple-importance-sampling-boundaries.py
+  command: python3 research/discovery/amis-adaptive-multiple-importance-sampling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 833 AMIS boundary verification passed: dm_unbiased_err=1.29e-14,
+    dm_var_ratio=0.0019, delta_rec_err=1.42e-14, omega_rec_err=4.44e-16, eval_count=2800,
+    ess_init=400.0 (sigma=1.00), lemma1_mse=0.0032<0.3041, banana_ess=274.1>214.8,
+    banana_mse=0.1150<0.1288'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T151600Z-amis-adaptive-multiple-importance-sampling.json
+  accessed_at: '2026-10-19T15:16:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T15:16:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/amis-adaptive-multiple-importance-sampling-boundaries.py
+  accessed_at: '2026-10-19T15:16:00Z'
+  snapshot_sha256: 78b048197d7103bc976d8ff3f5e84cdb59b9e0ad591d9548777d7858d32e9ee5
+  support: supports
+  summary: 'All constructed boundary assertions in amis-adaptive-multiple-importance-sampling-boundaries.py
+    passed with exit code 0: [PASS] Round 833 AMIS boundary verification passed: dm_unbiased_err=1.29e-14,
+    dm_var_ratio=0.0019, delta_rec_err=1.42e-14, omega_rec_err=4.44e-16, eval_count=2800,
+    ess_init=400.0 (sigma=1.00), lemma1_mse=0.0032<0.3041, banana_ess=274.1>214.8,
+    banana_mse=0.1150<0.1288'
+- evidence_id: r833-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/0907.1254
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T15:16:00Z'
+  snapshot_sha256: 013bb11954af00cb5877dda31e4986a5dcfdaacd379f4bd539e9e28ab20bee2e
+  support: supports
+  summary: Full-text PDF (Scandinavian Journal of Statistics 39(4):798-812 (arXiv:0907.1254v5)
+    (2012)) read and verified.
+- evidence_id: r833-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/0907.1254
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T15:16:00Z'
+  snapshot_sha256: 5b75957b67d8f3ff3e6631f4450a2003aaca9bcbbf9f62e49bf99f9c2d8d2fea
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r833-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/abs/0907.1254
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T15:16:00Z'
+  snapshot_sha256: 117829116cb3402c735bbb9b2f6448e511add4a98bd4067920dea62e1a6d21c8
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  evidence_ids:
+  - identity
+  - r833-primary-pdf
+  - r833-arxiv-abs
+  - r833-metadata-cr
+  summary: AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling is
+    a distinct concept.
+  details: No AIO class represents Adaptive Multiple Importance Sampling (AMIS); MarkovChain
+    (AIO:MarkovChain) is the closest broad match covering iterative stochastic simulation
+    and Monte Carlo sampling processes.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  evidence_ids:
+  - mapping
+  - r833-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  evidence_ids:
+  - r833-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in amis-adaptive-multiple-importance-sampling-boundaries.py
+    passed with exit code 0: [PASS] Round 833 AMIS boundary verification passed: dm_unbiased_err=1.29e-14,
+    dm_var_ratio=0.0019, delta_rec_err=1.42e-14, omega_rec_err=4.44e-16, eval_count=2800,
+    ess_init=400.0 (sigma=1.00), lemma1_mse=0.0032<0.3041, banana_ess=274.1>214.8,
+    banana_mse=0.1150<0.1288'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  evidence_ids:
+  - identity
+  - mapping
+  - r833-primary-pdf
+  - r833-arxiv-abs
+  - r833-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+  in Round 833.
+- All pages of Scandinavian Journal of Statistics 39(4):798-812 (arXiv:0907.1254v5)
+  (2012) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

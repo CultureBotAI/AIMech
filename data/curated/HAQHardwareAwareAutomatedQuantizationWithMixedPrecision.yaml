@@ -1,0 +1,108 @@
+id: AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision
+name: HAQ (Hardware-Aware Automated Quantization with Mixed Precision)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'HAQ (Hardware-Aware Automated Quantization with Mixed Precision) is an automated mixed-precision neural network quantization framework that models layer-wise bitwidth allocation for both weights and activations as a continuous-control reinforcement learning task solved by a Deep Deterministic Policy Gradient (DDPG) actor-critic agent: at each layer step k, the agent observes a 10-dimensional normalized layer state vector O_k, outputs a continuous action a_k in [0, 1] rounded to discrete bitwidth b_k in [b_min, b_max] (with sequential bitwidth reduction to satisfy direct hardware simulator latency, energy, or size constraints), applies KL-divergence-calibrated linear quantization (or k-means for size constraints), and updates its policy from one-epoch fine-tuned validation accuracy rewards.'
+identity_notes: Distinct from uniform fixed-bitwidth quantization (e.g., PACT or 8-bit integer quantization), distinct from Hessian-spectrum mixed-precision quantization such as Q-BERT (AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT) which relies on second-order sensitivity without hardware-in-the-loop latency/energy feedback, and distinct from AMC (AIMech:AMCAccelerationAndModelCompressionOnMobileDevicesWithRL) which uses DDPG to search continuous channel/fine-grained pruning sparsity ratios rather than mixed-precision weight and activation bitwidths.
+aliases:
+- HAQ
+- Hardware-Aware Automated Quantization
+- Hardware-Aware Automated Quantization with Mixed Precision
+definition_evidence:
+- source_id: r818-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r818-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r818-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: haq-ddpg-layerwise-state-and-order-preserving-continuous-bitwidth-action
+  kind: mechanism
+  statement: HAQ processes a neural network layer-by-layer (taking two steps per layer, one for weights and one for activations) using a 10-dimensional state vector O_k = (k, c_in, c_out, s_kernel, s_stride, s_feat, n_params, i_dw, i_{w/a}, a_{k-1}) (Eqs. 1-2) and maps a continuous DDPG action a_k in [0, 1] to discrete bitwidth b_k = round(b_min - 0.5 + a_k * (b_max - b_min + 1)) (Eq. 3), sequentially decrementing layer bitwidths whenever direct hardware latency, energy, or model-size budgets are exceeded.
+  evidence:
+  - source_id: r818-primary-pdf
+    locator: Section 3.1-3.3, Equations 1-3, pp. 3-4
+    relation: supports
+  - source_id: r818-primary-pdf
+    locator: map_continuous_action_to_bits and enforce_resource_budget
+    relation: supports
+- claim_id: haq-kl-calibrated-linear-quantization-and-variance-reduced-bellman-update
+  kind: mechanism
+  statement: For each layer k, HAQ linearly quantizes weights on [-c, c] (and non-negative ReLU activations on [0, c]) via quantize(w, a_k, c) = round(clamp(w, c)/s) * s with step size s = c / (2^{a_k - 1} - 1) (Eq. 4) by choosing c to minimize D_KL(W_k || quantize(W_k, a_k, x)) (Eq. 5), and updates the DDPG critic via the baseline-subtracted Bellman target Q_hat_k = R_k - B + gamma * Q(O_{k+1}, w(O_{k+1}) | theta^Q) with R = lambda * (acc_quant - acc_origin) (Eqs. 6-8).
+  evidence:
+  - source_id: r818-primary-pdf
+    locator: Section 3.4-3.6, Equations 4-8, pp. 4-5
+    relation: supports
+  - source_id: r818-primary-pdf
+    locator: linear_quantize_weight and ddpg_target_q
+    relation: supports
+- claim_id: haq-roofline-specialized-edge-vs-cloud-mixed-precision-policies
+  kind: application
+  statement: Across BISMO temporal FPGA edge/cloud accelerators and BitFusion spatial ASIC accelerators on ImageNet (MobileNet-V1, MobileNet-V2, ResNet-50), HAQ reduces inference latency by 1.4x-1.95x and energy consumption by ~1.9x with negligible accuracy loss compared to fixed 8-bit quantization, automatically assigning fewer activation bits to memory-bound depthwise convolutions on edge devices while assigning more bits to depthwise convolutions on compute-bound cloud devices.
+  evidence:
+  - source_id: r818-primary-pdf
+    locator: Section 4.1-4.3, Tables 3-6 and Figures 3-5, pp. 5-8
+    relation: supports
+- claim_id: haq-per-episode-retraining-and-hardware-simulator-dependency-limitation
+  kind: limitation
+  statement: Because HAQ fine-tunes the quantized network for one epoch after every RL episode to compute the reward signal R and queries a target hardware accelerator or simulator in the loop, policy exploration incurs multi-epoch retraining overhead and policies optimized for one hardware architecture are sub-optimal when deployed on another (Table 1).
+  evidence:
+  - source_id: r818-primary-pdf
+    locator: Section 1 (Table 1, p. 2) and Section 3.5-3.7 (Finetuning, pp. 4-5)
+    relation: supports
+evidence_sources:
+- source_id: r818-primary-pdf
+  title: 'HAQ: Hardware-Aware Automated Quantization with Mixed Precision'
+  authors: &id001
+  - Kuan Wang
+  - Zhijian Liu
+  - Yujun Lin
+  - Ji Lin
+  - Song Han
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1811.08886
+  persistent_id: https://arxiv.org/bibtex/1811.08886
+  version: CVPR 2019 (2019) (2600352 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:01:00Z'
+  sha256: ecbe91505650c694e2b8b9ffaf8e826e0bf7d5ee2732ffd64a46c3d35926e179
+- source_id: r818-arxiv-abs
+  title: 'HAQ: Hardware-Aware Automated Quantization with Mixed Precision (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1811.08886
+  persistent_id: https://arxiv.org/abs/1811.08886
+  version: arXiv abstract page (7689 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:01:00Z'
+  sha256: 7c04975f06ff087bcce4c6f69ec1eaecc8336c56176a4174156c628a35636452
+- source_id: r818-metadata-cr
+  title: 'HAQ: Hardware-Aware Automated Quantization with Mixed Precision (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1811.08886
+  persistent_id: https://arxiv.org/bibtex/1811.08886
+  version: Crossref API work record (416 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:01:00Z'
+  sha256: 1a28853634962a09bbf67988ab6b05cf311487ce34b2ed8bdc071bc883578e0e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: HAQ is an automated mixed-precision quantization method for deep neural network compression and hardware acceleration.
+limitations:
+- Each RL exploration episode requires one epoch of SGD fine-tuning on a subset of training data to evaluate quantized accuracy reward R.
+- Quantization policies specialized for one hardware accelerator (e.g., spatial BitFusion ASIC) do not transfer optimally to different hardware architectures (e.g., temporal BISMO cloud FPGA).
+curation:
+  created_at: '2026-10-19T15:01:00Z'
+  updated_at: '2026-10-19T15:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

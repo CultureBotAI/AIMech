@@ -1,0 +1,103 @@
+id: AIMech:NidsNetworkIndependentStepSizeDecentralizedProximalGradientMethod
+name: NIDS (Network-Independent Step-Size Decentralized Proximal-Gradient Method)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A decentralized composite optimization algorithm (Li, Shi, & Yan 2019, Section II, Equation 4) for minimizing (1/n) sum_{i=1}^n (s_i(x) + r_i(x)) over an undirected connected network with symmetric doubly stochastic mixing matrix W that updates X^{k+1} = prox_{alpha R}(W_tilde X^k + X^k - W_tilde X^{k-1} - alpha nabla S(X^k) + alpha W_tilde nabla S(X^{k-1})) using the affine-shifted consensus matrix W_tilde = ((1 + c) I + (1 - c) W) / 2 with c in [1 / (1 - lambda_n(W)), 1), admitting any network-independent step size alpha_i in (0, 2 / L_i) identical to centralized proximal gradient descent.
+identity_notes: Distinct from EXTRA (AIMech:ExtraExactFirstOrderAlgorithmForDecentralizedConsensusOptimization, Shi et al. 2015) and PG-EXTRA, which apply the raw mixing matrix W in the gradient difference term X^{k+1} = W X^k + X^k - W_tilde X^{k-1} - alpha(nabla S(X^k) - nabla S(X^{k-1})) and therefore restrict step sizes by the spectral gap of W (alpha < 2 lambda_min(W_tilde) / L), whereas NIDS multiplies the previous gradient by W_tilde inside the proximal argument so the maximal stable step size alpha < 2 / L is completely independent of the network topology.
+aliases:
+- NIDS
+- Network-Independent Step-Size Decentralized Proximal-Gradient Method
+- NIDS Decentralized Proximal-Gradient Algorithm
+definition_evidence:
+- source_id: r440-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r440-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r440-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r440-primal-dual-metric-recursion-and-network-independent-step-size
+  kind: mechanism
+  statement: Introducing the dual sequence d^{k+1} = d^k - alpha^{-1}(I - W_tilde)(X^k - alpha nabla S(X^k)) and metric M = alpha^{-1} I - (I - W_tilde)^{-1} + I (Section II-B, Equation 6), NIDS is equivalent to the symmetric primal-dual proximal iteration (X^k - X^{k+1}) + alpha(d^k - d^{k+1}) = alpha(nabla S(X^k) - nabla S(X^{k-1})) with X^{k+1} = prox_{alpha R}(X^k - alpha d^{k+1} - alpha nabla S(X^k)), which remains positive-definite and convergent for any 0 < alpha_i < 2 / L_i regardless of how close lambda_2(W) is to 1 (Theorem 1).
+  evidence:
+  - source_id: r440-primary-pdf
+    locator: Section II-B Equivalence to a Primal-Dual Algorithm (Equation 6) & Section III-A Sublinear Rate (Theorem 1), pp. 4496-4498
+    relation: supports
+- claim_id: r440-separated-function-and-consensus-linear-convergence-rate
+  kind: mechanism
+  statement: When the smooth local objectives s_i are mu_i-strongly convex and r_i = 0, Theorem 2 proves global linear convergence at rate O((1 - max(1 - alpha mu / 2, (1 - c)(1 - lambda_2(W)) / 2))^{-k}), cleanly separating the optimization condition number L / mu from the network spectral gap 1 - lambda_2(W) so that O(L/mu + 1/(1 - lambda_2(W))) log(1/epsilon) iterations suffice instead of their product.
+  evidence:
+  - source_id: r440-primary-pdf
+    locator: Section III-B Linear Convergence Rate for Smooth Strongly Convex Objectives (Theorem 2, Remark 3), pp. 4499-4501
+    relation: supports
+- claim_id: r440-smallest-eigenvalue-bound-and-two-step-history-limitation
+  kind: limitation
+  statement: Choosing the mixing shift parameter c >= 1 / (1 - lambda_n(W)) requires a lower bound on the smallest eigenvalue lambda_n(W) of the symmetric mixing matrix W (e.g., c = 1/2 when lambda_n(W) >= -1), and each node must store two consecutive primal iterates X^k, X^{k-1} and gradients nabla S(X^k), nabla S(X^{k-1}).
+  evidence:
+  - source_id: r440-primary-pdf
+    locator: Section II-A Algorithm Description & Assumption 1, pp. 4495-4496
+    relation: supports
+- claim_id: r440-decentralized-sparse-lasso-and-quadratic-sensing-application
+  kind: application
+  statement: Applied to decentralized sparse signal recovery (L_1-regularized LASSO) and ill-conditioned distributed quadratic estimation over poorly connected networks.
+  evidence:
+  - source_id: r440-primary-pdf
+    locator: Section IV Numerical Experiments (Figures 1-4), pp. 4501-4504
+    relation: supports
+evidence_sources:
+- source_id: r440-primary-pdf
+  title: A Decentralized Proximal-Gradient Method With Network Independent Step-Sizes and Separated Convergence Rates
+  authors: &id001
+  - Zhi Li
+  - Wei Shi
+  - Ming Yan
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1704.07807
+  persistent_id: https://doi.org/10.1109/TSP.2019.2926022
+  version: IEEE Transactions on Signal Processing 67(17):4494-4506 (2019) (96053 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:43:00Z'
+  sha256: b567c2cd1afbbbc3b7262d2641a4ca04e4ada4e25d8123156ad19ce1277cb10d
+- source_id: r440-arxiv-abs
+  title: A Decentralized Proximal-Gradient Method With Network Independent Step-Sizes and Separated Convergence Rates (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1704.07807
+  persistent_id: https://arxiv.org/abs/1704.07807
+  version: arXiv abstract page (12363 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:43:00Z'
+  sha256: 0739ef418ed0fb40a8d16b5576e518af15c6f8e0d942401f613f027f42d7be97
+- source_id: r440-metadata-cr
+  title: A Decentralized Proximal-Gradient Method With Network Independent Step-Sizes and Separated Convergence Rates (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TSP.2019.2926022
+  persistent_id: https://doi.org/10.1109/TSP.2019.2926022
+  version: Crossref API work record (432 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:43:00Z'
+  sha256: 2559daf2a20c421cdc79cc0a6d46bf23ad7f64bce02ba61e61e86444ab53844e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: NIDS solves decentralized composite non-smooth problems including L_1-regularized LASSO with network-independent proximal-gradient step sizes.
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Provides decentralized peer-to-peer composite consensus optimization with separated computation and communication complexity.
+limitations:
+- Requires a symmetric doubly stochastic mixing matrix W.
+- Linear convergence guarantee requires smooth strongly convex objectives without non-smooth regularizers (r_i = 0).
+curation:
+  created_at: '2026-10-19T08:43:00Z'
+  updated_at: '2026-10-19T08:43:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

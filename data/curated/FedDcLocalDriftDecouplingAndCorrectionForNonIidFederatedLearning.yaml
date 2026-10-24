@@ -1,0 +1,103 @@
+id: AIMech:FedDcLocalDriftDecouplingAndCorrectionForNonIidFederatedLearning
+name: FedDC (Federated Learning via Local Drift Decoupling and Correction)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A primal-dual drift-decoupling and gradient-correction federated learning algorithm (Gao et al. 2022, Section 4, Equations 3-8, Appendix B Algorithm 1 and Theorem 1) that introduces an auxiliary local drift variable h_i ~ w - theta_i for each client i to bridge the parameter gap between the global model w and the local model theta_i, training each active client on the three-term objective F_i(theta_i) = L_i(theta_i) + (alpha/2)*||theta_i - (w - h_i)||^2 + (1/(eta*K))*<theta_i, g_i - g> (Equation 4) where g_i = theta_i^K - theta_i^0 tracks the local epoch update drift and g = sum_i (|D_i|/|D|) g_i, updating h_i^+ = h_i - g_i^+ without extra backpropagation (Equation 6), and aggregating drift-corrected client parameters on the server via w^{t+1} = sum_{i in C_t} (|D_i|/|D|) (theta_i^+ + h_i^+) (Equation 7).
+identity_notes: Distinct from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, Karimireddy et al. 2020), which only applies a linear control-variate gradient correction without decoupling the parameter-level gap w - theta_i via a shifted quadratic penalty (alpha/2)*||theta_i - (w - h_i)||^2 or aggregating theta_i^+ + h_i^+; and distinct from FedDyn (AIMech:FedDynDynamicRegularizationForFederatedLearning, Acar et al. 2021), which combines a linear historic-gradient term and unshifted quadratic (alpha/2)*||theta_i - w||^2 with server dual state h^t without a separate (1/(eta*K))*<theta_i, g_i - g> SCAFFOLD-style gradient-drift inner product.
+aliases:
+- FedDC
+- Federated Learning via Local Drift Decoupling and Correction
+- Local Drift Decoupling and Correction
+definition_evidence:
+- source_id: r456-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r456-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r456-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r456-three-term-decoupled-drift-objective-and-corrected-aggregation-mechanism
+  kind: mechanism
+  statement: Combines (1) empirical loss L_i(theta_i), (2) a drift-decoupled quadratic penalty (alpha/2)*||theta_i - (w - h_i)||^2 that constrains local parameter updates relative to the drift-compensated target w - h_i, and (3) a linear gradient-drift correction (1/(eta*K))*<theta_i, g_i - g> (Equation 4), followed by backpropagation-free drift tracking h_i^+ = h_i - g_i^+ (Equation 6) and drift-corrected global aggregation w^{t+1} = sum_{i in C_t} (|D_i|/|D|)*(theta_i^+ + h_i^+) (Equation 7).
+  evidence:
+  - source_id: r456-primary-pdf
+    locator: Section 4.2 Details of FedDC (Equations 3-8) & Appendix B Algorithm 1, pp. 10114-10116
+    relation: supports
+- claim_id: r456-strongly-convex-linear-and-nonconvex-convergence-scope
+  kind: scope
+  statement: Establishes in Theorem 1 (Appendix C) that FedDC achieves O(log(1/epsilon)) linear convergence for mu-strongly convex L-smooth objectives and O(1/epsilon) convergence for general L-smooth non-convex objectives under partial client participation.
+  evidence:
+  - source_id: r456-primary-pdf
+    locator: Section 4.2 Convergence Analysis & Appendix C Proof of Theorem 1, pp. 10116 & Appendix
+    relation: supports
+- claim_id: r456-stateful-client-drift-variables-and-communication-limitation
+  kind: limitation
+  statement: Requires clients to maintain persistent parameter-sized state vectors (h_i and g_i) across communication rounds, and in the naive partial-participation implementation doubles per-round parameter transmission unless the server caches each client's previous state.
+  evidence:
+  - source_id: r456-primary-pdf
+    locator: Section 4.2 Communication Discussion & Appendix B Algorithm 1, pp. 10115-10116
+    relation: supports
+- claim_id: r456-non-iid-federated-classification-and-partial-participation-application
+  kind: application
+  statement: Applied to non-IID and unbalanced federated learning across MNIST, Fashion-MNIST, EMNIST-L, CIFAR-10, CIFAR-100, Tiny-ImageNet, and synthetic heterogeneous benchmarks under low client participation ratios.
+  evidence:
+  - source_id: r456-primary-pdf
+    locator: Section 5 Evaluation (Tables 1-3, Figures 3-6), pp. 10116-10120
+    relation: supports
+evidence_sources:
+- source_id: r456-primary-pdf
+  title: 'FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction'
+  authors: &id001
+  - Liang Gao
+  - Huazhu Fu
+  - Li Li
+  - Yingwen Chen
+  - Ming Xu
+  - Cheng-Zhong Xu
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2203.11751
+  persistent_id: https://doi.org/10.1109/CVPR52688.2022.00987
+  version: 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR 2022), pp. 10112-10121 (2022) (89500 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:59:00Z'
+  sha256: 8d463d0d4d5b60d87690ad2d22a7c43c9d4770f5bc3bd0d76d8e20a758087873
+- source_id: r456-arxiv-abs
+  title: 'FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2203.11751
+  persistent_id: https://arxiv.org/abs/2203.11751
+  version: arXiv abstract page (14467 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:59:00Z'
+  sha256: cdc3282809a337833ba83da96ceca58c6a6260fc5c138e464f4169aa2e76dfe7
+- source_id: r456-metadata-cr
+  title: 'FedDC: Federated Learning with Non-IID Data via Local Drift Decoupling and Correction (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/CVPR52688.2022.00987
+  persistent_id: https://doi.org/10.1109/CVPR52688.2022.00987
+  version: Crossref API work record (582 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:59:00Z'
+  sha256: 3a0568e0f961e91afe404a4527f356ec95634e27cbc9143fcf5b0ce69e17549c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedDC is a federated learning algorithm that corrects non-IID client drift by decoupling local parameter drift via auxiliary variables h_i and gradient tracking g_i.
+limitations:
+- Requires stateful clients to store auxiliary parameter-sized drift variables h_i and g_i across rounds.
+- Under very low client participation ratios without server-side state caching, stale h_i and g_i on rarely sampled clients can slow initial drift alignment.
+curation:
+  created_at: '2026-10-19T08:59:00Z'
+  updated_at: '2026-10-19T08:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

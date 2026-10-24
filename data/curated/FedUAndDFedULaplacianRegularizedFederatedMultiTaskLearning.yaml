@@ -1,0 +1,102 @@
+id: AIMech:FedUAndDFedULaplacianRegularizedFederatedMultiTaskLearning
+name: FedU and dFedU (Laplacian-Regularized Federated Multi-Task Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A communication-centralized (FedU, Algorithm 1) and decentralized (dFedU, Algorithm 2) federated multi-task learning framework (Dinh, Vu, Tran, Dao, & Zhang 2022, Sections III-V, Equations 1-12, Algorithms 1-3, Theorems 1-2) that formulates client-relationship-aware learning over an undirected weighted entity graph G = (N, E, A) with graph Laplacian L = D - A (and Kronecker Laplacian L_cal = L otimes I_d) as min_{W = [w_1^T, ..., w_N^T]^T} { J(W) := sum_{k=1}^N F_k(w_k) + (eta / 2) sum_{k=1}^N sum_{l in N_k} a_{kl} ||w_k - w_l||^2 } (Equations 1-3): in each round t, active clients k in S^{(t)} perform R local stochastic gradient steps w_{k, r+1}^{(t)} = w_{k, r}^{(t)} - mu nabla F_tilde_k(w_{k, r}^{(t)}) toward their individual local optima, and the server (in FedU) or each client via direct neighbor exchange (in dFedU) applies the graph-Laplacian regularization update w_k^{(t+1)} = w_{k, R}^{(t)} - mu_tilde eta sum_{l in N_k} a_{kl} (w_{k, R}^{(t)} - w_{l, R}^{(t)}) with global step-size mu_tilde = mu R (Algorithms 1-3, Equation 45).'
+identity_notes: Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, Dinh, Tran, & Nguyen 2020), which is a star-graph special case of Equation 1 with a virtual central server model w_0 and no direct inter-client relational edges a_{kl} (Section III-B, Equation 5); and distinct from MOCHA (AIMech:MochaSystemsAwarePrimalDualFederatedMultiTaskLearning, Smith et al. 2017), which is restricted to convex loss functions solved via dual coordinate ascent and alternating task-matrix updates rather than primal multi-step local SGD with Laplacian regularization for both strongly convex and nonconvex deep networks.
+aliases:
+- FedU
+- dFedU
+- Laplacian-Regularized Federated Multi-Task Learning
+definition_evidence:
+- source_id: r486-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r486-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r486-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r486-local-sgd-and-graph-laplacian-server-or-neighbor-update-mechanism
+  kind: mechanism
+  statement: In each communication round t, sampled clients k in S^{(t)} run R local mini-batch SGD steps w_{k, r+1}^{(t)} = w_{k, r}^{(t)} - mu nabla F_tilde_k(w_{k, r}^{(t)}) and then apply the Laplacian coupling step W^{(t+1)} = (I - mu_tilde eta S_tilde^{(t)} L_cal) W_R^{(t)}, i.e., w_k^{(t+1)} = w_{k, R}^{(t)} - mu_tilde eta sum_{l in N_k} a_{kl}(w_{k, R}^{(t)} - w_{l, R}^{(t)}) (centralized on the server in FedU Algorithm 1 or peer-to-peer among neighbors N_tilde_k in dFedU Algorithm 2), where the server-update matrix C = I - mu_tilde eta L_cal is normalized (||C||_2 = 1) if and only if mu_tilde eta rho <= 2 with rho = ||L||_2 (Dinh et al. 2022, Section IV & Appendix A/C, Equations 19-21 & 43-45, pp. 4-5 & 11-14).
+  evidence:
+  - source_id: r486-primary-pdf
+    locator: Section IV (Algorithms 1-2), pp. 4-5, and Appendix A & C (Equations 19-21, Algorithm 3, Equation 45), pp. 11 & 14
+    relation: supports
+- claim_id: r486-star-graph-unification-and-linear-speedup-convergence-scope
+  kind: scope
+  statement: Section III-B proves that conventional consensus FL (FedAvg, Equation 4), Moreau-envelope personalized FL (pFedMe, Equation 5), and MAML-based Per-FedAvg (Equation 6) are exact or epigraph special cases of the Laplacian FMTL objective on a star graph with virtual server vertex 0; furthermore, when eta rho > 2 beta (Lemma 1), Theorem 1 proves O_tilde(1/(alpha S) + sigma_1^2 / (alpha R S epsilon)) linear speedup for alpha-strongly convex objectives and Theorem 2 proves O(1/(S epsilon) + sigma_1^2 / (epsilon^2 R S)) sublinear speedup of order 1/2 for smooth nonconvex objectives without requiring bounded gradient dissimilarity at individual clients (Dinh et al. 2022, Section III-B & Section V, Lemma 1, Theorems 1-2, pp. 3-6).
+  evidence:
+  - source_id: r486-primary-pdf
+    locator: Section III-B (Equations 4-6), pp. 3-4, and Section V (Lemma 1, Theorems 1-2, Equations 7-12), pp. 5-6
+    relation: supports
+- claim_id: r486-non-iid-sensor-and-vision-multitask-classification-application
+  kind: application
+  statement: Applied to strongly convex multinomial logistic regression and nonconvex deep neural network classification across heterogeneous tasks on Human Activity Recognition, Vehicle Sensor, MNIST, and CIFAR-10 benchmarks (Dinh et al. 2022, Section VI, Table I, Figures 3-5, pp. 6-9).
+  evidence:
+  - source_id: r486-primary-pdf
+    locator: Section VI (Experiments, Table I, Figures 3-5), pp. 6-9
+    relation: supports
+- claim_id: r486-known-client-relationship-graph-requirement-limitation
+  kind: limitation
+  statement: Assumes the inter-client relationship weights {a_{kl}} are known a priori (and that eta satisfies eta > 2 beta / rho while mu_tilde eta rho <= 2), and in centralized FedU requires the server to maintain all N client models {w_k} and the adjacency graph (Dinh et al. 2022, Section III-B & Section IV-B, pp. 3-5).
+  evidence:
+  - source_id: r486-primary-pdf
+    locator: Section III-B, p. 3, and Section IV-B, pp. 4-5
+    relation: supports
+evidence_sources:
+- source_id: r486-primary-pdf
+  title: A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization
+  authors: &id001
+  - Canh T. Dinh
+  - Tung T. Vu
+  - Nguyen H. Tran
+  - Minh N. Dao
+  - Hongyu Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.07148.pdf
+  persistent_id: https://arxiv.org/abs/2102.07148
+  version: IEEE Journal of Selected Topics in Signal Processing (arXiv:2102.07148) (2022) (1002 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:29:00Z'
+  sha256: 24a1d078d730505c237c469cb0a8765672aa8a4a6a2d3457a63ae8c26a7096dc
+- source_id: r486-arxiv-abs
+  title: A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.07148
+  persistent_id: https://arxiv.org/abs/2102.07148
+  version: arXiv abstract page (788 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:29:00Z'
+  sha256: 4076f5b8b72054e8791b322a3060b965140ee90040300f3067f57a4349a84248
+- source_id: r486-metadata-cr
+  title: A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.07148
+  persistent_id: https://arxiv.org/abs/2102.07148
+  version: Crossref API work record (1036 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:29:00Z'
+  sha256: 8c4251a2ae52c84f9f204486561faa9e85b72d4bb592ad088ce473337585df75
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedU and dFedU are graph-Laplacian-regularized federated multi-task learning algorithms within the broader FederatedLearning category.
+limitations:
+- Requires the client similarity adjacency matrix A = [a_{kl}] to be specified beforehand.
+- Centralized FedU stores all N client models and graph edges at the server, motivating decentralized dFedU when N is large.
+curation:
+  created_at: '2026-10-19T09:29:00Z'
+  updated_at: '2026-10-19T09:29:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

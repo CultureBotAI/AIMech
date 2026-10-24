@@ -1,0 +1,103 @@
+id: AIMech:FedPageProbabilisticLocalGradientMethodForFederatedLearning
+name: FedPAGE Probabilistic Local Stochastic Gradient Method for Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A communication-efficient local stochastic gradient method for federated convex and nonconvex optimization (Algorithm 1) that generalizes the optimal Probabilistic Gradient Estimator (PAGE) to multiple local update steps K >= 1: in each round r, with probability p_r = S/N the server queries all N clients for minibatch gradients of size b_1, and with probability 1 - p_r the server broadcasts (x^r, x^{r-1}, g^{r-1}) to a sampled subset S^r of size S where each client i initializes g_{i,0}^r = nabla_{I_2} f_i(x^r) - nabla_{I_2} f_i(x^{r-1}) + g^{r-1} and runs K - 1 local SARAH/PAGE recursive steps g_{i,k}^r = nabla_{I_3} f_i(y_{i,k}^r) - nabla_{I_3} f_i(y_{i,k-1}^r) + g_{i,k-1}^r, achieving O(L(sqrt(N) + S) / (S eps^2)) communication rounds in nonconvex settings and O(N^{3/4} L / (S eps)) in convex settings.'
+identity_notes: Distinct from single-step centralized PAGE (Li et al., ICML 2021; recovered when K = 1), SCAFFOLD (Karimireddy et al., ICML 2020; which requires O(N^{2/3} L / (S^{2/3} eps^2)) nonconvex and O(N L / (S eps)) convex rounds and maintains per-client states across rounds), and FedAvg / Local-SGD. FedPAGE (Zhao, Li, & Richtarik, 2021, arXiv:2108.04755) is stateless on clients and improves SCAFFOLD's communication complexity by factors N^{1/6} S^{1/3} (nonconvex) and N^{1/4} (convex) for S <= sqrt(N).
+aliases:
+- FedPAGE
+- Federated Probabilistic Gradient Estimator
+- FedPAGE Local Stochastic Gradient Algorithm
+definition_evidence:
+- source_id: r563-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r563-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r563-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedpage-probabilistic-full-client-reset-and-local-recursive-gradient-step-mechanism
+  kind: mechanism
+  statement: At round r (Algorithm 1), FedPAGE samples q ~ Bernoulli(p_r) with p_0 = 1 and p_r = S/N; when q = 1, all N clients compute minibatch gradients nabla_{I_1} f_i(x^r) to reset g^r = (1/N) sum_{i=1}^N nabla_{I_1} f_i(x^r); when q = 0, S sampled clients receive (x^r, x^{r-1}, g^{r-1}), form the initial local recursive gradient g_{i,0}^r = nabla_{I_2} f_i(x^r) - nabla_{I_2} f_i(x^{r-1}) + g^{r-1}, execute K - 1 local steps y_{i,k+1}^r = y_{i,k}^r - eta_l g_{i,k}^r with g_{i,k}^r = nabla_{I_3} f_i(y_{i,k}^r) - nabla_{I_3} f_i(y_{i,k-1}^r) + g_{i,k-1}^r, and return Delta y_i^r = x^r - y_{i,K}^r for server aggregation g^r = (1 / (K eta_l S)) sum_{i in S^r} Delta y_i^r.
+  evidence:
+  - source_id: r563-primary-pdf
+    locator: Section 3 Algorithm 1 pp. 6-7 & Appendix D Lemmas D.1-D.2 pp. 23-25
+    relation: supports
+- claim_id: fedpage-nonconvex-and-convex-communication-complexity-improvement-scope
+  kind: scope
+  statement: Under L-smoothness (Assumption 2.1) and bounded local variance sigma^2 (Assumption 2.3), with p = S/N and Expected communicated clients per round p N + (1 - p) S < 2 S, FedPAGE achieves E[||nabla f(x)||_2] <= eps in R = O(L(sqrt(N) + S) / (S eps^2)) communication rounds in the nonconvex setting (Theorem 4.2) and E[f(x) - f^*] <= eps in R = O(N^{3/4} L / (S eps)) rounds for S <= sqrt(N) in the convex setting (Theorem 5.2), without requiring bounded inter-client gradient dissimilarity.
+  evidence:
+  - source_id: r563-primary-pdf
+    locator: Table 1 p. 2, Section 4.2 Theorem 4.2 p. 8 & Section 5.2 Theorem 5.2 p. 10
+    relation: supports
+  - source_id: r563-arxiv-abs
+    locator: Abstract
+    relation: supports
+- claim_id: fedpage-occasional-full-client-broadcast-and-triple-vector-downlink-limitation
+  kind: limitation
+  statement: Requires occasional full-client synchronization rounds (with probability p_r = S/N) to reset the global gradient estimator g^r, and during partial-participation rounds (q = 0) the server broadcasts three d-dimensional vectors (x^r, x^{r-1}, g^{r-1}) to each selected client.
+  evidence:
+  - source_id: r563-primary-pdf
+    locator: Section 3 Algorithm 1 Lines 3-4 & Line 11 p. 6
+    relation: supports
+- claim_id: fedpage-nonconvex-robust-linear-regression-and-regularized-logistic-regression-application
+  kind: application
+  statement: Applied to federated nonconvex robust linear regression and logistic regression with nonconvex regularizers across thousands of partitioned LIBSVM client datasets.
+  evidence:
+  - source_id: r563-primary-pdf
+    locator: Section 6 Numerical Experiments pp. 11-14
+    relation: supports
+evidence_sources:
+- source_id: r563-primary-pdf
+  title: 'FedPAGE: A Fast Local Stochastic Gradient Method for Communication-Efficient Federated Learning'
+  authors: &id001
+  - Haoyu Zhao
+  - Zhize Li
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2108.04755.pdf
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2108.04755
+  version: arXiv preprint arXiv:2108.04755 (2021) (1203971 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:46:00Z'
+  sha256: 0e929de6d0b511396c038ca43e27ea59413e673d2af34672fbd90c1470359f25
+- source_id: r563-arxiv-abs
+  title: 'FedPAGE: A Fast Local Stochastic Gradient Method for Communication-Efficient Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2108.04755
+  persistent_id: https://arxiv.org/abs/2108.04755
+  version: arXiv abstract page (7303 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:46:00Z'
+  sha256: b997972a8ddd80f3aa6c07f1f3f9d80d55aadb82660e1cb3950e7193b02250fe
+- source_id: r563-metadata-cr
+  title: 'FedPAGE: A Fast Local Stochastic Gradient Method for Communication-Efficient Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2108.04755
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2108.04755
+  version: Crossref API work record (16452 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:46:00Z'
+  sha256: 08480a6b6104ab4d7eb299b872776490975f20cc7d24390fb5d36b9c95a0a83c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedPAGE is a specific communication-efficient federated optimization algorithm using probabilistic local recursive gradient estimation.
+limitations:
+- Requires occasional full-client synchronization rounds with probability p_r = S/N to reset the global gradient estimator.
+- Broadcasts three d-dimensional vectors (x^r, x^{r-1}, g^{r-1}) to sampled clients during local-update rounds.
+curation:
+  created_at: '2026-10-19T10:46:00Z'
+  updated_at: '2026-10-19T10:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

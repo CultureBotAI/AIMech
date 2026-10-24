@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SimLM Representation-Bottleneck Replaced Language Model Pre-Training · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>SimLM Representation-Bottleneck Replaced Language Model Pre-Training</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SimLM Representation-Bottleneck Replaced Language Model Pre-Training</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SimLMRepresentationBottleneckPreTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SimLM, Similarity Matching with Language Model Pre-Training, SimLM Bottleneck Replaced Language Modeling for Dense Retrieval
+    </div>
+
+  <div class="detail-desc">
+    A self-supervised pre-training algorithm and bottleneck architecture for dense passage retrieval that corrupts an input passage x twice using a frozen ELECTRA-style generator g with nested replacement probabilities p_enc = 30% and p_dec = 50% (x_enc = Sample(g, Mask(x, p_enc)), x_dec = Sample(g, Mask(x, p_dec)) such that every token replaced in x_enc is also replaced in x_dec), encodes x_enc with a deep Transformer encoder into a single last-layer [CLS] representation bottleneck vector h_cls without skip connections from earlier layers, feeds h_cls and x_dec into a shallow 2-layer bidirectional Transformer decoder, and optimizes the sum of all-position token-level cross-entropy replaced language modeling losses L_pt = L_enc + L_dec where L_enc = -(1/|x|) sum_{i=1}^{|x|} log p(x[i] | x_enc) and L_dec = -(1/|x|) sum_{i=1}^{|x|} log p(x[i] | h_cls, x_dec) before discarding the decoder for multi-stage bi-encoder fine-tuning and KL cross-encoder distillation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Condenser (AIMech:CondenserPreTrainingArchitectureForDenseRetrieval) and coCondenser (AIMech:CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining), which include a short-circuit skip connection from early encoder layers to the head and use [MASK]-based MLM; distinct from RetroMAE (AIMech:RetroMAERetrievalOrientedMaskedAutoEncoder), which uses [MASK] tokens and specialized position-specific attention masks in a 1-layer decoder; and distinct from ELECTRA (AIMech:ELECTRAReplacedTokenDetection), which trains a binary Replaced Token Detection (RTD) discriminator without a [CLS] bottleneck decoder (and performs poorly on dense retrieval: 31.9 vs. 33.7 MRR@10 in Table 1 and 36.2 vs. 38.0 in Table 7).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r756-claim-skip-free-bottleneck-replaced-lm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To eliminate the input distribution mismatch of [MASK] tokens and prevent the decoder from bypassing the [CLS] representation via skip connections, SimLM samples replaced tokens from a frozen ELECTRA_base generator at rate p_enc = 30% for the 12-layer encoder and nested rate p_dec = 50% for the 2-layer bidirectional decoder, optimizing original-token cross-entropy L_pt = L_enc + L_dec across all sequence positions 1..|x| rather than binary replaced-token detection (outperforming Enc-Dec RTD at 36.2, Condenser at 36.9, and Enc-Dec MLM at 37.7 with 38.0 MRR@10 under BM25 negatives).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r756-primary-pdf">SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Section 3.1, &amp; Section 5.1-5.2, Equations 1-2, Figure 1, Tables 7-8, pp. 1-3, 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r756-claim-three-stage-finetuning-and-distillation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After discarding the shallow decoder, SimLM initializes bi-encoder retrievers in a standalone three-stage pipeline (Retriever_1 on BM25 negatives, Retriever_2 on Retriever_1-mined hard negatives, and Retriever_distill distilled from an ELECTRA_base cross-encoder reranker) using temperature-scaled cosine similarity phi(q, d) = exp((1/tau) cos(h_q, h_d)) (tau = 0.02) with both query-negative and passage-negative contrastive denominators sum_{n_i in N} (phi(q^+, n_i) + phi(d^+, n_i)) and KL divergence interpolation L = L_kl + alpha L_cont (alpha = 0.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r756-primary-pdf">SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 &amp; Appendix B, Equations 3-5, Figure 2, Table 13, pp. 3-4, 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r756-claim-msmarco-trec-nq-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On MS-MARCO Passage Ranking Dev, SimLM progresses from 38.0 MRR@10 / 98.3 R@1k with BM25 negatives (Retriever_1) to 39.1 MRR@10 / 98.6 R@1k with mined hard negatives (Retriever_2) and 41.1 MRR@10 / 87.8 R@50 / 98.7 R@1k with distillation (Retriever_distill), outperforming multi-vector ColBERTv2 (39.7 MRR@10, &gt;150GB two-stage index vs. SimLM&#39;s 27GB single-stage index) while achieving 71.4 nDCG@10 on TREC DL 2019, 69.7 nDCG@10 on TREC DL 2020, and 85.2 R@20 / 89.7 R@100 on Natural Questions test.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r756-primary-pdf">SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Tables 2-4 and 6, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r756-claim-no-zero-shot-and-extreme-masking-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because SimLM pre-training optimizes token-level replaced language modeling without any sequence-level contrastive objective, the pre-trained checkpoint cannot be used directly as a zero-shot dense retriever without supervised fine-tuning; furthermore, setting the decoder replacement rate to 100% removes all local context and degrades MS-MARCO Dev MRR@10 from 38.0 to 36.6, and SimLM underperforms ELECTRA_base when used to initialize a cross-encoder reranker (42.9 vs. 43.7 MRR@10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r756-primary-pdf">SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Table 5), Section 5.2 (Table 8), &amp; Limitations, pp. 6-7, 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Cannot be used as an unsupervised zero-shot dense retriever directly after pre-training because its pre-training objective contains no sequence-level contrastive loss.</li>
+      <li>Less effective than ELECTRA_base as an initialization checkpoint for cross-encoder rerankers (42.9 vs. 43.7 MRR@10), and degrades when the decoder replacement rate reaches 100% (dropping from 38.0 to 36.6 MRR@10).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SimLM pre-trains a deep Transformer encoder and shallow 2-layer Transformer decoder connected through a [CLS] vector bottleneck using replaced language modeling.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r756-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r756-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2207.02578.pdf" target="_blank" rel="noopener">SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liang Wang, Nan Yang, Xiaolong Huang, Binxing Jiao, Linjun Yang, Daxin Jiang, Rangan Majumder, Furu Wei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2207.02578</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d5c5733b1407…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r756-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r756-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2207.02578" target="_blank" rel="noopener">SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liang Wang, Nan Yang, Xiaolong Huang, Binxing Jiao, Linjun Yang, Daxin Jiang, Rangan Majumder, Furu Wei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2207.02578</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:98c0ae65bf93…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r756-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r756-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2207.02578" target="_blank" rel="noopener">SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liang Wang, Nan Yang, Xiaolong Huang, Binxing Jiao, Linjun Yang, Daxin Jiang, Rangan Majumder, Furu Wei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2207.02578</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2c915d088f97…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ASimLMRepresentationBottleneckPreTraining">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for SimLM Representation-Bottleneck Replaced Language Model Pre-Training" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:SimLMRepresentationBottleneckPreTraining</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">SimLM...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:59:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:59:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SimLMRepresentationBottleneckPreTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SimLMRepresentationBottleneckPreTraining.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=SimLM%20Representation-Bottleneck%20Replaced%20Language%20Model%20Pre-Training"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASimLMRepresentationBottleneckPreTraining"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

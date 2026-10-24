@@ -1,0 +1,103 @@
+id: AIMech:KtPflParameterizedKnowledgeTransferForPersonalizedFederatedLearning
+name: KT-pFL (Parameterized Knowledge Transfer for Personalized Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A personalized group knowledge transfer federated learning algorithm (Zhang, Guo, Ma, Wang, Xu, & Wu 2021, Sections 3-4, Definitions 3.1-3.2, Equations 2-7, Algorithm 1, Theorem 4.1, Remark 4.1) that enables clients n in {1, ..., N} with heterogeneous or homogeneous model architectures w^n and non-IID private datasets D_n to collaboratively learn personalized models via a shared public reference dataset D_r and a trainable N x N knowledge coefficient matrix c in R^{N x N} (Equation 3). Each client n minimizes the personalized loss L_{per,n}(w^n) = L_n(w^n) + lambda sum_{x_hat in D_r} L_{KL}(sum_{m=1}^N c_{mn} s(w^m, x_hat), s(w^n, x_hat)) where s(w^m, x_hat) = softmax(z^m(x_hat)/T) (Definition 3.1, Equation 2), while the system jointly minimizes min_{w,c} L(w, c) = sum_{n=1}^N (D_n/D) L_{per,n}(w^n) + rho ||c - 1/N||_2^2 with Frobenius shrinkage toward the uniform collaboration matrix 1/N (Equation 4) via alternating optimization: (1) client-side local SGD on D_n (Equation 5) followed by public-data KL distillation toward client n''s personalized server soft prediction sum_{m=1}^N c_{mn} s(w^m, xi_r) (Equation 6), and (2) server-side gradient descent on c via c <- c - eta_3 lambda sum_{n=1}^N (D_n/D) nabla_c L_{KL}(sum_{m=1}^N c_m s(w^{m,*}, xi_r), s(w^{n,*}, xi_r)) - 2 eta_3 rho (c - 1/N) (Equation 7).'
+identity_notes: Distinct from FedMD (AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation, Li & Wang 2019) and FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which form a single unweighted global ensemble teacher (1/N) sum_{m=1}^N s(w^m, x_hat) rather than maintaining a client-specific server soft prediction parameterized by a gradient-trained N x N knowledge coefficient matrix c; and distinct from FedFomo (AIMech:FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning, Zhang et al. 2021) and FedAMP (AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning, Huang et al. 2021), which require identical model architectures to aggregate raw model parameters in weight space rather than distilling personalized linear combinations of public-data soft predictions across heterogeneous neural architectures.
+aliases:
+- KT-pFL
+- Parameterized Knowledge Transfer for Personalized Federated Learning
+- Sim-pFL and TopK-pFL Personalized Knowledge Coefficient Distillation
+definition_evidence:
+- source_id: r488-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r488-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r488-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r488-claim-1
+  kind: mechanism
+  statement: KT-pFL formulates personalized heterogeneous federated learning as the alternating minimization of L(w, c) = sum_{n=1}^N (D_n/D) [L_n(w^n) + lambda sum_{x_hat in D_r} L_{KL}(sum_{m=1}^N c_{mn} s(w^m, x_hat), s(w^n, x_hat))] + rho ||c - 1/N||_2^2 (Equations 2-4), alternating between two-stage client updates (private SGD in Equation 5 and public KL distillation in Equation 6) and server gradient updates on the N x N knowledge coefficient matrix c with L2 shrinkage toward 1/N (Equation 7).
+  evidence:
+  - source_id: r488-primary-pdf
+    locator: Sections 3-4, pp. 3-5, Equations 2-7, Algorithm 1
+    relation: supports
+- claim_id: r488-claim-2
+  kind: mechanism
+  statement: Theorem 4.1 and Remark 4.1 prove that for any client n with local distribution D_n and empirical hypotheses {h_{D_hat_m}}_{m=1}^N, there always exist optimal knowledge coefficients c^*_{m,n} such that the expected loss of the personalized ensemble model satisfies L_{D_n}(sum_{m=1}^N c^*_{m,n} h_{D_hat_m}) <= L_{D_n}(h_{D_hat_n}) and L_{D_n}(sum_{m=1}^N c^*_{m,n} h_{D_hat_m}) <= L_{D_n}((1/N) sum_{m=1}^N h_{D_hat_m}), with strict inequality on non-IID problems.
+  evidence:
+  - source_id: r488-primary-pdf
+    locator: Section 4, pp. 5-6, Theorem 4.1, Remark 4.1
+    relation: supports
+- claim_id: r488-claim-3
+  kind: limitation
+  statement: KT-pFL requires a shared public dataset D_r accessible to all clients for computing and distilling soft predictions, and choosing an overly large public dataset size |D_r| or an excessively large generalization regularization parameter rho slows client distillation or forces c toward uniform 1/N weights, degrading personalized accuracy.
+  evidence:
+  - source_id: r488-primary-pdf
+    locator: Section 5.2.2, pp. 9-10, Tables 4 & 6
+    relation: supports
+- claim_id: r488-claim-4
+  kind: application
+  statement: Applied to heterogeneous client architectures (LeNet, AlexNet, ResNet-18, ShuffleNetV2) and homogeneous CNNs on non-IID EMNIST, Fashion_MNIST, and CIFAR-10 benchmarks, where KT-pFL outperforms FedMD, FedDF, Sim-pFL, TopK-pFL, pFedMe, FedAMP, FedFomo, and pFedHN while reducing communication volume by transmitting compact soft predictions instead of full model weights.
+  evidence:
+  - source_id: r488-primary-pdf
+    locator: Section 5, pp. 6-10, Tables 1-2, Figures 2-5
+    relation: supports
+evidence_sources:
+- source_id: r488-primary-pdf
+  title: Parameterized Knowledge Transfer for Personalized Federated Learning
+  authors: &id001
+  - Jie Zhang
+  - Song Guo
+  - Xiaosong Ma
+  - Haozhao Wang
+  - Wencao Xu
+  - Feijie Wu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2111.02862.pdf
+  persistent_id: https://arxiv.org/abs/2111.02862
+  version: Conference Proceedings (2021) (680815 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:31:00Z'
+  sha256: 18c5c1bb95b7efc5d9d5e38a537675db4fa13487f069de8858f9a2674eaa77bf
+- source_id: r488-arxiv-abs
+  title: Parameterized Knowledge Transfer for Personalized Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2111.02862
+  persistent_id: https://arxiv.org/abs/2111.02862
+  version: arXiv abstract page (2173 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:31:00Z'
+  sha256: 84c99527b1918f3c92eddf4f30d55468bc70d2c519a6003d7f7e9753f8fb2128
+- source_id: r488-metadata-cr
+  title: Parameterized Knowledge Transfer for Personalized Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2111.02862
+  persistent_id: https://arxiv.org/abs/2111.02862
+  version: Crossref API work record (435 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:31:00Z'
+  sha256: 7f6af276ff758c2c351fdfe675ea4bab3267862cc73b125f6cef08b0af4479a4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: KT-pFL is a personalized group knowledge transfer algorithm within the broader FederatedLearning category.
+limitations:
+- Requires an auxiliary public dataset D_r accessible to all participating clients for computing and distilling soft predictions.
+- Overly large public dataset sizes |D_r| increase client-side distillation latency, while overly large regularization rho forces c toward uniform 1/N weights.
+curation:
+  created_at: '2026-10-19T09:31:00Z'
+  updated_at: '2026-10-19T09:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

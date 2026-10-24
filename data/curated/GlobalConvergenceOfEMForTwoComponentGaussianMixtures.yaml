@@ -1,0 +1,108 @@
+id: AIMech:GlobalConvergenceOfEMForTwoComponentGaussianMixtures
+name: Global Convergence and Stationary-Point Characterization of EM for Two-Component Gaussian Mixtures
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A global dynamical and statistical consistency analysis (introduced by Ji Xu, Daniel J. Hsu, and Arian Maleki in 2016) of the Expectation-Maximization (EM) algorithm for balanced two-component Gaussian mixtures $0.5\\mathcal{N}(\\boldsymbol{\\mu}_1^\\star,\\boldsymbol{\\Sigma}) + 0.5\\mathcal{N}(\\boldsymbol{\\mu}_2^\\star,\\boldsymbol{\\Sigma})$ with known covariance $\\boldsymbol{\\Sigma}$ and arbitrary non-zero separation $\\boldsymbol{\\theta}^\\star = (\\boldsymbol{\\mu}_2^\\star - \\boldsymbol{\\mu}_1^\\star)/2 \\ne \\mathbf{0}$. Re-parameterizing the iterates by the mean-shift error $\\boldsymbol{a}^{\\langle t\\rangle} = \\frac{\\boldsymbol{\\mu}_1^{\\langle t\\rangle} + \\boldsymbol{\\mu}_2^{\\langle t\\rangle}}{2} - \\frac{\\boldsymbol{\\mu}_1^\\star + \\boldsymbol{\\mu}_2^\\star}{2}$ and half-separation $\\boldsymbol{b}^{\\langle t\\rangle} = \\frac{\\boldsymbol{\\mu}_2^{\\langle t\\rangle} - \\boldsymbol{\\mu}_1^{\\langle t\\rangle}}{2}$ (Equation 11), Lemmas 6\u20138 prove that all population EM updates lie in the two-dimensional subspace $\\mathrm{span}(\\boldsymbol{b}^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star)$ and that the angle $\\beta^{\\langle t\\rangle} = \\arccos(\\frac{\\langle\\boldsymbol{b}^{\\langle t\\rangle},\\boldsymbol{\\theta}^\\star\\rangle}{\\|\\boldsymbol{b}^{\\langle t\\rangle}\\|\\|\\boldsymbol{\\theta}^\\star\\|})$ decreases monotonically: (1) for any initialization outside the measure-zero orthogonal hyperplane $\\langle\\boldsymbol{b}^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star\\rangle \\ne 0$, Theorems 1, 3, and 4 prove linear contraction $\\sin(\\beta^{\\langle t+1\\rangle}) \\le \\kappa_\\beta^t\\sin(\\beta^{\\langle 0\\rangle})$, $\\|\\boldsymbol{a}^{\\langle t+1\\rangle}\\|^2 \\le \\kappa_a^2\\|\\boldsymbol{a}^{\\langle t\\rangle}\\|^2 + \\frac{\\|\\boldsymbol{\\theta}^\\star\\|^2\\sin^2(\\beta^{\\langle t\\rangle})}{4}$, and $\\boldsymbol{b}^{\\langle t\\rangle} \\to \\mathrm{sgn}(\\langle\\boldsymbol{b}^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star\\rangle)\\boldsymbol{\\theta}^\\star$; (2) if $\\langle\\boldsymbol{b}^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star\\rangle = 0$, Theorems 2 and 5 prove $(\\boldsymbol{a}^{\\langle t\\rangle},\\boldsymbol{b}^{\\langle t\\rangle}) \\to (\\mathbf{0},\\mathbf{0})$, which is the unique non-global stationary point (a local minimum for $d=1$ and a saddle point for $d > 1$, Corollaries 3\u20134); and (3) Theorem 7 proves that sample-based EM initialized at any $(\\boldsymbol{\\mu}_1^{\\langle 0\\rangle},\\boldsymbol{\\mu}_2^{\\langle 0\\rangle})$ with $\\langle\\boldsymbol{\\mu}_2^{\\langle 0\\rangle} - \\boldsymbol{\\mu}_1^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star\\rangle \\ne 0$ is globally statistically consistent ($\\limsup_{t\\to\\infty}\\|\\hat{\\boldsymbol{\\mu}}_i^{\\langle t\\rangle} - \\boldsymbol{\\mu}_i^{\\langle t\\rangle}\\| \\xrightarrow{p} 0$ as $n\\to\\infty$)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 697 maintained AIMech concepts. Distinct from `AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM` (Balakrishnan, Wainwright, & Yu 2017, which proves only local contraction inside a high-SNR neighborhood $\mathbb{B}_2(\|\theta^*\|_2/4;\theta^*)$) and `AIMech:OverSpecifiedGaussianMixtureEMSingularityAndAnnulusLocalization` (Dwivedi et al. 2020, which analyzes the degenerate $\theta^* = 0$ over-specified null case rather than global convergence from arbitrary non-orthogonal initializations for $\theta^* \ne 0$).
+aliases:
+- Global Convergence of EM for Two-Gaussian Mixtures
+- Xu-Hsu-Maleki Global EM Trajectory and Saddle-Hyperplane Analysis
+- Two-Gaussian Mixture EM Global Basin and Angle Monotonicity
+definition_evidence:
+- source_id: xhm2016-globalem-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: xhm2016-globalem-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: xhm2016-globalem-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-two-dimensional-subspace-invariance-and-monotone-angle-contraction
+  kind: mechanism
+  statement: Under the re-parameterization $\boldsymbol{a}^{\langle t\rangle} = \frac{\boldsymbol{\mu}_1^{\langle t\rangle}+\boldsymbol{\mu}_2^{\langle t\rangle}}{2} - \frac{\boldsymbol{\mu}_1^\star+\boldsymbol{\mu}_2^\star}{2}$ and $\boldsymbol{b}^{\langle t\rangle} = \frac{\boldsymbol{\mu}_2^{\langle t\rangle}-\boldsymbol{\mu}_1^{\langle t\rangle}}{2}$ (Equation 11), Lemma 7 proves that $\boldsymbol{b}^{\langle t\rangle}\in \mathrm{span}(\boldsymbol{b}^{\langle 0\rangle},\boldsymbol{\theta}^\star)$ for all $t\ge 0$, Lemma 8 proves that the angle $\beta^{\langle t\rangle}$ between $\boldsymbol{b}^{\langle t\rangle}$ and $\boldsymbol{\theta}^\star$ strictly decreases via $\cot\alpha^{\langle t\rangle} = \cot\beta^{\langle t\rangle} + \frac{R(\|\tilde{\boldsymbol{b}}^{\langle t\rangle}\|,\tilde{a}_1^{\langle t\rangle}-\theta_{\langle t\rangle,1}^\star) + R(\|\boldsymbol{b}^{\langle t\rangle}\|,\tilde{a}_1^{\langle t\rangle}+\theta_{\langle t\rangle,1}^\star)}{\tilde{\gamma}_{\langle t\rangle,2}^{\langle t+1\rangle}} > \cot\beta^{\langle t\rangle}$ (Equation 29), and Theorem 3 establishes $\sin(\beta^{\langle t+1\rangle}) \le \kappa_\beta\sin(\beta^{\langle t\rangle})$ and $\|\boldsymbol{a}^{\langle t+1\rangle}\|^2 \le \kappa_a^2\|\boldsymbol{a}^{\langle t\rangle}\|^2 + \frac{\|\boldsymbol{\theta}^\star\|^2\sin^2(\beta^{\langle t\rangle})}{4}$ with $\kappa_a,\kappa_\beta\in(0,1)$.
+  evidence:
+  - source_id: xhm2016-globalem-pdf
+    locator: Section 2.1, Theorems 1 & 3, pp. 5-6; Appendix A.3 & A.5, Lemmas 6-11 & Equations 17-41, pp. 13-21
+    relation: supports
+  - source_id: xhm2016-globalem-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-complete-stationary-point-landscape-and-orthogonal-hyperplane-saddle
+  kind: mechanism
+  statement: "Lemma 1 and Corollaries 1\u20134 prove that the population log-likelihood $G(\\boldsymbol{a},\\boldsymbol{b})$ has no spurious local maxima: its only stationary points are the two symmetric global maximizers $(\\frac{\\boldsymbol{\\mu}_1^\\star+\\boldsymbol{\\mu}_2^\\star}{2}, \\pm\\frac{\\boldsymbol{\\mu}_2^\\star-\\boldsymbol{\\mu}_1^\\star}{2})$ \u2014 reached from every initialization with $\\langle\\boldsymbol{b}^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star\\rangle \\ne 0$ (Theorems 1 & 4) \u2014 and the single degenerate point $(\\frac{\\boldsymbol{\\mu}_1^\\star+\\boldsymbol{\\mu}_2^\\star}{2}, \\frac{\\boldsymbol{\\mu}_1^\\star+\\boldsymbol{\\mu}_2^\\star}{2})$ (or $\\boldsymbol{\\theta} = \\mathbf{0}$ in Model 1), which is a strict saddle point for $d > 1$ (and local minimum for $d = 1$) whose basin of attraction is exactly the measure-zero orthogonal hyperplane $\\{\\boldsymbol{b}^{\\langle 0\\rangle}: \\langle\\boldsymbol{b}^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star\\rangle = 0\\}$ (Theorems 2 & 5)."
+  evidence:
+  - source_id: xhm2016-globalem-pdf
+    locator: Section 2.1 & 2.3, Theorems 2, 4, 5, Lemma 1, & Corollaries 1-4, pp. 5-8; Appendix A.6-A.8, pp. 29-40
+    relation: supports
+  - source_id: xhm2016-globalem-cr
+    locator: DBLP bibliographic record for NeurIPS 2016 pp. 2676-2684
+    relation: supports
+- claim_id: claim-global-sample-based-em-consistency-via-finite-horizon-population-tracking
+  kind: scope
+  statement: "By coupling pointwise convergence in probability $\\hat{\\boldsymbol{\\mu}}_i^{\\langle T_0\\rangle} \\xrightarrow{p} \\boldsymbol{\\mu}_i^{\\langle T_0\\rangle}$ at a finite iteration $T_0$ where the population trajectory enters a local contraction neighborhood $\\mathcal{N}_{\\mathbf{0},\\boldsymbol{\\theta}^\\star}$ (Theorem 6) with uniform Rademacher concentration of the sample EM operator inside $\\mathcal{N}_{\\mathbf{0},\\boldsymbol{\\theta}^\\star}$ (Lemmas 20\u201323), Theorem 7 proves that sample-based EM initialized at any $\\langle\\boldsymbol{\\mu}_2^{\\langle 0\\rangle}-\\boldsymbol{\\mu}_1^{\\langle 0\\rangle},\\boldsymbol{\\theta}^\\star\\rangle \\ne 0$ satisfies $\\limsup_{t\\to\\infty}\\|\\hat{\\boldsymbol{\\mu}}_i^{\\langle t\\rangle} - \\boldsymbol{\\mu}_i^{\\langle t\\rangle}\\| = O_p(\\sqrt{d/n}) \\to 0$ as $n\\to\\infty$."
+  evidence:
+  - source_id: xhm2016-globalem-pdf
+    locator: Section 2.2, Theorems 6 & 7, p. 7; Appendix A.9-A.10, Lemmas 20-23, pp. 40-55
+    relation: supports
+- claim_id: claim-limitation-two-component-equal-weight-symmetry-requirement
+  kind: limitation
+  statement: The absence of spurious local maxima and global convergence from arbitrary non-orthogonal initializations rely on the symmetry of two equally weighted Gaussian components with known covariance; for mixtures of $k \ge 3$ Gaussians, the population log-likelihood possesses genuine spurious local maxima that trap randomly initialized EM with constant probability.
+  evidence:
+  - source_id: xhm2016-globalem-pdf
+    locator: Section 1.2 & Section 3 Concluding Remarks, pp. 2-3, 8-9
+    relation: supports
+evidence_sources:
+- source_id: xhm2016-globalem-pdf
+  title: Global Analysis of Expectation Maximization for Mixtures of Two Gaussians
+  authors: &id001
+  - Ji Xu
+  - Daniel J. Hsu
+  - Arian Maleki
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1608.07630.pdf
+  persistent_id: https://doi.org/10.48550/arXiv.1608.07630
+  version: arXiv:1608.07630v1 full-text PDF (66 pages), published in Advances in Neural Information Processing Systems (NeurIPS) 29:2676-2684 (2016). (1027220 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:58:00Z'
+  sha256: 076df8e99d9451102f654da530237a4f35f7f81b58f4704c5edae27add981423
+- source_id: xhm2016-globalem-abs
+  title: Global Analysis of Expectation Maximization for Mixtures of Two Gaussians (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1608.07630
+  persistent_id: https://arxiv.org/abs/1608.07630
+  version: arXiv abstract page (6193 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:58:00Z'
+  sha256: 623b501486e0885c6d51144bb47f9ab252edbf9972d83e7bd7ed57f737d14725
+- source_id: xhm2016-globalem-cr
+  title: Global Analysis of Expectation Maximization for Mixtures of Two Gaussians (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/XuHM16.xml
+  persistent_id: https://doi.org/10.48550/arXiv.1608.07630
+  version: Crossref API work record (539 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:58:00Z'
+  sha256: 3a340042d46a7c223062930e699ffefa327c170519053feca548e4e00664b8f9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Establishes global convergence and absence of spurious local maxima for EM clustering of two-component Gaussian mixtures.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Proves global statistical consistency of unsupervised EM parameter estimation from arbitrary non-orthogonal initializations.
+limitations:
+- Applies to balanced two-component Gaussian mixtures with known covariance matrix $\boldsymbol{\Sigma}$; initializations lying exactly on the measure-zero hyperplane $\langle\boldsymbol{b}^{\langle 0\rangle},\boldsymbol{\theta}^\star\rangle = 0$ converge to the saddle point $(\mathbf{0},\mathbf{0})$, and mixtures with $k \ge 3$ components can exhibit bad local maxima.
+curation:
+  created_at: '2026-10-19T05:58:00Z'
+  updated_at: '2026-10-19T05:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

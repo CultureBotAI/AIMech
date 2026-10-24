@@ -1,0 +1,99 @@
+id: AIMech:NonsmoothCompositeOptimizationAndProxLinearLowRankMatrixRecovery
+name: Nonsmooth Convex-Composite Optimization, Weak Convexity, Sharpness, and Prox-Linear Low-Rank Matrix Recovery
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A unified nonsmooth convex-composite optimization framework (introduced by Vasileios Charisopoulos, Yudong Chen, Damek Davis, Mateo D\xEDaz, Lijun Ding, and Dmitriy Drusvyatskiy in 2021) for recovering low-rank matrices $\\boldsymbol{M}_\\sharp = \\boldsymbol{W}_\\sharp\\boldsymbol{W}_\\sharp^\\top$ (symmetric) or $\\boldsymbol{X}_\\sharp\\boldsymbol{Y}_\\sharp^\\top$ (asymmetric) from linear, quadratic, or bilinear measurements corrupted by arbitrary gross outliers on a fraction $p_{\\mathrm{fail}} = |\\mathcal{I}_{\\mathrm{fail}}|/m < 1/2$ of observations. Formulating estimation as minimizing the nonsmooth composite objective $f(\\boldsymbol{X}) = h(F(\\boldsymbol{X})) = \\|\\mathcal{A}(\\boldsymbol{X}) - \\boldsymbol{b}\\|_1$ (where $h = \\|\\cdot\\|_1$ is $L$-Lipschitz convex and $F(\\boldsymbol{X}) = \\mathcal{A}(\\boldsymbol{X}) - \\boldsymbol{b}$ is a quadratic map with Linearized Taylor model $f_{\\boldsymbol{X}}(\\boldsymbol{Z}) = h(F(\\boldsymbol{X}) + \\nabla F(\\boldsymbol{X})(\\boldsymbol{Z} - \\boldsymbol{X}))$, Equations 1.4\u20131.5), Propositions 4.1 and 4.6 prove that under rank-$2r$ $\\ell_1/\\ell_2$ Restricted Isometry Property (Assumptions 1\u20132), $f$ satisfies two regularities: (1) global *weak convexity / quadratic model accuracy* $|f(\\boldsymbol{Z}) - f_{\\boldsymbol{X}}(\\boldsymbol{Z})| \\le \\rho\\|\\boldsymbol{Z} - \\boldsymbol{X}\\|_F^2$ with $\\rho = \\kappa_2$ independent of $\\sigma_1(\\boldsymbol{M}_\\sharp)$, and (2) exact *sharpness* $f(\\boldsymbol{X}) - f(\\boldsymbol{X}_\\sharp) \\ge \\mu\\,\\mathrm{dist}(\\boldsymbol{X}, \\mathcal{X}_\\sharp)$ with $\\mu \\asymp (1 - 2p_{\\mathrm{fail}})\\sqrt{\\sigma_r(\\boldsymbol{M}_\\sharp)}$. Consequently, the effective condition number $\\rho/\\mu \\asymp \\sqrt{\\kappa(\\boldsymbol{M}_\\sharp)}$ improves by a square root over smooth squared-loss formulations, enabling linear convergence via Polyak/geometrically decaying subgradient methods (Theorems 5.2\u20135.3) and local **quadratic convergence** $\\mathrm{dist}(\\boldsymbol{X}_{k+1},\\mathcal{X}_\\sharp) \\le \\frac{\\rho}{\\mu}\\,\\mathrm{dist}^2(\\boldsymbol{X}_k,\\mathcal{X}_\\sharp)$ via the prox-linear algorithm $\\boldsymbol{X}_{k+1} = \\arg\\min_{\\boldsymbol{Z}}\\{f_{\\boldsymbol{X}_k}(\\boldsymbol{Z}) + \\frac{\\beta}{2}\\|\\boldsymbol{Z} - \\boldsymbol{X}_k\\|_F^2\\}$ (Equation 1.7, Theorem 5.4)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 694 maintained AIMech concepts. Distinct from `AIMech:TruncatedAmplitudeFlowAndOrthogonalityPromotingInitializationForQuadraticEquations` (Wang, Giannakis, & Eldar 2018, which minimizes a smooth-after-truncation squared amplitude loss for rank-1 vectors without outlier robustness or prox-linear quadratic convergence) and from `AIMech:ScaledGradientDescentForIllConditionedLowRankMatrixEstimation` (Tong, Ma, & Chi 2021, which preconditions smooth differentiable losses rather than proving weak convexity and sharpness of nonsmooth $\ell_1$-composite objectives $f(\boldsymbol{X}) = \|\mathcal{A}(\boldsymbol{X}) - \boldsymbol{b}\|_1$).
+aliases:
+- Convex-Composite Low-Rank Matrix Recovery
+- Weakly Convex and Sharp Nonsmooth Low-Rank Matrix Estimation
+- Prox-Linear and Polyak Subgradient Low-Rank Matrix Recovery under Gross Outliers
+definition_evidence:
+- source_id: ccdddd2021-complowrank-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: ccdddd2021-complowrank-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: ccdddd2021-complowrank-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-two-sided-quadratic-taylor-accuracy-and-weak-convexity-under-l1-l2-rip
+  kind: mechanism
+  statement: "For the nonsmooth composite objective $f(\\boldsymbol{X}) = \\|\\mathcal{A}(\\boldsymbol{W}\\boldsymbol{W}^\\top) - \\boldsymbol{b}\\|_1$ (symmetric) or $\\|\\mathcal{A}(\\boldsymbol{X}\\boldsymbol{Y}^\\top) - \\boldsymbol{b}\\|_1$ (asymmetric, with or without nuclear-norm-style factor penalty $\\tilde{f}$), Propositions 4.1, 4.2, and 4.3 prove that under the rank-$2r$ $\\ell_1/\\ell_2$ Restricted Isometry Property $\\kappa_1\\|\\boldsymbol{M}\\|_F \\le \\|\\mathcal{A}(\\boldsymbol{M})\\|_1 \\le \\kappa_2\\|\\boldsymbol{M}\\|_F$, the linearized convex model $f_{\\boldsymbol{X}}(\\boldsymbol{Z}) = h(F(\\boldsymbol{X}) + \\nabla F(\\boldsymbol{X})(\\boldsymbol{Z}-\\boldsymbol{X}))$ satisfies the two-sided quadratic error bound $|f(\\boldsymbol{Z}) - f_{\\boldsymbol{X}}(\\boldsymbol{Z})| \\le \\kappa_2\\|\\boldsymbol{Z} - \\boldsymbol{X}\\|_F^2$ for all factors $\\boldsymbol{X},\\boldsymbol{Z}$, certifying global $2\\kappa_2$-weak convexity with parameter independent of $\\sigma_1(\\boldsymbol{M}_\\sharp)$ (Section 4.1, Assumptions 1\u20132, Propositions 4.1\u20134.3)."
+  evidence:
+  - source_id: ccdddd2021-complowrank-pdf
+    locator: Section 1.2 (Eqs. 1.4-1.6, pp. 1510-1513), Section 4.1 (Assumptions 1-2, Propositions 4.1-4.3, pp. 1528-1531)
+    relation: supports
+- claim_id: claim-exact-sharpness-and-local-conditioning-under-arbitrary-outlier-corruption
+  kind: mechanism
+  statement: "Under the $\\mathcal{I}_{\\mathrm{fail}}$-outlier concentration bound $\\|\\mathcal{A}(\\boldsymbol{M})\\|_1 - 2\\|\\mathcal{A}_{\\mathcal{I}_{\\mathrm{fail}}}(\\boldsymbol{M})\\|_1 \\ge \\kappa_3\\|\\boldsymbol{M}\\|_F$ holding for outlier fraction $p_{\\mathrm{fail}} < 1/2$ (Assumption 2, Theorem 3.1), Propositions 4.6, 4.7, and 4.8 prove that $f$ is sharp around the ground-truth solution set $\\mathcal{X}_\\sharp$: $f(\\boldsymbol{W}) - f(\\boldsymbol{W}_\\sharp) \\ge \\kappa_3\\sqrt{2(\\sqrt{2}-1)\\sigma_r(\\boldsymbol{M}_\\sharp)}\\,\\mathrm{dist}(\\boldsymbol{W},\\mathcal{D}^*(\\boldsymbol{M}_\\sharp))$ in the symmetric case (and analogously with $\\mu \\asymp \\kappa_3\\sqrt{\\sigma_r(\\boldsymbol{M}_\\sharp)}$ in the balanced asymmetric case), yielding a local basin of attraction of radius $\\mathrm{dist}(\\boldsymbol{X}_0,\\mathcal{X}_\\sharp) < \\mu/\\rho \\asymp \\frac{\\kappa_3}{\\kappa_2}\\sqrt{\\sigma_r(\\boldsymbol{M}_\\sharp)}$ free of spurious stationary points (Section 3, Theorem 3.1; Section 4.2, Lemma 4.4, Propositions 4.6\u20134.8, Corollary 4.9)."
+  evidence:
+  - source_id: ccdddd2021-complowrank-pdf
+    locator: Section 3 (Theorem 3.1, pp. 1521-1524), Section 4.2 (Lemma 4.4, Propositions 4.6-4.8, Corollary 4.9, pp. 1532-1537)
+    relation: supports
+- claim_id: claim-polyak-subgradient-linear-convergence-and-prox-linear-quadratic-convergence
+  kind: application
+  statement: "For any $\\rho$-weakly convex and $\\mu$-sharp composite function $f = h\\circ F$ initialized within $\\mathrm{dist}(x_0,\\mathcal{X}_\\sharp) \\le \\frac{\\alpha\\mu}{2\\rho}$ ($\\alpha \\in (0,1)$), Theorems 5.2 and 5.3 prove that the Polyak and geometrically decaying subgradient methods contract linearly with iteration complexity $O(\\frac{L^2}{\\mu^2}\\log(1/\\varepsilon)) = O(\\kappa(\\boldsymbol{M}_\\sharp)\\log(1/\\varepsilon))$, while Theorem 5.4 proves that the prox-linear iteration $x_{k+1} = \\arg\\min_x\\{f_{x_k}(x) + \\frac{\\beta}{2}\\|x - x_k\\|_2^2\\}$ achieves local **quadratic convergence** $\\mathrm{dist}(x_{k+1},\\mathcal{X}_\\sharp) \\le \\frac{\\rho + \\beta}{\\mu}\\,\\mathrm{dist}^2(x_k,\\mathcal{X}_\\sharp)$, reaching accuracy $\\varepsilon$ in $O(\\log\\log(1/\\varepsilon))$ outer convex subproblems (Section 5, Algorithms 1\u20133, Lemma 5.1, Theorems 5.2\u20135.4)."
+  evidence:
+  - source_id: ccdddd2021-complowrank-pdf
+    locator: Section 5.1 (Algorithms 1-2, Lemma 5.1, Theorems 5.2-5.3, pp. 1538-1542), Section 5.2 (Algorithm 3, Theorem 5.4, pp. 1543-1544)
+    relation: supports
+evidence_sources:
+- source_id: ccdddd2021-complowrank-pdf
+  title: 'Low-Rank Matrix Recovery with Composite Optimization: Good Conditioning and Rapid Convergence'
+  authors: &id001
+  - Vasileios Charisopoulos
+  - Yudong Chen
+  - Damek Davis
+  - Mateo Diaz
+  - Lijun Ding
+  - Dmitriy Drusvyatskiy
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.10020.pdf
+  persistent_id: https://doi.org/10.1007/s10208-020-09490-9
+  version: arXiv:1904.10020v1 full-text PDF (80 pages), published in Foundations of Computational Mathematics 21(6):1505-1593 (2021). (3868980 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:52:00Z'
+  sha256: 5f60a072731390dc6c16d37bdee28baf76331f23ccf1f4603e070f90cf862993
+- source_id: ccdddd2021-complowrank-abs
+  title: 'Low-Rank Matrix Recovery with Composite Optimization: Good Conditioning and Rapid Convergence (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1904.10020
+  persistent_id: https://arxiv.org/abs/1904.10020
+  version: arXiv abstract page (6266 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:52:00Z'
+  sha256: 6d85529d35f05c2a79b8802376dc12a03520c3d558e284e40f82e8515dd9255f
+- source_id: ccdddd2021-complowrank-cr
+  title: 'Low-Rank Matrix Recovery with Composite Optimization: Good Conditioning and Rapid Convergence (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1007/s10208-020-09490-9
+  persistent_id: https://doi.org/10.1007/s10208-020-09490-9
+  version: Crossref API work record (30555 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:52:00Z'
+  sha256: e1a17ec4ebc23ff19fd8152783088aee8d5c49fd2d52571d6dbc546d2da7e75a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Establishes weak convexity and sharpness for nonsmooth factored low-rank matrix recovery from linear, quadratic, and bilinear measurements.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Uses the exact L1 residual loss ||A(X) - b||_1 in a convex-composite formulation h(F(X)) to achieve exact recovery under up to 50% arbitrary gross outliers.
+limitations:
+- The Polyak step size (Eq. 5.2) requires knowing the optimal objective value f(x_sharp) (which is zero in the noiseless/outlier-free regime, or estimated via geometric step-size decay in Algorithm 2 when outliers are present).
+- Each step of the prox-linear method (Algorithm 3) requires solving a convex linearly constrained L1 / quadratic program of size m x (d*r), trading higher per-iteration cost for quadratic O(log log(1/epsilon)) iteration complexity.
+curation:
+  created_at: '2026-10-19T05:52:00Z'
+  updated_at: '2026-10-19T05:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

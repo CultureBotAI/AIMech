@@ -1,0 +1,106 @@
+id: AIMech:HydraLoRA
+name: HydraLoRA
+concept_kind: architecture
+review_status: DRAFT
+definition: An asymmetric parameter-efficient low-rank adaptation architecture that pairs a single shared low-rank down-projection matrix A with multiple task- or sub-domain-specialized up-projection expert matrices B_1, ..., B_N combined via a trainable Mixture-of-Experts softmax router y = W_0 x + sum_{i=1}^N omega_i B_i A x.
+identity_notes: Distinct from AIMech:LowRankAdaptation (monolithic single-pair B A), AIMech:MELoRA (block-diagonal concatenation of independent mini-adapters (A_i, B_i) along partitioned input/output dimensions without dynamic gating), and symmetric LoRA-MoE / LoraHub architectures that maintain N separate (A_i, B_i) pairs. HydraLoRA (Chunlin Tian, Zhan Shi, Zhijiang Guo, Li Li, & Cheng-Zhong Xu, NeurIPS 2024, arXiv:2404.19245) is motivated by the empirical observation (Section 2.3, Figure 3) that when multiple LoRA heads are trained on distinct sub-domains, their down-projection matrices A converge to overlapping representations capturing shared corpus knowledge while their up-projection matrices B diverge to capture sub-domain specificities. HydraLoRA shares one central matrix A in R^{r x k} across all samples and deploys N expert matrices B_i in R^{d x r} (where N can be chosen automatically via TF-IDF + k-means elbow clustering on heterogeneous corpora) weighted by router scores omega_i = softmax(W_g^T x)_i (Equations 2-4).
+aliases:
+- Hydra Low-Rank Adaptation
+- Asymmetric Shared-A Multi-B Mixture-of-Experts LoRA
+- Hydra-Structured Asymmetric LoRA Architecture
+definition_evidence:
+- source_id: r672-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r672-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r672-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hydralora-asymmetric-shared-a-multi-b-parameter-decomposition
+  kind: mechanism
+  statement: Because fine-tuned LoRA down-projection matrices A converge across sub-domains while up-projection matrices B diverge to encode task-specific variations (Observations I-II), sharing a single A in R^{r x k} across N expert heads B_i in R^{d x r} reduces adapter parameter count from N r (d + k) to r (k + N d) while preventing destructive multi-domain interference.
+  evidence:
+  - source_id: r672-primary-pdf
+    locator: Section 2.3 (Observations I-II, Figure 3) & Section 3.1 (Equation 2), pp. 3-4
+    relation: supports
+- claim_id: hydralora-moe-router-segregation-and-linear-inference-merging
+  kind: mechanism
+  statement: HydraLoRA determines the number of intrinsic corpus components N via TF-IDF and k-means elbow clustering (or a user-specified count) and trains a dense softmax router omega = softmax(W_g^T x) jointly with A and {B_i}_{i=1}^N so that during inference the linear expert heads can be dynamically merged via sum_{i=1}^N omega_i B_i A x.
+  evidence:
+  - source_id: r672-primary-pdf
+    locator: Section 3.2.1-3.2.2 (Equations 3-4, Figure 4) & Appendix B (Initialization via k-means, Equations 7-8), pp. 4-5, 16-17
+    relation: supports
+- claim_id: hydralora-application-single-and-multitask-llm-finetuning-efficiency
+  kind: application
+  statement: On LLaMA2-7B and LLaMA2-13B across single-domain benchmarks (MMLU, Medical, Law, GSM8K, HumanEval) and multi-task Flanv2/BBH, HydraLoRA outperforms monolithic LoRA, AdaLoRA, LoraHub, and symmetric LoRA MoE while using only 0.341% trainable parameters on BBH (vs. 2.976% for LoRA MoE) and cutting GSM8K training energy by 49.6% with a 1.96x speedup over rank-32 LoRA.
+  evidence:
+  - source_id: r672-primary-pdf
+    locator: Section 4.2-4.3 (Tables 2-3, Figures 5-6) & Appendix D (Table 4), pp. 6-8, 18
+    relation: supports
+- claim_id: hydralora-limitation-multi-expert-training-iteration-overhead
+  kind: limitation
+  statement: Compared to a single low-rank LoRA head of the same base rank r, training N expert B_i matrices and the gating router requires 1x to 2x more training iterations/compute than minimal single-head PEFT baselines and relies on input-dependent routing during inference so the expert heads cannot be statically collapsed into a single input-independent matrix.
+  evidence:
+  - source_id: r672-primary-pdf
+    locator: Section 3.2.2 (p. 5) & Appendix E (Limitation, p. 19)
+    relation: supports
+evidence_sources:
+- source_id: r672-primary-pdf
+  title: 'HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning'
+  authors: &id001
+  - Chunlin Tian
+  - Zhan Shi
+  - Zhijiang Guo
+  - Li Li
+  - Cheng-Zhong Xu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2404.19245.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=HydraLoRA+Asymmetric+LoRA+Architecture&format=xml
+  version: Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) (3202412 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:35:00Z'
+  sha256: 079d46829af058a958a8a9e86eaf900d5fa4cd00e79754b7aa791a6eb9a3d3d9
+- source_id: r672-arxiv-abs
+  title: 'HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2404.19245
+  persistent_id: https://arxiv.org/abs/2404.19245
+  version: arXiv abstract page (6302 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:35:00Z'
+  sha256: f975dd5648318e241e54fb76d4d9e163c72ba15aad82d93ec37a51bcc6712753
+- source_id: r672-metadata-cr
+  title: 'HydraLoRA: An Asymmetric LoRA Architecture for Efficient Fine-Tuning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=HydraLoRA+Asymmetric+LoRA+Architecture&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=HydraLoRA+Asymmetric+LoRA+Architecture&format=xml
+  version: Crossref API work record (905 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:35:00Z'
+  sha256: 7035778f4340693fea071ef8cea6325458eec464b0949cf8a713f3b42962183d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: HydraLoRA is an asymmetric Mixture-of-Experts low-rank adapter architecture embedded within transformer neural network layers.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: HydraLoRA uses unsupervised k-means clustering with the elbow criterion over TF-IDF corpus representations to determine the number of intrinsic expert heads N.
+limitations:
+- Requires 1x to 2x more training expenditure than minimal single-head low-rank PEFT methods due to optimizing multiple B_i expert matrices and the gating network.
+- Because the expert weights omega_i = softmax(W_g^T x) depend on the intermediate token representation x, the N matrices B_1, ..., B_N are merged dynamically per input rather than once statically offline.
+- Evaluated on LoRA fine-tuning of decoder-only LLMs without validation on pre-training or non-LoRA PEFT structures such as prefix-tuning.
+curation:
+  created_at: '2026-10-19T12:35:00Z'
+  updated_at: '2026-10-19T12:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

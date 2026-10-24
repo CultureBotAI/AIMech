@@ -1,0 +1,102 @@
+id: AIMech:KardamLipschitzAndFrequencyFilteredAsynchronousByzantineStochasticGradientDescent
+name: Kardam Lipschitz- and Frequency-Filtered Asynchronous Byzantine Stochastic Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-resilient asynchronous stochastic gradient descent algorithm proposed by Damaskinos, El Mhamdi, Guerraoui, Patra, and Taziki (ICML 2018) that decouples gradient verification from synchronous communication barriers by combining a staleness-aware gradient dampening rule with a two-stage server filter consisting of an empirical Lipschitz continuity check against the (n-f)/n worker quantile and a sliding-window worker frequency filter that guarantees at least f+1 honest updates in every 2f+1 consecutive model transitions.
+identity_notes: "Distinct from Zeno++ (AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent, which scores candidate asynchronous updates using a server validation mini-batch loss descent test without worker frequency bounds or empirical Lipschitz quantiles) and from synchronous Byzantine aggregators such as Krum (AIMech:KrumAndMultiKrumByzantineResilientGradientAggregation), Bulyan (AIMech:BulyanTwoStageMetaAggregationForByzantineResilientDistributedLearning), and Geometric Median / RFA (AIMech:RobustFederatedAggregationViaSmoothedWeiszfeldGeometricMedian). Kardam (Damaskinos et al., ICML 2018, PMLR 80:1153-1162, Section 3.1-3.2, Definitions 3-5, pp. 3-6) comprises two coupled components on the parameter server: (1) the Dampening component scales any accepted gradient g_{tl} computed on stale model x_l (with staleness tau_{tl} = t - l) by a strictly decreasing bijective staleness decay function Lambda(tau_{tl}) satisfying Lambda(0) = 1 (such as exponential dampening Lambda(tau) = exp(-alpha * tau^(1/beta))) with adaptive step size gamma_t = gamma * M / sum_{lambda in Lambda_t} lambda |G_{t,lambda}|; and (2) the Filtering component accepts a candidate gradient g_p from worker p only if it simultaneously passes the Frequency Filter\u2014which maintains the list L of workers for the last 2f accepted gradients and rejects worker q if the top-f most frequent workers in (L; q) appear more than f times in total (Definition 4, Lemma 1)\u2014and the Empirical Lipschitz Filter\u2014which checks whether the server-side empirical Lipschitz ratio hat{K}_t^p = ||g_p - g_q||_2 / ||x_t - x_{t-1}||_2 is at most the (n-f)/n quantile hat{K}_t of all workers' local empirical Lipschitz coefficients hat{K}_p = ||g_p - g_p^{prev}||_2 / ||x_{l_p} - x_{l_p}^{prev}||_2 (Definition 5)."
+aliases:
+- Kardam
+- Kardam Asynchronous Byzantine SGD
+- Kardam Empirical Lipschitz and Frequency Filtered SGD
+definition_evidence:
+- source_id: r534-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r534-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r534-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: kardam-frequency-filter-and-empirical-lipschitz-quantile-test
+  kind: mechanism
+  statement: 'Kardam filters each incoming asynchronous gradient g_p at step t using two checks: the Frequency Filter (Definition 4) tracks the worker IDs L of the last 2f accepted updates and rejects worker p if the sum of occurrences of the f most frequent workers in (L; p) exceeds f (guaranteeing at least f+1 honest updates in every 2f+1 accepted transitions by Lemma 1), and the Empirical Lipschitz Filter (Definition 5) accepts g_p only if hat{K}_t^p = ||g_p - g_q||_2 / ||x_t - x_{t-1}||_2 <= hat{K}_t, where hat{K}_t is the (n-f)/n quantile of per-worker empirical Lipschitz coefficients {hat{K}_w}_{w=1}^n.'
+  evidence:
+  - source_id: r534-primary-pdf
+    locator: Section 3.2, Definitions 4-5 and Lemma 1, pp. 4-5
+    relation: supports
+- claim_id: kardam-staleness-dampening-convergence-and-tight-slowdown-bounds
+  kind: scope
+  statement: Under n >= 2f + 1 workers, Theorem 1 proves that Kardam achieves a tight optimal Byzantine slowdown factor bounded by (n - 2f)/(n - f) <= SL <= (n - f)/n, and Theorems 2-5 prove almost-sure convergence of the staleness-dampened asynchronous updates (Equations 1-2) to a neighborhood of a stationary point under bounded variance and Lipschitz-smooth non-convex objectives.
+  evidence:
+  - source_id: r534-primary-pdf
+    locator: Section 3.1, Equations (1)-(2), p. 3; Section 3.2.2, Theorem 1, p. 5; Section 4, Theorems 2-5, p. 6
+    relation: supports
+- claim_id: kardam-two-f-plus-one-worker-bound-and-staleness-horizon-limitation
+  kind: limitation
+  statement: Kardam requires a strict honest majority n > 2f so that the (n-f)/n empirical Lipschitz quantile and the 2f-window frequency filter do not permanently stall training, and its convergence rate degrades as the maximum worker staleness tau_max increases.
+  evidence:
+  - source_id: r534-primary-pdf
+    locator: Section 3.2.2, Theorem 1 & Proof sketch, p. 5; Section 4, Theorem 5, p. 6
+    relation: supports
+- claim_id: kardam-asynchronous-distributed-deep-learning-application
+  kind: application
+  statement: Applied to asynchronous distributed training of deep neural networks on CIFAR-10 (ResNet-18) and ImageNet across heterogeneous worker clusters under Byzantine gradient corruption and straggler delays.
+  evidence:
+  - source_id: r534-primary-pdf
+    locator: Section 5, Figures 1-6, pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r534-primary-pdf
+  title: Asynchronous Byzantine Machine Learning (the case of SGD)
+  authors: &id001
+  - Georgios Damaskinos
+  - El Mahdi El Mhamdi
+  - Rachid Guerraoui
+  - Rhicheek Patra
+  - Mahsa Taziki
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1802.07928.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/DamaskinosMGPT18.xml
+  version: Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:1153-1162 (2018) (1191176 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:17:00Z'
+  sha256: 05e654b5160d65532a6af549aef44b5cfe94cc026bb90029c58d8d2d996c6a8d
+- source_id: r534-arxiv-abs
+  title: Asynchronous Byzantine Machine Learning (the case of SGD) (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1802.07928
+  persistent_id: https://arxiv.org/abs/1802.07928
+  version: arXiv abstract page (7235 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:17:00Z'
+  sha256: 759e3f892368ebf3408f647c7d68f3a33051b0080734a1bf0c5e69749e119448
+- source_id: r534-metadata-cr
+  title: Asynchronous Byzantine Machine Learning (the case of SGD) (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/DamaskinosMGPT18.xml
+  persistent_id: https://dblp.org/rec/conf/icml/DamaskinosMGPT18.xml
+  version: Crossref API work record (1913 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:17:00Z'
+  sha256: 9b07062e6bb2b405402f7e7706e24a3dcf40c3b0e488d41a6d70b80fa8e914f7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning is the closely related distributed learning paradigm; Kardam provides asynchronous Byzantine-resilient stochastic gradient descent via empirical Lipschitz and frequency filtering.
+limitations:
+- Requires an honest majority n >= 2f + 1 so that the 2f-window frequency filter can always admit honest workers without deadlocking.
+- Relies on estimating empirical Lipschitz ratios between consecutive parameter states, which can exhibit high variance under small mini-batch sizes or non-IID local data distributions.
+curation:
+  created_at: '2026-10-19T10:17:00Z'
+  updated_at: '2026-10-19T10:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

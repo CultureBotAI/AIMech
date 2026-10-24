@@ -1,0 +1,106 @@
+id: AIMech:DiffGrad
+name: diffGrad
+concept_kind: algorithm
+review_status: DRAFT
+definition: A first-order adaptive stochastic gradient optimization algorithm that modulates Adam's bias-corrected parameter update by an element-wise diffGrad Friction Coefficient (DFC) xi_{t,i} = 1 / (1 + exp(-|Delta g_{t,i}|)) in [0.5, 1) driven by the first-order backward difference of consecutive gradients Delta g_{t,i} = g_{t-1,i} - g_{t,i}, updating parameters via theta_{t,i} = theta_{t-1,i} - (alpha_t * xi_{t,i} / (sqrt(v_hat_{t,i}) + epsilon)) * m_hat_{t,i} so that rapid gradient changes incur low friction (xi_{t,i} -> 1) and vanishing gradient changes near optima incur high friction (xi_{t,i} -> 0.5) to prevent overshooting.
+identity_notes: Distinct from Adam and AMSGrad (which rely solely on exponential moving averages of past gradients m_t and squared gradients v_t without immediate short-term gradient-difference friction) and from AdaBelief (AIMech:AdaBelief, which replaces v_t in the denominator with the EMA of (g_t - m_t)^2). diffGrad retains Adam's bias-corrected moments m_hat_t and v_hat_t and multiplies the step size by the bounded logistic friction factor xi_t = 1 / (1 + exp(-|g_{t-1} - g_t|)) in [0.5, 1).
+aliases:
+- Difference of Gradients Adaptive Optimization
+- Dynamic Friction Sigmoid Adaptive Moment Estimation
+- Short-Term Gradient-Change Clamped Adam
+definition_evidence:
+- source_id: r612-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r612-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r612-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: diffgrad-friction-coefficient-and-update-rule
+  kind: mechanism
+  statement: At step t, diffGrad computes the element-wise absolute difference between consecutive gradients |Delta g_{t,i}| = |g_{t-1,i} - g_{t,i}|, passes it through the abs-sigmoid diffGrad Friction Coefficient xi_{t,i} = 1 / (1 + exp(-|g_{t-1,i} - g_{t,i}|)) bounded strictly in [0.5, 1), and updates parameters via theta_{t,i} = theta_{t-1,i} - (alpha_t * xi_{t,i} / (sqrt(v_hat_{t,i}) + epsilon)) * m_hat_{t,i}.
+  evidence:
+  - source_id: r612-primary-pdf
+    locator: Section III, Equations 8-14 and Figure 1, p. 2-4
+    relation: supports
+  - source_id: r612-metadata-cr
+    locator: Bibliographic metadata for Dubey et al. 2020 (DOI:10.1109/TNNLS.2019.2955777)
+    relation: supports
+- claim_id: diffgrad-online-convex-regret-bound
+  kind: scope
+  statement: Under Theorem 1 of Dubey et al. (2020), for convex online functions f_t with ||nabla f_t(theta)||_2 <= G, ||nabla f_t(theta)||_inf <= G_inf, and diameter ||theta_n - theta_m||_2 <= D, diffGrad with alpha_t = alpha / sqrt(t) and beta_{1,t} = beta_1 * lambda^{t-1} achieves O(sqrt(T)) regret bounded by R(T) <= (D^2 / (alpha * (1 - beta_1))) * sum_{i=1}^d sqrt(T * v_hat_{T,i}) + (alpha * (1 + beta_1) * G_inf / ((1 - beta_1) * sqrt(1 - beta_2) * (1 - gamma)^2)) * sum_{i=1}^d ||g_{1:T,i}||_2 + sum_{i=1}^d (D_inf^2 * G_inf * beta_1) / ((1 - beta_1) * (1 - lambda)^2 * alpha).
+  evidence:
+  - source_id: r612-primary-pdf
+    locator: Section III-A (Convergence Analysis), Theorem 1, Lemma 2, and Appendix I, p. 4-5, 10-12
+    relation: supports
+- claim_id: diffgrad-overshoot-prevention-and-cnn-classification-applications
+  kind: application
+  statement: diffGrad prevents Adam's momentum-induced overshooting out of narrow global valleys on non-convex synthetic objectives (F1-F3) and improves top-1 validation accuracy over Adam, AMSGrad, AdaGrad, and RMSprop on CIFAR-10 and CIFAR-100 across ResNet-18, ResNet-50, ResNet-101, DenseNet-121, MobileNet, SENet, ShuffleNet, VGG16, and GoogleNet.
+  evidence:
+  - source_id: r612-primary-pdf
+    locator: Section III-B (Optimization Toy Examples), Figure 3, and Section IV (Experimental Results), Tables I-IV, p. 5-9
+    relation: supports
+- claim_id: diffgrad-mini-batch-noise-sensitivity-and-previous-gradient-storage
+  kind: limitation
+  statement: diffGrad must store the previous step's full gradient tensor g_{t-1} in memory (increasing optimizer state from 2P to 3P floats), and under high mini-batch gradient variance the instantaneous difference |g_{t-1,i} - g_{t,i}| can remain large even near a stationary point, keeping xi_{t,i} close to 1.
+  evidence:
+  - source_id: r612-primary-pdf
+    locator: Section III, Equations 8-14, and Section IV-B, p. 3-4, 7-8
+    relation: supports
+evidence_sources:
+- source_id: r612-primary-pdf
+  title: 'diffGrad: An Optimization Method for Convolutional Neural Networks'
+  authors: &id001
+  - Shiv Ram Dubey
+  - Soumendu Chakraborty
+  - Swalpa Kumar Roy
+  - Snehasis Mukherjee
+  - Satish Kumar Singh
+  - Bidyut Baran Chaudhuri
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1909.11015.pdf
+  persistent_id: https://dblp.org/rec/journals/tnn/DubeyCRMSC20.xml
+  version: IEEE Transactions on Neural Networks and Learning Systems (2020) (1952028 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:35:00Z'
+  sha256: 40ce33e0a43674cea7d343269217a97afaac3da6bf3cbaad9b6b71ca9a7ef73d
+- source_id: r612-arxiv-abs
+  title: 'diffGrad: An Optimization Method for Convolutional Neural Networks (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1909.11015
+  persistent_id: https://arxiv.org/abs/1909.11015
+  version: arXiv abstract page (8500 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:35:00Z'
+  sha256: 51619a5bab6f9641d893a9a0eb1c68f37a4b424c27a30db20b76dab575291d7a
+- source_id: r612-metadata-cr
+  title: 'diffGrad: An Optimization Method for Convolutional Neural Networks (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/tnn/DubeyCRMSC20.xml
+  persistent_id: https://dblp.org/rec/journals/tnn/DubeyCRMSC20.xml
+  version: Crossref API work record (2181 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:35:00Z'
+  sha256: dbb392a2df04aa5d34c17048c68b927fdf706139dba377b8b035fa59c714d259
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: diffGrad is a first-order adaptive optimizer designed to prevent overshooting near optima when training convolutional and deep neural networks.
+limitations:
+- Requires storing the previous iteration's gradient vector g_{t-1} alongside m_t and v_t, increasing auxiliary optimizer memory from 2P to 3P floats.
+- Because the friction coefficient depends on the unsmoothed single-step difference |g_{t-1} - g_t|, large stochastic mini-batch variance can keep |g_{t-1} - g_t| large near a minimum and reduce the friction effect.
+curation:
+  created_at: '2026-10-19T11:35:00Z'
+  updated_at: '2026-10-19T11:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

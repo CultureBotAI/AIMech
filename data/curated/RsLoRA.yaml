@@ -1,0 +1,98 @@
+id: AIMech:RsLoRA
+name: rsLoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A rank-stabilized low-rank adaptation algorithm that scales the low-rank adapter product BA by gamma_r = alpha / sqrt(r) instead of the conventional alpha / r factor, ensuring that adapter activation moments and backpropagated input gradients remain Theta_r(1) as the rank r increases.
+identity_notes: Distinct from AIMech:LowRankAdaptation (LoRA), which scales the adapter product B A by gamma_r = alpha / r and consequently suffers an O(1/r) collapse in effective update magnitude and gradient norms as r grows, and from AIMech:LoraPlusEfficientLowRankAdaptationWithAsymmetricLearningRates (LoRA+), which addresses the width-d asymmetry between A and B via unequal learning rates eta_B = lambda eta_A. rsLoRA (Damjan Kalajdzievski, arXiv:2312.03732) analyzes the infinite-rank limit r -> infinity of an adapter x_{out} = (W + gamma_r B A) x_{in} + b initialized with B_0 = 0 and A_{i,j} ~ N(0, sigma_A^2) independent of r. Theorem 3.2 proves that after n gradient steps, E_{A_0}[gamma_r B_n A_n] = -gamma_r^2 r sigma_A eta sum_{k=0}^{n-1} v_k x_k^T + O_r(gamma_r^3 r), so both the m-th forward activation moments and the backpropagated input gradients are Theta_r((gamma_r^2 r)^m), which is non-collapsing and stable (Theta_r(1)) if and only if gamma_r in Theta_r(1 / sqrt(r)).
+aliases:
+- Rank-Stabilized LoRA
+- Rank-Stabilized Low-Rank Adaptation
+- Rank Stabilization Scaling Factor for LoRA
+definition_evidence:
+- source_id: r668-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r668-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r668-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: rslora-inverse-sqrt-rank-scaling-factor-theorem
+  kind: mechanism
+  statement: For an adapter gamma_r B A with B_0 = 0 and A_0 entries drawn i.i.d. with mean 0 and r-independent variance sigma_A, the expected update after n steps scales as E_{A_0}[gamma_r B_n A_n] in Theta_r(gamma_r^2 r), so setting gamma_r = alpha / sqrt(r) is the unique scaling exponent (up to a constant) that keeps forward output moments and backward input gradients at Theta_r(1) as r -> infinity.
+  evidence:
+  - source_id: r668-primary-pdf
+    locator: Section 3 (Definition 3.1 & Theorem 3.2) & Appendix A (Proof of Theorem 3.2, Equations 6-11), pp. 3, 8-9
+    relation: supports
+- claim_id: rslora-elimination-of-high-rank-gradient-collapse
+  kind: mechanism
+  statement: "Whereas standard LoRA scaling gamma_r = alpha / r causes parameter gradient norms to shrink by orders of magnitude as r increases from 4 to 2048\u2014stunting learning so high ranks perform no better than rank 4\u2014rsLoRA preserves consistent initial gradient norms across all ranks and unlocks monotonic perplexity improvements with increasing rank."
+  evidence:
+  - source_id: r668-primary-pdf
+    locator: Section 4 (Experimental Results, Figures 2-3) & Appendix B.1-B.4, pp. 4-5, 9-11
+    relation: supports
+- claim_id: rslora-application-llama2-and-gptj-instruction-and-math-finetuning
+  kind: application
+  statement: Applied to LLaMA-2-7B on OpenOrca with AdamW and SGD and to GPT-J-6B on GSM8K with Adafactor across ranks r in {4, 8, 32, 128, 512, 2048}, rsLoRA enables smooth training-compute-versus-perplexity scaling while merging (W + (alpha/sqrt(r)) B A) into the base weights with zero inference overhead.
+  evidence:
+  - source_id: r668-primary-pdf
+    locator: Section 4 & Appendix B.2 (Figures 2, 4, 5), pp. 4-5, 9-10
+    relation: supports
+- claim_id: rslora-limitation-initialization-only-scaling-instability
+  kind: limitation
+  statement: Scaling only the initialization variance of A_0 by 1 / sqrt(r) without applying the multiplicative factor gamma_r = alpha / sqrt(r) to the adapter forward pass stabilizes gradients only at step 0 and becomes unstable later in training at large ranks (e.g., r = 2048), while higher ranks still incur proportional training memory and FLOPs.
+  evidence:
+  - source_id: r668-primary-pdf
+    locator: Section 4 & Appendix B.3 (Scaling at Initialization Only, Figure 6), pp. 5, 10
+    relation: supports
+evidence_sources:
+- source_id: r668-primary-pdf
+  title: A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA
+  authors: &id001
+  - Damjan Kalajdzievski
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2312.03732
+  persistent_id: https://dblp.org/search/publ/api?q=Rank+Stabilization+Scaling+Factor+LoRA+Kalajdzievski&format=xml
+  version: arXiv Computing Research Repository (CoRR) (2023) (876626 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:31:00Z'
+  sha256: 8d45b0bc98bf5d0b4e6d63a297a5c4709935e2912c94a11471eadf14a9a1e80e
+- source_id: r668-arxiv-abs
+  title: A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2312.03732
+  persistent_id: https://arxiv.org/abs/2312.03732
+  version: arXiv abstract page (5928 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:31:00Z'
+  sha256: efa582cb19c30dc570c011292ab5633bd62364c1d3cddc3463573b4d718d46c6
+- source_id: r668-metadata-cr
+  title: A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Rank+Stabilization+Scaling+Factor+LoRA+Kalajdzievski&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Rank+Stabilization+Scaling+Factor+LoRA+Kalajdzievski&format=xml
+  version: Crossref API work record (697 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:31:00Z'
+  sha256: c17288a98cca5b4c9f24d5fea32db8a6904437005045615bac2d9241613bbc1a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: rsLoRA stabilizes low-rank adapter fine-tuning across arbitrary ranks in deep artificial neural networks.
+limitations:
+- Although rsLoRA merges into W with zero inference overhead, training at high ranks (e.g., r = 512 or 2048) still increases training-time adapter parameters, optimizer states, and FLOPs linearly with r.
+- Rank-correcting only the initialization distribution of A without keeping the multiplicative 1/sqrt(r) forward scaling factor fails to prevent training instability at large ranks.
+curation:
+  created_at: '2026-10-19T12:31:00Z'
+  updated_at: '2026-10-19T12:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

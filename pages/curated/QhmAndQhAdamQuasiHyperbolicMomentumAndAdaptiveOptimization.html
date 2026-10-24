@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quasi-Hyperbolic Momentum (QHM) and Quasi-Hyperbolic Adam (QHAdam) Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Quasi-Hyperbolic Momentum (QHM) and Quasi-Hyperbolic Adam (QHAdam) Optimization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Quasi-Hyperbolic Momentum (QHM) and Quasi-Hyperbolic Adam (QHAdam) Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:QhmAndQhAdamQuasiHyperbolicMomentumAndAdaptiveOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> QHM, QHAdam, Quasi-Hyperbolic Momentum, Quasi-Hyperbolic Adam, QHWMA Stochastic Gradient Optimization
+    </div>
+
+  <div class="detail-desc">
+    Quasi-Hyperbolic Momentum (QHM) and Quasi-Hyperbolic Adam (QHAdam) are first-order stochastic optimization algorithms (Ma &amp; Yarats, ICLR 2019) that replace standard exponentially weighted moving average (EWMA) moment estimators with time-inconsistent quasi-hyperbolic weighted moving averages (QHWMA) parameterized by immediate discount factors nu in R (or nu_1, nu_2 in R) and exponential discount factors beta in [0, 1) (or beta_1, beta_2 in [0, 1)). QHM updates a normalized momentum buffer g_{t+1} = beta g_t + (1 - beta) nabla L_hat_t(theta_t) and steps via a nu-weighted average of the momentum step and plain SGD: theta_{t+1} = theta_t - alpha [(1 - nu) nabla L_hat_t(theta_t) + nu g_{t+1}]. QHAdam analogously maintains bias-corrected first and second moment buffers g&#39;_{t+1} = (1 - beta_1^{t+1})^{-1} g_{t+1} and s&#39;_{t+1} = (1 - beta_2^{t+1})^{-1} s_{t+1} and updates parameters via theta_{t+1} = theta_t - alpha [((1 - nu_1) nabla L_hat_t(theta_t) + nu_1 g&#39;_{t+1}) / (sqrt((1 - nu_2)(nabla L_hat_t(theta_t))^2 + nu_2 s&#39;_{t+1}) + epsilon)].
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Polyak momentum and Nesterov&#39;s Accelerated Gradient (NAG), which tightly couple the momentum buffer&#39;s exponential discount factor beta to the current gradient&#39;s weight (recovered as special cases of QHM at nu = 1 and nu = beta, respectively); distinct from Aggregated Momentum (AggMo, Lucas et al., 2018), which maintains K &gt;= 2 separate momentum buffers rather than a single momentum buffer interpolated with the current gradient; and distinct from vanilla Adam (Kingma &amp; Ba, 2015) and NAdam (Dozat, 2016), which correspond to QHAdam at (nu_1, nu_2) = (1, 1) and (modulo bias correction) (nu_1, nu_2) = (beta_1, 1) without second-moment immediate discounting nu_2 &lt; 1.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#qhwma-limit-covariance-and-time-inconsistent-discounting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Appendix A.5-A.8 and G (Eqs. 5, 7, Fact A.2, p. 16-18, 31) prove that QHM&#39;s update direction is a quasi-hyperbolic weighted moving average QHWMA_{nu, beta}(x_{0...t}) = (1 - nu * beta) x_t + nu(1 - beta) sum_{i=1}^t beta^i x_{t-i} with time-inconsistent discount ratios delta(i + tau)/delta(i) = (nu(1 - beta)/(1 - nu * beta)) beta^tau for i = 0 versus beta^tau for i &gt; 0, and that for independent random vectors x_{0...t} with covariance Sigma, lim_{t-&gt;infty} Cov[QHWMA_{nu, beta}(x_{0...t})] = rho * Sigma where rho = (1 - nu * beta)^2 + [nu * beta(1 - beta)]^2 / (1 - beta^2), which recovers the EWMA limit covariance (1 - beta)/(1 + beta) at nu = 1 (Fact A.1) and satisfies the tight lower bound rho &gt;= (1 - nu)^2 for any nu &lt; 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r609-primary-pdf">Quasi-hyperbolic momentum and Adam for deep learning</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.3-A.8, Facts A.1-A.2 &amp; Eqs. 5-7, p. 15-18; Appendix G, p. 31</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#linear-operator-unification-of-two-state-optimizers</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 4 (Table 1, p. 3-5) and Appendix C-D (Eqs. 10-11, p. 20-26) prove via coordinate-wise linear operator transition matrices that QHM (with 1 auxiliary buffer and 3 scaled vector additions) unifies plain SGD (nu = 0), Polyak momentum (nu = 1), and NAG (nu = beta); is bijective with Synthesized Nesterov Variants (SNV, Lessard et al. 2016) via gamma = alpha(1 - beta), beta_1 = beta, beta_2 = (1 - nu)beta/(1 - beta) (thereby recovering Robust Momentum and Triple Momentum with global linear convergence rate 1 - 1/sqrt(kappa) on strongly convex smooth functions); recovers PID control optimizers (Recht 2018; An et al. 2018) with k_P = -alpha * nu * beta/(1 - beta), k_I = alpha, k_D = alpha * nu * beta^2/(1 - beta)^2; and recovers AccSGD (Kidambi et al. 2018) via alpha = delta * epsilon(1 + xi)/(1 + epsilon), nu = (epsilon * xi - 1)/(epsilon(1 + xi)), beta = (kappa - epsilon^2 xi)/(kappa + epsilon * xi) while proving that AccSGD cannot recover NAG because nu = beta requires xi = (1 - epsilon + sqrt(4 kappa + (1 - epsilon)^2))/(2 epsilon) &gt; sqrt(kappa).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r609-primary-pdf">Quasi-hyperbolic momentum and Adam for deep learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.5, Table 1, p. 3-5; Appendix C.1-C.5 &amp; D, Eqs. 10-11, p. 20-26</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fact-f1-tight-per-step-update-bound-for-qhadam-and-adam</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fact F.1 (Appendix F, Eqs. 12-19, p. 28-30) proves that for 0 &lt; beta_1 &lt; sqrt(beta_2) &lt; 1 (with epsilon = 0 and without bias correction), QHAdam&#39;s per-coordinate update magnitude is tightly bounded above by ||g_tilde_{t+1} / sqrt(s_tilde_{t+1})||_infty &lt;= sqrt((1 - nu_1 beta_1)^2 / (1 - nu_2 beta_2) + [nu_1 beta_1(1 - beta_1)]^2 [1 - (beta_1^2 / beta_2)^t] / (nu_2(1 - beta_2)(beta_2 - beta_1^2))), attained by the worst-case gradient sequence x_t = (1 - nu_1 beta_1)/(1 - nu_2 beta_2) and x_{t-i} = (nu_1(1 - beta_1)beta_1^i)/(nu_2(1 - beta_2)beta_2^i) (Eq. 17); in the limit t -&gt; infty for vanilla Adam (nu_1 = nu_2 = 1), this yields (1 - beta_1)sqrt(beta_2 / ((1 - beta_2)(beta_2 - beta_1^2))) approx 7.27 alpha at beta_1 = 0.9, beta_2 = 0.999, disproving Kingma &amp; Ba (2015)&#39;s claimed bound alpha * max{1, (1 - beta_1)/sqrt(1 - beta_2)} approx 3.16 alpha and showing that setting nu_2 &lt; 1 in QHAdam tightens the maximum per-step update to prevent gradient-spike explosions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r609-primary-pdf">Quasi-hyperbolic momentum and Adam for deep learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5, p. 5-6; Appendix F.1-F.3, Fact F.1 &amp; Eqs. 12-19, Figure 3, p. 28-30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#empirical-stability-and-performance-across-vision-nlp-rl-and-nmt</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across parameter sweeps and large-scale case studies (Section 6, Tables 2-3 &amp; Figures 1-2, p. 6-8; Appendix H, Table 4, p. 32-33), QHM with default nu = 0.7, beta = 0.999 outperforms optimal NAG on EMNIST, CIFAR-10 (PreActResNet18), and ImageNet (ResNet50/ResNet152: 0.2128 vs. 0.2137 top-1 error), improves WikiText-103 FConvLM validation perplexity from 34.92 to 34.45 (at nu = 0.98, beta = 0.998), and outperforms AggMo-Best on EMNIST autoencoders (test MSE 2.0851 vs. 2.2827), while QHAdam improves TD3 MuJoCo continuous control returns and eliminates 4/10 seed explosions on WMT16 EN-DE Transformer translation to reach 29.45 BLEU (vs. 29.17 for Adam).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r609-primary-pdf">Quasi-hyperbolic momentum and Adam for deep learning</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1-6.2, Tables 2-3 &amp; Figures 1-2, p. 6-8; Appendix H, Table 4, p. 32-33</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r609-arxiv-abs">Quasi-hyperbolic momentum and Adam for deep learning (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because QHM normalizes (dampens) its momentum buffer by (1 - beta), converting from unnormalized momentum or NAG with learning rate alpha_NAG and discount factor beta requires rescaling the learning rate by (1 - beta)^{-1} (e.g., 10x larger when replacing beta = 0.9) (Section 2, Section 7.1, p. 2, 9).</li>
+      <li>For any immediate discount factor nu &lt; 1, the asymptotic covariance scaling factor rho of the QHWMA gradient estimator is lower-bounded by (1 - nu)^2 regardless of how close beta is set to 1 (Appendix A.7, p. 17).</li>
+      <li>Formal nonconvex or general stochastic convergence rate proofs for QHAdam are not established in the paper and are left as future work (Section 5, Section 7.2, p. 6, 9).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            QHM and QHAdam are general-purpose optimizers for deep neural networks across convolutional image classification, gated convolutional language modeling, Transformer neural machine translation, and actor-critic reinforcement learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r609-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r609-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1810.06801.pdf" target="_blank" rel="noopener">Quasi-hyperbolic momentum and Adam for deep learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jerry Ma, Denis Yarats
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/MaY19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2b64e7a84ba3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r609-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r609-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1810.06801" target="_blank" rel="noopener">Quasi-hyperbolic momentum and Adam for deep learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jerry Ma, Denis Yarats
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1810.06801</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d9165936177b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r609-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r609-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/MaY19" target="_blank" rel="noopener">Quasi-hyperbolic momentum and Adam for deep learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jerry Ma, Denis Yarats
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/MaY19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b89b16e90780…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AQhmAndQhAdamQuasiHyperbolicMomentumAndAdaptiveOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Quasi-Hyperbolic Momentum (QHM) and Quasi-Hyperbolic Adam (QHAdam) Optimization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:QhmAndQhAdamQuasiHyperbolicMomentumAndAdaptiveOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Quasi-Hyperbolic...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:32:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:32:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/QhmAndQhAdamQuasiHyperbolicMomentumAndAdaptiveOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/QhmAndQhAdamQuasiHyperbolicMomentumAndAdaptiveOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Quasi-Hyperbolic%20Momentum%20%28QHM%29%20and%20Quasi-Hyperbolic%20Adam%20%28QHAdam%29%20Optimization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AQhmAndQhAdamQuasiHyperbolicMomentumAndAdaptiveOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

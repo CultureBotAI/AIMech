@@ -1,0 +1,116 @@
+id: AIMech:AdaBERTTaskAdaptiveBERTCompressionWithDifferentiableNAS
+name: AdaBERT (Task-Adaptive BERT Compression with Differentiable Neural Architecture Search)
+concept_kind: algorithm
+review_status: DRAFT
+definition: AdaBERT is a task-adaptive BERT compression framework that uses differentiable Neural Architecture Search (NAS) to jointly optimize a macro stacking layer count K in {1, ..., K_max} and a shared directed acyclic graph cell alpha_c composed of lightweight 1D standard/dilated convolutions, pooling, skip, and zero operations under the composite objective L = (1 - gamma)*L_CE + gamma*L_KD + beta*L_E, where L_KD is an Attentive Hierarchical Transfer loss distilled from frozen layer-wise teacher probe classifiers P_j^T on BERT_t and L_E is an efficiency-aware regularizer penalizing normalized parameter size and FLOPs via Gumbel-Softmax Straight-Through Estimator relaxation.
+identity_notes: Distinct from task-independent BERT distillation methods such as DistilBERT (AIMech:DistilBERTKnowledgeDistillationDuringPretraining), BERT-PKD (AIMech:BERTPKDPatientKnowledgeDistillationForBERTModelCompression), and TinyBERT (AIMech:TinyBERTTransformerDistillationForNaturalLanguageUnderstanding), which compress BERT into a fixed-structure smaller Transformer for all tasks, and distinct from HAT (AIMech:HATHardwareAwareTransformersForEfficientNLP), which performs evolutionary search over an encoder-decoder SuperTransformer rather than Gumbel-Softmax differentiable search over CNN cells guided by hierarchical teacher probe classifiers.
+aliases:
+- AdaBERT
+- Task-Adaptive BERT Compression with Differentiable Neural Architecture Search
+- AdaBERT Attentive Hierarchical Probe Distillation NAS
+definition_evidence:
+- source_id: r816-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r816-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r816-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: adabert-task-useful-probe-and-attentive-hierarchical-transfer
+  kind: mechanism
+  statement: AdaBERT trains J frozen-backbone Softmax probe classifiers P_j^T on each hidden layer j of the fine-tuned teacher BERT_t, aligns student layer i with teacher layer j = ceil(i * J / K) via probe KL divergence L_{KD}^{i,m} = -P_j^T(C_{j,m}^T) * log(P_i^S(C_{i,m}^S)/T) (Eq. 3), and aggregates across layers with instance-specific Attentive Hierarchical Transfer weights w_{i,m} = exp[y_m * log P_j^T(C_{j,m}^S)] / sum_{i'} exp[y_m * log P_{j'}^T(C_{j',m}^S)] (Eq. 4).
+  evidence:
+  - source_id: r816-primary-pdf
+    locator: Section 2.3 (Task-oriented Knowledge Distillation), Equations 3-4, pp. 2-3
+    relation: supports
+  - source_id: r816-primary-pdf
+    locator: proportional_layer_index and attentive_hierarchical_weights
+    relation: supports
+- claim_id: adabert-efficiency-aware-loss-and-gumbel-softmax-ste-search
+  kind: mechanism
+  statement: AdaBERT regularizes architecture search with the Efficiency-Aware Loss L_E = (K / K_max) sum_{o_{i,j} in alpha_c} [SIZE(o_{i,j}) + FLOPs(o_{i,j})] (Eq. 5) and relaxes categorical sampling of the macro layer count K and cell operations o_{i,j} using Gumbel-Softmax continuous proxies y^K and y^o (Eq. 6) with Straight-Through Estimator one-hot argmax in the forward pass.
+  evidence:
+  - source_id: r816-primary-pdf
+    locator: Section 2.4-2.5, Equations 5-6, pp. 3-4
+    relation: supports
+  - source_id: r816-primary-pdf
+    locator: efficiency_aware_loss and gumbel_softmax_sample
+    relation: supports
+- claim_id: adabert-glue-speedup-and-cross-task-specialization
+  kind: application
+  statement: Across six GLUE benchmark tasks (SST-2, MRPC, QQP, MNLI, QNLI, RTE), AdaBERT discovers task-specialized architectures (from K=3 layers and 6.4M parameters on SST-2 to K=7 layers and 9.5M parameters on MNLI) that are 12.7x to 29.3x faster in inference and 11.5x to 17.0x smaller than BERT-base while maintaining comparable accuracy.
+  evidence:
+  - source_id: r816-primary-pdf
+    locator: Section 3.2 (Overall Results), Tables 1-3 and Figure 3, pp. 4-5
+    relation: supports
+- claim_id: adabert-cross-task-transfer-degradation-and-per-task-search-limitation
+  kind: limitation
+  statement: Because AdaBERT prunes task-redundant capacity into a task-specialized CNN cell and depth K, applying an architecture searched for a simple single-sentence task (such as SST-2) to a complex sentence-pair entailment task (such as MNLI or RTE) causes severe accuracy degradation (e.g., 64.0% vs 81.3% on MNLI), requiring a separate 80-epoch NAS run per downstream task.
+  evidence:
+  - source_id: r816-primary-pdf
+    locator: Section 3.2 (Adaptiveness Study / Cross-Task Validation), Table 3, p. 5
+    relation: supports
+evidence_sources:
+- source_id: r816-primary-pdf
+  title: 'AdaBERT: Task-Adaptive BERT Compression with Differentiable Neural Architecture Search'
+  authors: &id001
+  - Daoyuan Chen
+  - Yaliang Li
+  - Minghui Qiu
+  - Zhen Wang
+  - Bofang Li
+  - Bolin Ding
+  - Hongbo Deng
+  - Jun Huang
+  - Wei Lin
+  - Jingren Zhou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2001.04246
+  persistent_id: https://arxiv.org/bibtex/2001.04246
+  version: IJCAI 2020 (2020) (592076 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:59:00Z'
+  sha256: fc9edd209ec26321052c1fa0f4126edc6fd4f9864d01f3e5a6e0d5274909a973
+- source_id: r816-arxiv-abs
+  title: 'AdaBERT: Task-Adaptive BERT Compression with Differentiable Neural Architecture Search (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2001.04246
+  persistent_id: https://arxiv.org/abs/2001.04246
+  version: arXiv abstract page (7641 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:59:00Z'
+  sha256: e4db2cbc738a17ca39bf9bd86bd9d925cc9e148f91e51e0518aec771c63c73d6
+- source_id: r816-metadata-cr
+  title: 'AdaBERT: Task-Adaptive BERT Compression with Differentiable Neural Architecture Search (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2001.04246
+  persistent_id: https://arxiv.org/bibtex/2001.04246
+  version: Crossref API work record (518 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:59:00Z'
+  sha256: 6e7aec64b3d5204b6a7fd2a66bcedb444cd614eb7899ff0e7d0163ca925a6da8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Distillation
+  relation: related_match
+  rationale: AdaBERT guides differentiable architecture search using hierarchical layer-probe knowledge distillation from a fine-tuned BERT teacher.
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: AdaBERT searches and trains task-adaptive neural network architectures for natural language understanding.
+limitations:
+- Searched architectures are highly task-specific and degrade substantially when transferred across dissimilar NLP task types (e.g., single-sentence sentiment to sentence-pair textual entailment).
+- Requires fine-tuning a teacher BERT, training layer-wise probe classifiers, and running 80 epochs of differentiable architecture search for each target downstream task.
+curation:
+  created_at: '2026-10-19T14:59:00Z'
+  updated_at: '2026-10-19T14:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

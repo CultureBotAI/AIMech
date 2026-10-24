@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linear Coupling of Gradient and Mirror Descent for First-Order Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Linear Coupling of Gradient and Mirror Descent for First-Order Optimization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Linear Coupling of Gradient and Mirror Descent for First-Order Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Allen-Zhu and Orecchia Linear Coupling Framework, Primal-Dual Linear Coupling Accelerated Gradient Method (AGM), Gradient Descent and Mirror Descent Linear Coupling
+    </div>
+
+  <div class="detail-desc">
+    Linear Coupling of Gradient and Mirror Descent for First-Order Optimization is a primal-dual first-order algorithmic design and analysis framework introduced by Allen-Zhu and Orecchia (2014, 2017) that unifies and reconstructs Nesterov&#39;s accelerated gradient method (and extends acceleration to arbitrary norms, non-Euclidean Bregman divergences, positive linear programs, and coordinate/stochastic settings) by linearly coupling a primal gradient descent sequence {y_k} with a dual mirror descent sequence {z_k}. Observing that gradient descent y_{k+1} = Grad(x_{k+1}) = argmin_{y in Q} {(L/2)||y - x_{k+1}||^2 + &lt;grad f(x_{k+1}), y - x_{k+1}&gt;} achieves primal objective decrease Prog(x_{k+1}) (&gt;= ||grad f(x_{k+1})||_*^2 / (2L) in R^n) proportional to the squared dual gradient norm while mirror descent z_{k+1} = Mirr_{z_k}(alpha_{k+1} grad f(x_{k+1})) = argmin_{z in Q} {V_{z_k}(z) + &lt;alpha_{k+1} grad f(x_{k+1}), z - z_k&gt;} (with 1-strongly convex distance generating function w and Bregman divergence V_x(y)) incurs a dual regret error (alpha_{k+1}^2 / 2)||grad f(x_{k+1})||_*^2 proportional to the same quantity (Lemma 3.1, Lemma 4.2), Algorithm 1 (AGM) queries the gradient at the convex combination x_{k+1} = tau_k z_k + (1 - tau_k) y_k with alpha_{k+1} = (k + 2) / (2L) and tau_k = 1 / (alpha_{k+1} L) = 2 / (k + 2). This exact coupling ratio cancels the mirror descent regret error against the primal gradient descent progress to yield the telescoping inequality (alpha_{k+1}^2 L) f(y_{k+1}) - (alpha_{k+1}^2 L - alpha_{k+1}) f(y_k) + (V_{z_{k+1}}(u) - V_{z_k}(u)) &lt;= alpha_{k+1} f(u) (Lemma 4.3), proving f(y_T) - f(x^*) &lt;= 4 Theta L / (T + 1)^2 for any L-smooth convex objective over Q with V_{x_0}(x^*) &lt;= Theta (Theorem 4.1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Katyusha Direct Negative-Momentum Acceleration for Stochastic Variance-Reduced Optimization (`AIMech:KatyushaDirectNegativeNegativeMomentumAccelerationForStochasticVarianceReducedOptimization` / `AIMech:KatyushaDirectNegativeMomentumAccelerationForStochasticVarianceReducedOptimization`), which introduces a three-point coupling with a SVRG reference snapshot tilde{x} (Katyusha momentum) specifically to stabilize variance-reduced stochastic gradients, and from Catalyst Universal Acceleration for First-Order Optimization (`AIMech:CatalystUniversalAccelerationForFirstOrderOptimization`), which is an outer-loop inexact proximal-point wrapper rather than a direct single-loop linear coupling of gradient descent and Bregman mirror descent steps.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r351-claim-complementary-primal-gradient-and-dual-mirror-regret</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any convex function f that is L-smooth with respect to a general norm ||.|| on Q and any 1-strongly convex distance generating function w with Bregman divergence V_x(y), the gradient step y_{k+1} = Grad(x_{k+1}) guarantees primal descent f(x_{k+1}) - f(y_{k+1}) &gt;= Prog(x_{k+1}) (= ||grad f(x_{k+1})||_*^2 / (2L) when Q = R^n, Equation 2.1), while the mirror step z_{k+1} = Mirr_{z_k}(alpha_{k+1} grad f(x_{k+1})) guarantees under coupling ratio tau_k = 1 / (alpha_{k+1} L) that alpha_{k+1} &lt;grad f(x_{k+1}), z_k - u&gt; &lt;= alpha_{k+1}^2 L (f(x_{k+1}) - f(y_{k+1})) + V_{z_k}(u) - V_{z_{k+1}}(u) for all u in Q (Lemma 3.1 and Lemma 4.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r351-primary-pdf">Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2, Equations 2.1-2.2, pp. 5-7; Section 3, Lemma 3.1, p. 8; Section 4, Lemma 4.2 and Appendix C, pp. 10, 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r351-claim-linear-coupling-telescoping-and-accelerated-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choosing x_{k+1} = tau_k z_k + (1 - tau_k) y_k with tau_k = 1 / (alpha_{k+1} L) = 2 / (k + 2) and alpha_{k+1} = (k + 2) / (2L) satisfies tau_k (x_{k+1} - z_k) = (1 - tau_k)(y_k - x_{k+1}) and yields the exact per-iteration coupling inequality (alpha_{k+1}^2 L) f(y_{k+1}) - (alpha_{k+1}^2 L - alpha_{k+1}) f(y_k) + (V_{z_{k+1}}(u) - V_{z_k}(u)) &lt;= alpha_{k+1} f(u) (Lemma 4.3), which telescopes over k = 0, ..., T - 1 to prove f(y_T) - f(x^*) &lt;= 4 Theta L / (T + 1)^2 for any arbitrary norm ||.|| and constrained convex set Q (Theorem 4.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r351-primary-pdf">Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Theorem 4.1, Algorithm 1, and Lemma 4.3, pp. 9-10; Appendix C, pp. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r351-claim-strong-convexity-restarts-and-non-euclidean-simplex-coupling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When f is both sigma-strongly convex and L-smooth with respect to ||.||_2, recursively restarting AGM(f, w, x_0, T_0) every T_0 = sqrt(8 L / sigma) iterations halves ||y_T - x^*||_2^2 each epoch and achieves f(x) - f(x^*) &lt;= varepsilon in O(sqrt(L / sigma) log(||x_0 - x^*||_2^2 sigma / varepsilon)) iterations (Appendix D, Corollary D.1), while on the unit simplex Delta_n under the non-Euclidean l_1 norm, Linear Coupling combines l_1 quadratic steepest descent with multiplicative-weights / entropy mirror descent to accelerate saddle-point and packing/covering LP solvers (Appendix A.1-A.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r351-primary-pdf">Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 5, pp. 11-12; Appendix A.1-A.2, pp. 13-14; Appendix D, Corollary D.1, p. 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Standard two-point Linear Coupling requires knowledge of the smoothness constant L and a distance generating function w that is 1-strongly convex with respect to the chosen norm ||.||, and loses direct acceleration under high-variance stochastic gradients unless extended to three-point variance-reduced coupling (Section 5, Extension 2).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Accelerates smooth convex optimization and empirical risk minimization problems including linear and generalized linear regression.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Directly applies to smooth log-sum-exp and logistic losses under both Euclidean and non-Euclidean norms.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r351-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r351-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1407.1537.pdf" target="_blank" rel="noopener">Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeyuan Allen-Zhu, Lorenzo Orecchia
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITCS.2017.3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:86454a12e126…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r351-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r351-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1407.1537" target="_blank" rel="noopener">Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeyuan Allen-Zhu, Lorenzo Orecchia
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1407.1537</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2b9e522fe81e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r351-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r351-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITCS.2017.3" target="_blank" rel="noopener">Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeyuan Allen-Zhu, Lorenzo Orecchia
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITCS.2017.3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cb08f6424cac…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ALinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Linear Coupling of Gradient and Mirror Descent for First-Order Optimization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:LinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Linear Coupling of...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:LinearRegression (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:14:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:14:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Linear%20Coupling%20of%20Gradient%20and%20Mirror%20Descent%20for%20First-Order%20Optimization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ALinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

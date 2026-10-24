@@ -1,0 +1,350 @@
+# Scientific author self-review of Vector-based Random Matrix Adaptation (VeRA)
+
+- Review: 20261019T121630Z-vera-vector-based-random-matrix-adaptation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:16:00Z
+- Finished UTC: 2026-10-19T12:16:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Vector-based Random Matrix Adaptation (VeRA) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:VeraVectorBasedRandomMatrixAdaptation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 72c1220701a7211db3a5a05406f915904f0eb728.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:VeraVectorBasedRandomMatrixAdaptation | data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml | maintained | Vector-based Random Matrix Adaptation (VeRA) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:VeraVectorBasedRandomMatrixAdaptation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:VeraVectorBasedRandomMatrixAdaptation | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:VeraVectorBasedRandomMatrixAdaptation | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:VeraVectorBasedRandomMatrixAdaptation | Validated history sidecar files. |
+| python3 vera-vector-based-random-matrix-adaptation-boundaries.py | passed | True | AIMech:VeraVectorBasedRandomMatrixAdaptation | [PASS] Round 653 VeRA boundary and mathematical verification succeeded. |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:VeraVectorBasedRandomMatrixAdaptation.
+
+Vector-based Random Matrix Adaptation (VeRA) is a distinct concept.
+
+Distinct from standard Low-Rank Adaptation (LoRA, Hu et al., 2022), which trains and stores separate full matrices B and A per layer (costing 2 L_{tuned} d_{model} r parameters) rather than freezing a single shared random pair (B, A) and training only scaling vectors (b, d). Also distinct from (IA)^3 (Liu et al., 2022) and RED (Wu et al., 2024), which apply learned element-wise scaling directly to activation vectors at every forward pass without frozen random basis projections B and A.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:VeraVectorBasedRandomMatrixAdaptation.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:VeraVectorBasedRandomMatrixAdaptation.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in vera-vector-based-random-matrix-adaptation-boundaries.py passed with exit code 0: [PASS] Round 653 VeRA boundary and mathematical verification succeeded.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:VeraVectorBasedRandomMatrixAdaptation.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T121600Z-vera-vector-based-random-matrix-adaptation.json | supports | No normalized identity match for AIMech:VeraVectorBasedRandomMatrixAdaptation across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/vera-vector-based-random-matrix-adaptation-boundaries.py | supports | All constructed boundary assertions in vera-vector-based-random-matrix-adaptation-boundaries.py passed with exit code 0: [PASS] Round 653 VeRA boundary and mathematical verification succeeded. |
+| r653-primary-pdf | https://arxiv.org/pdf/2310.11454.pdf; Full-text PDF | supports | Full-text PDF (The Twelfth International Conference on Learning Representations (ICLR 2024) (2024)) read and verified. |
+| r653-arxiv-abs | https://arxiv.org/abs/2310.11454; arXiv abstract | supports | arXiv abstract read and verified. |
+| r653-metadata-cr | https://dblp.org/rec/conf/iclr/KopiczkoBA24.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:VeraVectorBasedRandomMatrixAdaptation in Round 653.
+- All pages of The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T121630Z-vera-vector-based-random-matrix-adaptation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Vector-based Random Matrix Adaptation (VeRA)
+started_at: '2026-10-19T12:16:00Z'
+finished_at: '2026-10-19T12:16:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:VeraVectorBasedRandomMatrixAdaptation
+    against existing AIMech and AIO records and verified all claims against The Twelfth
+    International Conference on Learning Representations (ICLR 2024) (2024) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Vector-based Random Matrix Adaptation (VeRA) as a distinct DRAFT algorithm.
+  All four claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: 72c1220701a7211db3a5a05406f915904f0eb728
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml
+    sha256: 4e66745256b4810c7cf2caa70aced8bbfd092c499eeed985668cd43105e91ece
+    role: target
+  - path: research/discovery/20261019T121600Z-vera-vector-based-random-matrix-adaptation.json
+    sha256: e02fc172a1c7eb8bc0c059cb1f983ff5b56dea5596f8492cb242fb039685202e
+    role: context
+  - path: research/discovery/vera-vector-based-random-matrix-adaptation-boundaries.py
+    sha256: 71aa452999efcc8af4b749367435d4a28cd998354e9be8d4962c1baaee702c0e
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:VeraVectorBasedRandomMatrixAdaptation
+  path: data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml
+  label: Vector-based Random Matrix Adaptation (VeRA)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:VeraVectorBasedRandomMatrixAdaptation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 vera-vector-based-random-matrix-adaptation-boundaries.py
+  command: python3 research/discovery/vera-vector-based-random-matrix-adaptation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 653 VeRA boundary and mathematical verification succeeded.'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T121600Z-vera-vector-based-random-matrix-adaptation.json
+  accessed_at: '2026-10-19T12:16:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:VeraVectorBasedRandomMatrixAdaptation
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:16:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/vera-vector-based-random-matrix-adaptation-boundaries.py
+  accessed_at: '2026-10-19T12:16:00Z'
+  snapshot_sha256: 71aa452999efcc8af4b749367435d4a28cd998354e9be8d4962c1baaee702c0e
+  support: supports
+  summary: 'All constructed boundary assertions in vera-vector-based-random-matrix-adaptation-boundaries.py
+    passed with exit code 0: [PASS] Round 653 VeRA boundary and mathematical verification
+    succeeded.'
+- evidence_id: r653-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2310.11454.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:16:00Z'
+  snapshot_sha256: b91f11fc716e3dae85ed7954e11a7e3c93cce93cbd4c7bde243735c44426c7ab
+  support: supports
+  summary: Full-text PDF (The Twelfth International Conference on Learning Representations
+    (ICLR 2024) (2024)) read and verified.
+- evidence_id: r653-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2310.11454
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:16:00Z'
+  snapshot_sha256: 7f51cc7b35e888b76f362e637ffc3608a4d9333ce5da373dbf17986cdb245420
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r653-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/iclr/KopiczkoBA24.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:16:00Z'
+  snapshot_sha256: 5389188fb7c9e178ee17e695c9c6469b42a62b2f3274e8b41cdfbdbecf16a830
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  evidence_ids:
+  - identity
+  - r653-primary-pdf
+  - r653-arxiv-abs
+  - r653-metadata-cr
+  summary: Vector-based Random Matrix Adaptation (VeRA) is a distinct concept.
+  details: Distinct from standard Low-Rank Adaptation (LoRA, Hu et al., 2022), which
+    trains and stores separate full matrices B and A per layer (costing 2 L_{tuned}
+    d_{model} r parameters) rather than freezing a single shared random pair (B, A)
+    and training only scaling vectors (b, d). Also distinct from (IA)^3 (Liu et al.,
+    2022) and RED (Wu et al., 2024), which apply learned element-wise scaling directly
+    to activation vectors at every forward pass without frozen random basis projections
+    B and A.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  evidence_ids:
+  - mapping
+  - r653-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  evidence_ids:
+  - r653-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in vera-vector-based-random-matrix-adaptation-boundaries.py
+    passed with exit code 0: [PASS] Round 653 VeRA boundary and mathematical verification
+    succeeded.'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:VeraVectorBasedRandomMatrixAdaptation
+  evidence_ids:
+  - identity
+  - mapping
+  - r653-primary-pdf
+  - r653-arxiv-abs
+  - r653-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:VeraVectorBasedRandomMatrixAdaptation in Round 653.
+- All pages of The Twelfth International Conference on Learning Representations (ICLR
+  2024) (2024) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

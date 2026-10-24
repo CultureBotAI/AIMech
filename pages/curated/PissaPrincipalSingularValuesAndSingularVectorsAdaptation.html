@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Principal Singular Values and Singular Vectors Adaptation (PiSSA) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Principal Singular Values and Singular Vectors Adaptation (PiSSA)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Principal Singular Values and Singular Vectors Adaptation (PiSSA)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PiSSA, Principal Singular Values and Singular Vectors Adaptation, QPiSSA, Quantized Principal Singular Values and Singular Vectors Adaptation
+    </div>
+
+  <div class="detail-desc">
+    Principal Singular Values and Singular Vectors Adaptation (PiSSA) is a parameter-efficient fine-tuning (PEFT) method that shares the exact architecture of Low-Rank Adaptation (LoRA), Y = X W = X (W^{res} + A B), but initializes the trainable low-rank matrices A in R^{m x r} and B in R^{r x n} using the top-r principal singular values and singular vectors of the pretrained weight matrix W = U diag(S) V^T: A = U_{:,:r} diag(S_{:r}^{1/2}) and B = diag(S_{:r}^{1/2}) V_{:,:r}^T, while freezing the residual matrix W^{res} = W - A B = U_{:,r:} diag(S_{r:}) V_{:,r:}^T. Because A and B start aligned with the dominant singular directions of W rather than at zero, PiSSA preserves the exact initial forward pass W = W^{res} + A B while yielding non-zero, high-magnitude initial gradients along the principal subspace and substantially reducing base-model quantization error when quantizing only W^{res} (QPiSSA).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard LoRA (Hu et al., 2022), which freezes the entire pretrained matrix W and initializes A with Gaussian noise and B = 0, resulting in a zero initial gradient for A (partial L / partial A = X^T (partial L / partial Y) B^T = 0) and slow early-stage optimization. Also distinct from LoftQ (Li et al., 2024), which iteratively alternates quantization and SVD to approximate W with Q + A B where A B corrects quantization residuals rather than containing the principal singular components of W.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r652-claim-principal-svd-partition-and-exact-init</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given the SVD W = U diag(S) V^T with singular values sorted in descending order, PiSSA sets A = U_{:,:r} diag(S_{:r}^{1/2}), B = diag(S_{:r}^{1/2}) V_{:,:r}^T, and frozen W^{res} = U_{:,r:} diag(S_{r:}) V_{:,r:}^T, guaranteeing exact initial model equivalence W^{res} + A B = W while ensuring both initial factor gradients partial L / partial A = X^T (partial L / partial Y) B^T and partial L / partial B = A^T X^T (partial L / partial Y) are immediately non-zero and aligned with the top-r singular directions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r652-primary-pdf">PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Equations (3)-(6) and Figure 1, p. 2-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r652-claim-qpissa-quantization-error-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In QPiSSA, removing the top-r principal singular components from W before quantizing the residual matrix W^{res} to 4-bit NormalFloat (NF4) strips away the largest singular values and narrows the outlier distribution of the matrix being quantized, while keeping the dominant principal components A and B in full precision—substantially reducing quantization error ||W - (nf4(W^{res}) + A B)||_* compared to QLoRA&#39;s ||W - nf4(W)||_*.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r652-primary-pdf">PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (QPiSSA: Quantizing the Residual Matrix), Equation (7), Figure 2 &amp; Table 2, p. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r652-claim-fast-svd-initialization-and-llm-benchmarks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By employing randomized Fast SVD (Halko et al., 2011) with n_iter power iterations, PiSSA reduces initialization overhead to a few seconds and significantly outperforms LoRA, QLoRA, and LoftQ on mathematical reasoning (GSM8K, MATH), code generation (HumanEval, MBPP), and GLUE tasks across LLaMA-2-7B/13B/70B, Mistral-7B, Gemma-7B, and DeBERTa-v3-large.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r652-primary-pdf">PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Fast SVD), Table 3, and Section 4.1-4.4, Tables 4-7, p. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r652-claim-per-adapter-modified-base-matrix-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because PiSSA subtracts A_{init} B_{init} from W to form W^{res}, switching among multiple task-specific PiSSA adapters on a shared frozen base model requires either storing A_{init} B_{init} alongside each adapter (updating W^{res} + A B = W + (A B - A_{init} B_{init})) or folding the adapter back into W, and computing exact SVD on massive weight matrices without Fast SVD incurs O(min(m, n) * m * n) initialization time.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r652-primary-pdf">PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Fast SVD initialization cost), p. 6; Appendix A (Switching adapters / PEFT integration), p. 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an upfront SVD or randomized Fast SVD decomposition of every target weight matrix prior to training.</li>
+      <li>Because the frozen base matrix is modified to W^{res} = W - A_{init} B_{init}, hot-swapping multiple task adapters on an unmodified base weight W requires storing or subtracting the initial low-rank product A_{init} B_{init}.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PiSSA adapts linear layers of deep neural networks and large language models by fine-tuning their principal singular subspace.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PiSSA uses truncated Singular Value Decomposition (SVD) or randomized Fast SVD to partition weight matrices into a low-rank principal subspace and an orthogonal residual subspace.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r652-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r652-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2404.02948.pdf" target="_blank" rel="noopener">PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fanxu Meng, Zhaohui Wang, Muhan Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/MengWZ24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:472e7951326f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r652-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r652-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2404.02948" target="_blank" rel="noopener">PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fanxu Meng, Zhaohui Wang, Muhan Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2404.02948</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0d4c2185beb4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r652-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r652-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/MengWZ24.html" target="_blank" rel="noopener">PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fanxu Meng, Zhaohui Wang, Muhan Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/MengWZ24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:318e83188516…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3APissaPrincipalSingularValuesAndSingularVectorsAdaptation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Principal Singular Values and Singular Vectors Adaptation (PiSSA)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Principal Singular...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PissaPrincipalSingularValuesAndSingularVectorsAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PissaPrincipalSingularValuesAndSingularVectorsAdaptation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Principal%20Singular%20Values%20and%20Singular%20Vectors%20Adaptation%20%28PiSSA%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3APissaPrincipalSingularValuesAndSingularVectorsAdaptation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

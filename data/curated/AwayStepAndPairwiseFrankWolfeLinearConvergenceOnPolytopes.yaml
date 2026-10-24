@@ -1,0 +1,103 @@
+id: AIMech:AwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes
+name: Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes
+concept_kind: algorithm
+review_status: DRAFT
+definition: Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes is a projection-free conditional gradient framework and affine-invariant geometric convergence theory introduced by Lacoste-Julien and Jaggi (2015) for minimizing a mu-strongly convex, L-smooth function f over a compact polytope M = conv(A) subseteq R^d. Whereas classical Frank-Wolfe (conditional gradient) zig-zags when the constrained optimum x^* lies on a boundary face of M (suffering an unavoidable Omega(1 / t^{1+epsilon}) sublinear rate), Away-Steps Frank-Wolfe (AFW, Algorithm 1) and Pairwise Frank-Wolfe (PFW, Algorithm 2) maintain an explicit active atom set S^{(t)} subseteq A with strict convex weights alpha_v^{(t)} > 0 for x^{(t)} = sum_{v in S^{(t)}} alpha_v^{(t)} v and query both the standard FW atom s_t = argmin_{v in A} <grad f(x^{(t)}), v> and the worst active away atom v_t = argmax_{v in S^{(t)}} <grad f(x^{(t)}), v>. AFW chooses the larger of the FW gap <grad f(x^{(t)}), x^{(t)} - s_t> and the away gap <grad f(x^{(t)}), v_t - x^{(t)}> (with maximum step gamma_max = alpha_{v_t}^{(t)} / (1 - alpha_{v_t}^{(t)})), while PFW moves weight directly along d_t^{PFW} = s_t - v_t (with gamma_max = alpha_{v_t}^{(t)}). By establishing the Geometric Strong Convexity bound h_t <= <grad f(x^{(t)}), v_t - s_t>^2 / (2 mu_f^G) in terms of the polytope's Pyramidal Width delta = PWidth(A) > 0 (Theorem 3, Lemma 4, and Theorem 6) and bounding the number of non-halving 'drop steps' (which remove an atom from S^{(t)}) by at most half the total steps, Theorem 1 and Theorem 8 prove that both AFW and PFW achieve global linear convergence h_t = f(x^{(t)}) - f(x^*) <= h_0 (1 - rho)^t regardless of whether x^* lies in the interior or on a low-dimensional boundary face of M.
+identity_notes: Distinct from standard Frank-Wolfe / Conditional Gradient, which moves only toward vertices s_t in A and stagnates at O(1/t) when the optimum lies on a facet, and from projected gradient methods such as Catalyst or Soft-Impute, which require Euclidean or Bregman projections onto M at every step rather than linear minimization oracle (LMO) calls. Specifically captures the active-set Away-Steps (Algorithm 1) and Pairwise (Algorithm 2) conditional gradient updates, the drop-step amortisation bound, the Pyramidal Width PWidth(A) and Geometric Strong Convexity mu_f^G = mu * delta^2 (Theorem 6), and the exact simplex/cube pyramidal widths (Section 3.1 and Lemma 4).
+aliases:
+- Lacoste-Julien and Jaggi Global Linear Convergence of Frank-Wolfe Variants
+- Away-Steps Frank-Wolfe (AFW) and Pairwise Frank-Wolfe (PFW)
+- Pyramidal Width Affine-Invariant Polytope Conditioning for Conditional Gradient
+definition_evidence:
+- source_id: r342-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r342-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r342-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any finite atom set A subseteq R^d, the Pyramidal Width PWidth(A) > 0 is strictly positive and lower-bounded by the minimal width over all subsets of atoms (Theorem 3); for the unit d-dimensional probability simplex conv(e_1, ..., e_d), PWidth(A) = 2 / sqrt(d) if d is even and 2 / sqrt(d - 1/d) if d is odd (Section 3.1), while for the unit hypercube [0, 1]^d, PWidth({0, 1}^d) = 1 / sqrt(d) and eccentricity(M) = d (Lemma 4); furthermore, any mu-strongly convex function f satisfies the Geometric Strong Convexity inequality mu_f^A >= mu * (PWidth(A))^2 (Theorem 6).
+  evidence:
+  - source_id: r342-primary-pdf
+    locator: Section 3-3.1, Equations 7-13, Theorem 3, Lemma 4, and Theorem 6, pp. 4-6; Appendix B.1, Proof of Lemma 4, p. 11
+    relation: supports
+  - source_id: r342-arxiv-abs
+    locator: 'Abstract: Global linear convergence rate characterized via the affine-invariant curvature and pyramidal width of the polytope'
+    relation: supports
+- claim_id: claim-02
+  kind: mechanism
+  statement: At every non-drop step of Away-Steps Frank-Wolfe (Algorithm 1), the objective suboptimality h_t = f(x^{(t)}) - f(x^*) decreases geometrically by at least h_{t+1} <= (1 - rho_f^{AFW}) h_t where rho_f^{AFW} = mu_f^A / (4 C_f^A) <= 1/2 (or h_{t+1} <= h_t / 2 when gamma_t = gamma_max > gamma_t^B), and since each drop step removes an active atom from S^{(t)} while at most one atom can be added per step, the number of good steps after t iterations is at least k(t) >= t / 2, yielding the global linear convergence bound h_t <= h_0 (1 - rho_f^{AFW})^{max(0, floor((t - |S^{(0)}| + 1)/2))} (Theorem 1 and Theorem 8).
+  evidence:
+  - source_id: r342-primary-pdf
+    locator: Section 2, Theorem 1, p. 4; Appendix D, Theorem 8 and Proof of Linear Convergence (Equations 24-31), pp. 14-16
+    relation: supports
+  - source_id: r342-metadata-cr
+    locator: 'Abstract: Global linear convergence for Away-Steps, Pairwise, and Fully-Corrective Frank-Wolfe variants without strict complementarity'
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Standard Frank-Wolfe without away or pairwise steps zig-zags across active boundary faces whenever x^* lies on the boundary of a polytope M, exhibiting sublinear O(1/t) convergence on strongly convex objectives where Away-Steps and Pairwise Frank-Wolfe converge linearly via drop steps.
+  evidence:
+  - source_id: r342-primary-pdf
+    locator: Section 1, Introduction and Figure 1 (Zig-Zagging of Standard FW vs Away/Pairwise FW), pp. 1-2
+    relation: supports
+evidence_sources:
+- source_id: r342-primary-pdf
+  title: On the Global Linear Convergence of Frank-Wolfe Optimization Variants
+  authors: &id001
+  - Simon Lacoste-Julien
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.05932.pdf
+  persistent_id: https://papers.nips.cc/paper/2015/hash/c058f544c737782deacefa532d9add4c-Abstract.html
+  version: Advances in Neural Information Processing Systems 28 (NeurIPS 2015), pp. 496-504 (2015) (1129004 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:04:00Z'
+  sha256: 5aa82a6944a942379ca06844a293fc4f034f84d7f5790c45bb157e5b8edfeda4
+- source_id: r342-arxiv-abs
+  title: On the Global Linear Convergence of Frank-Wolfe Optimization Variants (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1511.05932
+  persistent_id: https://arxiv.org/abs/1511.05932
+  version: arXiv abstract page (6307 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:04:00Z'
+  sha256: 0246ec326319f7e170a60bbc6becea684c34e37ce474d9c8c104db185564f194
+- source_id: r342-metadata-cr
+  title: On the Global Linear Convergence of Frank-Wolfe Optimization Variants (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2015/hash/c058f544c737782deacefa532d9add4c-Abstract.html
+  persistent_id: https://papers.nips.cc/paper/2015/hash/c058f544c737782deacefa532d9add4c-Abstract.html
+  version: Crossref API work record (9646 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:04:00Z'
+  sha256: 7b4bc4bd3cf95a63ff9577d4bb258bbe74cb2a9356d74b89681c88abad442469
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Solves l_1-ball constrained regression and sparse convex optimization over polytopes with active-set atom pruning.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Achieves global linear convergence on strongly convex quadratic least-squares objectives over polytope domains.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Applies to polytope-constrained strongly convex empirical risk minimization and structural classification.
+limitations:
+- Requires explicitly maintaining the active convex combination weights alpha_v^{(t)} over S^{(t)} subseteq A (unlike memoryless standard Frank-Wolfe), and for pairwise Frank-Wolfe the worst-case bound on consecutive swap/drop steps can depend on the combinatorial vertex count |A|!.
+curation:
+  created_at: '2026-10-19T07:04:00Z'
+  updated_at: '2026-10-19T07:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

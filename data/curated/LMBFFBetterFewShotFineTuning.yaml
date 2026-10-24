@@ -1,0 +1,101 @@
+id: AIMech:LMBFFBetterFewShotFineTuning
+name: LM-BFF Better Few-Shot Fine-Tuning of Language Models
+concept_kind: algorithm
+review_status: DRAFT
+definition: A few-shot fine-tuning framework for moderately sized pretrained masked language models that reformulates classification and bounded-interval regression (via two-pole mixture interpolation y = v_l p(y_l|x_in) + v_u p(y_u|x_in)) as cloze auto-completion p(y|x_in) = p([MASK]=M(y)|T(x_in)), automates prompt construction by pruning and re-ranking conditional label-word assignments M(Y) alongside beam-search span-infilling template generation with a pretrained T5 text-to-text model maximizing sum_{(x_in,y) in D_train} log P_T5(T|T_g(x_in,y)), and dynamically concatenates one demonstration example per class sampled from the top-r% most semantically similar training instances cos(e(x_in), e(x)) under a sentence encoder.
+identity_notes: "Distinct from Pattern-Exploiting Training (PET, Schick & Sch\xFCtze, EACL 2021, AIMech:PatternExploitingTraining), which uses manually crafted patterns and unlabeled data distillation, from AutoPrompt (Shin et al., EMNLP 2020, AIMech:AutoPromptGradientGuidedDiscretePromptSearch), which performs gradient-guided discrete trigger token search on frozen MLMs requiring large training sets, and from frozen GPT-3 In-Context Learning (AIMech:InContextLearning), which concatenates up to 32 random examples without parameter updates or class-balanced similarity filtering."
+aliases:
+- LM-BFF
+- Better Few-Shot Fine-Tuning of Language Models
+- Language Models Best Friends Forever Few-Shot Fine-Tuning
+- LM-BFF Automated Prompt and Demonstration Fine-Tuning
+definition_evidence:
+- source_id: r719-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r719-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r719-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r719-claim-two-pole-regression-and-mlm
+  kind: mechanism
+  statement: LM-BFF casts classification as masked token prediction p(y|x_in) = exp(w_{M(y)} . h_{[MASK]}) / sum_{y'} exp(w_{M(y')} . h_{[MASK]}) without adding new classification head parameters, and casts bounded-interval regression over [v_l, v_u] as a two-pole mixture interpolation y = v_l p(y_l|x_in) + v_u p(y_u|x_in) trained by minimizing the KL divergence between inferred p(y_u|x_in) and observed mixture weight (y - v_l)/(v_u - v_l).
+  evidence:
+  - source_id: r719-primary-pdf
+    locator: Section 4.1-4.2, Equations 1-2, pp. 4-5
+    relation: supports
+- claim_id: r719-claim-t5-template-and-label-search
+  kind: mechanism
+  statement: To automate prompt design from only K=16 examples per class, LM-BFF prunes candidate label words per class via zero-shot conditional likelihood Top-k_{v in V} sum_{x_in in D_train^c} log P_L([MASK]=v|T(x_in)) followed by fine-tuning re-ranking on D_dev, and decodes diverse natural templates via wide-beam search over a pretrained T5 span-infilling model maximizing sum_{j=1}^{|T|} sum_{(x_in,y) in D_train} log P_T5(t_j | t_{1..j-1}, T_g(x_in,y)).
+  evidence:
+  - source_id: r719-primary-pdf
+    locator: Section 5.1-5.2, Equations 3-4, Figure 2, pp. 5-6
+    relation: supports
+- claim_id: r719-claim-selective-demonstration-sampling
+  kind: application
+  statement: By concatenating one filled template demonstration T_tilde(x_in^(c), y^(c)) per class sampled from the top r=50% most cosine-similar training examples cos(e(x_in), e(x)) in SBERT embedding space, LM-BFF with RoBERTa-large (K=16 per class) outperforms standard few-shot fine-tuning by 11% on average and up to 30% absolute on SNLI (reaching 79.7% vs. 48.4%) across 15 classification and regression benchmarks.
+  evidence:
+  - source_id: r719-primary-pdf
+    locator: Section 6.1-6.2 & Section 7.1-7.3, Tables 3 and 7, pp. 6-9
+    relation: supports
+- claim_id: r719-claim-context-length-and-cola-limitation
+  kind: limitation
+  statement: Because LM-BFF concatenates one demonstration per class into the input context, it is constrained by the model's maximum sequence length (e.g., 512 tokens in RoBERTa) when input sequences are long or the number of classes |Y| is large, and prompt-based fine-tuning underperforms standard fine-tuning on linguistic acceptability (CoLA, 21.8 vs. 33.9 Matthews correlation) where ungrammatical inputs lie out of the masked language model's pretraining distribution.
+  evidence:
+  - source_id: r719-primary-pdf
+    locator: Section 7.1 & Section 8, Table 3, pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r719-primary-pdf
+  title: Making Pre-trained Language Models Better Few-shot Learners
+  authors: &id001
+  - Tianyu Gao
+  - Adam Fisch
+  - Danqi Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2012.15723.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Making+Pre-trained+Language+Models+Better+Few-shot+Learners+Gao&format=xml
+  version: Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (ACL-IJCNLP 2021), pp. 3816-3830 (2021) (1441484 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:22:00Z'
+  sha256: e99b70d86c6157f572b8d17df7b8666e2731882bb5b0b8cc609f1f52c4cc5274
+- source_id: r719-arxiv-abs
+  title: Making Pre-trained Language Models Better Few-shot Learners (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2012.15723
+  persistent_id: https://arxiv.org/abs/2012.15723
+  version: arXiv abstract page (7070 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:22:00Z'
+  sha256: 00c5c1ef2c54d69954a41e7385f74745d0725ac4aa127623b5d9fcfafae07bee
+- source_id: r719-metadata-cr
+  title: Making Pre-trained Language Models Better Few-shot Learners (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Making+Pre-trained+Language+Models+Better+Few-shot+Learners+Gao&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Making+Pre-trained+Language+Models+Better+Few-shot+Learners+Gao&format=xml
+  version: Crossref API work record (886 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:22:00Z'
+  sha256: 1255530331e74334017d1c116c063ae8e552ad8527fd3800d566d28e2bb18fb8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LM-BFF adapts pretrained Transformer masked language models to few-shot classification and regression tasks via automated template generation and selective demonstration fine-tuning.
+limitations:
+- Concatenating one demonstration per class into the input context is bounded by the backbone's maximum context window (e.g., 512 tokens), restricting applicability to tasks with short inputs and a modest number of output classes.
+- Underperforms standard fine-tuning on out-of-distribution grammatical acceptability tasks such as CoLA (21.8 vs. 33.9 at K=16) and still requires either a manual seed template (for label word search) or manual seed label words (for T5 template generation).
+curation:
+  created_at: '2026-10-19T13:22:00Z'
+  updated_at: '2026-10-19T13:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

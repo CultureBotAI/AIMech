@@ -1,0 +1,99 @@
+id: AIMech:HittingSetIPAndTiledIntervalCoverOnlinePagingWithTimeWindowsAndDelays
+name: Hitting-Set IP Relaxation and Tiled Interval Cover for Paging with Time Windows and Delays
+concept_kind: algorithm
+review_status: DRAFT
+definition: An online and offline approximation framework for weighted paging with request time windows (PageTW) and monotone delay penalties (PageD) on a cache of size k over n pages that replaces the Omega(k)-integrality-gap interval-packing LP with a Hitting-Set Integer Program enforcing right-extension constraints Rext(I, t) = [s(I), ..., max(t, e(I))] over k+1 distinct pages and double-extension constraints Dext(I, t) = [min(s(I_t), s(I)), ..., t] over k distinct non-critical pages, solves the compactified constraints via Tiled Interval Cover (TiledIC/TiledICEx) and non-nested net extension, and converts online hitting-set solutions into feasible cache schedules via Hall-set weight thresholding and earliest-deadline-first charging forests to achieve O(log k log n)-competitive online and O(1)-approximate offline bounds.
+identity_notes: No AIO class represents online primal-dual hitting-set LP/IP relaxations for paging with time windows and delays; MachineLearningTask (AIO:MachineLearningTask) is the closest broad match covering online sequential decision-making and optimization tasks.
+aliases:
+- PageTW and PageD Hitting-Set IP Caching Algorithm
+- Right-and-Double-Extension Hitting-Set LP for Caching with Deadlines
+- Gupta-Kumar-Panigrahi Online Paging with Time Windows and Delays
+definition_evidence:
+- source_id: r835-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r835-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r835-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: right-and-double-extension-hitting-set-ip-and-tiled-interval-cover-reduction
+  kind: mechanism
+  statement: Whereas the natural interval-packing LP relaxation for PageTW has an Omega(k) integrality gap (Theorem B.1), the Hitting-Set IP with right extensions Rext(I, t) = [s(I), ..., max(t, e(I))] (Constraint R1/R2p) and double extensions Dext(I, t) = [min(s(I_t), s(I)), ..., t] (Constraint D1/D3p) reduces to Tiled Interval Cover (TiledIC, which is totally unimodular with integrality gap 1) and TiledICEx (integrality gap at most 2, Lemma D.1) plus two applications of the non-nested net Extension Theorem (Theorem 5.12), yielding a constant O(1) integrality gap and O(log k)-competitive online IP solution (Corollary 5.15).
+  evidence:
+  - source_id: r835-primary-pdf
+    locator: Section 2, Claim 2.1, pp. 6-7; Section 5.1-5.2, Lemmas 5.2-5.14 and Corollary 5.15, pp. 18-26; Appendix B.2 Theorem B.1, p. 31; Appendix D Lemma D.1-D.2, pp. 33-34
+    relation: supports
+- claim_id: hall-set-threshold-and-charging-forest-online-schedule-conversion
+  kind: mechanism
+  statement: Given a past-preserving, sparse online hitting-set solution A^*_t, ConvertOnline (Algorithms 1-2) uses Hall's marriage theorem (Lemma 3.4) to select a resident hit page p^* in Z^* satisfying w(U^circ_{<= 2 w(p^*)}) <= 2 w(Z^*_{<= w(p^*)}) and bounds overlapping-interval evictions via a weight-class charging forest F = (T, E) (Claims 3.8-3.13), converting an alpha-competitive online hitting-set solution into an O(alpha log n)-competitive cache schedule (Theorem 3.1) and an O(alpha)-approximate offline schedule via reverse-delete pruning (Algorithm 3, Theorem 4.1).
+  evidence:
+  - source_id: r835-primary-pdf
+    locator: Section 3.1-3.2, Algorithms 1-2, Theorem 3.1, Lemma 3.4, Claims 3.8-3.13, pp. 8-16; Section 4, Algorithm 3, Theorem 4.1, pp. 16-18
+    relation: supports
+- claim_id: deadline-io-scheduling-and-video-streaming-delayed-caching-application
+  kind: application
+  statement: By decomposing each general monotone delay request (p, t, F) into an ensemble of deadline intervals [t, t'] with incremental penalties F(t'+1) - F(t') (Section 6, Theorem 6.1), the framework provides O(log k log n)-competitive online and O(1)-approximate offline caching schedules for deadline-aware I/O scheduling and video-on-demand segment caching.
+  evidence:
+  - source_id: r835-primary-pdf
+    locator: Section 1, pp. 1-2; Section 6, Theorem 6.1, p. 27
+    relation: supports
+- claim_id: clairvoyant-deadline-knowledge-and-extra-log-n-online-conversion-limitation
+  kind: limitation
+  statement: The O(log k log n)-competitive online bound for PageTW requires the clairvoyant setting in which a request's deadline e(I) is revealed at arrival time s(I) (used to sort active requests in earliest-deadline-first order in Algorithm 2, line 16) and incurs an extra O(log n) factor over the O(log k) classical weighted paging bound when converting overlapping request intervals across weight classes (Section 2, p. 6; Section 3.2, p. 12-16).
+  evidence:
+  - source_id: r835-primary-pdf
+    locator: Section 1.1, p. 5; Section 2, p. 6; Section 3.2, Algorithm 2 line 16 and Claim 3.13, pp. 12-16
+    relation: supports
+evidence_sources:
+- source_id: r835-primary-pdf
+  title: Caching with Time Windows and Delays
+  authors: &id001
+  - Anupam Gupta
+  - Amit Kumar
+  - Debmalya Panigrahi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2006.09665
+  persistent_id: https://arxiv.org/abs/2006.09665
+  version: 2020 IEEE 61st Annual Symposium on Foundations of Computer Science (FOCS), pp. 946-957 (arXiv:2006.09665v1) (2020) (1059661 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:18:00Z'
+  sha256: 0c3d8484b1978a4f36bae84af4fa7939ea90ef0a2a4b5ed1a9709c15b830b1a0
+- source_id: r835-arxiv-abs
+  title: Caching with Time Windows and Delays (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.09665
+  persistent_id: https://arxiv.org/abs/2006.09665
+  version: arXiv abstract page (1552 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:18:00Z'
+  sha256: fa2845c5c8f11c3e2666f673aaa4a7879432b3e70e69319f984f12088334d040
+- source_id: r835-metadata-cr
+  title: Caching with Time Windows and Delays (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.09665
+  persistent_id: https://arxiv.org/abs/2006.09665
+  version: Crossref API work record (405 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:18:00Z'
+  sha256: 777a7b87e1ef753336227b8ecfe268a2faa94ee47b8300a67b360f9529725d63
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: broad_match
+  rationale: Online primal-dual LP rounding and competitive online caching with deadlines/delays is a sequential online optimization and decision-making framework.
+limitations:
+- The O(log k log n)-competitive online bound for PageTW requires the clairvoyant setting in which a request's deadline e(I) is revealed at arrival time s(I) (used to sort active requests in earliest-deadline-first order in Algorithm 2, line 16) and incurs an extra O(log n) factor over the O(log k) classical weighted paging bound when converting overlapping request intervals across weight classes (Section 2, p. 6; Section 3.2, p. 12-16).
+curation:
+  created_at: '2026-10-19T15:18:00Z'
+  updated_at: '2026-10-19T15:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

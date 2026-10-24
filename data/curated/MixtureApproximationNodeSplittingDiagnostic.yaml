@@ -1,0 +1,138 @@
+id: AIMech:MixtureApproximationNodeSplittingDiagnostic
+name: Mixture-approximation node-splitting conflict diagnostic
+aliases:
+- Gaussian-mixture node-splitting conflict check
+- Mixture-approximated separator conflict diagnostic
+concept_kind: algorithm
+definition: A Bayesian directed acyclic graph (DAG) node-splitting conflict diagnostic algorithm that
+  partitions observed data around a selected separator parameter block into parent-linked and child-linked
+  subsets, approximates the parent-side and child-side split posterior distributions of the duplicated
+  separator node using parametric Gaussian mixture densities while propagating shared parent-parameter
+  uncertainty, forms the closed-form convolved Gaussian mixture density of the split-node difference,
+  and evaluates the density-level tail probability at zero without nonparametric kernel density estimation.
+identity_notes: 'No normalized identity match for the mixture-approximation node-splitting conflict diagnostic
+  across all 442 pinned AIO records and 563 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only references in the Round
+  168 discovery report and review exclusions noting Yang, Nott, & Presanis (2026) Section 3.2 (Algorithm
+  2) as a separate pending concept. Distinct from AIMech:SeparatorNodeConflictDiagnostic and AIMech:MultipleTestingNodeConflictDiagnostic,
+  which define general separator node splitting and simultaneous multiple-testing adjustments using empirical
+  MCMC difference samples, multivariate kernel density estimation, or single-Gaussian Mahalanobis approximations
+  rather than closed-form Gaussian mixture convolution of split posteriors with shared parent-parameter
+  propagation. Distinct from AIMech:SequentialScoreDiscrepancyConflictDiagnostic (Algorithm 1 of Yang
+  et al. 2026), which evaluates conditional prior-expansion Fisher scores without duplicating the separator
+  node or fitting mixture approximations to split posteriors.'
+definition_evidence:
+- source_id: yang2026
+  locator: Section 1, PDF pp. 3–4; Section 3.2, Equations 16–20 and Algorithm 2, PDF pp. 17–20
+  relation: supports
+claims:
+- claim_id: parent-child-split-with-shared-nuisance-propagation
+  kind: mechanism
+  statement: For a selected separator parameter block theta_2 in a Bayesian directed acyclic graph with
+    ancestor/parent parameter block theta_1 and partitioned data y = (y_pa, y_ch), the node-splitting
+    construction duplicates theta_2 into parent-side copy theta_2^(1) informed by y_pa_obs and child-side
+    copy theta_2^(2) informed by y_ch_obs under a reference prior p_R(theta_2^(2)), while propagating
+    posterior uncertainty in shared parent parameters theta_1 from p(theta_1 | y_pa_obs) to the child
+    submodel.
+  evidence:
+  - source_id: yang2026
+    locator: Section 3.2, Equations 16–18 and Algorithm 2 Steps 1–2, PDF pp. 17–20
+    relation: supports
+  - source_id: presanis2013
+    locator: Section 2.2, PDF pp. 4–5; Section 5.2, PDF p. 17
+    relation: supports
+- claim_id: gaussian-mixture-split-posterior-approximation
+  kind: mechanism
+  statement: Rather than applying multivariate kernel density estimation directly to Markov chain Monte
+    Carlo difference draws, Algorithm 2 approximates the parent-side split posterior p(theta_2^(1) | y_pa_obs)
+    and child-side split posterior p_ch(theta_2^(2) | y_ch_obs, y_pa_obs) by Gaussian mixture distributions
+    sum_{k=1}^K w_k N(mu_k, Sigma_k) and sum_{j=1}^J v_j N(m_j, S_j) fitted to posterior draws (or formed
+    directly from conditional Gaussian components).
+  evidence:
+  - source_id: yang2026
+    locator: Section 3.2, Equations 16 and 19, Algorithm 2, PDF pp. 17–20; Appendix C, PDF pp. 40–42
+    relation: supports
+- claim_id: closed-form-mixture-difference-convolution-tail
+  kind: mechanism
+  statement: Under independent split copies approximated by Gaussian mixtures, the difference delta =
+    theta_2^(1) - theta_2^(2) has the closed-form Gaussian mixture density p_hat_delta(delta) = sum_{k=1}^K
+    sum_{j=1}^J w_k v_j N(delta; mu_k - m_j, Sigma_k + S_j), enabling Monte Carlo evaluation of the density-level
+    conflict p-value P(p_hat_delta(delta) <= p_hat_delta(0)) using analytic mixture density evaluations
+    at simulated draws and at zero.
+  evidence:
+  - source_id: yang2026
+    locator: Section 3.2, Equations 19–20 and Algorithm 2 Step 3, PDF pp. 19–20; Appendix C, PDF pp. 40–42
+    relation: supports
+- claim_id: multimodal-and-non-gaussian-conflict-detection
+  kind: application
+  statement: Representing the split-posterior difference as a multi-component Gaussian mixture preserves
+    skewness and multimodality that a single-Gaussian Mahalanobis approximation collapses, allowing the
+    density-level tail test to detect conflict when zero falls in a low-density trough between mixture
+    modes.
+  evidence:
+  - source_id: yang2026
+    locator: Section 3.2, PDF pp. 19–21; Section 4, PDF pp. 21–28; Appendix C, PDF pp. 40–42
+    relation: supports
+evidence_sources:
+- source_id: yang2026
+  title: Detecting Conflicts in Evidence Synthesis Models Using Score Discrepancies
+  authors:
+  - Fuming Yang
+  - David J. Nott
+  - Anne M. Presanis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2511.02977v2
+  persistent_id: https://doi.org/10.48550/arXiv.2511.02977
+  version: 'arXiv:2511.02977v2, dated 2026-09-12. Complete 52-page PDF read, including Sections 1–6, Algorithms
+    1–2, Figures 1–8, Tables 1–5, Appendices A–E and references; locators use PDF pages 1–52.'
+  access_level: full_text
+  accessed_at: '2026-10-17T08:20:00Z'
+  sha256: 4829e0d63d562483aa6aab88a418c62e6d336cd63e9205ee175bf9e9c1bade2d
+- source_id: presanis2013
+  title: Conflict Diagnostics in Directed Acyclic Graphs, with Applications in Bayesian Evidence Synthesis
+  authors:
+  - Anne M. Presanis
+  - David Ohlssen
+  - David J. Spiegelhalter
+  - Daniela De Angelis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1310.0628v1
+  persistent_id: https://doi.org/10.1214/13-STS426
+  version: 'arXiv:1310.0628v1, 2013-10-02; complete 22-page electronic reprint of Statistical Science
+    28(3):376–397 read, including Figures 1–16, Table 1 and references. Locators use PDF pages 1–22.'
+  access_level: full_text
+  accessed_at: '2026-10-17T08:20:00Z'
+  sha256: 9cff5092b47d7ba20f9ae654b6ea63bd4fdf75ea8ccfdb663427ccab36f3d3a0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The mixture-approximation node-splitting conflict diagnostic operates on a Bayesian directed
+    acyclic graph (Bayesian network) by duplicating a separator node across parent and child subgraphs
+    and approximating the split posteriors with Gaussian mixtures. AIO:BayesianNetwork supplies the graphical
+    model representation context rather than an algorithmic superclass.
+limitations:
+- Convolving marginal Gaussian mixtures as sum_{k,j} w_k v_j N(mu_k - m_j, Sigma_k + S_j) treats the parent-side
+  and child-side copies theta_2^(1) and theta_2^(2) as marginally independent; if both copies depend strongly
+  on a shared parent nuisance parameter theta_1 and are compared conditionally on paired draws of theta_1,
+  ignoring between-copy covariance inflates the difference covariance by 2 * Cov(theta_2^(1), theta_2^(2)).
+- Requires choosing the number of mixture components (for example via BIC) and fitting component means
+  and covariance matrices via expectation-maximization; poor component selection, singular component covariances,
+  or heavy-tailed split posteriors can distort the estimated density level at zero.
+- Like general density-level node-splitting scores, the tail probability P(p_hat_delta(delta) <= p_hat_delta(0))
+  is not invariant to nonlinear reparameterizations of the separator node theta_2 and requires a proper
+  child-side split posterior under the chosen reference prior p_R(theta_2^(2)).
+- All 52 pages of Yang, Nott, & Presanis (2026, arXiv:2511.02977v2) and 22 pages of Presanis et al. (2013,
+  arXiv:1310.0628v1) were read. No author EM/MCMC implementation, epidemic model fit, or empirical repeated-data
+  calibration benchmark was executed; constructed numerical checks in research/discovery/mixture-node-splitting-boundaries.py
+  verify analytical mixture convolution and shared nuisance pairing boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T08:52:00Z'
+  updated_at: '2026-10-17T08:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

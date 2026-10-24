@@ -1,0 +1,108 @@
+id: AIMech:BaikBenArousPecheLargestEigenvaluePhaseTransition
+name: Baik-Ben Arous-Peche Largest Eigenvalue Phase Transition for Spiked Complex Sample Covariance Matrices
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- BBP Phase Transition for Spiked Sample Covariance Matrices
+- Baik-Ben Arous-Peche Spiked Wishart Largest Eigenvalue Limit Laws
+- Generalized Tracy-Widom F_k and Finite-GUE G_k Spiked Covariance Transition
+- Non-Null Complex Wishart Largest Eigenvalue Fredholm Determinant Asymptotics
+definition: 'Baik-Ben Arous-Peche Largest Eigenvalue Phase Transition for Spiked Complex Sample Covariance Matrices is a random-matrix spectral fluctuation methodology introduced by Baik, Ben Arous, and Peche (2005) that characterizes the exact limiting distributions and scaling exponents of the largest eigenvalue lambda_1 of an N x N complex Gaussian sample covariance matrix S = (1/M) X X* formed from M independent samples with population covariance eigenvalues ell_1, ..., ell_r and ell_{r+1} = ... = ell_N = 1 as M, N -> infinity with M/N = gamma^2 >= 1. Using the Harish-Chandra-Itzykson-Zuber unitary integral and a double-contour Fredholm determinant representation P(lambda_1 <= xi) = det(1 - K_{M,N}|_{(xi,inf)}), steepest-descent analysis establishes a sharp phase transition at the critical spike value ell_c = 1 + gamma^{-1}: (a) when ell_1 = ... = ell_k = 1 + gamma^{-1} (0 <= k <= r) and ell_{k+1}, ..., ell_r < 1 + gamma^{-1}, lambda_1 fluctuates at order M^{-2/3} around the Marcenko-Pastur
+  bulk edge (1 + gamma^{-1})^2 according to the k-th generalized Airy-kernel Tracy-Widom distribution F_k(x) (with F_0 = F_GUE and F_1 = F_GOE^2), and under critical scaling ell_j = 1 + gamma^{-1} - [(1 + gamma)^{2/3} w_j] / (gamma M^{1/3}) according to the multi-parameter interpolating distribution F_k(x; w_1, ..., w_k); and (b) when ell_1 = ... = ell_k > 1 + gamma^{-1} (1 <= k <= r) and ell_{k+1}, ..., ell_r < ell_1, lambda_1 separates to mu = ell_1 + ell_1 gamma^{-2} / (ell_1 - 1) and fluctuates at order M^{-1/2} with scale nu = sqrt(ell_1^2 - ell_1^2 gamma^{-2} / (ell_1 - 1)^2) according to the largest-eigenvalue distribution G_k(x) of a k x k Gaussian Unitary Ensemble (standard Gaussian G_1(x) = Phi(x) when k = 1).'
+identity_notes: Resolved as a distinct AIMech-native mathematical_method concept from Baik, Ben Arous, & Peche (2005, The Annals of Probability 33(5):1643-1697; arXiv:math/0403022v2, DOI:10.1214/009117905000000233). Distinct from AIMech:BaikSilversteinSpikedPopulationCovarianceEigenvalueSeparation (Baik & Silverstein 2006, J. Multivariate Anal. 97(6):1382-1408), which establishes first-order almost-sure limits of extreme eigenvalues for non-Gaussian real and complex spiked models via the Silverstein-Choi Stieltjes transform without deriving second-order M^{-2/3} F_k or M^{-1/2} G_k fluctuation distributions or the double-contour Fredholm determinant kernel, and from AIMech:SparsePrincipalComponentsAnalysisViaCoordinateVarianceSelectionAndThresholding (Johnstone & Lu 2009) and AIMech:DiagonalThresholdingAndSemidefiniteRelaxationSupportRecoveryForSparsePCA (Amini & Wainwright 2009), which address sparse eigenvector estimation and support recovery.
+definition_evidence:
+- source_id: bbp2005-phase-pdf
+  locator: Section 1.2-1.4, Definitions 1.1-1.3, Lemma 1.1, Theorems 1.1-1.2, Corollary 1.1, and Proposition 1.1, pp. 4-12 (Ann. Probab. pp. 1646-1654); Section 2, Proposition 2.1, pp. 13-18; Sections 3-4, Propositions 3.1 and 4.1, pp. 18-45; Section 6, Proposition 6.1, pp. 46-49
+  relation: supports
+- source_id: bbp2005-phase-abs
+  locator: Abstract
+  relation: supports
+- source_id: bbp2005-phase-cr
+  locator: DOI:10.1214/009117905000000233 article metadata
+  relation: supports
+claims:
+- claim_id: hciz-double-contour-fredholm-determinant-representation
+  kind: mechanism
+  statement: For M >= N complex Gaussian sample vectors in C^N with population covariance eigenvalues ell_j = pi_j^{-1}, Section 2.1 (Equations 59-85, Proposition 2.1, pp. 13-17) applies the Harish-Chandra-Itzykson-Zuber unitary integral to obtain the joint sample eigenvalue density p(lambda) = (1/C) [det(e^{-M pi_j lambda_k}) / V(pi)] V(lambda) prod_{j=1}^N lambda_j^{M-N} (eq. 61) and proves via Andreief's determinantal identity, Cramer's rule, and Hankel's Gamma contour representation that P(lambda_1 <= xi) = det(1 - K_{M,N}|_{(xi,inf)}) (eq. 63), where the trace-class correlation kernel factors as K_{M,N}(eta, zeta) = int_0^inf H(eta + y) J(zeta + y) dy = [M / (2 pi i)^2] int_Gamma dz int_Sigma dw e^{-eta M (z - q) + zeta M (w - q)} [1 / (w - z)] (z / w)^M prod_{k=1}^N [(pi_k - w) / (pi_k - z)] (eqs. 62, 83-85) for any 0 < q < min_j pi_j.
+  evidence:
+  - source_id: bbp2005-phase-pdf
+    locator: Section 2.1, Equations (59)-(85) and Proposition 2.1, pp. 13-17
+    relation: supports
+- claim_id: subcritical-and-critical-airy-kernel-tracy-widom-hierarchy-fk
+  kind: scope
+  statement: When ell_{r+1} = ... = ell_N = 1, M/N = gamma^2 >= 1, ell_1 = ... = ell_k = 1 + gamma^{-1} (0 <= k <= r), and ell_{k+1}, ..., ell_r lie in a compact subset of (0, 1 + gamma^{-1}), Theorem 1.1(a) (eqs. 36-37, p. 8) and Section 3 (Proposition 3.1 and Lemma 3.3, pp. 18-33) prove via steepest-descent analysis at the coalescing double saddle point z = p_c = gamma / (gamma + 1) of f(z) = -mu (z - q) + log(z) - gamma^{-2} log(1 - z) (where f'(p_c) = f''(p_c) = 0 and f^{(3)}(p_c) = 2 nu^3 with mu = (1 + gamma^{-1})^2 and nu = (1 + gamma)^{4/3} / gamma) that P([lambda_1 - (1 + gamma^{-1})^2] [gamma / (1 + gamma)^{4/3}] M^{2/3} <= x) -> F_k(x), where F_0(x) = det(1 - A_x) = F_GUE(x), F_1(x) = (F_GOE(x))^2, and F_k(x) = det(1 - A_x) det(delta_{mn} - <(1 - A_x)^{-1} s^{(m)}, t^{(n)}>_{L^2(x,inf)})_{1 <= m,n <= k} (eq. 17). Furthermore, under critical scaling ell_j = 1 + gamma^{-1} - [(1 + gamma)^{2/3} w_j] / (gamma M^{1/3}) for 1 <= j <= k, Theorem 1.2 (eqs. 54-56, pp. 11-12) establishes
+    convergence to the multi-parameter interpolating distribution F_k(x; w_1, ..., w_k).
+  evidence:
+  - source_id: bbp2005-phase-pdf
+    locator: Section 1.2.1, Definition 1.1, Equations (10)-(25), pp. 4-6; Section 1.3, Theorem 1.1(a), Equations (35)-(37), p. 8; Section 1.4, Definition 1.3 and Theorem 1.2, Equations (52)-(56), pp. 11-12; Section 3, Proposition 3.1 and Lemma 3.3, pp. 18-34
+    relation: supports
+  - source_id: bbp2005-phase-abs
+    locator: Abstract
+    relation: supports
+- claim_id: supercritical-finite-gue-fluctuations-gk-and-last-passage-percolation-duality
+  kind: scope
+  statement: When ell_1 = ... = ell_k > 1 + gamma^{-1} (1 <= k <= r) and ell_{k+1}, ..., ell_r lie in a compact subset of (0, ell_1), Theorem 1.1(b) (eqs. 38-39, p. 8) and Section 4 (Proposition 4.1, pp. 34-45) prove by Cauchy residue extraction at the pole z = pi_1 = ell_1^{-1} < p_c = gamma / (1 + gamma) and imaginary-axis steepest descent with f''(pi_1) = -nu^2 < 0 that P([lambda_1 - (ell_1 + ell_1 gamma^{-2} / (ell_1 - 1))] [sqrt(M) / sqrt(ell_1^2 - ell_1^2 gamma^{-2} / (ell_1 - 1)^2)] <= x) -> G_k(x) = det(1 - H_x^{(k)}) (eqs. 28, 33, 39), the largest-eigenvalue distribution of a k x k GUE matrix constructed from orthonormal Hermite polynomials p_n(xi) (yielding the standard normal law G_1(x) = Phi(x) when k = 1). Moreover, Section 6 (Proposition 6.1, eqs. 306-317, pp. 46-49) establishes the exact distributional identity P(L(M, N) <= x) = P(lambda_1(M, N) <= x) with directed last-passage percolation and N-server tandem queues with exponential site weights of mean 1 / (pi_i M), explaining
+    the transition at ell_1 = 1 + gamma^{-1} via the variational problem max_{x in [0,1]} [pi_1^{-1} x + (sqrt(1 - x) + gamma^{-1})^2].
+  evidence:
+  - source_id: bbp2005-phase-pdf
+    locator: Section 1.2.2, Definition 1.2 and Lemma 1.1, Equations (26)-(34), pp. 6-7; Section 1.3, Theorem 1.1(b) and Corollary 1.1, Equations (38)-(46), pp. 8-10; Section 4, Proposition 4.1, pp. 34-45; Section 6, Proposition 6.1, Equations (306)-(317), pp. 46-49
+    relation: supports
+evidence_sources:
+- source_id: bbp2005-phase-pdf
+  title: Phase transition of the largest eigenvalue for non-null complex sample covariance matrices
+  authors:
+  - Jinho Baik
+  - Gerard Ben Arous
+  - Sandrine Peche
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/math/0403022.pdf
+  persistent_id: https://arxiv.org/abs/math/0403022v2
+  version: arXiv:math/0403022v2 full-text PDF (52 pages, 441716 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-18T17:27:00Z'
+  sha256: 09c7b1bd0432390bfe108254280e57f621255251c7e571bce7572d0ca3bfd897
+- source_id: bbp2005-phase-abs
+  title: Phase transition of the largest eigenvalue for non-null complex sample covariance matrices
+  authors:
+  - Jinho Baik
+  - Gerard Ben Arous
+  - Sandrine Peche
+  source_type: primary_paper
+  url: https://export.arxiv.org/abs/math/0403022
+  persistent_id: https://arxiv.org/abs/math/0403022
+  version: arXiv:math/0403022 abstract page (6050 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:27:00Z'
+  sha256: f980163c0f6cffd1d816ce7fee2015dc55db72f11e02b8224ad76fb904c168a4
+- source_id: bbp2005-phase-cr
+  title: Phase transition of the largest eigenvalue for nonnull complex sample covariance matrices
+  authors:
+  - Jinho Baik
+  - Gerard Ben Arous
+  - Sandrine Peche
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/009117905000000233
+  persistent_id: https://doi.org/10.1214/009117905000000233
+  version: The Annals of Probability 33(5):1643-1697 (2005) Crossref metadata (4547 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:27:00Z'
+  sha256: 172f58181c1dad8520aa6ddd1e521f65e226543661ab9307291fa2317c45ea51
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Establishes the exact BBP phase transition threshold ell_c = 1 + gamma^{-1} and limiting M^{-2/3} Airy-kernel versus M^{-1/2} GUE fluctuation distributions for the largest sample principal component eigenvalue in spiked covariance models.
+limitations:
+- 'Complex Gaussian unitary invariance requirement for the Harish-Chandra-Itzykson-Zuber derivation: The exact determinantal density (eq. 61) and double-contour Fredholm determinant (Proposition 2.1, eqs. 62-63) rely on the Harish-Chandra-Itzykson-Zuber integral over the unitary group U(N), which has no analogous closed-form elementary determinant over the real orthogonal group O(N), leaving the corresponding real sample covariance fluctuation laws as a conjecture in Section 1.3 (p. 11 & Section 2.1, p. 13).'
+- 'Finite-rank perturbation of an isotropic bulk covariance: Theorems 1.1 and 1.2 assume that all but a fixed finite number r of population eigenvalues equal 1 (ell_{r+1} = ... = ell_N = 1, eq. 35) and that M/N = gamma^2 lies in a compact subset of [1, infinity).'
+- 'Primary-source typographical audit of arXiv:math/0403022v2 (DOI:10.1214/009117905000000233): (1) On p. 3 (Section 1.1, line 5), ''S = (1/N) X X*'' writes factor 1/N instead of 1/M (cf. p. 2 line 2 S = (1/M) X X'', eq. 7, and eq. 59); (2) on p. 7 (eq. 29), ''G_1(x) = (1/sqrt(2 pi)) int_{-inf}^x e^{-xi_1^2/2} d xi_1 = erf(x)'' writes ''erf(x)'' for the standard normal cumulative distribution function Phi(x) = (1/2)[1 + erf(x/sqrt(2))]; (3) on p. 10 (eq. 47, Proof of Corollary 1.1), the upper bound inside P(.) prints ''(1 + gamma^{-1})^2 + x M^{1/3} gamma / (1 + gamma)^{4/3}'' instead of ''(1 + gamma^{-1})^2 + x (1 + gamma)^{4/3} / (gamma M^{2/3})'' from eq. (37), and eqs. (50) (p. 10) and (305) (p. 46) write ''P((lambda_1 - ell_1)(1/ell_1) sqrt(M) x)'' omitting ''<='' before ''x''; and (4) on p. 11 (Definition 1.3, eq. 54), the finite determinant writes ''1 - <...>'' in place of ''delta_{mn} - <...>'' (cf. eq. 17), on p. 18 (eq. 93) the second argument of K_{M,N} writes ''mu + nu(x + u)
+  / M^alpha'' with ''u'' instead of ''v'', and on p. 34 (eq. 208) ''pi_j^{-1} = 1 + gamma^{-1} - w_j / M^{1/3}'' omits the prefactor ''(1 + gamma)^{2/3} / gamma'' from Theorem 1.2 (eq. 55).'
+curation:
+  created_at: '2026-10-19T00:42:00Z'
+  updated_at: '2026-10-19T00:42:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,105 @@
+id: AIMech:GcflPlusGradientSequenceDynamicTimeWarpingClusteredFederatedGraphClassification
+name: GCFL+ (Gradient Sequence Dynamic Time Warping Clustered Federated Graph Classification)
+concept_kind: algorithm
+review_status: DRAFT
+definition: GCFL+ is a dynamic clustered federated graph classification algorithm for clients holding structure- and feature-heterogeneous (non-IID) graph datasets that tracks a multi-variate time-series matrix Q in R^{n x d} of each client's GNN gradient norms ||Delta theta_i^t|| over the latest d communication rounds and, whenever a cluster's weighted mean gradient norm falls below a stationarity threshold (delta_mean < varepsilon_1) while its maximum client gradient norm exceeds a heterogeneity threshold (delta_max > varepsilon_2), computes a pairwise Dynamic Time Warping (DTW) distance matrix beta_k(p, q) = dist(Q(p, :), Q(q, :)) and recursively bi-partitions the cluster via the Stoer-Wagner minimum cut algorithm.
+identity_notes: Introduced by Han Xie, Jing Ma, Li Xiong, and Carl Yang in 'Federated Graph Classification over Non-IID Graphs' (NeurIPS 2021, pages 18839-18852; arXiv:2106.13423). Extends vanilla GCFL (Section 4 of the same paper), which bi-partitions client clusters using single-round gradient cosine similarities and is vulnerable to fluctuating GNN gradient norms across rounds; distinct from Euclidean Clustered Federated Learning (CFL, Sattler et al. 2020), which does not track multi-round DTW gradient-norm sequences or analyze GNN Laplacian/feature perturbation bounds; and distinct from FedSage+ (Zhang et al. NeurIPS 2021), which addresses node classification on disjoint subgraphs with missing links.
+aliases:
+- GCFL+
+- GCFL Plus
+- Graph Clustered Federated Learning Plus
+- Gradient Sequence Dynamic Time Warping Clustered Federated Graph Classification
+definition_evidence:
+- source_id: r514-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r514-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r514-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: gcfl-plus-stationarity-and-heterogeneity-bipartition-criteria
+  kind: mechanism
+  statement: At each communication round t, GCFL and GCFL+ evaluate for each client cluster C_k whether the weighted average GNN update norm approaches a stationary point, delta_mean = ||sum_{i in [n]} (|G_i|/|G|) Delta theta_i|| < varepsilon_1 (Equation 4), while individual client updates remain divergent, delta_max = max(||Delta theta_i||) > varepsilon_2 > 0 (Equation 5), triggering top-down cluster bi-partitioning C_k -> {C_{k1}, C_{k2}} via the Stoer-Wagner minimum cut algorithm and maintaining cluster-specific GNN parameters theta_k^{t+1} = theta_k^t + sum_{i in [n_k]} Delta theta_{k,i}^t (Equation 7).
+  evidence:
+  - source_id: r514-primary-pdf
+    locator: Section 4.3, Equations (4)-(7), pages 5-6
+    relation: supports
+- claim_id: gcfl-plus-dtw-gradient-norm-sequence-distance-matrix
+  kind: mechanism
+  statement: To overcome single-round GNN gradient-norm fluctuations in vanilla GCFL (Figure 1a), the server in GCFL+ maintains a rolling time-series matrix Q in R^{n x d} of client gradient norms ||Delta theta_i^t|| over a window of length d (optionally standardized via Q'(i, :) = Q(i, :) / std(Q(i, :)), Equation 20) and computes the cluster pairwise distance matrix beta_k(p, q) = dist(Q(p, :), Q(q, :)) using Dynamic Time Warping (DTW, Equation 8) to drive Stoer-Wagner bi-partitioning.
+  evidence:
+  - source_id: r514-primary-pdf
+    locator: Section 5.1-5.2, Figure 1 and Equation (8), page 7; Appendix D, Equation (20), page 17
+    relation: supports
+- claim_id: gcfl-plus-bourgain-sgc-structure-and-feature-gradient-bounds
+  kind: mechanism
+  statement: Using Bourgain's metric embedding theorem (Theorem 4.1) on Simple Graph Convolutions f(L, X) = softmax(L^K X Theta) with normalized Laplacian L = D_tilde^{-1/2} A_tilde D_tilde^{-1/2}, Propositions 4.1-4.3 prove that the squared weight difference ||Theta' - Theta||_2^2 is upper-bounded by the graph structure perturbation ||L' - L||_2^2 <= epsilon_L (Equation 12), the node feature perturbation ||X' - X||_2^2 <= epsilon_X (Equation 16), and the task embedding perturbation ||Y_i - Y_j||_2^2 <= epsilon_Y (Equation 19), theoretically justifying that GNN gradient clustering reduces intra-cluster graph structure and feature heterogeneity.
+  evidence:
+  - source_id: r514-primary-pdf
+    locator: Section 4.4, Theorem 4.1 and Propositions 4.1-4.3, page 6; Appendix B, Equations (9)-(19), pages 15-16
+    relation: supports
+- claim_id: gcfl-plus-threshold-tuning-and-unencrypted-gradient-limitation
+  kind: limitation
+  statement: GCFL+ requires offline validation tuning of the stopping and splitting thresholds (varepsilon_1, varepsilon_2) (where overly large varepsilon_2 collapses to single-cluster FedAvg and overly small varepsilon_2 fragments clients into singleton clusters), and transmits unencrypted client GNN gradients without formal differential privacy or cryptographic aggregation.
+  evidence:
+  - source_id: r514-primary-pdf
+    locator: Section 6.2, pages 8-9; Section 7, page 10
+    relation: supports
+evidence_sources:
+- source_id: r514-primary-pdf
+  title: Federated Graph Classification over Non-IID Graphs
+  authors: &id001
+  - Han Xie
+  - Jing Ma
+  - Li Xiong
+  - Carl Yang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.13423.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/XieMXY21
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pages 18839-18852 (2021) (1191905 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:57:00Z'
+  sha256: d7394906b27b5d0c31d72d5027cfe4ccc2e2fba33f47793e273e936806b5dfa9
+- source_id: r514-arxiv-abs
+  title: Federated Graph Classification over Non-IID Graphs (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.13423
+  persistent_id: https://arxiv.org/abs/2106.13423
+  version: arXiv abstract page (7444 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:57:00Z'
+  sha256: 6c30ef24377112eed5b3955610884c8ca0c6b63ae750aa85376e152a517bfbb6
+- source_id: r514-metadata-cr
+  title: Federated Graph Classification over Non-IID Graphs (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/XieMXY21
+  persistent_id: https://dblp.org/rec/conf/nips/XieMXY21
+  version: Crossref API work record (1806 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:57:00Z'
+  sha256: 3662530bdc99ace1bf86f652dd480c4bc74fcb662dcf2b1958f313c1f357f007
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: GCFL+ is a clustered federated learning algorithm for graph classification over non-IID graph datasets under AIO:FederatedLearning.
+- target: AIO:Clustering
+  relation: related_match
+  rationale: GCFL+ dynamically bi-partitions clients into homogeneous clusters using Stoer-Wagner minimum cut on Dynamic Time Warping distances of GNN gradient-norm sequences.
+limitations:
+- Requires selecting the stationarity threshold varepsilon_1 and heterogeneity splitting threshold varepsilon_2 via offline validation rounds; setting varepsilon_2 too small fragments clients into singleton clusters.
+- Relies on gradient-norm time series Q in R^{n x d}, which discards directional cosine information between client gradient vectors when computing the DTW distance matrix beta_k.
+curation:
+  created_at: '2026-10-19T09:57:00Z'
+  updated_at: '2026-10-19T09:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,99 @@
+id: AIMech:HeteroFlWidthScaledSubnetworkAggregationForHeterogeneousFederatedLearning
+name: HeteroFL (Computation and Communication Efficient Federated Learning for Heterogeneous Clients)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A system-heterogeneous federated learning framework (Diao, Ding, & Tarokh 2021, Section 3, Equations 1-4, Algorithm 1) that allocates nested top-left width-scaled submatrices W_l^p in R^{d_l^p x k_l^p} with d_l^p = r^{p-1} d_g, k_l^p = r^{p-1} k_g (parameter ratio |W_l^p| / |W_g| = r^{2(p-1)}) from a single global model W_g to clients of computation complexity level p in {1, ..., P}, stabilizes cross-width training via a 1/r^{p-1} Scaler module and static Batch Normalization (sBN), and updates each disjoint parameter partition W_g^{p-1, t+1} \ W_g^{p, t+1} by averaging exclusively over the m - m_{t+1}^{(p)} clients capable of training level p-1 (Equations 2-4).
+identity_notes: Distinct from FjORD (AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning, Horvath et al. 2021), which randomly samples prefix widths p ~ D_P during local client SGD (Ordered Dropout) and applies self-distillation from each client's maximal submodel rather than training a single fixed submodel level p_i per client round with a 1/r^{p-1} activation Scaler and static Batch Normalization.
+aliases:
+- HeteroFL
+- Heterogeneous Federated Learning via Width-Scaled Subnetworks
+definition_evidence:
+- source_id: r447-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r447-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r447-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r447-nested-submatrix-partitioned-aggregation-mechanism
+  kind: mechanism
+  statement: By nesting local weight matrices W_l^P subset W_l^{P-1} subset ... subset W_l^1 = W_g at the top-left corner and averaging each disjoint difference set W_g^{p-1, t+1} \ W_g^{p, t+1} only over the m - m_{t+1}^{(p)} clients with complexity index p_i <= p - 1 (Equations 2-4), HeteroFL enables smallest submodels (W_g^P) to benefit from all m clients while higher-capacity outer blocks are updated without zero-padding bias.
+  evidence:
+  - source_id: r447-primary-pdf
+    locator: Section 3.1 Heterogeneous Models (Equations 1-4, Figure 1), pp. 3-5
+    relation: supports
+- claim_id: r447-static-batch-norm-scaler-and-masked-cross-entropy-mechanism
+  kind: mechanism
+  statement: To prevent activation magnitude shift across width levels r^{p-1} and running-statistic divergence across non-IID submodels, HeteroFL introduces a parameter-free Scaler module multiplying activations by 1/r^{p-1}, replaces running-moment Batch Normalization during training with Static Batch Normalization (sBN) followed by post-training local moment recalculation, and applies Masked Cross-Entropy on the output layer under non-IID labels (Sections 3.2-3.4).
+  evidence:
+  - source_id: r447-primary-pdf
+    locator: Section 3.2 Static Batch Normalization, Section 3.3 Scaler & Section 3.4 Masked Cross-Entropy, pp. 4-6
+    relation: supports
+- claim_id: r447-fixed-per-round-width-assignment-and-high-tier-sample-scarcity-limitation
+  kind: limitation
+  statement: Because each client trains only its fixed assigned width p_i during a round without random prefix dropout across smaller widths, high-capacity parameter blocks W_g^1 \ W_g^2 receive updates only from the highest-tier clients and are not explicitly regularized to preserve submodel accuracy when evaluated at smaller prefix widths.
+  evidence:
+  - source_id: r447-primary-pdf
+    locator: Section 3.1 Equations 2-4 & Section 4 Experiments (Tables 2-5), pp. 4-8
+    relation: supports
+- claim_id: r447-mnist-cifar10-and-wikitext2-heterogeneous-federated-application
+  kind: application
+  statement: Applied to computation- and communication-constrained federated learning across 5 exponentially scaled complexity tiers (a-e) on MNIST, CIFAR-10 (ResNet-18), and WikiText-2 (Transformer).
+  evidence:
+  - source_id: r447-primary-pdf
+    locator: Section 4 Experiments (Tables 1-5, Figures 2-3), pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r447-primary-pdf
+  title: 'HeteroFL: Computation and Communication Efficient Federated Learning for Heterogeneous Clients'
+  authors: &id001
+  - Enmao Diao
+  - Jie Ding
+  - Vahid Tarokh
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2010.01264
+  persistent_id: https://openreview.net/forum?id=TNkPBBYFkXg
+  version: Ninth International Conference on Learning Representations (ICLR 2021) (2021) (43911 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:50:00Z'
+  sha256: 93c0c26c9bdc4f7f0bc55be896ebb364d50a52eb3d2809662c8c499aa20fd6e9
+- source_id: r447-arxiv-abs
+  title: 'HeteroFL: Computation and Communication Efficient Federated Learning for Heterogeneous Clients (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.01264
+  persistent_id: https://arxiv.org/abs/2010.01264
+  version: arXiv abstract page (14573 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:50:00Z'
+  sha256: 17861a807beb3415ea550251f6a57c63cfd1fb13a6f7fa73966976aca762a09d
+- source_id: r447-metadata-cr
+  title: 'HeteroFL: Computation and Communication Efficient Federated Learning for Heterogeneous Clients (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=TNkPBBYFkXg
+  persistent_id: https://openreview.net/forum?id=TNkPBBYFkXg
+  version: Crossref API work record (370 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:50:00Z'
+  sha256: 2e45364f1361fe7e71af389804eac76f8c7473987e63610f091dd99c60a40b42
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: HeteroFL is a federated learning method that trains nested width-scaled submodels across clients with heterogeneous compute and communication capacities.
+limitations:
+- Outer weight partitions W_g^1 \ W_g^2 are trained only by high-capacity clients, which can degrade full-model generalization when high-tier clients hold skewed data.
+- Requires a post-training communication pass to query local Batch Normalization statistics across clients.
+curation:
+  created_at: '2026-10-19T08:50:00Z'
+  updated_at: '2026-10-19T08:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

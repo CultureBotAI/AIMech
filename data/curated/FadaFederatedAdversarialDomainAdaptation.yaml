@@ -1,0 +1,100 @@
+id: AIMech:FadaFederatedAdversarialDomainAdaptation
+name: FADA (Federated Adversarial Domain Adaptation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: FADA (Federated Adversarial Domain Adaptation) is a privacy-preserving multi-source unsupervised domain adaptation algorithm for federated learning that transfers knowledge from N decentralized labeled source clients {D_{S_i}}_{i=1}^N to an unlabeled target client D_T without sharing raw client data by combining (1) a dynamic attention mechanism that weights each source client's gradients via softmax over K-means target feature clustering gap-statistics gains I_i^{gain} = I_i^{p-1} - I_i^p, (2) decoupled adversarial domain alignment between each source extractor G_i and target extractor G_t using extracted feature vectors rather than raw samples, and (3) adversarial feature disentanglement with Mutual Information Neural Estimation (MINE) to separate domain-invariant features f_{di} from domain-specific features f_{ds}.
+identity_notes: Introduced by Xingchao Peng, Zijun Huang, Yizhe Zhu, and Kate Saenko in 'Federated Adversarial Domain Adaptation' (ICLR 2020; arXiv:1911.02054). Distinct from centralized multi-source domain adaptation methods (DCTN, Xu et al. CVPR 2018; M3SDA, Peng et al. ICCV 2019; MDAN, Zhao et al. NeurIPS 2018), which require direct co-location of source and target domain examples on a single machine; and distinct from FedBN (Li et al. ICLR 2021), which handles feature shift across labeled federated clients via local batch normalization rather than adapting multiple labeled source clients to an unlabeled target client via dynamic attention and MINE feature disentanglement.
+aliases:
+- FADA
+- Federated Adversarial Domain Adaptation
+definition_evidence:
+- source_id: r516-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r516-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r516-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fada-weighted-federated-domain-adaptation-generalization-bound
+  kind: mechanism
+  statement: Theorem 2 (and Theorem 3 in Appendix G) proves that for a target classifier h_T = sum_{i=1}^N alpha_i h_{S_i} formed as a convex combination of N decentralized source hypotheses (alpha_i >= 0, sum_i alpha_i = 1) of VC dimension d with sample size m per domain, the target error is bounded with probability at least 1 - delta by epsilon_T(h_T) <= hat_epsilon_{tilde_S}(sum_i alpha_i h_{S_i}) + sum_{i=1}^N alpha_i ((1/2) hat_d_{H Delta H}(hat_D_{S_i}, hat_D_T) + lambda_i) + 4 sqrt((2 d log(2 N m) + log(4/delta)) / (N m)) (Equations 2 and 9), showing that target generalization depends on the alpha_i-weighted empirical H Delta H divergences between each source client and the target.
+  evidence:
+  - source_id: r516-primary-pdf
+    locator: Section 3.1, Theorem 2, Equation (2), pages 3-4; Appendix G, Theorem 3, page 18
+    relation: supports
+- claim_id: fada-dynamic-attention-via-kmeans-gap-statistics-gain
+  kind: mechanism
+  statement: To suppress negative transfer from irrelevant source domains while updating the target model, FADA clusters unlabeled target features into k K-means clusters {C_r}_{r=1}^k, measures intra-cluster dispersion I = sum_{r=1}^k (1 / (2 n_r)) sum_{i,j in C_r} ||f_i^t - f_j^t||_2 (Equation 3), computes each source domain's gap-statistic improvement I_i^{gain} = I_i^{p-1} - I_i^p across training steps, and weights source gradients by Softmax(I_1^{gain}, ..., I_N^{gain}).
+  evidence:
+  - source_id: r516-primary-pdf
+    locator: Section 3.1, Equation (3), page 4
+    relation: supports
+- claim_id: fada-decoupled-adversarial-alignment-and-mine-feature-disentanglement
+  kind: mechanism
+  statement: Because source and target data cannot be shared across nodes, FADA aligns each source generator G_i and target generator G_t through a domain identifier DI_i operating solely on extracted feature representations (Equations 4-5), while locally disentangling domain-invariant features f_{di} = D_{di}(G(x)) from domain-specific features f_{ds} = D_{ds}(G(x)) by training class identifier CI_i on f_{di} (Equation 6), adversarially confusing CI_i on f_{ds} via negative entropy L_{ent} = -(1/K) sum_k log CI_i(f_{ds})_k (Equation 7), and minimizing the Mutual Information Neural Estimator (MINE) lower bound I(P, Q) = (1/n) sum_{i=1}^n T(p, q, theta) - log((1/n) sum_{i=1}^n exp(T(p, q', theta))) (Equation 8) between f_{di} and f_{ds}.
+  evidence:
+  - source_id: r516-primary-pdf
+    locator: Section 3.2-3.3, Equations (4)-(8) and Figure 2, pages 4-6
+    relation: supports
+- claim_id: fada-empirical-performance-on-digit-five-office-caltech-and-domainnet
+  kind: application
+  statement: Across federated multi-source adaptation benchmarks, FADA improves average target accuracy over the bare FedAvg baseline from 70.6% to 78.9% on Digit-Five (Table 1), from 89.5% to 92.0% on Office-Caltech10 (Table 2), from 67.9% to 75.3% on Office-31 (Table 4), and from 41.2% to 45.2% on DomainNet (Table 3).
+  evidence:
+  - source_id: r516-primary-pdf
+    locator: Section 4.1-4.3, Tables 1-4, pages 7-8
+    relation: supports
+evidence_sources:
+- source_id: r516-primary-pdf
+  title: Federated Adversarial Domain Adaptation
+  authors: &id001
+  - Xingchao Peng
+  - Zijun Huang
+  - Yizhe Zhu
+  - Kate Saenko
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1911.02054.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/PengHZS20
+  version: ICLR 2020 (2020) (3481028 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:59:00Z'
+  sha256: d0c7e4e392e488149c854ea28fea274900c433ec483ca30ac9fb39fb1c98dd17
+- source_id: r516-arxiv-abs
+  title: Federated Adversarial Domain Adaptation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1911.02054
+  persistent_id: https://arxiv.org/abs/1911.02054
+  version: arXiv abstract page (6922 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:59:00Z'
+  sha256: ec40b03619a1a9a9f0585098de83b37ef3c8d0ef2b77297bf371eadf6c41f64d
+- source_id: r516-metadata-cr
+  title: Federated Adversarial Domain Adaptation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/PengHZS20
+  persistent_id: https://dblp.org/rec/conf/iclr/PengHZS20
+  version: Crossref API work record (7838 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:59:00Z'
+  sha256: f8d70d7d2419084afd9d697f2f01431e37d6b3a83efe8534c049e8f8393b8302
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FADA is a multi-source federated adversarial domain adaptation algorithm under AIO:FederatedLearning.
+limitations:
+- Exchanges extracted feature vectors and domain-identifier gradients between each source domain and the target domain during adversarial alignment (Section 3.2), which hides raw images but still exposes intermediate feature activations unless combined with cryptographic or differential-privacy protections.
+- Remains below centralized multi-source domain adaptation upper bounds that have joint access to raw source and target samples (e.g., 78.9% for FADA vs. 85.0% for centralized f-DANN on Digit-Five, Table 1).
+curation:
+  created_at: '2026-10-19T09:59:00Z'
+  updated_at: '2026-10-19T09:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

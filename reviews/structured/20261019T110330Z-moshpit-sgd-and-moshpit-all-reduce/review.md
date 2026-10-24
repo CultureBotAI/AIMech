@@ -1,0 +1,353 @@
+# Scientific author self-review of Moshpit SGD and Moshpit All-Reduce
+
+- Review: 20261019T110330Z-moshpit-sgd-and-moshpit-all-reduce
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:03:00Z
+- Finished UTC: 2026-10-19T11:03:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Moshpit SGD and Moshpit All-Reduce as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 5a5ecdc8752d661d0b35a76b525fc8be4f0bee9f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining | data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml | maintained | Moshpit SGD and Moshpit All-Reduce |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining | Validated history sidecar files. |
+| python3 moshpit-sgd-and-moshpit-all-reduce-boundaries.py | passed | True | AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining | [PASS] Round 580 Moshpit SGD verified: full_grid_err=0.00e+00, thm3_2_factor=0.222222, m1=0.1147, m2=0.0137, t_opt=0.0100&lt;0.0150 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.
+
+Moshpit SGD and Moshpit All-Reduce is a distinct concept.
+
+Distinct from global Ring/Butterfly All-Reduce (where a single straggler or failed peer stalls the entire cluster) and from gossip or PushSum decentralized SGD (whose convergence rate degrades with the spectral gap 1 - lambda_2(M) of a fixed sparse communication graph). Moshpit All-Reduce uses DHT-coordinated hypercube chunk-history keys to form disjoint small All-Reduce groups whose expected squared distortion contracts exponentially at rate ((r - 1)/N + r/N^2)^T independent of graph spectral gap.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in moshpit-sgd-and-moshpit-all-reduce-boundaries.py passed with exit code 0: [PASS] Round 580 Moshpit SGD verified: full_grid_err=0.00e+00, thm3_2_factor=0.222222, m1=0.1147, m2=0.0137, t_opt=0.0100&lt;0.0150
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T110300Z-moshpit-sgd-and-moshpit-all-reduce.json | supports | No normalized identity match for AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/moshpit-sgd-and-moshpit-all-reduce-boundaries.py | supports | All constructed boundary assertions in moshpit-sgd-and-moshpit-all-reduce-boundaries.py passed with exit code 0: [PASS] Round 580 Moshpit SGD verified: full_grid_err=0.00e+00, thm3_2_factor=0.222222, m1=0.1147, m2=0.0137, t_opt=0.0100&lt;0.0150 |
+| r580-primary-pdf | https://arxiv.org/pdf/2103.03239; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 18195-18211 (2021)) read and verified. |
+| r580-arxiv-abs | https://arxiv.org/abs/2103.03239; arXiv abstract | supports | arXiv abstract read and verified. |
+| r580-metadata-cr | https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&amp;format=json; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining in Round 580.
+- All pages of Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 18195-18211 (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T110330Z-moshpit-sgd-and-moshpit-all-reduce
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Moshpit SGD and Moshpit All-Reduce
+started_at: '2026-10-19T11:03:00Z'
+finished_at: '2026-10-19T11:03:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 18195-18211 (2021)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Moshpit SGD and Moshpit All-Reduce as a distinct DRAFT algorithm.
+  All four claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: 5a5ecdc8752d661d0b35a76b525fc8be4f0bee9f
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml
+    sha256: 009faf8868faf3e4d72cd881b78d5baf9cbcd6859a9772161c6fde45885c8569
+    role: target
+  - path: research/discovery/20261019T110300Z-moshpit-sgd-and-moshpit-all-reduce.json
+    sha256: 76eab29ef482aea0e13131a762c742e56b9aef6bb2b0f18330fc0130d02c469a
+    role: context
+  - path: research/discovery/moshpit-sgd-and-moshpit-all-reduce-boundaries.py
+    sha256: df45a372cefb70235c3dd94c2c3c229de50f7c38969011a487cf8a0709b0f02e
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  path: data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml
+  label: Moshpit SGD and Moshpit All-Reduce
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 moshpit-sgd-and-moshpit-all-reduce-boundaries.py
+  command: python3 research/discovery/moshpit-sgd-and-moshpit-all-reduce-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 580 Moshpit SGD verified: full_grid_err=0.00e+00, thm3_2_factor=0.222222,
+    m1=0.1147, m2=0.0137, t_opt=0.0100<0.0150'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T110300Z-moshpit-sgd-and-moshpit-all-reduce.json
+  accessed_at: '2026-10-19T11:03:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:03:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/moshpit-sgd-and-moshpit-all-reduce-boundaries.py
+  accessed_at: '2026-10-19T11:03:00Z'
+  snapshot_sha256: df45a372cefb70235c3dd94c2c3c229de50f7c38969011a487cf8a0709b0f02e
+  support: supports
+  summary: 'All constructed boundary assertions in moshpit-sgd-and-moshpit-all-reduce-boundaries.py
+    passed with exit code 0: [PASS] Round 580 Moshpit SGD verified: full_grid_err=0.00e+00,
+    thm3_2_factor=0.222222, m1=0.1147, m2=0.0137, t_opt=0.0100<0.0150'
+- evidence_id: r580-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2103.03239
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:03:00Z'
+  snapshot_sha256: 54fe0d1a22d8a68be5f3f1d9709ad12e05470e59686075ea326fd23828686140
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 34 (NeurIPS
+    2021), pp. 18195-18211 (2021)) read and verified.
+- evidence_id: r580-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2103.03239
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:03:00Z'
+  snapshot_sha256: 65f71dc6d803f393e8a67f3281e0f1b57053012abd33495de0136f19cd6512aa
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r580-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=Moshpit+SGD+Ryabinin+Gorbunov&format=json
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:03:00Z'
+  snapshot_sha256: ed897f73133e135028458fd5a57cb9f283b2e3710402330bf794ae0139bf70d4
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  evidence_ids:
+  - identity
+  - r580-primary-pdf
+  - r580-arxiv-abs
+  - r580-metadata-cr
+  summary: Moshpit SGD and Moshpit All-Reduce is a distinct concept.
+  details: Distinct from global Ring/Butterfly All-Reduce (where a single straggler
+    or failed peer stalls the entire cluster) and from gossip or PushSum decentralized
+    SGD (whose convergence rate degrades with the spectral gap 1 - lambda_2(M) of
+    a fixed sparse communication graph). Moshpit All-Reduce uses DHT-coordinated hypercube
+    chunk-history keys to form disjoint small All-Reduce groups whose expected squared
+    distortion contracts exponentially at rate ((r - 1)/N + r/N^2)^T independent of
+    graph spectral gap.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  evidence_ids:
+  - mapping
+  - r580-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  evidence_ids:
+  - r580-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in moshpit-sgd-and-moshpit-all-reduce-boundaries.py
+    passed with exit code 0: [PASS] Round 580 Moshpit SGD verified: full_grid_err=0.00e+00,
+    thm3_2_factor=0.222222, m1=0.1147, m2=0.0137, t_opt=0.0100<0.0150'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  evidence_ids:
+  - identity
+  - mapping
+  - r580-primary-pdf
+  - r580-arxiv-abs
+  - r580-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:MoshpitSgdAndMoshpitAllReduceForFaultTolerantDecentralizedTraining
+  in Round 580.
+- All pages of Advances in Neural Information Processing Systems 34 (NeurIPS 2021),
+  pp. 18195-18211 (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

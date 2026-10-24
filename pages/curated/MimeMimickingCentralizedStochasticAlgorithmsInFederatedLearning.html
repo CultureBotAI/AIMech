@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mime Framework for Mimicking Centralized Stochastic Algorithms in Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Mime Framework for Mimicking Centralized Stochastic Algorithms in Federated Learning</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Mime Framework for Mimicking Centralized Stochastic Algorithms in Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Mime, MimeLite, MimeMVR, Mimicking Centralized Stochastic Algorithms in Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A general federated optimization framework (Mime and MimeLite) that adapts arbitrary centralized stateful stochastic optimizers A = (U, V) (including Heavy-Ball momentum, Adam, Adagrad, and momentum-based variance reduction MVR) to cross-device federated learning by decomposing A into a linear parameter step U(g, s) and a statistics update V(g, s), updating the optimizer statistics s_t = V(c_t, s_{t-1}) only once per communication round at the server using the unbiased cross-client average gradient c_t = (1/|S_t|) sum_{i in S_t} nabla f_i(x_{t-1}), broadcasting (x_{t-1}, s_{t-1}, c_t) so each sampled client i in S_t executes K local parameter steps y_{i,k} = y_{i,k-1} - eta * U(g_{i,k}, s_{t-1}) with frozen server statistics s_{t-1} and either SVRG variance-reduced local gradients g_{i,k} = nabla f_i(y_{i,k-1}; zeta_{i,k}) - nabla f_i(x_{t-1}; zeta_{i,k}) + c_t (Mime) or raw local stochastic gradients g_{i,k} = nabla f_i(y_{i,k-1}; zeta_{i,k}) (MimeLite).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which requires stateful clients to store persistent control variates c_i across rounds and fails when clients are stateless or sampled once), from FedDyn (AIMech:FedDynDynamicRegularizationForFederatedLearning, which also requires stateful client gradient vectors), and from FedNova (AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization, which normalizes local step lengths rather than freezing server optimizer statistics s_{t-1} and applying cross-device SVRG control variates). No pinned AIO class covers Mime or stateless cross-device optimizer mimicking.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r388-frozen-server-statistics-and-generic-optimizer-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemma 5 demonstrates that updating momentum or adaptive preconditioner statistics V(g, s) locally at every client step biases the statistics toward client-specific gradients, whereas Theorem I proves that for any optimizer A = (U, V) with linear step map U(g_1 + g_2, s) = U(g_1, s) + U(g_2, s), keeping s_{t-1} fixed during K local steps yields an exact server step x_t = x_{t-1} - eta_tilde * U(c_t + e_t, s_{t-1}) with effective step size eta_tilde = K * eta and bounded local drift perturbation ||e_t||^2 &lt;= L^2 * E_K^t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r388-primary-pdf">Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3 Algorithm 1, Appendix C Lemma 5, and Section 4.1 Theorem I, pp. 4-6, 17-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r388-hessian-dissimilarity-and-mimemvr-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under delta-bounded Hessian dissimilarity ||nabla^2 f_i(x) - nabla^2 f(x)|| &lt;= delta (Assumption A2*, where delta &lt;= L and delta = 0 for homogeneous-curvature objectives even under arbitrarily large gradient dissimilarity G^2), Lemma 3 bounds the variance of the Mime SVRG correction by delta^2 ||y - x||^2, and Theorem IV proves that MimeMVR finds an epsilon-stationary point of nonconvex objectives in O(((1+delta) G^2 F / (S * eps^2))^{3/4} + (delta * sigma^2 / sqrt(S) + delta * G^2) / eps^{3/2} + (delta * K + L) / (eps * K)) rounds, matching the Omega((G / (sqrt(S) * eps))^{3/2}) lower bound of Theorem III and beating server-only momentum when delta &lt;&lt; L.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r388-primary-pdf">Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Assumption A2*, Appendix B Lemma 3, and Section 4.2 Theorems III &amp; IV, pp. 3, 6-8, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r388-full-local-gradient-and-communication-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Full Mime requires each active client to compute its full-batch local gradient nabla f_i(x_{t-1}) and evaluate two stochastic gradients per local step (at y_{i,k-1} and x_{t-1}) while broadcasting both x_{t-1}, s_{t-1}, and c_t (2x-3x downlink/uplink overhead), whereas MimeLite avoids the SVRG correction at the cost of an extra O(G^2) gradient-dissimilarity drift term.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r388-primary-pdf">Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3 Algorithm 1, Theorem I, and Section 4.2 Theorem V (MimeLiteMVR), pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r388-stateless-cross-device-federated-deep-learning-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to stateless cross-device federated learning on EMNIST-62 (ResNet-18), CIFAR-100, and Shakespeare character-level LSTM benchmarks using MimeSGD, MimeMom, MimeAdam, and MimeMVR, outperforming FedAvg, FedAvgM, FedAdam, and SCAFFOLD under low client sampling rates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r388-primary-pdf">Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experimental Analysis, Figures 1-2 &amp; Table 2, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires linearity of the base parameter update map U(g, s) in the gradient argument g so that local steps aggregate cleanly at the server.</li>
+      <li>Full Mime doubles local gradient evaluations per step and increases round communication by transmitting c_t and s_{t-1} alongside model parameters.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Mime is a stateless cross-device federated learning optimization framework that adapts centralized stateful stochastic optimizers via frozen server statistics and SVRG control variates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r388-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r388-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2008.03606.pdf" target="_blank" rel="noopener">Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Martin Jaggi, Satyen Kale, Mehryar Mohri, Sashank J. Reddi, Sebastian U. Stich, Ananda Theertha Suresh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2021/hash/ecbe1ef9a0c869f69725461b9028c196-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:79afc2ca5836…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r388-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r388-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2008.03606" target="_blank" rel="noopener">Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Martin Jaggi, Satyen Kale, Mehryar Mohri, Sashank J. Reddi, Sebastian U. Stich, Ananda Theertha Suresh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2008.03606</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:28f6ce64a30f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r388-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r388-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2021/hash/ecbe1ef9a0c869f69725461b9028c196-Abstract.html" target="_blank" rel="noopener">Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sai Praneeth Karimireddy, Martin Jaggi, Satyen Kale, Mehryar Mohri, Sashank J. Reddi, Sebastian U. Stich, Ananda Theertha Suresh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2021/hash/ecbe1ef9a0c869f69725461b9028c196-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ed124d0ce69c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AMimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Mime Framework for Mimicking Centralized Stochastic Algorithms in Federated Learning" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Mime Framework for...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:51:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:51:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Mime%20Framework%20for%20Mimicking%20Centralized%20Stochastic%20Algorithms%20in%20Federated%20Learning"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AMimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,112 @@
+id: AIMech:PAIRPassageCentricSimilarityRelationForDenseRetrieval
+name: PAIR Passage-Centric Similarity Relation for Dense Passage Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A dense passage retrieval training algorithm that jointly enforces query-centric similarity relations (pulling query q toward positive passage p^+ and pushing q away from negative passages p^- in N_P via L_Q(q, p^+, N_P) = -log(exp(f(q, p^+)) / (exp(f(q, p^+)) + sum_{p^- in N_P} exp(f(q, p^-))))) and passage-centric similarity relations (pushing positive passage p^+ away from negative passages p^- in N_P via L_P(q, p^+, N_P) = -log(exp(-f(p^+, p^+)) / (exp(-f(p^+, p^+)) + sum_{p^- in N_P} exp(f(p^+, p^-))))) under a combined objective L(q, p^+, N_P) = (1 - alpha) L_Q(q, p^+, N_P) + alpha L_P(q, p^+, N_P) trained in two stages: a pre-training stage on denoised synthetic pseudo-queries with decaying weight alpha > 0 followed by a fine-tuning stage on human-labeled queries with alpha = 0.'
+identity_notes: Distinct from DPR (AIMech:DensePassageRetrieval) and RocketQA (AIMech:RocketQADenoisedHardNegativeSampling), which optimize only query-passage similarity f(q, p) without explicitly penalizing passage-passage inner products f(p^+, p^-); and distinct from GPL (AIMech:GPLGenerativePseudoLabelingForDenseRetrieval), which distills cross-encoder query-passage margins on synthetic queries rather than optimizing a passage-centric contrastive repulsion loss L_P.
+aliases:
+- PAIR
+- PAIR Passage-Centric Dense Passage Retrieval
+- Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval
+definition_evidence:
+- source_id: r759-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r759-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r759-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: pair-passage-centric-contrastive-loss
+  kind: mechanism
+  statement: 'Under the geometric separation condition (Assumption 1: max(||q - p^+||, ||p^+ - p^-||) < ||q - p^-||), query-centric similarity alone cannot prevent hard negative passages p^- from clustering near p^+; PAIR introduces the passage-centric contrastive loss L_P(q, p^+, N_P) = -log(exp(-f(p^+, p^+)) / (exp(-f(p^+, p^+)) + sum_{p^- in N_P} exp(f(p^+, p^-)))) (Equation 2) and combines it with L_Q via L = (1 - alpha) L_Q + alpha L_P (Equation 3) to explicitly minimize positive-negative passage inner products f(p^+, p^-).'
+  evidence:
+  - source_id: r759-primary-pdf
+    locator: Sections 2.1-2.3, Assumption 1, Equations 1-3, Figure 1, pp. 2-3
+    relation: supports
+  - source_id: r759-primary-pdf
+    locator: main() verification of query_centric_loss L_Q, passage_centric_loss L_P, and combined PAIR loss under clustered vs. separated hard negatives
+    relation: supports
+- claim_id: pair-two-stage-pseudo-query-training
+  kind: mechanism
+  statement: To overcome data sparsity when estimating both query-centric and passage-centric similarity relations, PAIR generates synthetic queries from passages via a T5/BART generator, filters out noisy pseudo-labels and false negatives with a cross-encoder, pre-trains the dual-encoder with dynamic decay of alpha from alpha_0 > 0, and then fine-tunes on labeled target queries with alpha = 0 (Section 2.4).
+  evidence:
+  - source_id: r759-primary-pdf
+    locator: Section 2.4 Two-Stage Training Procedure, pp. 3-4
+    relation: supports
+- claim_id: pair-benchmark-applications
+  kind: application
+  statement: PAIR achieves 37.9 MRR@10 and 86.4% Recall@50 on MS MARCO Passage Ranking Dev and 74.9% Recall@5 / 83.5% Recall@20 on Natural Questions test, outperforming RocketQA and prior dense retrievers while reducing positive-negative passage cosine similarity (Tables 1, 3, and 4).
+  evidence:
+  - source_id: r759-primary-pdf
+    locator: Section 3.2 Main Results & Section 3.3 Detailed Analysis, Tables 1-4, pp. 5-7
+    relation: supports
+  - source_id: r759-metadata-cr
+    locator: BibTeX citation record for arXiv:2108.06027 (Findings of ACL-IJCNLP 2021)
+    relation: supports
+- claim_id: pair-unit-norm-and-pseudo-query-limitation
+  kind: limitation
+  statement: When passage embeddings are not L2-normalized, the exp(-f(p^+, p^+)) term in L_P can encourage growing the norm ||p^+|| unless unit-norm constraints or careful decay of alpha are applied, and the two-stage pipeline requires generating and cross-encoder-filtering millions of synthetic queries.
+  evidence:
+  - source_id: r759-primary-pdf
+    locator: Sections 2.2-2.4 & Section 3.1 Implementation Details, pp. 3-5
+    relation: supports
+evidence_sources:
+- source_id: r759-primary-pdf
+  title: 'PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval'
+  authors: &id001
+  - Ruiyang Ren
+  - Shangwen Lv
+  - Yingqi Qu
+  - Jing Liu
+  - Wayne Xin Zhao
+  - Qiaoqiao She
+  - Hua Wu
+  - Haifeng Wang
+  - Ji-Rong Wen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2108.06027
+  persistent_id: https://arxiv.org/bibtex/2108.06027
+  version: 'Findings of the Association for Computational Linguistics: ACL-IJCNLP 2021 (2021) (719333 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T14:02:00Z'
+  sha256: 2919e5f004f6dab6808ce7cb58f3bf2b4e2153b20e3c77b13e07b3e438aabd90
+- source_id: r759-arxiv-abs
+  title: 'PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2108.06027
+  persistent_id: https://arxiv.org/abs/2108.06027
+  version: arXiv abstract page (7587 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:02:00Z'
+  sha256: 24813ef24115bbce23636a7fa1fcc42fb67b390d4c37fa606dee6c9305a3ea53
+- source_id: r759-metadata-cr
+  title: 'PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2108.06027
+  persistent_id: https://arxiv.org/bibtex/2108.06027
+  version: Crossref API work record (577 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:02:00Z'
+  sha256: b100366c883b0874a5ed63060375d589befb4d24e3727ea010f88004da1be215
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PAIR trains a dual-encoder Transformer dense retriever using a combined query-centric and passage-centric contrastive loss over neural embeddings.
+limitations:
+- Requires generating millions of synthetic pseudo-queries and scoring them with a cross-encoder to provide sufficient training coverage for passage-centric similarity estimation.
+- Sensitive to the weighting hyperparameter alpha and its decay schedule between Stage 1 pre-training and Stage 2 fine-tuning.
+curation:
+  created_at: '2026-10-19T14:02:00Z'
+  updated_at: '2026-10-19T14:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

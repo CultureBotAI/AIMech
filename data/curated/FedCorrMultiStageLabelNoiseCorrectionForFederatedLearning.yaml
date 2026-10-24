@@ -1,0 +1,101 @@
+id: AIMech:FedCorrMultiStageLabelNoiseCorrectionForFederatedLearning
+name: FedCorr (Multi-Stage Federated Learning for Heterogeneous Label Noise Correction)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A three-stage federated learning framework for heterogeneous client label noise (Xu et al. 2022, Section 3, Equations 1-7, Algorithm 1) that (1) in a federated pre-processing stage (T_1 iterations with small\u7121-replacement sampling fraction gamma = 1/N), trains local models using Mixup cross-entropy plus an adaptive local proximal regularizer L(X_b) = L_CE(f_k^{(t)}(X_tilde_b), Y_tilde_b) + beta * mu_hat_k^{(t-1)} ||w_k^{(t)} - w^{(t-1)}||^2 proportional to each client's estimated noise rate mu_hat_k (Equation 5), partitions noisy versus clean clients via a two-component Gaussian Mixture Model (GMM) over cumulative Local Intrinsic Dimensionality (LID) scores of local prediction subspaces LID(D_k, f_k^{(t)}) = (1 / |D_k|) sum_{x in D_k} (-(1 / k) sum_{i=1}^k log(r_i(f(x)) / r_max(f(x))))^{-1} (Equations 1-2), separates noisy local samples D_k^n via a second per-client loss GMM, and partially relabels the top-pi fraction of high-loss samples exceeding global prediction confidence theta (Equations 6-7); (2) finetunes the global model on relatively clean clients (mu_hat_k <= kappa) for T_2 rounds followed by a second relabeling pass; and (3) performs standard FedAvg training across all corrected client datasets for T_3 rounds."
+identity_notes: Distinct from centralized noisy-label learning methods such as DivideMix (AIMech:DivideMixLearningWithNoisyLabelsAsSemiSupervisedLearning, Li et al. 2020) and Co-teaching (AIMech:CoTeachingRobustTrainingOfDeepNeuralNetworksWithExtremelyNoisyLabels, Han et al. 2018), which assume a single centralized dataset with homogeneous noise and cannot distinguish clean versus noisy clients or bound non-IID weight divergence across distributed clients; and distinct from Byzantine-robust gradient aggregators (such as Krum or Trimmed Mean), which discard client updates rather than correcting corrupted local sample labels.
+aliases:
+- FedCorr
+- Multi-Stage Federated Learning for Label Noise Correction
+- LID Prediction Subspace and Adaptive Proximal Federated Label Noise Correction
+definition_evidence:
+- source_id: r462-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r462-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r462-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r462-cumulative-lid-gmm-client-and-sample-noise-identification-mechanism
+  kind: mechanism
+  statement: Computes each client's Local Intrinsic Dimensionality score LID(D_k, f_k^{(t)}) over its M-dimensional prediction vectors via k-NN distance ratios (Equations 1-2), exploits the higher cumulative LID of noisy prediction subspaces to separate noisy clients S_n from clean clients S_c via a server-side 2-component GMM, and then fits a client-side 2-component GMM on per-sample cross-entropy losses on k in S_n to isolate corrupted samples D_k^n and estimate the local noise level mu_hat_k^{(t)} = |D_k^n| / |D_k|.
+  evidence:
+  - source_id: r462-primary-pdf
+    locator: 'Section 3.1 Dimensionality of Prediction Subspace (Equations 1-2, Figure 2) & Section 3.2 Stage 1: Pre-processing (Algorithm 1 lines 1-13), pp. 3-5'
+    relation: supports
+- claim_id: r462-adaptive-proximal-regularization-and-partial-relabeling-scope
+  kind: scope
+  statement: Stabilizes local training under joint data heterogeneity and heterogeneous label noise without sharing raw client data by scaling each client's proximal penalty beta * mu_hat_k^{(t-1)} ||w_k^{(t)} - w^{(t-1)}||^2 proportionally to its estimated noise rate (Equation 5) and relabeling only the top-pi highest-loss noisy samples whose global-model confidence max(f_G^{(t)}(x)) >= theta (Equations 6-7).
+  evidence:
+  - source_id: r462-primary-pdf
+    locator: Section 3.2 Adaptive Local Proximal Regularization & Label Correction (Equations 5-7), pp. 5-6
+    relation: supports
+- claim_id: r462-knn-lid-computation-and-clean-client-subset-limitation
+  kind: limitation
+  statement: Requires O(|D_k|^2 M) pairwise distance computations on each client's local prediction vectors per pre-processing iteration to estimate k-NN LID scores, and assumes the existence of a non-empty subset of relatively clean clients (mu_hat_k <= kappa) for Stage 2 finetuning.
+  evidence:
+  - source_id: r462-primary-pdf
+    locator: Section 3.1-3.3 (Equations 1-2, Algorithm 1 lines 14-18) & Section 4.3 Ablation Study, pp. 3-8
+    relation: supports
+- claim_id: r462-federated-classification-under-heterogeneous-label-noise-application
+  kind: application
+  statement: Applied to federated image classification under heterogeneous synthetic and real-world label noise on CIFAR-10, CIFAR-100, and Clothing1M.
+  evidence:
+  - source_id: r462-primary-pdf
+    locator: Section 4 Experiments (Tables 1-5, Figures 3-5), pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r462-primary-pdf
+  title: 'FedCorr: Multi-Stage Federated Learning for Label Noise Correction'
+  authors: &id001
+  - Jingyi Xu
+  - Zihan Chen
+  - Tony Q. S. Quek
+  - Kai Fong Ernest Chong
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2204.04677.pdf
+  persistent_id: https://doi.org/10.1109/CVPR52688.2022.00994
+  version: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR 2022), pp. 10184-10193 (2022) (3014 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:05:00Z'
+  sha256: 4b00719948747486955cd68157629e659fe4641234a9d1a8cb7555915e4aa0de
+- source_id: r462-arxiv-abs
+  title: 'FedCorr: Multi-Stage Federated Learning for Label Noise Correction (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.04677
+  persistent_id: https://arxiv.org/abs/2204.04677
+  version: arXiv abstract page (1343 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:05:00Z'
+  sha256: f3530dbb839b38f2182ec1e3224649d6dd0cc0d835a4a52b44b55b99790376c1
+- source_id: r462-metadata-cr
+  title: 'FedCorr: Multi-Stage Federated Learning for Label Noise Correction (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/CVPR52688.2022.00994
+  persistent_id: https://doi.org/10.1109/CVPR52688.2022.00994
+  version: Crossref API work record (434 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:05:00Z'
+  sha256: 1ba678f6016ab48131d7c714ec67b48fa5372fb420b97c6652706f2070651004
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedCorr is a multi-stage federated learning algorithm that detects noisy clients via cumulative LID scores and corrects corrupted local labels.
+limitations:
+- Requires pairwise k-NN distance computation over local prediction vectors on every client during Stage 1 pre-processing.
+- Relies on a bimodal GMM separation assumption for both client-level cumulative LID scores and sample-level cross-entropy losses.
+curation:
+  created_at: '2026-10-19T09:05:00Z'
+  updated_at: '2026-10-19T09:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

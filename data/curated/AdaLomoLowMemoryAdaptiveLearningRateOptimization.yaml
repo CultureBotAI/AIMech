@@ -1,0 +1,111 @@
+id: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization
+name: AdaLomo (Low-Memory Optimization with Adaptive Learning Rate)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A memory-efficient full-parameter adaptive optimization algorithm for large language models that fuses gradient backpropagation with in-place parameter updates to maintain O(1) gradient memory while providing per-parameter adaptive learning rates via rank-1 non-negative matrix factorization of the second-order gradient moment and single-pass parameter-wise root-mean-square grouped update normalization.
+identity_notes: Distinct from LOMO (AIMech:LomoFusedBackwardLowMemoryOptimization), which applies naive non-adaptive stochastic gradient descent during the fused backward pass and requires two backward passes whenever global gradient normalization is used; AdaLomo incorporates per-parameter second-moment scaling via row/column moving-average factors (r_{t,i}, c_{t,i}) and normalizes each tensor's update in a single fused backward pass via grouped update normalization. Distinct from Adafactor (AIMech:AdafactorSublinearMemoryAdaptiveOptimization), which materializes full-model gradients before the optimizer step and therefore consumes roughly 2.5x the memory of AdaLomo.
+aliases:
+- AdaLomo
+- AdaLomo Optimizer
+- Low-Memory Optimization with Adaptive Learning Rate
+- Fused-Backward Factored Second-Moment Adaptive Optimizer
+definition_evidence:
+- source_id: r635-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r635-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r635-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: adalomo-fused-backward-nmf-second-moment-mechanism
+  kind: mechanism
+  statement: During the backward pass, as soon as the gradient g_{t,i} of parameter tensor theta_{t-1,i} in R^{m x n} is computed, AdaLomo updates row and column second-moment vectors r_{t,i} = beta * r_{t-1,i} + (1 - beta) * g_{t,i}^2 * 1_n in R^{m x 1} and c_{t,i} = beta * c_{t-1,i} + (1 - beta) * 1_m^T * g_{t,i}^2 in R^{1 x n}, reconstructs the non-negative matrix factorization second-moment estimate v_{t,i} = (r_{t,i} * c_{t,i}) / (1_m^T * r_{t,i}), updates theta_{t,i} immediately, and discards g_{t,i-1}, reducing optimizer-state storage to m + n values per matrix and gradient storage to at most two consecutive parameter tensors.
+  evidence:
+  - source_id: r635-primary-pdf
+    locator: Section 2.1, Section 2.2 Equations (5)-(7), and Section 3.1 Algorithm 1 lines 5-13, pages 2-4
+    relation: supports
+- claim_id: adalomo-grouped-update-normalization-mechanism
+  kind: mechanism
+  statement: To avoid the two backward passes required by global gradient norm clipping in fused-backward training, AdaLomo applies grouped update normalization independently to each parameter tensor's raw adaptive update u_{t,i} within a single backward pass via u_hat_{t,i} = (u_{t,i} / max(1, RMS(u_{t,i}))) * max(epsilon, RMS(theta_{t-1,i})), where RMS(u) = sqrt((1/n) * sum_{k=1}^n u_k^2), scaling the step size proportionally to the parameter tensor's root-mean-square magnitude.
+  evidence:
+  - source_id: r635-primary-pdf
+    locator: Section 3.1 Algorithm 1 line 11 and Section 3.2 Grouped Update Normalization, pages 4-5
+    relation: supports
+- claim_id: adalomo-second-moment-saddle-and-lipschitz-scope
+  kind: scope
+  statement: Ablation analysis isolating Adam's first-order momentum (Equation 3) versus second-order variance scaling (Equation 4) demonstrates that second-order moment estimation is the primary factor enabling escape from suboptimal local minima and compensating for unbounded layer-wise Lipschitz variations in Transformer self-attention.
+  evidence:
+  - source_id: r635-primary-pdf
+    locator: Section 2.2 Theoretical and Empirical Analysis, Equations (3)-(4), Figure 1, and Appendix A Figure 6, pages 3-4, 13
+    relation: supports
+- claim_id: adalomo-llm-instruction-tuning-and-pretraining-application
+  kind: application
+  statement: Applied to instruction-tuning LLaMA-7B/13B/30B/65B on Alpaca-GPT4 (evaluated on MMLU, BBH, GSM8K, HumanEval, and AlpacaFarm), domain continual pre-training on Chinese and Python corpora, and from-scratch pre-training of a 1.1B LLaMA model on C4, AdaLomo matches AdamW convergence and benchmark accuracy while reducing total memory footprint to the level of LoRA (~40% of Adafactor's memory).
+  evidence:
+  - source_id: r635-primary-pdf
+    locator: Section 1 Table 1, Section 4.1-4.4 Table 2, Figures 2-5, and Appendix F Table 8, pages 2, 5-9, 17
+    relation: supports
+- claim_id: adalomo-activation-memory-and-early-warmup-limitation
+  kind: limitation
+  statement: Because AdaLomo reduces only gradient and optimizer-state memory and omits first-order momentum, its overall memory savings are limited in regimes dominated by activation memory, and it can exhibit minor early-warmup loss fluctuations on smaller models as well as a modest throughput reduction relative to non-adaptive LOMO.
+  evidence:
+  - source_id: r635-primary-pdf
+    locator: Section 4.2 page 7, Section 4.4 page 8, and Limitations Section, page 9
+    relation: supports
+evidence_sources:
+- source_id: r635-primary-pdf
+  title: 'AdaLomo: Low-memory Optimization with Adaptive Learning Rate'
+  authors: &id001
+  - Kai Lv
+  - Hang Yan
+  - Qipeng Guo
+  - Haijun Lv
+  - Xipeng Qiu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2310.10195.pdf
+  persistent_id: https://dblp.org/rec/conf/acl/Lv0GLQ24
+  version: 'Findings of the Association for Computational Linguistics: ACL 2024 (2024) (2233776 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T11:58:00Z'
+  sha256: 65bd0e33ca1c9f1b2dafe3827abc9f273c43439dc1e8e8ae2e7350c71b80e856
+- source_id: r635-arxiv-abs
+  title: 'AdaLomo: Low-memory Optimization with Adaptive Learning Rate (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2310.10195
+  persistent_id: https://arxiv.org/abs/2310.10195
+  version: arXiv abstract page (6709 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:58:00Z'
+  sha256: 65c13009e2c5f9fb4391626fb5a372daba5ac8b758bda36bb62b8e7efb4628fb
+- source_id: r635-metadata-cr
+  title: 'AdaLomo: Low-memory Optimization with Adaptive Learning Rate (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/acl/Lv0GLQ24
+  persistent_id: https://dblp.org/rec/conf/acl/Lv0GLQ24
+  version: Crossref API work record (1911 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:58:00Z'
+  sha256: 603bbb15629f88e65275e6a029a3503e84b71b729d3e59577c33ab8dea32746c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdaLomo is a memory-efficient full-parameter adaptive gradient optimizer for training and instruction-tuning deep neural network and Transformer language models.
+limitations:
+- Reduces memory occupied by gradients and optimizer states but does not compress intermediate activation memory.
+- Omitting first-order momentum can cause slight loss fluctuations during the initial warmup phase compared to AdamW.
+- Incurs a small per-step computational overhead for factored second-moment updates and grouped RMS normalization relative to vanilla LOMO.
+curation:
+  created_at: '2026-10-19T11:58:00Z'
+  updated_at: '2026-10-19T11:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

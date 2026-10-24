@@ -1,0 +1,99 @@
+id: AIMech:ProdigyExpeditiouslyAdaptiveParameterFreeOptimization
+name: Prodigy (Expeditiously Adaptive Parameter-Free Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A parameter-free adaptive optimization algorithm that estimates the initial distance to the solution D = ||x_0 - x_*|| online via a monotonically non-decreasing lower bound d_{k+1} = max(d_k, d_hat_{k+1}) and places d_i^2-weighted gradient norms inside the AdaGrad/Adam step-size denominator \u2014 setting eta_k = d_k^2 lambda_k / sqrt(d_k^2 G^2 + sum_{i=0}^k d_i^2 lambda_i^2 ||g_i||^2) in Gradient Descent (Algorithm 1), gamma_{k+1} = 1 / sqrt(lambda_{k+1} G^2 + sum_{i=0}^k lambda_i ||g_i||^2) with lambda_k = d_k^2 in Dual Averaging (Algorithm 2), and scaling moments by d_k and d_k^2 with sqrt(beta_2) EMA tracking of r_{k+1} and s_{k+1} in Adam (Algorithm 3) \u2014 improving the worst-case non-asymptotic convergence rate of D-Adaptation by a factor of O(sqrt(log(D / d_0)))."
+identity_notes: Distinct from standard D-Adaptation in that Prodigy weights each historical squared gradient norm in the step-size denominator by d_i^2 rather than unweighted ||g_i||^2, yielding a provably larger step size d_k^2 / sqrt(sum_{i=0}^k d_i^2 ||g_i||^2) >= d_k / sqrt(sum_{i=0}^k ||g_i||^2) and reducing the dependence on the initial distance underestimate D / d_0 from O(log(D / d_0)) to the optimal O(sqrt(log(D / d_0))). Distinct from DoG in that Prodigy estimates D via a dual lower bound d_hat_{k+1} rather than the maximum iterate displacement max_{i<=k} ||x_i - x_0|| and naturally supports coordinatewise Adam preconditioning.
+aliases:
+- Prodigy Optimizer
+- Prodigy Parameter-Free Learner
+- Weighted D-Adaptation (Prodigy)
+definition_evidence:
+- source_id: r590-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r590-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r590-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r590-d2-weighted-stepsize-and-sqrt-log-rate
+  kind: mechanism
+  statement: By weighting historical squared gradients in the denominator by d_i^2 (and optional non-decreasing weights lambda_i), Prodigy produces step sizes eta_k = d_k^2 / sqrt(sum_{i=0}^k d_i^2 ||g_i||^2) that are provably larger than D-Adaptation's d_k / sqrt(sum_{i=0}^k ||g_i||^2) and bounds min_{t<N} d_{t+1} / sqrt(sum_{k=0}^t d_k^2) <= 4 sqrt(log_{2+}(d_N / d_0)) / sqrt(N) (Lemma 1), achieving O(G D sqrt(log_{2+}(D / d_0)) / sqrt(n)) convergence in Dual Averaging (Theorem 2) and improving upon D-Adaptation by O(sqrt(log(D / d_0))).
+  evidence:
+  - source_id: r590-primary-pdf
+    locator: Section 2, pp. 2-4; Lemma 1 & Theorems 1-2, pp. 3-4; Appendix A.2-A.4, pp. 15-21
+    relation: supports
+- claim_id: c-r590-adam-exponential-weighting-derivation
+  kind: mechanism
+  statement: Setting exponential weights lambda_k = beta_2^{-k/2} in Prodigy's step-size identity yields the Adam variant (Algorithm 3), which scales first and second moment updates by d_k and d_k^2 (m_{k+1} = beta_1 m_k + (1 - beta_1) d_k g_k, v_{k+1} = beta_2 v_k + (1 - beta_2) d_k^2 g_k^2) and tracks numerator r_{k+1} and l_1-norm denominator s_{k+1} using exponential moving average factor sqrt(beta_2) to update d_hat_{k+1} = r_{k+1} / ||s_{k+1}||_1.
+  evidence:
+  - source_id: r590-primary-pdf
+    locator: Algorithm 3, p. 6; Section 5, pp. 6-7; Appendix A.5, Algorithm 4 & Theorem 7, pp. 22-25
+    relation: supports
+- claim_id: c-r590-exponentially-bounded-lower-complexity
+  kind: scope
+  statement: D-Adaptation, DoG, and Prodigy all belong to the class of exponentially bounded optimization algorithms satisfying ||x_k - x_0|| <= 2^k d_0 for G-bounded gradients (Definition 1, Theorem 3), for which any algorithm without problem constants G and D suffers a worst-case lower bound min_{k<=n} f(x_k) - f_* >= D G sqrt(log_2(D / x_1)) / (2 sqrt(n + 1)) (Theorem 4), proving that Prodigy's sqrt(log(D / d_0)) dependence is optimal within this class.
+  evidence:
+  - source_id: r590-primary-pdf
+    locator: Section 3, Definition 1 & Theorems 3-4, pp. 4-5; Appendix B, Theorems 8-9, pp. 25-27
+    relation: supports
+- claim_id: c-r590-fast-growing-weights-and-da-limitation
+  kind: limitation
+  statement: Prodigy's Dual Averaging convergence analysis requires monotonically decreasing step sizes gamma_{k+1} and therefore only holds for fixed weights lambda_k = d_k^2, while in the Gradient Descent variant choosing exponentially growing weights lambda_k = beta_2^{-k^p} requires p < 1/3 to guarantee worst-case convergence.
+  evidence:
+  - source_id: r590-primary-pdf
+    locator: Section 2, p. 4
+    relation: supports
+evidence_sources:
+- source_id: r590-primary-pdf
+  title: 'Prodigy: An Expeditiously Adaptive Parameter-Free Learner'
+  authors: &id001
+  - Konstantin Mishchenko
+  - Aaron Defazio
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2306.06101.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/MishchenkoD24
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR 235:35779-35804 (2024) (2132241 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:13:00Z'
+  sha256: afac6e5d1d4ea5e088e2530b8279008861d85db7f255f1db36e56f506da4ce89
+- source_id: r590-arxiv-abs
+  title: 'Prodigy: An Expeditiously Adaptive Parameter-Free Learner (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2306.06101
+  persistent_id: https://arxiv.org/abs/2306.06101
+  version: arXiv abstract page (6312 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:13:00Z'
+  sha256: bee91e979dc9bb39da2360228015b7911728ec04ad4dd8a297a20dedca951a65
+- source_id: r590-metadata-cr
+  title: 'Prodigy: An Expeditiously Adaptive Parameter-Free Learner (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/MishchenkoD24
+  persistent_id: https://dblp.org/rec/conf/icml/MishchenkoD24
+  version: Crossref API work record (1693 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:13:00Z'
+  sha256: a8c4296bb75b6eaf78a68da55272d814dc49b3f97de4ce09c3c2ce237a4e5e9c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Prodigy is a parameter-free adaptive optimizer for training and fine-tuning artificial neural networks.
+limitations:
+- Dual Averaging Prodigy (Algorithm 2) requires monotonically decreasing step sizes gamma_{k+1} and therefore cannot incorporate arbitrary increasing gradient weights beyond lambda_k = d_k^2.
+- Maintains additional running state vectors (s_k in R^p alongside m_k and v_k) compared to standard Adam.
+curation:
+  created_at: '2026-10-19T11:13:00Z'
+  updated_at: '2026-10-19T11:13:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,105 @@
+id: AIMech:RepAdapter
+name: RepAdapter (Structurally Re-parameterized Visual Adapter)
+concept_kind: architecture
+review_status: DRAFT
+definition: A parameter-efficient visual adaptation architecture that inserts a sequential linear residual bottleneck with a dense down-projection and a group-wise sparse up-projection immediately before multi-head attention and feed-forward (or convolutional) modules during training, and losslessly merges the learned adapter weights and biases into the adjacent pre-trained projection layers via sequential structural re-parameterization for zero extra inference latency or parameters.
+identity_notes: Introduced by Gen Luo, Minglang Huang, Yiyi Zhou, Xiaoshuai Sun, Guannan Jiang, Zhiyu Wang, and Rongrong Ji (2023, arXiv:2302.08106). Distinct from parallel non-linear visual adapters such as AdaptFormer (Chen et al., NeurIPS 2022; AIMech Round 696) and post-FFN non-linear sequential adapters (Houlsby et al., ICML 2019; AIMech Round 677), which cannot be merged into Transformer blocks due to intervening non-linearities, and distinct from SSF (Lian et al., NeurIPS 2022; AIMech Round 692), which applies element-wise affine modulation rather than a dense-to-sparse bottleneck projection. Both full RepAdapter (placed before both MHA and FFN) and the lightweight RepAdapter_attn variant (placed only before MHA) are covered within this single record.
+aliases:
+- RepAdapter
+- RepAdapter_attn
+- Sequentially Re-parameterized Dense-to-Sparse Visual Adapter
+definition_evidence:
+- source_id: r701-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r701-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r701-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: repadapter-sequential-structural-reparameterization-mechanism
+  kind: mechanism
+  statement: By removing the internal non-linear activation from the residual bottleneck adapter f(X; theta) = (X W_d + b_d) W_u + b + X, RepAdapter simplifies the module at inference time to the single affine transformation f(X; theta) = X W_ada + b_ada with W_ada = W_d W_u + W_I and b_ada = b_d W_u + b (Eq. 9), and when sequentially pre-inserted before a pre-trained linear or convolutional layer (W_0, b_0) as X'_l = MHA(f(LN(X_{l-1}); theta)) + X_{l-1} and X_l = FFN(f(LN(X'_l); theta)) + X'_l (Eq. 12), merges into W_rep = W_ada W_0 and b_rep = b_ada W_0 + b_0 (Eq. 10) for zero additional inference parameters (Delta P = 0) and zero additional inference FLOPs or GPU latency (Delta F = 0).
+  evidence:
+  - source_id: r701-primary-pdf
+    locator: Section 3.2.1 Sequentially Structural Re-parameterization, Figure 3 & Eqs. 8-10, p. 4; Section 3.2.2 Adapter Placement, Figure 4 & Eq. 12, p. 5; Section 4.3.3 Table 4, p. 7
+    relation: supports
+- claim_id: repadapter-dense-to-sparse-group-projection-mechanism
+  kind: mechanism
+  statement: RepAdapter formulates its upsampling projection phi_u as a k-group sparse transformation phi_u(X') = [X'_{g_0} W_{g_0}, ..., X'_{g_k} W_{g_k}] + b where each feature split X'_i in R^{n x (c/k)} is projected by W_i in R^{(c/k) x (d/k)} (Eq. 11) and converted to a dense matrix W_u in R^{c x d} via zero-padding during inference re-parameterization, saving 25% of adapter parameters when k = 2 (0.11M vs. 0.16M for RepAdapter_attn with c = 8) while outperforming both dense (k = 1) and fully sparse (both projections group-wise) variants.
+  evidence:
+  - source_id: r701-primary-pdf
+    locator: Section 3.2.2 Adapter Structure, Eq. 11, p. 5; Section 4.2 Implementation Details, p. 5; Section 4.3.2 Ablation Studies, Tables 2-3, pp. 6-7
+    relation: supports
+- claim_id: repadapter-vision-benchmarks-application
+  kind: application
+  statement: Validated across 27 datasets spanning image classification (VTAB-1k, where RepAdapter achieves 76.1% average accuracy with 0.22M parameters on ViT-B/16, +7.2% over full tuning while saving 25% training time, 20% GPU memory, and 94.6% storage), CLIP few-shot and domain generalization (ImageNet, -V2, -Sketch, -A, -R), ConvNeXt-B (79.0%) and Swin-B (77.4%), video classification (SSv2 and HMDB51), and semantic segmentation (SETR on ADE20K).
+  evidence:
+  - source_id: r701-primary-pdf
+    locator: Abstract, p. 1; Section 4.3.1 Table 1, p. 6; Section 4.3.3 Figure 5, p. 7; Section 4.3.4 Tables 5-8, pp. 7-8
+    relation: supports
+- claim_id: repadapter-group-count-and-post-insertion-limitation
+  kind: limitation
+  statement: Increasing the group count k beyond 2 (e.g., k = 4 or k = 8) or making both projections group-wise ('full sparse') degrades VTAB-1k accuracy (from 75.5% to 74.5% and 75.1%) by restricting cross-channel information exchange, and placing RepAdapter after MHA/FFN or increasing hidden dimension c beyond 8 (e.g., c = 16) reduces accuracy due to overfitting on small downstream datasets.
+  evidence:
+  - source_id: r701-primary-pdf
+    locator: Section 4.3.2 Ablation Studies, Table 2(a)-(d), pp. 6-7
+    relation: supports
+evidence_sources:
+- source_id: r701-primary-pdf
+  title: Towards Efficient Visual Adaption via Structural Re-parameterization
+  authors: &id001
+  - Gen Luo
+  - Minglang Huang
+  - Yiyi Zhou
+  - Xiaoshuai Sun
+  - Guannan Jiang
+  - Zhiyu Wang
+  - Rongrong Ji
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2302.08106.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Towards+Efficient+Visual+Adaption+via+Structural+Re-parameterization&format=xml
+  version: arXiv (cs.CV) (2023) (554847 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:04:00Z'
+  sha256: 2d20614877288a207ab2f1b06729e5cf229ee932eb5c320efa9c2da38f39f78f
+- source_id: r701-arxiv-abs
+  title: Towards Efficient Visual Adaption via Structural Re-parameterization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2302.08106
+  persistent_id: https://arxiv.org/abs/2302.08106
+  version: arXiv abstract page (6992 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:04:00Z'
+  sha256: ccbe40087eea688d19a7f7d868efd8f26d4ef088bed0c3986cc3a7a58251b88b
+- source_id: r701-metadata-cr
+  title: Towards Efficient Visual Adaption via Structural Re-parameterization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Towards+Efficient+Visual+Adaption+via+Structural+Re-parameterization&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Towards+Efficient+Visual+Adaption+via+Structural+Re-parameterization&format=xml
+  version: Crossref API work record (814 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:04:00Z'
+  sha256: ed82b5cb383904f22b9cef5958ab81ca67114e75ac10274a10bfdee4eea20a0f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: RepAdapter adapts pre-trained Vision Transformer and CNN neural networks via sequentially placed linear dense-to-sparse bottleneck blocks that merge into adjacent projection weights at inference.
+limitations:
+- Increasing the group number k beyond 2 or using group-wise transformations in both down- and up-projections ('full sparse') restricts cross-group feature interaction and reduces accuracy.
+- Expanding the bottleneck hidden dimension c from 8 to 12 or 16 degrades VTAB-1k accuracy (from 75.5% to 75.1%) due to overfitting on small-scale 1,000-example datasets.
+- Exact structural re-parameterization into adjacent weights requires RepAdapter to be linear and sequentially pre-inserted before linear or convolutional projections rather than placed in parallel with non-linear FFN blocks.
+curation:
+  created_at: '2026-10-19T13:04:00Z'
+  updated_at: '2026-10-19T13:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MatDot and PolyDot Codes for Straggler-Resilient Coded Matrix Multiplication · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>MatDot and PolyDot Codes for Straggler-Resilient Coded Matrix Multiplication</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MatDot and PolyDot Codes for Straggler-Resilient Coded Matrix Multiplication</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MatDot Codes, PolyDot Codes, Systematic MatDot Codes, MatDot and PolyDot Coded Matrix Multiplication
+    </div>
+
+  <div class="detail-desc">
+    A family of algebraic coded matrix-multiplication schemes proposed by Dutta, Fahim, Haddadpour, Jeong, Cadambe, and Grover (2017/2020) that reduces the straggler recovery threshold for distributed multiplication AB of N x N matrices under a 1/m per-worker storage constraint from m^2 (in Polynomial Codes) down to 2m - 1 in MatDot Codes—by partitioning A vertically into m column-blocks [A_0, ..., A_{m-1}] and B horizontally into m row-blocks [B_0^T, ..., B_{m-1}^T]^T, encoding p_A(x) = sum_{i=0}^{m-1} A_i x^i and p_B(x) = sum_{j=0}^{m-1} B_j x^{m-1-j}, and recovering AB = sum_{i=0}^{m-1} A_i B_i as the coefficient of x^{m-1} in p_A(x) p_B(x)—and unifies MatDot and Polynomial Codes via PolyDot(m, s, t) Codes (with st = m) to trade off worker-to-fusion communication cost O(N^2 / t^2) against recovery threshold k = t^2(2s - 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Polynomial Codes (AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication, which split A horizontally and B vertically into outer-product blocks requiring recovery threshold m^2 with O(N^2 / m^2) per-worker output communication). Dutta et al. (Allerton 2017 / IEEE Trans. Inf. Theory 2020 / arXiv:1801.10292, Constructions 1-5 &amp; Theorems 1-6, pp. 4-17) introduce four coupled constructions: (1) MatDot Codes (Construction 1, Theorem 1), which encode column-blocks of A as p_A(x) = sum_{i=0}^{m-1} A_i x^i and row-blocks of B as p_B(x) = sum_{j=0}^{m-1} B_j x^{m-1-j} so that AB = sum_{i=0}^{m-1} A_i B_i is the coefficient of x^{m-1} in the degree-(2m-2) product polynomial p_C(x) = p_A(x) p_B(x), achieving recovery threshold k = 2m - 1; (2) Systematic MatDot Codes (Construction 2, Lemma 1, Theorem 2), which encode p_A(x) = sum_{i=1}^m A_{i-1} L_i(x) and p_B(x) = sum_{i=1}^m B_{i-1} L_i(x) using Lagrange basis polynomials L_i(x) so the first m workers output uncoded A_{r-1} B_{r-1} while any 2m - 1 workers suffice for interpolation; (3) PolyDot(m, s, t) Codes (Construction 3, Lemma 2, Theorem 3), which partition A into a t x s block grid and B into an s x t block grid (st = m) to achieve recovery threshold t^2(2s - 1) (improved to t^2 s + s - 1 under generalized substitution x = y^t, z = y^{st}, Table I); and (4) n-Matrix Multiplication Codes (Constructions 4-5, Theorems 4-6).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#matdot-column-row-block-polynomial-encoding-and-systematic-lagrange-construction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MatDot splits A vertically into m column-blocks A_i in F^{N x (N/m)} and B horizontally into m row-blocks B_j in F^{(N/m) x N}, encodes p_A(x) = sum_{i=0}^{m-1} A_i x^i and p_B(x) = sum_{j=0}^{m-1} B_j x^{m-1-j}, and recovers AB = sum_{i=0}^{m-1} A_i B_i as the coefficient of x^{m-1} in the degree-(2m - 2) polynomial p_C(x) = p_A(x) p_B(x) from any 2m - 1 workers (Construction 1, Theorem 1); Systematic MatDot (Construction 2, Lemma 1, Theorem 2) uses Lagrange basis polynomials L_i(x) so the first m workers directly output A_{r-1} B_{r-1} while retaining the 2m - 1 worst-case recovery threshold.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r541-primary-pdf">On the Optimal Recovery Threshold of Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section III, Construction 1, Equations (2)-(4) &amp; Theorem 1, pp. 4-5; Section IV, Construction 2, Equations (6)-(8), Lemma 1 &amp; Theorem 2, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#polydot-communication-recovery-threshold-interpolation-and-n-matrix-theorems</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any factorization st = m dividing N, PolyDot(m, s, t) splits A into a t x s grid and B into an s x t grid and uses the bijection f(alpha, beta, gamma) = alpha + t beta + t(2s - 1) gamma (Lemma 2, Equation 13) to achieve recovery threshold k = t^2(2s - 1) with per-worker communication O(N^2 / t^2) (Theorem 3), interpolating between MatDot (s = m, t = 1, k = 2m - 1) and Polynomial Codes (s = 1, t = m, k = m^2); Theorems 4-6 extend this construction to one-round coded multiplication of n &gt;= 3 matrices with recovery threshold 2m^{n/2} - 1 for even n and (m + 1)m^{floor(n/2)} - 1 for odd n.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r541-primary-pdf">On the Optimal Recovery Threshold of Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section V, Construction 3, Lemma 2, Theorem 3 &amp; Table I, pp. 9-11; Section VI, Constructions 4-5 &amp; Theorems 4-6, pp. 12-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#matdot-worker-to-fusion-communication-expansion-and-tensor-product-decoding-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Reducing the recovery threshold from m^2 to 2m - 1 in MatDot increases the per-worker output dimension from (N/m) x (N/m) to a full N x N matrix (increasing total worker-to-fusion communication from O(N^2) to O(m N^2)), and when coded computing is applied to operations whose output size matches their O(N^4) computational complexity (such as Kronecker tensor products A otimes B), fusion-node decoding overhead Theta(N^4 log^2 m) becomes a bottleneck (Section VII-A).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r541-primary-pdf">On the Optimal Recovery Threshold of Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section III-B &amp; III-C, p. 6; Section VII-A, pp. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#matdot-polydot-fault-tolerant-distributed-linear-algebra-and-deep-network-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to straggler- and fault-tolerant distributed matrix-matrix multiplication, chained multi-matrix products D^(1) D^(2) ... D^(n), and coded deep neural network training on unreliable compute clusters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r541-primary-pdf">On the Optimal Recovery Threshold of Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section I, pp. 1-2; Section V, Figure 6, p. 10; Section VI, pp. 12-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>MatDot requires each responding worker to transmit a full N x N matrix product to the fusion node, resulting in O(m N^2) total worker-to-fusion communication compared to O(N^2) for Polynomial Codes.</li>
+      <li>Chained one-round n-matrix multiplication codes require a recovery threshold that grows exponentially with the chain length n as Theta(m^{ceil(n/2)}).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:LinearRegression and distributed linear/deep learning rely on straggler-resilient coded matrix-matrix multiplication provided by MatDot and PolyDot Codes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r541-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r541-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1801.10292.pdf" target="_blank" rel="noopener">On the Optimal Recovery Threshold of Coded Matrix Multiplication</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanghamitra Dutta, Mohammad Fahim, Farzin Haddadpour, Haewon Jeong, Viveck R. Cadambe, Pulkit Grover
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:16643ac3cced…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r541-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r541-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1801.10292" target="_blank" rel="noopener">On the Optimal Recovery Threshold of Coded Matrix Multiplication (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanghamitra Dutta, Mohammad Fahim, Farzin Haddadpour, Haewon Jeong, Viveck R. Cadambe, Pulkit Grover
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1801.10292</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0ed6854109ed…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r541-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r541-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml" target="_blank" rel="noopener">On the Optimal Recovery Threshold of Coded Matrix Multiplication (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanghamitra Dutta, Mohammad Fahim, Farzin Haddadpour, Haewon Jeong, Viveck R. Cadambe, Pulkit Grover
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a2bc60ebc732…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AMatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for MatDot and PolyDot Codes for Straggler-Resilient Coded Matrix Multiplication" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">MatDot and PolyDot...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:LinearRegression (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:24:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:24:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=MatDot%20and%20PolyDot%20Codes%20for%20Straggler-Resilient%20Coded%20Matrix%20Multiplication"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AMatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

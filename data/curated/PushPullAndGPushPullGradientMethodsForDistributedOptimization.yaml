@@ -1,0 +1,104 @@
+id: AIMech:PushPullAndGPushPullGradientMethodsForDistributedOptimization
+name: Push-Pull and G-Push-Pull Gradient Methods for Distributed Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A directed-graph distributed gradient tracking method and its asynchronous gossip extension (Pu, Shi, Xu, & Nedic 2021, Section II, Algorithm 1, Equation 2; Section IV, Algorithm 2) that updates decision variables via a row-stochastic pull matrix R (R 1 = 1) and gradient trackers via a column-stochastic push matrix C (1^T C = 1^T) according to x_{k+1} = R (x_k - alpha y_k) and y_{k+1} = C y_k + nabla F(x_{k+1}) - nabla F(x_k) with y_0 = nabla F(x_0) and uncoordinated diagonal step-size matrix alpha = diag(alpha_1, ..., alpha_n) >= 0.
+identity_notes: Distinct from Push-DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, & Shi 2017), which uses only column-stochastic matrices C(k) for both state and tracker updates and requires maintaining and inverting an auxiliary Push-Sum eigenvector estimate V(k) = diag(v(k)) at every step, whereas Push-Pull combines row-stochastic R (pulling states) and column-stochastic C (pushing trackers) to eliminate eigenvector estimation altogether.
+aliases:
+- Push-Pull and G-Push-Pull
+- Push-Pull Distributed Gradient Method
+- G-Push-Pull
+definition_evidence:
+- source_id: r438-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r438-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r438-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r438-spanning-tree-root-unification-and-linear-convergence-theorem
+  kind: mechanism
+  statement: "Under Assumptions 1-4 \u2014 requiring only that the induced digraphs G_R and G_{C^T} share at least one common spanning-tree root i in R_R cap R_{C^T} with positive local step size alpha_i > 0 rather than strong connectivity \u2014 the left Perron eigenvector u^T R = u^T and right Perron eigenvector C v = v satisfy u^T v > 0 and effective step size alpha' = (1/n) sum_{i=1}^n u_i v_i alpha_i > 0 (Lemma 1, Remark 4), proving global linear convergence O(rho(A)^k) of both ||bar_x_k - x^*||_2 and ||x_k - 1 bar_x_k||_R while unifying peer-to-peer decentralized, master-slave centralized, and leader-follower semi-centralized architectures (Section II-B, Theorem 1)."
+  evidence:
+  - source_id: r438-primary-pdf
+    locator: Section II-B Unification of Different Types of Architecture & Section III Convergence Analysis (Lemma 1, Remark 4, Theorem 1), pp. 3-7
+    relation: supports
+- claim_id: r438-g-push-pull-asynchronous-edge-gossip-linear-convergence
+  kind: mechanism
+  statement: In G-Push-Pull (Section IV, Algorithm 2), randomly waking agents pull state variables from in-neighbors and push scaled tracker updates along active outgoing links using random matrices R_k and C_k with row-stochastic E[R_k] and column-stochastic E[C_k], achieving linear convergence in expectation for strongly convex smooth objectives (Theorem 2).
+  evidence:
+  - source_id: r438-primary-pdf
+    locator: Section IV Gossip-like Push-Pull (G-Push-Pull, Algorithm 2, Theorem 2), pp. 8-11
+    relation: supports
+- claim_id: r438-out-degree-knowledge-and-deterministic-gradient-limitation
+  kind: limitation
+  statement: Constructing the column-stochastic push matrix C requires each agent i to know its out-degree |N_{C,i}^{out}| (or broadcast weights summing to 1 across out-neighbors), and the exact linear convergence rate O(rho(A)^k) requires deterministic local gradients.
+  evidence:
+  - source_id: r438-primary-pdf
+    locator: Section II-A Equation 1 & Section VI Conclusions
+    relation: supports
+- claim_id: r438-directed-network-ridge-and-logistic-regression-application
+  kind: application
+  statement: Applied to distributed ridge regression and l_2-regularized logistic regression over directed cyclic and random networks under decentralized and semi-centralized leader-follower topologies.
+  evidence:
+  - source_id: r438-primary-pdf
+    locator: Section V Numerical Examples (Figures 3-6), pp. 11-13
+    relation: supports
+evidence_sources:
+- source_id: r438-primary-pdf
+  title: Push-Pull Gradient Methods for Distributed Optimization in Networks
+  authors: &id001
+  - Shi Pu
+  - Wei Shi
+  - Jinming Xu
+  - Angelia Nedic
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1810.06653
+  persistent_id: https://doi.org/10.1109/TAC.2020.2972824
+  version: IEEE Transactions on Automatic Control 66(1):1-15 (2021) (95139 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:41:00Z'
+  sha256: f275360b1736ff7402470e2d5f7961d3a882a67e3d225d480f1f2394314049e9
+- source_id: r438-arxiv-abs
+  title: Push-Pull Gradient Methods for Distributed Optimization in Networks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.06653
+  persistent_id: https://arxiv.org/abs/1810.06653
+  version: arXiv abstract page (16400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:41:00Z'
+  sha256: 2ce8fd75c1921a814f5951fff349d4966323fd232cfe4f2c988253be7fe0050f
+- source_id: r438-metadata-cr
+  title: Push-Pull Gradient Methods for Distributed Optimization in Networks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TAC.2020.2972824
+  persistent_id: https://doi.org/10.1109/TAC.2020.2972824
+  version: Crossref API work record (370 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:41:00Z'
+  sha256: 02a0e0091bcd3e252eae8a3595946e59713491aa2cbfff35fa604c5fbcb3e4de
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Push-Pull unifies centralized master-slave, semi-centralized leader-follower, and peer-to-peer decentralized gradient tracking over directed graphs.
+- target: AIO:RidgeRegression
+  relation: related_match
+  rationale: Evaluated on distributed ridge regression and regularized logistic classification.
+limitations:
+- Requires each agent to know its out-degree in G_C to maintain column-stochasticity of C.
+- Requires exchanging both state variables x_i and gradient trackers y_i per iteration.
+curation:
+  created_at: '2026-10-19T08:41:00Z'
+  updated_at: '2026-10-19T08:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

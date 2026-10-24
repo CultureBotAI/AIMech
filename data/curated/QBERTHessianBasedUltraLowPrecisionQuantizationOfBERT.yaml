@@ -1,0 +1,111 @@
+id: AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT
+name: 'Q-BERT: Hessian-Based Ultra Low Precision Quantization of BERT'
+concept_kind: algorithm
+review_status: DRAFT
+definition: An ultra-low-bit quantization-aware compression algorithm for Transformer language models that computes layer-wise top Hessian eigenvalue distributions via matrix-free backpropagation power iteration d(g_i^T v)/dW_i = H_i v, assigns mixed bit-widths (such as 2/3-bit or 2/4-bit encoder weights and 4/8-bit word/position embeddings) by ranking layers according to the combined mean-and-variance curvature metric Omega_i = |mean(lambda_i)| + std(lambda_i), partitions each dense attention and FFN matrix across attention heads and sequential output-neuron subgroups (e.g., 128 groups per matrix) with independent clamping intervals [q_0, q_{2^k - 1}], and fine-tunes quantized weights using the Straight-Through Estimator (STE).
+identity_notes: "Introduced by Sheng Shen, Zhen Dong, Jiayu Ye, Linjian Ma, Zhewei Yao, Amir Gholami, Michael W. Mahoney, and Kurt Keutzer (AAAI 2020, Vol. 34, No. 05, pp. 8815-8821, arXiv:1909.05840, doi:10.1609/aaai.v34i05.6409). Distinct from mean-only Hessian AWare Quantization (HAWQ) for CNNs \u2014 which fails on NLP tasks where middle Transformer layers exhibit high eigenvalue variance across data partitions (e.g., SQuAD layer 7 with var(lambda_7) > 61.6 vs. mean(lambda_7) approx 1.0) \u2014 and from layer-wise uniform quantization (DirectQ), which shares a single quantization range across all 3072 output neurons of multi-head self-attention."
+aliases:
+- Q-BERT
+- Q-BERT Hessian Mixed-Precision Quantization
+- Group-Wise Hessian-Guided BERT Quantization
+definition_evidence:
+- source_id: r809-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r809-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r809-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r809-claim-matrix-free-hessian-and-omega-sensitivity
+  kind: mechanism
+  statement: Q-BERT evaluates the dominant Hessian eigenvalue distribution lambda_i of each 7M-parameter encoder layer without forming the 7M x 7M Hessian matrix by applying matrix-free power iteration via d(g_i^T v)/dW_i = H_i v (Eq. 3.1 & Algorithm 1) across 10% training-data partitions, and ranks layer quantization sensitivity using Omega_i = |mean(lambda_i)| + std(lambda_i) (Eq. 3.2), assigning higher bit precision (3 or 4 bits) to middle encoder layers (layers 4-8) with high curvature mean and variance and 2 bits to flatter outer layers.
+  evidence:
+  - source_id: r809-primary-pdf
+    locator: Section 3.2 (Mixed precision quantization, Equations 3.1-3.2), Section 4.1, Algorithm 1, & Tables 6-7, Pages 3-4, 6-7, & 12-15
+    relation: supports
+  - source_id: r809-primary-pdf
+    locator: power_iteration_top_eigenvalue and omega_sensitivity verification in main()
+    relation: supports
+- claim_id: r809-claim-groupwise-output-neuron-quantization
+  kind: mechanism
+  statement: To prevent dynamic-range mismatch across the 4 x 12 x 64 = 3072 output neurons of multi-head self-attention and FFN matrices, Q-BERT partitions each weight matrix across its N_h = 12 attention heads and further buckets sequential output neurons into 128 subgroups per matrix, quantizing each subgroup independently via X^I = round((Clamp(X, q_0, q_{2^k-1}) - q_0) / Delta) with Delta = (q_{2^k-1} - q_0) / (2^k - 1) and Q(X) = Delta * X^I + q_0.
+  evidence:
+  - source_id: r809-primary-pdf
+    locator: Section 3.3 (Group-wise Quantization, Figure 4), Section 4.2 (Table 2), & Appendix A, Pages 5, 7, & 12
+    relation: supports
+  - source_id: r809-primary-pdf
+    locator: uniform_quantize_dequantize and groupwise_quantize_mse verification across G=1, 4, 16 in main()
+    relation: supports
+- claim_id: r809-claim-13x-compression-and-module-sensitivity
+  kind: application
+  statement: On SST-2, MNLI, CoNLL-03, and SQuAD, 2/3-bit mixed-precision Q-BERT_MP with 8-bit embeddings and activations compresses encoder weights by 13x (from 324.5 MB to 25.4 MB) within at most 1.1%-2.3% accuracy loss (outperforming uniform 2-bit DirectQ by up to 76.6 F1 points on SQuAD), while 4/8-bit mixed-precision word/position embedding quantization achieves 12x total model compression (34.4-36.9 MB vs. 415.4 MB).
+  evidence:
+  - source_id: r809-primary-pdf
+    locator: Section 4.1 (Table 1), Section 5.1 (Table 3), & Appendix C.2 (Table 5), Pages 6, 8, & 13
+    relation: supports
+- claim_id: r809-claim-non-converged-saddle-point-and-lut-overhead-limitation
+  kind: limitation
+  statement: Q-BERT's second-order sensitivity analysis assumes the fine-tuned floating-point model has converged to a local minimum with positive Hessian curvature; when fine-tuning stops at a saddle point with large negative Hessian eigenvalues (as observed on SQuAD), ultra-low-bit quantization incurs higher accuracy degradation, and increasing subgroup count beyond 128 yields diminishing accuracy gains (<0.1%) while increasing hardware Look-Up Table (LUT) overhead.
+  evidence:
+  - source_id: r809-primary-pdf
+    locator: Section 3.2 (Pages 4-5), Section 4.1-4.2 (Page 7), & Figure 3
+    relation: supports
+evidence_sources:
+- source_id: r809-primary-pdf
+  title: 'Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT'
+  authors: &id001
+  - Sheng Shen
+  - Zhen Dong
+  - Jiayu Ye
+  - Linjian Ma
+  - Zhewei Yao
+  - Amir Gholami
+  - Michael W. Mahoney
+  - Kurt Keutzer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1909.05840.pdf
+  persistent_id: https://arxiv.org/bibtex/1909.05840
+  version: Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2020) (2020) (2755540 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:52:00Z'
+  sha256: 1a2b124b04c5e591552ab02ead589de182d4cd5e9c4a686d316acd43322fb8b8
+- source_id: r809-arxiv-abs
+  title: 'Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1909.05840
+  persistent_id: https://arxiv.org/abs/1909.05840
+  version: arXiv abstract page (7707 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:52:00Z'
+  sha256: 7ca48e8588c9b36c4f7976f6d10e5cb06ba6db0e00074c8be980df00833e79fe
+- source_id: r809-metadata-cr
+  title: 'Q-BERT: Hessian Based Ultra Low Precision Quantization of BERT (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1909.05840
+  persistent_id: https://arxiv.org/bibtex/1909.05840
+  version: Crossref API work record (461 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:52:00Z'
+  sha256: deb53fcd1bf54371dd30137c07fdc974fbb1ad1f45f6e2be8804832bf9f2013c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Compresses deep Transformer neural network weights, embeddings, and activations via second-order Hessian sensitivity analysis and group-wise uniform quantization.
+limitations:
+- Relies on the pre-quantized model having converged to a local minimum with positive curvature; negative Hessian eigenvalues (as observed in standard SQuAD fine-tuning) increase ultra-low-bit quantization loss.
+- Increasing the number of quantization groups per matrix increases the number of hardware Look-Up Tables (LUTs) required during matrix multiplication, with accuracy gains saturating around 128 groups.
+curation:
+  created_at: '2026-10-19T14:52:00Z'
+  updated_at: '2026-10-19T14:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

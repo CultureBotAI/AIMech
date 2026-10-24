@@ -1,0 +1,102 @@
+id: AIMech:MarinaFasterNonconvexDistributedLearningWithCompression
+name: MARINA Faster Non-Convex Distributed Learning with Compression
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A communication-efficient nonconvex distributed optimization method (MARINA, together with its variance-reduced finite-sum/online variant VR-MARINA and partial-participation variant PP-MARINA) for minimizing f(x) = (1/n) sum_{i=1}^n f_i(x) that constructs a biased SARAH/PAGE-style recursive gradient estimator g^{k+1} using an independent unbiased omega-quantizer Q at each worker: after updating x^{k+1} = x^k - gamma * g^k and drawing c_k ~ Bernoulli(p) (typically p = 1/(1 + omega)), each worker i transmits the exact gradient g_i^{k+1} = nabla f_i(x^{k+1}) if c_k = 1 or the compressed consecutive gradient difference g_i^{k+1} = g^k + Q(nabla f_i(x^{k+1}) - nabla f_i(x^k)) if c_k = 0, so the server average g^{k+1} = (1/n) sum_{i=1}^n g_i^{k+1} satisfies E[||g^{k+1} - nabla f(x^{k+1})||^2] <= (1 - p)||g^k - nabla f(x^k)||^2 + ((1 - p)*omega*L^2/n) E[||x^{k+1} - x^k||^2] and achieves O((Delta_0 * L / eps^2) * (1 + sqrt((1 - p)*omega / (p*n)))) iteration complexity (O((Delta_0 * L / eps^2) * (1 + omega / sqrt(n))) under p = 1/(1 + omega)), improving over DIANA by a factor of O(sqrt(omega)) without any bounded gradient dissimilarity assumption.'
+identity_notes: Distinct from DIANA (AIMech:DianaDistributedLearningWithCompressedGradientDifferences, which forms an unbiased gradient estimator by compressing g_i^k - h_i^k against stored per-worker shift vectors h_i^k and achieves worse O(omega/n + omega^{2/3}/n^{2/3}) scaling in nonconvex optimization), from EF21 (AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, which supports biased contractive compressors without uncompressed synchronization rounds c_k = 1, whereas MARINA uses independent unbiased quantizers across workers to obtain a 1/sqrt(n) multi-node variance reduction factor), and from centralized PAGE/SARAH/SPIDER (AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization and AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization, which do not compress worker-to-server communication). No pinned AIO class covers MARINA.
+aliases:
+- MARINA
+- VR-MARINA
+- PP-MARINA
+- Faster Non-Convex Distributed Learning with Compression
+definition_evidence:
+- source_id: r391-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r391-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r391-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r391-biased-recursive-difference-compression-and-lyapunov-descent
+  kind: mechanism
+  statement: By compressing the consecutive gradient difference nabla f_i(x^{k+1}) - nabla f_i(x^k) with probability 1 - p and resetting g^{k+1} = nabla f(x^{k+1}) with probability p, MARINA's estimator error contracts as E||g^{k+1} - nabla f(x^{k+1})||^2 <= (1 - p)||g^k - nabla f(x^k)||^2 + ((1 - p)*omega*L^2/n) E||x^{k+1} - x^k||^2 (Eq. 8), and Theorem 2.1 / Corollary 2.1 prove that the Lyapunov potential Phi_k = f(x^k) - f_* + (gamma / (2*p)) ||g^k - nabla f(x^k)||^2 decreases monotonically for gamma <= 1 / (L*(1 + sqrt((1 - p)*omega/(p*n)))), achieving E||nabla f(x_hat^K)||^2 <= eps^2 in O((Delta_0 * L / eps^2) * (1 + omega / sqrt(n))) iterations and matching uncompressed gradient descent communication complexity whenever omega <= sqrt(n).
+  evidence:
+  - source_id: r391-primary-pdf
+    locator: Section 2 Algorithm 1, Equation 8, Theorem 2.1, Corollary 2.1, and Table 1, pp. 2-5
+    relation: supports
+- claim_id: r391-pl-linear-convergence-and-vr-pp-marina-extensions
+  kind: mechanism
+  statement: Under the Polyak-Lojasiewicz condition ||nabla f(x)||^2 >= 2*mu*(f(x) - f_*), Theorem 2.2 proves linear convergence O(max{1/p, (L/mu)*(1 + sqrt((1 - p)*omega/(p*n)))} log(Delta_0 / eps^2)), while VR-MARINA (Algorithms 2-3, Theorems 3.1-3.2) replaces full local gradients with minibatch difference estimators of size b' (recovering PAGE when n = 1, omega = 0) and PP-MARINA (Algorithm 4, Theorem 4.1) extends MARINA to r-out-of-n partial client participation.
+  evidence:
+  - source_id: r391-primary-pdf
+    locator: Section 2.2 Theorem 2.2, Section 3 Theorems 3.1-3.2, and Section 4 Theorem 4.1, pp. 5-8
+    relation: supports
+- claim_id: r391-periodic-uncompressed-sync-and-unbiased-quantizer-limitation
+  kind: limitation
+  statement: Requires an unbiased compression operator Q (so independent worker errors average down by 1/n) and periodic uncompressed gradient broadcasts with probability p = 1/(1 + omega) (or synchronous minibatch resets in VR-MARINA), unlike EF21 which transmits only compressed vectors at every round.
+  evidence:
+  - source_id: r391-primary-pdf
+    locator: Section 1.2 Definition 1.1 and Section 2.1 Algorithm 1 & Remark on communication cost, pp. 2-4
+    relation: supports
+- claim_id: r391-nonconvex-binary-classification-and-autoencoder-application
+  kind: application
+  statement: Applied to distributed nonconvex sigmoid binary classification on LIBSVM datasets (mushrooms, w8a, a9a, phishing) and neural network autoencoder training on MNIST with RandK sparsification and natural compression, outperforming DIANA, EF21, and uncompressed GD in total communicated bits.
+  evidence:
+  - source_id: r391-primary-pdf
+    locator: Section 5 Numerical Experiments, Figures 1-2 & Appendix B, pp. 8-9, 14-16
+    relation: supports
+evidence_sources:
+- source_id: r391-primary-pdf
+  title: 'MARINA: Faster Non-Convex Distributed Learning with Compression'
+  authors: &id001
+  - Eduard Gorbunov
+  - Konstantin P. Burlachenko
+  - Zhize Li
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.07845.pdf
+  persistent_id: https://proceedings.mlr.press/v139/gorbunov21a.html
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:3788-3798 (2021) (116846 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:54:00Z'
+  sha256: 1e92c6cefd8f801589b39e25dc0ae2f354ddb8ff6e868bcb3767a6146636c002
+- source_id: r391-arxiv-abs
+  title: 'MARINA: Faster Non-Convex Distributed Learning with Compression (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.07845
+  persistent_id: https://arxiv.org/abs/2102.07845
+  version: arXiv abstract page (7158 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:54:00Z'
+  sha256: ad8137bfe611c8673ca1dfca8df8b8a71541314f897205943cc35f003175d3f7
+- source_id: r391-metadata-cr
+  title: 'MARINA: Faster Non-Convex Distributed Learning with Compression (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/gorbunov21a.html
+  persistent_id: https://proceedings.mlr.press/v139/gorbunov21a.html
+  version: Crossref API work record (422 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:54:00Z'
+  sha256: 52e02497515c7e894c88e3b77bb27eebedf01c318568962a0912cb21f4506281
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: MARINA and PP-MARINA perform communication-compressed distributed and federated nonconvex optimization using biased recursive gradient-difference estimators.
+limitations:
+- Requires an unbiased quantizer Q so that independent worker quantization errors average down by 1/n.
+- Requires periodic uncompressed gradient transmissions with probability p (or large minibatch resets in VR-MARINA).
+curation:
+  created_at: '2026-10-19T07:54:00Z'
+  updated_at: '2026-10-19T07:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

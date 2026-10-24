@@ -1,0 +1,367 @@
+# Scientific author self-review of Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition
+
+- Review: 20261019T061430Z-strict-saddle-noisy-stochastic-gradient-tensor-decomposition
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T06:14:00Z
+- Finished UTC: 2026-10-19T06:14:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 1701038868e30d4a0f1bf2bc2bc8d8e8c347f74a.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition | data/curated/StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.yaml | maintained | Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition | Validated history sidecar files. |
+| python3 strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py | passed | True | AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition | {"concept": "StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition", "local_min_tangent_quadratic_curvature": 2.0, "noiseless_gd_trapped_obj": 0.5, "noisy_psgd_escaped_final_obj": 1.3910297234477976e-59, "saddle_stationary_grad_norm": 3.14018491736755e-16, "saddle_tangent_quadratic_curvature": -2.0, "status": "VERIFIED"} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.
+
+Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition is a distinct concept.
+
+Resolved against all 442 pinned AIO concepts and 705 maintained AIMech concepts. Distinct from &#96;AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels&#96; (which relies on sequential tensor power iterations and deflation of an explicit empirical $d\times d\times d$ tensor) and &#96;AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima&#96; (which analyzes Burer-Monteiro matrix completion rather than the $(\theta,\gamma,\zeta)$-strict saddle framework, Noisy SGD negative-curvature amplification, and deflation-free fourth-order cross-correlation tensor objectives on $\prod_{i=1}^d \mathbb{S}^{d-1}$).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py passed with exit code 0: {"concept": "StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition", "local_min_tangent_quadratic_curvature": 2.0, "noiseless_gd_trapped_obj": 0.5, "noisy_psgd_escaped_final_obj": 1.3910297234477976e-59, "saddle_stationary_grad_norm": 3.14018491736755e-16, "saddle_tangent_quadratic_curvature": -2.0, "status": "VERIFIED"}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T061400Z-strict-saddle-noisy-stochastic-gradient-tensor-decomposition.json | supports | No normalized identity match for AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py | supports | All constructed boundary assertions in strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py passed with exit code 0: {"concept": "StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition", "local_min_tangent_quadratic_curvature": 2.0, "noiseless_gd_trapped_obj": 0.5, "noisy_psgd_escaped_final_obj": 1.3910297234477976e-59, "saddle_stationary_grad_norm": 3.14018491736755e-16, "saddle_tangent_quadratic_curvature": -2.0, "status": "VERIFIED"} |
+| ghjy2015-strictsaddle-pdf | https://arxiv.org/pdf/1503.02101.pdf; Full-text PDF | supports | Full-text PDF (arXiv:1503.02101v1 full-text PDF (46 pages), published in Proceedings of The 28th Conference on Learning Theory (COLT / PMLR) 40:797-842 (2015).) read and verified. |
+| ghjy2015-strictsaddle-abs | https://arxiv.org/abs/1503.02101; arXiv abstract | supports | arXiv abstract read and verified. |
+| ghjy2015-strictsaddle-cr | https://proceedings.mlr.press/v40/Ge15.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition in Round 311.
+- All pages of arXiv:1503.02101v1 full-text PDF (46 pages), published in Proceedings of The 28th Conference on Learning Theory (COLT / PMLR) 40:797-842 (2015). were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T061430Z-strict-saddle-noisy-stochastic-gradient-tensor-decomposition
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Strict Saddle Property and Noisy Stochastic
+  Gradient Saddle Escaping for Orthogonal Tensor Decomposition
+started_at: '2026-10-19T06:14:00Z'
+finished_at: '2026-10-19T06:14:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+    against existing AIMech and AIO records and verified all claims against arXiv:1503.02101v1
+    full-text PDF (46 pages), published in Proceedings of The 28th Conference on Learning
+    Theory (COLT / PMLR) 40:797-842 (2015). and pure-Python boundary checks. This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping
+  for Orthogonal Tensor Decomposition as a distinct DRAFT algorithm. All four claims
+  are supported by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 1701038868e30d4a0f1bf2bc2bc8d8e8c347f74a
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.yaml
+    sha256: 9d7af6c5f23a5e6efba1895eb8077fc157a8c758010c5874002e4eefb187b5f1
+    role: target
+  - path: research/discovery/20261019T061400Z-strict-saddle-noisy-stochastic-gradient-tensor-decomposition.json
+    sha256: 7646c653f6776dbc8488f338843517bfb5e858e3edbe5d29f96e973724f4e349
+    role: context
+  - path: research/discovery/strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py
+    sha256: df4c88a7294f7a7dd3d309d3fa6ab7b18abeeeb511e906d32b2a85de11eff87d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  path: data/curated/StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.yaml
+  label: Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for
+    Orthogonal Tensor Decomposition
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py
+  command: python3 research/discovery/strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"concept": "StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition",
+    "local_min_tangent_quadratic_curvature": 2.0, "noiseless_gd_trapped_obj": 0.5,
+    "noisy_psgd_escaped_final_obj": 1.3910297234477976e-59, "saddle_stationary_grad_norm":
+    3.14018491736755e-16, "saddle_tangent_quadratic_curvature": -2.0, "status": "VERIFIED"}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T061400Z-strict-saddle-noisy-stochastic-gradient-tensor-decomposition.json
+  accessed_at: '2026-10-19T06:14:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T06:14:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py
+  accessed_at: '2026-10-19T06:14:00Z'
+  snapshot_sha256: df4c88a7294f7a7dd3d309d3fa6ab7b18abeeeb511e906d32b2a85de11eff87d
+  support: supports
+  summary: 'All constructed boundary assertions in strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py
+    passed with exit code 0: {"concept": "StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition",
+    "local_min_tangent_quadratic_curvature": 2.0, "noiseless_gd_trapped_obj": 0.5,
+    "noisy_psgd_escaped_final_obj": 1.3910297234477976e-59, "saddle_stationary_grad_norm":
+    3.14018491736755e-16, "saddle_tangent_quadratic_curvature": -2.0, "status": "VERIFIED"}'
+- evidence_id: ghjy2015-strictsaddle-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1503.02101.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T06:14:00Z'
+  snapshot_sha256: 2d5f263ec7605c553644e2997c488791723c6eedf15c29842512b085f242505c
+  support: supports
+  summary: Full-text PDF (arXiv:1503.02101v1 full-text PDF (46 pages), published in
+    Proceedings of The 28th Conference on Learning Theory (COLT / PMLR) 40:797-842
+    (2015).) read and verified.
+- evidence_id: ghjy2015-strictsaddle-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1503.02101
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T06:14:00Z'
+  snapshot_sha256: 3ac05b80eb86791ccb458ffe4244652137e22dd67fc58f85155402cad2125448
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: ghjy2015-strictsaddle-cr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v40/Ge15.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T06:14:00Z'
+  snapshot_sha256: a3418e61833f2b6b750384326a11e2b0b778678fbd388bbbd1d63c3f40af1295
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  evidence_ids:
+  - identity
+  - ghjy2015-strictsaddle-pdf
+  - ghjy2015-strictsaddle-abs
+  - ghjy2015-strictsaddle-cr
+  summary: Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for
+    Orthogonal Tensor Decomposition is a distinct concept.
+  details: Resolved against all 442 pinned AIO concepts and 705 maintained AIMech
+    concepts. Distinct from `AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels`
+    (which relies on sequential tensor power iterations and deflation of an explicit
+    empirical $d\times d\times d$ tensor) and `AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima`
+    (which analyzes Burer-Monteiro matrix completion rather than the $(\theta,\gamma,\zeta)$-strict
+    saddle framework, Noisy SGD negative-curvature amplification, and deflation-free
+    fourth-order cross-correlation tensor objectives on $\prod_{i=1}^d \mathbb{S}^{d-1}$).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  evidence_ids:
+  - mapping
+  - ghjy2015-strictsaddle-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  evidence_ids:
+  - ghjy2015-strictsaddle-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in strict-saddle-noisy-stochastic-gradient-tensor-decomposition-boundaries.py
+    passed with exit code 0: {"concept": "StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition",
+    "local_min_tangent_quadratic_curvature": 2.0, "noiseless_gd_trapped_obj": 0.5,
+    "noisy_psgd_escaped_final_obj": 1.3910297234477976e-59, "saddle_stationary_grad_norm":
+    3.14018491736755e-16, "saddle_tangent_quadratic_curvature": -2.0, "status": "VERIFIED"}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  evidence_ids:
+  - identity
+  - mapping
+  - ghjy2015-strictsaddle-pdf
+  - ghjy2015-strictsaddle-abs
+  - ghjy2015-strictsaddle-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition
+  in Round 311.
+- All pages of arXiv:1503.02101v1 full-text PDF (46 pages), published in Proceedings
+  of The 28th Conference on Learning Theory (COLT / PMLR) 40:797-842 (2015). were
+  read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

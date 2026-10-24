@@ -1,0 +1,104 @@
+id: AIMech:FlDetectorCauchyMeanValueLbfgsModelUpdateConsistencyDetection
+name: FLDetector Cauchy Mean Value and L-BFGS Model-Update Consistency Detection
+concept_kind: algorithm
+review_status: DRAFT
+definition: An unsupervised server-side malicious-client detection method for federated learning that predicts each client's current gradient update via the Cauchy mean value theorem g_hat_i^t = g_i^{t-1} + H_hat^t (w_t - w_{t-1}) using a quasi-Newton L-BFGS Hessian-vector product estimated from a sliding window of N global parameter differences Delta W_t and global update differences Delta G_t, computes each client's window-averaged normalized Euclidean prediction residual s_i^t = (1/N) sum_{r=0}^{N-1} d_hat_i^{t-r} where d_i^t = ||g_hat_i^t - g_i^t||_2, and uses Gap-statistic k-means clustering to identify and remove inconsistent malicious clients.
+identity_notes: Introduced by Zhang, Cao, Jia, and Gong (KDD 2022, pp. 2545-2555, DOI:10.1145/3534678.3539231, arXiv:2207.09209). Distinct from single-round Byzantine-robust aggregation rules such as Krum, Trimmed-Mean, Median, and FLTrust (AIMech:FlTrustByzantineRobustFederatedLearningViaTrustBootstrapping), which aggregate updates within each iteration without cross-iteration Cauchy-mean-value Hessian consistency prediction, and from VAE-based anomaly detection (Li et al. 2020), which requires a clean server validation dataset to train a reconstruction autoencoder.
+aliases:
+- FLDetector
+- FLDetector Malicious Client Detection via Model-Updates Consistency
+- FLDetector L-BFGS Hessian-Vector Product Update Consistency Detector
+definition_evidence:
+- source_id: r531-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r531-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r531-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c1-mechanism-cauchy-mean-value-lbfgs-hessian-vector-prediction
+  kind: mechanism
+  statement: At iteration t, FLDetector approximates the integrated Hessian-vector product H_hat^t (w_t - w_{t-1}) in O(N^3 + 6Np) time via L-BFGS (Algorithm 1) over the past N global parameter differences Delta W_t = {Delta w_{t-N}, ..., Delta w_{t-1}} and global update differences Delta G_t = {Delta g_{t-N}, ..., Delta g_{t-1}}, predicts each client's update as g_hat_i^t = g_i^{t-1} + H_hat^t (w_t - w_{t-1}) (Eq. 3), and computes normalized Euclidean residuals d_hat^t = d^t / ||d^t||_1 with d_i^t = ||g_hat_i^t - g_i^t||_2.
+  evidence:
+  - source_id: r531-primary-pdf
+    locator: Section 4.1-4.3, Equations (2)-(3), Algorithm 1, and Algorithm 3 Lines 2-8, pp. 3-5
+    relation: supports
+- claim_id: c2-mechanism-windowed-suspicious-score-and-gap-statistic-kmeans
+  kind: mechanism
+  statement: FLDetector averages each client's normalized residual over a window of N iterations to form suspicious scores s_i^t = (1/N) sum_{r=0}^{N-1} d_hat_i^{t-r}, applies the Gap statistic (Algorithm 2) to estimate the cluster count k_hat, and whenever k_hat > 1 partitions clients into 2 clusters via k-means and removes the cluster with larger average suspicious score.
+  evidence:
+  - source_id: r531-primary-pdf
+    locator: Section 4.2, Algorithm 2, and Algorithm 3 Lines 8-13, pp. 4-5
+    relation: supports
+- claim_id: c3-scope-expected-suspicious-score-separation-theorem
+  kind: scope
+  statement: 'Under L-smooth client loss functions, i.i.d. local datasets, and global learning rate alpha < 1 / ((N + 2) L), Lemma 1 bounds the L-BFGS Hessian quadratic form by z^T H_hat^t z <= (N + 1) L ||z||_2^2 and Theorem 1 proves that the expected suspicious score of every benign client i in B is strictly smaller than that of every sign-reversing malicious client j in M: E[s_i^t] < E[s_j^t] (Eq. 5).'
+  evidence:
+  - source_id: r531-primary-pdf
+    locator: Section 4.4 Theorem 1 (Eq. 5) and Appendix A Lemma 1 & Equations (7)-(26), pp. 4, 10
+    relation: supports
+- claim_id: c4-limitation-full-participation-history-and-robust-aggregator-pairing
+  kind: limitation
+  statement: FLDetector requires tracking each client's previous update g_i^{t-1} across consecutive iterations, exhibits degraded detection accuracy under extreme non-i.i.d. data distributions or adaptive consistency-regularized attacks with small lambda, and must be paired with a Byzantine-robust aggregation rule (such as Krum, Trimmed-Mean, or Median) because vanilla FedAvg can still be backdoored by a single missed malicious client.
+  evidence:
+  - source_id: r531-primary-pdf
+    locator: Section 4.5 Eq. (6), Section 5.2 Figures 1-2 & 4a, and Appendix Table 6, pp. 5, 7-9, 11
+    relation: supports
+evidence_sources:
+- source_id: r531-primary-pdf
+  title: 'FLDetector: Defending Federated Learning Against Model Poisoning Attacks via Detecting Malicious Clients'
+  authors: &id001
+  - Zaixi Zhang
+  - Xiaoyu Cao
+  - Jinyuan Jia
+  - Neil Zhenqiang Gong
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2207.09209.pdf
+  persistent_id: https://dblp.org/rec/conf/kdd/ZhangCJG22
+  version: Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD '22), pp. 2545-2555 (2022) (1018336 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:14:00Z'
+  sha256: 2755a823bb335e8235359f128bc4998e2a5862c67ce95a1bf4f3026a5369c3b9
+- source_id: r531-arxiv-abs
+  title: 'FLDetector: Defending Federated Learning Against Model Poisoning Attacks via Detecting Malicious Clients (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2207.09209
+  persistent_id: https://arxiv.org/abs/2207.09209
+  version: arXiv abstract page (7236 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:14:00Z'
+  sha256: aa5a3008782b32e7ff274704bd29a786d470d2b07411d4be2ee937dafdd408f4
+- source_id: r531-metadata-cr
+  title: 'FLDetector: Defending Federated Learning Against Model Poisoning Attacks via Detecting Malicious Clients (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/kdd/ZhangCJG22
+  persistent_id: https://dblp.org/rec/conf/kdd/ZhangCJG22
+  version: Crossref API work record (1950 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:14:00Z'
+  sha256: d75592200edd1a9c884f4dbd52cf4e74657f3429e3cbdef220d1fa0577725b53
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FLDetector is a malicious-client anomaly detection defense for federated learning based on multi-round model-update consistency.
+- target: AIO:Clustering
+  relation: related_match
+  rationale: FLDetector uses Gap-statistic k-means clustering on windowed update-consistency suspicious scores to separate malicious and benign clients.
+limitations:
+- Requires O(Np) server memory to store N historical global model and update differences and per-client previous updates.
+- Must be paired with a Byzantine-robust aggregation rule rather than plain FedAvg so that any false-negative malicious client after filtering cannot single-handedly backdoor the global model.
+curation:
+  created_at: '2026-10-19T10:14:00Z'
+  updated_at: '2026-10-19T10:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,353 @@
+# Scientific author self-review of Nostalgic Adam
+
+- Review: 20261019T114030Z-nosadam-nostalgic-adam-hyperharmonic-second-moment
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:40:00Z
+- Finished UTC: 2026-10-19T11:40:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Nostalgic Adam as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/NosAdam.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:NosAdam
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base fa53a4e7667d5d407cb9f5908fd1035b14daefb6.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NosAdam | data/curated/NosAdam.yaml | maintained | Nostalgic Adam |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:NosAdam | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:NosAdam | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:NosAdam | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:NosAdam | Validated history sidecar files. |
+| python3 nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py | passed | True | AIMech:NosAdam | [PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15, min_gamma_diff=9.86e+01&gt;=0, lemma_a5_rat=0.9988&lt;=1, regret_ratio=0.0002&lt;=1, x_adam=1.00&gt;0, x_nosadam=-1.00&lt;0, spike_v_ratio=0.0276&lt;&lt;1 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:NosAdam.
+
+Nostalgic Adam is a distinct concept.
+
+Distinct from Adam (which uses constant beta_2 in (0, 1) giving exponentially increasing weights (1 - beta_2) beta_2^{t-k} to recent gradients and violating Gamma_t &gt;= 0), from AMSGrad (which forces monotonicity via a hard running maximum v_hat_t = max(v_hat_{t-1}, v_t) that permanently stalls step sizes after an outlier gradient spike), and from AdaShift (AIMech:AdaShift, which shifts gradients by n steps). NosAdam generalizes AdaGrad (recovered at gamma = 0 up to 1/t averaging) and extends to p-norm moment scaling in p-NosAdam (Theorem A.1).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:NosAdam.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:NosAdam.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py passed with exit code 0: [PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15, min_gamma_diff=9.86e+01&gt;=0, lemma_a5_rat=0.9988&lt;=1, regret_ratio=0.0002&lt;=1, x_adam=1.00&gt;0, x_nosadam=-1.00&lt;0, spike_v_ratio=0.0276&lt;&lt;1
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:NosAdam.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T114000Z-nosadam-nostalgic-adam-hyperharmonic-second-moment.json | supports | No normalized identity match for AIMech:NosAdam across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py | supports | All constructed boundary assertions in nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py passed with exit code 0: [PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15, min_gamma_diff=9.86e+01&gt;=0, lemma_a5_rat=0.9988&lt;=1, regret_ratio=0.0002&lt;=1, x_adam=1.00&gt;0, x_nosadam=-1.00&lt;0, spike_v_ratio=0.0276&lt;&lt;1 |
+| r617-primary-pdf | https://arxiv.org/pdf/1805.07557.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the Twenty-Eighth International Joint Conference on Artificial Intelligence (IJCAI 2019) (2019)) read and verified. |
+| r617-arxiv-abs | https://arxiv.org/abs/1805.07557; arXiv abstract | supports | arXiv abstract read and verified. |
+| r617-metadata-cr | https://dblp.org/rec/conf/ijcai/HuangWD19.xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:NosAdam in Round 617.
+- All pages of Proceedings of the Twenty-Eighth International Joint Conference on Artificial Intelligence (IJCAI 2019) (2019) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T114030Z-nosadam-nostalgic-adam-hyperharmonic-second-moment
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Nostalgic Adam
+started_at: '2026-10-19T11:40:00Z'
+finished_at: '2026-10-19T11:40:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:NosAdam
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the Twenty-Eighth International Joint Conference on Artificial Intelligence
+    (IJCAI 2019) (2019) and pure-Python boundary checks. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Nostalgic Adam as a distinct DRAFT algorithm. All four claims are
+  supported by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: fa53a4e7667d5d407cb9f5908fd1035b14daefb6
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/NosAdam.yaml
+    sha256: 79e35d0f42beb43fe959d96e54cdf004d97a8377528303fedc08582436370488
+    role: target
+  - path: research/discovery/20261019T114000Z-nosadam-nostalgic-adam-hyperharmonic-second-moment.json
+    sha256: 456b63726c1a4d36641dc2e9d7c2bc3154ada4a2ab137f7e3ee68e0c25c831c8
+    role: context
+  - path: research/discovery/nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py
+    sha256: 702c357d102873d0f9df3ccb7c8f75140c26cf7d14f0f0eebdec039ef9e75a73
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NosAdam
+  path: data/curated/NosAdam.yaml
+  label: Nostalgic Adam
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NosAdam.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/NosAdam.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:NosAdam'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NosAdam
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NosAdam
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NosAdam
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NosAdam
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NosAdam
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py
+  command: python3 research/discovery/nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NosAdam
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15, min_gamma_diff=9.86e+01>=0,
+    lemma_a5_rat=0.9988<=1, regret_ratio=0.0002<=1, x_adam=1.00>0, x_nosadam=-1.00<0,
+    spike_v_ratio=0.0276<<1'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T114000Z-nosadam-nostalgic-adam-hyperharmonic-second-moment.json
+  accessed_at: '2026-10-19T11:40:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:NosAdam across AIO and curated
+    corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:40:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py
+  accessed_at: '2026-10-19T11:40:00Z'
+  snapshot_sha256: 702c357d102873d0f9df3ccb7c8f75140c26cf7d14f0f0eebdec039ef9e75a73
+  support: supports
+  summary: 'All constructed boundary assertions in nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py
+    passed with exit code 0: [PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15,
+    min_gamma_diff=9.86e+01>=0, lemma_a5_rat=0.9988<=1, regret_ratio=0.0002<=1, x_adam=1.00>0,
+    x_nosadam=-1.00<0, spike_v_ratio=0.0276<<1'
+- evidence_id: r617-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1805.07557.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:40:00Z'
+  snapshot_sha256: 8a952796ee2f6b5323510cce70feb63b4114bcb02f68f0cade5104b4d2361b1c
+  support: supports
+  summary: Full-text PDF (Proceedings of the Twenty-Eighth International Joint Conference
+    on Artificial Intelligence (IJCAI 2019) (2019)) read and verified.
+- evidence_id: r617-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1805.07557
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:40:00Z'
+  snapshot_sha256: 355305ed8c40d51565252b43031d0ce8121c30bfaa25055e72f9efe575e14e8a
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r617-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/ijcai/HuangWD19.xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:40:00Z'
+  snapshot_sha256: 1943bb8c23e951ebcff03e1ee1d0137f99652400febce0794bb6d1ec6fc68267
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:NosAdam
+  evidence_ids:
+  - identity
+  - r617-primary-pdf
+  - r617-arxiv-abs
+  - r617-metadata-cr
+  summary: Nostalgic Adam is a distinct concept.
+  details: Distinct from Adam (which uses constant beta_2 in (0, 1) giving exponentially
+    increasing weights (1 - beta_2) beta_2^{t-k} to recent gradients and violating
+    Gamma_t >= 0), from AMSGrad (which forces monotonicity via a hard running maximum
+    v_hat_t = max(v_hat_{t-1}, v_t) that permanently stalls step sizes after an outlier
+    gradient spike), and from AdaShift (AIMech:AdaShift, which shifts gradients by
+    n steps). NosAdam generalizes AdaGrad (recovered at gamma = 0 up to 1/t averaging)
+    and extends to p-norm moment scaling in p-NosAdam (Theorem A.1).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:NosAdam
+  evidence_ids:
+  - mapping
+  - r617-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:NosAdam
+  evidence_ids:
+  - r617-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py
+    passed with exit code 0: [PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15,
+    min_gamma_diff=9.86e+01>=0, lemma_a5_rat=0.9988<=1, regret_ratio=0.0002<=1, x_adam=1.00>0,
+    x_nosadam=-1.00<0, spike_v_ratio=0.0276<<1'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:NosAdam
+  evidence_ids:
+  - identity
+  - mapping
+  - r617-primary-pdf
+  - r617-arxiv-abs
+  - r617-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:NosAdam in Round 617.
+- All pages of Proceedings of the Twenty-Eighth International Joint Conference on
+  Artificial Intelligence (IJCAI 2019) (2019) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

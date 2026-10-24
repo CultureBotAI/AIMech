@@ -1,0 +1,106 @@
+id: AIMech:FedShuffleAndFedShuffleMvrObjectiveConsistentLocalRandomReshufflingForFederatedLearning
+name: FedShuffle and FedShuffleMVR Objective-Consistent Local Random Reshuffling for Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A family of federated local-epoch optimization algorithms with without-replacement Random Reshuffling (FedShuffle in Algorithm 1/3, its Momentum Variance Reduction extension FedShuffleMVR in Section 5.1, and the unifying parametrization FedShuffleGen in Algorithm 4) that eliminates objective inconsistency under heterogeneous client dataset sizes |D_i| and arbitrary proper client sampling S^r ~ S (with inclusion probabilities p_i = Pr[i in S]) by scaling each client i's local learning rate inversely by its dataset size (eta_{l,i}^r = eta_l^r / (E_i |D_i|)) and aggregating client updates with unbiased Horvitz-Thompson weights Delta^r = sum_{i in S^r} (w_i / p_i) Delta_i^r.
+identity_notes: Distinct from FedAvg with Random Reshuffling (FedAvgRR, which uses unscaled local step sizes and biased Sum-One aggregation w_i / sum_{j in S^r} w_j and converges to a mismatched objective), FedNova (Wang et al., NeurIPS 2020; which rescales aggregation weights rather than local step sizes, forcing a smaller worst-case local step size and not analyzing random reshuffling), and FedRR / LocalRR (which assume full client participation and identical dataset sizes).
+aliases:
+- FedShuffle
+- FedShuffleMVR
+- FedShuffleGen
+- Federated Random Reshuffling with Step-Size Scaling and Unbiased Aggregation
+definition_evidence:
+- source_id: r565-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r565-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r565-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedshuffle-inverse-dataset-step-size-scaling-and-horvitz-thompson-aggregation-mechanism
+  kind: mechanism
+  statement: In each communication round r (Algorithm 1 & Algorithm 4), each sampled client i in S^r ~ S executes E_i local epochs over random permutations Pi_{i,e}^r of its local dataset D_i using scaled local step size eta_{l,i}^r = eta_l^r / (E_i |D_i|) (update y_{i,e,j}^r = y_{i,e,j-1}^r - (eta_l^r / |D_i|) nabla f_{i, Pi_{i,e,j-1}^r}(y_{i,e,j-1}^r)), and the server aggregates Delta_i^r = y_{i,E_i,|D_i|}^r - x^r via Delta^r = sum_{i in S^r} (w_i / p_i) Delta_i^r so that the effective optimized objective hat{f}(x) = sum_i hat{w}_i f_i(x) in Theorem E.1 Eq. (31) satisfies hat{w}_i = w_i exactly while permitting larger local step sizes than FedNova (Remark E.2).
+  evidence:
+  - source_id: r565-primary-pdf
+    locator: Section 4.1-4.2 pp. 6-8 & Appendix E.1-E.2 Theorem E.1 / Remark E.2 pp. 34-36
+    relation: supports
+- claim_id: fedshuffle-and-fedshufflemvr-reshuffling-variance-and-hessian-similarity-convergence-scope
+  kind: scope
+  statement: Under L-smoothness and (sigma_i, P_i)-bounded variance (Theorem 5.1), FedShuffle reduces the local stochastic variance term to O(sigma^2 / (R^2 eta_g^2 E^2)) in strongly convex and O(sigma^{2/3} / (R^{2/3} eta_g^{2/3} E^{2/3})) in general convex and nonconvex regimes; furthermore, under delta-Hessian similarity (Assumption 3.5), FedShuffleMVR (Theorem 5.2) incorporates server momentum variance reduction Eq. (13)-(14) to achieve O((delta^{2/3} F^{2/3} (G^2 + sigma^2)^{1/3}) / R^{2/3} + (delta F + G^2) / R) nonconvex stationarity with E >= L / delta.
+  evidence:
+  - source_id: r565-primary-pdf
+    locator: Section 5 Theorem 5.1 & Section 5.1 Theorem 5.2 pp. 8-10
+    relation: supports
+  - source_id: r565-arxiv-abs
+    locator: Abstract
+    relation: supports
+- claim_id: fedshuffle-uninterrupted-epoch-completion-or-hybrid-update-rescaling-limitation
+  kind: limitation
+  statement: Pure step-size scaling in FedShuffle assumes that participating clients complete their predefined number of local epochs E_i; if system timeouts truncate local epochs mid-round, hybrid post-hoc update rescaling via FedShuffleGen (Section 4.3 & Appendix F.1) is required to restore objective consistency.
+  evidence:
+  - source_id: r565-primary-pdf
+    locator: Section 4.3 p. 8 & Appendix F.1 Figure 4 pp. 43-44
+    relation: supports
+- claim_id: fedshuffle-heterogeneous-cross-device-language-and-vision-training-application
+  kind: application
+  statement: Applied to heterogeneous cross-device federated training of LSTM character models on Shakespeare and ResNet18 classifiers on CIFAR-100 with imbalanced local datasets and without-replacement epoch shuffling.
+  evidence:
+  - source_id: r565-primary-pdf
+    locator: Section 6.2 Tables 2-3 & Figure 2 pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r565-primary-pdf
+  title: 'FedShuffle: Recipes for Better Use of Local Work in Federated Learning'
+  authors: &id001
+  - Samuel Horvath
+  - Maziar Sanjabi
+  - Lin Xiao
+  - Peter Richtarik
+  - Michael Rabbat
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2204.13169.pdf
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2204.13169
+  version: Transactions on Machine Learning Research (TMLR, 09/2022) (2022) (5118215 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:48:00Z'
+  sha256: 8fc921fcd2da36247afb3f7aed8f0cbe8387b49e624e6cb8c4b4721451f0a6c0
+- source_id: r565-arxiv-abs
+  title: 'FedShuffle: Recipes for Better Use of Local Work in Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.13169
+  persistent_id: https://arxiv.org/abs/2204.13169
+  version: arXiv abstract page (7383 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:48:00Z'
+  sha256: 9c1edf8ae2f41b1d0856268fd62cbbd385c75a7a0a36bfa170549cf96bd481c7
+- source_id: r565-metadata-cr
+  title: 'FedShuffle: Recipes for Better Use of Local Work in Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2204.13169
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2204.13169
+  version: Crossref API work record (18588 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:48:00Z'
+  sha256: 1871336b7685379966f08b74a80646c8a63da11c85329cf5e93f38a64f8df580
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedShuffle and FedShuffleMVR are federated learning algorithms incorporating local random reshuffling, dataset-size step scaling, and unbiased client-sampling aggregation.
+limitations:
+- Pure local step-size scaling requires clients to finish their scheduled local epochs E_i; mid-epoch client timeouts require hybrid FedShuffleGen update rescaling.
+- Unbiased aggregation w_i / p_i requires knowing each participating client's sampling probability p_i.
+curation:
+  created_at: '2026-10-19T10:48:00Z'
+  updated_at: '2026-10-19T10:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

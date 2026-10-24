@@ -1,0 +1,93 @@
+id: AIMech:ShortDotCodedSparseDotProductsForStragglerResilientLinearTransforms
+name: Short-Dot Coded Sparse Dot Products for Straggler-Resilient Linear Transforms
+concept_kind: algorithm
+review_status: DRAFT
+definition: A straggler-resilient coded parallelization method for computing large linear transforms A x (with A in R^{M x N} and input x in R^N across P > M processors) that appends K - M auxiliary rows Z in R^{(K - M) x N} to A to form A_tilde = [A^T | Z^T]^T in R^{K x N} and multiplies by a P x K super-regular or Vandermonde encoding matrix B to produce F = B A_tilde in R^{P x N}, choosing each column z_j = -(B^{U_j}_{cols M+1:K})^{-1} B^{U_j}_{cols 1:M} A_j to enforce K - M cyclic zeros per column so that every processor's encoded row f_i^T has sparsity at most s = (N / P)(P - K + M) < N and any K out of P short dot products <f_i^{S_i}, x^{S_i}> suffice to linearly recover A x.
+identity_notes: 'Distinct from Maximum Distance Separable (MDS) coded matrix-vector multiplication (Lee et al., 2015/2018, which requires K = M processors to finish but forces every processor to store and compute a full N-length dot product) and from Polynomial / MatDot / Entangled Polynomial Codes (AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication, AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication, AIMech:EntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication, which encode dense block submatrices of two matrices A and B): Short-Dot (Dutta, Cadambe, & Grover, NeurIPS 2016 / IEEE TIT 2019) jointly encodes M rows into P sparse vectors of length s = (N/P)(P - K + M) by solving for K - M padded rows Z that annihilate cyclic (K - M)-subsets of rows in B A_tilde, trading a slightly higher recovery threshold K >= M for shorter per-worker dot products, reduced worker memory, and reduced input communication.'
+aliases:
+- Short-Dot
+- Short-Dot Codes
+- Short-Dot Coded Linear Transform
+definition_evidence:
+- source_id: r543-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r543-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r543-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: short-dot-sparsity-and-k-recovery-construction
+  kind: mechanism
+  statement: Given any M x N matrix A and straggler recovery threshold K in {M + 1, ..., P} (when P divides N), appending K - M rows z_j = -(B^{U_j}_{cols M+1:K})^{-1} B^{U_j}_{cols 1:M} A_j for cyclic zero-index sets U_j of size K - M yields a P x N encoded matrix F = B A_tilde in which every row f_i^T has sparsity at most s = (N / P)(P - K + M) and the first M rows of (B^V)^{-1} v_V recover A x from the short dot products v_V of any K-subset V of processors.
+  evidence:
+  - source_id: r543-primary-pdf
+    locator: Section 2 Theorem 1 & Lemmas 1-2 p. 5-6 Eq. 1-2; Algorithm 1 p. 7
+    relation: supports
+- claim_id: short-dot-near-optimal-sparsity-and-expected-time
+  kind: scope
+  statement: Any P x N linear encoding F whose every K rows span the M rows of a generic M x N matrix A must have average row sparsity s_bar > (N / P)(P - K + M) - (M^2 / P) C(P, K - M + 1) = (N / P)(P - K + M) - o(N / P) for large N (Theorem 3, Eq. 6-7), proving Short-Dot is asymptotically sparsity-optimal; under shifted-exponential worker delays with M = P / log P and K = P - M / 2, Short-Dot achieves scaled expected time E[T_{SD}] / N = O(log(log P) / log P) -> 0 whereas MDS coding, repetition, and uncoded parallelization remain Omega(1) (Theorem 4, Eq. 13-17).
+  evidence:
+  - source_id: r543-primary-pdf
+    locator: Section 3.1 Theorem 3 p. 8 Eq. 6-7; Section 4 Theorem 4 p. 10-12 Eq. 13-17
+    relation: supports
+- claim_id: short-dot-offline-encoding-and-real-vandermonde-limitation
+  kind: limitation
+  statement: Pre-processing matrix A into F requires solving N / P linear systems of size (K - M) x (K - M) (costing O((N / P)(K - M)^3 + 2 P K N) naively or O(N P log^2 P) with Vandermonde fast polynomial interpolation), making Short-Dot suited primarily to settings where A is known offline or reused across many input vectors x.
+  evidence:
+  - source_id: r543-primary-pdf
+    locator: Section 5.1 Encoding Complexity p. 12 Eq. 18-20
+    relation: supports
+evidence_sources:
+- source_id: r543-primary-pdf
+  title: '"Short-Dot": Computing Large Linear Transforms Distributedly Using Coded Short Dot Products'
+  authors: &id001
+  - Sanghamitra Dutta
+  - Viveck Cadambe
+  - Pulkit Grover
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1704.05181.pdf
+  persistent_id: https://dblp.org/rec/journals/tit/DuttaCG19
+  version: Advances in Neural Information Processing Systems (NIPS 2016) (2016) (1240058 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:26:00Z'
+  sha256: 57b48179a1ca228a5b9ced8878526532b7c402dc44c7836ab0ca53d293e38f09
+- source_id: r543-arxiv-abs
+  title: '"Short-Dot": Computing Large Linear Transforms Distributedly Using Coded Short Dot Products (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1704.05181
+  persistent_id: https://arxiv.org/abs/1704.05181
+  version: arXiv abstract page (7391 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:26:00Z'
+  sha256: 6d7e6c954845016fd51e342f4c90a36e7163cc2253ddf96c085fbc2f1a134730
+- source_id: r543-metadata-cr
+  title: '"Short-Dot": Computing Large Linear Transforms Distributedly Using Coded Short Dot Products (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/tit/DuttaCG19
+  persistent_id: https://dblp.org/rec/journals/tit/DuttaCG19
+  version: Crossref API work record (2550 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:26:00Z'
+  sha256: 2c93594744baa2d98cb14cede9f89adbbbf69282b4d8d0454b1d7da0f24b780a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Short-Dot explicitly targets distributed computation of high-dimensional linear projections such as Principal Component Analysis (PCA) and Linear Discriminant Analysis.
+limitations:
+- Requires an offline pre-processing step of complexity O((N / P)(K - M)^3 + 2 P K N) or O(N P log^2 P) to encode the transform matrix A into F, which is only amortized when A is fixed across multiple online inputs x.
+- Tolerates fewer stragglers (P - K) than full-length (P, M)-MDS coding (P - M) because K > M workers must finish to compensate for shortened dot-product length s = (N / P)(P - K + M).
+curation:
+  created_at: '2026-10-19T10:26:00Z'
+  updated_at: '2026-10-19T10:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,104 @@
+id: AIMech:FedLcLogitsCalibrationForLabelDistributionSkewInFederatedLearning
+name: FedLC (Federated Learning via Logits Calibration for Label Distribution Skew)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A label-skew-calibrated federated learning algorithm (Zhang et al. 2022, Sections 3-4, Definitions 1-3, Theorems 1-3, Equations 1-8) that mitigates minority-class classifier collapse and local feature deviation under non-IID label distribution skew by calibrating each client''s predicted logits before computing the local softmax cross-entropy loss using a pairwise label margin Delta(n_y, n_i) proportional to the inverse fourth root of the client''s local class sample counts: L_cal(y; f(x)) = -log(exp(f_y(x) - tau * n_y^{-1/4}) / sum_i exp(f_i(x) - tau * n_i^{-1/4})) (Equation 6).'
+identity_notes: Distinct from centralized Logit Adjustment (AIMech:LogitAdjustmentForLongTailedClassification, Menon et al. 2021), which shifts logits by log pi_y to achieve Fisher consistency for balanced error on a single centralized long-tailed dataset; FedLC derives a client-specific pairwise margin tau * n_y^{-1/4} from the Rademacher-complexity generalization bound across heterogeneous federated clients and proves via Theorem 3 that it enlarges the majority-to-minority gradient ratio D_{j,r} by exp(tau*(n_r^{-1/4} - n_j^{-1/4})) > 1 to prevent local minority-class weight Updates Delta w_r from having negative inner product with minority representations h^{(r)}.
+aliases:
+- FedLC
+- Federated Learning via Logits Calibration
+- FedLC Logits Calibration
+definition_evidence:
+- source_id: r453-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r453-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r453-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r453-minority-gradient-reversal-and-calibrated-softmax-mechanism
+  kind: mechanism
+  statement: Proves in Theorem 1 that under standard local cross-entropy training on skewed client label counts n_j >> n_r, the minority-class linear classifier update Delta w_r satisfies E[Delta w_r^T h^{(r)}] < 0 whenever correlated majority classes dominate the negative gradient push, and proves in Theorem 3 that subtracting tau * n_i^{-1/4} from each class logit i in L_cal (Equation 6) multiplies the gradient suppression ratio D_{j,r} by exp(tau * (n_r^{-1/4} - n_j^{-1/4})) > 1 (Equation 8) to restore E[Delta w_r^T h^{(r)}] >= 0.
+  evidence:
+  - source_id: r453-primary-pdf
+    locator: Section 3.3 Theorem 1 & Section 4.1 Equations 6-8, Theorems 2-3, pp. 3-6
+    relation: supports
+- claim_id: r453-classifier-and-feature-deviation-reduction-scope
+  kind: scope
+  statement: Simultaneously reduces both client-to-oracle classifier weight deviation (Definition 1) and feature extractor representation deviation (Definition 2) during local client updates without transmitting any auxiliary parameters, class histograms, or proxy features to the server.
+  evidence:
+  - source_id: r453-primary-pdf
+    locator: Section 3.2 Definitions 1-2 & Section 4.2 Discussions, pp. 2-6
+    relation: supports
+- claim_id: r453-zero-count-missing-class-and-tau-tuning-limitation
+  kind: limitation
+  statement: Requires positive local class sample counts n_i > 0 (or Laplace smoothing / clamping when a client has zero samples for a class n_i = 0 so n_i^{-1/4} remains finite) and tuning of the calibration scale hyperparameter tau.
+  evidence:
+  - source_id: r453-primary-pdf
+    locator: Section 4.1 Equation 6 & Section 5.3 Sensitivity of Hyperparameter tau, pp. 4-8
+    relation: supports
+- claim_id: r453-label-skew-and-long-tailed-federated-classification-application
+  kind: application
+  statement: Applied to federated image classification under Dirichlet label distribution skew and globally long-tailed federated benchmarks (CIFAR-10/100-LT, ImageNet-LT, iNaturalist).
+  evidence:
+  - source_id: r453-primary-pdf
+    locator: Section 5 Experiments (Tables 1-5, Figures 4-6), pp. 6-8
+    relation: supports
+evidence_sources:
+- source_id: r453-primary-pdf
+  title: Federated Learning with Label Distribution Skew via Logits Calibration
+  authors: &id001
+  - Jie Zhang
+  - Zhiqi Li
+  - Bo Li
+  - Jie Xu
+  - Shuang Wu
+  - Shouhong Ding
+  - Chao Wu
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2209.00189
+  persistent_id: https://proceedings.mlr.press/v162/zhang22p.html
+  version: Proceedings of the 39th International Conference on Machine Learning (ICML 2022), PMLR 162:26311-26329 (2022) (56933 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:56:00Z'
+  sha256: 4fd226449125a1fe8f69b051e7613c9deac9a7570e2d4ce3b6b264c588b5a246
+- source_id: r453-arxiv-abs
+  title: Federated Learning with Label Distribution Skew via Logits Calibration (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2209.00189
+  persistent_id: https://arxiv.org/abs/2209.00189
+  version: arXiv abstract page (14467 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:56:00Z'
+  sha256: cdc3282809a337833ba83da96ceca58c6a6260fc5c138e464f4169aa2e76dfe7
+- source_id: r453-metadata-cr
+  title: Federated Learning with Label Distribution Skew via Logits Calibration (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/zhang22p.html
+  persistent_id: https://proceedings.mlr.press/v162/zhang22p.html
+  version: Crossref API work record (573 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:56:00Z'
+  sha256: 3c776274d0f2a516751c1a93eb44e74d23ed6022226392d51003e0b5acebb8ad
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedLC is a federated learning method designed specifically to handle client label distribution skew via local logit margin calibration.
+limitations:
+- Requires smoothing or clamping when a client's local sample count n_i for class i is zero so that n_i^{-1/4} is well-defined.
+- Addresses label distribution skew in classification tasks and does not directly calibrate regression or unlabeled self-supervised federated objectives.
+curation:
+  created_at: '2026-10-19T08:56:00Z'
+  updated_at: '2026-10-19T08:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

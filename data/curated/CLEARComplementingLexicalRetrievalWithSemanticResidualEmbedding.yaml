@@ -1,0 +1,109 @@
+id: AIMech:CLEARComplementingLexicalRetrievalWithSemanticResidualEmbedding
+name: CLEAR Complementing Lexical Retrieval with Semantic Residual Embedding
+concept_kind: algorithm
+review_status: DRAFT
+definition: A hybrid lexical-semantic retrieval method that explicitly trains a dense Transformer dual-encoder embedding model to capture the semantic residual of a lexical retrieval model (such as BM25) by replacing the constant margin in pairwise max-margin hinge loss with a lexical-score-dependent residual margin m_r(s_lex(q, d+), s_lex(q, d-)) = xi - lambda_train * (s_lex(q, d+) - s_lex(q, d-)) over BM25 error-based negative documents, and combines the lexical score and residual embedding inner-product score linearly at inference time via s_CLEAR(q, d) = lambda_test * s_lex(q, d) + s_emb(q, d).
+identity_notes: Distinct from post-hoc score interpolation of independently trained BM25 and dense dual-encoder models (such as DPR + BM25 in AIMech:DensePassageRetrieval or ME-BERT hybrids in AIMech:MEBERTMultiVectorDenseRetrieval), where the dense encoder is trained independently without conditioning its loss margin on the lexical score difference s_lex(q, d+) - s_lex(q, d-).
+aliases:
+- CLEAR
+- Complementing Lexical Retrieval with Semantic Residual Embedding
+- CLEAR Semantic Residual Embedding Retrieval
+definition_evidence:
+- source_id: r777-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r777-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r777-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: clear-lexical-residual-dynamic-hinge-margin-loss
+  kind: mechanism
+  statement: 'CLEAR defines a dynamic lexical-residual hinge loss L(q, d+, d-; Theta) = [m_r(s_lex(q, d+), s_lex(q, d-)) - s_emb(q, d+) + s_emb(q, d-)]_+ where m_r = xi - lambda_train * (s_lex(q, d+) - s_lex(q, d-)) (Equations 6-7): when the lexical model already ranks d+ far above d-, m_r becomes small or negative so the neural encoder does not waste capacity re-learning easy lexical matches, whereas when the lexical model fails (s_lex(q, d-) > s_lex(q, d+)), m_r expands above xi in proportion to the lexical error magnitude.'
+  evidence:
+  - source_id: r777-primary-pdf
+    locator: Section 3.2, Equations 5-7, pp. 4-5
+    relation: supports
+  - source_id: r777-primary-pdf
+    locator: residual_margin(), residual_hinge_loss(), and main() verification
+    relation: supports
+- claim_id: clear-bm25-error-based-negative-sampling-and-mean-pooled-dual-encoder
+  kind: mechanism
+  statement: To expose the residual learner to realistic lexical failure modes rather than random easy negatives, CLEAR samples hard negatives uniformly from the top 1000 documents retrieved by BM25 for query q (Section 3.3), encodes queries and documents with twin-tower BERT networks (sharing the lower 8 layers while specializing the upper 4 layers for queries vs. documents) followed by linear projection, layer normalization, and average pooling over token embeddings (Equations 1-4), and scores candidates at test time via s_CLEAR(q, d) = lambda_test * s_lex(q, d) + s_emb(q, d) (Equation 8).
+  evidence:
+  - source_id: r777-primary-pdf
+    locator: Sections 3.1 & 3.3-3.4, Equations 1-4 & 8, pp. 4-6
+    relation: supports
+  - source_id: r777-primary-pdf
+    locator: clear_score() and main() verification on lexical failure pair
+    relation: supports
+- claim_id: clear-msmarco-retrieval-and-shallow-bert-reranking-application
+  kind: application
+  statement: On MS MARCO passage ranking, CLEAR achieves 33.8 Dev MRR@10 and 79.9% Recall@100 (outperforming BM25 at 18.7, DeepCT at 24.3, doc2query at 21.5, docTTTTTquery at 27.7, and non-residual BM25+Emb interpolation at 31.3, Table 1), and when used as the first-stage retriever for a BERT cross-encoder reranker, reranking only the top K = 25 CLEAR candidates matches the MRR@10 of reranking K = 1000 BM25 candidates (a 40x reduction in BERT reranking depth, Figure 1b).
+  evidence:
+  - source_id: r777-primary-pdf
+    locator: Section 5, Tables 1-3 & Figure 1, pp. 7-11
+    relation: supports
+- claim_id: clear-dual-index-storage-and-hyperparameter-sensitivity-limitation
+  kind: limitation
+  statement: Deploying CLEAR for full-corpus first-stage retrieval requires maintaining and querying both a lexical inverted index (for s_lex) and a dense vector MIPS index (for s_emb) and merging their candidate lists with tuned scaling weights (xi, lambda_train, lambda_test), and excessive lambda_train (e.g., lambda_train = 0.2 in Figure 2b) degrades retrieval accuracy by forcing overly aggressive embedding margins on outliers.
+  evidence:
+  - source_id: r777-primary-pdf
+    locator: Sections 3.4 & 5.3, Figure 2b, pp. 6, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r777-primary-pdf
+  title: Complementing Lexical Retrieval with Semantic Residual Embedding
+  authors: &id001
+  - Luyu Gao
+  - Zhuyun Dai
+  - Tongfei Chen
+  - Zhen Fan
+  - Benjamin Van Durme
+  - Jamie Callan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.13969.pdf
+  persistent_id: https://arxiv.org/bibtex/2004.13969
+  version: ECIR 2021 (2021) (864130 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:20:00Z'
+  sha256: 0258afa42e2db4cc22a4f563249ac53b13d585af453a97c9f46fba35a8cef603
+- source_id: r777-arxiv-abs
+  title: Complementing Lexical Retrieval with Semantic Residual Embedding (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.13969
+  persistent_id: https://arxiv.org/abs/2004.13969
+  version: arXiv abstract page (6432 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:20:00Z'
+  sha256: 44872f438fd1161f87852d7364419bf546e90d7f138f1651c6ac628b6c6db206
+- source_id: r777-metadata-cr
+  title: Complementing Lexical Retrieval with Semantic Residual Embedding (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.13969
+  persistent_id: https://arxiv.org/bibtex/2004.13969
+  version: Crossref API work record (446 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:20:00Z'
+  sha256: e23d474dbc3aad07f13d2078fb21bec4f856459931ddd1bf48f13a0f800ee676
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: CLEAR trains a twin-tower BERT neural network with linear projection and layer normalization to produce mean-pooled query and document residual embeddings.
+limitations:
+- Requires maintaining and querying both a sparse inverted index (BM25) and a dense vector MIPS index at retrieval time.
+- Retrieval effectiveness is sensitive to the residual scaling hyperparameter lambda_train, where overly large values (e.g., lambda_train >= 0.2) over-penalize lexical outliers and degrade MRR@10.
+curation:
+  created_at: '2026-10-19T14:20:00Z'
+  updated_at: '2026-10-19T14:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

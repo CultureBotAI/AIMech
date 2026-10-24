@@ -1,0 +1,96 @@
+id: AIMech:RandGreeDiRandomizedDistributedSubmodularMaximization
+name: RandGreeDi and NMRandGreeDi Randomized Distributed Submodular Maximization under Hereditary Constraints
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'RandGreeDi and NMRandGreeDi are two-round randomized distributed MapReduce algorithms introduced by Barbosa, Ene, Nguyen, and Ward (2015) for maximizing monotone and non-monotone non-negative submodular functions f : 2^V -> R_{>=0} subject to any hereditary constraint family I subseteq 2^V (including cardinality, matroid, knapsack, and p-system constraints). In Round 1, each element e in V is assigned independently and uniformly at random to one of m machines (forming V_i ~ V(1/m)), and each machine i runs the standard greedy algorithm Greedy(V_i) to produce S_i (or two sequential disjoint greedy runs S_i^1 = Greedy(V_i) and S_i^2 = Greedy(V_i \ S_i^1) in NMRandGreeDi); in Round 2, a single reducer collects S = union_i S_i (or union_i (S_i^1 union S_i^2)), runs a beta-approximation algorithm Alg(S) to obtain T, and returns the best solution among T and all Round 1 machine solutions.'
+identity_notes: Distinct from AIMech:GreeDiTwoStageDistributedSubmodularMaximization (Round 359), which analyzes arbitrary deterministic partitions (yielding worst-case 1/Theta(min(sqrt(k), m)) approximation) and metric-space Lipschitz/density conditions rather than proving worst-case constant-factor alpha*beta/(alpha+beta) and alpha*beta/(alpha+2*beta) approximations for all hereditary constraints and non-monotone objectives via the Lovasz extension decomposition f^-(1_OPT - p) + f^-(p) >= f(OPT). Also distinct from AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization (Round 360), which targets O(log n) adaptive query rounds in the centralized parallel oracle model.
+aliases:
+- RandGreeDi Algorithm
+- NMRandGreeDi Non-Monotone Randomized Distributed Greedy Algorithm
+- Randomized GreeDi via Lovasz Extension Decomposition
+definition_evidence:
+- source_id: r361-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r361-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r361-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r361-claim-lovasz-extension-decomposition-and-monotone-hereditary-bound
+  kind: mechanism
+  statement: 'For any hereditary constraint I subseteq 2^V and monotone submodular function f where Greedy is an alpha-approximation and Alg is a beta-approximation, defining p_e = Pr_{A~V(1/m)}[e in Greedy(A union {e})] for e in OPT and 0 otherwise, greedy stability (Lemma 2: Greedy(V_i) = Greedy(V_i union O_i) for O_i = {e in OPT : e notin Greedy(V_i union {e})}) and Lovasz extension convexity/homogeneity (Lemma 1) imply E[f(S_i)] >= alpha * f^-(1_OPT - p) (Lemma 3) and E[f(Alg(S))] >= beta * f^-(p) (Lemma 4); combining these via f^-(p) + f^-(1_OPT - p) >= f^-(1_OPT) = f(OPT) proves that RandGreeDi achieves an expected (alpha*beta)/(alpha + beta) approximation (Theorem 5), and alpha/2 when Alg = Greedy (Corollary 6: (1 - 1/e)/2 for cardinality, 1/4 for matroid, ~0.17 for knapsack, and 1/(2(p+1)) for p-systems, Table 1).'
+  evidence:
+  - source_id: r361-primary-pdf
+    locator: Section 1.2-1.3, Table 1 and Lemma 1, pp. 3-5; Section 2, Algorithm 1 and Lemma 2, pp. 5-6; Section 3, Algorithm 2, Lemmas 3-4, Theorem 5, and Corollary 6, pp. 6-8
+    relation: supports
+- claim_id: r361-claim-nonmonotone-nmrandgreedi-hereditary-approximation
+  kind: mechanism
+  statement: 'For non-negative non-monotone submodular maximization subject to a hereditary constraint I where Greedy satisfies the greedy property (GP) f(Greedy(V)) >= alpha * f(Greedy(V) union S) for all S in I, running two disjoint greedy passes S_i^1 = Greedy(V_i) and S_i^2 = Greedy(V_i \ S_i^1) on each machine i satisfies f(S_i^1) + f(S_i^2) >= alpha * f(O_i) and E[max{f(S_i^1), f(S_i^2)}] >= (alpha/2) * f^-(1_OPT - p) (Lemma 7), while the second-round reducer satisfies E[f(Alg(S))] >= beta * f^-(p) (Lemma 8), yielding an expected (alpha*beta)/(alpha + 2*beta) approximation for NMRandGreeDi (Theorem 9) and alpha/(4 + 2*alpha) when Alg combines two Greedy passes with Buchbinder et al.''s 1/2-approximate Double Greedy algorithm (Corollary 10: ~0.12 for cardinality, 1/10 for matroid, and 1/(2 + 4(p+1)) for p-systems, Table 1).'
+  evidence:
+  - source_id: r361-primary-pdf
+    locator: Section 1.2, Table 1, p. 4; Section 4, Lemmas 7-8, Theorem 9, and Corollary 10, pp. 8-12
+    relation: supports
+- claim_id: r361-claim-tight-deterministic-greedi-analysis-and-lower-bound
+  kind: mechanism
+  statement: Regardless of how elements are partitioned across m machines, the union E = union_{j in M} E_j of machine-level greedy solutions under cardinality constraint k contains a k-element subset OPT_tilde subseteq E satisfying f(OPT) <= 2*sqrt(k)*f(OPT_tilde) (Theorem 11, Lemmas 12-13), proving that deterministic GreeDi achieves a worst-case ((1 - 1/e)/(2*sqrt(k))) approximation (and 1/Theta(min{sqrt(k), m}), Corollary 14); this bound is tight up to constants via an explicit Max k-Coverage family on m = ell^2 + 1 machines with k = ell + ell^2 where deterministic GreeDi achieves at most (2*ell^2)/(ell^2 + ell^3) = 2/(1 + ell) approx 1/sqrt(k) of OPT (Appendix B).
+  evidence:
+  - source_id: r361-primary-pdf
+    locator: Section 1.1, Footnote 1, p. 2; Appendix A, Theorem 11, Lemmas 12-13, and Corollary 14, pp. 16-18; Appendix B, pp. 18-19
+    relation: supports
+evidence_sources:
+- source_id: r361-primary-pdf
+  title: 'The Power of Randomization: Distributed Submodular Maximization on Massive Datasets'
+  authors: &id001
+  - Rafael da Ponte Barbosa
+  - Alina Ene
+  - Huy L. Nguyen
+  - Justin Ward
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1502.02606.pdf
+  persistent_id: https://proceedings.mlr.press/v37/barbosa15.html
+  version: Proceedings of the 32nd International Conference on Machine Learning (ICML 2015), PMLR 37:1236-1244 (arXiv:1502.02606) (2015) (726549 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:24:00Z'
+  sha256: 66a2959ea76e08dfcafeb657c897ad3a1d556006f72a833e4df6962f21502552
+- source_id: r361-arxiv-abs
+  title: 'The Power of Randomization: Distributed Submodular Maximization on Massive Datasets (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1502.02606
+  persistent_id: https://arxiv.org/abs/1502.02606
+  version: arXiv abstract page (6649 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:24:00Z'
+  sha256: 1b76eddf63d0f1acb33857e16fb8ed602f1f5e411cc26694858b7ffb1f40c73c
+- source_id: r361-metadata-cr
+  title: 'The Power of Randomization: Distributed Submodular Maximization on Massive Datasets (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v37/barbosa15.html
+  persistent_id: https://proceedings.mlr.press/v37/barbosa15.html
+  version: Crossref API work record (4041 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:24:00Z'
+  sha256: 56c4896ce7300272d2f259362c18dccfa84e11f4df7dfb4dc68b5ab0eee74275
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Directly accelerates distributed exemplar-based k-medoid clustering and matroid coverage on massive datasets.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Selects representative and diverse subsets from massive collections under hereditary constraints.
+limitations:
+- Achieves half the centralized greedy approximation ratio ((1 - 1/e)/2 approx 0.316 for monotone cardinality constraints) in two MapReduce rounds, and still executes sequential Greedy on each machine's partition V_i and on the central reducer pool of size up to m*k (Section 3, pp. 6-8).
+curation:
+  created_at: '2026-10-19T07:24:00Z'
+  updated_at: '2026-10-19T07:24:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

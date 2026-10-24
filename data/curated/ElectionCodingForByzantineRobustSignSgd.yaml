@@ -1,0 +1,101 @@
+id: AIMech:ElectionCodingForByzantineRobustSignSgd
+name: Election Coding for Byzantine-Robust SignSGD with Majority Vote
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A coding-theoretic hierarchical majority-voting framework proposed by Sohn, Han, Choi, and Moon (NeurIPS 2020) that protects 1-bit compressed SignSGD with Majority Vote against b Byzantine workers by redundantly allocating n training data partitions across n workers via a binary allocation matrix G in {0, 1}^{n x n}\u2014constructed either randomly via i.i.d. Bernoulli(p) connections or deterministically via a three-block shifted matrix\u2014so that each worker transmits the local majority bit c_i = maj({m_j}_{j in P_i}) of its assigned partition gradient signs and the master decodes the global majority vote hat{mu} = maj(y_1, ..., y_n)."
+identity_notes: 'Distinct from uncoded SignSGD with Majority Vote (AIMech:SignSgdCompressedOptimisationWithMajorityVote, which corresponds to G = I_n with redundancy r = 1 and fails whenever Byzantine flips exceed the margin of the majority vote), from DRACO (AIMech:DracoByzantineResilientDistributedTrainingViaRedundantGradients, which uses cyclic/fractional repetition codes over real-valued full-precision gradients with linear redundancy r = 2b + 1), and from DETOX (AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation, which combines group majority filtering with full-precision geometric median / Krum aggregation). Election Coding (Sohn et al., NeurIPS 2020 / arXiv:1910.06093, Section 2.2, pp. 3-7) preserves 1-bit worker-to-master and master-to-worker communication while providing two explicit code families: (1) Random Bernoulli Codes where G_{ij} ~ Bern(p) with p = Theta(sqrt(log(n)/n)), achieving vanishing global sign estimation error P(hat{mu} != sign(g)) < 1/Delta (Lemma 1 & Theorem 1) and O(1/sqrt(T)) non-convex convergence (Theorem 2); and (2) Deterministic Algebraic Codes (Algorithm 1, Lemma 2, & Theorem 3) with block structure [I_s, 0; 0, A; 1_{(n-s-L) x n}] where s = (n-1)/2 - b and L = floor((n-(2b+1))/(2(b+1))) + 1, guaranteeing exact majority recovery P(hat{mu} != mu) = 0 under any b < floor(n/2) Byzantine bit-flip attacks.'
+aliases:
+- Election Coding
+- Election-Coded SignSGD-MV
+- Bernoulli and Deterministic Election Codes for SignSGD
+definition_evidence:
+- source_id: r536-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r536-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r536-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: election-coding-hierarchical-majority-encoder-decoder-and-deterministic-allocation-matrix
+  kind: mechanism
+  statement: 'Given n data partitions with coordinate-wise gradient signs m_j = sign(tilde{g}_j) in {+1, -1} and a binary allocation matrix G in {0, 1}^{n x n}, each worker i computes the local majority bit c_i = E_i(m; G) = maj({m_j}_{j in P_i}) over its assigned partitions P_i = {j : G_{ij} = 1} and transmits y_i in {+1, -1} to the parameter server, which decodes hat{mu} = maj(y_1, ..., y_n) and updates w_{t+1} = w_t - gamma hat{mu}; Algorithm 1 constructs a deterministic matrix G with top-left identity I_s (s = (n-1)/2 - b), L shifted rows of weight 2b+1, and bottom all-ones rows.'
+  evidence:
+  - source_id: r536-primary-pdf
+    locator: Section 2.2, Equation (1), p. 4; Section 4, Algorithm 1 and Figure 3, pp. 6-7
+    relation: supports
+- claim_id: election-coding-perfect-b-byzantine-tolerance-and-bernoulli-convergence-theorems
+  kind: scope
+  statement: Lemma 2 and Theorem 3 prove that the deterministic code in Algorithm 1 satisfies the necessary and sufficient condition sum_{v=1}^{floor(n/2)} |S_v(m)| <= floor(n/2) - b for all weight-floor(n/2) vectors m, achieving perfect b-Byzantine tolerance P(hat{mu} != mu) = 0 for 0 < b < floor(n/2) with computational redundancy r = (n + 2b + 1)/2 - (L - 1/2)(n - (2b + 1))/n (Equation 5); for random Bernoulli codes with p = Theta(sqrt(log(n)/n)), Theorems 1 and 2 prove P(hat{mu} != sign(g)) < 1/Delta and non-convex stationarity (1/T) sum_{t=0}^{T-1} E[||g(w_t)||_1] <= O(1/sqrt(T)).
+  evidence:
+  - source_id: r536-primary-pdf
+    locator: Section 3.1-3.2, Lemma 1 & Theorems 1-2, pp. 5-6; Section 4, Lemma 2 & Theorem 3, Equation (5), pp. 6-7
+    relation: supports
+- claim_id: election-coding-data-replication-and-computational-redundancy-limitation
+  kind: limitation
+  statement: Election Coding requires replicating data partitions across multiple workers (preventing its direct use when raw local data cannot be shared across nodes) and incurs a computational redundancy factor r = ||G||_0 / n > 1 proportional to the number of partitions assigned per worker.
+  evidence:
+  - source_id: r536-primary-pdf
+    locator: Section 2.2, p. 4; Section 4, Theorem 3, Equation (5), p. 7; Appendix A.4, pp. 10-11
+    relation: supports
+- claim_id: election-coding-distributed-resnet-and-logistic-regression-application
+  kind: application
+  statement: Applied to Byzantine-resilient 1-bit distributed training of ResNet-18 and ResNet-50 on CIFAR-10 and high-dimensional logistic regression on the Amazon Employee Access dataset on Amazon EC2 clusters under reverse-sign and directional Byzantine attacks.
+  evidence:
+  - source_id: r536-primary-pdf
+    locator: Section 5.1-5.2, Figures 4-6, pp. 7-9; Appendix A, Table A.1 and Figures A.1-A.4, pp. 10-12
+    relation: supports
+evidence_sources:
+- source_id: r536-primary-pdf
+  title: 'Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks'
+  authors: &id001
+  - Jy-yong Sohn
+  - Dong-Jun Han
+  - Beongjun Choi
+  - Jaekyun Moon
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1910.06093.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/SohnHCM20.xml
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (2020) (2989347 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:19:00Z'
+  sha256: 5971a5710da910bfc117d68381ac0edaf922658714d5259cb72719ad0e60ed74
+- source_id: r536-arxiv-abs
+  title: 'Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.06093
+  persistent_id: https://arxiv.org/abs/1910.06093
+  version: arXiv abstract page (7478 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:19:00Z'
+  sha256: 211071a3c7b95f4dc82edaea2ac3cecaf865f97aa76c7574baa961552a1e9a44
+- source_id: r536-metadata-cr
+  title: 'Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/SohnHCM20.xml
+  persistent_id: https://dblp.org/rec/conf/nips/SohnHCM20.xml
+  version: Crossref API work record (500 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:19:00Z'
+  sha256: 8730c1b8804228966a745882fd07be6b829c91775b67654c22bf3b30b6bd7561
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning is the closely related distributed learning paradigm; Election Coding provides coding-theoretic Byzantine protection for 1-bit compressed SignSGD with Majority Vote.
+limitations:
+- Requires allocating and replicating multiple data partitions per worker node, which is applicable to shared-storage or cloud cluster training rather than privacy-siloed federated clients.
+- Deterministic codes require computational redundancy r = O(n) as n grows for fixed b/n, although random Bernoulli codes reduce required redundancy to O(sqrt(n log n)).
+curation:
+  created_at: '2026-10-19T10:19:00Z'
+  updated_at: '2026-10-19T10:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

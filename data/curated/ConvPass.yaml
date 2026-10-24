@@ -1,0 +1,93 @@
+id: AIMech:ConvPass
+name: Convpass
+concept_kind: architecture
+review_status: DRAFT
+definition: 'A vision-oriented parameter-efficient transfer learning architecture (Convolutional Bypasses) for Vision Transformers that inserts trainable ResNet-style convolutional bottleneck modules in parallel with the frozen Multi-Head Self-Attention (MHSA) and Multi-Layer Perceptron (MLP) blocks: X'' <- X + MHSA/MLP(LN(X)) + s * Convpass(LN(X)). Each Convpass module consists of a 1x1 channel-reducing convolution (d -> h, where h << d, followed by GELU), a 2D spatial reconstruction step that reshapes the flattened 1D patch sequence back to a 2D grid while treating the [cls] token as an individual 1x1 image for a 3x3 spatial convolution (h -> h, followed by GELU), and a 1x1 channel-expanding convolution (h -> d), introducing 2*L*((2*h + 1)*d + 9*h^2 + 2*h) trainable parameters across L layers to inject 2D spatial locality and token-mixing inductive bias.'
+identity_notes: Distinct from language-oriented channel-wise MLP adapters such as Bottleneck Adapters (AIMech:BottleneckAdapter) and AdaptFormer (AIMech:AdaptFormer), whose 1x1 linear projections cannot mix information across spatial neighbors without relying on the frozen MHSA block, and from LoRA (AIMech:LowRankAdaptation) and VPT (AIMech:VisualPromptTuning), which lack 2D neighborhood inductive bias.
+aliases:
+- Convolutional Bypasses
+- Convpass_attn
+- Convpass_CLIP
+- Convolutional Bypass Vision Transformer Adapter
+definition_evidence:
+- source_id: r697-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r697-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r697-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: convpass-2d-spatial-reconstruction-and-parameter-complexity
+  kind: mechanism
+  statement: Each Convpass module restores the 2D spatial grid of image patch tokens and treats the [cls] token as a separate 1x1 image inside a 1x1-down (d -> h) -> GELU -> 3x3-conv (h -> h) -> GELU -> 1x1-up (h -> d) bypass placed parallel to both MHSA and MLP blocks via X' <- X + MHSA/MLP(LN(X)) + s * Convpass(LN(X)), requiring exactly 2*L*((2*h + 1)*d + 9*h^2 + 2*h) trainable parameters (0.33M for ViT-B/16 with L=12, d=768, h=8) and creating trainable unraveled token-mixing paths independent of MHSA.
+  evidence:
+  - source_id: r697-primary-pdf
+    locator: Section 3.1-3.2, pp. 3-4; Figure 3, p. 3
+    relation: supports
+- claim_id: convpass-vtab-1k-few-shot-and-3x3-ablation-gains
+  kind: application
+  statement: On the 19-task VTAB-1K benchmark with ViT-B/16, Convpass (0.33M parameters) achieves 76.6% average accuracy (81.7% Natural, 85.3% Specialized, 62.7% Structured), outperforming full fine-tuning (68.9%), VPT (72.0%), Adapter (73.9%), LoRA (74.5%), AdaptFormer (74.7%), NOAH (75.5%), and fully fine-tuned Swin-B (75.0%) and ConvNeXt-B (74.0%); replacing the 3x3 spatial convolutions with 1x1 convolutions drops Structured accuracy from 62.7% to 59.5% (Table 5), and parallel placement outperforms sequential placement (Table 4).
+  evidence:
+  - source_id: r697-primary-pdf
+    locator: Section 4.1-4.4, Tables 1-5 & Figures 4-6, pp. 4-7
+    relation: supports
+- claim_id: convpass-imagenet-a-resnet-adversarial-bias-limitation
+  kind: limitation
+  statement: Because Convpass introduces ResNet-style 3x3 convolutional blocks, Convpass_CLIP underperforms CoOp and CoCoOp on the ImageNet-A adversarial out-of-distribution target domain (49.27% vs. 49.71% for CoOp and 50.63% for CoCoOp), which was curated from natural examples misclassified by ResNet architectures, and its relative gain over full fine-tuning diminishes on backbones that already possess built-in spatial inductive bias such as Swin-B (+3.1% vs. +7.7% on ViT-B/16).
+  evidence:
+  - source_id: r697-primary-pdf
+    locator: Section 4.3-4.4, Tables 2-3, p. 6
+    relation: supports
+evidence_sources:
+- source_id: r697-primary-pdf
+  title: Convolutional Bypasses Are Better Vision Transformer Adapters
+  authors: &id001
+  - Shibo Jie
+  - Zhi-Hong Deng
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2207.07039.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Convolutional+Bypasses+Better+Vision+Transformer+Adapters+Jie&format=xml
+  version: arXiv (2022) (695099 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:00:00Z'
+  sha256: 6caae432f31c537e7608499cf68969ab46915b4714bc824ea74a527e9e7b5f4f
+- source_id: r697-arxiv-abs
+  title: Convolutional Bypasses Are Better Vision Transformer Adapters (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2207.07039
+  persistent_id: https://arxiv.org/abs/2207.07039
+  version: arXiv abstract page (6352 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:00:00Z'
+  sha256: dd3a452ea97bf428fd962a05c784dca40650370f0fdb5e1eeb1b454b8a69de65
+- source_id: r697-metadata-cr
+  title: Convolutional Bypasses Are Better Vision Transformer Adapters (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Convolutional+Bypasses+Better+Vision+Transformer+Adapters+Jie&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Convolutional+Bypasses+Better+Vision+Transformer+Adapters+Jie&format=xml
+  version: Crossref API work record (866 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:00:00Z'
+  sha256: 38f56c13d10f191e11534e61e7632a512fe1bd672b34182f8cbd9703c485698d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Convpass adapts pre-trained Vision Transformer neural networks using parallel ResNet-style 2D convolutional bottleneck bypasses.
+limitations:
+- Inherits ResNet-like convolutional inductive biases that slightly reduce out-of-distribution accuracy on ImageNet-A natural adversarial examples selected against ResNet classifiers (49.27% for Convpass_CLIP vs. 50.63% for CoCoOp, Table 2).
+- Requires reshaping the 1D token sequence into a 2D spatial grid before each 3x3 convolution and exhibits smaller relative gains on backbones that already hard-code spatial locality such as Swin Transformer (Section 3.2 & Section 4.4, Table 3).
+curation:
+  created_at: '2026-10-19T13:00:00Z'
+  updated_at: '2026-10-19T13:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

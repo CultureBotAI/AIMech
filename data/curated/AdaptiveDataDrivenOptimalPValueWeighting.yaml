@@ -1,0 +1,213 @@
+id: AIMech:AdaptiveDataDrivenOptimalPValueWeighting
+name: Adaptive data-driven optimal p-value weighting
+aliases:
+- ADDOW (Adaptive Data-Driven Optimal Weighting)
+- Multi-Weighted Benjamini-Hochberg Procedure (MWBH)
+- Cross-Weighted Adaptive Data-Driven Optimal Weighting (crADDOW)
+- Concave-Majorant Adaptive Group Weighting for FDR Control
+concept_kind: mathematical_method
+definition: 'An adaptive grouped multiple-testing methodology (Durand 2019, Electronic Journal of Statistics
+  13(2):3336-3385, arXiv:1710.01094) that generalizes the Weighted Benjamini-Hochberg (WBH) procedure
+  to Multi-Weighted Benjamini-Hochberg (MWBH) with threshold-dependent weight functions W : [0, 1] ->
+  [0, infinity)^G and constructs Adaptive Data-Driven Optimal Weighting (ADDOW) to simultaneously estimate
+  group null proportions pi_{g,0} and group p-value cumulative distribution functions D_g via their Grenander
+  least concave majorant (LCM) D_tilde_g. At each candidate rejection fraction u in {0, 1/m, ..., 1},
+  ADDOW solves the constrained maximization W_hat^*(u) in argmax_{w in K_hat} G_hat_w(u) over the null-proportion-adaptive
+  weight budget K_hat = {w in [0, infinity)^G : sum_{g=1}^G (m_g / m) pi_hat_{g,0} w_g <= 1}, where G_hat_w(u)
+  = sum_{g=1}^G (m_g / m) D_hat_g(alpha u w_g), and rejects hypotheses with p_{g,i} <= alpha u_hat_{W_hat^*}
+  W_hat^*_g(u_hat_{W_hat^*}) at the step-up threshold u_hat_{W_hat^*} = max{u in {0, 1/m, ..., 1} : G_hat_{W_hat^*}(u)
+  >= u}. Under Multiplicative Estimation (ME, pi_hat_{g,0} -> C pi_{g,0} with C >= 1), ADDOW controls
+  the false discovery rate asymptotically at alpha / C <= alpha (Theorem 5.1) while achieving the maximum
+  asymptotic discovery power among all WBH and MWBH procedures constrained to K_hat (Theorem 5.2, Corollaries
+  5.2-5.3), and admits an F-fold cross-weighted stabilization (crADDOW, Section 7, Theorem 7.1) that eliminates
+  finite-sample weak-signal overfitting while preserving full asymptotic power.'
+identity_notes: No normalized identity match for adaptive data-driven optimal p-value weighting, ADDOW,
+  crADDOW, or Multi-Weighted Benjamini-Hochberg (MWBH) across all 442 pinned AIO records and 588 maintained
+  IDs, names, aliases and scoped synonyms. Fixed-string searches across data, sources, research, history,
+  and reviews returned zero matches. Distinct from AIMech:CovariatePoweredCrossWeightedMultipleTesting
+  (Ignatiadis & Huber 2021, IHW), which optimizes a single static weight vector over the unadjusted simplex
+  K_0 = {sum_g (m_g/m) w_g <= 1} (or within-fold sum_{i in I_ell} W_i = |I_ell|) via size-investing and
+  can have strictly lower asymptotic power than unweighted BH when null hypotheses are not evenly distributed
+  across groups (Remark 3.1, Section 6.4), whereas ADDOW optimizes threshold-dependent MWBH weights W_hat^*(u)
+  over the null-proportion-weighted budget K_hat = {sum_g (m_g/m) pi_hat_{g,0} w_g <= 1} so that maximizing
+  total rejections G_w^infty(u) is mathematically equivalent to maximizing true-discovery power P_w^infty(u)
+  without requiring evenly distributed nulls (Lemma B.3, Theorem 5.2); distinct from AIMech:AdaptivePValueThresholding
+  (Lei & Fithian 2018, AdaPT), which iteratively updates coordinatewise thresholds using mirror-masked
+  p-values min(P_i, 1 - P_i); and distinct from AIMech:SelectivelyTraversedAccumulationRulesForStructuredFDRControl
+  (Lei, Ramdas, & Fithian 2021, STAR), which enforces combinatorial structural constraints R_t in K by
+  filtration peeling.
+definition_evidence:
+- source_id: durand2019-addow-ar5iv
+  locator: Section 1, lines 28–118; Section 2, lines 119–182, Eq. 2.1–2.4; Section 3, lines 183–275, Eq.
+    3.1–3.11; Section 4, lines 276–335, Eq. 4.1–4.7; Section 5, lines 336–435, Assumptions 5.1–5.5, Theorems
+    5.1–5.2, Corollaries 5.1–5.3; Section 7, lines 536–585, Theorem 7.1
+  relation: supports
+- source_id: durand2019-addow-crossref
+  locator: Electronic Journal of Statistics, Vol. 13, Issue 2, pp. 3336–3385, 2019 bibliographic record
+    (DOI:10.1214/19-EJS1578)
+  relation: supports
+- source_id: durand2019-addow-abs
+  locator: arXiv:1710.01094v2 abstract and Electronic Journal of Statistics 2019 metadata
+  relation: supports
+claims:
+- claim_id: multi-weighted-bh-step-up-fixed-point-and-grenander-lcm-concavity
+  kind: mechanism
+  statement: 'Multi-Weighted Benjamini-Hochberg (MWBH) generalizes Weighted BH by allowing a weight function
+    W : [0, 1] -> [0, infinity)^G and rejecting p_{g,i} <= alpha u_hat_W W_g(u_hat_W) at u_hat_W = max{u
+    in {0, 1/m, ..., 1} : G_hat_W(u) >= u} where G_hat_W(u) = sum_{g=1}^G (m_g/m) D_hat_g(alpha u W_g(u))
+    (Section 4.1, Eq. 4.1–4.3); whenever u -> G_hat_W(u) is non-decreasing, u_hat_W satisfies the exact
+    step-up identity u_hat_W = G_hat_W(u_hat_W) = m^{-1} max{r in {0, ..., m} : p_{(r)}^{[r]} <= alpha
+    r / m} where p_{g,i}^{[r]} = p_{g,i} / W_g(r/m) (Lemma A.5, Eq. A.1–A.2), and running MWBH(W) produces
+    the exact same rejection set as single-step WBH(W(u_hat_W)) (Remark 4.1, Remark 9.2). For ADDOW and
+    ADDOW-tilde, maximizing over K_hat = {w in [0, infinity)^G : sum_g (m_g/m) pi_hat_{g,0} w_g <= 1}
+    guarantees that u -> G_hat_{W_hat^*}(u) is non-decreasing (Section 4.2, Eq. 4.4–4.7), and replacing
+    the empirical CDF D_hat_g with its Grenander least concave majorant D_tilde_g yields a concave program
+    whose optimal value function u -> G_tilde_{W_tilde^*}(u) is itself concave and strictly non-decreasing
+    on [0, 1] (Lemma C.6, Remark B.3).'
+  evidence:
+  - source_id: durand2019-addow-ar5iv
+    locator: Section 4.1–4.3, lines 276–335, Eq. 4.1–4.7, Remark 4.1; Section 9, Remark 9.2; Appendix
+      A.3, Lemma A.5; Appendix B.3, Remark B.3; Appendix C.2, Lemma C.6
+    relation: supports
+  - source_id: durand2019-addow-abs
+    locator: Abstract (ADDOW step-up weighting and Grenander LCM concave estimator)
+    relation: supports
+- claim_id: asymptotic-fdr-control-and-power-optimality-over-wbh-and-mwbh-under-multiplicative-estimation
+  kind: mechanism
+  statement: 'Under the mixture model (Assumption 3.1) with strictly concave alternative CDFs F_g (Assumption
+    5.1), positive limiting group proportions pi_g > 0 (Assumption 5.2), independence across false nulls
+    and weak null dependence (Assumptions 5.3–5.4), and Multiplicative Estimation (ME: pi_hat_{g,0} ->
+    bar_pi_{g,0} = C pi_{g,0} in probability for a constant C >= 1 across all groups, which contains Conservative
+    Estimation CE when C = 1), maximizing the asymptotic rejection fraction G_w^infty(u) over K^infty
+    = {w in [0, infinity)^G : sum_g pi_g bar_pi_{g,0} w_g <= 1} is mathematically equivalent to directly
+    maximizing asymptotic power P_w^infty(u) = sum_g pi_g pi_{g,1} F_g(alpha u w_g) over K^infty because
+    the optimal weights saturate sum_g pi_g bar_pi_{g,0} w_g = 1 for alpha u < bar_pi_0 (Lemma B.3, Eq.
+    B.1–B.2); consequently, both ADDOW and ADDOW-tilde control the false discovery rate asymptotically
+    at limsup_{m -> infinity} FDR <= bar_u^* <= alpha (with exact equality lim_{m -> infinity} FDR = alpha
+    / C under ME when pi_0 > 0, Theorem 5.1, Eq. 5.1–5.2) and achieve the maximum asymptotic power lim_{m
+    -> infinity} Pow >= limsup_{m -> infinity} Pow(MWBH(W_hat)) among all data-driven WBH and MWBH procedures
+    taking values in K_hat (Theorem 5.2, Corollaries 5.1–5.3), strictly dominating unweighted BH, Adaptive
+    BH, Hu-Zhao-Zhou (HZZ) group-adaptive BH, Roquain-van de Wiel Pro1/Pro2 plug-in procedures, and IHW.'
+  evidence:
+  - source_id: durand2019-addow-ar5iv
+    locator: Section 5.1–5.2, lines 336–435, Assumptions 5.1–5.5, Theorems 5.1–5.2, Corollaries 5.1–5.3,
+      Eq. 5.1–5.3; Appendix B.1–B.3, lines 680–895, Lemmas B.1–B.9
+    relation: supports
+  - source_id: durand2019-addow-crossref
+    locator: Electronic Journal of Statistics 13(2):3336–3385 publication record
+    relation: supports
+- claim_id: suboptimality-of-size-investing-ihw-under-uneven-null-proportions
+  kind: mechanism
+  statement: 'Because size-investing procedures such as Independent Hypothesis Weighting (IHW, Ignatiadis
+    et al. 2016) maximize the total rejection fraction G_w^infty(u) over the unadjusted simplex K_0 =
+    {w in [0, infinity)^G : sum_g pi_g w_g <= 1} without weighting each group''s budget cost by its null
+    proportion pi_{g,0}, maximizing G_w^infty(u) over K_0 fails to maximize true-discovery power P_w^infty(u)
+    whenever the Evenly Distributed nulls condition (ED: pi_{1,0} = ... = pi_{G,0}) is violated: a group
+    with a higher null proportion pi_{g,0} contributes more false rejections pi_{g,0} alpha u w_g to G_{g,w}^infty(u),
+    misleading size-investing into over-allocating weight to high-null groups so that IHW can achieve
+    strictly lower asymptotic power than unweighted BH while simultaneously incurring higher FDR than
+    BH (Remark 3.1, Section 6.4, Fig. 6, where for G = 2, pi_1 = 0.10, pi_{1,0} = 0.05, pi_2 = 0.90, pi_{2,0}
+    = 0.85, mu_1 = mu_2 = 2, alpha = 0.70, Pow^infty(IHW) < Pow^infty(BH) < Pow^infty(ADDOW)).'
+  evidence:
+  - source_id: durand2019-addow-ar5iv
+    locator: Section 3.3, Remark 3.1, lines 255–275; Section 6.4 ('A situation where IHW fails to improve
+      power'), lines 508–535, Figure 6
+    relation: supports
+- claim_id: f-fold-cross-weighted-craddow-finite-sample-stabilization-and-strong-signal-equivalence
+  kind: mechanism
+  statement: In finite samples with weak alternative signal (e.g., bar_mu = 0.5), running full-sample
+    ADDOW on the same p-values used for testing can overfit empirical fluctuations in D_hat_g and inflate
+    finite-sample FDR above alpha (Section 6.2, Section 7); Cross-ADDOW (crADDOW, Section 7.1, Appendix
+    E, Eq. E.1) partitions each group g into F equal folds, runs ADDOW_{-f} on the remaining F - 1 folds
+    to obtain out-of-fold weights w^*_{g,f} = W_hat^{*-f}_g(u_hat_{W_hat^{*-f}}), and applies single-step
+    WBH across all G * F group-fold cells, eliminating weak-signal finite-sample FDR inflation (Section
+    7.3, Fig. 7) while satisfying the exact same asymptotic FDR bound and asymptotic power optimality
+    as full-sample ADDOW under strong signals (Theorem 7.1, Appendix E).
+  evidence:
+  - source_id: durand2019-addow-ar5iv
+    locator: Section 7.1–7.3, lines 536–585, Theorem 7.1, Figure 7; Appendix E, lines 1015–1075, Eq. E.1
+    relation: supports
+evidence_sources:
+- source_id: durand2019-addow-ar5iv
+  title: Adaptive p-value weighting with power optimality
+  authors:
+  - Guillermo Durand
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1710.01094
+  persistent_id: https://doi.org/10.1214/19-EJS1578
+  version: arXiv:1710.01094v2 (published in Electronic Journal of Statistics, Vol. 13, Issue 2, pp. 3336–3385,
+    2019). Complete full-text ar5iv HTML conversion read across Sections 1–9 and Appendices A–E (1,118
+    lines, 142,268 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T14:55:00Z'
+  sha256: a6eddfe1e0a9ea8136d1088cc6b9da218426d0cd9ed7a3a4db3fc0ffdf3543ca
+- source_id: durand2019-addow-crossref
+  title: Adaptive p-value weighting with power optimality (Electronic Journal of Statistics Record)
+  authors:
+  - Guillermo Durand
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/19-EJS1578
+  persistent_id: https://doi.org/10.1214/19-EJS1578
+  version: Electronic Journal of Statistics, Vol. 13, Issue 2, pp. 3336–3385, 2019 Crossref bibliographic
+    metadata record (4,305 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:55:00Z'
+  sha256: 792010392cd70a1ef92b7c10fe3326f5eda717498e7a608e2da973fd17475e65
+- source_id: durand2019-addow-abs
+  title: Adaptive p-value weighting with power optimality (arXiv:1710.01094 Abstract)
+  authors:
+  - Guillermo Durand
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1710.01094
+  persistent_id: https://doi.org/10.48550/arXiv.1710.01094
+  version: arXiv:1710.01094v2 abstract and Electronic Journal of Statistics 2019 metadata record (5,856
+    bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:55:00Z'
+  sha256: ee606b72127354a287093bc8d42cbe265c0d615640bbf6d9d392f8be377526a9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: ADDOW and crADDOW control the false discovery rate across heterogeneous hypothesis groups
+    to prevent false-positive inflation (AIO:DataDredgingBias) while adapting group weights and group
+    null proportions to maximize discovery power.
+limitations:
+- ADDOW's FDR control and power optimality guarantees (Theorems 5.1, 5.2, and 7.1) are asymptotic as total
+  hypotheses m -> infinity with fixed group number G and positive limiting group fractions pi_g > 0 (Assumption
+  5.2); in finite samples with weak signal (small bar_mu), unsplit ADDOW and ADDOW-tilde can overfit empirical
+  fluctuations and exceed nominal FDR alpha unless stabilized by F-fold cross-weighting (crADDOW, Section
+  6.2 and Section 7).
+- 'Asymptotic power optimality over all data-driven WBH and MWBH procedures in K_hat (Theorem 5.2) requires
+  strictly concave alternative CDFs F_g (Assumption 5.1) and Multiplicative Estimation (ME: pi_hat_{g,0}
+  -> C pi_{g,0} with a common constant C >= 1 across all groups); when group null proportion estimators
+  have heterogeneous upward biases C_g != C_g'' across groups, maximizing total discoveries G_w^infty(u)
+  over K^infty is no longer guaranteed to coincide with maximizing true-discovery power P_w^infty(u) (Section
+  5.1, Lemma B.3).'
+- For G >= 3 groups, exact optimization of the non-concave empirical step function G_hat_w(u) over K_hat
+  is combinatorial, so practical multi-group computation relies on the Grenander least concave majorant
+  relaxation D_tilde_g (ADDOW-tilde), which reduces each step-up evaluation to a concave program with
+  piecewise-constant derivatives (Section 3.2, Section 4.3, Remark 4.1).
+- All 1,118 lines of Durand (2019, Electronic Journal of Statistics 13(2):3336-3385, arXiv:1710.01094v2)
+  were read. Constructed numerical checks in research/discovery/adaptive-data-driven-optimal-p-value-weighting-boundaries.py
+  verify (1) Lemma A.5 and Remark 4.1/9.2 exact step-up fixed-point equivalence between MWBH(W_hat^*)
+  and single-step WBH(W_hat^*(u_hat)) across 40 random 2-group instances (mismatches = 0, monotonicity
+  violation = 0.0, Grenander LCM concavity violation = 0.0), (2) Lemma B.3 exact equivalence between maximizing
+  G^infty_w(u) and maximizing P^infty_w(u) over K^infty under Multiplicative Estimation (max weight discrepancy
+  = 0.0), Theorem 5.1 asymptotic FDR = alpha/C (0.05 for C=1.0, 0.043478 for C=1.15), and Theorem 5.2
+  asymptotic power dominance of ADDOW (0.131404) over Pro1 (0.131199), HZZ (0.130514), ABH (0.127344),
+  IHW (0.119278), and BH (0.117761), (3) Remark 3.1 and Section 6.4 uneven-null counterexample where size-investing
+  IHW has strictly lower power than unweighted BH both asymptotically (0.20932 < 0.216218 < 0.229168)
+  and in Monte Carlo (0.21465 < 0.21713 < 0.23123) while incurring higher FDR than BH (0.566215 > 0.539),
+  and (4) Section 7 crADDOW 5-fold cross-weighting reducing weak-signal finite-sample FDR from 0.09417
+  (> 0.05) to 0.048 (<= 0.05) while maintaining strong-signal TPR 0.63267 vs. BH 0.5775 (Theorem 7.1).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T14:55:00Z'
+  updated_at: '2026-10-17T14:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

@@ -1,0 +1,102 @@
+id: AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent
+name: Local SGD Periodic Model Averaging Parallel Stochastic Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-efficient parallel stochastic optimization algorithm (Local SGD) in which K workers independently advance local parameter vectors via x_{t+1}^k = x_t^k - eta_t * grad f_{i_t^k}(x_t^k) and synchronize by global averaging x_{t+1}^k = (1/K) sum_{j=1}^K (x_t^j - eta_t * grad f_{i_t^j}(x_t^j)) only at communication steps t + 1 in I_T with maximum synchronization gap gap(I_T) <= H, bounding the mean squared worker drift from the virtual average x_bar_t = (1/K) sum_{k=1}^K x_t^k by 4 * eta_t^2 * G^2 * H^2 and achieving the optimal O(sigma^2 / (mu * K * T)) linear K-worker speedup with up to H = O(sqrt(T / K)) fewer communication rounds.
+identity_notes: Distinct from control-variate client-drift correction in heterogeneous federated learning (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning), from proximal heterogeneous federated optimization with variable inexact local solvers (AIMech:FedProxProximalHeterogeneousFederatedOptimization), and from compressed every-step SGD with error memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression). No pinned AIO class covers Local SGD periodic averaging or its virtual-average drift analysis.
+aliases:
+- Local SGD
+- Parallel Restarted SGD
+- Periodic Model Averaging SGD
+- K-Step Averaging Stochastic Gradient Descent
+definition_evidence:
+- source_id: r383-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r383-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r383-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r383-virtual-average-variance-reduction-and-drift-bound
+  kind: mechanism
+  statement: For the virtual average sequence x_bar_t = (1/K) sum_{k=1}^K x_t^k, Lemma 3.2 establishes that the variance of the averaged stochastic gradient is reduced by a factor of K (E ||g_t - g_bar_t||^2 <= sigma^2 / K), and Lemma 3.3 proves that for stepsizes satisfying eta_t <= 2 * eta_{t+H} and synchronization gap at most H, the expected squared worker deviation from x_bar_t is uniformly bounded by (1/K) sum_{k=1}^K E ||x_bar_t - x_t^k||^2 <= 4 * eta_t^2 * G^2 * H^2.
+  evidence:
+  - source_id: r383-primary-pdf
+    locator: Section 3 Proof of Theorem 2.2, Lemma 3.1, Lemma 3.2, and Lemma 3.3, pp. 4-5
+    relation: supports
+- claim_id: r383-linear-parallel-speedup-and-communication-reduction
+  kind: mechanism
+  statement: Under L-smoothness and mu-strong convexity with stepsizes eta_t = 4 / (mu * (a + t)), shift a > max(16 * kappa, H), and quadratic iterate weights w_t = (a + t)^2, Theorem 2.2 proves E[f(x_hat_T)] - f(x*) <= O(sigma^2 / (mu * K * T)) + O(kappa * H^2 * G^2 / (mu * T^2)) + O(G^2 * (kappa + H)^3 / (mu * T^3)), achieving linear K-fold parallel speedup whenever H = O(sqrt(T / (K * b))).
+  evidence:
+  - source_id: r383-primary-pdf
+    locator: Section 2 Theorem 2.2, Corollary 2.3, and Remark 2.4, pp. 3-4
+    relation: supports
+- claim_id: r383-bounded-second-moment-and-heterogeneous-drift-limitation
+  kind: limitation
+  statement: The drift bound in Lemma 3.3 assumes a uniform second-moment bound E ||grad f_i(x)||^2 <= G^2 and shared objective f across workers; when workers optimize heterogeneous local objectives f_k != f with large H, local iterates drift toward distinct local optima unless corrected.
+  evidence:
+  - source_id: r383-primary-pdf
+    locator: Section 2 Equations (3)-(4), Lemma 3.3, and Section 6 Conclusion, pp. 2, 5, 8
+    relation: supports
+- claim_id: r383-communication-reduced-parallel-training-application
+  kind: application
+  statement: Applied to parallel mini-batch and asynchronous stochastic optimization of regularized logistic regression and convex empirical risk minimization with periodic worker averaging.
+  evidence:
+  - source_id: r383-primary-pdf
+    locator: Section 4 Empirical Observations and Section 5 Asynchronous Local SGD, Figures 1-2, pp. 6-8
+    relation: supports
+evidence_sources:
+- source_id: r383-primary-pdf
+  title: Local SGD Converges Fast and Communicates Little
+  authors: &id001
+  - Sebastian U. Stich
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1805.09767.pdf
+  persistent_id: https://openreview.net/forum?id=SJSuGs0KoFX
+  version: International Conference on Learning Representations (ICLR 2019) (2019) (76415 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:46:00Z'
+  sha256: 91dab280c55e113d188961b8483f7514479de7381b90bda2d4a205f4d23423f3
+- source_id: r383-arxiv-abs
+  title: Local SGD Converges Fast and Communicates Little (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1805.09767
+  persistent_id: https://arxiv.org/abs/1805.09767
+  version: arXiv abstract page (6418 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:46:00Z'
+  sha256: 0a9300c4815dc5126251be43df8fe962a7e4628ef3594ba785ab225e6ca10e79
+- source_id: r383-metadata-cr
+  title: Local SGD Converges Fast and Communicates Little (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=SJSuGs0KoFX
+  persistent_id: https://openreview.net/forum?id=SJSuGs0KoFX
+  version: Crossref API work record (249 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:46:00Z'
+  sha256: e064dd4c065368fcaeebf9881c82bdfd669b99932f00c2782397a79ac10694e3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Local SGD provides the foundational periodic local-update and model-averaging mechanism underlying Federated Averaging (FedAvg) and parallel data-center training.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Local SGD is benchmarked on parallel regularized logistic regression objectives.
+limitations:
+- Requires synchronization period H <= O(sqrt(T / (K * b))) to prevent the O(kappa * H^2 * G^2 / (mu * T^2)) drift term from dominating the leading O(sigma^2 / (mu * K * T)) statistical term.
+- Suffers from client drift when local worker data distributions are non-IID unless augmented with control variates or proximal regularization.
+curation:
+  created_at: '2026-10-19T07:46:00Z'
+  updated_at: '2026-10-19T07:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

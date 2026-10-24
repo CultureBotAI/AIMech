@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSGT and GSGT (Distributed and Gossip Stochastic Gradient Tracking) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>DSGT and GSGT (Distributed and Gossip Stochastic Gradient Tracking)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DSGT and GSGT (Distributed and Gossip Stochastic Gradient Tracking)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DsgtAndGsgtDistributedStochasticGradientTracking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DSGT and GSGT, Distributed Stochastic Gradient Tracking, Gossip Stochastic Gradient Tracking
+    </div>
+
+  <div class="detail-desc">
+    A family of decentralized stochastic optimization algorithms over doubly stochastic network graphs W (Pu &amp; Nedic 2021, Sections 2 and 4, Equations 4 and 37-39) in which each agent i maintains a local model x_{i,k} and an auxiliary stochastic gradient tracker y_{i,k} initialized at y_{i,0} = g_i(x_{i,0}, xi_{i,0}), updating in synchronous Distributed Stochastic Gradient Tracking (DSGT) via x_{k+1} = W(x_k - alpha_k y_k) and y_{k+1} = W y_k + G(x_{k+1}, xi_{k+1}) - G(x_k, xi_k), or in randomized pairwise Gossip Stochastic Gradient Tracking (GSGT) by activating a single directed wake-up edge (i_k, j_k) per iteration to average iterates and gradient trackers across {i_k, j_k}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from deterministic DIGing and Push-DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, &amp; Shi 2017), which analyze exact gradients over time-varying B-connected graphs via small-gain theorems, and from D2 (AIMech:D2VarianceReducedDecentralizedTrainingOverHeterogeneousData, Tang et al. 2018), which uses a single-variable two-step recursion X_{t+1} = (2 X_t - X_{t-1} - gamma G_t + gamma G_{t-1}) W requiring lambda_n(W) &gt; -1/3 rather than explicit dynamic average consensus tracking y_{k+1} = W y_k + G_{k+1} - G_k and randomized pairwise gossip GSGT.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r428-dynamic-average-tracking-invariant-and-constant-stepsize-linear-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Initializing y_0 = G(x_0, xi_0) under a doubly stochastic mixing matrix W preserves the exact dynamic average conservation bar_y_k = (1/n) 1^T y_k = (1/n) 1^T G(x_k, xi_k) at every iteration k (Lemma 2, Eq. 5); under mu-strong convexity and L-smoothness with constant step-size alpha, the 3x3 error-moment matrix A contracts at rate rho(A) &lt;= 1 - 2 alpha mu Gamma / (Gamma + 1) (Lemma 4, Eq. 10) to a steady-state MSE limsup_{k-&gt;infty} (1/n) E[||x_k - 1 x^*||^2] &lt;= (alpha sigma^2 / (mu n)) O(1) + (alpha^2 L^2 sigma^2 / (mu^2 (1 - rho_w)^3)) O(rho_w^2 ||W - I||^2) completely free of inter-agent gradient heterogeneity ||nabla f_i(x^*)||^2 (Theorem 1, Remark 1, Eqs. 11-12).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r428-primary-pdf">Distributed Stochastic Gradient Tracking Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 2-3 Main Results &amp; Convergence Analysis (Lemmas 2-7, Theorem 1, Remark 1, Equations 5-12)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r428-diminishing-stepsize-topology-independent-asymptotic-efficiency-and-gsgt</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With diminishing step-sizes alpha_k = theta / (m + k) (where theta mu &gt; 1), DSGT achieves the asymptotic mean-squared error 2 theta^2 sigma^2 / (n (theta mu - 1) k) for every agent (minimized at theta = 2 / mu to 8 sigma^2 / (n mu^2 k)), matching centralized stochastic gradient descent independent of the network spectral gap 1 - rho_w (Theorem 2, Remark 3); furthermore, GSGT preserves 1^T y_k = 1^T G(x_k, xi_k) via pairwise edge updates (Eqs. 37-39) and reduces communication volume by O(|E| / n) on well-connected graphs (Section 4, Theorem 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r428-primary-pdf">Distributed Stochastic Gradient Tracking Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 Theorem 2 &amp; Remark 3 (Equations 13-14); Section 4 GSGT (Equations 37-39, Lemma 8, Theorem 3)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r428-doubly-stochastic-mixing-and-dual-message-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires a doubly stochastic mixing matrix W (or symmetric pairwise gossip updates in GSGT) so that 1^T W = 1^T holds, and requires exchanging both the iterate x_{i,k} - alpha_k y_{i,k} and the tracker y_{i,k} across active links.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r428-primary-pdf">Distributed Stochastic Gradient Tracking Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 Assumption 1 &amp; Equations 4, 37-38</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r428-decentralized-logistic-regression-and-ridge-regression-sensor-networks-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized ridge regression and regularized logistic classification over random Erdos-Renyi, ring, and grid multi-agent networks, eliminating the steady-state heterogeneity bias of decentralized stochastic gradient descent.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r428-primary-pdf">Distributed Stochastic Gradient Tracking Methods</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Numerical Experiments (Figures 1-5)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Doubles per-round communication payload compared to un-tracked D-PSGD because both iterates and gradient trackers are mixed across neighbors.</li>
+      <li>In GSGT, the secondary node j_k in each wake-up pair must also evaluate a fresh local stochastic gradient at its updated iterate to preserve exact sum conservation.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DSGT and GSGT are decentralized stochastic gradient tracking methods that eliminate client data heterogeneity bias without a central server.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r428-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r428-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1805.11454" target="_blank" rel="noopener">Distributed Stochastic Gradient Tracking Methods</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shi Pu, Angelia Nedic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/s10107-020-01487-0</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e0bd98aa5e8b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r428-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r428-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1805.11454" target="_blank" rel="noopener">Distributed Stochastic Gradient Tracking Methods (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shi Pu, Angelia Nedic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1805.11454</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4d61bf09bd7e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r428-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r428-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1007/s10107-020-01487-0" target="_blank" rel="noopener">Distributed Stochastic Gradient Tracking Methods (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shi Pu, Angelia Nedic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/s10107-020-01487-0</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7b9492473d76…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ADsgtAndGsgtDistributedStochasticGradientTracking">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for DSGT and GSGT (Distributed and Gossip Stochastic Gradient Tracking)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:DsgtAndGsgtDistributedStochasticGradientTracking</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">DSGT and GSGT...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:31:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:31:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DsgtAndGsgtDistributedStochasticGradientTracking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DsgtAndGsgtDistributedStochasticGradientTracking.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=DSGT%20and%20GSGT%20%28Distributed%20and%20Gossip%20Stochastic%20Gradient%20Tracking%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ADsgtAndGsgtDistributedStochasticGradientTracking"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

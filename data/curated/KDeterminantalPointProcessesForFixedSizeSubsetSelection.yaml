@@ -1,0 +1,103 @@
+id: AIMech:KDeterminantalPointProcessesForFixedSizeSubsetSelection
+name: k-Determinantal Point Processes for Fixed-Size Subset Selection
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: k-Determinantal Point Processes for Fixed-Size Subset Selection (k-DPPs) is a probabilistic diverse subset selection model and exact polynomial-time inference framework introduced by Kulesza and Taskar (2011) that conditions a standard L-ensemble Determinantal Point Process on the event that the selected subset Y subseteq {1, ..., N} has exact fixed cardinality |Y| = k. Given an N x N positive semidefinite similarity and quality kernel L = sum_{n=1}^N lambda_n v_n v_n^T, a k-DPP assigns probability P_L^k(Y) = det(L_Y) / e_k(lambda_1, ..., lambda_N) to every k-subset Y (Equation 5 & Proposition 3.1, Equation 10), where the normalization constant sum_{|Y'|=k} det(L_{Y'}) equals the k-th elementary symmetric polynomial e_k(lambda_1, ..., lambda_N) = sum_{|J|=k} prod_{n in J} lambda_n of the eigenvalues of L. Algorithm 2 computes all intermediate polynomials e_l^n = e_l(lambda_1, ..., lambda_n) in O(N k) time via the Newton-Pascal recurrence e_l^n = e_l^{n-1} + lambda_n e_{l-1}^{n-1} (Equation 12), and Algorithm 1 decomposes P_L^k into a mixture of rank-k elementary projection DPPs (Equation 8), first sampling an eigenvector index subset J of size k in O(N k) time with sequential marginal probabilities lambda_n e_{l-1}^{n-1} / e_l^n and then sampling k items Y from the projection DPP spanned by {v_n}_{n in J} in O(N k^2) time via iterative Gram-Schmidt orthogonal projection.
+identity_notes: Distinct from Volume Sampling for Matrix Approximation and Projective Clustering (`AIMech:VolumeSamplingForMatrixApproximationAndProjectiveClustering`), which analyzes the multiplicative (k+1)! ||A - A_k||_F^2 row-span projection error of simplex-volume sampling for low-rank matrix approximation and projective clustering rather than conditional L-ensemble inference, quality-diversity decompositions L_{ij} = q_i phi_i^T phi_j q_j, and the elementary symmetric polynomial DP sampler of Kulesza and Taskar (2011). Also distinct from standard unconditioned DPPs, which cannot enforce a hard cardinality budget |Y| = k.
+aliases:
+- k-DPP (Fixed-Size Determinantal Point Process)
+- Kulesza-Taskar Cardinality-Conditioned Determinantal Point Process
+- Elementary Symmetric Polynomial k-DPP Exact Sampler
+definition_evidence:
+- source_id: r334-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r334-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r334-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any N x N positive semidefinite L-ensemble kernel L = sum_{n=1}^N lambda_n v_n v_n^T, Proposition 3.1 (Equations 8-10) proves that the k-DPP distribution P_L^k(Y) = det(L_Y) / sum_{|Y'|=k} det(L_{Y'}) decomposes as the mixture of rank-k elementary projection DPPs P_L^k(Y) = (1 / e_k(lambda_1, ..., lambda_N)) sum_{|J|=k} (prod_{n in J} lambda_n) P^{V_J}(Y), where the partition function sum_{|Y|=k} det(L_Y) = e_k(lambda_1, ..., lambda_N) is computed exactly in O(N k) operations via the recurrence e_l^n = e_l^{n-1} + lambda_n e_{l-1}^{n-1} with base cases e_0^n = 1 and e_l^0 = 0 for l > 0 (Algorithm 2, Equation 12).
+  evidence:
+  - source_id: r334-primary-pdf
+    locator: Section 3.1, Equations 5-8, p. 1195; Section 3.3, Proposition 3.1, Equations 9-12, and Algorithm 2, pp. 1196-1197
+    relation: supports
+  - source_id: r334-arxiv-abs
+    locator: Abstract and Section 5 (k-DPPs for fixed-size diverse subset selection)
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: Given the eigendecomposition of L (or of the dual Gram matrix B^T B when L = B B^T with B in R^{D x N} and D << N), Algorithm 1 draws an exact sample Y ~ P_L^k in O(N k^2) time by first backward-sampling an index subset J subseteq {1, ..., N} of size |J| = k using the conditional inclusion probabilities Pr(n in J | l remaining) = lambda_n e_{l-1}^{n-1} / e_l^n in O(N k) time, and then sequentially selecting k items from the elementary projection DPP P^{V_J} with probabilities (1/|V|) sum_{v in V} (v^T e_i)^2 followed by orthogonal projection of V onto the subspace perpendicular to e_i.
+  evidence:
+  - source_id: r334-primary-pdf
+    locator: Section 2.2, Lemma 2.1 (Equation 4), p. 1194; Section 3.3-3.4, Algorithm 1 and High-Dimensional Dual Representation, pp. 1196-1197
+    relation: supports
+  - source_id: r334-metadata-cr
+    locator: Foundations and Trends in Machine Learning 5(2-3):123-286 bibliographic record
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Exact k-DPP normalization and sampling require full eigendecomposition of the N x N kernel L (costing O(N^3) time, or O(N D^2) when a rank-D feature factorization L = B B^T is available and k <= D), and unlike standard unconditioned DPPs whose marginal kernels K = L(L+I)^{-1} have closed-form subset marginals det(K_A), k-DPPs are scale-invariant (P_{alpha L}^k = P_L^k) and do not admit a single PSD marginal kernel K representing all higher-order inclusion probabilities.
+  evidence:
+  - source_id: r334-primary-pdf
+    locator: Section 3.2-3.4, Comparison with scaled standard DPPs (Equation 11) and eigendecomposition complexity O(N D^2), pp. 1195-1197
+    relation: supports
+evidence_sources:
+- source_id: r334-primary-pdf
+  title: 'k-DPPs: Fixed-Size Determinantal Point Processes'
+  authors: &id001
+  - Alex Kulesza
+  - Ben Taskar
+  source_type: primary_paper
+  url: https://icml.cc/Conferences/2011/papers/596_icmlpaper.pdf
+  persistent_id: https://doi.org/10.1561/2200000044
+  version: Proceedings of the 28th International Conference on Machine Learning (ICML 2011), pp. 1193-1200 (2011) (2354337 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:57:00Z'
+  sha256: 8b90e45f4194383eb40ea6fef3c031ca90d3b83154f34baccf281b81d61d9ee5
+- source_id: r334-arxiv-abs
+  title: 'k-DPPs: Fixed-Size Determinantal Point Processes (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1207.6083
+  persistent_id: https://arxiv.org/abs/1207.6083
+  version: arXiv abstract page (6124 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:57:00Z'
+  sha256: 8e51743f75e66de448b13c5fc4742dc26f1797e9ae66ec2555aad482a3256cfb
+- source_id: r334-metadata-cr
+  title: 'k-DPPs: Fixed-Size Determinantal Point Processes (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1561/2200000044
+  persistent_id: https://doi.org/10.1561/2200000044
+  version: Crossref API work record (11110 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:57:00Z'
+  sha256: 3cf5818996c65bb144458ddec856f712393350dd945e802dea30b16a19cabe6e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Selects diverse size-k subsets via spectral projection DPPs and dual feature-space Gram representations.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Used to select k diverse exemplar centroids and image/document summaries with repulsive determinantal geometry.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Provides an exact sequential two-phase Markovian transition sampler for fixed-cardinality determinantal point processes.
+limitations:
+- Requires O(N^3) eigendecomposition of the kernel L (or O(N D^2) via dual Gram matrix when L = B B^T has rank D >= k), and returns zero probability for all k > rank(L).
+curation:
+  created_at: '2026-10-19T06:57:00Z'
+  updated_at: '2026-10-19T06:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

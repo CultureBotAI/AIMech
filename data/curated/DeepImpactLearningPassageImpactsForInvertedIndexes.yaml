@@ -1,0 +1,107 @@
+id: AIMech:DeepImpactLearningPassageImpactsForInvertedIndexes
+name: DeepImpact Learning Passage Impacts for Inverted Indexes
+concept_kind: algorithm
+review_status: DRAFT
+definition: A learned sparse impact-scoring and inverted-index retrieval method that expands each passage offline with DocT5Query predicted queries concatenated after a [SEP] token, encodes the expanded passage with BERT, takes the contextualized representation of the first occurrence of each unique term (merging WordPiece sub-tokens into space-separated words by averaging their contextual representations), passes each unique term embedding through a two-layer ReLU multi-layer perceptron trained end-to-end via pairwise softmax cross-entropy loss on the sum-of-impacts query-document score over intersecting terms, and linearly quantizes the resulting positive impact scores into b-bit integers (b = 8) stored directly in standard inverted-index postings for fast query-independent top-k retrieval.
+identity_notes: Distinct from DeepCT (AIMech:DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval), which trains per-token linear regression against static heuristic ground-truth term recall weights rather than end-to-end pairwise ranking over sum-of-impacts and requires BM25 scoring formulas at query time; and distinct from uniCOIL (AIMech:uniCOILUnifiedContextualizedInvertedList), which operates over WordPiece subword tokens and computes query-time contextualized query term weights rather than query-independent first-occurrence word-level impacts.
+aliases:
+- DeepImpact
+- Learning Passage Impacts for Inverted Indexes
+- DeepImpact Passage Impact Model
+definition_evidence:
+- source_id: r776-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r776-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r776-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: deepimpact-first-occurrence-relu-mlp-and-sum-of-impacts-training
+  kind: mechanism
+  statement: DeepImpact concatenates each passage d with DocT5Query expansion terms separated by a [SEP] token, feeds the sequence into BERT (averaging WordPiece sub-tokens for multi-piece words), feeds only the contextualized embedding of the first occurrence of each unique term t in d into a two-layer MLP with ReLU activations to produce a single non-negative scalar impact score s_{t,d}, defines the query-document score as the sum of impacts over intersecting query-document terms score(q, d) = sum_{t in q cap d} s_{t,d}, and optimizes the encoder and MLP end-to-end via pairwise softmax cross-entropy loss over (q, d+, d-) triples (Section 2, Figure 1).
+  evidence:
+  - source_id: r776-primary-pdf
+    locator: Section 2, Figure 1, pp. 2-3
+    relation: supports
+  - source_id: r776-primary-pdf
+    locator: first_occurrence_positions(), compute_document_impacts(), sum_of_impacts_score(), and pairwise_softmax_ce_loss()
+    relation: supports
+- claim_id: deepimpact-linear-quantization-into-inverted-index-postings
+  kind: mechanism
+  statement: To support fast top-k query processing in standard inverted-index engines such as PISA using MaxScore without runtime BM25/TF-IDF computation, DeepImpact linearly scales positive real-valued impact scores (stored at 3 digits of precision) across the collection into b-bit integers in [1, 2^b - 1] (with b = 8 yielding [1, 255]) and stores each quantized integer directly in the frequency payload field of the inverted list alongside the document ID (Section 2).
+  evidence:
+  - source_id: r776-primary-pdf
+    locator: Section 2 (Indexing and Quantization & Query Processing), pp. 2-3
+    relation: supports
+  - source_id: r776-primary-pdf
+    locator: quantize_impacts_linear() and main() verification
+    relation: supports
+- claim_id: deepimpact-msmarco-and-trec-dl-effectiveness-and-speedup-application
+  kind: application
+  statement: On MS MARCO Dev and TREC DL 2019/2020, DeepImpact achieves 0.326 MRR@10 on MS MARCO Dev (up to +17.7% over DocT5Query at 0.277 and +34.2% over DeepCT at 0.243) and, when used as a first-stage retriever feeding a ColBERT re-ranker over k = 100 candidates, matches the end-to-end effectiveness of re-ranking k = 1000 BM25 candidates while achieving up to a 5.1x query latency speedup (Section 3, Tables 1-2).
+  evidence:
+  - source_id: r776-primary-pdf
+    locator: Section 3, Tables 1-2, pp. 3-4
+    relation: supports
+- claim_id: deepimpact-offline-doct5query-expansion-dependency-limitation
+  kind: limitation
+  statement: Because DeepImpact only estimates impact scores for terms physically present in its input token sequence, bridging vocabulary mismatch depends on first running an external generative document-expansion model (DocT5Query) across the entire corpus prior to BERT impact scoring and inverted-index construction, and passages remain truncated at 300 tokens (Section 2).
+  evidence:
+  - source_id: r776-primary-pdf
+    locator: Section 2 (Eliminating the Vocabulary Mismatch & Implementation Details), pp. 2-3
+    relation: supports
+evidence_sources:
+- source_id: r776-primary-pdf
+  title: Learning Passage Impacts for Inverted Indexes
+  authors: &id001
+  - Antonio Mallia
+  - Omar Khattab
+  - Torsten Suel
+  - Nicola Tonellotto
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.12016.pdf
+  persistent_id: https://arxiv.org/bibtex/2104.12016
+  version: SIGIR 2021 (2021) (504080 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:19:00Z'
+  sha256: bb75e79dae3a9250379e3c7122d1f747de4c1a2c633670013bbcc3e252efac94
+- source_id: r776-arxiv-abs
+  title: Learning Passage Impacts for Inverted Indexes (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.12016
+  persistent_id: https://arxiv.org/abs/2104.12016
+  version: arXiv abstract page (6543 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:19:00Z'
+  sha256: ae21315454b8b6090faefef6af69d5262d4852a4328c18c28338cb2952f46ecf
+- source_id: r776-metadata-cr
+  title: Learning Passage Impacts for Inverted Indexes (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2104.12016
+  persistent_id: https://arxiv.org/bibtex/2104.12016
+  version: Crossref API work record (400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:19:00Z'
+  sha256: d3b8bec5869b1841c73271d5704659048d2f1fa396ca5fa5a0aacd056154aa7f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: DeepImpact fine-tunes a contextualized BERT encoder coupled with a two-layer ReLU multi-layer perceptron to predict scalar passage-term impact scores.
+limitations:
+- Vocabulary-mismatch mitigation relies on pre-expanding every passage in the corpus with an external generative sequence-to-sequence model (DocT5Query) before computing BERT passage impacts.
+- Input sequences (original passage plus expansion queries) are truncated at a maximum length of 300 tokens during training and inference.
+curation:
+  created_at: '2026-10-19T14:19:00Z'
+  updated_at: '2026-10-19T14:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

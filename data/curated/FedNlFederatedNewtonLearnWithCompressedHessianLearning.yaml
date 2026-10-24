@@ -1,0 +1,106 @@
+id: AIMech:FedNlFederatedNewtonLearnWithCompressedHessianLearning
+name: FedNL (Federated Newton Learn)
+concept_kind: algorithm
+review_status: DRAFT
+definition: FedNL (Federated Newton Learn) is a family of communication-efficient second-order federated optimization algorithms for solving general finite-sum problems min_{x in R^d} f(x) = (1/n) sum_{i=1}^n f_i(x) that progressively learns the local optimal Hessians grad^2 f_i(x^*) and their global average grad^2 f(x^*) via compressed matrix difference updates H_i^{k+1} = H_i^k + alpha * C_i^k(grad^2 f_i(x^k) - H_i^k) and H^{k+1} = (1/n) sum_{i=1}^n H_i^{k+1}. Supporting both unbiased matrix compressors B(omega) and deterministic contractive compressors C(delta) (such as Rank-R and Top-K) without error feedback or raw data transmission, the server updates the global model either via cone projection x^{k+1} = x^k - [H^k]_mu^{-1} grad f(x^k) (Option 1) or Frobenius compression-error shift x^{k+1} = x^k - [H^k + l^k I]^{-1} grad f(x^k) with l_i^k = ||H_i^k - grad^2 f_i(x^k)||_F (Option 2), with extensions to partial participation (FedNL-PP), backtracking line search (FedNL-LS), cubic regularization (FedNL-CR), bidirectional model/gradient compression (FedNL-BC), and initial-Hessian Newton Zero (N0).
+identity_notes: Distinct from Newton Learn (NL1/NL2, Islamov et al., 2021), which is restricted to generalized linear models f_i(x) = (1/m) sum_{j=1}^m phi_{ij}(a_{ij}^T x), requires transmitting private training vectors a_{ij} to the server, only supports unbiased compressors, and has local convergence dependent on the number of data points m. Also distinct from first-order compressed federated methods such as DIANA (Round 389) and ADIANA (Round 390), whose rates depend on the condition number kappa = L/mu.
+aliases:
+- FedNL
+- Federated Newton Learn
+- FedNL-PP
+- FedNL-LS
+- FedNL-CR
+- FedNL-BC
+- Newton Zero
+definition_evidence:
+- source_id: r574-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r574-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r574-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fednl-condition-number-independent-local-linear-and-superlinear-rates
+  kind: mechanism
+  statement: 'Under mu-strong convexity of f and (L_*, L_F, L_infinity)-Lipschitz continuity of local Hessians grad^2 f_i, FedNL (Algorithm 1) initialized in the local neighborhood ||x^0 - x^*|| <= mu / sqrt(2*D) and H^k = (1/n) sum_{i=1}^n ||H_i^k - grad^2 f_i(x^*)||_F^2 <= mu^2 / (4*C) achieves: (1) a universal local linear rate ||x^k - x^*||^2 <= (1/2^k)||x^0 - x^*||^2 (also achieved by Newton Zero N0 with C_i^k = 0, alpha = 0, H_i^0 = grad^2 f_i(x^0)), (2) linear Hessian-learning Lyapunov contraction E[Phi^k] <= (1 - min{A, 1/3})^k Phi^0, and (3) local superlinear convergence E[||x^{k+1} - x^*||^2 / ||x^k - x^*||^2] <= (1 - min{A, 1/3})^k * (C + D/(12*B*L_F^2)) * Phi^0 / mu^2, all independent of the condition number kappa and the number of local data points m.'
+  evidence:
+  - source_id: r574-primary-pdf
+    locator: Section 3.4 Theorem 3.6, Lemmas 3.7-3.8, Eqs. (5)-(9), pp. 12-13; Section 3.5 Eq. (10), p. 14; Appendix C Lemma C.1, pp. 33-38
+    relation: supports
+- claim_id: fednl-extensions-partial-participation-globalization-and-bidirectional-compression
+  kind: mechanism
+  statement: 'FedNL extends to: (i) partial participation of tau out of n clients (FedNL-PP, Algorithm 2, Theorem D.1) via Hessian-corrected local gradients g_i^k = (H_i^k + l_i^k I)w_i^k - grad f_i(w_i^k) with rate E[W^k] <= (1 - 3*tau/(4*n))^k W^0; (ii) global linear convergence via backtracking line search (FedNL-LS, Algorithm 3, Theorem E.1); (iii) global O(1/k) convex and linear strongly convex convergence via cubic regularization (FedNL-CR, Algorithm 4, Theorem F.1); and (iv) bidirectional contractive/unbiased model and Bernoulli gradient compression (FedNL-BC, Algorithm 5, Theorem G.4).'
+  evidence:
+  - source_id: r574-primary-pdf
+    locator: Table 3, p. 9; Section 4, p. 15; Appendices D, E, F, and G, pp. 39-62
+    relation: supports
+- claim_id: fednl-federated-logistic-regression-application
+  kind: application
+  statement: Applied to heterogeneous L2-regularized logistic regression on LIBSVM datasets (a1a, a9a, w7a, w8a, phishing, madelon) with Rank-1, Top-d, and PowerSGD Hessian compressors at O(d) communication per round, FedNL and FedNL-LS reduce total communicated bits per node by orders of magnitude relative to ADIANA, DIANA, S-Local-GD, DINGO, DORE, Artemis, and NL1.
+  evidence:
+  - source_id: r574-primary-pdf
+    locator: Section 5 Experiments, Figure 2, pp. 16-17; Appendix B Figures 3-14, pp. 24-33
+    relation: supports
+- claim_id: fednl-limitations
+  kind: limitation
+  statement: FedNL requires computing exact local gradients grad f_i(x^k) and d x d local Hessians grad^2 f_i(x^k) on participating clients and solving a d x d linear system (or eigenvalue projection in Option 1) on the server at each round, making per-iteration local and server computation O(d^2) to O(d^3); moreover, its theoretical guarantees cover convex and strongly convex objectives without stochastic local gradient/Hessian oracles or formal differential privacy.
+  evidence:
+  - source_id: r574-primary-pdf
+    locator: Section 3.3, p. 12; Appendix I Limitations, p. 64
+    relation: supports
+evidence_sources:
+- source_id: r574-primary-pdf
+  title: 'FedNL: Making Newton-Type Methods Applicable to Federated Learning'
+  authors: &id001
+  - Mher Safaryan
+  - Rustem Islamov
+  - Xun Qian
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.02969.pdf
+  persistent_id: https://proceedings.mlr.press/v162/safaryan22a.html
+  version: Proceedings of the 39th International Conference on Machine Learning (ICML 2022, PMLR 162:18959-19010) (2022) (9586741 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:57:00Z'
+  sha256: 2ee9a27d601f176c6bd83346a532d2d2b238af48a492c642cfea034d4d8aec1e
+- source_id: r574-arxiv-abs
+  title: 'FedNL: Making Newton-Type Methods Applicable to Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.02969
+  persistent_id: https://arxiv.org/abs/2106.02969
+  version: arXiv abstract page (7304 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:57:00Z'
+  sha256: 532016464aeb5d2146756e77b04afadd9c5e9bb9c1ddb9defad8c1b6a7ac8b48
+- source_id: r574-metadata-cr
+  title: 'FedNL: Making Newton-Type Methods Applicable to Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/safaryan22a.html
+  persistent_id: https://proceedings.mlr.press/v162/safaryan22a.html
+  version: Crossref API work record (4390 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:57:00Z'
+  sha256: cc4f17bca0124e41a7ba6971f0622d44fc76d5b4f329fab8f3e4c209d3fae7b1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedNL is a second-order federated learning optimization method.
+limitations:
+- Requires O(d^2) local Hessian storage and O(d^3) linear-system or spectral-projection computation on the server, limiting scalability when model dimension d is very large.
+- Analyzed under exact local gradient and local Hessian evaluations without stochastic subsampling noise.
+- Theoretical guarantees apply to convex and mu-strongly convex objectives with Lipschitz Hessians and do not cover general nonconvex deep neural networks.
+curation:
+  created_at: '2026-10-19T10:57:00Z'
+  updated_at: '2026-10-19T10:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

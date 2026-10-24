@@ -1,0 +1,112 @@
+id: AIMech:DynaBERTDynamicBERTWithAdaptiveWidthAndDepth
+name: 'DynaBERT: Dynamic BERT with Adaptive Width and Depth'
+concept_kind: architecture
+review_status: DRAFT
+definition: A dynamic Transformer architecture and two-stage distillation training method that adapts a task-specific BERT or RoBERTa model across both width multipliers m_w (retaining the leftmost floor(m_w * N_H) attention heads and floor(m_w * d_ff) intermediate FFN neurons per layer) and depth multipliers m_d (retaining a balanced subset of floor(m_d * L) Transformer layers) within a single weight-sharing network by (1) rewiring attention heads and FFN neurons in descending order of first-order Taylor loss-variation importance, (2) distilling the rewired teacher into a width-adaptive teacher assistant (DynaBERT_W), and (3) distilling DynaBERT_W into sub-networks spanning all (m_w, m_d) combinations over embeddings, matched hidden states, and prediction logits.
+identity_notes: 'Introduced by Lu Hou, Zhiqi Huang, Lifeng Shang, Xin Jiang, Xiao Chen, and Qun Liu (NeurIPS 2020, arXiv:2004.04037). Distinct from fixed-size BERT compression methods such as TinyBERT (Round 800), MiniLM (Round 801), BERT-PKD (Round 802), DistilBERT (Round 803), MobileBERT (Round 804), and BERT-of-Theseus (Round 805), and from depth-only early-exit or layer-dropping methods such as FastBERT (Round 807), PABEE (Round 808), and LayerDrop: DynaBERT adapts both Transformer width (via parallel head and FFN-neuron slicing in Eqs. 1-2 after Taylor-importance network rewiring) and depth (via strided layer dropping and last-layer-preserving hidden-state matching in Eq. 4) inside a single deployed checkpoint.'
+aliases:
+- DynaBERT
+- DynaBERT Adaptive Width and Depth Transformer
+- Dynamic Width-and-Depth BERT with Network Rewiring
+definition_evidence:
+- source_id: r806-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r806-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r806-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r806-claim-parallel-head-ffn-slicing-and-taylor-rewiring
+  kind: mechanism
+  statement: DynaBERT decomposes each Transformer layer into N_H parallel attention heads MHAttn(X) = sum_{h=1}^{N_H} Attn^h(X) (Eq. 1) and d_ff parallel intermediate FFN neurons FFN(A) = sum_{i=1}^{d_ff} GeLU(A*W^1_{:,i} + b^1_i)*W^2_{i,:} + b^2 (Eq. 2), ranks heads and neurons by first-order Taylor importance I_h approx |(dL/dh)*h| and I_w approx |sum_{i=1}^{2d} (dL/dw_i)*w_i| on the development set, and rewires each layer in descending importance so any width multiplier m_w retains the top floor(m_w * N_H) heads and floor(m_w * d_ff) neurons without altering the residual embedding dimension d.
+  evidence:
+  - source_id: r806-primary-pdf
+    locator: Section 2.1 (Training DynaBERT_W with Adaptive Width) & Section 2.1.1 (Network Rewiring), Equations 1-2 & Figure 2, Pages 3-4
+    relation: supports
+  - source_id: r806-primary-pdf
+    locator: taylor_head_importance and prefix importance dominance verification in main()
+    relation: supports
+- claim_id: r806-claim-two-stage-teacher-assistant-distillation-and-layer-matching
+  kind: mechanism
+  statement: DynaBERT first trains a width-adaptive teacher assistant DynaBERT_W at full depth (m_d = 1) using L = lambda_1 * l_pred(y^{(m_w)}, y) + lambda_2 * (l_emb(E^{(m_w)}, E) + l_hidn(H^{(m_w)}, H)) (Eq. 3), and then distills DynaBERT_W into joint width-and-depth sub-networks (m_w, m_d) via Eq. 4, where for m_d < 1 student layers at depth d satisfying mod(d, 1/(1 - m_d)) == 0 are dropped and the kept student layers L_S are matched via MSE against teacher layers L_T satisfying mod(d + 1, 1/(1 - m_d)) != 0 (preserving the final teacher layer L).
+  evidence:
+  - source_id: r806-primary-pdf
+    locator: Section 2.1.2 (Eq. 3), Section 2.2 (Eq. 4), and Appendix A (Layer Pruning Strategy and Hidden States Matching), Pages 4-5 & 13
+    relation: supports
+  - source_id: r806-primary-pdf
+    locator: student_dropped_layers and teacher_matched_layers verification for m_d=0.75 and m_d=0.5 in main()
+    relation: supports
+- claim_id: r806-claim-glue-and-squad-multi-configuration-efficiency
+  kind: application
+  statement: Across 4 x 3 = 12 sub-network configurations (m_w in {1.0, 0.75, 0.5, 0.25}, m_d in {1.0, 0.75, 0.5}) on GLUE and SQuAD v1.1, DynaBERT and DynaRoBERTa match or exceed BERT_BASE and RoBERTa_BASE at full size (e.g., 89.7 vs. 88.7 SQuAD v1.1 dev F1 and 88.8 F1 at 0.5x depth) while consistently outperforming DistilBERT, TinyBERT, and LayerDrop under equal parameter, FLOPs, GPU latency, and Kirin 810 ARM CPU latency budgets.
+  evidence:
+  - source_id: r806-primary-pdf
+    locator: Section 3.1-3.3, Tables 1-5 & Figures 3-4, Pages 5-8
+    relation: supports
+- claim_id: r806-claim-fixed-residual-embedding-dimension-limitation
+  kind: limitation
+  statement: Because residual skip connections link the embedding dimension d across all Transformer layers, standard task-specific DynaBERT adapts only the number of attention heads N_H and intermediate FFN neurons d_ff while keeping the embedding and residual hidden state dimension d fixed.
+  evidence:
+  - source_id: r806-primary-pdf
+    locator: Section 2.1 (paragraph following Equation 2), Page 3
+    relation: supports
+evidence_sources:
+- source_id: r806-primary-pdf
+  title: 'DynaBERT: Dynamic BERT with Adaptive Width and Depth'
+  authors: &id001
+  - Lu Hou
+  - Zhiqi Huang
+  - Lifeng Shang
+  - Xin Jiang
+  - Xiao Chen
+  - Qun Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.04037.pdf
+  persistent_id: https://arxiv.org/bibtex/2004.04037
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (2020) (20175683 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:49:00Z'
+  sha256: 92673b794cdb21b2276d7c21b040f84172ec900310dc35219a1e3f92a5d066fb
+- source_id: r806-arxiv-abs
+  title: 'DynaBERT: Dynamic BERT with Adaptive Width and Depth (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.04037
+  persistent_id: https://arxiv.org/abs/2004.04037
+  version: arXiv abstract page (7258 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:49:00Z'
+  sha256: 2acbc2d4a0fe989aebff5c49c7f9ef31667ab89e62e7e74ab9d4409c32254418
+- source_id: r806-metadata-cr
+  title: 'DynaBERT: Dynamic BERT with Adaptive Width and Depth (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.04037
+  persistent_id: https://arxiv.org/bibtex/2004.04037
+  version: Crossref API work record (410 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:49:00Z'
+  sha256: c175b3102913f5f41a326c1c8c06f40d4a6f207516e5d5035f8dc31483c14e0c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Distillation
+  relation: narrow_match
+  rationale: DynaBERT uses a two-stage knowledge distillation pipeline (via a width-adaptive teacher assistant DynaBERT_W) over embeddings, hidden states, and output logits to train weight-sharing sub-networks across multiple width and depth multipliers.
+- target: AIO:ArtificialNeuralNetwork
+  relation: narrow_match
+  rationale: DynaBERT is a dynamic Transformer neural network architecture whose Multi-Head Attention heads and Feed-Forward Network intermediate neurons are rewired by gradient-based Taylor importance and sliced at runtime.
+limitations:
+- Residual skip connections across Transformer layers prevent scaling the embedding/residual hidden state dimension d in the standard task-specific DynaBERT formulation.
+- Requires a two-stage distillation and data-augmentation training loop iterating over all width multipliers (Stage 1) and all 12 width-depth pairs (Stage 2) for each downstream task.
+curation:
+  created_at: '2026-10-19T14:49:00Z'
+  updated_at: '2026-10-19T14:49:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,110 @@
+id: AIMech:LaPraDoRUnsupervisedPretrainedDenseRetrieverZeroShot
+name: LaPraDoR Iterative Contrastive Learning and Lexicon-Enhanced Dense Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: "An unsupervised dual-tower dense retrieval pre-training and zero-shot inference algorithm that combines Inverse Cloze Task (ICT) and Dropout as Positive Instance (DaPI) supervision under Iterative Contrastive Learning (ICoL)\u2014which alternates training between the query encoder E_Q (optimizing L_q = L_qd + lambda L_qq with E_D frozen while enqueuing frozen document embeddings into a FIFO cache queue Q) and the document encoder E_D (optimizing L_d = L_dq + lambda L_dd with E_Q frozen while enqueuing frozen query embeddings into Q, clearing Q whenever the active encoder switches so all cached negative representations lie in the exact same hidden space)\u2014and performs zero-shot retrieval via Lexicon-Enhanced Dense Retrieval (LEDR) by multiplying the mean-pooled cosine similarity sim(q, d) with the BM25 lexical score: score(q, d) = sim(q, d) * BM25(q, d)."
+identity_notes: Distinct from MoCo (AIMech:MomentumContrastiveLearning) and xMoCo, which maintain slow momentum-updated target encoders whose older queued representations drift across different hidden spaces over training steps; distinct from Contriever (AIMech:ContrieverUnsupervisedDenseInformationRetrievalWithContrastiveLearning), which uses a MoCo momentum queue with random cropping and inverse cloze without alternating frozen-encoder cache clearing or multiplicative BM25 scoring; and distinct from COIL (AIMech:COILContextualizedInvertedList), which stores contextualized token vectors in an inverted list rather than multiplying a single global mean-pooled cosine similarity with BM25.
+aliases:
+- LaPraDoR
+- Large-scale Pretrained Dense Zero-shot Retriever
+- ICoL and LEDR for Unsupervised Zero-Shot Dense Retrieval
+definition_evidence:
+- source_id: r762-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r762-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r762-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: laprador-iterative-contrastive-learning-cache-alignment
+  kind: mechanism
+  statement: Iterative Contrastive Learning (ICoL, Section 3.3, Equations 2-7, Figure 2) alternates training between E_Q (minimizing L_q = L_qd + lambda L_qq while E_D is frozen) and E_D (minimizing L_d = L_dq + lambda L_dd while E_Q is frozen), storing gradient-free representations from the currently frozen encoder in a large FIFO cache queue Q (capacity m = 100k) and clearing Q at every switch so that all fresh and cached negative instances in L_qd and L_dq reside in the exact same hidden space without requiring extra momentum encoders.
+  evidence:
+  - source_id: r762-primary-pdf
+    locator: Section 3.3 Iterative Contrastive Learning & Section 4.2.1, Equations 2-7, Figure 2, Table 2, pp. 3-5, 7
+    relation: supports
+  - source_id: r762-primary-pdf
+    locator: main() verification of icol_qd_loss negative expansion and zero hidden-space drift across cached frozen representations
+    relation: supports
+- claim_id: laprador-lexicon-enhanced-dense-retrieval
+  kind: mechanism
+  statement: Lexicon-Enhanced Dense Retrieval (LEDR, Section 3.4, Equations 8-9) multiplies the dense dual-tower cosine similarity sim(q, d) by the BM25 lexical matching score BM25(q, d), score(q, d) = sim(q, d) * BM25(q, d), improving zero-shot BEIR average nDCG@10 from 0.294 to 0.457 (unsupervised) and from 0.396 to 0.485 (fine-tuned) while running 22.5x faster on GPU than BM25 + cross-encoder reranking (Tables 1 and 3).
+  evidence:
+  - source_id: r762-primary-pdf
+    locator: Section 3.4 & Sections 4.2-4.3, Equations 8-9, Tables 1 & 3, Figure 3, pp. 5-8
+    relation: supports
+  - source_id: r762-primary-pdf
+    locator: main() verification of LEDR multiplicative score resolving pure-BM25 and pure-dense failure modes
+    relation: supports
+- claim_id: laprador-beir-zero-shot-applications
+  kind: application
+  statement: "Across the 18 zero-shot datasets of the BEIR benchmark, unsupervised LaPraDoR (pre-trained on C4 with weight sharing between E_Q and E_D) achieves 0.457 average nDCG@10\u2014outperforming supervised dense retrievers DPR (0.237), ANCE (0.389), GenQ (0.410), and TAS-B (0.415)\u2014and reaches 0.485 average nDCG@10 after MS MARCO fine-tuning (Table 1)."
+  evidence:
+  - source_id: r762-primary-pdf
+    locator: Section 4.2 Experimental Results, Tables 1-4, pp. 6-8
+    relation: supports
+  - source_id: r762-metadata-cr
+    locator: BibTeX citation record for arXiv:2203.06169
+    relation: supports
+- claim_id: laprador-zero-bm25-cutoff-and-pretraining-cost-limitation
+  kind: limitation
+  statement: Because LEDR multiplies sim(q, d) by BM25(q, d) and sets BM25 scores beyond the top-1,000 lexical candidates to zero for computational efficiency, documents with zero lexical overlap (or outside the BM25 top-1,000) receive a zero LEDR score regardless of their dense cosine similarity, and large-scale C4 pre-training requires 1M steps (~400 hours on 16 V100 GPUs).
+  evidence:
+  - source_id: r762-primary-pdf
+    locator: Section 3.4 Equation 9 & Section 4.1 Model Settings and Training Details, pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r762-primary-pdf
+  title: 'LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval'
+  authors: &id001
+  - Canwen Xu
+  - Daya Guo
+  - Nan Duan
+  - Julian McAuley
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2203.06169
+  persistent_id: https://arxiv.org/bibtex/2203.06169
+  version: 'Findings of the Association for Computational Linguistics: ACL 2022 (2022) (1078365 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T14:05:00Z'
+  sha256: c5b116b0a12461da943d1fc2298cfb68a382c1673d8be36303b5f4d99e69fa12
+- source_id: r762-arxiv-abs
+  title: 'LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2203.06169
+  persistent_id: https://arxiv.org/abs/2203.06169
+  version: arXiv abstract page (6470 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:05:00Z'
+  sha256: 2259b8fcb4ed523666731d5d89ded57dbdcfda53babf37c4afa78891bb65717f
+- source_id: r762-metadata-cr
+  title: 'LaPraDoR: Unsupervised Pretrained Dense Retriever for Zero-Shot Text Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2203.06169
+  persistent_id: https://arxiv.org/bibtex/2203.06169
+  version: Crossref API work record (418 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:05:00Z'
+  sha256: 4eb54eb544dbf7431bb7bd2d3ad1fac89e0c771fa28abaec3e7ca23c8c536917
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LaPraDoR pre-trains a dual-tower Transformer encoder network using Iterative Contrastive Learning and combines its dense embeddings with BM25 lexical scoring.
+limitations:
+- Because LEDR multiplies sim(q, d) by BM25(q, d) and truncates BM25 scores after the top 1,000 lexical candidates to 0, purely semantic matches with no lexical term overlap receive a zero combined score.
+- Clearing the FIFO cache queue Q every time training switches between E_Q and E_D temporarily reduces the number of cached negatives during the warmup steps immediately following a switch.
+curation:
+  created_at: '2026-10-19T14:05:00Z'
+  updated_at: '2026-10-19T14:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

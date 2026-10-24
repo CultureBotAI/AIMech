@@ -1,0 +1,359 @@
+# Scientific author self-review of TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval
+
+- Review: 20261019T141430Z-tct-colbert-tightly-coupled-teachers
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T14:14:00Z
+- Finished UTC: 2026-10-19T14:14:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/TCTColBERTTightlyCoupledTeachersForDenseRetrieval.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base abff58e120e48fa7f44ab6d81ad32397b26b6e94.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval | data/curated/TCTColBERTTightlyCoupledTeachersForDenseRetrieval.yaml | maintained | TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval | Validated history sidecar files. |
+| python3 tct-colbert-tightly-coupled-teachers-boundaries.py | passed | True | AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval | [PASS] TCT-ColBERT boundaries verified: loss_before=0.7749 -&gt; loss_after=0.2635, hybrid_scores={'doc_both': 72.88, 'doc_dense_only': 74.08, 'doc_sparse_only': 73.48} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval.
+
+TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval is a distinct concept.
+
+Distinct from TAS-B (AIMech:TASBTopicAwareSamplingBalancedMarginDistillation), which distills pairwise score margins from dual ColBERT and cross-encoder teachers over topic-clustered queries rather than temperature-scaled listwise KL divergence over dynamic in-batch subsampled passages from a tightly-coupled ColBERT teacher; distinct from RocketQA (AIMech:RocketQADenoisedHardNegativeSampling) and RocketQAv2 (AIMech:RocketQAv2JointTrainingDensePassageRetrievalAndReranking), which distill from a cross-encoder reranker over per-query candidate lists rather than a late-interaction MaxSim teacher over full O(&#124;B&#124;^2) in-batch query-passage grids; and distinct from ANCE (AIMech:ANCEApproximateNearestNeighborNegativeContrastiveLearning), which requires periodic asynchronous corpus-wide ANN re-encoding instead of tightly-coupled in-batch teacher distillation.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in tct-colbert-tightly-coupled-teachers-boundaries.py passed with exit code 0: [PASS] TCT-ColBERT boundaries verified: loss_before=0.7749 -&gt; loss_after=0.2635, hybrid_scores={'doc_both': 72.88, 'doc_dense_only': 74.08, 'doc_sparse_only': 73.48}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T141400Z-tct-colbert-tightly-coupled-teachers.json | supports | No normalized identity match for AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/tct-colbert-tightly-coupled-teachers-boundaries.py | supports | All constructed boundary assertions in tct-colbert-tightly-coupled-teachers-boundaries.py passed with exit code 0: [PASS] TCT-ColBERT boundaries verified: loss_before=0.7749 -&gt; loss_after=0.2635, hybrid_scores={'doc_both': 72.88, 'doc_dense_only': 74.08, 'doc_sparse_only': 73.48} |
+| r771-primary-pdf | https://arxiv.org/pdf/2010.11386.pdf; Full-text PDF | supports | Full-text PDF (arXiv / RepL4NLP 2021 (2020)) read and verified. |
+| r771-arxiv-abs | https://arxiv.org/abs/2010.11386; arXiv abstract | supports | arXiv abstract read and verified. |
+| r771-metadata-cr | https://arxiv.org/bibtex/2010.11386; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval in Round 771.
+- All pages of arXiv / RepL4NLP 2021 (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T141430Z-tct-colbert-tightly-coupled-teachers
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of TCT-ColBERT Tightly-Coupled Teachers Knowledge
+  Distillation for Dense Retrieval
+started_at: '2026-10-19T14:14:00Z'
+finished_at: '2026-10-19T14:14:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+    against existing AIMech and AIO records and verified all claims against arXiv
+    / RepL4NLP 2021 (2020) and pure-Python boundary checks. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense
+  Retrieval as a distinct DRAFT algorithm. All four claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: abff58e120e48fa7f44ab6d81ad32397b26b6e94
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/TCTColBERTTightlyCoupledTeachersForDenseRetrieval.yaml
+    sha256: b274838809878a113b9de322ab18799f720c07233d8cf73ab7fb977e718283bf
+    role: target
+  - path: research/discovery/20261019T141400Z-tct-colbert-tightly-coupled-teachers.json
+    sha256: fb401be6cb44dc1b97f654c6f3f98213ac6b66060bea25dd194217f8e4f29e32
+    role: context
+  - path: research/discovery/tct-colbert-tightly-coupled-teachers-boundaries.py
+    sha256: cc44c267c7a5fc7db2fae0cc73c1cfc1f75db0656f6e9cd6362a0619d6d73f34
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  path: data/curated/TCTColBERTTightlyCoupledTeachersForDenseRetrieval.yaml
+  label: TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TCTColBERTTightlyCoupledTeachersForDenseRetrieval.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/TCTColBERTTightlyCoupledTeachersForDenseRetrieval.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 tct-colbert-tightly-coupled-teachers-boundaries.py
+  command: python3 research/discovery/tct-colbert-tightly-coupled-teachers-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] TCT-ColBERT boundaries verified: loss_before=0.7749 -> loss_after=0.2635,
+    hybrid_scores={''doc_both'': 72.88, ''doc_dense_only'': 74.08, ''doc_sparse_only'':
+    73.48}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T141400Z-tct-colbert-tightly-coupled-teachers.json
+  accessed_at: '2026-10-19T14:14:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T14:14:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/tct-colbert-tightly-coupled-teachers-boundaries.py
+  accessed_at: '2026-10-19T14:14:00Z'
+  snapshot_sha256: cc44c267c7a5fc7db2fae0cc73c1cfc1f75db0656f6e9cd6362a0619d6d73f34
+  support: supports
+  summary: 'All constructed boundary assertions in tct-colbert-tightly-coupled-teachers-boundaries.py
+    passed with exit code 0: [PASS] TCT-ColBERT boundaries verified: loss_before=0.7749
+    -> loss_after=0.2635, hybrid_scores={''doc_both'': 72.88, ''doc_dense_only'':
+    74.08, ''doc_sparse_only'': 73.48}'
+- evidence_id: r771-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2010.11386.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T14:14:00Z'
+  snapshot_sha256: b2eaef3b1ffcd7e0950e928e9dd74cc20f42c1868ea6c372f13897ad706766c4
+  support: supports
+  summary: Full-text PDF (arXiv / RepL4NLP 2021 (2020)) read and verified.
+- evidence_id: r771-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2010.11386
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T14:14:00Z'
+  snapshot_sha256: c2474b4545ad8fd7ec44f004af5c6005abb1fed375f51cb16541086e28cbc1fd
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r771-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/bibtex/2010.11386
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T14:14:00Z'
+  snapshot_sha256: 2840fce0a7e7148701d239b88b96d595cc178bbeed846bd60e5636f2e9ef3188
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  evidence_ids:
+  - identity
+  - r771-primary-pdf
+  - r771-arxiv-abs
+  - r771-metadata-cr
+  summary: TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval
+    is a distinct concept.
+  details: Distinct from TAS-B (AIMech:TASBTopicAwareSamplingBalancedMarginDistillation),
+    which distills pairwise score margins from dual ColBERT and cross-encoder teachers
+    over topic-clustered queries rather than temperature-scaled listwise KL divergence
+    over dynamic in-batch subsampled passages from a tightly-coupled ColBERT teacher;
+    distinct from RocketQA (AIMech:RocketQADenoisedHardNegativeSampling) and RocketQAv2
+    (AIMech:RocketQAv2JointTrainingDensePassageRetrievalAndReranking), which distill
+    from a cross-encoder reranker over per-query candidate lists rather than a late-interaction
+    MaxSim teacher over full O(|B|^2) in-batch query-passage grids; and distinct from
+    ANCE (AIMech:ANCEApproximateNearestNeighborNegativeContrastiveLearning), which
+    requires periodic asynchronous corpus-wide ANN re-encoding instead of tightly-coupled
+    in-batch teacher distillation.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  evidence_ids:
+  - mapping
+  - r771-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  evidence_ids:
+  - r771-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in tct-colbert-tightly-coupled-teachers-boundaries.py
+    passed with exit code 0: [PASS] TCT-ColBERT boundaries verified: loss_before=0.7749
+    -> loss_after=0.2635, hybrid_scores={''doc_both'': 72.88, ''doc_dense_only'':
+    74.08, ''doc_sparse_only'': 73.48}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval
+  evidence_ids:
+  - identity
+  - mapping
+  - r771-primary-pdf
+  - r771-arxiv-abs
+  - r771-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval in
+  Round 771.
+- All pages of arXiv / RepL4NLP 2021 (2020) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

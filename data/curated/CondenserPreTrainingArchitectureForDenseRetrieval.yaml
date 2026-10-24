@@ -1,0 +1,95 @@
+id: AIMech:CondenserPreTrainingArchitectureForDenseRetrieval
+name: Condenser (Pre-Training Architecture for Dense Retrieval)
+concept_kind: architecture
+review_status: DRAFT
+definition: "A transformer pre-training architecture for dense bi-encoder representation learning that partitions the encoder backbone into L^e early layers and L^l late layers\u2014computing [h_cls^early; h^early] = Encoder_early([h_cls^0; h^0]) and [h_cls^late; h^late] = Encoder_late([h_cls^early; h^early])\u2014and introduces a short-circuit from the early token states h^early combined with the late [CLS] vector h_cls^late into a temporary L^h-layer Condenser Head [h_cls^cd; h^cd] = Condenser_head([h_cls^late; h^early]) trained with joint Masked Language Modeling loss L = L_mlm(W h_i^cd, x_i) + L_mlm^c(W h_i^late, x_i) before discarding the head during fine-tuning."
+identity_notes: Introduced by Gao and Callan (EMNLP 2021, pp. 981-993, arXiv:2104.08253). Distinguished from standard BERT MLM/NSP pre-training (Devlin et al., 2019), where the [CLS] token remains dormant in middle layers and lacks structural readiness for dense aggregation, from RetroMAE (Xiao et al., 2022), which uses dual independent asymmetric masks (30% encoder, 50-70% decoder) and two-stream position-specific enhanced decoding without an early-layer skip connection, and from Funnel Transformer (Dai et al., 2020), which pools sequence length by 4x for compute speedup rather than routing global semantics through a single [CLS] vector.
+aliases:
+- Condenser Transformer Pre-Training Architecture
+- CONdition on DENSE Representation Architecture
+- Condenser Late-Early Short-Circuit Encoder
+definition_evidence:
+- source_id: r751-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r751-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r751-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: condenser-late-early-short-circuit-bottleneck-mechanism
+  kind: mechanism
+  statement: By feeding the L^h-layer Condenser Head with [h_cls^late; h^early] (where L^e = 6 early layers and L^l = 6 late layers in BERT-base), Condenser allows local syntactic information to bypass the late layers via h^early while forcing all higher-level contextual information refined in Encoder_late to pass exclusively through the single dense vector h_cls^late to minimize L_mlm = sum_{i in masked} CrossEntropy(W h_i^cd, x_i), regularized by the backbone semantic constraint L_mlm^c = sum_{i in masked} CrossEntropy(W h_i^late, x_i) with shared projection matrix W.
+  evidence:
+  - source_id: r751-primary-pdf
+    locator: Section 3.3-3.4 (Equations 6-11) & Section 4.1, pp. 3-4
+    relation: supports
+  - source_id: r751-primary-pdf
+    locator: condenser_head_forward, mlm_cross_entropy & main
+    relation: supports
+- claim_id: condenser-structural-readiness-and-retrieval-effectiveness
+  kind: scope
+  statement: After discarding the 2-layer Condenser Head, the resulting 12-layer backbone exhibits high late-layer [CLS] attention entropy prior to fine-tuning (structural readiness) and achieves 0.366 MRR@10 and 0.974 Recall@1000 on MS MARCO Passage Dev (with batch size 64 and a single round of hard negatives, outperforming ANCE's 0.330 and matching RocketQA without external data at 0.364) as well as 83.2% Top-20 accuracy on Natural Questions and 81.9% on TriviaQA.
+  evidence:
+  - source_id: r751-primary-pdf
+    locator: Section 4.3 (Tables 3-4), Section 4.4 (Tables 5-7), & Section 5 (Figure 2), pp. 6-8
+    relation: supports
+- claim_id: condenser-single-vector-capacity-and-corpus-contrast-limitation
+  kind: limitation
+  statement: Condenser requires 8 epochs of continued MLM pre-training with an extra 2-layer head (~20M additional parameters during pre-training), still relies on single-vector [CLS] compression that has limited capacity on long documents (trailing ANCE on TREC DL 2019 Document Ranking, 0.597 vs. 0.615 nDCG@10), and trains only with instance-level MLM loss without corpus-level contrastive supervision.
+  evidence:
+  - source_id: r751-primary-pdf
+    locator: Section 2, p. 2; Section 4.1, p. 4; Appendix A.2 & A.4 (Table 8), pp. 12-13
+    relation: supports
+evidence_sources:
+- source_id: r751-primary-pdf
+  title: 'Condenser: a Pre-training Architecture for Dense Retrieval'
+  authors: &id001
+  - Luyu Gao
+  - Jamie Callan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.08253
+  persistent_id: https://dblp.org/search/publ/api?q=Condenser+a+Pre-training+Architecture+for+Dense+Retrieval+Gao&h=5&format=xml
+  version: Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP 2021) (2021) (386601 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:54:00Z'
+  sha256: 93415419fc2180f5008fdfd99a05997199e4a7410784b0299f1fa261bbc75f5b
+- source_id: r751-arxiv-abs
+  title: 'Condenser: a Pre-training Architecture for Dense Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.08253
+  persistent_id: https://arxiv.org/abs/2104.08253
+  version: arXiv abstract page (6219 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:54:00Z'
+  sha256: f02dc240a6760ce6349b5fffc7813a092297483f2d9d9a99def034b67102d6c5
+- source_id: r751-metadata-cr
+  title: 'Condenser: a Pre-training Architecture for Dense Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Condenser+a+Pre-training+Architecture+for+Dense+Retrieval+Gao&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Condenser+a+Pre-training+Architecture+for+Dense+Retrieval+Gao&h=5&format=xml
+  version: Crossref API work record (720 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:54:00Z'
+  sha256: b186fa72eabff0b47fbb4c5dea04bbe699191b403498cf50817b14d4a7ccd32a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Modifies the internal skip-connection and head topology of deep bidirectional transformer neural networks during MLM pre-training.
+limitations:
+- Requires continued MLM pre-training (8 epochs on Wikipedia + BookCorpus) with an auxiliary 2-layer Condenser Head (~20M extra parameters during pre-training).
+- Instance-level MLM bottleneck lacks corpus-level contrastive shaping of the global embedding space and faces single-vector capacity limits on long documents.
+curation:
+  created_at: '2026-10-19T13:54:00Z'
+  updated_at: '2026-10-19T13:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

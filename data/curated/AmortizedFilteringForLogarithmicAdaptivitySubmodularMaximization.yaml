@@ -1,0 +1,95 @@
+id: AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization
+name: Amortized-Filtering and Iterative-Filtering for Optimal Logarithmic-Adaptivity Submodular Maximization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Amortized-Filtering and Iterative-Filtering for Optimal Logarithmic-Adaptivity Submodular Maximization is a parallel value-oracle algorithmic paradigm introduced by Balkanski, Rubinstein, and Singer (2018, 2019) for maximizing a monotone submodular function f : 2^N -> R_+ subject to a cardinality constraint |S| <= k in O(log n) adaptive rounds. Rather than adding single elements sequentially over k rounds, the algorithm adds blocks R ~ U(X, k/r) of size k/r in r = 20*epsilon^{-1}log_{1+epsilon/2}(n) iterations by filtering out elements a in X whose expected marginal contribution E_{R~U(X)}[f_{S union (R\{a})}(a)] falls below (1+epsilon/2)(1-epsilon)(OPT - f(S))/k while E_{R~U(X)}[f_S(R)] < (1-epsilon)(OPT - f(S))/r, and amortizes the filtering rounds across 20/epsilon epochs (each bounded by f_S(T) < (epsilon/20)(OPT - f(S))) so that at most log_{1+epsilon/2}(n) filtering steps occur per epoch, achieving the optimal (1 - 1/e - epsilon) approximation in O(epsilon^{-1}log_{1+epsilon/3} n) adaptive rounds.'
+identity_notes: Distinct from AIMech:GreeDiTwoStageDistributedSubmodularMaximization (Round 359), which partitions data across MapReduce machines but runs sequential k-round greedy selection on each machine (Omega(k) adaptivity), and from AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization (Round 348), which reduces total oracle evaluations to O(n log(1/epsilon)) across k sequential rounds. Also distinct from AIMech:SieveStreamingAndSieveStreamingPlusPlusForSubmodularMaximization (Round 350), which is a single-pass streaming threshold algorithm achieving 1/2 - epsilon rather than a low-adaptivity parallel algorithm achieving 1 - 1/e - epsilon.
+aliases:
+- Balkanski-Rubinstein-Singer Amortized-Filtering Algorithm
+- Iterative-Filtering and Amortized-Filtering for Low-Adaptivity Submodular Maximization
+- Logarithmic-Adaptivity (1 - 1/e - epsilon) Submodular Maximization
+definition_evidence:
+- source_id: r360-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r360-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r360-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r360-claim-iterative-filtering-geometric-shrinkage-and-survival-value
+  kind: mechanism
+  statement: In each non-terminating round i of Filter(N, S, r) (Algorithm 2) where E_{R~U(X_i, k/r)}[f_S(R)] < (1 - epsilon)(OPT - f(S))/r, discarding all elements a with E_{R~U(X_i)}[f_{S union (R\{a})}(a)] < (1 + epsilon/2)(1 - epsilon)(OPT - f(S))/k reduces the surviving candidate pool geometrically as |X_{i+1}| < |X_i| / (1 + epsilon/2) (Lemma 3) while preserving a subset T of the optimal solution O among the surviving elements X_rho with marginal value f_S(X_rho) >= (1/r)*(1 - epsilon)*(OPT - f(S)) whenever r >= 20*rho*epsilon^{-1} (Lemmas 1-2), guaranteeing termination of Filter in at most log_{1+epsilon/2}(n) rounds (Lemma 4) and a (1 - 1/e - epsilon) approximation for Iterative-Filtering (Algorithm 1) in O(log^2 n) adaptive rounds (Theorem 1).
+  evidence:
+  - source_id: r360-primary-pdf
+    locator: Section 2.1-2.3, Algorithms 1-2, Lemmas 1, 2, 3, and 4, and Theorem 1, pp. 4-8; Appendix C, pp. 18-20
+    relation: supports
+- claim_id: r360-claim-amortized-filtering-across-epochs-in-logarithmic-rounds
+  kind: mechanism
+  statement: Amortized-Filtering (Algorithm 3) partitions execution into at most 20/epsilon epochs during which the surviving pool X is reused across block additions T <- T union R until f_S(T) >= (epsilon/20)(OPT - f(S)) or |S union T| = k; because the solution value increases by at most (epsilon/20)(OPT - f(S_j)) within epoch j, surviving elements after rho filtering rounds satisfy f_{S_j^+}(X_rho) >= (epsilon/4)(1 - epsilon)(OPT - f(S_j)) (Lemmas 5-6), bounding the total number of filtering rounds per epoch by at most log_{1+epsilon/2}(n) (Lemma 7) and achieving a (1 - 1/e - epsilon) approximation in at most 20*epsilon^{-1}*log_{1+epsilon/2}(n) + (epsilon/20)^{-1}*log_{1+epsilon/2}(n) = O(epsilon^{-1} log n) adaptive rounds (Theorem 2).
+  evidence:
+  - source_id: r360-primary-pdf
+    locator: Section 3.1-3.3, Algorithm 3, Lemmas 5, 6, and 7, and Theorem 2, pp. 8-10; Appendix D, pp. 20-22
+    relation: supports
+- claim_id: r360-claim-monte-carlo-marginal-estimation-and-parallel-opt-guessing
+  kind: mechanism
+  statement: In the full randomized algorithm Amortized-Filtering-Full (Algorithms 4-7), running log_{(1-epsilon/20)^{-1}}(n) parallel branches over geometric OPT guesses v_i = (1 + epsilon)^i * max_{a in N} f(a) and estimating E[f_S(R)] and E[f_{S union (R\{a})}(a)] in a single non-adaptive round via Hoeffding concentration with m = O(n*((k + log_{1+epsilon/3} n)/epsilon)^2 * log(n/delta)) uniform samples preserves geometric candidate shrinkage |X_{i+1}| < |X_i|/(1 + epsilon/3) (Lemma 10) and obtains a (1 - 1/e - epsilon) approximation with probability at least 1 - delta in O(epsilon^{-1} log_{1+epsilon/3} n) adaptive steps and O(n*log_{(1-epsilon/20)^{-1}}(n)*((k + log_{1+epsilon/3} n)/epsilon)^2 * log(n/delta)) oracle queries per round (Lemmas 8-14 and Theorem 3).
+  evidence:
+  - source_id: r360-primary-pdf
+    locator: Section 3.3, Theorem 3, p. 10; Appendix E, Algorithms 4-7, Lemmas 8-14, and Proof of Theorem 3, pp. 23-30
+    relation: supports
+evidence_sources:
+- source_id: r360-primary-pdf
+  title: An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation
+  authors: &id001
+  - Eric Balkanski
+  - Aviad Rubinstein
+  - Yaron Singer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1804.06355.pdf
+  persistent_id: https://api.crossref.org/works/10.1145/3188745.3188752
+  version: Proceedings of the 30th Annual ACM-SIAM Symposium on Discrete Algorithms (SODA 2019), pp. 283-302 (arXiv:1804.06355) (2019) (329812 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:23:00Z'
+  sha256: a2f10b778f5467cf13410019fb28c0c53d6ddaca732e5e858733e2ffd72eb711
+- source_id: r360-arxiv-abs
+  title: An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1804.06355
+  persistent_id: https://arxiv.org/abs/1804.06355
+  version: arXiv abstract page (7289 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:23:00Z'
+  sha256: 0fa2de0095ae3bbe0e790c85bd7b82eddf8818257adbcf11360e471dcfc5b735
+- source_id: r360-metadata-cr
+  title: An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1145/3188745.3188752
+  persistent_id: https://api.crossref.org/works/10.1145/3188745.3188752
+  version: Crossref API work record (3053 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:23:00Z'
+  sha256: 120c44f8b29a9b2b8a4ce33d098cddfdbc9fd4f4f669021ed612805cf90a4564
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Enables logarithmic-round parallel submodular data summarization and clustering.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Selects cardinality-constrained representative subsets in O(log n) adaptive parallel rounds.
+limitations:
+- Achieving the theoretical (1 - 1/e - epsilon) guarantee without knowing OPT or exact expectations requires O(n * log_{(1-epsilon/20)^{-1}}(n) * ((k + log n)/epsilon)^2 * log(n/delta)) parallel oracle queries per adaptive round (Theorem 3, p. 10) and does not directly bound per-machine memory in the MapReduce model (Appendix A.2.2, p. 17).
+curation:
+  created_at: '2026-10-19T07:23:00Z'
+  updated_at: '2026-10-19T07:23:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

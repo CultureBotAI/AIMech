@@ -1,0 +1,93 @@
+id: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+name: Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'The Double Greedy algorithm is a single-pass linear-time algorithmic framework for Unconstrained Submodular Maximization (USM) of a non-negative (possibly non-monotone) submodular function f: 2^N -> R_+ over an n-element ground set N = {u_1, ..., u_n}, introduced and analyzed by Buchbinder, Feldman, Naor, and Schwartz (2012/2015). The algorithm maintains two nested candidate sets X_i subseteq Y_i initialized to X_0 = emptyset and Y_0 = N (corresponding to a correlated greedy execution on f and its complement f_bar(S) = f(N \ S)). In each step i = 1, ..., n, it evaluates the marginal gain of adding u_i to the growing solution, a_i = f(X_{i-1} + u_i) - f(X_{i-1}), and the marginal gain of removing u_i from the shrinking solution, b_i = f(Y_{i-1} - u_i) - f(Y_{i-1}), which satisfy a_i + b_i >= 0 by submodularity (Lemma 2.1). The deterministic variant (Algorithm 1) adds u_i to X_{i-1} if a_i >= b_i and removes u_i from Y_{i-1} otherwise, whereas the randomized variant (Algorithm 2) sets a_i'' = max{a_i, 0} and b_i'' = max{b_i, 0} and includes u_i (setting X_i = X_{i-1} + u_i, Y_i = Y_{i-1}) with probability a_i'' / (a_i'' + b_i'') and excludes u_i (setting X_i = X_{i-1}, Y_i = Y_{i-1} - u_i) with probability b_i'' / (a_i'' + b_i''), terminating with X_n = Y_n after 2n value-oracle queries.'
+identity_notes: Distinct from AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization (Round 348) and AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization (Round 349), which require monotone submodular objectives and only grow a single solution from emptyset (failing on non-monotone objectives where elements can have negative marginal contributions to supersets), whereas Double Greedy maintains both a growing lower bound X_i and a shrinking upper bound Y_i to exploit the complement symmetry f_bar(S) = f(N \ S) and achieve the optimal 1/2 approximation for unconstrained non-monotone submodular maximization.
+aliases:
+- Double Greedy Algorithm
+- Bidirectional Greedy Unconstrained Submodular Maximization
+- Buchbinder-Feldman-Naor-Schwartz Double Greedy
+definition_evidence:
+- source_id: r367-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r367-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r367-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r367-claim-complement-marginal-nonnegativity-and-deterministic-one-third-guarantee
+  kind: mechanism
+  statement: Because (X_{i-1} + u_i) cup (Y_{i-1} - u_i) = Y_{i-1} and (X_{i-1} + u_i) cap (Y_{i-1} - u_i) = X_{i-1}, submodularity of f implies that the marginal gains a_i = f(X_{i-1} + u_i) - f(X_{i-1}) and b_i = f(Y_{i-1} - u_i) - f(Y_{i-1}) satisfy a_i + b_i >= 0 at every iteration 1 <= i <= n (Lemma 2.1); tracking the hybrid optimal sequence OPT_i = (OPT cup X_i) cap Y_i from OPT_0 = OPT to OPT_n = X_n = Y_n yields f(OPT_{i-1}) - f(OPT_i) <= [f(X_i) - f(X_{i-1})] + [f(Y_i) - f(Y_{i-1})] (Lemma 2.2), telescoping to f(X_n) >= f(OPT) / 3 in O(n) oracle queries (Algorithm 1, Theorem 1.1), which is tight up to 1/3 + varepsilon on a 5-vertex weighted directed cut instance (Theorem 2.3, Figure 1).
+  evidence:
+  - source_id: r367-primary-pdf
+    locator: Section 1.1-1.2, Theorem 1.1, pp. 1385-1386; Section 2-2.1, Algorithm 1, Lemmas 2.1-2.2, Theorem 2.3, and Figure 1, pp. 1387-1389
+    relation: supports
+- claim_id: r367-claim-randomized-and-multilinear-tight-half-approximation
+  kind: mechanism
+  statement: In Randomized USM (Algorithm 2), choosing to include u_i with probability a_i' / (a_i' + b_i') and exclude u_i with probability b_i' / (a_i' + b_i') (where a_i' = max{a_i, 0} and b_i' = max{b_i, 0}) ensures that when a_i, b_i > 0, E[f(X_i) - f(X_{i-1}) + f(Y_i) - f(Y_{i-1})] = (a_i^2 + b_i^2) / (a_i + b_i) (Eq. 3.2) and E[f(OPT_{i-1}) - f(OPT_i)] <= (a_i * b_i) / (a_i + b_i) (Eq. 3.3); since a_i * b_i / (a_i + b_i) <= (1/2) * (a_i^2 + b_i^2) / (a_i + b_i), every step satisfies E[f(OPT_{i-1}) - f(OPT_i)] <= (1/2) * E[f(X_i) - f(X_{i-1}) + f(Y_i) - f(Y_{i-1})] (Lemma 3.1), telescoping to the information-theoretically optimal E[f(X_n)] >= f(OPT) / 2 in O(n) value-oracle queries (Theorem 1.2), and the fractional counterpart Multilinear USM (Algorithm 3) achieves the same F(x_n) = F(y_n) >= f(OPT) / 2 guarantee on the multilinear extension F (Theorem 4.1, Lemmas 4.2-4.3).
+  evidence:
+  - source_id: r367-primary-pdf
+    locator: Section 1.1, Theorem 1.2, p. 1385; Section 3, Algorithm 2, Lemma 3.1, and Equations (3.1)-(3.3), pp. 1389-1392; Section 4, Algorithm 3, Theorem 4.1, Lemmas 4.2-4.3, and Equations (4.1)-(4.3), pp. 1392-1394
+    relation: supports
+- claim_id: r367-claim-linear-time-three-quarters-submodular-max-sat-and-two-player-welfare
+  kind: application
+  statement: "Extending Double Greedy to extended truth assignments X_i subseteq Y_i subseteq N x {0, 1} initialized at X_0 = emptyset and Y_0 = N x {0, 1} yields Randomized SSAT (Algorithm 4), which satisfies E[g(OPT_{i-1}) - g(OPT_i)] <= (1/2) * E[g(X_i) - g(X_{i-1}) + g(Y_i) - g(Y_{i-1})] (Lemma 5.2) and\u2014because Y_0 satisfies all clauses so g(Y_0) >= g(OPT)\u2014telescopes to E[g(X_n)] >= g(OPT)/2 + g(Y_0)/4 >= (3/4) * g(OPT) in O(|Psi|) linear time using clause-literal linked lists and satisfaction counters (Theorem 1.3, Theorem 5.3), directly implying a tight linear-time (3/4)-approximation for 2-player Submodular Welfare via g(N_1) = f_1(N_1) + f_2(N \\ N_1) where g(emptyset) + g(N) >= g(OPT) (Theorem 1.4, Section 5.2)."
+  evidence:
+  - source_id: r367-primary-pdf
+    locator: Section 1.1, Theorems 1.3-1.4, p. 1386; Section 5.1-5.2, Algorithm 4, Lemmas 5.1-5.2, Equations (5.1)-(5.3), and Theorem 5.3, pp. 1394-1399
+    relation: supports
+evidence_sources:
+- source_id: r367-primary-pdf
+  title: A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization
+  authors: &id001
+  - Niv Buchbinder
+  - Moran Feldman
+  - Joseph (Seffi) Naor
+  - Roy Schwartz
+  source_type: primary_paper
+  url: https://www.openu.ac.il/personal_sites/moran-feldman/publications/SICOMP2015.pdf
+  persistent_id: https://doi.org/10.1137/130929205
+  version: SIAM Journal on Computing 44(5):1384-1402 (preliminary version in FOCS 2012, pp. 649-658) (2015) (340952 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:30:00Z'
+  sha256: 93eb8edc5f919db4919f59348effe1f439a7bb58514394d1cbce4c2296fda0cb
+- source_id: r367-arxiv-abs
+  title: A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/FOCS.2012.73
+  persistent_id: https://doi.org/10.1109/FOCS.2012.73
+  version: arXiv abstract page (6649 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:30:00Z'
+  sha256: 49ae9cafe4fcdf23c3301678a4a09b0c62b693d78a5a106b38805d17d8d125cd
+- source_id: r367-metadata-cr
+  title: A Tight Linear Time (1/2)-Approximation for Unconstrained Submodular Maximization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1137/130929205
+  persistent_id: https://doi.org/10.1137/130929205
+  version: Crossref API work record (8507 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:30:00Z'
+  sha256: 7d8d8953fbfd9ea01caa8519913100db0ab26135311974714fb72896d9857a53
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Solves unconstrained non-monotone submodular maximization problems including Max-Cut, Max-DiCut, and maximum facility location.
+limitations:
+- Applies directly only to unconstrained submodular maximization (or 2-partition problems such as Submodular Max-SAT and 2-player Submodular Welfare) because the bidirectional updates X_i and Y_i provide no control over the cardinality |X_n| or independence of the final set under general matroid or knapsack constraints, and the deterministic variant is provably limited to a 1/3 approximation ratio (Theorem 2.3; Section 6, p. 1400).
+curation:
+  created_at: '2026-10-19T07:30:00Z'
+  updated_at: '2026-10-19T07:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,358 @@
+# Scientific author self-review of Fromage (Frobenius Matched Gradient Descent)
+
+- Review: 20261019T112230Z-fromage-frobenius-matched-gradient-descent
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:22:00Z
+- Finished UTC: 2026-10-19T11:22:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Fromage (Frobenius Matched Gradient Descent) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 82d126d2f33ebe026a8f3e2b45d050586e4f0535.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FromageFrobeniusMatchedGradientDescentOptimization | data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml | maintained | Fromage (Frobenius Matched Gradient Descent) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FromageFrobeniusMatchedGradientDescentOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FromageFrobeniusMatchedGradientDescentOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FromageFrobeniusMatchedGradientDescentOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FromageFrobeniusMatchedGradientDescentOptimization | Validated history sidecar files. |
+| python3 fromage-frobenius-matched-gradient-descent-boundaries.py | passed | True | AIMech:FromageFrobeniusMatchedGradientDescentOptimization | [PASS] Round 599 Fromage verified: scalar_err=3.89e-16, thm1_ratio=0.0625&lt;=1, lemma2_ok=True, ortho_err=1.54e-16, fromage_norm_drift=2.46e-15, lars_growth=1.1616, loss_fromage=9.7857e-04 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FromageFrobeniusMatchedGradientDescentOptimization.
+
+Fromage (Frobenius Matched Gradient Descent) is a distinct concept.
+
+Distinct from LARS (Round 594) and LAMB (Round 593) by deriving layerwise relative step scaling from a multiplicative compositional perturbation bound on multilayer perceptrons and their layer-to-output Jacobians (Theorem 1 &amp; Modelling Assumption 1: Deep Relative Trust) together with the exact Pythagorean normalization prefactor 1 / sqrt(1 + eta^2), eliminating weight-decay hyperparameter tuning for rescaling-invariant layers.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FromageFrobeniusMatchedGradientDescentOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FromageFrobeniusMatchedGradientDescentOptimization.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in fromage-frobenius-matched-gradient-descent-boundaries.py passed with exit code 0: [PASS] Round 599 Fromage verified: scalar_err=3.89e-16, thm1_ratio=0.0625&lt;=1, lemma2_ok=True, ortho_err=1.54e-16, fromage_norm_drift=2.46e-15, lars_growth=1.1616, loss_fromage=9.7857e-04
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FromageFrobeniusMatchedGradientDescentOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T112200Z-fromage-frobenius-matched-gradient-descent.json | supports | No normalized identity match for AIMech:FromageFrobeniusMatchedGradientDescentOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/fromage-frobenius-matched-gradient-descent-boundaries.py | supports | All constructed boundary assertions in fromage-frobenius-matched-gradient-descent-boundaries.py passed with exit code 0: [PASS] Round 599 Fromage verified: scalar_err=3.89e-16, thm1_ratio=0.0625&lt;=1, lemma2_ok=True, ortho_err=1.54e-16, fromage_norm_drift=2.46e-15, lars_growth=1.1616, loss_fromage=9.7857e-04 |
+| r599-primary-pdf | https://arxiv.org/pdf/2002.03432.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (arXiv:2002.03432) (2020)) read and verified. |
+| r599-arxiv-abs | https://arxiv.org/abs/2002.03432; arXiv abstract | supports | arXiv abstract read and verified. |
+| r599-metadata-cr | https://dblp.org/rec/conf/nips/BernsteinVY020; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FromageFrobeniusMatchedGradientDescentOptimization in Round 599.
+- All pages of Advances in Neural Information Processing Systems 33 (NeurIPS 2020) (arXiv:2002.03432) (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T112230Z-fromage-frobenius-matched-gradient-descent
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Fromage (Frobenius Matched Gradient Descent)
+started_at: '2026-10-19T11:22:00Z'
+finished_at: '2026-10-19T11:22:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 33 (NeurIPS 2020) (arXiv:2002.03432)
+    (2020) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Fromage (Frobenius Matched Gradient Descent) as a distinct DRAFT algorithm.
+  All four claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: 82d126d2f33ebe026a8f3e2b45d050586e4f0535
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/BatchNormalizationLayer.yaml
+    sha256: bd8652e8a4c948e562152d12d81d9e230a2e53355ae84152da9621d0d1468c0b
+    role: context
+  - path: data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml
+    sha256: d072d0b73224211d6a7b17c8216616f34de126159fd0be2f0cff51e150d2c04e
+    role: target
+  - path: research/discovery/20261019T112200Z-fromage-frobenius-matched-gradient-descent.json
+    sha256: 81f0fc0ead96d0af146855c3f4f1a477e14ac8c68c3b19d05408f606e0351b22
+    role: context
+  - path: research/discovery/fromage-frobenius-matched-gradient-descent-boundaries.py
+    sha256: 42c4b3f3e91b294fbd0c5c978f9cd394ee6cacaad37db176424a06bad9ad93b1
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  path: data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml
+  label: Fromage (Frobenius Matched Gradient Descent)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FromageFrobeniusMatchedGradientDescentOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FromageFrobeniusMatchedGradientDescentOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 fromage-frobenius-matched-gradient-descent-boundaries.py
+  command: python3 research/discovery/fromage-frobenius-matched-gradient-descent-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 599 Fromage verified: scalar_err=3.89e-16, thm1_ratio=0.0625<=1,
+    lemma2_ok=True, ortho_err=1.54e-16, fromage_norm_drift=2.46e-15, lars_growth=1.1616,
+    loss_fromage=9.7857e-04'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T112200Z-fromage-frobenius-matched-gradient-descent.json
+  accessed_at: '2026-10-19T11:22:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:22:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/fromage-frobenius-matched-gradient-descent-boundaries.py
+  accessed_at: '2026-10-19T11:22:00Z'
+  snapshot_sha256: 42c4b3f3e91b294fbd0c5c978f9cd394ee6cacaad37db176424a06bad9ad93b1
+  support: supports
+  summary: 'All constructed boundary assertions in fromage-frobenius-matched-gradient-descent-boundaries.py
+    passed with exit code 0: [PASS] Round 599 Fromage verified: scalar_err=3.89e-16,
+    thm1_ratio=0.0625<=1, lemma2_ok=True, ortho_err=1.54e-16, fromage_norm_drift=2.46e-15,
+    lars_growth=1.1616, loss_fromage=9.7857e-04'
+- evidence_id: r599-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2002.03432.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:22:00Z'
+  snapshot_sha256: 459ff29104973f3fd4e0fe2a55858d0847d80e53d7f3b9a6b08c641ef94b85e6
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 33 (NeurIPS
+    2020) (arXiv:2002.03432) (2020)) read and verified.
+- evidence_id: r599-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2002.03432
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:22:00Z'
+  snapshot_sha256: d3ee155a3dd4d61a5a61a0094a639b1defd1fd919bf22feb36476ab7ccf46941
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r599-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/nips/BernsteinVY020
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:22:00Z'
+  snapshot_sha256: e4161fbb79047dc58c64d751d6c56172e0a7b7a406d33dcb1530049bdf4c7e43
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  evidence_ids:
+  - identity
+  - r599-primary-pdf
+  - r599-arxiv-abs
+  - r599-metadata-cr
+  summary: Fromage (Frobenius Matched Gradient Descent) is a distinct concept.
+  details: 'Distinct from LARS (Round 594) and LAMB (Round 593) by deriving layerwise
+    relative step scaling from a multiplicative compositional perturbation bound on
+    multilayer perceptrons and their layer-to-output Jacobians (Theorem 1 & Modelling
+    Assumption 1: Deep Relative Trust) together with the exact Pythagorean normalization
+    prefactor 1 / sqrt(1 + eta^2), eliminating weight-decay hyperparameter tuning
+    for rescaling-invariant layers.'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  evidence_ids:
+  - mapping
+  - r599-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  evidence_ids:
+  - r599-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in fromage-frobenius-matched-gradient-descent-boundaries.py
+    passed with exit code 0: [PASS] Round 599 Fromage verified: scalar_err=3.89e-16,
+    thm1_ratio=0.0625<=1, lemma2_ok=True, ortho_err=1.54e-16, fromage_norm_drift=2.46e-15,
+    lars_growth=1.1616, loss_fromage=9.7857e-04'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FromageFrobeniusMatchedGradientDescentOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r599-primary-pdf
+  - r599-arxiv-abs
+  - r599-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FromageFrobeniusMatchedGradientDescentOptimization in
+  Round 599.
+- All pages of Advances in Neural Information Processing Systems 33 (NeurIPS 2020)
+  (arXiv:2002.03432) (2020) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

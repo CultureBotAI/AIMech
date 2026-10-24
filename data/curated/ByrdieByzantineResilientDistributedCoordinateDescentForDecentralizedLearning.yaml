@@ -1,0 +1,99 @@
+id: AIMech:ByrdieByzantineResilientDistributedCoordinateDescentForDecentralizedLearning
+name: ByRDiE Byzantine-Resilient Distributed Coordinate Descent for Decentralized Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-resilient decentralized optimization algorithm (ByRDiE) that decomposes a P-dimensional empirical risk minimization problem across a directed network G(J, E) with up to b Byzantine nodes into an outer coordinate-descent loop over coordinates k in {1, ..., P} and an inner T-step scalar screening loop in which each nonfaulty node j in J' discards the b smallest (N_j^s) and b largest (N_j^l) received neighbor scalars [w_i^r(t)]_k before averaging the remaining |N_j| - 2b + 1 values (including self) and stepping along its local coordinate gradient -[grad f_hat(w_j^r(t), S_j)]_k.
+identity_notes: Introduced by Zhixiong Yang and Waheed U. Bajwa (IEEE Transactions on Signal and Information Processing over Networks, Vol. 5, No. 4, pp. 611-627, 2019; arXiv:1708.08155). Distinct from BRIDGE (Fang, Yang, & Bajwa, IEEE TSIPN 2022, Round 546), which performs simultaneous full-vector gradient descent with coordinate-wise trimmed mean in a single loop rather than sequential coordinate-by-coordinate T-step inner updates; and distinct from ClippedGossip (He, Karimireddy, & Jaggi, 2022, Round 545), which clips neighbor model differences in L2 norm around a node's own iterate.
+aliases:
+- ByRDiE
+- Byzantine-Resilient Distributed Coordinate Descent
+- ByRDiE Decentralized Coordinate Descent
+definition_evidence:
+- source_id: r551-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r551-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r551-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: byrdie-coordinate-wise-trimmed-screening-and-stochastic-transition-mechanism
+  kind: mechanism
+  statement: For each coordinate k in {1, ..., P} and inner step t in {1, ..., T}, each nonfaulty node j in J' partitions its incoming neighborhood N_j into the b smallest values N_j^s(r, k, t), the b largest values N_j^l(r, k, t), and the screened set N_j^*(r, k, t) = N_j \ N_j^s \ N_j^l, updating [w_j^r(t+1)]_k = (1 / (|N_j| - 2b + 1)) sum_{i in N_j^* U {j}} [w_i^r(t)]_k - rho(r + t - 1) [grad f_hat(w_j^r(t), S_j)]_k so that any retained Byzantine value is expressible as a convex combination of two trimmed nonfaulty neighbor values.
+  evidence:
+  - source_id: r551-primary-pdf
+    locator: Section III-A Equations (5)-(8) & Section III-B Equations (9)-(13), pp. 4-6
+    relation: supports
+- claim_id: byrdie-consensus-and-statistical-risk-convergence-scope
+  kind: scope
+  statement: When every reduced graph G_r obtained by removing all b Byzantine nodes and up to b additional incoming edges per nonfaulty node contains a source component of size at least b + 1, ByRDiE achieves consensus at rate O(sqrt(P) * rho(r)) and converges in probability to the statistical risk minimizer w* with effective sample size N_eff = N / a_bar^2 in [N, |J'|*N] for both T -> infinity and T = 1.
+  evidence:
+  - source_id: r551-primary-pdf
+    locator: Section III-B..D Theorems 1-6, pp. 6-9
+    relation: supports
+- claim_id: byrdie-sequential-coordinate-communication-latency-limitation
+  kind: limitation
+  statement: Because ByRDiE updates and screens one coordinate k in {1, ..., P} at a time, each outer pass requires T * P sequential scalar communication rounds tc = (r - 1)*T*P + (k - 1)*T + t, and certifying the reduced-graph source-component condition (Assumption 3) is combinatorially hard on general directed graphs.
+  evidence:
+  - source_id: r551-primary-pdf
+    locator: Section II-A Remark 3 & Section III-E Equation (35), pp. 4, 9
+    relation: supports
+- claim_id: byrdie-decentralized-svm-and-neural-network-application
+  kind: application
+  statement: Applied to Byzantine-resilient decentralized linear SVM classification on the infinite MNIST dataset and decentralized multi-layer neural network classification on the Iris dataset under 10%-20% Byzantine node failures.
+  evidence:
+  - source_id: r551-primary-pdf
+    locator: Section IV Numerical Results, Figures 1-3 & Table I, pp. 9-11
+    relation: supports
+evidence_sources:
+- source_id: r551-primary-pdf
+  title: 'ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning'
+  authors: &id001
+  - Zhixiong Yang
+  - Waheed U. Bajwa
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1708.08155.pdf
+  persistent_id: https://dblp.org/rec/journals/tsipn/YangB19
+  version: IEEE Transactions on Signal and Information Processing over Networks (2019) (678484 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:34:00Z'
+  sha256: ccf7bf274194209c36e734f8ae10ddc207326b3a72838f6dbf4b7700e337849f
+- source_id: r551-arxiv-abs
+  title: 'ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1708.08155
+  persistent_id: https://arxiv.org/abs/1708.08155
+  version: arXiv abstract page (7177 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:34:00Z'
+  sha256: 7676f11341d5ebecb5f6bc3ff5479bc64885387717a3c7117cf61c4176fec0dd
+- source_id: r551-metadata-cr
+  title: 'ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/tsipn/YangB19
+  persistent_id: https://dblp.org/rec/journals/tsipn/YangB19
+  version: Crossref API work record (2201 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:34:00Z'
+  sha256: 27210c861ca83c349aa551f81de9c438ec40cce3e47a31cc8b7336c4912299a3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers collaborative distributed training, whereas ByRDiE is a serverless Byzantine-resilient coordinate-descent algorithm with two-sided scalar neighborhood screening.
+limitations:
+- Requires at least 2b + 1 incoming neighbors per nonfaulty node so that |N_j| - 2b + 1 >= 1 after trimming b smallest and b largest values.
+- Incurs P * T sequential scalar communication rounds per full coordinate cycle.
+curation:
+  created_at: '2026-10-19T10:34:00Z'
+  updated_at: '2026-10-19T10:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,96 @@
+id: AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching
+name: Frequent-Directions Deterministic Streaming Matrix Sketching
+concept_kind: algorithm
+review_status: DRAFT
+definition: Frequent-Directions Deterministic Streaming Matrix Sketching is a deterministic one-pass row-streaming matrix sketching algorithm introduced by Liberty (2013) that maintains an l x m sketch matrix B of an n x m input matrix A by generalizing the Misra-Gries / Space-Saving frequent-items counter decrement rule to singular values and right singular vectors. In the basic algorithm (Algorithm 1), each streaming row a_i in R^m is inserted into an all-zero row of B in R^{l x m}; whenever B has no zero rows, the algorithm computes the SVD B = U Sigma V^T, sets delta_i = sigma_l^2, shrinks all l squared singular values uniformly via bar{Sigma} = sqrt(Sigma^2 - I_l delta_i), and updates B <- bar{Sigma} V^T so that the last row of B is guaranteed to be zero. In the amortized fast variant (Algorithm 2), B is zeroed out in its bottom l/2 rows by shrinking at threshold delta_i = sigma_{l/2}^2 only once every l/2 row insertions, reducing the total runtime from O(n m l^2) to O(n m l) at space O(m l). Claims 1 and 2 and Theorems 4.1 and 4.2 prove that for every unit vector x in R^m (||x||_2 = 1), 0 <= ||A x||_2^2 - ||B x||_2^2 <= 2 (||A||_F^2 - ||B||_F^2) / l <= 2 ||A||_F^2 / l (with factor 1 for Algorithm 1 and factor 2 for Algorithm 2), guaranteeing A^T A >= B^T B and ||A^T A - B^T B||_2 <= epsilon ||A||_F^2 for l = ceil(2 / epsilon).
+identity_notes: Distinct from batch Principal Component Analysis (`AIO:PrincipalComponentAnalysis`), which requires storing A or A^T A in O(n m) or O(m^2) memory, and from randomized oblivious subspace embeddings (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`) or randomized column sampling (`AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling`). Specifically captures Liberty's (2013) deterministic SVD singular-value shrinkage rule bar{Sigma} = sqrt(Sigma^2 - I_l delta_i) (Algorithms 1 and 2), its exact reduction to the Misra-Gries / Space-Saving heavy-hitters counter algorithm on orthogonal basis streams (Section 3, Theorem 3.1), and the deterministic Loewner positive semidefinite covariance bound 0 <= A^T A - B^T B <= (2 / l)(||A||_F^2 - ||B||_F^2) I_m (Claims 1-2, Theorems 4.1-4.2).
+aliases:
+- Frequent-Directions Matrix Sketching
+- Liberty Deterministic Covariance Matrix Sketching
+- Spectral Misra-Gries / Space-Saving Matrix Sketch
+definition_evidence:
+- source_id: r330-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r330-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r330-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: In each step i of Frequent-Directions (Algorithm 1), shrinking the squared singular values of the l x m sketch by delta_i = sigma_l^2 via bar{Sigma} = sqrt(Sigma^2 - I_l delta_i) zeroes out the l-th row and satisfies ||C_i||_F^2 - ||B_i||_F^2 = l delta_i, which telescopes over all n streaming rows to give the exact identity sum_{i=1}^n delta_i = (||A||_F^2 - ||B||_F^2) / l <= ||A||_F^2 / l (Claim 1), while for every unit vector x in R^m, Claim 2 proves 0 <= ||A x||_2^2 - ||B x||_2^2 <= sum_{i=1}^n delta_i, implying both A^T A >= B^T B and ||A^T A - B^T B||_2 <= (||A||_F^2 - ||B||_F^2) / l (Theorem 4.1).
+  evidence:
+  - source_id: r330-primary-pdf
+    locator: Section 4.1, Algorithm 1, Claims 1 and 2, and Theorem 4.1, p. 583
+    relation: supports
+  - source_id: r330-metadata-cr
+    locator: Crossref metadata for KDD 2013 pp. 581-588
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: By doubling the sketch capacity and shrinking by delta_i = sigma_{l/2}^2 only when all l/2 zero rows are filled (Algorithm 2), Theorem 4.2 proves that the SVD cost O(m l^2) is amortized over l/2 row insertions to achieve total streaming runtime O(n m l) = O(n m / epsilon) for l = ceil(2 / epsilon) while preserving the deterministic guarantee ||A^T A - B^T B||_2 <= 2 (||A||_F^2 - ||B||_F^2) / l <= epsilon ||A||_F^2; moreover, when input rows are indicator vectors e_{j_i}, Frequent-Directions reduces exactly to the Misra-Gries / Space-Saving item frequency estimation algorithm (Section 3, Theorem 3.1).
+  evidence:
+  - source_id: r330-primary-pdf
+    locator: Section 3, Theorem 3.1, p. 582; Section 4.1-4.2, Algorithm 2 and Theorem 4.2, pp. 583-584
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Frequent-Directions does not preserve input sparsity (the sketch B = bar{Sigma} V^T is dense even when the streaming rows a_i are sparse, requiring O(n m l) time rather than input-sparsity time), and its worst-case spectral error bound scales with ||A||_F^2 / l rather than the tail residual ||A - A_k||_F^2 / (l - k) in the original Liberty (2013) analysis when the spectrum of A is completely flat.
+  evidence:
+  - source_id: r330-primary-pdf
+    locator: Section 4.1, Tightness remark on ||A||_F^2 - ||B||_F^2, p. 583; Section 5.2, Comparison with sparse hashing and random projection on sparse inputs, p. 586
+    relation: supports
+evidence_sources:
+- source_id: r330-primary-pdf
+  title: Simple and Deterministic Matrix Sketching
+  authors: &id001
+  - Edo Liberty
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1206.0594v4
+  persistent_id: https://api.crossref.org/works/10.1145/2487575.2487623
+  version: Proceedings of the 19th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD 2013), pp. 581-588 (2013) (148587 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:52:00Z'
+  sha256: 11d3293e2dd5dca7cc5c59b1a23ac3b4f312478c8fdc96aefad49b9d517986b9
+- source_id: r330-arxiv-abs
+  title: Simple and Deterministic Matrix Sketching (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1206.0594v4
+  persistent_id: https://arxiv.org/abs/1206.0594v4
+  version: arXiv abstract page (6263 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:52:00Z'
+  sha256: b5a8ffc45ea233bd6dbdea458c45278c4f6d42e8b80f1ab59a879ad6707dc5c6
+- source_id: r330-metadata-cr
+  title: Simple and Deterministic Matrix Sketching (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1145/2487575.2487623
+  persistent_id: https://api.crossref.org/works/10.1145/2487575.2487623
+  version: Crossref API work record (2652 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:52:00Z'
+  sha256: e243a474b5c3f0341e53ded3cd5001d24232f497ab2f7a85c84cf34710058b6e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: narrow_match
+  rationale: Compresses an n x m streaming data matrix into an l x m deterministic row sketch B approximating A^T A.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Maintains a streaming SVD sketch whose right singular vectors approximate the dominant principal components of A.
+limitations:
+- Produces a dense l x m sketch matrix B even when the input matrix A is sparse, and requires an O(m l^2) SVD computation every l/2 streaming rows.
+curation:
+  created_at: '2026-10-19T06:52:00Z'
+  updated_at: '2026-10-19T06:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

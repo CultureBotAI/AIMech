@@ -1,0 +1,354 @@
+# Scientific author self-review of LISA (Layerwise Importance Sampled AdamW)
+
+- Review: 20261019T120330Z-lisa-layerwise-importance-sampled-adamw
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:03:00Z
+- Finished UTC: 2026-10-19T12:03:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain LISA (Layerwise Importance Sampled AdamW) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/LISALayerwiseImportanceSampledAdamW.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:LISALayerwiseImportanceSampledAdamW
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 16ad018df5002189c3b6324b3f872aa3b1195389.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LISALayerwiseImportanceSampledAdamW | data/curated/LISALayerwiseImportanceSampledAdamW.yaml | maintained | LISA (Layerwise Importance Sampled AdamW) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:LISALayerwiseImportanceSampledAdamW | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:LISALayerwiseImportanceSampledAdamW | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:LISALayerwiseImportanceSampledAdamW | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:LISALayerwiseImportanceSampledAdamW | Validated history sidecar files. |
+| python3 lisa-layerwise-importance-sampled-adamw-boundaries.py | passed | True | AIMech:LISALayerwiseImportanceSampledAdamW | [PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078, lr_ratio=0.0625, active_param_frac=9.90%, avg_regret=8.3380e-02, final_gap=1.2058e-02 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:LISALayerwiseImportanceSampledAdamW.
+
+LISA (Layerwise Importance Sampled AdamW) is a distinct concept.
+
+Distinct from BAdam (AIMech:BAdamBlockCoordinateAdamFullParameterOptimization), which partitions all model layers into D blocks of equal status and updates one block per K-step epoch via cyclic or random-reshuffling block coordinate descent; LISA is grounded in the empirical skewness of layerwise weight norms w^{(ell)} = (1/T) sum_{t=1}^T &#124;&#124;theta_t^{(ell)}&#124;&#124;_2 in LoRA (where embedding and LM head norms exceed intermediate layers by 10^2x), assigning importance-sampling probabilities {1.0, gamma/N_L, ..., gamma/N_L, 1.0} so E and H remain continuously active while gamma intermediate layers are sampled every K steps. Distinct from LoRA (AIMech:LoraLowRankAdaptation), which freezes base weights and constrains updates to rank-r adapter matrices across all layers.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:LISALayerwiseImportanceSampledAdamW.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-5 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:LISALayerwiseImportanceSampledAdamW.
+
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in lisa-layerwise-importance-sampled-adamw-boundaries.py passed with exit code 0: [PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078, lr_ratio=0.0625, active_param_frac=9.90%, avg_regret=8.3380e-02, final_gap=1.2058e-02
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:LISALayerwiseImportanceSampledAdamW.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T120300Z-lisa-layerwise-importance-sampled-adamw.json | supports | No normalized identity match for AIMech:LISALayerwiseImportanceSampledAdamW across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/lisa-layerwise-importance-sampled-adamw-boundaries.py | supports | All constructed boundary assertions in lisa-layerwise-importance-sampled-adamw-boundaries.py passed with exit code 0: [PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078, lr_ratio=0.0625, active_param_frac=9.90%, avg_regret=8.3380e-02, final_gap=1.2058e-02 |
+| r640-primary-pdf | https://arxiv.org/pdf/2403.17919.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024)) read and verified. |
+| r640-arxiv-abs | https://arxiv.org/abs/2403.17919; arXiv abstract | supports | arXiv abstract read and verified. |
+| r640-metadata-cr | https://dblp.org/rec/conf/nips/PanLDPZH024; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:LISALayerwiseImportanceSampledAdamW in Round 640.
+- All pages of Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T120330Z-lisa-layerwise-importance-sampled-adamw
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of LISA (Layerwise Importance Sampled AdamW)
+started_at: '2026-10-19T12:03:00Z'
+finished_at: '2026-10-19T12:03:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:LISALayerwiseImportanceSampledAdamW
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain LISA (Layerwise Importance Sampled AdamW) as a distinct DRAFT algorithm.
+  All five claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: 16ad018df5002189c3b6324b3f872aa3b1195389
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/LISALayerwiseImportanceSampledAdamW.yaml
+    sha256: e68c6e04ac1688e5ef7d44b9486d99ca259706ff0e60d4c1cf0f41f4871cd137
+    role: target
+  - path: research/discovery/20261019T120300Z-lisa-layerwise-importance-sampled-adamw.json
+    sha256: 19fdb4dd8d3c7e1b036a995bba042a4e4260c7f0dc8ac5fd877838ae8f5c1d6d
+    role: context
+  - path: research/discovery/lisa-layerwise-importance-sampled-adamw-boundaries.py
+    sha256: 337521fcf4b17d5da54ee0ae6ae033095a729238462827c181d68d8b11be8166
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LISALayerwiseImportanceSampledAdamW
+  path: data/curated/LISALayerwiseImportanceSampledAdamW.yaml
+  label: LISA (Layerwise Importance Sampled AdamW)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LISALayerwiseImportanceSampledAdamW.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/LISALayerwiseImportanceSampledAdamW.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:LISALayerwiseImportanceSampledAdamW'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 lisa-layerwise-importance-sampled-adamw-boundaries.py
+  command: python3 research/discovery/lisa-layerwise-importance-sampled-adamw-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078, lr_ratio=0.0625,
+    active_param_frac=9.90%, avg_regret=8.3380e-02, final_gap=1.2058e-02'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T120300Z-lisa-layerwise-importance-sampled-adamw.json
+  accessed_at: '2026-10-19T12:03:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:LISALayerwiseImportanceSampledAdamW
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:03:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/lisa-layerwise-importance-sampled-adamw-boundaries.py
+  accessed_at: '2026-10-19T12:03:00Z'
+  snapshot_sha256: 337521fcf4b17d5da54ee0ae6ae033095a729238462827c181d68d8b11be8166
+  support: supports
+  summary: 'All constructed boundary assertions in lisa-layerwise-importance-sampled-adamw-boundaries.py
+    passed with exit code 0: [PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078,
+    lr_ratio=0.0625, active_param_frac=9.90%, avg_regret=8.3380e-02, final_gap=1.2058e-02'
+- evidence_id: r640-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2403.17919.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:03:00Z'
+  snapshot_sha256: e79aa3ab643c97e5ca83980f92268ed23dbb0bedf2cf81b7a519d5ce7b9ba5e2
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 37 (NeurIPS
+    2024) (2024)) read and verified.
+- evidence_id: r640-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2403.17919
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:03:00Z'
+  snapshot_sha256: 3a249d44fba430109615ce8b975376d881501af14d731176281f4aeca7edd10e
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r640-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/nips/PanLDPZH024
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:03:00Z'
+  snapshot_sha256: 497b885086b232d6e1b2259eda4c8921e488631c81087dd409485919d1604b27
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  evidence_ids:
+  - identity
+  - r640-primary-pdf
+  - r640-arxiv-abs
+  - r640-metadata-cr
+  summary: LISA (Layerwise Importance Sampled AdamW) is a distinct concept.
+  details: Distinct from BAdam (AIMech:BAdamBlockCoordinateAdamFullParameterOptimization),
+    which partitions all model layers into D blocks of equal status and updates one
+    block per K-step epoch via cyclic or random-reshuffling block coordinate descent;
+    LISA is grounded in the empirical skewness of layerwise weight norms w^{(ell)}
+    = (1/T) sum_{t=1}^T ||theta_t^{(ell)}||_2 in LoRA (where embedding and LM head
+    norms exceed intermediate layers by 10^2x), assigning importance-sampling probabilities
+    {1.0, gamma/N_L, ..., gamma/N_L, 1.0} so E and H remain continuously active while
+    gamma intermediate layers are sampled every K steps. Distinct from LoRA (AIMech:LoraLowRankAdaptation),
+    which freezes base weights and constrains updates to rank-r adapter matrices across
+    all layers.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  evidence_ids:
+  - mapping
+  - r640-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  evidence_ids:
+  - r640-primary-pdf
+  - calculation
+  summary: All five claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in lisa-layerwise-importance-sampled-adamw-boundaries.py
+    passed with exit code 0: [PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078,
+    lr_ratio=0.0625, active_param_frac=9.90%, avg_regret=8.3380e-02, final_gap=1.2058e-02'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:LISALayerwiseImportanceSampledAdamW
+  evidence_ids:
+  - identity
+  - mapping
+  - r640-primary-pdf
+  - r640-arxiv-abs
+  - r640-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:LISALayerwiseImportanceSampledAdamW in Round 640.
+- All pages of Advances in Neural Information Processing Systems 37 (NeurIPS 2024)
+  (2024) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

@@ -1,0 +1,105 @@
+id: AIMech:RVMDReducedOrderVariationalModeDecomposition
+name: RVMD Reduced-Order Variational Mode Decomposition
+concept_kind: algorithm
+review_status: DRAFT
+definition: A spatiotemporal modal decomposition and dimensionality reduction algorithm that represents a high-dimensional space-time field q(x, t) as a rank-K expansion sum_{k=1}^K phi_k(x) c_k(t) with unit-norm spatial modes ||phi_k||_x = 1 and minimizes the sum of the space-time reconstruction error and the analytic-signal spectral bandwidth penalty sum_{k=1}^K int_0^infty 2*alpha*(omega - omega_k)^2 |c_hat_k(omega)|^2 d_omega via Block Coordinate Descent alternating residual spatial projection, second-order Wiener filtering g_hat_k(omega) = 1 / [1 + 2*alpha*(omega - omega_k)^2], and power-spectrum center-of-gravity frequency updates.
+identity_notes: No AIO class represents Reduced-Order Variational Mode Decomposition (RVMD); DimensionalityReduction (AIO:DimensionalityReduction) and PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) are the closest broad matches covering low-rank orthogonal/non-orthogonal modal reduction of high-dimensional data.
+aliases:
+- Reduced-Order Variational Mode Decomposition
+- RVMD Spatiotemporal Modal Decomposition
+- Wiener-Filtered Block Coordinate Descent Reduced-Order VMD
+definition_evidence:
+- source_id: r836-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r836-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r836-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: block-coordinate-descent-wiener-filtered-spatiotemporal-alternating-updates
+  kind: mechanism
+  statement: By applying Parseval's theorem to transform the time-domain analytic-signal Hilbert bandwidth penalty into the positive-frequency domain (Equations 9, 17-18), RVMD minimizes F({phi_k, c_hat_k^+, omega_k}) via Block Coordinate Descent over the residual R_hat_k^+ = Q_hat^+ - sum_{i != k} phi_i (c_hat_i^+)^T (Equation 36), alternately updating the normalized spatial mode phi_k^{n+1} = Re{R_hat_k^+ (c_hat_k^+)^*} / ||Re{R_hat_k^+ (c_hat_k^+)^*}|| (Equation 39), the second-order Wiener-filtered temporal spectrum c_hat_k^{+,n+1} = G_hat_k^+ (R_hat_k^+)^T phi_k with g_hat_i^+ = 1 / [1 + 2*alpha*(omega_i^+ - omega_k)^2] (Equations 38, 40), and the center-of-gravity central frequency omega_k^{n+1} = ((c_hat_k^+)^H W^+ c_hat_k^+) / ((c_hat_k^+)^H c_hat_k^+) (Equation 41).
+  evidence:
+  - source_id: r836-primary-pdf
+    locator: Section 2.1-2.2, Equations 9-42 and Algorithm, pp. 5-11
+    relation: supports
+- claim_id: filtered-two-point-correlation-eigenvalue-problem-and-pod-dft-limits
+  kind: mechanism
+  statement: At BCD convergence, each RVMD spatial mode satisfies the Wiener-filtered two-point spatial correlation eigenvalue equation R_hat_k G_hat_k R_hat_k^H phi_k = lambda_k phi_k (Equation 47) with exact half-power filter bandwidth Delta = sqrt((2*sqrt(2) - 2)/alpha) (Equation 48), continuously bridging Proper Orthogonal Decomposition (POD, as alpha -> 0 and G_hat_k -> I, Equations 49-51) and single-frequency Discrete Fourier Transform modes (as alpha -> infty and Delta -> 0, Section 3.2).
+  evidence:
+  - source_id: r836-primary-pdf
+    locator: Section 2.3-2.4, Equations 44-48, pp. 11-13; Section 3.1-3.2, Equations 49-51, pp. 14-15
+    relation: supports
+- claim_id: nonstationary-transient-wake-and-supersonic-screeching-jet-application
+  kind: application
+  statement: Coupled with Hilbert spectral analysis (Equations 52-55), RVMD resolves non-stationary transient growth, shift-modes, and limit-cycle harmonics in a two-dimensional cylinder wake at Re = 100 and isolates intermittent screech-tone feedback modes in a three-dimensional turbulent supersonic rectangular jet at M_j = 1.55.
+  evidence:
+  - source_id: r836-primary-pdf
+    locator: Section 4.1-4.2, Equations 52-55 and Figures 2-15, pp. 16-28
+    relation: supports
+- claim_id: nonconvex-initialization-sensitivity-and-nonorthogonal-mode-energy-sharing-limitation
+  kind: limitation
+  statement: Because the joint optimization over {phi_k, c_hat_k, omega_k} is non-convex and does not enforce strict spatial or temporal orthogonality across modes for general alpha > 0, converged RVMD modes depend on the initial central-frequency distribution {omega_k^0} and penalty factor alpha and can share overlapping spectral energy when bandwidths intersect (Section 2.2, p. 11; Section 3.1, p. 14; Appendix A, pp. 29-31).
+  evidence:
+  - source_id: r836-primary-pdf
+    locator: Section 2.2, p. 11; Section 3.1, p. 14; Appendix A, pp. 29-31
+    relation: supports
+evidence_sources:
+- source_id: r836-primary-pdf
+  title: Reduced-order variational mode decomposition
+  authors: &id001
+  - Zi-Mo Liao
+  - Zhiye Zhao
+  - Liang-Bing Chen
+  - Zhen-Hua Wan
+  - Nan-Sheng Liu
+  - Xi-Yun Lu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2209.12437
+  persistent_id: https://arxiv.org/abs/2209.12437
+  version: arXiv preprint arXiv:2209.12437v1 (physics.flu-dyn) (2022) (8895460 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:19:00Z'
+  sha256: 87b55cfa0ecfe4dfff3276ecbfdc23f5f073e1adb02eb264108f14ae68295d73
+- source_id: r836-arxiv-abs
+  title: Reduced-order variational mode decomposition (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2209.12437
+  persistent_id: https://arxiv.org/abs/2209.12437
+  version: arXiv abstract page (2169 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:19:00Z'
+  sha256: f51db16477ae973196c691ad751fab5386c58476a2d4418bd5102b6302bed2d9
+- source_id: r836-metadata-cr
+  title: Reduced-order variational mode decomposition (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2209.12437
+  persistent_id: https://arxiv.org/abs/2209.12437
+  version: Crossref API work record (338 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:19:00Z'
+  sha256: 1102a9e39296870ca143b949cce69cbd23d81bbc506419b334a74a3a39e22458
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: RVMD extracts a low-rank rank-K spatiotemporal representation from high-dimensional space-time datasets with tunable spectral bandwidth compression.
+- target: AIO:PrincipalComponentAnalysis
+  relation: broad_match
+  rationale: In the zero-penalty broadband limit alpha -> 0 under spatial orthogonality, RVMD reduces exactly to Proper Orthogonal Decomposition (POD / PCA) on the two-point spatial correlation tensor.
+limitations:
+- Because the joint optimization over {phi_k, c_hat_k, omega_k} is non-convex and does not enforce strict spatial or temporal orthogonality across modes for general alpha > 0, converged RVMD modes depend on the initial central-frequency distribution {omega_k^0} and penalty factor alpha and can share overlapping spectral energy when bandwidths intersect (Section 2.2, p. 11; Section 3.1, p. 14; Appendix A, pp. 29-31).
+curation:
+  created_at: '2026-10-19T15:19:00Z'
+  updated_at: '2026-10-19T15:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

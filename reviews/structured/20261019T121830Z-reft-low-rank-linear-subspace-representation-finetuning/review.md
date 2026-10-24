@@ -1,0 +1,358 @@
+# Scientific author self-review of Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT (LoReFT)
+
+- Review: 20261019T121830Z-reft-low-rank-linear-subspace-representation-finetuning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:18:00Z
+- Finished UTC: 2026-10-19T12:18:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT (LoReFT) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 48d795aad1b243d36d73fd1c5b12ef24d3683edd.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning | data/curated/ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.yaml | maintained | Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT (LoReFT) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning | Validated history sidecar files. |
+| python3 reft-low-rank-linear-subspace-representation-finetuning-boundaries.py | passed | True | AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning | [PASS] Round 655 ReFT/LoReFT boundary and mathematical verification succeeded. |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.
+
+Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT (LoReFT) is a distinct concept.
+
+Distinct from weight-based PEFT methods such as LoRA (Hu et al., 2022), DoRA (Liu et al., 2024), and VeRA (Kopiczko et al., 2024), which modify weight matrices across all sequence positions and merge updates into weights, whereas ReFT/LoReFT never modifies weights and instead intervenes selectively on hidden representations at specific token positions P (e.g., p prefix and s suffix tokens). Also distinct from RED (Wu et al., 2024a) and (IA)^3 (Liu et al., 2022), which apply element-wise scaling and bias to activations at every token position rather than performing a rank-r orthogonal subspace replacement R^T (W h + b - R h) on a small subset of prompt positions.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in reft-low-rank-linear-subspace-representation-finetuning-boundaries.py passed with exit code 0: [PASS] Round 655 ReFT/LoReFT boundary and mathematical verification succeeded.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T121800Z-reft-low-rank-linear-subspace-representation-finetuning.json | supports | No normalized identity match for AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/reft-low-rank-linear-subspace-representation-finetuning-boundaries.py | supports | All constructed boundary assertions in reft-low-rank-linear-subspace-representation-finetuning-boundaries.py passed with exit code 0: [PASS] Round 655 ReFT/LoReFT boundary and mathematical verification succeeded. |
+| r655-primary-pdf | https://arxiv.org/pdf/2404.03592.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024)) read and verified. |
+| r655-arxiv-abs | https://arxiv.org/abs/2404.03592; arXiv abstract | supports | arXiv abstract read and verified. |
+| r655-metadata-cr | https://dblp.org/rec/conf/nips/WuAWGJMP24.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning in Round 655.
+- All pages of Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T121830Z-reft-low-rank-linear-subspace-representation-finetuning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Representation Finetuning (ReFT) and Low-Rank
+  Linear Subspace ReFT (LoReFT)
+started_at: '2026-10-19T12:18:00Z'
+finished_at: '2026-10-19T12:18:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT
+  (LoReFT) as a distinct DRAFT algorithm. All four claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 48d795aad1b243d36d73fd1c5b12ef24d3683edd
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/curated/ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.yaml
+    sha256: 4b3e74b2180bd70eaf79075847de638ad040db51ad1cca83ca551e49a2d09bce
+    role: target
+  - path: research/discovery/20261019T121800Z-reft-low-rank-linear-subspace-representation-finetuning.json
+    sha256: 2d742b4bc53a61ab7dc3e36ccde740415e81cac32babc1ec5b64637c1346ae64
+    role: context
+  - path: research/discovery/reft-low-rank-linear-subspace-representation-finetuning-boundaries.py
+    sha256: 33bf557137c9635dec8d3346c19dd6c67d166bc2a3cefe6d8aacc27b68e9eebf
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  path: data/curated/ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.yaml
+  label: Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT (LoReFT)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 reft-low-rank-linear-subspace-representation-finetuning-boundaries.py
+  command: python3 research/discovery/reft-low-rank-linear-subspace-representation-finetuning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 655 ReFT/LoReFT boundary and mathematical verification succeeded.'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T121800Z-reft-low-rank-linear-subspace-representation-finetuning.json
+  accessed_at: '2026-10-19T12:18:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:18:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/reft-low-rank-linear-subspace-representation-finetuning-boundaries.py
+  accessed_at: '2026-10-19T12:18:00Z'
+  snapshot_sha256: 33bf557137c9635dec8d3346c19dd6c67d166bc2a3cefe6d8aacc27b68e9eebf
+  support: supports
+  summary: 'All constructed boundary assertions in reft-low-rank-linear-subspace-representation-finetuning-boundaries.py
+    passed with exit code 0: [PASS] Round 655 ReFT/LoReFT boundary and mathematical
+    verification succeeded.'
+- evidence_id: r655-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2404.03592.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:18:00Z'
+  snapshot_sha256: 0a05f0a333aaa5a660fcd04ebe773904a880168480990dd5e42ab5e0ec56e32b
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 37 (NeurIPS
+    2024) (2024)) read and verified.
+- evidence_id: r655-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2404.03592
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:18:00Z'
+  snapshot_sha256: 145cfdb6a9e5affc6c170cb9e2f8833cf25a106d82da6435e1fa3da67b5c3900
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r655-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/nips/WuAWGJMP24.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:18:00Z'
+  snapshot_sha256: 549063275b279f6db7a6aa913d8884d6e6a462f1464446c5f880cacbc8097e8f
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  evidence_ids:
+  - identity
+  - r655-primary-pdf
+  - r655-arxiv-abs
+  - r655-metadata-cr
+  summary: Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT (LoReFT)
+    is a distinct concept.
+  details: Distinct from weight-based PEFT methods such as LoRA (Hu et al., 2022),
+    DoRA (Liu et al., 2024), and VeRA (Kopiczko et al., 2024), which modify weight
+    matrices across all sequence positions and merge updates into weights, whereas
+    ReFT/LoReFT never modifies weights and instead intervenes selectively on hidden
+    representations at specific token positions P (e.g., p prefix and s suffix tokens).
+    Also distinct from RED (Wu et al., 2024a) and (IA)^3 (Liu et al., 2022), which
+    apply element-wise scaling and bias to activations at every token position rather
+    than performing a rank-r orthogonal subspace replacement R^T (W h + b - R h) on
+    a small subset of prompt positions.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  evidence_ids:
+  - mapping
+  - r655-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  evidence_ids:
+  - r655-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in reft-low-rank-linear-subspace-representation-finetuning-boundaries.py
+    passed with exit code 0: [PASS] Round 655 ReFT/LoReFT boundary and mathematical
+    verification succeeded.'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  evidence_ids:
+  - identity
+  - mapping
+  - r655-primary-pdf
+  - r655-arxiv-abs
+  - r655-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning
+  in Round 655.
+- All pages of Advances in Neural Information Processing Systems 37 (NeurIPS 2024)
+  (2024) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parabolic Approximation Line Search · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Parabolic Approximation Line Search</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Parabolic Approximation Line Search</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ParabolicApproximationLineSearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PAL, PAL Optimizer, Parabolic Approximation Line Search for DNNs
+    </div>
+
+  <div class="detail-desc">
+    A stochastic line-search optimization algorithm for deep neural networks that at each step t defines a one-dimensional loss cross-section l_t(s) = L(x_t; theta_t + s d_t / ||d_t||_2) along a unit-normalized search direction d_t / ||d_t||_2 (where d_t = -grad_{theta_t} L(x_t; theta_t) + beta d_{t-1} with beta in [0, 1]), evaluates the current mini-batch loss l_t(0), directional derivative b = l&#39;_t(0) = grad_{theta_t} L(x_t; theta_t)^T d_t / ||d_t||_2, and one additional forward pass l_t(mu) at measuring step distance mu &gt; 0 on the same mini-batch (reusing any stochastic dropout masks), fits the exact interpolating 1D parabola l_hat_t(s) = a s^2 + b s + c with a = (l_t(mu) - l_t(0) - b mu) / mu^2 and c = l_t(0), and updates parameters by theta_{t+1} = theta_t + min(alpha s_upd, s_max) d_t / ||d_t||_2 where s_upd = -b / (2a) when a &gt; 0 and b &lt; 0, s_upd = mu when a &lt;= 0 and b &lt; 0, and s_upd = 0 otherwise.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from backtracking Armijo Stochastic Line Search (SLS, which requires the interpolation condition and checks sufficient decrease via variable numbers of forward passes), from linear loss-approximation step-size schemes (L4, ALIG), and from Gaussian-process Probabilistic Line Search (PLS): PAL uses a deterministic 2-forward-pass, 1-backward-pass 1D parabolic fit along unit-normalized negative-gradient or conjugate-like directions.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r624-parabolic-vertex-update-and-quadratic-exactness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given l_t(0), b = l&#39;_t(0) = grad L(x_t; theta_t)^T d_t / ||d_t||_2, and l_t(mu) at measuring distance mu &gt; 0 along unit direction u_t = d_t / ||d_t||_2, the quadratic coefficient a = (l_t(mu) - l_t(0) - b mu) / mu^2 satisfies 2a = l_hat&#39;&#39;_t(0), which equals the exact directional curvature u_t^T H u_t whenever L is quadratic, and for a &gt; 0, b &lt; 0 the vertex update s_upd = -b / (2a) = -l&#39;_t(0) mu^2 / (2 (l_t(mu) - l_t(0) - l&#39;_t(0) mu)) places theta_{t+1} at the exact 1D minimum where the new gradient is orthogonal (90 degrees) to u_t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r624-primary-pdf">Parabolic Approximation Line Search for DNNs</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Footnote 1 &amp; Figures 1-3, p. 3-4; Section 4.1 Eq. (2) &amp; Algorithm 1, p. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r624-case-discrimination-and-conjugate-direction-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To handle non-convex cross-sections and ill-conditioned curvature, PAL discriminates three curvature regimes — Case 1 (a &gt; 0, b &lt; 0: parabolic minimum s_upd = -b / (2a)), Case 2 (a &lt;= 0, b &lt; 0: concave or negatively sloped cross-section where l_t(mu) &lt; l_t(0), setting s_upd = mu), and Case 3 (b = 0: stationary point s_upd = 0) — while combining conjugate-like momentum direction adaptation d_t = -grad L(x_t; theta_t) + beta d_{t-1} (Eq. 3-4), step scaling alpha &gt;= 1, and step capping s_max.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r624-primary-pdf">Parabolic Approximation Line Search for DNNs</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.3, Eq. (3)-(4), p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r624-inexact-batch-line-search-and-non-interpolating-robustness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Empirical evaluation across over 4,500 trained networks on CIFAR-10/100 (DenseNet-40, EfficientNet-B0, ResNet-32, MobileNetV2), ImageNet (DenseNet-121, ResNet-50), and non-interpolating kernel/factorization benchmarks shows that PAL outperforms SLS, ALIG, SGD-HD, and COCOB without hand-tuned learning-rate schedules, and that slightly narrow inexact parabolic steps outperform 20-evaluation exact binary line search on mini-batch losses because the mini-batch line minimum overshoots the full empirical loss minimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r624-primary-pdf">Parabolic Approximation Line Search for DNNs</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.2 Figure 5, p. 6-7; Section 6-7 Figures 6-9, p. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r624-second-forward-pass-and-random-state-reuse-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PAL requires two forward passes and one backward pass per parameter update step (evaluating both l_t(0) and l_t(mu)), increasing per-step wall-clock time relative to standard first-order optimizers, and requires reusing identical random number generator states (such as dropout masks) across both forward passes to preserve continuity of l_t(s).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r624-primary-pdf">Parabolic Approximation Line Search for DNNs</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, p. 4; Section 5.2, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Incurs the computational cost of a second forward pass per iteration to evaluate l_t(mu) at measuring step distance mu.</li>
+      <li>Stochastic layers such as Dropout must reuse the exact same random draws during both forward evaluations l_t(0) and l_t(mu) within a step, otherwise stochastic noise corrupts the finite-difference curvature estimate a = (l_t(mu) - l_t(0) - b mu) / mu^2.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PAL is a line-search optimization algorithm specifically designed for automatic step-size selection in deep neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r624-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r624-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2020/file/3a30be93eb45566a90f4e95ee72a089a-Paper.pdf" target="_blank" rel="noopener">Parabolic Approximation Line Search for DNNs</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maximus Mutschler, Andreas Zell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/MutschlerZ20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d022f6c34a8b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r624-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r624-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2020/hash/3a30be93eb45566a90f4e95ee72a089a-Abstract.html" target="_blank" rel="noopener">Parabolic Approximation Line Search for DNNs (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maximus Mutschler, Andreas Zell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2020/hash/3a30be93eb45566a90f4e95ee72a089a-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:05a3d3f4bb32…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r624-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r624-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/MutschlerZ20" target="_blank" rel="noopener">Parabolic Approximation Line Search for DNNs (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Maximus Mutschler, Andreas Zell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/MutschlerZ20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:51894c8be41f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AParabolicApproximationLineSearch">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Parabolic Approximation Line Search" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ParabolicApproximationLineSearch</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Parabolic...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:47:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:47:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ParabolicApproximationLineSearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ParabolicApproximationLineSearch.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Parabolic%20Approximation%20Line%20Search"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AParabolicApproximationLineSearch"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

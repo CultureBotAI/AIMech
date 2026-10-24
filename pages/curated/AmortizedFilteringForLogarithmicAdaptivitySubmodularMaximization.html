@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amortized-Filtering and Iterative-Filtering for Optimal Logarithmic-Adaptivity Submodular Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Amortized-Filtering and Iterative-Filtering for Optimal Logarithmic-Adaptivity Submodular Maximization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Amortized-Filtering and Iterative-Filtering for Optimal Logarithmic-Adaptivity Submodular Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Balkanski-Rubinstein-Singer Amortized-Filtering Algorithm, Iterative-Filtering and Amortized-Filtering for Low-Adaptivity Submodular Maximization, Logarithmic-Adaptivity (1 - 1/e - epsilon) Submodular Maximization
+    </div>
+
+  <div class="detail-desc">
+    Amortized-Filtering and Iterative-Filtering for Optimal Logarithmic-Adaptivity Submodular Maximization is a parallel value-oracle algorithmic paradigm introduced by Balkanski, Rubinstein, and Singer (2018, 2019) for maximizing a monotone submodular function f : 2^N -&gt; R_+ subject to a cardinality constraint |S| &lt;= k in O(log n) adaptive rounds. Rather than adding single elements sequentially over k rounds, the algorithm adds blocks R ~ U(X, k/r) of size k/r in r = 20*epsilon^{-1}log_{1+epsilon/2}(n) iterations by filtering out elements a in X whose expected marginal contribution E_{R~U(X)}[f_{S union (R\{a})}(a)] falls below (1+epsilon/2)(1-epsilon)(OPT - f(S))/k while E_{R~U(X)}[f_S(R)] &lt; (1-epsilon)(OPT - f(S))/r, and amortizes the filtering rounds across 20/epsilon epochs (each bounded by f_S(T) &lt; (epsilon/20)(OPT - f(S))) so that at most log_{1+epsilon/2}(n) filtering steps occur per epoch, achieving the optimal (1 - 1/e - epsilon) approximation in O(epsilon^{-1}log_{1+epsilon/3} n) adaptive rounds.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:GreeDiTwoStageDistributedSubmodularMaximization (Round 359), which partitions data across MapReduce machines but runs sequential k-round greedy selection on each machine (Omega(k) adaptivity), and from AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization (Round 348), which reduces total oracle evaluations to O(n log(1/epsilon)) across k sequential rounds. Also distinct from AIMech:SieveStreamingAndSieveStreamingPlusPlusForSubmodularMaximization (Round 350), which is a single-pass streaming threshold algorithm achieving 1/2 - epsilon rather than a low-adaptivity parallel algorithm achieving 1 - 1/e - epsilon.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r360-claim-iterative-filtering-geometric-shrinkage-and-survival-value</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each non-terminating round i of Filter(N, S, r) (Algorithm 2) where E_{R~U(X_i, k/r)}[f_S(R)] &lt; (1 - epsilon)(OPT - f(S))/r, discarding all elements a with E_{R~U(X_i)}[f_{S union (R\{a})}(a)] &lt; (1 + epsilon/2)(1 - epsilon)(OPT - f(S))/k reduces the surviving candidate pool geometrically as |X_{i+1}| &lt; |X_i| / (1 + epsilon/2) (Lemma 3) while preserving a subset T of the optimal solution O among the surviving elements X_rho with marginal value f_S(X_rho) &gt;= (1/r)*(1 - epsilon)*(OPT - f(S)) whenever r &gt;= 20*rho*epsilon^{-1} (Lemmas 1-2), guaranteeing termination of Filter in at most log_{1+epsilon/2}(n) rounds (Lemma 4) and a (1 - 1/e - epsilon) approximation for Iterative-Filtering (Algorithm 1) in O(log^2 n) adaptive rounds (Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r360-primary-pdf">An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.3, Algorithms 1-2, Lemmas 1, 2, 3, and 4, and Theorem 1, pp. 4-8; Appendix C, pp. 18-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r360-claim-amortized-filtering-across-epochs-in-logarithmic-rounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Amortized-Filtering (Algorithm 3) partitions execution into at most 20/epsilon epochs during which the surviving pool X is reused across block additions T &lt;- T union R until f_S(T) &gt;= (epsilon/20)(OPT - f(S)) or |S union T| = k; because the solution value increases by at most (epsilon/20)(OPT - f(S_j)) within epoch j, surviving elements after rho filtering rounds satisfy f_{S_j^+}(X_rho) &gt;= (epsilon/4)(1 - epsilon)(OPT - f(S_j)) (Lemmas 5-6), bounding the total number of filtering rounds per epoch by at most log_{1+epsilon/2}(n) (Lemma 7) and achieving a (1 - 1/e - epsilon) approximation in at most 20*epsilon^{-1}*log_{1+epsilon/2}(n) + (epsilon/20)^{-1}*log_{1+epsilon/2}(n) = O(epsilon^{-1} log n) adaptive rounds (Theorem 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r360-primary-pdf">An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3, Algorithm 3, Lemmas 5, 6, and 7, and Theorem 2, pp. 8-10; Appendix D, pp. 20-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r360-claim-monte-carlo-marginal-estimation-and-parallel-opt-guessing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the full randomized algorithm Amortized-Filtering-Full (Algorithms 4-7), running log_{(1-epsilon/20)^{-1}}(n) parallel branches over geometric OPT guesses v_i = (1 + epsilon)^i * max_{a in N} f(a) and estimating E[f_S(R)] and E[f_{S union (R\{a})}(a)] in a single non-adaptive round via Hoeffding concentration with m = O(n*((k + log_{1+epsilon/3} n)/epsilon)^2 * log(n/delta)) uniform samples preserves geometric candidate shrinkage |X_{i+1}| &lt; |X_i|/(1 + epsilon/3) (Lemma 10) and obtains a (1 - 1/e - epsilon) approximation with probability at least 1 - delta in O(epsilon^{-1} log_{1+epsilon/3} n) adaptive steps and O(n*log_{(1-epsilon/20)^{-1}}(n)*((k + log_{1+epsilon/3} n)/epsilon)^2 * log(n/delta)) oracle queries per round (Lemmas 8-14 and Theorem 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r360-primary-pdf">An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Theorem 3, p. 10; Appendix E, Algorithms 4-7, Lemmas 8-14, and Proof of Theorem 3, pp. 23-30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Achieving the theoretical (1 - 1/e - epsilon) guarantee without knowing OPT or exact expectations requires O(n * log_{(1-epsilon/20)^{-1}}(n) * ((k + log n)/epsilon)^2 * log(n/delta)) parallel oracle queries per adaptive round (Theorem 3, p. 10) and does not directly bound per-machine memory in the MapReduce model (Appendix A.2.2, p. 17).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Enables logarithmic-round parallel submodular data summarization and clustering.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selects cardinality-constrained representative subsets in O(log n) adaptive parallel rounds.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r360-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r360-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1804.06355.pdf" target="_blank" rel="noopener">An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eric Balkanski, Aviad Rubinstein, Yaron Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1145/3188745.3188752</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a2f10b778f54…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r360-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r360-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1804.06355" target="_blank" rel="noopener">An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eric Balkanski, Aviad Rubinstein, Yaron Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1804.06355</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0fa2de0095ae…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r360-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r360-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1145/3188745.3188752" target="_blank" rel="noopener">An Exponential Speedup in Parallel Running Time for Submodular Maximization without Loss in Approximation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eric Balkanski, Aviad Rubinstein, Yaron Singer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1145/3188745.3188752</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:120c44f8b29a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AAmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Amortized-Filtering and Iterative-Filtering for Optimal Logarithmic-Adaptivity Submodular Maximization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Amortized-Filtering...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:Clustering (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:23:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:23:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Amortized-Filtering%20and%20Iterative-Filtering%20for%20Optimal%20Logarithmic-Adaptivity%20Submodular%20Maximization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AAmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

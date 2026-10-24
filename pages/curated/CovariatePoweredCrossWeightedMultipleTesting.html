@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Covariate-powered cross-weighted multiple testing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+    <span>/</span>
+    <strong>Covariate-powered cross-weighted multiple testing</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Covariate-powered cross-weighted multiple testing</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:CovariatePoweredCrossWeightedMultipleTesting</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Independent Hypothesis Weighting (IHW), Cross-Weighted Benjamini-Hochberg Procedure (IHW-BH), Cross-Weighted Storey Benjamini-Hochberg Procedure (IHW-Storey), IHW-Grenander Covariate-Weighted Multiple Testing
+    </div>
+
+  <div class="detail-desc">
+    A covariate-assisted multiple-testing methodology (Ignatiadis &amp; Huber 2021, Journal of the Royal Statistical Society: Series B 83(4):720-751, arXiv:1701.05179) that learns data-driven hypothesis weights W_i &gt;= 0 from side information X_i via K-fold sample splitting across hypotheses (cross-weighting) to maximize discovery power while controlling the false discovery rate (FDR) or k-familywise error rate (k-FWER). Hypotheses [m] are partitioned into K disjoint folds I_1, ..., I_K; for each i in I_ell, an out-of-fold weight function W_hat^{-ell} is fit using only (P_j, X_j)_{j notin I_ell}, evaluated at X_i, and normalized within fold I_ell so that sum_{i in I_ell} W_i = |I_ell| (Specification 1, honest weighting). Combined with tau-censoring (Specification 2, where weights depend on out-of-fold p-values only through P_j * 1{P_j &gt; tau}) and weighted Storey fold null-proportion adjustments, cross-weighting guarantees finite-sample FDR control under independence (Theorems 1-2), asymptotic FDR control without tau-censoring and zero asymptotic power loss from fold splitting under the conditional two-groups model (Proposition 1, Corollary 2), and finite-sample k-FWER and Benjamini-Yekutieli FDR control under block dependence when folds align with independent dependence blocks (Theorems 3-4).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No normalized identity match for covariate-powered cross-weighted multiple testing or Independent Hypothesis Weighting (IHW) across all 442 pinned AIO records and 587 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches across data, sources, research, history, and reviews returned only frontier references in prior discovery reports. Distinct from AIMech:AdaptivePValueThresholding (Lei &amp; Fithian 2018, AdaPT), which iteratively shrinks a coordinatewise rejection threshold s_t(x_i) using full-sample mirror-masked p-values min(P_i, 1 - P_i) rather than learning out-of-fold cross-weights W_i = W_hat^{-ell}(X_i) for weighted Benjamini-Hochberg, weighted Storey, weighted k-Bonferroni, or weighted Benjamini-Yekutieli procedures via Grenander least-concave-majorant linear programming; distinct from AIMech:SelectivelyTraversedAccumulationRulesForStructuredFDRControl (Lei, Ramdas, &amp; Fithian 2021, STAR), which enforces combinatorial structural constraints R_t in K by interactive filtration peeling with accumulation functions h(p); and distinct from AIMech:ConditionalCalibrationForFalseDiscoveryRateControl (Fithian &amp; Lei 2022, dBH), which calibrates hypothesis-specific thresholds under known conditional null distributions rather than learning out-of-fold covariate weights from side information X_i.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#honest-tau-censored-cross-weighting-finite-sample-fdr-control-and-uncensored-counterexample</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumption 1 (null p-values independent of each other and of non-null p-values given covariates X and super-uniform on [0, 1]), partitioning [m] into K disjoint folds I_1, ..., I_K and learning honest weights W_i = W_hat^{-ell}(X_i) &gt;= 0 from (P_j, X_j)_{j notin I_ell} normalized within each fold (sum_{i in I_ell} W_i = |I_ell|, Specification 1) that are tau-censored (depending on out-of-fold p-values only through P_j * 1{P_j &gt; tau}, Specification 2) guarantees finite-sample FDR &lt;= alpha for tau-censored weighted Benjamini-Hochberg (Theorem 1, Corollary 1) and for null-proportion-adaptive weights W_i / pi_hat&#39;_{0,W,ell} where pi_hat&#39;_{0,W,ell} = (max_{i in I_ell} W_i + sum_{i in I_ell} W_i 1{P_i &gt; tau}) / (|I_ell| (1 - tau)) via the Inverse Binomial Lemma (Theorem 2, Supplement S1.2 and S1.4); in contrast, naive full-sample Grouped BH (Algorithm 1) overfits under the global null as the number of groups G grows (Section 2.2, Fig. 2), and omitting tau-censoring allows an m = 4 adversarial honest cross-weighting rule to achieve exact FDR = alpha * (1 + alpha * (1 - alpha) / 2) &gt; alpha (Supplement S1.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ignatiadis2021-ihw-cross-weighting-ar5iv">Covariate powered cross-weighted multiple testing</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2–2.3, lines 166–260, Algorithms 1–2, Figure 2; Section 3.1, lines 296–415, Assumption 1, Definitions 1–2, Specifications 1–3, Theorems 1–2, Corollary 1; Supplement S1.1–S1.4, lines 960–1255</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ignatiadis2021-ihw-cross-weighting-abs">Covariate powered cross-weighted multiple testing (arXiv:1701.05179 Abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract (cross-weighting fold-splitting mechanism and finite-sample FDR guarantees)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#asymptotic-consistency-without-tau-censoring-and-zero-power-loss-from-fold-splitting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the conditional two-groups model (Assumption 3, (X_i, H_i, P_i) i.i.d. with strictly positive null proportion pi_0 and continuous conditional CDF F(t | x)), a naive full-sample weighting rule taking values in a bounded function class (Specification 7) can overfit small p-values and fail to control FDR asymptotically (liminf_{m -&gt; infinity} FDR &gt;= 1 - 2.2 delta / alpha &gt; alpha, Proposition 1(a), Supplement S2.1), whereas cross-weighted IHW-BH with any Specification-7 weight learner controls FDR asymptotically without tau-censoring (tau = 1) via conditional Dvoretzky-Kiefer-Wolfowitz concentration (Proposition 1(b), Supplement S2.2), and achieves the exact same asymptotic rejection threshold t^*(W^*) and asymptotic power as full-sample or oracle W^* weighting whenever ||W_hat^{([m])} - W^*||_infinity -&gt; 0 in probability (Proposition 1(c), Corollary 2, Supplement S2.3–S2.4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ignatiadis2021-ihw-cross-weighting-ar5iv">Covariate powered cross-weighted multiple testing</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, lines 416–482, Assumption 3, Specifications 6–7, Proposition 1, Corollary 2; Supplement S2.1–S2.4, lines 1356–1640</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ignatiadis2021-ihw-cross-weighting-crossref">Covariate powered cross-weighted multiple testing (JRSS-B Record)</a></span>
+        <span>· <strong>Locator:</strong> JRSS-B 83(4):720–751 publication record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#block-dependent-fold-partitioning-for-finite-sample-kfwer-and-ihw-by-fdr-control</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumption 2 (where hypotheses are partitioned into K folds I_1, ..., I_K such that p-values and covariates in different folds are mutually independent while arbitrary dependence is permitted within each fold, e.g., linkage disequilibrium blocks or chromosomes in genomics), honest cross-weighting ensures each null p-value P_i (i in H_0 intersect I_ell) is independent of the entire in-fold weight vector (W_k)_{k in I_ell} without requiring tau-censoring (Lemma 1(a)), guaranteeing finite-sample k-FWER &lt;= alpha for weighted k-Bonferroni (Theorem 3, Supplement S1.6) and finite-sample FDR &lt;= alpha for weighted Benjamini-Yekutieli (Theorem 4, Supplement S1.5); conversely, under the same block-dependence assumption, dishonest data-driven weighted BY can suffer FDR = 1 (Example 1) and AdaPT with BY correction and tau-censoring (tau = 0.45) suffers FDR &gt;= 0.2925 at alpha = 0.10 (Example 2, Section 3.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ignatiadis2021-ihw-cross-weighting-ar5iv">Covariate powered cross-weighted multiple testing</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, lines 483–550, Assumption 2, Lemma 1(a), Theorems 3–4, Examples 1–2; Supplement S1.5–S1.6, lines 1256–1355</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#grenander-least-concave-majorant-convex-weight-optimization-and-sparse-superuniform-robustness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To learn informative weights in each out-of-fold training set [m] \ I_ell, IHW discretizes X_i into G bins, estimates the conditional p-value CDF F_hat^{-ell}(t | g) in each bin via the nonparametric Grenander estimator (the least concave majorant of the empirical CDF, corresponding to the non-increasing density NPMLE), and solves a convex linear program (or exact O(m log m) KKT slope-sorting procedure, Algorithm 5) with optional total-variation or uniform-deviation regularization to maximize expected discoveries subject to the fold budget constraint (Section 4, Equations 8–12; Supplement S4.1–S4.2); unlike mirror-reflection masking methods such as AdaPT—which require at least ceil(1 / alpha) rejections to make any discovery and lose power when true alternatives are sparse (m_1 &lt; 1 / alpha) or null p-values are strictly super-uniform near 1—IHW-Grenander maintains high discovery power in both regimes (Section 5.2, &#39;Breaking AdaPT&#39;).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ignatiadis2021-ihw-cross-weighting-ar5iv">Covariate powered cross-weighted multiple testing</a></span>
+        <span>· <strong>Locator:</strong> Section 4, lines 551–715, Equations 8–12; Section 5.2, lines 755–805 (&#39;Breaking AdaPT&#39;); Supplement S4.1–S4.2, lines 1675–1835, Equations 47–49, Algorithm 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite-sample FDR control in Theorems 1 and 2 requires mutual independence of null p-values and independence between null and non-null p-values conditional on covariates (Assumption 1), together with both within-fold weight normalization (Specification 1) and tau-censoring of out-of-fold p-values at a pre-specified threshold tau (Specification 2); omitting tau-censoring allows adversarial honest weighting rules to exceed alpha in finite samples (Supplement S1.3).</li>
+      <li>Under dependence (Assumption 2, Theorems 3 and 4), finite-sample k-FWER and IHW-BY FDR guarantees require that the fold partition I_1, ..., I_K be constructed from domain knowledge so that hypotheses in different folds are genuinely independent (such as separate chromosomes or distant genomic blocks); random fold assignment does not decouple dependent p-values across folds (Section 3.3, Section 6.2).</li>
+      <li>Out-of-fold Grenander least-concave-majorant weight learning requires partitioning the covariate space X into G discrete bins or trees with sufficient hypotheses per bin to estimate the conditional p-value distribution accurately, making direct nonparametric estimation challenging for high-dimensional covariates without tree or regression-based binning (Section 4, Section 7).</li>
+      <li>All 2,154 lines of Ignatiadis &amp; Huber (2021, JRSS-B 83(4):720-751, arXiv:1701.05179v7) were read. Constructed numerical checks in research/discovery/covariate-powered-cross-weighted-multiple-testing-boundaries.py verify (1) Supplement S1.3 exact uncensored honest counterexample FDR (0.216 vs. Monte Carlo 0.212 &gt; 0.20, restored to 0.2023 &lt;= 0.20 under tau-censoring), Section 2.2 naive GBH global-null overfitting (0.2533 vs. IHW-GBH 0.065 &lt;= 0.10), and Theorem 1/2 power gains (IHW-Storey 0.8891 &gt; IHW-BH 0.8148 &gt; unweighted BH 0.7487), (2) Proposition 1(a) full-sample Specification-7 overfitting (FDR = 0.7674 &gt; 0.15) vs. Proposition 1(b) uncensored cross-weighted FDR control (0.1331 &lt;= 0.15) and Proposition 1(c)/Corollary 2 convergence to oracle W* power (0.3954 vs. oracle 0.4006, gap 0.00522), (3) Example 1 dishonest wBY failure (FDR = 1.0) and Example 2 AdaPT-BY failure (exact bound 0.2925, MC 0.2938 &gt; 0.10) vs. Theorem 3 IHW-k-Bonferroni k-FWER control (0.016 &lt;= 0.10, power 0.8829 &gt; 0.7881) and Theorem 4 IHW-BY FDR control (0.0083 &lt;= 0.10, power 0.8709 &gt; 0.7551), and (4) Section 4/5.2 Grenander KKT concavity (violation 0.0) and sparse/super-uniform robustness where IHW-Grenander achieves power 0.8375 (FDR 0.0454 &lt;= 0.05) while AdaPT has power 0.0 due to its ceil(1/alpha) = 20 minimum-rejection floor.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DataDredgingBias.html" style="font-weight: 600;"><code>AIO:DataDredgingBias</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Dredging Bias</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            IHW prevents in-sample weight overfitting and false-discovery inflation (AIO:DataDredgingBias) when learning covariate-dependent hypothesis weights by fitting weight functions strictly out of fold across K disjoint hypothesis folds.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-ignatiadis2021-ihw-cross-weighting-ar5iv">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ignatiadis2021-ihw-cross-weighting-ar5iv</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1701.05179" target="_blank" rel="noopener">Covariate powered cross-weighted multiple testing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikolaos Ignatiadis, Wolfgang Huber
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1111/rssb.12411</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:601c70dd0eba…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ignatiadis2021-ihw-cross-weighting-crossref">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ignatiadis2021-ihw-cross-weighting-crossref</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1111/rssb.12411" target="_blank" rel="noopener">Covariate powered cross-weighted multiple testing (JRSS-B Record)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikolaos Ignatiadis, Wolfgang Huber
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1111/rssb.12411</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:337575490989…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ignatiadis2021-ihw-cross-weighting-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ignatiadis2021-ihw-cross-weighting-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1701.05179" target="_blank" rel="noopener">Covariate powered cross-weighted multiple testing (arXiv:1701.05179 Abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikolaos Ignatiadis, Wolfgang Huber
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1701.05179</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2c863b983bbb…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ACovariatePoweredCrossWeightedMultipleTesting">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Covariate-powered cross-weighted multiple testing" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Mathematical Methods</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:CovariatePoweredCrossWeightedMultipleTesting</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Covariate-powered...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:DataDredgingBias (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini 3</div>    <div><strong>Created:</strong> 2026-10-17T14:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-17T14:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CovariatePoweredCrossWeightedMultipleTesting.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CovariatePoweredCrossWeightedMultipleTesting.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Covariate-powered%20cross-weighted%20multiple%20testing"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ACovariatePoweredCrossWeightedMultipleTesting"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

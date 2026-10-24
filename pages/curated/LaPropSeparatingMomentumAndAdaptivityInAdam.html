@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LaProp (Decoupled Momentum and Adaptivity Optimizer) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>LaProp (Decoupled Momentum and Adaptivity Optimizer)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LaProp (Decoupled Momentum and Adaptivity Optimizer)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LaPropSeparatingMomentumAndAdaptivityInAdam</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LaProp Optimizer, LaProp Separating Momentum and Adaptivity in Adam, LaPropW and AmsProp and Centered LaProp
+    </div>
+
+  <div class="detail-desc">
+    An adaptive first-order stochastic optimization algorithm that decouples parameter-space momentum from root-mean-square gradient adaptivity by normalizing the current gradient by its bias-corrected second-moment estimate prior to accumulating momentum. Given momentum parameter mu in [0, 1), adaptivity parameter nu in [0, 1), and bias correction factors c_m = 1 - mu^t and c_n = 1 - nu^t, LaProp updates n_t = nu n_{t-1} + (1 - nu) g_t^2, m_t = mu m_{t-1} + (1 - mu) g_t / (sqrt(n_t / c_n) + eps), and theta_{t+1} = theta_t - lambda_t m_t / c_m, bersama with decoupled-weight-decay (LaPropW), monotonic-second-moment (AmsProp), and variance-centered (Centered LaProp) extensions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam (Kingma and Ba 2015) and ADOPT (AIMech:AdoptModifiedAdamOptimalConvergenceAnyBeta2): in the generalized adaptive update theta_{t+1} = theta_t - lambda_t G_t nabla l(theta_t) + mu_t K_t (theta_t - theta_{t-1}) (Eq. 2), Adam induces K_t = H_t^{-1} H_{t-1} (reweighting past parameter momentum by the current preconditioner and diverging when nu -&gt; 0 with mu &gt; 0), whereas LaProp sets K_t = I by normalizing g_t with contemporaneous bias-corrected sqrt(n_t / c_n) + eps before momentum accumulation (unlike ADOPT, which uses the lagged un-bias-corrected v_{t-1}). Originally circulated as &#39;LaProp: a Better Way to Combine Momentum with Adaptive Gradient&#39; (v1) and revised as &#39;LaProp: Separating Momentum and Adaptivity in Adam&#39; (v3).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#parameter-space-momentum-decoupling-and-signed-gradient-interpolation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the generalized adaptive framework theta_{t+1} = theta_t - lambda_t G_t nabla l(theta_t) + mu_t K_t (theta_t - theta_{t-1}) (Eq. 2, p. 3), Adam has K_t = H_t^{-1} H_{t-1} (Eq. 6), which causes accumulated parameter-space momentum to vanish when a single exploding gradient enlarges H_t and yields infinite update variance Var[lim_{nu-&gt;0} m_t / sqrt(n_t)] = infty when nu -&gt; 0 and mu &gt; 0 (Eq. 8, p. 4); LaProp sets K_t = I (Eq. 7) and smoothly interpolates to Signed Stochastic Gradient with Momentum theta_{t+1} = theta_t - (1 - mu) lambda_t sgn(nabla l(theta_t)) + mu (theta_t - theta_{t-1}) as nu -&gt; 0 (Section 3, Table 1, p. 4-5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r605-primary-pdf">LaProp: Separating Momentum and Adaptivity in Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2-3.2, Eqs. 2-8 and Table 1, p. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#unconditional-update-bound-proposition-1-versus-adam-proposition-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Proposition 1 (Section 4, p. 6; Appendix A.1, Eqs. 10-12, p. 14) proves that the bias-corrected LaProp update magnitude is unconditionally bounded above by |m_t / c_m(t)| &lt;= 1 / sqrt(1 - nu) for all mu, nu in [0, 1) independently of mu, whereas Proposition 2 (p. 6; Appendix A.2, Eqs. 13-15, p. 14) shows that Adam&#39;s update bound |(m_t / c_m(t)) / sqrt(n_t / c_n(t))| &lt;= 1 / (sqrt(1 - nu)(1 - gamma)) with gamma = mu / sqrt(nu) holds only in the restricted regime mu &lt; sqrt(nu).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r605-primary-pdf">LaProp: Separating Momentum and Adaptivity in Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Propositions 1-2, p. 6; Appendix A.1-A.2, Eqs. 10-15, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#convex-regret-bound-without-mu-sqrt-nu-coupling-theorem-1</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under convex objectives with bounded gradients ||nabla l_t(theta)||_infty &lt;= G_infty, bounded iterate diameter ||theta_{t1} - theta_{t2}||_infty &lt;= D, decaying stepsizes lambda_t = lambda / sqrt(t), and s_{t+1} / lambda_{t+1} &gt;= s_t / lambda_t where s_t = sqrt(n_t / c_n), Theorem 1 (Section 4, Eq. 9, p. 6; Appendix A.3, Eqs. 16-26, p. 15-17) proves O(sqrt(T)) regret for LaProp across all mu, nu in [0, 1), replacing Adam/AMSGrad&#39;s coupled factor 1 / ((1 - mu)(1 - mu/sqrt(nu))) with 1 / ((1 - mu)(1 - nu)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r605-primary-pdf">LaProp: Separating Momentum and Adaptivity in Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Theorem 1 and Eq. 9, p. 6-7; Appendix A.3, Eqs. 16-26, p. 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#noisy-rosenbrock-extreme-depth-mlp-transformer-and-atari-benchmarks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    LaProp converges across the full adaptivity range nu in [0, 1) on high-noise Rosenbrock optimization and VGG-19 neural style transfer where Adam and AMSGrad diverge at small nu, trains 500-layer and 1000-layer ReLU networks on MNIST, accelerates IWSLT14 De-En and Wikipedia RoBERTa transformer training, and achieves higher Rainbow DQN rewards across 20 Atari-2600 games.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r605-primary-pdf">LaProp: Separating Momentum and Adaptivity in Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.5, Figures 2-6, p. 7-10; Appendix C, Figures 7-15, p. 20-27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#non-decreasing-preconditioner-ratio-assumption-and-centered-instability</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1&#39;s regret guarantee still relies on the monotonicity assumption s_{t+1,i} / lambda_{t+1} &gt;= s_{t,i} / lambda_t (unless enforced via the AmsProp maximum operation in Algorithm 3, which empirically degrades early-stage speed), and the Centered LaProp extension (Algorithm 4, Appendix B.5, p. 19) is unstable during initial steps t &lt; t_init and diverges under a constant non-zero gradient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r605-primary-pdf">LaProp: Separating Momentum and Adaptivity in Adam</a></span>
+        <span>· <strong>Locator:</strong> Section 4, p. 7; Appendix A.3, p. 17; Appendix B.4-B.5, Algorithms 3-4, p. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Theoretical convex regret guarantees in Theorem 1 require the non-decreasing preconditioner-to-stepsize ratio assumption s_{t+1,i}/lambda_{t+1} &gt;= s_{t,i}/lambda_t unless paired with AmsProp&#39;s running maximum.</li>
+      <li>The Centered LaProp variant (Algorithm 4) can diverge when gradients are constant and requires an uncentered warmup phase t &lt; t_init to avoid early-iteration instability.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LaProp is an adaptive stochastic gradient method for training deep artificial neural networks, transformers, and reinforcement learning agents.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r605-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r605-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2002.04839" target="_blank" rel="noopener">LaProp: Separating Momentum and Adaptivity in Adam</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liu Ziyin, Zhikang T. Wang, Masahito Ueda
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2002-04839</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8e5ee53e142c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r605-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r605-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.04839" target="_blank" rel="noopener">LaProp: Separating Momentum and Adaptivity in Adam (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liu Ziyin, Zhikang T. Wang, Masahito Ueda
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.04839</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9a269ee73f51…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r605-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r605-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-2002-04839" target="_blank" rel="noopener">LaProp: Separating Momentum and Adaptivity in Adam (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liu Ziyin, Zhikang T. Wang, Masahito Ueda
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-2002-04839</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:00faf5dbe131…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ALaPropSeparatingMomentumAndAdaptivityInAdam">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for LaProp (Decoupled Momentum and Adaptivity Optimizer)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:LaPropSeparatingMomentumAndAdaptivityInAdam</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">LaProp (Decoupled...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:28:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:28:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LaPropSeparatingMomentumAndAdaptivityInAdam.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LaPropSeparatingMomentumAndAdaptivityInAdam.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=LaProp%20%28Decoupled%20Momentum%20and%20Adaptivity%20Optimizer%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ALaPropSeparatingMomentumAndAdaptivityInAdam"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

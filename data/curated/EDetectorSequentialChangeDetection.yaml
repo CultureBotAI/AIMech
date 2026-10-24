@@ -1,0 +1,204 @@
+id: AIMech:EDetectorSequentialChangeDetection
+name: E-detector nonparametric sequential change detection
+aliases:
+- E-Detector
+- P-e-detector
+- Shiryaev-Roberts E-Detector (e-SR)
+- CUSUM E-Detector (e-CUSUM)
+- Adaptive Mixture E-Detector
+concept_kind: mathematical_method
+definition: 'A nonparametric, nonasymptotic sequential changepoint detection framework (Shin, Ramdas,
+  & Rinaldo 2024) defined with respect to a composite pre-change class of distributions P over possibly
+  dependent, non-stationary data streams by any nonnegative adapted process M = {M_n}_{n>=0} satisfying
+  E_{P,infinity}[M_tau] <= E_{P,infinity}[tau] for all P in P and all stopping times tau (Definition 2.2),
+  constructed by summing (Shiryaev-Roberts e-detector M_n^SR = sum_{j=1}^n Lambda_n^(j)) or maximizing
+  (CUSUM e-detector M_n^CU = max_{1<=j<=n} Lambda_n^(j)) sequential e_j-processes Lambda^(j) started at
+  consecutive candidate changepoints j >= 1 (Definitions 2.5–2.6), so that declaring a changepoint at
+  N^* = inf{n >= 1 : M_n >= 1/alpha} provably controls the nonasymptotic Average Run Length (ARL) at E_{P,infinity}[N^*]
+  >= 1/alpha for any alpha in (0, 1) without i.i.d. or parametric likelihood assumptions (Theorem 2.4).'
+identity_notes: No normalized identity match for E-detector nonparametric sequential change detection
+  across all 442 pinned AIO records and 573 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only lines in Round 178 discovery
+  artifacts where Shin, Ramdas, & Rinaldo (2022/2024, arXiv:2203.03532) was queued as a pending frontier
+  lead. Distinct from AIMech:UniversalInferenceSplitLikelihoodRatioTest (Wasserman, Ramdas, & Balakrishnan
+  2020), AIMech:EValueCalibrationAndMerging (Vovk & Wang 2021), and AIMech:EValueBenjaminiHochbergProcedure
+  (Wang & Ramdas 2022), which address fixed-sample or anytime-valid null hypothesis testing and multiple
+  testing rather than sequential changepoint detection with nonasymptotic Average Run Length (ARL) control
+  E_{P,infinity}[N^*] >= 1/alpha and worst-case Lorden/Pollak post-change detection delay bounds.
+definition_evidence:
+- source_id: shin-ramdas-rinaldo2024-edetectors
+  locator: Section 2, lines 80–144, Definition 2.2 (P-e-detector), Proposition 2.3, Theorem 2.4 (ARL control),
+    Definition 2.5 (e_j-process), Definition 2.6 (SR and CUSUM e-detectors), Definitions 2.8–2.12; Appendix
+    A.1, lines 968–973
+  relation: supports
+- source_id: wasserman2020-universal-inference
+  locator: Section 8, lines 279–324 (non-anticipating running-MLE martingales and sequential testing motivation
+    for composite change detection)
+  relation: supports
+claims:
+- claim_id: nonasymptotic-arl-control-and-baseline-increment-recursions-for-esr-and-ecusum
+  kind: mechanism
+  statement: 'For any sequence of e_j-processes {Lambda^(j)}_{j>=1} satisfying E_{P,infinity}[Lambda_tau^(j)
+    | F_{j-1}] <= 1 on {tau >= j}, the Shiryaev-Roberts e-detector M_n^SR = sum_{j=1}^n Lambda_n^(j) and
+    CUSUM e-detector M_n^CU = max_{1<=j<=n} Lambda_n^(j) satisfy 0 <= M_n^CU <= M_n^SR and E_{P,infinity}[M_tau]
+    <= E_{P,infinity}[tau] for every stopping time tau and every P in P (Definitions 2.2, 2.5, 2.6), so
+    the stopping rule N^* = inf{n >= 1 : M_n >= 1/alpha} guarantees nonasymptotic Average Run Length (ARL)
+    E_{P,infinity}[N^*] >= 1/alpha without i.i.d. or stationarity assumptions (Theorem 2.4); when each
+    Lambda_n^(j) = prod_{i=j}^n L_i is formed from a common baseline increment L_n satisfying E_{P,infinity}[L_n
+    | F_{n-1}] <= 1 (Definitions 2.8–2.9), M_n^SR = (M_{n-1}^SR + 1) L_n and M_n^CU = max(M_{n-1}^CU,
+    1) L_n admit O(1)-time online updates (Definition 2.11), and under stationary post-change observations
+    with E_{0,Q}[log L_1] > 0 their Lorden worst-case average delay satisfies J_L(N_SR^*) <= J_L(N_CU^*)
+    <= log(1/alpha)/E_{0,Q}[log L_1] + E_{0,Q}[(log L_1)_+^2]/(E_{0,Q}[log L_1])^2 (Proposition 2.14).'
+  evidence:
+  - source_id: shin-ramdas-rinaldo2024-edetectors
+    locator: Section 2, lines 80–144, Definitions 2.2, 2.5–2.6, 2.8–2.12, Proposition 2.3, Theorem 2.4,
+      and Section 2.7 Proposition 2.14; Appendix A.1, lines 968–993
+    relation: supports
+- claim_id: finite-and-adaptive-infinite-mixtures-with-logarithmic-scheduling-complexity
+  kind: mechanism
+  statement: 'Any probability mixture int M^a d mu(a) of e-detectors remains a valid e-detector (Proposition
+    2.3), and for countably infinite families of baseline increments {L_n(k)}_{k>=1} with weights sum_{k>=1}
+    omega_k = 1, introducing a nondecreasing scheduling function K: N -> N with generalized inverse K^(-1)(k)
+    = inf{j >= 1 : K(j) >= k} and adaptive renormalization factor gamma_j = 1 / sum_{k=1}^{K(j)} omega_k
+    >= 1 defines the adaptive SR and CUSUM e-detectors M_n^aSR = sum_{k=1}^{K(n)} omega_k M_n^aSR(k) and
+    M_n^aCU = sum_{k=1}^{K(n)} omega_k M_n^aCU(k) via the O(K(n))-time recursions M_n^aSR(k) = (M_{n-1}^aSR(k)
+    + gamma_n) L_n(k) and M_n^aCU(k) = max(M_{n-1}^aCU(k), gamma_n) L_n(k) for n >= K^(-1)(k) (Equations
+    29–32), which preserve E_{P,infinity}[M_tau^aSR] <= sum_{j=1}^tau gamma_j sum_{k=1}^{K(j)} omega_k
+    = E_{P,infinity}[tau] (Proposition 3.3) and satisfy worst-case delay bounds min_{j>=1}[E_{0,Q} N_{1/alpha}(j)
+    + m + j - 1] with O(m log_eta n) per-step time and memory when K(n) = K_L + floor(m log_eta n) (Theorem
+    3.4, Equation 61).'
+  evidence:
+  - source_id: shin-ramdas-rinaldo2024-edetectors
+    locator: Section 3 (bytes 46080–92160, lines 36–82), Equations 25–41, Proposition 3.3, Theorem 3.4;
+      Section 4.2, Equation 61; Appendix A.2, lines 996–1009
+    relation: supports
+- claim_id: exponential-baseline-convex-conjugate-divergence-and-minimax-rate-optimal-delay
+  kind: mechanism
+  statement: For exponential baseline increments L_n^(lambda) = exp(lambda s(X_n) - psi(lambda) v(X_n))
+    with strictly convex cumulant-like function psi on Pi subset R (Definition 4.1), the oracle drift
+    under post-change distribution Q with mu = E_{0,Q}[s(X_1)], sigma^2 = E_{0,Q}[v(X_1)], and Delta^op
+    = mu/sigma^2 equals D(Q || P) = max_{lambda in Pi} E_{0,Q}[log L_1^(lambda)] = sigma^2 psi^*(Delta^op)
+    at lambda^op = grad psi^*(Delta^op) where psi^* is the convex conjugate of psi (Proposition 4.2);
+    geometric Chernoff-tangent grid mixtures over known bounds Delta_L < Delta^op < Delta_U (Algorithms
+    1 & 3) or time-varying poly-stitching boundaries without minimum separation (Algorithm 2, Lemma 4.5,
+    Corollary 4.6) control ARL at >= 1/alpha while bounding Lorden and Pollak worst-case delays by g_alpha
+    / D(Q || P) + E_{0,Q}[(log L_1^(lambda^op))_+^2] / D(Q || P)^2 + 1 = O(log(1/alpha) / D(Q || P)) as
+    alpha -> 0 (Theorem 4.3, Proposition B.2), matching the minimax lower-bound rate O(log(1/alpha)/KL(Q
+    || P)) in exponential families.
+  evidence:
+  - source_id: shin-ramdas-rinaldo2024-edetectors
+    locator: Section 4 (bytes 46080–92160, lines 84–156), Definition 4.1, Proposition 4.2, Theorem 4.3,
+      Remark 4.4, Lemma 4.5, Corollary 4.6; Appendix B.1, lines 1013–1089, Lemma B.1 and Proposition B.2
+    relation: supports
+- claim_id: nonparametric-bounded-mean-betting-increments-and-generalized-lorden-reduction
+  kind: application
+  statement: For bounded observations X_n in [0, 1] with time-varying dependent pre-change conditional
+    means E_{P,infinity}[X_n | F_{n-1}] <= m, the variational KL_inf representation yields the betting
+    baseline increment L_n^lambda = 1 + lambda(X_n/m - 1) for lambda in (0, 1) (Section 5.2 Eq. 70), which
+    is pointwise lower bounded by the sub-exponential baseline increment L_tilde_n^lambda = exp(lambda(X_n/m
+    - 1) - psi_E(lambda)(X_n/m - 1)^2) with psi_E(lambda) = -log(1 - lambda) - lambda and psi_E^*(u) =
+    u - log(1 + u) (Equations 72–76); furthermore, Lorden's (1971) reduction of change detection to sequential
+    tests {phi^(j)}_{j>=1} is recovered as the special e-detector Lambda_t^Lorden = phi_t / alpha without
+    requiring i.i.d. data or identical tests (Section 6.2, Lemma 6.1), whereas e-SR additively pools evidence
+    across consecutive start times j so that M_n^SR >= M_n^CU deterministically and N_SR^* <= N_CU^* at
+    threshold 1/alpha.
+  evidence:
+  - source_id: shin-ramdas-rinaldo2024-edetectors
+    locator: Section 5.1–5.2 (bytes 92160–131897, lines 1–52), Equations 65–76; Section 6.1–6.2 (bytes
+      92160–131897, lines 67–87), Lemma 6.1 (Generalized Lorden's Lemma)
+    relation: supports
+  - source_id: vovk-wang2021-evalues
+    locator: Section 2, lines 139–196 (game-theoretic betting interpretation of e-variables and nonnegative
+      supermartingales)
+    relation: supports
+evidence_sources:
+- source_id: shin-ramdas-rinaldo2024-edetectors
+  title: 'E-detectors: A nonparametric framework for sequential change detection'
+  authors:
+  - Jaehyeok Shin
+  - Aaditya Ramdas
+  - Alessandro Rinaldo
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2203.03532
+  persistent_id: https://doi.org/10.51387/23-NEJSDS51
+  version: arXiv:2203.03532 (published in The New England Journal of Statistics in Data Science 2(2):229–260,
+    2024; online December 2023). Complete full-text ar5iv HTML conversion read across Sections 1–6 and
+    Appendices A–B (1,104 lines, 156,515 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T11:50:00Z'
+  sha256: 0c9c5ade08a826f69dd0bddfd9c25efe4fe6bcf34b7db331e2c55b90ecf50d73
+- source_id: wasserman2020-universal-inference
+  title: Universal inference
+  authors:
+  - Larry Wasserman
+  - Aaditya Ramdas
+  - Sivaraman Balakrishnan
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1912.11436
+  persistent_id: https://doi.org/10.1073/pnas.1922664117
+  version: arXiv:1912.11436 (published in Proceedings of the National Academy of Sciences 117(29):16880–16890,
+    2020). Complete full-text ar5iv HTML conversion read across Sections 1–9 and Appendix A (1,098 lines,
+    90,405 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T11:35:00Z'
+  sha256: 8788c234c31afd9bdb1614119555440c6c3855125c481ee2320e671b5fa1b5ba
+- source_id: vovk-wang2021-evalues
+  title: 'E-values: Calibration, combination, and applications'
+  authors:
+  - Vladimir Vovk
+  - Ruodu Wang
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1912.06116
+  persistent_id: https://doi.org/10.1214/20-AOS2020
+  version: arXiv:1912.06116 (published in The Annals of Statistics 49(3):1736–1754, 2021). Complete full-text
+    ar5iv HTML conversion read across Sections 1–8 and Appendices A–I (1,288 lines, 143,447 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T11:05:00Z'
+  sha256: 9ca237ebcb8210baf90d91a42ec337bc99f9adf64612f606376e46a241184eda
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: E-detectors provide a nonparametric sequential changepoint detection methodology for monitoring
+    time series and sequential data streams with nonasymptotic Average Run Length (ARL) control and worst-case
+    detection delay guarantees. AIO:TimeSeriesAnalysis is a MachineLearningTask branch node rather than
+    a mathematical changepoint detection method.
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Because e-detectors satisfy E_{P,infinity}[M_tau] <= E_{P,infinity}[tau] across all stopping
+    times tau under composite pre-change classes, they allow continuous online monitoring and adaptive
+    stopping while guaranteeing nonasymptotic false-alarm rate (FAR <= alpha) and ARL >= 1/alpha without
+    false-positive inflation from sequential peeking (AIO:DataDredgingBias).
+limitations:
+- Using the universal threshold c_alpha = 1/alpha for e-CUSUM can be highly conservative compared to e-SR
+  (under trivial e-processes Lambda_n^(j) = 1, M_n^SR = n reaches 1/alpha at ceil(1/alpha) whereas M_n^CU
+  = 1 never stops for alpha < 1), and computing a tighter non-universal threshold c_alpha < 1/alpha requires
+  known parametric pre-change distributions or historical simulation data that are unavailable in general
+  non-stationary composite settings (Section 2.5 and Remark 2.13).
+- Replacing a probability mixture of baseline e-detectors int M_n(lambda) d W(lambda) by an unpenalized
+  supremum sup_{lambda in [lambda_L, lambda_U]} M_n(lambda) violates the e-detector optional-stopping
+  inequality E_{P,infinity}[M_tau] <= E_{P,infinity}[tau] and fails ARL control (Remark 3.1), while no-separation
+  adaptive infinite mixtures (Algorithm 2) require O(m log_eta n) active baseline processes at time n
+  rather than O(1) memory (Section 4.2).
+- General e-detectors built from non-supermartingale e_j-processes (such as universal inference split/running-MLE
+  e-processes for log-concavity) that do not factor through a common 1-step baseline increment L_n require
+  O(n) updates at step n, and directional nonparametric tests (e.g., homogeneity -> non-homogeneity, independence
+  -> dependence, or log-concavity -> non-log-concavity) cannot simply swap P and Q because the reverse
+  composite null admits no nontrivial test supermartingale (Remark 2.10, Section 2.6 Examples 3–6, and
+  Section 6.3).
+- All 1,104 lines of Shin, Ramdas, & Rinaldo (2024, arXiv:2203.03532) were read. Constructed numerical
+  checks in research/discovery/edetector-sequential-change-detection-boundaries.py verify Theorem 2.4
+  non-stationary ARL control and baseline recursions, Section 3.1 adaptive infinite-mixture recursions
+  and Proposition 3.3 telescoping identity, Proposition 4.2 convex-conjugate KL identity and Section 5.2
+  bounded-mean betting vs. sub-exponential dominance, and Section 6.2 e-SR vs. Generalized Lorden delay
+  and Remark 3.1 supremum invalidity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T11:50:00Z'
+  updated_at: '2026-10-17T11:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

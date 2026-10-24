@@ -1,0 +1,93 @@
+id: AIMech:ClippedGossipSelfCenteredClippingForByzantineRobustDecentralizedLearning
+name: ClippedGossip Self-Centered Clipping for Byzantine-Robust Decentralized Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-robust decentralized consensus and stochastic optimization algorithm on an arbitrary communication graph G = (V, E) with regular nodes V_R (whose induced subgraph G_R has spectral gap gamma > 0) and Byzantine nodes V_B controlling adjacent mixing weight delta_i = sum_{j in V_B} W_{ij} <= delta_max around regular node i, in which each regular worker i updates local momentum m_i^{t+1} = (1 - alpha) m_i^t + alpha g_i(x_i^t), takes a half-step x_i^{t+1/2} = x_i^t - eta m_i^{t+1}, and aggregates neighbor models by clipping received vectors around its own local reference iterate x_i^{t+1/2} as x_i^{t+1} = sum_{j=1}^n W_{ij} (x_i^{t+1/2} + CLIP(x_j^{t+1/2} - x_i^{t+1/2}, tau_i^{t+1})) with CLIP(z, tau) = min(1, tau / ||z||_2) z.
+identity_notes: 'Distinct from server-based Byzantine clipping and bucketing aggregators (such as AIMech:BucketingForAgnosticByzantineRobustAggregationOnHeterogeneousDatasets and AIMech:CrflCertifiablyRobustFederatedLearningViaParameterClippingAndSmoothing) and from decentralized coordinate-wise trimmed-mean / median / Krum screening in BRIDGE (AIMech:BridgeByzantineResilientDecentralizedGradientDescent): ClippedGossip (also termed Self-Centered Clipping; He, Karimireddy, & Jaggi, 2022) clips each neighbor j''s model relative to node i''s own trusted state x_i^{t+1/2} weighted by doubly stochastic mixing weights W_{ij}, eliminating the requirement of an honest majority in every node''s neighborhood and preserving information diffusion across sparse graph cuts (such as a dumbbell bridge) where coordinate-wise trimmed mean and geometric median stall.'
+aliases:
+- ClippedGossip
+- Self-Centered Clipping
+- Byzantine-Robust ClippedGossip Decentralized Optimization
+definition_evidence:
+- source_id: r545-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r545-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r545-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: clippedgossip-self-centered-consensus-contraction
+  kind: mechanism
+  statement: By centering the clipping ball of radius tau_i = sqrt((1 / delta_i) sum_{j in V_R} W_{ij} E||x_i - x_j||_2^2) at node i's own model x_i and averaging z_{j->i} = x_i + CLIP(x_j - x_i, tau_i) with mixing weights W_{ij}, ClippedGossip contracts the average consensus variance Xi^t = (1 / |V_R|) sum_{i in V_R} E||x_i^t - x_bar^t||_2^2 <= (1 - gamma + c sqrt(delta_max))^2 rho^2 and bounds the mean shift by E||x_bar^{t+1} - x_bar^t||_2^2 <= c^2 delta_max rho^2 whenever delta_max < gamma^2 / c^2 (Theorem I, Theorem I', Eq. 24).
+  evidence:
+  - source_id: r545-primary-pdf
+    locator: Section 4.1 Theorem I p. 4; Appendix E.2 Lemma 10 & Theorem I' p. 28-30 Eq. 24
+    relation: supports
+- claim_id: clippedgossip-nonconvex-spectral-gap-convergence-and-impossibility
+  kind: scope
+  statement: For L-smooth non-convex objectives with bounded stochastic gradient variance sigma^2, inter-worker heterogeneity zeta^2, and Byzantine edge weight delta_max = O(gamma^2), ClippedGossip with local momentum alpha = 3 eta L reaches an O(delta_max zeta^2 / gamma^2) + epsilon stationary point in O((sigma^2 / (n epsilon^2))(1/n + delta_max) + zeta / (gamma epsilon^{3/2}) + sigma^{2/3} / (gamma^{2/3} epsilon^{4/3}) + 1 / (gamma epsilon)) iterations (Theorem III), matching the fundamental Omega(1) consensus impossibility lower bound on sparse cut-set topologies (Theorem II).
+  evidence:
+  - source_id: r545-primary-pdf
+    locator: Section 4.2 Theorem II p. 5; Section 5 Theorem III p. 6; Appendix E.3 Theorem III' p. 33-35
+    relation: supports
+- claim_id: clippedgossip-spectral-gap-threshold-and-dissensus-limitation
+  kind: limitation
+  statement: When the communication graph has a small spectral gap gamma relative to the maximum Byzantine edge weight delta_max (such that delta_max >= Omega(gamma^2)), Byzantine nodes launching a topology-aware dissensus attack x_j = x_i - eps_i (sum_{k in N_i cap V_R} W_{ik}(x_k - x_i)) / (sum_{j in N_i cap V_B} W_{ij}) across a graph bottleneck can block global consensus across components.
+  evidence:
+  - source_id: r545-primary-pdf
+    locator: Section 4.1-4.2 p. 4-5; Section 6.3 Definition A p. 9 Eq. 6; Appendix B.2 Proposition IV p. 16-17; Appendix F p. 37
+    relation: supports
+evidence_sources:
+- source_id: r545-primary-pdf
+  title: Byzantine-Robust Decentralized Learning via ClippedGossip
+  authors: &id001
+  - Lie He
+  - Sai Praneeth Karimireddy
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2202.01545.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2202-01545
+  version: arXiv (2022) (1370099 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:28:00Z'
+  sha256: 6760ecd785a339bfc51a6f0123c1c09be23aec5f98df5da53f63a0702eb39b9a
+- source_id: r545-arxiv-abs
+  title: Byzantine-Robust Decentralized Learning via ClippedGossip (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2202.01545
+  persistent_id: https://arxiv.org/abs/2202.01545
+  version: arXiv abstract page (6595 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:28:00Z'
+  sha256: f06622b71129efaecb2f3534f6be4cdb076339bc77eaedc684dc4cbe0c78a9a4
+- source_id: r545-metadata-cr
+  title: Byzantine-Robust Decentralized Learning via ClippedGossip (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2202-01545
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2202-01545
+  version: Crossref API work record (2706 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:28:00Z'
+  sha256: d78b01d8d47a3eb30c8c153fba90261d3bc85c60f0890f2c8f938c6214ffcae6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: ClippedGossip generalizes Byzantine-robust federated learning aggregation to serverless decentralized peer-to-peer communication graphs.
+limitations:
+- Requires the maximum Byzantine edge weight delta_max to satisfy delta_max = O(gamma^2) relative to the spectral gap gamma of the regular subgraph G_R to guarantee global consensus contraction.
+- Under non-i.i.d. data heterogeneity zeta^2 > 0, converges to an O(delta_max zeta^2 / gamma^2) stationary neighborhood that grows inversely with the squared spectral gap gamma^2.
+curation:
+  created_at: '2026-10-19T10:28:00Z'
+  updated_at: '2026-10-19T10:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

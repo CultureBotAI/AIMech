@@ -1,0 +1,101 @@
+id: AIMech:CenteredClippingAndWorkerMomentumForByzantineRobustOptimization
+name: Centered Clipping and Worker Momentum for Byzantine-Robust Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A stateful Byzantine-robust distributed optimization framework combining: (1) local Worker Momentum m_{t,i} = (1 - alpha_t) m_{t-1,i} + alpha_t g_i(x_{t-1}) (or Momentum Variance Reduction, MVR) maintained across steps to average out stochastic gradient noise and defeat time-coupled adversaries; and (2) iterative Centered Clipping (CC), which aggregates worker momentum vectors {x_1,...,x_n} around a reference iterate v_0 by updating v_{l+1} = v_l + (1/n) sum_{i=1}^n (x_i - v_l) min(1, tau_l / ||x_i - v_l||_2) for l >= 0 with clipping radius tau_l, achieving (delta_max, c)-robust aggregation E||v_L - x_bar_G||^2 <= c * delta * sigma^2 in O(n d) time.'
+identity_notes: Distinct from memoryless middle-seeking aggregators such as Krum (AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent), Coordinate-wise Median (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning), and RFA (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian), which Theorem I and Counterexamples 1-3 prove can fail to converge even with zero Byzantine workers (delta = 0) under asymmetric/bimodal stochastic gradient noise and suffer an Omega(delta * sigma^2 / mu^2) lower bound under time-coupled attacks (Theorem II), and from Bucketing (AIMech:BucketingResamplingForHeterogeneousByzantineRobustOptimization, which addresses inter-client data heterogeneity via random s-bucketing rather than intra-client stochastic noise via centered clipping).
+aliases:
+- Centered Clipping (CC)
+- Byzantine-Robust Worker Momentum with Centered Clipping
+- Learning from History for Byzantine Robust Optimization
+- Byzantine-Robust Momentum Variance Reduction (MVR)
+definition_evidence:
+- source_id: r403-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r403-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r403-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r403-middle-seeker-counterexamples-and-memoryless-time-coupled-lower-bound
+  kind: mechanism
+  statement: Section 3 (Counterexamples 1-3, Theorem I) proves that memoryless middle-seekers (CW Median, RFA, Krum) fail to converge even with delta = 0 corruption under asymmetric, bimodal, or imbalanced zero-mean noise, and Theorem II proves that any permutation-invariant memoryless algorithm incurs an Omega(delta * sigma^2 / mu^2) non-vanishing optimality gap against time-coupled Byzantine attacks.
+  evidence:
+  - source_id: r403-primary-pdf
+    locator: Section 3 Failure of Existing Methods (Counterexamples 1-3, Theorem I) & Section 4 Lower Bounds for Memoryless Algorithms (Definition B, Theorem II), pp. 2-5
+    relation: supports
+- claim_id: r403-centered-clipping-contraction-and-worker-momentum-convergence
+  kind: mechanism
+  statement: Theorem IV and Corollary V prove that Centered Clipping contracts toward the true honest average and satisfies (delta_max = 0.1, c)-robustness E||x_hat - x_bar||^2 <= c * delta * rho^2 (matching the Omega(delta * rho^2) lower bound of Theorem III), while Theorem VI and Theorem VII prove that combining Centered Clipping with Worker Momentum or Momentum Variance Reduction (MVR) converges to a stationary point on nonconvex objectives at rates O((c * delta + 1/n)^{1/2} / T^{1/2}) and O((c * delta + 1/n)^{1/3} / T^{2/3}), respectively, driving asymptotic error to zero as T -> infinity.
+  evidence:
+  - source_id: r403-primary-pdf
+    locator: Section 5 (Definition C, Theorems III-IV, Corollary V) and Section 6 (Theorems VI-VII), pp. 5-8
+    relation: supports
+- claim_id: r403-clipping-radius-tuning-and-delta-point-one-threshold-limitation
+  kind: limitation
+  statement: Theoretical contraction of Centered Clipping in Theorem IV requires the Byzantine fraction delta <= 0.1 (or bounded variance ratio) and requires setting the clipping threshold tau_l proportional to the honest variance and current distance to the honest mean.
+  evidence:
+  - source_id: r403-primary-pdf
+    locator: Section 5.2 Analysis of Centered Clipping (Theorem IV, Corollary V), pp. 5-6
+    relation: supports
+- claim_id: r403-time-coupled-and-little-is-enough-cifar10-defense-application
+  kind: application
+  statement: Evaluated on distributed CIFAR-10 and MNIST training against time-coupled, Little-Is-Enough (ALIE), inner-product manipulation, and bit-flipping attacks, where Worker Momentum + Centered Clipping matches uncorrupted SGD accuracy while memoryless Krum, Median, and RFA stagnate.
+  evidence:
+  - source_id: r403-primary-pdf
+    locator: Section 7 Experiments (Figures 1-3), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r403-primary-pdf
+  title: Learning from History for Byzantine Robust Optimization
+  authors: &id001
+  - Sai Praneeth Karimireddy
+  - Lie He
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/karimireddy21a.html
+  persistent_id: https://doi.org/10.48550/arXiv.2012.10333
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:5311-5319 (2021) (102392 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:06:00Z'
+  sha256: 8be5b65b7aadadaaadc93fbd5b8b4f17fc43400b3f328f642882bedc2ab283b8
+- source_id: r403-arxiv-abs
+  title: Learning from History for Byzantine Robust Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2012.10333
+  persistent_id: https://arxiv.org/abs/2012.10333
+  version: arXiv abstract page (6970 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:06:00Z'
+  sha256: 7ba0305f9d04b7058885e09b74aa550a8ab1be89188adb03381ac188c9ab85b5
+- source_id: r403-metadata-cr
+  title: Learning from History for Byzantine Robust Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.2012.10333
+  persistent_id: https://doi.org/10.48550/arXiv.2012.10333
+  version: Crossref API work record (383 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:06:00Z'
+  sha256: 20b12cc5eab3fad3bf1daf4d8c42d232e64cdfa8562f618aa73806c3c1d05026
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Centered Clipping with Worker Momentum is a Byzantine-robust distributed and federated optimization algorithm.
+limitations:
+- Theoretical contraction guarantees for Centered Clipping require delta <= 0.1 and an appropriately scaled clipping radius tau.
+- Requires stateful workers or synchronized momentum buffers across iterations.
+curation:
+  created_at: '2026-10-19T08:06:00Z'
+  updated_at: '2026-10-19T08:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

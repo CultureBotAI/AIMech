@@ -1,0 +1,104 @@
+id: AIMech:GtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking
+name: GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A unified decentralized finite-sum stochastic optimization framework (GT-VR, Xin, Khan, & Kar 2020, Sections II-III, Algorithms 1-2) for minimizing F(x) = (1/n) sum_{i=1}^n (1/m_i) sum_{j=1}^{m_i} f_{i,j}(x) over a primitive doubly stochastic network W that couples local variance-reduced gradient estimators r_i^k with dynamic gradient tracking x_i^{k+1} = sum_j w_{ij} x_j^k - alpha y_i^k and y_i^{k+1} = sum_j w_{ij} y_j^k + r_i^{k+1} - r_i^k: GT-SAGA (Algorithm 1) computes g_i^k = nabla f_{i,s_i^k}(x_i^k) - nabla f_{i,s_i^k}(z_{i,s_i^k}^k) + (1/m_i) sum_j nabla f_{i,j}(z_{i,j}^k) from a local gradient table, while GT-SVRG (Algorithm 2) computes v_i^k = nabla f_{i,s_i^k}(x_i^k) - nabla f_{i,s_i^k}(tau_i^k) + nabla f_i(tau_i^k) relative to periodic local checkpoints tau_i^k = x_i^{t T}.'
+identity_notes: Distinct from DSGT and GSGT (AIMech:DsgtAndGsgtDistributedStochasticGradientTracking, Pu & Nedic 2021), which use unreduced stochastic gradients G_i(x_{i,k}, xi_{i,k}) and suffer an O(alpha sigma^2 / n) steady-state variance neighborhood under constant step size, and from centralized SAGA (AIMech:SagaFastIncrementalGradientMethodWithSupportForNonStronglyConvexCompositeObjectives, Defazio et al. 2014) and SVRG (AIMech:StochasticVarianceReducedGradient, Johnson & Zhang 2013), which operate on a single shared parameter vector without decentralized consensus or inter-node gradient tracking.
+aliases:
+- GT-SAGA and GT-SVRG
+- GT-SAGA
+- GT-SVRG
+- Decentralized Variance-Reduced Gradient Tracking
+definition_evidence:
+- source_id: r436-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r436-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r436-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r436-simultaneous-elimination-of-local-variance-and-network-heterogeneity
+  kind: mechanism
+  statement: Whereas decentralized SGD under constant step size alpha converges only to an error ball proportional to both intra-node sample variance nu^2 and inter-node gradient heterogeneity zeta^2 = (1/n) sum_{i=1}^n ||nabla f_i(x^*)||^2 (Eq. 2), coupling local SAGA/SVRG estimators (which drive intra-node variance to zero as x_i^k -> x^*, Lemmas 3-4) with gradient tracking y_i^k (which preserves bar_y^k = bar_r^k and eliminates zeta^2) achieves exact global Q-linear convergence to x^* without any neighborhood floor (Theorems 1-2).
+  evidence:
+  - source_id: r436-primary-pdf
+    locator: Section I Introduction (Equation 2), Section III Main Results (Theorems 1-2), & Section IV Convergence Analysis (Lemmas 2-4)
+    relation: supports
+- claim_id: r436-complexity-bounds-and-big-data-network-independent-linear-speedup
+  kind: mechanism
+  statement: For L-smooth mu-strongly convex functions with condition number Q = L / mu, spectral gap 1 - sigma of W, M = max_i m_i, and m = min_i m_i, GT-SAGA (Theorem 1) achieves epsilon-accuracy in O(max{M, (M/m) Q^2 (1 - sigma)^{-2}} log(1/epsilon)) component gradient evaluations and communication rounds, while GT-SVRG (Theorem 2) with inner loop T = O(Q^2 (1 - sigma)^{-2} log Q) achieves O((M + Q^2 (1 - sigma)^{-2} log Q) log(1/epsilon)) component gradients and O(Q^2 (1 - sigma)^{-2} log Q log(1/epsilon)) communications; in the big-data regime m ~ M >> Q^2 (1 - sigma)^{-2}, both attain network-independent O(M log(1/epsilon)) complexity, yielding an exact 1/n linear speedup over centralized SAGA/SVRG (Remark 1, Table I).
+  evidence:
+  - source_id: r436-primary-pdf
+    locator: Section III Main Results (Theorem 1, Theorem 2, Remark 1, Remark 2, Table I), pp. 6259-6261
+    relation: supports
+- claim_id: r436-storage-versus-synchronization-tradeoff-limitation
+  kind: limitation
+  statement: GT-SAGA requires O(p m_i) local memory at each node i to store all m_i component gradients, whereas GT-SVRG avoids O(p m_i) storage (using O(p) memory) but requires synchronized periodic full-batch gradient evaluations nabla f_i(x_i^{t T}) every T iterations (Remark 2).
+  evidence:
+  - source_id: r436-primary-pdf
+    locator: Section III Remark 2 (Comparison between GT-SAGA and GT-SVRG), p. 6260
+    relation: supports
+- claim_id: r436-decentralized-logistic-regression-on-real-benchmark-datasets-application
+  kind: application
+  statement: Applied to decentralized l_2-regularized logistic regression across undirected exponential, grid, and random geometric graphs on CIFAR-10, MNIST, a9a, and w8a.
+  evidence:
+  - source_id: r436-primary-pdf
+    locator: Section V Numerical Experiments (Figures 1-5), pp. 6265-6267
+    relation: supports
+evidence_sources:
+- source_id: r436-primary-pdf
+  title: Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence
+  authors: &id001
+  - Ran Xin
+  - Usman A. Khan
+  - Soummya Kar
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1912.04230
+  persistent_id: https://doi.org/10.1109/TSP.2020.3031071
+  version: IEEE Transactions on Signal Processing 68:6255-6270 (2020) (96358 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:39:00Z'
+  sha256: 1f3942598b0c01ca6a33c0905ffe23b74ca286535db12987e2e59116d527a348
+- source_id: r436-arxiv-abs
+  title: Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1912.04230
+  persistent_id: https://arxiv.org/abs/1912.04230
+  version: arXiv abstract page (16400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:39:00Z'
+  sha256: 2ce8fd75c1921a814f5951fff349d4966323fd232cfe4f2c988253be7fe0050f
+- source_id: r436-metadata-cr
+  title: Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TSP.2020.3031071
+  persistent_id: https://doi.org/10.1109/TSP.2020.3031071
+  version: Crossref API work record (375 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:39:00Z'
+  sha256: a25637a9e060214d237578b966fd71a9719b2ee53fb0bebea805d5cdc9aa387f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: GT-SAGA and GT-SVRG unify decentralized gradient tracking with finite-sum variance reduction over peer-to-peer networks.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Evaluated on decentralized regularized logistic classification.
+limitations:
+- GT-SAGA requires O(p m_i) memory per node to store the component gradient table.
+- GT-SVRG requires periodic full local gradient evaluations every T inner iterations.
+curation:
+  created_at: '2026-10-19T08:39:00Z'
+  updated_at: '2026-10-19T08:39:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

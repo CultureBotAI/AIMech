@@ -1,0 +1,99 @@
+id: AIMech:ParabolicApproximationLineSearch
+name: Parabolic Approximation Line Search
+concept_kind: algorithm
+review_status: DRAFT
+definition: A stochastic line-search optimization algorithm for deep neural networks that at each step t defines a one-dimensional loss cross-section l_t(s) = L(x_t; theta_t + s d_t / ||d_t||_2) along a unit-normalized search direction d_t / ||d_t||_2 (where d_t = -grad_{theta_t} L(x_t; theta_t) + beta d_{t-1} with beta in [0, 1]), evaluates the current mini-batch loss l_t(0), directional derivative b = l'_t(0) = grad_{theta_t} L(x_t; theta_t)^T d_t / ||d_t||_2, and one additional forward pass l_t(mu) at measuring step distance mu > 0 on the same mini-batch (reusing any stochastic dropout masks), fits the exact interpolating 1D parabola l_hat_t(s) = a s^2 + b s + c with a = (l_t(mu) - l_t(0) - b mu) / mu^2 and c = l_t(0), and updates parameters by theta_{t+1} = theta_t + min(alpha s_upd, s_max) d_t / ||d_t||_2 where s_upd = -b / (2a) when a > 0 and b < 0, s_upd = mu when a <= 0 and b < 0, and s_upd = 0 otherwise.
+identity_notes: 'Distinct from backtracking Armijo Stochastic Line Search (SLS, which requires the interpolation condition and checks sufficient decrease via variable numbers of forward passes), from linear loss-approximation step-size schemes (L4, ALIG), and from Gaussian-process Probabilistic Line Search (PLS): PAL uses a deterministic 2-forward-pass, 1-backward-pass 1D parabolic fit along unit-normalized negative-gradient or conjugate-like directions.'
+aliases:
+- PAL
+- PAL Optimizer
+- Parabolic Approximation Line Search for DNNs
+definition_evidence:
+- source_id: r624-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r624-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r624-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r624-parabolic-vertex-update-and-quadratic-exactness
+  kind: mechanism
+  statement: Given l_t(0), b = l'_t(0) = grad L(x_t; theta_t)^T d_t / ||d_t||_2, and l_t(mu) at measuring distance mu > 0 along unit direction u_t = d_t / ||d_t||_2, the quadratic coefficient a = (l_t(mu) - l_t(0) - b mu) / mu^2 satisfies 2a = l_hat''_t(0), which equals the exact directional curvature u_t^T H u_t whenever L is quadratic, and for a > 0, b < 0 the vertex update s_upd = -b / (2a) = -l'_t(0) mu^2 / (2 (l_t(mu) - l_t(0) - l'_t(0) mu)) places theta_{t+1} at the exact 1D minimum where the new gradient is orthogonal (90 degrees) to u_t.
+  evidence:
+  - source_id: r624-primary-pdf
+    locator: Section 3 Footnote 1 & Figures 1-3, p. 3-4; Section 4.1 Eq. (2) & Algorithm 1, p. 4-5
+    relation: supports
+- claim_id: c-r624-case-discrimination-and-conjugate-direction-adaptation
+  kind: mechanism
+  statement: "To handle non-convex cross-sections and ill-conditioned curvature, PAL discriminates three curvature regimes \u2014 Case 1 (a > 0, b < 0: parabolic minimum s_upd = -b / (2a)), Case 2 (a <= 0, b < 0: concave or negatively sloped cross-section where l_t(mu) < l_t(0), setting s_upd = mu), and Case 3 (b = 0: stationary point s_upd = 0) \u2014 while combining conjugate-like momentum direction adaptation d_t = -grad L(x_t; theta_t) + beta d_{t-1} (Eq. 3-4), step scaling alpha >= 1, and step capping s_max."
+  evidence:
+  - source_id: r624-primary-pdf
+    locator: Section 4.2-4.3, Eq. (3)-(4), p. 5
+    relation: supports
+- claim_id: c-r624-inexact-batch-line-search-and-non-interpolating-robustness
+  kind: application
+  statement: Empirical evaluation across over 4,500 trained networks on CIFAR-10/100 (DenseNet-40, EfficientNet-B0, ResNet-32, MobileNetV2), ImageNet (DenseNet-121, ResNet-50), and non-interpolating kernel/factorization benchmarks shows that PAL outperforms SLS, ALIG, SGD-HD, and COCOB without hand-tuned learning-rate schedules, and that slightly narrow inexact parabolic steps outperform 20-evaluation exact binary line search on mini-batch losses because the mini-batch line minimum overshoots the full empirical loss minimum.
+  evidence:
+  - source_id: r624-primary-pdf
+    locator: Section 5.1-5.2 Figure 5, p. 6-7; Section 6-7 Figures 6-9, p. 8-9
+    relation: supports
+- claim_id: c-r624-second-forward-pass-and-random-state-reuse-limitation
+  kind: limitation
+  statement: PAL requires two forward passes and one backward pass per parameter update step (evaluating both l_t(0) and l_t(mu)), increasing per-step wall-clock time relative to standard first-order optimizers, and requires reusing identical random number generator states (such as dropout masks) across both forward passes to preserve continuity of l_t(s).
+  evidence:
+  - source_id: r624-primary-pdf
+    locator: Section 4.1, p. 4; Section 5.2, p. 7
+    relation: supports
+evidence_sources:
+- source_id: r624-primary-pdf
+  title: Parabolic Approximation Line Search for DNNs
+  authors: &id001
+  - Maximus Mutschler
+  - Andreas Zell
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/file/3a30be93eb45566a90f4e95ee72a089a-Paper.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/MutschlerZ20
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 5405-5416 (2020) (4687345 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:47:00Z'
+  sha256: d022f6c34a8b6116550384118603f41045d7e542eab9d52a159b3494796be7e1
+- source_id: r624-arxiv-abs
+  title: Parabolic Approximation Line Search for DNNs (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/3a30be93eb45566a90f4e95ee72a089a-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/3a30be93eb45566a90f4e95ee72a089a-Abstract.html
+  version: arXiv abstract page (9859 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:47:00Z'
+  sha256: 05a3d3f4bb32281e69647ff2c958d5ec8313fc9408b6f0ac40c2719c6f5b7ef1
+- source_id: r624-metadata-cr
+  title: Parabolic Approximation Line Search for DNNs (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/MutschlerZ20
+  persistent_id: https://dblp.org/rec/conf/nips/MutschlerZ20
+  version: Crossref API work record (1076 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:47:00Z'
+  sha256: 51894c8be41f07f3043a875abfbde471e038e209c811f80bc276c7d313f2d7e0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PAL is a line-search optimization algorithm specifically designed for automatic step-size selection in deep neural networks.
+limitations:
+- Incurs the computational cost of a second forward pass per iteration to evaluate l_t(mu) at measuring step distance mu.
+- Stochastic layers such as Dropout must reuse the exact same random draws during both forward evaluations l_t(0) and l_t(mu) within a step, otherwise stochastic noise corrupts the finite-difference curvature estimate a = (l_t(mu) - l_t(0) - b mu) / mu^2.
+curation:
+  created_at: '2026-10-19T11:47:00Z'
+  updated_at: '2026-10-19T11:47:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,102 @@
+id: AIMech:MatchaMatchingDecompositionSamplingForDecentralizedSgd
+name: MATCHA Matching Decomposition Sampling for Decentralized SGD
+concept_kind: algorithm
+review_status: DRAFT
+definition: A topology-aware decentralized stochastic gradient descent algorithm (MATCHA) that decomposes a base communication graph G(V, E) into M vertex-disjoint matchings G_1, ..., G_M with Laplacians L_1, ..., L_M, solves a concave algebraic-connectivity optimization problem max_{p_1, ..., p_M} lambda_2(sum_{j=1}^M p_j L_j) subject to a communication budget sum_{j=1}^M p_j <= C_b * M and 0 <= p_j <= 1, and at each iteration k independently samples Bernoulli indicators B_j^(k) ~ Bernoulli(p_j) to form the time-varying symmetric doubly-stochastic mixing matrix W^(k) = I - alpha * sum_{j=1}^M B_j^(k) L_j with SDP-optimized step weight alpha.
+identity_notes: Introduced by Jianyu Wang, Anit Kumar Sahu, Zhouyi Yang, Gauri Joshi, and Soummya Kar (MLSys 2020; arXiv:1905.09435). Distinct from vanilla Decentralized SGD (Lian et al., NeurIPS 2017) and Periodic DecenSGD, which activate all edges of the base graph simultaneously with equal frequency; and distinct from Stochastic Gradient Push (Assran et al., ICML 2019), which uses a deterministic time-varying directed exponential graph rather than algebraic-connectivity-optimized random matching decomposition.
+aliases:
+- MATCHA
+- Matching Decomposition Sampling for Decentralized SGD
+- MATCHA Decentralized SGD
+definition_evidence:
+- source_id: r554-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r554-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r554-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: matcha-disjoint-matching-algebraic-connectivity-and-sdp-mixing-mechanism
+  kind: mechanism
+  statement: MATCHA decomposes G(V, E) via edge coloring into M in {Delta(G), Delta(G) + 1} disjoint matchings with Laplacians L_j satisfying L_j^2 = 2 * L_j, maximizes the Fiedler eigenvalue lambda_2(sum_{j=1}^M p_j L_j) under sum_{j=1}^M p_j <= C_b * M to assign higher activation probabilities p_j to connectivity-critical links, and solves a convex semidefinite program to select alpha minimizing the second-moment spectral norm rho = ||I - 2*alpha*L_bar + alpha^2*(L_bar^2 + 2*L_tilde) - (1/m)*1*1^T||_2.
+  evidence:
+  - source_id: r554-primary-pdf
+    locator: Section 3 Equations (4)-(5), Section 4 Equations (6)-(7), & Appendix B Equations (11)-(29), pp. 4-6, 11-14
+    relation: supports
+- claim_id: matcha-nonconvex-linear-speedup-arbitrary-budget-scope
+  kind: scope
+  statement: For any communication budget C_b > 0 on a connected base graph G, Theorem 1 guarantees the existence of alpha > 0 such that rho = ||E[W^(k)^T W^(k)] - (1/m)*1*1^T||_2 < 1, and Theorem 2 / Corollary 1 establish non-convex convergence at rate (1/K) sum_{k=1}^K E[||grad F(x_bar^(k))||^2] = O(1 / sqrt(m*K)) + O(m / K).
+  evidence:
+  - source_id: r554-primary-pdf
+    locator: Section 4 Theorem 1 & Section 5 Theorem 2 and Corollary 1, pp. 5-7
+    relation: supports
+- claim_id: matcha-undirected-symmetric-matching-and-two-stage-optimization-limitation
+  kind: limitation
+  statement: Jointly optimizing the matching probabilities {p_j} and mixing weight alpha to minimize rho is non-convex, requiring a two-stage heuristic that first maximizes lambda_2(L_bar) and then solves an SDP for alpha, and the formulation assumes undirected symmetric links with uniform unit link delay.
+  evidence:
+  - source_id: r554-primary-pdf
+    locator: Section 4 p. 6, Section 7 Concluding Remarks p. 9, & Appendix B.2 p. 14
+    relation: supports
+- claim_id: matcha-distributed-vision-and-language-modeling-application
+  kind: application
+  statement: Applied to decentralized training of WideResNet and ResNet-50 on CIFAR-10/100 and two-layer LSTM language modeling on Penn Treebank over Erdos-Renyi and random geometric graphs, achieving up to 5.2x wall-clock speedup.
+  evidence:
+  - source_id: r554-primary-pdf
+    locator: Section 6 Experimental Results, Figures 4-5, pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r554-primary-pdf
+  title: 'MATCHA: Speeding Up Decentralized SGD via Matching Decomposition Sampling'
+  authors: &id001
+  - Jianyu Wang
+  - Anit Kumar Sahu
+  - Zhouyi Yang
+  - Gauri Joshi
+  - Soummya Kar
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1905.09435.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1905-09435
+  version: Proceedings of Machine Learning and Systems (MLSys 2020) / arXiv (2019) (1141273 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:37:00Z'
+  sha256: afc63eca4b54f0beb4f8517410862a71c7a5a24ace617a14908105c0bfff33cb
+- source_id: r554-arxiv-abs
+  title: 'MATCHA: Speeding Up Decentralized SGD via Matching Decomposition Sampling (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.09435
+  persistent_id: https://arxiv.org/abs/1905.09435
+  version: arXiv abstract page (7339 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:37:00Z'
+  sha256: a1ff1f480b34de7f105f9f21ab7a5baf5cd966e1a41eb1be95795baa1a25a05a
+- source_id: r554-metadata-cr
+  title: 'MATCHA: Speeding Up Decentralized SGD via Matching Decomposition Sampling (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-1905-09435
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1905-09435
+  version: Crossref API work record (1240 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:37:00Z'
+  sha256: 80c5e165a6d235b0db86d54fcff6012e62600bc4caf781bfbfc7ee391c03e214
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers distributed model training across networked nodes, whereas MATCHA is a decentralized peer-to-peer SGD protocol based on algebraic-connectivity-weighted matching decomposition sampling.
+limitations:
+- Requires offline edge-coloring matching decomposition and convex/SDP optimization of matching probabilities p_j and step weight alpha.
+- Formulated for undirected graphs with symmetric doubly-stochastic mixing matrices.
+curation:
+  created_at: '2026-10-19T10:37:00Z'
+  updated_at: '2026-10-19T10:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

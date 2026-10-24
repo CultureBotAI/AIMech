@@ -1,0 +1,111 @@
+id: AIMech:RocketQAv2JointTrainingDensePassageRetrievalAndReranking
+name: RocketQAv2 Joint Training for Dense Passage Retrieval and Passage Reranking
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A joint training algorithm for dense passage retrieval and passage reranking that couples a bi-encoder dual-encoder retriever s_de(q, p) = E_Q(q)^T E_P(p) and a cross-encoder reranker s_ce(q, p) = w^T E_C([CLS] q [SEP] p [SEP]) over a shared candidate passage list C_q = {p^+, p^-_1, ..., p^-_{K-1}} via dynamic listwise distillation and hybrid data augmentation: it normalizes both models'' listwise relevance scores via softmax (p~_de(q, p_i) = exp(s_de(q, p_i)) / sum_{j=1}^K exp(s_de(q, p_j)) and p~_ce(q, p_i) = exp(s_ce(q, p_i)) / sum_{j=1}^K exp(s_ce(q, p_j))), jointly minimizes the sum of the listwise Kullback-Leibler divergence and cross-encoder supervised NLL loss L_final = L_kl + L_ce where L_kl = sum_{i=1}^K p~_ce(q, p_i) log(p~_ce(q, p_i) / p~_de(q, p_i)) and L_ce = -log p~_ce(q, p^+), and refreshes C_q using a hybrid data augmentation strategy that retrieves top candidates with the dual-encoder and filters out high-confidence false negatives using the cross-encoder.'
+identity_notes: Distinct from RocketQA (AIMech:RocketQADenoisedHardNegativeSampling), which alternates separate training stages of the retriever and reranker with static pseudo-labels rather than joint synchronous dynamic listwise distillation; distinct from TAS-B (AIMech:TASBTopicAwareSamplingBalancedMarginDistillation), which distills pairwise score margins from static teacher models using topic-clustered batches; and distinct from AR2 (AIMech:AR2AdversarialRetrieverRankerForDenseTextRetrieval), which formulates retriever-ranker training as a minimax adversarial game rather than mutual listwise KL alignment.
+aliases:
+- RocketQAv2
+- RocketQAv2 Dynamic Listwise Distillation and Hybrid Data Augmentation
+- Joint Training Method for Dense Passage Retrieval and Passage Reranking
+definition_evidence:
+- source_id: r758-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r758-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r758-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: rocketqav2-dynamic-listwise-kl-distillation
+  kind: mechanism
+  statement: RocketQAv2 normalizes dual-encoder and cross-encoder relevance scores across the candidate passage list C_q = {p^+, p^-_1, ..., p^-_{K-1}} using listwise softmax distributions p~_de(q, p_i) and p~_ce(q, p_i) (Equations 5-6) and jointly optimizes L_final = L_kl + L_ce where L_kl = sum_{i=1}^K p~_ce(q, p_i) log(p~_ce(q, p_i) / p~_de(q, p_i)) and L_ce = -log p~_ce(q, p^+) (Equations 7-8), allowing the dual-encoder to track continuous listwise score changes of the cross-encoder online during training.
+  evidence:
+  - source_id: r758-primary-pdf
+    locator: Section 2.2 Dynamic Listwise Distillation, Equations 5-8, pp. 2-3
+    relation: supports
+  - source_id: r758-primary-pdf
+    locator: main() verification of listwise softmax KL divergence L_kl, cross-encoder NLL L_ce, and gradient descent step
+    relation: supports
+- claim_id: rocketqav2-hybrid-data-augmentation
+  kind: mechanism
+  statement: To construct high-quality candidate lists C_q for joint training and iterative refinement, RocketQAv2 applies hybrid data augmentation (Section 2.3, Figure 1b) that combines dual-encoder hard-negative retrieval with cross-encoder denoising to filter out false negatives (unlabeled relevant passages) while retaining informative hard negatives.
+  evidence:
+  - source_id: r758-primary-pdf
+    locator: Section 2.3 Hybrid Data Augmentation & Section 3.2 Analysis, Figure 1b, Tables 3-5, pp. 2-6
+    relation: supports
+- claim_id: rocketqav2-benchmark-applications
+  kind: application
+  statement: On MS MARCO Passage Ranking and Natural Questions (NQ), RocketQAv2 improves both dense retrieval and passage reranking over RocketQA and prior methods, reaching 38.8 MRR@10 and 86.2% Recall@50 in dense retrieval on MS MARCO Dev (41.9 MRR@10 after reranking) and 75.1% Recall@5 / 83.7% Recall@20 on NQ test (Tables 1-2).
+  evidence:
+  - source_id: r758-primary-pdf
+    locator: Section 3.1 Main Results, Tables 1-2, pp. 4-5
+    relation: supports
+  - source_id: r758-metadata-cr
+    locator: BibTeX citation record for arXiv:2110.07367 (EMNLP 2021)
+    relation: supports
+- claim_id: rocketqav2-computational-overhead-limitation
+  kind: limitation
+  statement: Because RocketQAv2 evaluates both the dual-encoder and the cross-encoder on all K passages in the candidate list C_q at every joint training step and requires a warmed-up cross-encoder for initial hybrid data augmentation, its per-step GPU memory and compute cost during training is substantially higher than training a standalone dual-encoder.
+  evidence:
+  - source_id: r758-primary-pdf
+    locator: Section 2.3 Training Procedure & Section 3.1 Implementation Details, pp. 3-4
+    relation: supports
+evidence_sources:
+- source_id: r758-primary-pdf
+  title: 'RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking'
+  authors: &id001
+  - Ruiyang Ren
+  - Yingqi Qu
+  - Jing Liu
+  - Wayne Xin Zhao
+  - Qiaoqiao She
+  - Hua Wu
+  - Haifeng Wang
+  - Ji-Rong Wen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.07367
+  persistent_id: https://arxiv.org/bibtex/2110.07367
+  version: Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP 2021) (2021) (771142 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:01:00Z'
+  sha256: 76302f58fbb1d0748bb2d3a56d9f398d468fb4e4e3f58874271be7275506a11d
+- source_id: r758-arxiv-abs
+  title: 'RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.07367
+  persistent_id: https://arxiv.org/abs/2110.07367
+  version: arXiv abstract page (7167 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:01:00Z'
+  sha256: fba713e58b62d6029f91e58714918757e03c7bfedd009f2f78cff971cb558f02
+- source_id: r758-metadata-cr
+  title: 'RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2110.07367
+  persistent_id: https://arxiv.org/bibtex/2110.07367
+  version: Crossref API work record (485 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:01:00Z'
+  sha256: 0f4f1c05e0e5a4c0e64ebb63a16d78a74f0c5afa123214ef7a1da3b312c67fa2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: RocketQAv2 jointly trains a neural Transformer bi-encoder retriever and a neural Transformer cross-encoder reranker via dynamic listwise KL distillation.
+limitations:
+- Joint online forward and backward passes through both the cross-encoder reranker and the dual-encoder retriever across K candidate passages per query require large multi-GPU memory and compute budgets.
+- Requires an initial cross-encoder warmup stage and corpus-wide passage indexing for hybrid data augmentation.
+curation:
+  created_at: '2026-10-19T14:01:00Z'
+  updated_at: '2026-10-19T14:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

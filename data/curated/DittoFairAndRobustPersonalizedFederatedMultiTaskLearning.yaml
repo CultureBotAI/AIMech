@@ -1,0 +1,101 @@
+id: AIMech:DittoFairAndRobustPersonalizedFederatedMultiTaskLearning
+name: Ditto Fair and Robust Personalized Federated Multi-Task Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A decoupled bi-level personalized federated multi-task learning framework (Ditto) that resolves the tension between cross-device performance fairness (uniformity/low variance of benign device test errors) and Byzantine robustness (resistance to data/model poisoning) under statistical heterogeneity: min_{v_k in R^d} h_k(v_k; w^*) := F_k(v_k) + (lambda / 2) ||v_k - w^*||^2 subject to w^* in argmin_w G(F_1(w), ..., F_K(w)). Unlike coupled personalization schemes, the global objective G(.) is optimized for w^t completely independently of the local personalized models {v_k^t} while each device k interleaves local stochastic gradient steps on h_k(v_k; w^t) = F_k(v_k) + (lambda / 2)||v_k - w^t||^2, interpolating between pure local training (lambda = 0) and the global model (lambda -> infinity).'
+identity_notes: Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, where the global model w minimizes the sum of Moreau envelopes F_i(w) and therefore depends directly on the local personalized iterates theta_i, making w vulnerable to local personalization state changes and requiring extra inner-loop steps before updating w) and from q-FFL (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, which learns a single global model w whose fairness-oriented reweighting of high-loss devices degrades robustness under Byzantine corruption).
+aliases:
+- Ditto
+- Ditto Personalized Federated Learning
+- Global-Regularized Personalized Federated Multi-Task Learning
+definition_evidence:
+- source_id: r397-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r397-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r397-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r397-bayes-optimal-fair-and-robust-lambda-characterization
+  kind: mechanism
+  statement: In the hierarchical Bayesian linear/point estimation setting where benign parameters follow v_k ~ N(theta, tau^2), K_a corrupted devices follow v_k ~ N(theta, tau_a^2) with tau_a^2 > tau^2, and n local samples have noise variance sigma^2, Theorem 8 (and Lemmas 4, 6, 7) proves that the exact Bayes-optimal and maximally fair (zero cross-device test-error variance) regularization parameter is lambda^* = (sigma^2 K) / (tau^2 K + (tau_a^2 - tau^2) K_a + sigma^2 / n), showing that lambda^* decreases monotonically with stronger heterogeneity tau^2 or stronger corruption (K_a, tau_a^2).
+  evidence:
+  - source_id: r397-primary-pdf
+    locator: Section 3.3 Theoretical Analysis of Ditto (Lemmas 4, 6, 7 and Theorem 8) and Appendix A, pp. 5-6, 13-17
+    relation: supports
+- claim_id: r397-modularity-and-linear-speedup-convergence
+  kind: mechanism
+  statement: Because the global subproblem w^* in argmin_w G(F_1(w),...,F_K(w)) is completely decoupled from {v_k}, Ditto preserves the exact communication footprint and privacy/robust-aggregation compatibility of the base global solver G, and Theorem 1 (Appendix B) proves that when w^t converges at rate O(1/t) on strongly convex F_k, the personalized iterates v_k^t converge to v_k^* at rate E||v_k^t - v_k^*||^2 = O(1/t) with linear speedup in local steps.
+  evidence:
+  - source_id: r397-primary-pdf
+    locator: 'Section 3.2 Solver: Modularity and Efficiency (Algorithm 1, Theorem 1) and Appendix B, pp. 4-5, 19-21'
+    relation: supports
+- claim_id: r397-local-state-persistence-and-lambda-tuning-limitation
+  kind: limitation
+  statement: Requires each participating device k to maintain a persistent local personalized model state v_k across rounds (or warm-start from w^*) and to tune the regularization hyperparameter lambda >= 0 based on the unknown degree of statistical heterogeneity and adversarial corruption.
+  evidence:
+  - source_id: r397-primary-pdf
+    locator: Section 3.2 Algorithm 1, Section 3.3 Theorem 8, and Appendix C.2 Tuning lambda, pp. 4-6, 22
+    relation: supports
+- claim_id: r397-fairness-and-byzantine-defense-benchmarks-application
+  kind: application
+  statement: Evaluated on FEMNIST, CelebA, StackOverflow, and Fashion-MNIST under benign heterogeneity and three Byzantine attacks (A1 label poisoning, A2 random Gaussian updates, A3 model replacement), simultaneously reducing benign device test-accuracy variance (improving fairness) and boosting robust test accuracy by up to 40% when paired with Krum, Multi-Krum, or median aggregation.
+  evidence:
+  - source_id: r397-primary-pdf
+    locator: Section 4 Experiments (Figures 3-8, Tables 1-2), pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r397-primary-pdf
+  title: 'Ditto: Fair and Robust Federated Learning Through Personalization'
+  authors: &id001
+  - Tian Li
+  - Shengyuan Hu
+  - Ahmad Beirami
+  - Virginia Smith
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/li21h.html
+  persistent_id: https://doi.org/10.48550/arXiv.2012.04221
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:6357-6368 (2021) (122332 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:00:00Z'
+  sha256: 4ac3af9d19d0dd8cc8189b7584146754e48e5f050c04c9fcd5d32c240160e152
+- source_id: r397-arxiv-abs
+  title: 'Ditto: Fair and Robust Federated Learning Through Personalization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2012.04221
+  persistent_id: https://arxiv.org/abs/2012.04221
+  version: arXiv abstract page (6716 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:00:00Z'
+  sha256: 3e2114f18ec494e84b6abe56152a47ea224a281e1e2d18f3f997ed2b51e9b4ca
+- source_id: r397-metadata-cr
+  title: 'Ditto: Fair and Robust Federated Learning Through Personalization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.2012.04221
+  persistent_id: https://doi.org/10.48550/arXiv.2012.04221
+  version: Crossref API work record (396 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:00:00Z'
+  sha256: 3444732ff70fc39ce10801440699b20fe06adec9c8a63dab899b584112974608
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: Ditto is a personalized federated multi-task learning framework within FederatedLearning that jointly improves cross-device fairness and Byzantine robustness.
+limitations:
+- Requires stateful devices capable of storing personalized parameters v_k across communication rounds.
+- Optimal trade-off between local and global information requires tuning or estimating the regularization parameter lambda.
+curation:
+  created_at: '2026-10-19T08:00:00Z'
+  updated_at: '2026-10-19T08:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,111 @@
+id: AIMech:ACPropMomentumCenteringAsynchronousAdaptiveGradientOptimization
+name: ACProp Momentum-Centered Asynchronous Adaptive Gradient Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: ACProp (Asynchronous-Centering-Prop) is a first-order adaptive gradient optimization algorithm for stochastic non-convex and online convex optimization that combines second-momentum centering with an asynchronous denominator update rule. At iteration t, given stochastic gradient g_t = grad_x f_t(x_{t-1}) in R^d, ACProp updates the first-moment exponential moving average m_t = beta_1 m_{t-1} + (1 - beta_1) g_t, updates model parameters x_t using the lagged centered second-momentum estimate s_{t-1} from step t - 1 in the denominator (x_t = x_{t-1} - alpha_t g_t / (sqrt(s_{t-1}) + epsilon) or with momentum numerator), and only subsequently updates the centered second momentum s_t = beta_2 s_{t-1} + (1 - beta_2)(g_t - m_t)^2. Decoupling the step-t numerator from the denominator ensures E[g_t / sqrt(s_{t-1} + epsilon) | g_0, ..., g_{t-1}] = E[g_t] / sqrt(s_{t-1} + epsilon), eliminating synchronous step-size bias while preserving non-vanishing centered variance scaling across sparse-gradient regimes.
+identity_notes: Distinct from synchronous uncentered adaptive optimizers (AIMech:Adam, AIMech:RMSProp, AIMech:AMSGrad, AIMech:RAdam), which include g_t^2 inside the step-t denominator v_t; distinct from synchronous centered adaptive optimizers (AIMech:AdaBelief, AIMech:SDProp), which center the second moment via (g_t - m_t)^2 but evaluate s_t synchronously in the step-t denominator; and distinct from asynchronous uncentered optimizers (AIMech:AdaShift), which decorrelate numerator and denominator using uncentered v_{t-n} that decays exponentially to zero during zero-gradient intervals.
+aliases:
+- ACProp
+- ACProp Optimizer
+- Asynchronous-Centering-Prop
+- ACProp Asynchronous-Centering-Prop Optimizer
+definition_evidence:
+- source_id: r647-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r647-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r647-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r647-async-unbiased-reddi-convergence
+  kind: mechanism
+  statement: By preconditioning the step-t gradient numerator with the lagged centered second moment s_{t-1} computed solely from history {g_0, ..., g_{t-1}}, ACProp guarantees conditional unbiasedness E[g_t / sqrt(s_{t-1} + epsilon) | g_{0:t-1}] = E[g_t] / sqrt(s_{t-1} + epsilon) and converges on Reddi et al.'s (2018) periodic online convex counterexample for all beta_1, beta_2 in (0, 1) and period P >= 3 (Lemma 3.3 / Lemma A.3).
+  evidence:
+  - source_id: r647-primary-pdf
+    locator: Section 2.2, p. 3; Section 3.1, Lemma 3.3, pp. 3-5; Appendix A.1, Lemma A.3 & Lemma A.5, pp. 14-17
+    relation: supports
+- claim_id: r647-sparse-gradient-centering-advantage
+  kind: mechanism
+  statement: On periodic sparse-gradient online convex problems where zero gradients occur between opposing non-zero gradient pulses, uncentered asynchronous second moments v_t = beta_2 v_{t-1} decay exponentially toward zero whereas ACProp's centered second moment s_t = beta_2 s_{t-1} + (1 - beta_2)(0 - m_t)^2 remains bounded away from zero when m_t != 0, yielding s^+ / s^- <= v^+ / v^- and a strictly larger hyperparameter convergence region than AdaShift with n = 1 (Lemma 3.4 / Lemma A.6).
+  evidence:
+  - source_id: r647-primary-pdf
+    locator: Section 3.2, Eq. 2 & Lemma 3.4, pp. 5-6; Appendix A.2, Lemma A.6, Eqs. 50-76, pp. 18-20
+    relation: supports
+- claim_id: r647-stochastic-nonconvex-oracle-rate
+  kind: scope
+  statement: Under L-smoothness and bounded-variance unbiased stochastic gradients with step-size schedule alpha_t = alpha_0 t^{-eta} (eta in [0.5, 1)), ACProp achieves (1/T) sum_{t=1}^T ||grad f(x_t)||^2 = O(1/sqrt(T)) at eta = 0.5 (requiring at most O(delta^{-4}) queries to reach a delta-stationary point, matching the first-order oracle lower bound of Arjevani et al., 2019), and reduces the early-training regret constant from sqrt(mu^2 + sigma^2 + epsilon) to sqrt(sigma^2 + epsilon) when gradient mean |mu| >> sigma (Theorem 4.1, Theorem 4.2, and Eqs. 6-7).
+  evidence:
+  - source_id: r647-primary-pdf
+    locator: Section 4, Theorems 4.1-4.2 & Eqs. 3-7, pp. 6-7; Appendix B.2, Theorem B.1, pp. 23-25
+    relation: supports
+- claim_id: r647-cnn-gan-transformer-rl-applications
+  kind: application
+  statement: ACProp is applied to train convolutional neural networks on CIFAR-10 and ImageNet (achieving 70.46% Top-1 accuracy with ResNet-18 on ImageNet), Deep Q-Networks on the four-rooms reinforcement learning task, Transformers on IWSLT14/WMT machine translation, and DCGAN, SNGAN, SAGAN, and RLGAN architectures on CIFAR-10.
+  evidence:
+  - source_id: r647-primary-pdf
+    locator: Section 5, Figures 7-9 & Tables 2-5, pp. 8-9
+    relation: supports
+- claim_id: r647-beta2-sensitivity-and-moment-extension-limitation
+  kind: limitation
+  statement: Empirical sensitivity ablations show that while ACProp is robust across choices of first-moment decay beta_1, its accuracy is more sensitive to the second-moment smoothing hyperparameter beta_2, and extending the theoretical non-convex convergence proof to the momentum-numerator variant (Async-moment-optimizer, Theorem B.3) requires assuming a monotonically non-increasing diagonal preconditioner A_{t+1} <= A_t.
+  evidence:
+  - source_id: r647-primary-pdf
+    locator: Appendix B.3, Theorem B.3, p. 25; Appendix C.2, Figure 28, pp. 30-31
+    relation: supports
+evidence_sources:
+- source_id: r647-primary-pdf
+  title: Momentum Centering and Asynchronous Update for Adaptive Gradient Methods
+  authors: &id001
+  - Juntang Zhuang
+  - Yifan Ding
+  - Tommy Tang
+  - Nicha C. Dvornek
+  - Sekhar Tatikonda
+  - James S. Duncan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.05454.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/ZhuangDTDTD21
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021) (2021) (11269040 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:10:00Z'
+  sha256: 690397968981c5d92d15b82f16cf630a63f7cb024dfdb780c698bf776aa50837
+- source_id: r647-arxiv-abs
+  title: Momentum Centering and Asynchronous Update for Adaptive Gradient Methods (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.05454
+  persistent_id: https://arxiv.org/abs/2110.05454
+  version: arXiv abstract page (7811 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:10:00Z'
+  sha256: 46c782af07c06c058d84a8de9765527837ee0e08e27d1eae020951ac4d617b0d
+- source_id: r647-metadata-cr
+  title: Momentum Centering and Asynchronous Update for Adaptive Gradient Methods (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/ZhuangDTDTD21
+  persistent_id: https://dblp.org/rec/conf/nips/ZhuangDTDTD21
+  version: Crossref API work record (2104 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:10:00Z'
+  sha256: f958614aaa5a6a94db2ff841ea990ccb8a65add652d60ce54ca0db296459456e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: ACProp is an adaptive first-order gradient optimizer designed for training deep neural networks, generative adversarial networks, transformers, and reinforcement learning agents.
+limitations:
+- ACProp's test accuracy is more sensitive to the second-moment exponential moving average parameter beta_2 than to beta_1 (Appendix C.2, pp. 30-31).
+- While the vanilla asynchronous update x_{t+1} = x_t - alpha_t A_t g_t achieves the O(1/sqrt(T)) stochastic non-convex convergence bound without monotonicity assumptions on A_t (Theorem 4.1), the theoretical extension to a momentum numerator x_{t+1} = x_t - alpha_t A_t m_t (Theorem B.3) assumes elementwise monotonic preconditioning A_{t+1} <= A_t.
+curation:
+  created_at: '2026-10-19T12:10:00Z'
+  updated_at: '2026-10-19T12:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

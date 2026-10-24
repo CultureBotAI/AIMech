@@ -1,0 +1,207 @@
+id: AIMech:CovariatePoweredCrossWeightedMultipleTesting
+name: Covariate-powered cross-weighted multiple testing
+aliases:
+- Independent Hypothesis Weighting (IHW)
+- Cross-Weighted Benjamini-Hochberg Procedure (IHW-BH)
+- Cross-Weighted Storey Benjamini-Hochberg Procedure (IHW-Storey)
+- IHW-Grenander Covariate-Weighted Multiple Testing
+concept_kind: mathematical_method
+definition: 'A covariate-assisted multiple-testing methodology (Ignatiadis & Huber 2021, Journal of the
+  Royal Statistical Society: Series B 83(4):720-751, arXiv:1701.05179) that learns data-driven hypothesis
+  weights W_i >= 0 from side information X_i via K-fold sample splitting across hypotheses (cross-weighting)
+  to maximize discovery power while controlling the false discovery rate (FDR) or k-familywise error rate
+  (k-FWER). Hypotheses [m] are partitioned into K disjoint folds I_1, ..., I_K; for each i in I_ell, an
+  out-of-fold weight function W_hat^{-ell} is fit using only (P_j, X_j)_{j notin I_ell}, evaluated at
+  X_i, and normalized within fold I_ell so that sum_{i in I_ell} W_i = |I_ell| (Specification 1, honest
+  weighting). Combined with tau-censoring (Specification 2, where weights depend on out-of-fold p-values
+  only through P_j * 1{P_j > tau}) and weighted Storey fold null-proportion adjustments, cross-weighting
+  guarantees finite-sample FDR control under independence (Theorems 1-2), asymptotic FDR control without
+  tau-censoring and zero asymptotic power loss from fold splitting under the conditional two-groups model
+  (Proposition 1, Corollary 2), and finite-sample k-FWER and Benjamini-Yekutieli FDR control under block
+  dependence when folds align with independent dependence blocks (Theorems 3-4).'
+identity_notes: No normalized identity match for covariate-powered cross-weighted multiple testing or
+  Independent Hypothesis Weighting (IHW) across all 442 pinned AIO records and 587 maintained IDs, names,
+  aliases and scoped synonyms. Fixed-string searches across data, sources, research, history, and reviews
+  returned only frontier references in prior discovery reports. Distinct from AIMech:AdaptivePValueThresholding
+  (Lei & Fithian 2018, AdaPT), which iteratively shrinks a coordinatewise rejection threshold s_t(x_i)
+  using full-sample mirror-masked p-values min(P_i, 1 - P_i) rather than learning out-of-fold cross-weights
+  W_i = W_hat^{-ell}(X_i) for weighted Benjamini-Hochberg, weighted Storey, weighted k-Bonferroni, or
+  weighted Benjamini-Yekutieli procedures via Grenander least-concave-majorant linear programming; distinct
+  from AIMech:SelectivelyTraversedAccumulationRulesForStructuredFDRControl (Lei, Ramdas, & Fithian 2021,
+  STAR), which enforces combinatorial structural constraints R_t in K by interactive filtration peeling
+  with accumulation functions h(p); and distinct from AIMech:ConditionalCalibrationForFalseDiscoveryRateControl
+  (Fithian & Lei 2022, dBH), which calibrates hypothesis-specific thresholds under known conditional null
+  distributions rather than learning out-of-fold covariate weights from side information X_i.
+definition_evidence:
+- source_id: ignatiadis2021-ihw-cross-weighting-ar5iv
+  locator: Section 1, lines 28–135; Section 2.1–2.4, lines 136–295, Algorithms 1–2; Section 3.1–3.3, lines
+    296–550, Assumptions 1–3, Definitions 1–2, Specifications 1–7, Lemma 1, Theorems 1–4, Proposition
+    1, Corollaries 1–2; Section 4, lines 551–715, Equations 8–12
+  relation: supports
+- source_id: ignatiadis2021-ihw-cross-weighting-crossref
+  locator: 'Journal of the Royal Statistical Society: Series B (Statistical Methodology), Vol. 83, Issue
+    4, pp. 720–751, September 2021 bibliographic record (DOI:10.1111/rssb.12411)'
+  relation: supports
+- source_id: ignatiadis2021-ihw-cross-weighting-abs
+  locator: arXiv:1701.05179v7 abstract and JRSS-B publication metadata
+  relation: supports
+claims:
+- claim_id: honest-tau-censored-cross-weighting-finite-sample-fdr-control-and-uncensored-counterexample
+  kind: mechanism
+  statement: Under Assumption 1 (null p-values independent of each other and of non-null p-values given
+    covariates X and super-uniform on [0, 1]), partitioning [m] into K disjoint folds I_1, ..., I_K and
+    learning honest weights W_i = W_hat^{-ell}(X_i) >= 0 from (P_j, X_j)_{j notin I_ell} normalized within
+    each fold (sum_{i in I_ell} W_i = |I_ell|, Specification 1) that are tau-censored (depending on out-of-fold
+    p-values only through P_j * 1{P_j > tau}, Specification 2) guarantees finite-sample FDR <= alpha for
+    tau-censored weighted Benjamini-Hochberg (Theorem 1, Corollary 1) and for null-proportion-adaptive
+    weights W_i / pi_hat'_{0,W,ell} where pi_hat'_{0,W,ell} = (max_{i in I_ell} W_i + sum_{i in I_ell}
+    W_i 1{P_i > tau}) / (|I_ell| (1 - tau)) via the Inverse Binomial Lemma (Theorem 2, Supplement S1.2
+    and S1.4); in contrast, naive full-sample Grouped BH (Algorithm 1) overfits under the global null
+    as the number of groups G grows (Section 2.2, Fig. 2), and omitting tau-censoring allows an m = 4
+    adversarial honest cross-weighting rule to achieve exact FDR = alpha * (1 + alpha * (1 - alpha) /
+    2) > alpha (Supplement S1.3).
+  evidence:
+  - source_id: ignatiadis2021-ihw-cross-weighting-ar5iv
+    locator: Section 2.2–2.3, lines 166–260, Algorithms 1–2, Figure 2; Section 3.1, lines 296–415, Assumption
+      1, Definitions 1–2, Specifications 1–3, Theorems 1–2, Corollary 1; Supplement S1.1–S1.4, lines 960–1255
+    relation: supports
+  - source_id: ignatiadis2021-ihw-cross-weighting-abs
+    locator: Abstract (cross-weighting fold-splitting mechanism and finite-sample FDR guarantees)
+    relation: supports
+- claim_id: asymptotic-consistency-without-tau-censoring-and-zero-power-loss-from-fold-splitting
+  kind: mechanism
+  statement: Under the conditional two-groups model (Assumption 3, (X_i, H_i, P_i) i.i.d. with strictly
+    positive null proportion pi_0 and continuous conditional CDF F(t | x)), a naive full-sample weighting
+    rule taking values in a bounded function class (Specification 7) can overfit small p-values and fail
+    to control FDR asymptotically (liminf_{m -> infinity} FDR >= 1 - 2.2 delta / alpha > alpha, Proposition
+    1(a), Supplement S2.1), whereas cross-weighted IHW-BH with any Specification-7 weight learner controls
+    FDR asymptotically without tau-censoring (tau = 1) via conditional Dvoretzky-Kiefer-Wolfowitz concentration
+    (Proposition 1(b), Supplement S2.2), and achieves the exact same asymptotic rejection threshold t^*(W^*)
+    and asymptotic power as full-sample or oracle W^* weighting whenever ||W_hat^{([m])} - W^*||_infinity
+    -> 0 in probability (Proposition 1(c), Corollary 2, Supplement S2.3–S2.4).
+  evidence:
+  - source_id: ignatiadis2021-ihw-cross-weighting-ar5iv
+    locator: Section 3.2, lines 416–482, Assumption 3, Specifications 6–7, Proposition 1, Corollary 2;
+      Supplement S2.1–S2.4, lines 1356–1640
+    relation: supports
+  - source_id: ignatiadis2021-ihw-cross-weighting-crossref
+    locator: JRSS-B 83(4):720–751 publication record
+    relation: supports
+- claim_id: block-dependent-fold-partitioning-for-finite-sample-kfwer-and-ihw-by-fdr-control
+  kind: mechanism
+  statement: Under Assumption 2 (where hypotheses are partitioned into K folds I_1, ..., I_K such that
+    p-values and covariates in different folds are mutually independent while arbitrary dependence is
+    permitted within each fold, e.g., linkage disequilibrium blocks or chromosomes in genomics), honest
+    cross-weighting ensures each null p-value P_i (i in H_0 intersect I_ell) is independent of the entire
+    in-fold weight vector (W_k)_{k in I_ell} without requiring tau-censoring (Lemma 1(a)), guaranteeing
+    finite-sample k-FWER <= alpha for weighted k-Bonferroni (Theorem 3, Supplement S1.6) and finite-sample
+    FDR <= alpha for weighted Benjamini-Yekutieli (Theorem 4, Supplement S1.5); conversely, under the
+    same block-dependence assumption, dishonest data-driven weighted BY can suffer FDR = 1 (Example 1)
+    and AdaPT with BY correction and tau-censoring (tau = 0.45) suffers FDR >= 0.2925 at alpha = 0.10
+    (Example 2, Section 3.3).
+  evidence:
+  - source_id: ignatiadis2021-ihw-cross-weighting-ar5iv
+    locator: Section 3.3, lines 483–550, Assumption 2, Lemma 1(a), Theorems 3–4, Examples 1–2; Supplement
+      S1.5–S1.6, lines 1256–1355
+    relation: supports
+- claim_id: grenander-least-concave-majorant-convex-weight-optimization-and-sparse-superuniform-robustness
+  kind: mechanism
+  statement: To learn informative weights in each out-of-fold training set [m] \ I_ell, IHW discretizes
+    X_i into G bins, estimates the conditional p-value CDF F_hat^{-ell}(t | g) in each bin via the nonparametric
+    Grenander estimator (the least concave majorant of the empirical CDF, corresponding to the non-increasing
+    density NPMLE), and solves a convex linear program (or exact O(m log m) KKT slope-sorting procedure,
+    Algorithm 5) with optional total-variation or uniform-deviation regularization to maximize expected
+    discoveries subject to the fold budget constraint (Section 4, Equations 8–12; Supplement S4.1–S4.2);
+    unlike mirror-reflection masking methods such as AdaPT—which require at least ceil(1 / alpha) rejections
+    to make any discovery and lose power when true alternatives are sparse (m_1 < 1 / alpha) or null p-values
+    are strictly super-uniform near 1—IHW-Grenander maintains high discovery power in both regimes (Section
+    5.2, 'Breaking AdaPT').
+  evidence:
+  - source_id: ignatiadis2021-ihw-cross-weighting-ar5iv
+    locator: Section 4, lines 551–715, Equations 8–12; Section 5.2, lines 755–805 ('Breaking AdaPT');
+      Supplement S4.1–S4.2, lines 1675–1835, Equations 47–49, Algorithm 5
+    relation: supports
+evidence_sources:
+- source_id: ignatiadis2021-ihw-cross-weighting-ar5iv
+  title: Covariate powered cross-weighted multiple testing
+  authors:
+  - Nikolaos Ignatiadis
+  - Wolfgang Huber
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1701.05179
+  persistent_id: https://doi.org/10.1111/rssb.12411
+  version: 'arXiv:1701.05179v7 (published in Journal of the Royal Statistical Society: Series B (Statistical
+    Methodology), Vol. 83, Issue 4, pp. 720–751, September 2021). Complete full-text ar5iv HTML conversion
+    read across Sections 1–8 and Supplement Sections S1–S6 (2,154 lines, 238,912 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-17T14:45:00Z'
+  sha256: 601c70dd0ebaa83c002b3882400ac8da8514ae8a54bf8a1c3a205c87d3080271
+- source_id: ignatiadis2021-ihw-cross-weighting-crossref
+  title: Covariate powered cross-weighted multiple testing (JRSS-B Record)
+  authors:
+  - Nikolaos Ignatiadis
+  - Wolfgang Huber
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1111/rssb.12411
+  persistent_id: https://doi.org/10.1111/rssb.12411
+  version: 'Journal of the Royal Statistical Society: Series B (Statistical Methodology), Vol. 83, Issue
+    4, pp. 720–751, September 2021 Crossref bibliographic metadata record (6,759 bytes).'
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:45:00Z'
+  sha256: 3375754909898a3e6a4661ebd98b49507e8a988a4680c4d4d101299b749b4b45
+- source_id: ignatiadis2021-ihw-cross-weighting-abs
+  title: Covariate powered cross-weighted multiple testing (arXiv:1701.05179 Abstract)
+  authors:
+  - Nikolaos Ignatiadis
+  - Wolfgang Huber
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1701.05179
+  persistent_id: https://doi.org/10.48550/arXiv.1701.05179
+  version: arXiv:1701.05179v7 abstract and JRSS-B 2021 publication metadata record (6,673 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T14:45:00Z'
+  sha256: 2c863b983bbb6aed7033dcf5b5bb109495f4ca455cf91458933f3ce93ed816fd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: IHW prevents in-sample weight overfitting and false-discovery inflation (AIO:DataDredgingBias)
+    when learning covariate-dependent hypothesis weights by fitting weight functions strictly out of fold
+    across K disjoint hypothesis folds.
+limitations:
+- Finite-sample FDR control in Theorems 1 and 2 requires mutual independence of null p-values and independence
+  between null and non-null p-values conditional on covariates (Assumption 1), together with both within-fold
+  weight normalization (Specification 1) and tau-censoring of out-of-fold p-values at a pre-specified
+  threshold tau (Specification 2); omitting tau-censoring allows adversarial honest weighting rules to
+  exceed alpha in finite samples (Supplement S1.3).
+- Under dependence (Assumption 2, Theorems 3 and 4), finite-sample k-FWER and IHW-BY FDR guarantees require
+  that the fold partition I_1, ..., I_K be constructed from domain knowledge so that hypotheses in different
+  folds are genuinely independent (such as separate chromosomes or distant genomic blocks); random fold
+  assignment does not decouple dependent p-values across folds (Section 3.3, Section 6.2).
+- Out-of-fold Grenander least-concave-majorant weight learning requires partitioning the covariate space
+  X into G discrete bins or trees with sufficient hypotheses per bin to estimate the conditional p-value
+  distribution accurately, making direct nonparametric estimation challenging for high-dimensional covariates
+  without tree or regression-based binning (Section 4, Section 7).
+- All 2,154 lines of Ignatiadis & Huber (2021, JRSS-B 83(4):720-751, arXiv:1701.05179v7) were read. Constructed
+  numerical checks in research/discovery/covariate-powered-cross-weighted-multiple-testing-boundaries.py
+  verify (1) Supplement S1.3 exact uncensored honest counterexample FDR (0.216 vs. Monte Carlo 0.212 >
+  0.20, restored to 0.2023 <= 0.20 under tau-censoring), Section 2.2 naive GBH global-null overfitting
+  (0.2533 vs. IHW-GBH 0.065 <= 0.10), and Theorem 1/2 power gains (IHW-Storey 0.8891 > IHW-BH 0.8148 >
+  unweighted BH 0.7487), (2) Proposition 1(a) full-sample Specification-7 overfitting (FDR = 0.7674 >
+  0.15) vs. Proposition 1(b) uncensored cross-weighted FDR control (0.1331 <= 0.15) and Proposition 1(c)/Corollary
+  2 convergence to oracle W* power (0.3954 vs. oracle 0.4006, gap 0.00522), (3) Example 1 dishonest wBY
+  failure (FDR = 1.0) and Example 2 AdaPT-BY failure (exact bound 0.2925, MC 0.2938 > 0.10) vs. Theorem
+  3 IHW-k-Bonferroni k-FWER control (0.016 <= 0.10, power 0.8829 > 0.7881) and Theorem 4 IHW-BY FDR control
+  (0.0083 <= 0.10, power 0.8709 > 0.7551), and (4) Section 4/5.2 Grenander KKT concavity (violation 0.0)
+  and sparse/super-uniform robustness where IHW-Grenander achieves power 0.8375 (FDR 0.0454 <= 0.05) while
+  AdaPT has power 0.0 due to its ceil(1/alpha) = 20 minimum-rejection floor.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T14:45:00Z'
+  updated_at: '2026-10-17T14:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

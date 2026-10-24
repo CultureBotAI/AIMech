@@ -1,0 +1,101 @@
+id: AIMech:DRAGONDiverseAugmentationGeneralizableDenseRetrieval
+name: DRAGON (Diverse Augmentation for Generalizable Dense Retrieval)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A contrastive training algorithm for generalizable bi-encoder dense retrieval that combines large-scale diverse query augmentation (mixing corpus-cropped sentences and sequence-to-sequence generated queries) with progressive relevance label augmentation across N heterogeneous teacher retrievers (spanning sparse, dense, and multi-vector architectures ordered from lower to higher generalization capability), uniformly sampling a teacher n ~ U(1, T) at curriculum iteration T <= N and drawing positive passages from ranks 1..k (k = 10) and hard negatives from ranks 46..50 of P_q^n to optimize InfoNCE loss.
+identity_notes: Introduced by Lin, Asai, Li, Oguz, Lin, Mehdad, Yih, and Chen (Findings of EMNLP 2023, pp. 6385-6400, arXiv:2302.07452). Distinguished from single-teacher cross-encoder distillation methods (such as RocketQAv2, CL-DRD, or GPL) which rely on computationally expensive cross-encoder soft labels, and from unsupervised contrastive pre-training (such as Contriever or coCondenser) which assumes the originating document is the sole positive for a cropped span.
+aliases:
+- Dense Retriever Trained with Diverse Augmentation
+- DRAGON Progressive Label Augmentation
+- DRAGON Dense Retrieval Training
+definition_evidence:
+- source_id: r748-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r748-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r748-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: dragon-progressive-multi-teacher-label-augmentation-mechanism
+  kind: mechanism
+  statement: Given N heterogeneous teacher retrievers ordered by increasing zero-shot generalization capability (uniCOIL -> Contriever -> GTR-XXL -> ColBERTv2 -> SPLADE++), DRAGON trains an asymmetric BERT-base bi-encoder across N = 5 progressive iterations; at iteration T <= N, for each augmented query q (sampled from 28M cropped MS MARCO sentences and 28M DocT5Query synthetic queries), it uniformly samples a teacher n ~ U(1, T), selects a positive d^+ from the top k = 10 passages and a hard negative d^- from ranks 46..50 of P_q^n (assigning consensus positives retrieved by m <= T teachers sampling probability m / (T*k) without score normalization), and minimizes InfoNCE loss.
+  evidence:
+  - source_id: r748-primary-pdf
+    locator: Section 3.2 (Progressive Supervision, Figure 2), Section 3.4, & Appendix A.2, pp. 4-6, 14
+    relation: supports
+  - source_id: r748-primary-pdf
+    locator: progressive_positive_sampling_distribution & main
+    relation: supports
+- claim_id: dragon-breaking-supervised-vs-zeroshot-tradeoff
+  kind: scope
+  statement: Without increasing inference model size beyond a 110M-parameter BERT-base bi-encoder or requiring target-domain corpora during training, DRAGON and DRAGON+ (initialized from RetroMAE) achieve 39.3 and 39.0 MRR@10 on supervised MS MARCO Dev, 74.1 and 74.4 nDCG@10 on TREC DL 2019, and 49.4 and 50.2 average nDCG@10 on zero-shot BEIR-13 (matching SPLADE++'s 50.3 and surpassing ColBERTv2's 49.9 and GTR-XXL's 49.3), while reversing the progressive teacher trajectory degrades BEIR-13 by 1.6 points.
+  evidence:
+  - source_id: r748-primary-pdf
+    locator: Section 3.3 (Tables 2-3), Section 4.4 (Table 4), & Section 5 (Tables 5, 7), pp. 5, 7-9
+    relation: supports
+- claim_id: dragon-offline-indexing-and-curriculum-trajectory-limitation
+  kind: limitation
+  statement: DRAGON requires offline batch retrieval over 28M augmented queries across five distinct sparse, dense, and multi-vector teacher indices followed by five 20-epoch training iterations (around 650K total optimization steps on 32 A100 GPUs), is sensitive to the easy-to-hard ordering of teacher retrievers, and still trails late-interaction/sparse teachers (SPLADE++ and ColBERTv2) on specialized science and technology forum queries in LoTTE.
+  evidence:
+  - source_id: r748-primary-pdf
+    locator: Section 3.3 (Table 3), p. 5; Section 3.4 & Section 4.3, pp. 6-7; Appendix A.6 (Table 11), p. 15
+    relation: supports
+evidence_sources:
+- source_id: r748-primary-pdf
+  title: 'How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval'
+  authors: &id001
+  - Sheng-Chieh Lin
+  - Akari Asai
+  - Minghan Li
+  - Barlas Oguz
+  - Jimmy Lin
+  - Yashar Mehdad
+  - Wen-tau Yih
+  - Xilun Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2302.07452
+  persistent_id: https://dblp.org/search/publ/api?q=How+to+Train+Your+DRAGON+Diverse+Augmentation+Lin&h=5&format=xml
+  version: 'Findings of the Association for Computational Linguistics: EMNLP 2023 (2023) (665846 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:51:00Z'
+  sha256: f56813d7c943b276f3e231ea8a86b8d38c2e078106680de9977034f3b9d7338f
+- source_id: r748-arxiv-abs
+  title: 'How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2302.07452
+  persistent_id: https://arxiv.org/abs/2302.07452
+  version: arXiv abstract page (6654 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:51:00Z'
+  sha256: 170c323dda0bed5fde32659ef43afed8fc68a849719b5f7cbcaf0c29939ba27d
+- source_id: r748-metadata-cr
+  title: 'How to Train Your DRAGON: Diverse Augmentation Towards Generalizable Dense Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=How+to+Train+Your+DRAGON+Diverse+Augmentation+Lin&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=How+to+Train+Your+DRAGON+Diverse+Augmentation+Lin&h=5&format=xml
+  version: Crossref API work record (995 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:51:00Z'
+  sha256: 07071e3f61df7c20429e625a721a0b65231139f21b08c904dc2fc2937a5a17f5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Trains asymmetric neural transformer bi-encoders via progressive multi-teacher contrastive learning.
+limitations:
+- 'Requires substantial offline compute: indexing and retrieving top-50 lists for 28M queries across five teacher retrievers and running five 20-epoch progressive training stages.'
+- Zero-shot accuracy is sensitive to the curriculum ordering of teachers and underperforms token-level late-interaction models (ColBERTv2, SPLADE++) on specialized scientific/technical forum queries in LoTTE.
+curation:
+  created_at: '2026-10-19T13:51:00Z'
+  updated_at: '2026-10-19T13:51:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

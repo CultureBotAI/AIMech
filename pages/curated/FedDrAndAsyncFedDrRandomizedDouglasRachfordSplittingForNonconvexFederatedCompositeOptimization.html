@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex Federated Composite Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex Federated Composite Optimization)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex Federated Composite Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedDrAndAsyncFedDrRandomizedDouglasRachfordSplittingForNonconvexFederatedCompositeOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedDR, asyncFedDR, Randomized Douglas-Rachford Splitting for Nonconvex Federated Optimization
+    </div>
+
+  <div class="detail-desc">
+    A family of synchronous (FedDR, Algorithm 1) and asynchronous (asyncFedDR, Algorithm 2) randomized block-coordinate Douglas-Rachford splitting algorithms for nonconvex federated composite optimization min_x { F(x) := (1/n) sum_{i=1}^n f_i(x) + g(x) } with L-smooth nonconvex client objectives f_i and proper closed convex regularizer g (Tran-Dinh, Pham, Phan, &amp; Nguyen 2021, Sections 3-4, Equations 1-8, Algorithms 1-2, Theorems 1-2): in each round k, each sampled client i in S_k updates its local shadow iterate y_i^{k+1} = y_i^k + alpha (x_bar^k - x_i^k), approximately solves the local proximal subproblem x_i^{k+1} approx prox_{eta f_i}(y_i^{k+1}) = argmin_x { f_i(x) + (1/(2 eta)) ||x - y_i^{k+1}||^2 } up to accuracy epsilon_{i,k}, and forms the reflected iterate x_hat_i^{k+1} = 2 x_i^{k+1} - y_i^{k+1}, while the server maintains the global average x_tilde^{k+1} = x_tilde^k + (1/n) sum_{i in S_k} (x_hat_i^{k+1} - x_hat_i^k) and applies the global composite proximal step x_bar^{k+1} = prox_{eta g}(x_tilde^{k+1}) (Equation 3, Algorithm 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedSplit (AIMech:FedSplitOperatorSplittingForFastFederatedOptimization, Pathak &amp; Wainwright 2020), which applies deterministic Peaceman-Rachford / Douglas-Rachford operator splitting strictly to strongly convex unconstrained objectives without composite nonsmooth regularizer g(x), partial client sampling, or asynchronous delay tolerance; and distinct from FedPD (AIMech:FedPdFederatedPrimalDualOptimizationWithAdaptivityToNonIidData, Zhang et al. 2021), which uses an augmented Lagrangian primal-dual method with full synchronization rather than a nonconvex Douglas-Rachford Lyapunov envelope with randomized block-coordinate and asynchronous bounded-delay updates (asyncFedDR).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r482-nonconvex-douglas-rachford-triad-and-reflection-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each active client i in S_k updates its local triad (y_i^k, x_i^k, x_hat_i^k) by relaxing y_i^{k+1} = y_i^k + alpha (x_bar^k - x_i^k), computing an inexact proximal point x_i^{k+1} approx prox_{eta f_i}(y_i^{k+1}) satisfying ||nabla f_i(x_i^{k+1}) + (1/eta)(x_i^{k+1} - y_i^{k+1})|| &lt;= epsilon_{i,k}, and transmitting Delta x_hat_i^k = x_hat_i^{k+1} - x_hat_i^k where x_hat_i^{k+1} = 2 x_i^{k+1} - y_i^{k+1}, so that at any consensus fixed point x_bar^* = x_i^* = x^* the shadow offsets y_i^* = x^* + eta nabla f_i(x^*) cancel local gradient drift and enforce exact composite stationarity G_eta(x^*) = (1/eta)(x^* - prox_{eta g}(x^* - eta nabla f(x^*))) = 0 (Tran-Dinh et al. 2021, Section 3, Equation 3, Algorithm 1, Lemma 1, pp. 4-5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r482-primary-pdf">FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Equation 3, Algorithm 1, Lemma 1), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r482-nonconvex-composite-convergence-and-async-bounded-delay-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without any bounded gradient-dissimilarity assumption across non-IID clients, Theorems 1 and 2 prove that under L-smooth nonconvex f_i, proper closed convex g, relaxation 0 &lt; alpha &lt; 2, and step size eta satisfying 2(2 - alpha) - alpha eta L - (1 + 2 alpha) eta^2 L^2 &gt; 0 (Equation 7), both synchronous FedDR under arbitrary positive sampling probabilities p_i &gt; 0 and asynchronous asyncFedDR under bounded delay d_i^k &lt;= tau achieve O(1/epsilon^2) communication rounds to reach E[||G_eta(x_bar^{k_hat})||^2] &lt;= epsilon^2 (Tran-Dinh et al. 2021, Section 3.3 &amp; Section 4.2, Theorems 1-2, pp. 5-8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r482-primary-pdf">FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Theorem 1, Corollary 1, Equation 7) &amp; Section 4.2 (Theorem 2, Corollary 2), pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r482-non-iid-sparse-and-regularized-neural-network-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to nonconvex L1-regularized sparse federated deep classification and unconstrained non-IID neural network training on MNIST, FEMNIST, and Shakespeare benchmarks under cross-device partial participation and asynchronous worker delays (Tran-Dinh et al. 2021, Section 5, Figures 1-4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r482-primary-pdf">FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5 (Numerical Experiments, Figures 1-4), pp. 8-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r482-stateful-client-triad-memory-requirement-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires every client i to maintain persistent local state across rounds (x_i^k, y_i^k, x_hat_i^k) and requires the server to maintain the aggregated reflected vector x_tilde^k of all n clients, preventing stateless one-shot client participation (Tran-Dinh et al. 2021, Algorithm 1 &amp; Remark 1, p. 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r482-primary-pdf">FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Algorithm 1 &amp; Remark 1), p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires clients to persist local primal and shadow variables (x_i^k, y_i^k, x_hat_i^k) across communication rounds.</li>
+      <li>Step size eta must satisfy the smoothness-dependent quadratic upper bound 2(2-alpha) - alpha eta L - (1+2 alpha) eta^2 L^2 &gt; 0.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedDR and asyncFedDR are operator-splitting federated optimization algorithms within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r482-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r482-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2103.03452.pdf" target="_blank" rel="noopener">FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Quoc Tran-Dinh, Nhan H. Pham, Dzung T. Phan, Lam M. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2103.03452</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d193f2ad41e6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r482-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r482-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2103.03452" target="_blank" rel="noopener">FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Quoc Tran-Dinh, Nhan H. Pham, Dzung T. Phan, Lam M. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2103.03452</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:da5ee238c290…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r482-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r482-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2103.03452" target="_blank" rel="noopener">FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Quoc Tran-Dinh, Nhan H. Pham, Dzung T. Phan, Lam M. Nguyen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2103.03452</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6e9d3ce7dc4b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFedDrAndAsyncFedDrRandomizedDouglasRachfordSplittingForNonconvexFederatedCompositeOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex Federated Composite Optimization)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FedDrAndAsyncFedDrRandomizedDouglasRachfordSplittingForNonconvexFederatedCompositeOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FedDR and asyncFedDR...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:25:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:25:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedDrAndAsyncFedDrRandomizedDouglasRachfordSplittingForNonconvexFederatedCompositeOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedDrAndAsyncFedDrRandomizedDouglasRachfordSplittingForNonconvexFederatedCompositeOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FedDR%20and%20asyncFedDR%20%28Randomized%20Douglas-Rachford%20Splitting%20for%20Nonconvex%20Federated%20Composite%20Optimization%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedDrAndAsyncFedDrRandomizedDouglasRachfordSplittingForNonconvexFederatedCompositeOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

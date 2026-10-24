@@ -1,0 +1,513 @@
+# Scientific author self-review of self-concordant and pseudo-self-concordant finite-sample M-estimation
+
+- Review: 20261018T194600Z-self-concordant-m-estimators-finite-sample
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-18T19:45:00Z
+- Finished UTC: 2026-10-18T19:46:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Self-Concordant and Pseudo-Self-Concordant Finite-Sample M-Estimation as a distinct DRAFT mathematical_method with related LogisticRegression and LassoRegression mappings. All four claims and locators across Ostrovskii &amp; Bach (2021, arXiv:1810.06838v2, DOI:10.1214/20-EJS1780) are supported with explicit calibrated-design sub-Gaussianity, adversarial design, and high-dimensional L1 affine-invariance limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base a8ee6f32cf79e984c582d331371dbab36e135223.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | data/curated/SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.yaml | maintained | Self-Concordant and Pseudo-Self-Concordant Finite-Sample M-Estimation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | All 617 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | Exited 0 without output. |
+| Constructed Ostrovskii &amp; Bach 2021 self-concordant loss, Taylor localization, and Dikin-ellipsoid curvature checks | passed | True | AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation | {<br>  "concept_id": "AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation",<br>  "all_passed": true,<br>  "check_1_self_concordant_losses": {<br>    "passed": true,<br>    "max_logistic_sca_ratio": 0.999909,<br>    "max_pseudo_huber_sca_ratio": 1.5,<br>    "standard_pseudo_huber_scb_ratio_at_t50": 21.2111,<br>    "max_fenchel_duality_err": 5.24913446042774e-13,<br>    "max_novel_loss_scb_ratio": 2.82832,<br>    "theoretical_2sqrt2_bound": 2.828427<br>  },<br>  "check_2_propositions_b3_b4": {<br>    "passed": true,<br>    "max_localization_ratio_case_a": 2.42,<br>    "max_localization_ratio_case_b": 2.666667,<br>    "proposition_b4_bound": 4.0,<br>    "lemma_b3_coefficients": [<br>      0.333333,<br>      1.0<br>    ]<br>  },<br>  "check_3_dikin_hessian_and_gaussian_logistic": {<br>    "passed": true,<br>    "dikin_hessian_factors": [<br>      0.444444,<br>      4.0<br>    ],<br>    "rho_over_1_plus_t3_grid": [<br>      4.0,<br>      3.4668,<br>      1.8357,<br>      1.0656,<br>      0.9015,<br>      0.8416<br>    ],<br>    "kappa_perp_times_1_plus_t_grid": [<br>      0.25,<br>      0.4132,<br>      0.4543,<br>      0.4559,<br>      0.446,<br>      0.4379<br>    ]<br>  }<br>} |
+
+## Scientific And Domain Assessments
+
+### Distinctness of self-concordant and pseudo-self-concordant finite-sample M-estimation
+
+identity: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+Distinct from deterministic Banach/Newton-Kantorovich M-estimator inequalities, regularized sample-split Newton ERM, and standard Lasso/logistic regression.
+
+Confirmed via normalized identity check and full-text reading of Ostrovskii &amp; Bach (2021, arXiv:1810.06838v2).
+
+### AIO mappings for AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+
+grounding: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+related_match to AIO:LogisticRegression and AIO:LassoRegression are accurate.
+
+Pinned AIO (2026-07-22) contains LogisticRegression and LassoRegression broadly without self-concordant or pseudo-self-concordant finite-sample M-estimation critical sample size theory.
+
+### Definition and scope
+
+evidence: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+Definition accurately captures pseudo and canonical self-concordance, Fenchel-conjugate canonically self-concordant losses, pointwise and Dikin-ellipsoid calibrated-design sub-Gaussianity, and critical sample sizes.
+
+All equations and claims verified against Sections 1-5 and Appendices A-D of arXiv:1810.06838v2.
+
+### pseudo-and-canonical-self-concordance-and-fenchel-conjugate-losses
+
+evidence: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+Supported by Section 2.1 (Assumptions SCa-SCb, Equations 17-22), Appendix B.1 (Equation 71), and boundary script.
+
+Verified logistic SCa ratio &lt;= 0.999909, pseudo-Huber SCa ratio &lt;= 1.5, Fenchel duality error 5.25e-13, and novel loss SCb ratio 2.82832 &lt;= 2 sqrt(2) = 2.828427.
+
+### self-concordant-taylor-bracketing-and-pointwise-critical-sample-size
+
+evidence: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+Supported by Section 3 (Theorems 3.1-3.2), Appendix B (Propositions B.1-B.4, Lemmas B.1-B.3), Appendix C.1-C.2, and boundary script.
+
+Verified Case (a) localization ratio 2.42 &lt;= 4.0, Case (b) localization ratio 2.666667 &lt;= 4.0, and Lemma B.3 coefficients [1/3, 1].
+
+### dikin-ellipsoid-covering-near-linear-critical-sample-size-and-gaussian-logistic-scaling
+
+evidence: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+Supported by Section 4 (Theorems 4.1-4.2), Appendix C.3-C.4 (Equations 84-100), Appendix D (Proposition D.1), and boundary script.
+
+Verified Dikin Hessian stability factors [4/9, 4] and Gaussian-design logistic regression cubic curvature scaling rho / (1 + t^3) in [0.8416, 4.0].
+
+### high-dimensional-l1-penalized-self-concordant-m-estimation
+
+evidence: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+Supported by Section 5 (Assumption C*, Theorems 5.1-5.2, Equations 38-46) and Appendix C.5-C.6 (Equations 101-121).
+
+Verified restricted subspace cone &#124;&#124;Delta_{S_c}&#124;&#124;_1 &lt;= 3 &#124;&#124;Delta_S&#124;&#124;_1 and high-dimensional L1-penalized error and sample size bounds.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, two pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261018T194500Z-self-concordant-m-estimators-finite-sample.json | supports | No normalized identity match for self-concordant and pseudo-self-concordant finite-sample M-estimation across 442 pinned AIO records and 616 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LogisticRegression and LassoRegression in the pinned AIO snapshot (2026-07-22). Provide accurate related_match context. |
+| calculation | research/discovery/self-concordant-m-estimators-finite-sample-boundaries.py | supports | Executed pure-Python verification in research/discovery/self-concordant-m-estimators-finite-sample-boundaries.py (SHA-256 58dacd884323f5998f2abfc88150d7fe8672d73603a12e652f682cc19ae3b023): verified (1) Section 2.1 pseudo-self-concordance for logistic and smooth pseudo-Huber losses and canonical self-concordance (&lt;= 2 sqrt(2)) and Fenchel duality phi''(varphi'(t)) varphi''(t) = 1 for the novel loss (Eq. 21); (2) Propositions B.3-B.4 Taylor remainder bracketing and localization radius &lt;= 4 &#124;&#124;nabla F(theta_0)&#124;&#124;_{H_0^{-1}}; and (3) Theorem 4.1 Eq. (84) Dikin-ellipsoid Hessian stability factors [4/9, 4] and Proposition D.1 cubic curvature scaling rho ~ 1 + &#124;&#124;theta_*&#124;&#124;_Sigma^3. |
+| ostrovskii2020-self-concordant-pdf | https://arxiv.org/pdf/1810.06838; Pages 1-55, Sections 1-8 and Appendices A-D (Theorems 1.1-1.2, 3.1-3.2, 4.1-4.2, 5.1-5.2, Propositions B.1-B.4, C.1, D.1) | supports | All 55 pages of the full-text PDF of Ostrovskii &amp; Bach (2020/2021, arXiv:1810.06838v2) read. Checked all definitions, theorems, propositions, lemmas, and proofs. |
+| ostrovskii2020-self-concordant-abs | https://arxiv.org/abs/1810.06838; arXiv:1810.06838v2 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| ostrovskii2021-self-concordant-cr | https://api.crossref.org/works/10.1214/20-EJS1780; DOI:10.1214/20-EJS1780 Crossref record | supports | Crossref metadata record read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT self-concordant and pseudo-self-concordant finite-sample M-estimation record, yielding 617 native and 442 unchanged generated records.
+- All 55 PDF pages of arXiv:1810.06838v2 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261018T194600Z-self-concordant-m-estimators-finite-sample
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of self-concordant and pseudo-self-concordant
+  finite-sample M-estimation
+started_at: '2026-10-18T19:45:00Z'
+finished_at: '2026-10-18T19:46:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from DeterministicBanachContractionAndNewtonKantorovichInequalitiesForSmoothMEstimators,
+    HigherOrderSmoothRegularizedEmpiricalRiskMinimizationAndSampleSplitNewton, and
+    LassoRegression, verified Fenchel-conjugate canonical self-concordance, Propositions
+    B.3-B.4 localization, Theorem 4.1 Dikin-ellipsoid Hessian stability, and Proposition
+    D.1 cubic curvature scaling, and documented five typographical notes in Ostrovskii
+    & Bach (2020/2021, arXiv:1810.06838v2, pp. 8, 11, 19, 22, 34). This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Self-Concordant and Pseudo-Self-Concordant Finite-Sample M-Estimation
+  as a distinct DRAFT mathematical_method with related LogisticRegression and LassoRegression
+  mappings. All four claims and locators across Ostrovskii & Bach (2021, arXiv:1810.06838v2,
+  DOI:10.1214/20-EJS1780) are supported with explicit calibrated-design sub-Gaussianity,
+  adversarial design, and high-dimensional L1 affine-invariance limitations.
+source:
+  git_revision: a8ee6f32cf79e984c582d331371dbab36e135223
+  state: working_tree
+  inputs:
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/curated/DeterministicBanachContractionAndNewtonKantorovichInequalitiesForSmoothMEstimators.yaml
+    sha256: 0229bc8b4c69e17cda36366390563f87f86c03510e1532ab73ad9262fdd9b350
+    role: context
+  - path: data/curated/OLSPostLassoAndFitnessThresholdedPostModelSelectionEstimation.yaml
+    sha256: b90938d9b7c2ebbd0adbef9e49d665ed7992b669982b03605938043df803a2da
+    role: context
+  - path: data/curated/SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.yaml
+    sha256: c761874a688223c4e3b5febdfd064a1b9369889dfeb89edcaab4944bf0328802
+    role: target
+  - path: research/discovery/20261018T194500Z-self-concordant-m-estimators-finite-sample.json
+    sha256: 6e39dc16d43991a5127d2eb216e71d6e67e3b5ac054e2f9e04524ef70d230d51
+    role: context
+  - path: research/discovery/self-concordant-m-estimators-finite-sample-boundaries.py
+    sha256: 58dacd884323f5998f2abfc88150d7fe8672d73603a12e652f682cc19ae3b023
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  path: data/curated/SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.yaml
+  label: Self-Concordant and Pseudo-Self-Concordant Finite-Sample M-Estimation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 617 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Ostrovskii & Bach 2021 self-concordant loss, Taylor localization,
+    and Dikin-ellipsoid curvature checks
+  command: python3 research/discovery/self-concordant-m-estimators-finite-sample-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation\"\
+    ,\n  \"all_passed\": true,\n  \"check_1_self_concordant_losses\": {\n    \"passed\"\
+    : true,\n    \"max_logistic_sca_ratio\": 0.999909,\n    \"max_pseudo_huber_sca_ratio\"\
+    : 1.5,\n    \"standard_pseudo_huber_scb_ratio_at_t50\": 21.2111,\n    \"max_fenchel_duality_err\"\
+    : 5.24913446042774e-13,\n    \"max_novel_loss_scb_ratio\": 2.82832,\n    \"theoretical_2sqrt2_bound\"\
+    : 2.828427\n  },\n  \"check_2_propositions_b3_b4\": {\n    \"passed\": true,\n\
+    \    \"max_localization_ratio_case_a\": 2.42,\n    \"max_localization_ratio_case_b\"\
+    : 2.666667,\n    \"proposition_b4_bound\": 4.0,\n    \"lemma_b3_coefficients\"\
+    : [\n      0.333333,\n      1.0\n    ]\n  },\n  \"check_3_dikin_hessian_and_gaussian_logistic\"\
+    : {\n    \"passed\": true,\n    \"dikin_hessian_factors\": [\n      0.444444,\n\
+    \      4.0\n    ],\n    \"rho_over_1_plus_t3_grid\": [\n      4.0,\n      3.4668,\n\
+    \      1.8357,\n      1.0656,\n      0.9015,\n      0.8416\n    ],\n    \"kappa_perp_times_1_plus_t_grid\"\
+    : [\n      0.25,\n      0.4132,\n      0.4543,\n      0.4559,\n      0.446,\n\
+    \      0.4379\n    ]\n  }\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261018T194500Z-self-concordant-m-estimators-finite-sample.json
+  accessed_at: '2026-10-18T19:45:00Z'
+  support: supports
+  summary: No normalized identity match for self-concordant and pseudo-self-concordant
+    finite-sample M-estimation across 442 pinned AIO records and 616 maintained IDs,
+    names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-18T19:45:00Z'
+  support: supports
+  summary: Inspected LogisticRegression and LassoRegression in the pinned AIO snapshot
+    (2026-07-22). Provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/self-concordant-m-estimators-finite-sample-boundaries.py
+  accessed_at: '2026-10-18T19:45:00Z'
+  snapshot_sha256: 58dacd884323f5998f2abfc88150d7fe8672d73603a12e652f682cc19ae3b023
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/self-concordant-m-estimators-finite-sample-boundaries.py
+    (SHA-256 58dacd884323f5998f2abfc88150d7fe8672d73603a12e652f682cc19ae3b023): verified
+    (1) Section 2.1 pseudo-self-concordance for logistic and smooth pseudo-Huber losses
+    and canonical self-concordance (<= 2 sqrt(2)) and Fenchel duality phi''''(varphi''(t))
+    varphi''''(t) = 1 for the novel loss (Eq. 21); (2) Propositions B.3-B.4 Taylor
+    remainder bracketing and localization radius <= 4 ||nabla F(theta_0)||_{H_0^{-1}};
+    and (3) Theorem 4.1 Eq. (84) Dikin-ellipsoid Hessian stability factors [4/9, 4]
+    and Proposition D.1 cubic curvature scaling rho ~ 1 + ||theta_*||_Sigma^3.'
+- evidence_id: ostrovskii2020-self-concordant-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1810.06838
+  locator: Pages 1-55, Sections 1-8 and Appendices A-D (Theorems 1.1-1.2, 3.1-3.2,
+    4.1-4.2, 5.1-5.2, Propositions B.1-B.4, C.1, D.1)
+  accessed_at: '2026-10-18T12:42:00Z'
+  snapshot_sha256: 4cd6b917ea4081156f3b9b504b4e0eeaab6687e4ef208c011a58774d365e85fd
+  support: supports
+  summary: All 55 pages of the full-text PDF of Ostrovskii & Bach (2020/2021, arXiv:1810.06838v2)
+    read. Checked all definitions, theorems, propositions, lemmas, and proofs.
+- evidence_id: ostrovskii2020-self-concordant-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1810.06838
+  locator: arXiv:1810.06838v2 abstract
+  accessed_at: '2026-10-18T12:42:00Z'
+  snapshot_sha256: bfce471f8b0111c7770bbc4cfc3a74b42a179cb802de878c9b16c9d1b64e2882
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: ostrovskii2021-self-concordant-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/20-EJS1780
+  locator: DOI:10.1214/20-EJS1780 Crossref record
+  accessed_at: '2026-10-18T12:42:00Z'
+  snapshot_sha256: fdb2c75847490720d9a1cdffe799735a74f23d799ac786646c809cdc139809c8
+  support: supports
+  summary: Crossref metadata record read and verified.
+assessments:
+- assessment_id: identity-boundary
+  area: identity
+  topic: Distinctness of self-concordant and pseudo-self-concordant finite-sample
+    M-estimation
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - identity
+  - ostrovskii2020-self-concordant-pdf
+  - ostrovskii2020-self-concordant-abs
+  - ostrovskii2021-self-concordant-cr
+  summary: Distinct from deterministic Banach/Newton-Kantorovich M-estimator inequalities,
+    regularized sample-split Newton ERM, and standard Lasso/logistic regression.
+  details: Confirmed via normalized identity check and full-text reading of Ostrovskii
+    & Bach (2021, arXiv:1810.06838v2).
+- assessment_id: aio-mappings
+  area: grounding
+  topic: AIO mappings for AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - mapping
+  - ostrovskii2020-self-concordant-pdf
+  summary: related_match to AIO:LogisticRegression and AIO:LassoRegression are accurate.
+  details: Pinned AIO (2026-07-22) contains LogisticRegression and LassoRegression
+    broadly without self-concordant or pseudo-self-concordant finite-sample M-estimation
+    critical sample size theory.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and scope
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - ostrovskii2020-self-concordant-pdf
+  - ostrovskii2020-self-concordant-abs
+  - ostrovskii2021-self-concordant-cr
+  summary: Definition accurately captures pseudo and canonical self-concordance, Fenchel-conjugate
+    canonically self-concordant losses, pointwise and Dikin-ellipsoid calibrated-design
+    sub-Gaussianity, and critical sample sizes.
+  details: All equations and claims verified against Sections 1-5 and Appendices A-D
+    of arXiv:1810.06838v2.
+- assessment_id: pseudo-and-canonical-self-concordance-and-fenchel-conjugate-losses
+  area: evidence
+  topic: pseudo-and-canonical-self-concordance-and-fenchel-conjugate-losses
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - ostrovskii2020-self-concordant-pdf
+  - calculation
+  summary: Supported by Section 2.1 (Assumptions SCa-SCb, Equations 17-22), Appendix
+    B.1 (Equation 71), and boundary script.
+  details: Verified logistic SCa ratio <= 0.999909, pseudo-Huber SCa ratio <= 1.5,
+    Fenchel duality error 5.25e-13, and novel loss SCb ratio 2.82832 <= 2 sqrt(2)
+    = 2.828427.
+- assessment_id: self-concordant-taylor-bracketing-and-pointwise-critical-sample-size
+  area: evidence
+  topic: self-concordant-taylor-bracketing-and-pointwise-critical-sample-size
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - ostrovskii2020-self-concordant-pdf
+  - calculation
+  summary: Supported by Section 3 (Theorems 3.1-3.2), Appendix B (Propositions B.1-B.4,
+    Lemmas B.1-B.3), Appendix C.1-C.2, and boundary script.
+  details: Verified Case (a) localization ratio 2.42 <= 4.0, Case (b) localization
+    ratio 2.666667 <= 4.0, and Lemma B.3 coefficients [1/3, 1].
+- assessment_id: dikin-ellipsoid-covering-near-linear-critical-sample-size-and-gaussian-logistic-scaling
+  area: evidence
+  topic: dikin-ellipsoid-covering-near-linear-critical-sample-size-and-gaussian-logistic-scaling
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - ostrovskii2020-self-concordant-pdf
+  - calculation
+  summary: Supported by Section 4 (Theorems 4.1-4.2), Appendix C.3-C.4 (Equations
+    84-100), Appendix D (Proposition D.1), and boundary script.
+  details: Verified Dikin Hessian stability factors [4/9, 4] and Gaussian-design logistic
+    regression cubic curvature scaling rho / (1 + t^3) in [0.8416, 4.0].
+- assessment_id: high-dimensional-l1-penalized-self-concordant-m-estimation
+  area: evidence
+  topic: high-dimensional-l1-penalized-self-concordant-m-estimation
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - ostrovskii2020-self-concordant-pdf
+  summary: Supported by Section 5 (Assumption C*, Theorems 5.1-5.2, Equations 38-46)
+    and Appendix C.5-C.6 (Equations 101-121).
+  details: Verified restricted subspace cone ||Delta_{S_c}||_1 <= 3 ||Delta_S||_1
+    and high-dimensional L1-penalized error and sample size bounds.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation
+  evidence_ids:
+  - identity
+  - mapping
+  - ostrovskii2020-self-concordant-pdf
+  - ostrovskii2020-self-concordant-abs
+  - ostrovskii2021-self-concordant-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, two pinned AIO mappings and rationales, four scoped limitations, and
+    UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT self-concordant and pseudo-self-concordant finite-sample M-estimation
+  record, yielding 617 native and 442 unchanged generated records.
+- All 55 PDF pages of arXiv:1810.06838v2 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-concordance
+- m-estimation
+- finite-sample-bounds
+- self-review
+- discovery-ongoing
+```

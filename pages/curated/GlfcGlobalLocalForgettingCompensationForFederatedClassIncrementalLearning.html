@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLFC (Global-Local Forgetting Compensation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>GLFC (Global-Local Forgetting Compensation)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GLFC (Global-Local Forgetting Compensation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GLFC, Global-Local Forgetting Compensation, Global-Local Forgetting Compensation for Federated Class-Incremental Learning
+    </div>
+
+  <div class="detail-desc">
+    GLFC (Global-Local Forgetting Compensation) is a federated class-incremental learning (FCIL) algorithm that mitigates both local catastrophic forgetting caused by client class imbalance between old and new classes and global catastrophic forgetting caused by non-i.i.d. cross-client class distributions by combining (1) a local class-aware gradient compensation loss L_GC that normalizes per-sample binary cross-entropy by separate old-class and new-class average gradient magnitudes (G_o and G_n), (2) a class-semantic relation distillation loss L_RD that aligns current predictions P_l^t(X_{lb}^t, Theta_l^{r,t}) with hybrid targets Y_l^t(X_{lb}^t, Theta_l^{t-1}) incorporating soft old-class probabilities from the globally selected best old model Theta^{t-1}, and (3) a proxy server S_P that detects task transitions via local prediction entropy jumps and selects Theta^{t-1} using perturbed prototype gradients nabla Gamma_{lc}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Jiahua Dong, Lixu Wang, Zhen Fang, Gan Sun, Shichao Xu, Xiao Wang, and Qi Zhu in &#39;Federated Class-Incremental Learning&#39; (CVPR 2022, pp. 10154-10163, DOI:10.1109/CVPR52688.2022.00992; arXiv:2203.11473). Distinct from FedWeIT (Yoon et al. ICML 2021), which addresses task-incremental federated continual learning with known task IDs at test time and parameter decomposition into masked base weights and sparse task-adaptive weights rather than single-head class-incremental learning; and distinct from centralized class-incremental learning methods (iCaRL, Rebuffi et al. CVPR 2017; PODNet, Douillard et al. ECCV 2020), which assume a single centralized exemplar store without heterogeneous client groups S_o, S_b, S_n or proxy-server prototype gradient reconstruction.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#glfc-class-aware-gradient-compensation-loss</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a mini-batch {(x_{li}^t, y_{li}^t)}_{i=1}^b on client S_l at incremental task t, GLFC measures the output-layer gradient scalar G_{li}^t = P_l^t(x_{li}^t, Theta_l^{r,t})_{y_{li}^t} - 1 (Equation 2), computes separate mean gradient magnitudes G_n for new classes y_{li}^t in Y_l^t and G_o for old classes y_{li}^t in U_{j=1}^{t-1} Y_l^j (Equation 3), and reweights binary cross-entropy via L_GC = (1/b) sum_{i=1}^b (|G_{li}^t| / bar_G_i) D_CE(P_l^t(x_{li}^t, Theta_l^{r,t}), y_{li}^t) (Equation 4), equalizing the aggregate gradient update magnitude between minority old exemplars and majority new-class samples.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r515-primary-pdf">Federated Class-Incremental Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equations (2)-(4), page 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#glfc-class-semantic-relation-distillation-loss</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To preserve inter-class semantic relations across old classes C^p = sum_{i=1}^{t-1} C^i and new classes C^t, GLFC constructs hybrid targets Y_l^t(X_{lb}^t, Theta_l^{t-1}) in R^{b x (C^p + C^t)} by replacing the first C^p dimensions of one-hot ground-truth labels Y_{lb}^t with soft probabilities P_l^{t-1}(X_{lb}^t, Theta_l^{t-1}) predicted by the previous task model Theta_l^{t-1}, and minimizes the Kullback-Leibler divergence L_RD = D_KL(P_l^t(X_{lb}^t, Theta_l^{r,t}) || Y_l^t(X_{lb}^t, Theta_l^{t-1})) (Equation 5) jointly with L_GC in L_l = lambda_1 L_GC + lambda_2 L_RD (Equation 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r515-primary-pdf">Federated Class-Incremental Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equations (5)-(6), page 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#glfc-entropy-jump-detection-and-proxy-server-prototype-gradient-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Clients detect the arrival of new classes without prior task-transition knowledge when the increase in mean prediction entropy H_l^{r,t} = (1/|X_l^t|) sum_i H(P_l^t(x_{li}^t, Theta_l^{r,t})) satisfies H_l^{r,t} - H_l^{r-1,t} &gt;= r_h = 1.2 (Equation 7); upon transition, each client perturbs class-mean prototypes x^p_{lc} via latent Gaussian noise backpropagation (Equations 10-11) and transmits shallow network gradients nabla Gamma_{lc} (Equation 8) to the proxy server S_P, which reconstructs prototype images via L-BFGS (Equation 9) and evaluates candidate client models across all reconstructed classes to broadcast the best old model Theta^{t-1} for relation distillation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r515-primary-pdf">Federated Class-Incremental Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Equations (7)-(11), pages 5-6; Supplementary Algorithm 1, page 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#glfc-fcil-benchmark-gains-on-cifar100-imagenet-subset-and-tiny-imagenet</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On federated class-incremental benchmarks with 10 incremental tasks and non-i.i.d. client streams (including dynamically arriving clients in S_o, S_b, and S_n), GLFC improves average top-1 accuracy by 6.0%-14.1% on CIFAR-100, 7.6%-13.9% on ImageNet-Subset, and 5.3%-11.6% on Tiny-ImageNet over federated adaptations of iCaRL, BiC, PODNet, DDE+iCaRL, GeoDL+iCaRL, and SS-IL (Tables 1-3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r515-primary-pdf">Federated Class-Incremental Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, Tables 1-3, pages 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires each client S_l to maintain a bounded local exemplar memory M_l (e.g., 2,000 samples divided across seen classes via herding) to supply old-class samples for L_GC; when exemplar memory is completely disabled (GLFC-w/oMem), CIFAR-100 average accuracy drops by 10.6%-12.0%.</li>
+      <li>Proxy-server selection of the best historical model Theta^{t-1} requires L-BFGS gradient inversion over shallow encoder gradients nabla Gamma_{lc} whenever a task transition is detected.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GLFC is a specific federated class-incremental learning algorithm that compensates for local and global catastrophic forgetting across distributed clients under AIO:FederatedLearning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r515-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r515-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2203.11473.pdf" target="_blank" rel="noopener">Federated Class-Incremental Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiahua Dong, Lixu Wang, Zhen Fang, Gan Sun, Shichao Xu, Xiao Wang, Qi Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/cvpr/DongWFSXW022</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fde0980a2a5e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r515-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r515-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.11473" target="_blank" rel="noopener">Federated Class-Incremental Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiahua Dong, Lixu Wang, Zhen Fang, Gan Sun, Shichao Xu, Xiao Wang, Qi Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.11473</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f47c3caff455…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r515-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r515-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/cvpr/DongWFSXW022" target="_blank" rel="noopener">Federated Class-Incremental Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiahua Dong, Lixu Wang, Zhen Fang, Gan Sun, Shichao Xu, Xiao Wang, Qi Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/cvpr/DongWFSXW022</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8e713776ba72…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AGlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for GLFC (Global-Local Forgetting Compensation)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">GLFC (Global-Local...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:58:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:58:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=GLFC%20%28Global-Local%20Forgetting%20Compensation%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AGlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,255 @@
+schema_version: 1.0.0
+review_id: 20261019T122730Z-melora-mini-ensemble-low-rank-adapters
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of MELoRA
+started_at: '2026-10-19T12:27:00Z'
+finished_at: '2026-10-19T12:27:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: 'The author challenged definition distinctness of AIMech:MELoRA
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL
+    2024, Volume 1: Long Papers), pp. 3052-3064 (2024) and pure-Python boundary checks.
+    This is adversarial author self-review, not independent approval.'
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain MELoRA as a distinct DRAFT algorithm. All four claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 4d5252eb1a0178232d836fb3887dc1487d381b9c
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/MELoRA.yaml
+    sha256: 19e3ae874a917cb4a858594b42e45e862add55e9899ce7ccc30d902a5a3c54ef
+    role: target
+  - path: research/discovery/20261019T122700Z-melora-mini-ensemble-low-rank-adapters.json
+    sha256: 52941de3b9913a33a25b423c35872d1ac16604ceb25cd3fe9db449da1b91ab85
+    role: context
+  - path: research/discovery/melora-mini-ensemble-low-rank-adapters-boundaries.py
+    sha256: 5a7a0ba6901b2873beb37fdf7f6710ae021b395fb186b56aa569a039ee43cbaa
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:MELoRA
+  path: data/curated/MELoRA.yaml
+  label: MELoRA
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MELoRA.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/MELoRA.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:MELoRA'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:MELoRA
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MELoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MELoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MELoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MELoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 melora-mini-ensemble-low-rank-adapters-boundaries.py
+  command: python3 research/discovery/melora-mini-ensemble-low-rank-adapters-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MELoRA
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 664 MELoRA (Ren et al. 2024): CaseA(params=64<256, rank=8==8),
+    CaseB(params=96==96, rank=12>3), eq5_diff=0.00e+00'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T122700Z-melora-mini-ensemble-low-rank-adapters.json
+  accessed_at: '2026-10-19T12:27:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:MELoRA across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:27:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/melora-mini-ensemble-low-rank-adapters-boundaries.py
+  accessed_at: '2026-10-19T12:27:00Z'
+  snapshot_sha256: 5a7a0ba6901b2873beb37fdf7f6710ae021b395fb186b56aa569a039ee43cbaa
+  support: supports
+  summary: 'All constructed boundary assertions in melora-mini-ensemble-low-rank-adapters-boundaries.py
+    passed with exit code 0: [PASS] Round 664 MELoRA (Ren et al. 2024): CaseA(params=64<256,
+    rank=8==8), CaseB(params=96==96, rank=12>3), eq5_diff=0.00e+00'
+- evidence_id: r664-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2402.17263
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:27:00Z'
+  snapshot_sha256: 783067d6b000334fe7e9237fb96e173607b7104f16da73340c867fc8b631ad9e
+  support: supports
+  summary: 'Full-text PDF (Proceedings of the 62nd Annual Meeting of the Association
+    for Computational Linguistics (ACL 2024, Volume 1: Long Papers), pp. 3052-3064
+    (2024)) read and verified.'
+- evidence_id: r664-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2402.17263
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:27:00Z'
+  snapshot_sha256: 4e196ebe44a0587b8becf596286c9a65f341b564cd7f2d2d157f2aa69c3582cd
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r664-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/acl/RenSWZRCP24.xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:27:00Z'
+  snapshot_sha256: ecab95c1f93565179fc2fd0bdd0ba4b31f2ef38d3f2768c9925f4b18169b4d3e
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:MELoRA
+  evidence_ids:
+  - identity
+  - r664-primary-pdf
+  - r664-arxiv-abs
+  - r664-metadata-cr
+  summary: MELoRA is a distinct concept.
+  details: Distinct from AIMech:LowRankAdaptation (LoRA), which applies a single dense
+    low-rank update B A in R^{d_{out} x d_{in}} of rank r using r(d_{in} + d_{out})
+    parameters, and from multi-head or mixture-of-LoRA architectures that sum multiple
+    full-dimension low-rank matrices across the entire feature space. MELoRA (Pengjie
+    Ren, Chengshun Shi, Shiguang Wu, Mengqi Zhang, Zhaochun Ren, Maarten de Rijke,
+    Zhumin Chen, and Jiahuan Pei, ACL 2024, pp. 3052-3064, arXiv:2402.17263) splits
+    the input vector x in R^{d_{in}} into n contiguous segments x_i in R^{d_{in}/n}
+    and applies an independent mini-LoRA module B_i A_i of inner rank r/n (with A_i
+    in R^{(r/n) x (d_{in}/n)} and B_i in R^{(d_{out}/n) x (r/n)}) to each segment,
+    concatenating the outputs. Equivalently, the overall weight update is the block-diagonal
+    matrix Delta_W = diag(B_1 A_1, ..., B_n A_n) in R^{d_{out} x d_{in}}. Because
+    the rank of a block-diagonal matrix equals the sum of the ranks of its diagonal
+    blocks, rank(Delta_W) = sum_{i=1}^n rank(B_i A_i) <= n * (r/n) = r, while the
+    total number of trainable parameters is n * (r/n) * (d_{in}/n + d_{out}/n) = r(d_{in}
+    + d_{out}) / n.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:MELoRA
+  evidence_ids:
+  - mapping
+  - r664-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:MELoRA
+  evidence_ids:
+  - r664-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in melora-mini-ensemble-low-rank-adapters-boundaries.py
+    passed with exit code 0: [PASS] Round 664 MELoRA (Ren et al. 2024): CaseA(params=64<256,
+    rank=8==8), CaseB(params=96==96, rank=12>3), eq5_diff=0.00e+00'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:MELoRA
+  evidence_ids:
+  - identity
+  - mapping
+  - r664-primary-pdf
+  - r664-arxiv-abs
+  - r664-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:MELoRA in Round 664.
+- 'All pages of Proceedings of the 62nd Annual Meeting of the Association for Computational
+  Linguistics (ACL 2024, Volume 1: Long Papers), pp. 3052-3064 (2024) were read in
+  full text.'
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing

@@ -1,0 +1,102 @@
+id: AIMech:FedSagePlusSubgraphFederatedLearningWithMissingNeighborGeneration
+name: FedSage+ (Subgraph Federated Learning with Missing Neighbor Generation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: FedSage+ is a subgraph federated learning algorithm for collaborative node classification across M data owners holding disjoint local subgraphs G_i = {V_i, E_i, X_i} with missing cross-subgraph links that trains a local missing neighbor generator NeighGen_i = {H_i^e, dGen_i, fGen_i} on simulated impaired subgraphs G_bar_i alongside cross-subgraph closest-node feature reconstruction gradients from other data owners D_j (j != i), mends each local subgraph G_i into G'_i with synthetic missing neighbors, and collaboratively trains a shared K-layer GraphSage classifier F(phi) via FedAvg on the mended subgraphs.
+identity_notes: Introduced by Ke Zhang, Carl Yang, Xiaoxiao Li, Lichao Sun, and Siu-Ming Yiu in 'Subgraph Federated Learning with Missing Neighbor Generation' (NeurIPS 2021, pages 6671-6682; arXiv:2106.13430). Distinct from vanilla FedSage (Section 3.2 of the same paper), which applies FedAvg directly to GraphSage on unmended subgraphs without missing neighbor generation; distinct from LocSage+, which trains NeighGen and GraphSage purely locally without cross-subgraph gradient feedback (alpha = 0 in Eq. 6); and distinct from GCFL+ (Xie et al. NeurIPS 2021), which clusters clients for graph-level classification rather than mending cut cross-subgraph edges for node classification.
+aliases:
+- FedSage+
+- FedSage Plus
+- Subgraph Federated Learning with Missing Neighbor Generation
+definition_evidence:
+- source_id: r513-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r513-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r513-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedsage-plus-neighgen-architecture-and-impaired-graph-mending
+  kind: mechanism
+  statement: In FedSage+, each data owner D_i holds out h% of its local nodes V_i^h subset V_i and incident links E_i^h to construct an impaired subgraph G_bar_i = {V_bar_i, E_bar_i, X_bar_i} and trains a Missing Neighbor Generator NeighGen_i comprising a K-layer GraphSage encoder H_i^e(theta^e) producing node embeddings z_v in R^{d_z}, a linear degree generator dGen(theta^d) predicting missing neighbor counts n_tilde_v = sigma((theta^d)^T . n_v) under smooth L1 loss L^d = (1/|V_bar_i|) sum_{v in V_bar_i} L_1^S(n_tilde_v - n_v), and a Gaussian-noise variational feature generator fGen(theta^f) generating n_tilde_v neighbor feature vectors x_tilde_v = R(sigma((theta^f)^T . (z_v + N(0,1))), n_tilde_v) (Equations 3-4).
+  evidence:
+  - source_id: r513-primary-pdf
+    locator: Section 4.1, Figure 2 and Equations (3)-(4), page 5
+    relation: supports
+- claim_id: fedsage-plus-cross-subgraph-gradient-sharing-without-raw-features
+  kind: mechanism
+  statement: Because directly averaging NeighGen weights across clients via FedAvg degrades neighbor diversity (Table 4), FedSage+ maintains a local specialized NeighGen_i per owner D_i and optimizes the cross-subgraph feature reconstruction loss L_i^f = (1/|V_bar_i|) sum_{v in V_bar_i} sum_{p in [n_tilde_v]} (min_{u in N_{G_i}(v) cap V_i^h} ||x_tilde_v^p - x_u||_2^2 + alpha sum_{j in [M] \ {i}} min_{u in V_j} ||H_i^g(z_v)^p - x_u||_2^2) (Equation 6), where each peer owner D_j locally computes the closest-node distance gradient nabla L_{i,j}^f and returns it via the server without sharing raw node features X_j (Algorithm 1).
+  evidence:
+  - source_id: r513-primary-pdf
+    locator: Section 4.3, Equation (6), page 6; Appendix A, Algorithm 1, page 13; Appendix D.2, Table 4, page 18
+    relation: supports
+- claim_id: fedsage-plus-gntk-generalization-bound-and-node-classification-gain
+  kind: application
+  statement: In the overparameterized Graph Neural Tangent Kernel (GNTK) regime with kernel matrix Theta in R^{n x n} satisfying tr(Theta) <= 2n (Lemma C.4) and sqrt(y^T Theta^{-1} y) = o(n) (Lemma C.3), the node classification generalization error is bounded by L_{D(F)} = O(sqrt(y^T Theta^{-1} y . tr(Theta)) / n + sqrt(log(1/sigma) / n)) <= O(1/n^c) (Theorem 6.2 and Theorem C.1), and empirically FedSage+ outperforms Local GraphSage (LocSage) by an average of 23.18% across Cora, CiteSeer, PubMed, and MSAcademic while reducing the accuracy gap to centralized GlobSage from 2.11% (FedSage) to 1.28%.
+  evidence:
+  - source_id: r513-primary-pdf
+    locator: Section 5.2, Table 2, page 8; Section 6, Theorem 6.2, page 10; Appendix C, Theorem C.1 and Lemmas C.3-C.4, pages 15-17
+    relation: supports
+- claim_id: fedsage-plus-impairing-ratio-sensitivity-and-embedding-transmission-limitation
+  kind: limitation
+  statement: FedSage+ requires tuning the graph impairing ratio h% to match the true missing cross-subgraph edge fraction (since too-small h=1% provides insufficient training supervision for NeighGen and too-large h=30% over-sparsifies local subgraphs), and Phase 1 NeighGen training transmits node embeddings z_v and generator models H_i^g across owners, incurring additional communication and potential embedding-level privacy leakage without formal differential privacy.
+  evidence:
+  - source_id: r513-primary-pdf
+    locator: Section 5.2, Figure 3b, pages 8-9; Section 7, page 10; Algorithm 1, page 13
+    relation: supports
+evidence_sources:
+- source_id: r513-primary-pdf
+  title: Subgraph Federated Learning with Missing Neighbor Generation
+  authors: &id001
+  - Ke Zhang
+  - Carl Yang
+  - Xiaoxiao Li
+  - Lichao Sun
+  - Siu Ming Yiu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.13430.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/ZhangYLSY21
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pages 6671-6682 (2021) (823456 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:56:00Z'
+  sha256: 80571ccadbc8f1b07bab4a0b690871be9f1b20741b9f75bd00331f22e6f69932
+- source_id: r513-arxiv-abs
+  title: Subgraph Federated Learning with Missing Neighbor Generation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.13430
+  persistent_id: https://arxiv.org/abs/2106.13430
+  version: arXiv abstract page (7404 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:56:00Z'
+  sha256: 8c3128f1f12851b1b18a331ce61524cdd0a054e626dd6655e25149a56d0bbf5a
+- source_id: r513-metadata-cr
+  title: Subgraph Federated Learning with Missing Neighbor Generation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/ZhangYLSY21
+  persistent_id: https://dblp.org/rec/conf/nips/ZhangYLSY21
+  version: Crossref API work record (1946 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:56:00Z'
+  sha256: c6fa19d9e29e59caae9f1afaa1c1a0e39e96a64aa95f7c7917fc2d326cb1e4d4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedSage+ is a subgraph federated learning algorithm that combines cross-subgraph missing neighbor generation with Federated Averaging of GraphSage models under AIO:FederatedLearning.
+limitations:
+- Sensitive to extreme choices of the local node holding-out ratio h% (degrading when h=1% or h=30%) and cross-subgraph gradient weight alpha (degrading at alpha=10).
+- Transmits intermediate node embeddings z_v and generator networks H_i^g during NeighGen federated training without formal differential privacy guarantees.
+curation:
+  created_at: '2026-10-19T09:56:00Z'
+  updated_at: '2026-10-19T09:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,238 @@
+id: AIMech:RestrictedIsometryPostSelectionInferenceConstantBounds
+name: Restricted isometry post-selection inference (PoSI) constant upper and lower bounds
+concept_kind: mathematical_method
+aliases:
+- RIP-based post-selection inference (PoSI) constant bounds (Bachoc-Blanchard-Neuvial 2018)
+- Correlation-matrix restricted isometry interpolation for universal post-selection confidence intervals
+- Gaussian-width and Beta-Fisher quantile bounds for the sparse PoSI constant
+- Block-equicorrelated minimax lower bound for the sparse PoSI constant
+definition: 'A post-selection inference methodology for linear Gaussian regression Y = mu + epsilon (epsilon
+  ~ N(0, sigma^2 I_n)) that bounds the Berk-Brown-Buja-Zhang-Zhao (2013) Post-Selection Inference (PoSI)
+  constant K(X, M_s, alpha, r)—the (1 - alpha) quantile of the studentized maximum projection statistic
+  gamma_{M_s, r} = (1 / N) max_{M in M_s, i in M} |w_{M, i}^t xi| over all s-sparse submodels M_s = {M
+  subset {1, ..., p} : rank(X_M) = |M| <= s} where w_{M, i} = v_{M, i} / ||v_{M, i}|| and v_{M, i} is
+  the i-th column of X_M (X_M^t X_M)^{-1}—as an explicit function of the correlation-matrix Restricted
+  Isometry Property (RIP) constant delta(X, s) = sup_{M in M_s} ||corr(X_M^t X_M) - I_{|M|}||_op. Because
+  K(X, M, alpha, r) depends on X only through corr(X^t X) (Lemma 2.2) and satisfies the Cirel''son-Ibragimov-Sudakov
+  Gaussian-concentration quantile bound K(X, M, alpha, r) <= T(E[gamma_{M, infty}], r, 1 - alpha/2) (Proposition
+  2.3), decomposing each dual projection vector w_{M, i} into its normalized column z_{M, i} = X_{M, i}
+  / ||X_{M, i}|| plus a residual of norm at most 2 * delta * c(delta) with c(delta) = sqrt(1 + delta)
+  / (1 - delta) yields the RIP-interpolating Gaussian-width upper bound E[gamma_{M_s, infty}] <= U_RIP(p,
+  s, delta) = sqrt(2 log(2p)) + 2 * delta * c(delta) * sqrt(2 s log(6p / s)) (Theorem 3.3) and the sharper
+  Beta-Fisher quantile union-split bound U_tilde_RIP(p, s, delta) = inf_{t in (0, 1)} {B_{t*alpha}(n wedge
+  p, r, p) + 2 * delta * c(delta) * B_{(1-t)*alpha}(n wedge p, r, |M_s|)} (Section 3.3), smoothly interpolating
+  between the orthogonal-design rate sqrt(2 log(2p)) (delta = 0) and the generic sparse rate sqrt(2 s
+  log(6p / s)) (Lemma 2.4). A matching lower bound on block-equicorrelated designs Z^{(c, k)} with exact
+  RIP constant delta(X, s) = c * sqrt(s - 1) (Lemma 4.1) proves K(X, M_s, alpha, infty) >= A * (c * (s
+  - 1) / sqrt(1 - (s - 1) * c^2)) * sqrt(log floor(k / s)) - sqrt(2 log 2) (Proposition 4.2) and establishes
+  minimax rate optimality whenever delta_p = O(p^{-lambda}) (Corollary 4.3).'
+identity_notes: Distinct from AIMech:ValidPostSelectionInferencePoSIConstant (Berk, Brown, Buja, Zhang,
+  & Zhao 2013, The Annals of Statistics 41(2):802-837, arXiv:1206.6451) and AIMech:SimultaneousLinearContrastPostSelectionInference
+  (Scheffé / simultaneous sphere-intersection bounds), which introduce the all-subsets PoSI constant K(X,
+  M_all, alpha, r), orthogonal vs. worst-case full-model scaling O(sqrt(p)), and canonical-angle sphere-packing
+  bounds without Restricted Isometry Property (RIP) perturbation bounds over s-sparse model families M_s.
+  Bachoc, Blanchard, & Neuvial (2018, Electronic Journal of Statistics 12(2):3736-3757, arXiv:1804.07566v2,
+  DOI:10.1214/18-EJS1490) establish correlation-matrix scale invariance of K(X, M, alpha, r) (Lemma 2.2),
+  Gaussian-concentration control of studentized maxima via T(E[gamma_{M, infty}], r, 1 - alpha/2) (Proposition
+  2.3, Proposition A.2, Lemma A.3), the correlation-matrix RIP constant delta(X, s) <= 2*kappa(X, s)/(1
+  - kappa(X, s)) (Lemma 3.2), the explicit RIP perturbation upper bound U_RIP(p, s, delta) = sqrt(2 log(2p))
+  + 2*delta*(sqrt(1+delta)/(1-delta))*sqrt(2s log(6p/s)) (Theorem 3.3) and Beta-Fisher quantile union-split
+  bound U_tilde_RIP(p, s, delta) (Section 3.3), and the matching block-equicorrelated lower bound (Lemma
+  4.1, Proposition 4.2, Corollary 4.3). Also distinct from AIMech:ReferenceFamilyJERPostHocConfidenceBounds
+  (Blanchard, Neuvial, & Roquain 2020) and AIMech:ForestStructuredDKWPostHocConfidenceBounds (Durand,
+  Blanchard, Neuvial, & Roquain 2020), which bound false positive counts in multiple hypothesis testing
+  rather than linear regression submodel projection coefficients.
+definition_evidence:
+- source_id: bbn2018-pdf
+  locator: Sections 1-5, Pages 1-14, Equations (1)-(18), Definition 2.1, Lemma 2.2, Proposition 2.3, Lemma
+    2.4, Definition 3.1, Lemma 3.2, Theorem 3.3, Figures 1-2, Lemma 4.1, Proposition 4.2, Corollary 4.3;
+    Appendices A-C, Pages 14-20, Equations (19)-(25)
+  relation: supports
+- source_id: bbn2018-crossref
+  locator: Electronic Journal of Statistics 12(2):3736-3757 (2018) Crossref bibliographic metadata and
+    abstract
+  relation: supports
+- source_id: bbn2018-abs
+  locator: arXiv:1804.07566v2 abstract and metadata
+  relation: supports
+claims:
+- claim_id: correlation-matrix-scale-invariance-and-gaussian-concentration-envelope
+  kind: mechanism
+  statement: 'For linear Gaussian regression Y = mu + epsilon (epsilon ~ N(0, sigma^2 I_n)), submodel
+    family M subset M_all = {M subset {1, ..., p} : rank(X_M) = |M|}, and dual projection vectors w_{M,
+    i} = v_{M, i} / ||v_{M, i}|| where v_{M, i} is the i-th column of X_M (X_M^t X_M)^{-1} (Equations
+    1-5), the PoSI constant K(X, M, alpha, r) = q_{1 - alpha}(gamma_{M, r}) with gamma_{M, r} = (1 / N)
+    max_{M in M, i in M} |w_{M, i}^t xi| (Definition 2.1, Equation 6) is invariant to column rescaling
+    and depends on X only through the correlation matrix corr(X^t X) = D X^t X D: if corr(X^t X) = corr(Z^t
+    Z), then K(X, M, alpha, r) = K(Z, M, alpha, r) (Lemma 2.2, page 5, Appendix B). Moreover, by the Cirel''son-Ibragimov-Sudakov
+    Gaussian concentration inequality (Theorem A.1) and studentized conditioning on N ~ sqrt(chi^2_r /
+    r) (Proposition A.2, Equations 19-20), K(X, M, alpha, r) <= T(E[gamma_{M, infty}], r, 1 - alpha/2)
+    where T(mu, infty, 1 - alpha/2) = mu + sqrt(2 log(2 / alpha)) and for finite r > 0, T(mu, r, 1 - alpha/2)
+    <= (mu + sqrt(2 log(2 / alpha))) / (1 - 2 * sqrt(2 log(2 / alpha)) / r)_+ (Proposition 2.3, Equation
+    8, and Lemma A.3, Equation 22), while for the s-sparse model collection M_s = {M in M_all : |M| <=
+    s}, E[gamma_{M_s, infty}] <= U_sparse(p, s) = sqrt(2 s log(6p / s)) (Lemma 2.4, page 5).'
+  evidence:
+  - source_id: bbn2018-pdf
+    locator: Section 2, Pages 3-5, Equations (1)-(8), Definition 2.1, Lemma 2.2, Proposition 2.3, Lemma
+      2.4; Appendix A, Pages 14-16, Equations (19)-(24), Theorem A.1, Proposition A.2, Lemma A.3; Appendix
+      B, Pages 16-18
+    relation: supports
+  - source_id: bbn2018-crossref
+    locator: Electronic Journal of Statistics 12(2):3736-3757 abstract
+    relation: supports
+- claim_id: restricted-isometry-perturbation-upper-bound-on-gaussian-width
+  kind: mechanism
+  statement: 'Defining the raw Restricted Isometry Property (RIP) constant kappa(X, s) = sup_{M in M_s}
+    ||X_M^t X_M - I_{|M|}||_op and the scale-invariant correlation-matrix RIP constant delta(X, s) = sup_{M
+    in M_s} ||corr(X_M^t X_M) - I_{|M|}||_op (Definition 3.1, Equations 9-10), Lemma 3.2 (page 6, Appendix
+    B) proves that delta(X, s) <= 2 * kappa(X, s) / (1 - kappa(X, s)) whenever kappa(X, s) < 1 (and delta(X,
+    s) = kappa(X, s) when all columns of X have unit norm). Whenever delta = delta(X, s) < 1, writing
+    C_M = corr(X_M^t X_M) = Z_M^t Z_M for unit-norm columns z_{M, i} = X_{M, i} / ||X_{M, i}||, the spectrum
+    of C_M lies in [1 - delta, 1 + delta], so ||C_M^{-1} e_i|| in [(1 + delta)^{-1}, (1 - delta)^{-1}]
+    and ||C_M^{-1/2} e_i|| in [(1 + delta)^{-1/2}, (1 - delta)^{-1/2}] (Equations 14-15), which bounds
+    the Euclidean distance between the dual projection vector w_{M, i} and z_{M, i} by ||w_{M, i} - z_{M,
+    i}|| <= (1 + delta)^{1/2} * (||C_M^{-1} e_i - e_i|| + |1 - ||C_M^{-1/2} e_i|||) <= 2 * delta * c(delta)
+    with c(delta) = sqrt(1 + delta) / (1 - delta) (Equation 16). Taking expectations of sup_{M in M_s,
+    i in M} |z_{M, i}^t xi| + sup_{M in M_s, i in M} |(w_{M, i} - z_{M, i})^t xi| proves Theorem 3.3 (Equation
+    11, page 7): E[gamma_{M_s, infty}] <= U_RIP(p, s, delta) = sqrt(2 log(2p)) + 2 * delta * (sqrt(1 +
+    delta) / (1 - delta)) * sqrt(2 s log(6p / s)).'
+  evidence:
+  - source_id: bbn2018-pdf
+    locator: Section 3.1-3.2, Pages 6-8, Equations (9)-(16), Definition 3.1, Lemma 3.2, Theorem 3.3, Figure
+      1; Appendix B, Pages 17-18
+    relation: supports
+  - source_id: bbn2018-abs
+    locator: arXiv:1804.07566v2 abstract
+    relation: supports
+- claim_id: computable-concentration-and-beta-fisher-union-split-posi-bounds
+  kind: mechanism
+  statement: 'Section 3.3 and Appendix C (Pages 9, 18-20, Figure 2, Equation 25) derive two computable
+    upper bounds on the PoSI constant K(X, M_s, alpha, r) when delta = delta(X, s) < 1: (1) the Gaussian-concentration
+    bound U_bar_RIP(p, s, delta) = T(U_RIP(p, s, delta), r, 1 - alpha/2) via Proposition 2.3 and Theorem
+    3.3, and (2) the direct Beta-Fisher quantile union-split bound U_tilde_RIP(p, s, delta) = inf_{t in
+    (0, 1)} {B_{t*alpha}(n wedge p, r, p) + 2 * delta * c(delta) * B_{(1-t)*alpha}(n wedge p, r, |M_s|)}
+    where |M_s| = sum_{i=1}^s i * comb(p, i) and B_beta(d, r, k) is the union-bound envelope for the maximum
+    of k projections of a spherical / Beta-Fisher variate in dimension d = n wedge p (equal to sqrt(d)
+    * sqrt(q_{1 - beta/(2k)}(Beta(1/2, (d - 1)/2))) when r = infty and sqrt(d) * sqrt(q_{1 - beta/(2k)}(Fisher(1,r)/d))
+    when r < infty, Equation 25), which avoids the additive concentration slack sqrt(2 log(2 / alpha))
+    and yields strictly tighter PoSI constants than U_bar_RIP for small delta (Figure 2, page 9).'
+  evidence:
+  - source_id: bbn2018-pdf
+    locator: Section 3.3, Page 9, Figure 2; Appendix C, Pages 18-20, Equation (25)
+    relation: supports
+- claim_id: block-equicorrelated-rip-lower-bound-and-minimax-rate-optimality
+  kind: mechanism
+  statement: 'For integers p >= 2 and 1 <= k <= p - 1 and correlation parameter c >= 0 with k * c^2 <
+    1, Section 4 (Equation 17, page 10) constructs the unit-column design Z^{(c, k)} whose Gram matrix
+    has unit diagonal, pairwise correlation c between column p and each of the first k columns, and 0
+    elsewhere. Lemma 4.1 (page 10) proves that for any s <= k <= p - 1, kappa(Z^{(c, k)}, s) = delta(Z^{(c,
+    k)}, s) = c * sqrt(s - 1), attained by every submodel M of size s containing p and s - 1 indices from
+    {1, ..., k}. Partitioning {1, ..., k} into floor(k / s) >= 4 disjoint blocks I_j of size s - 1 and
+    setting M_j = I_j cup {p}, Equation (18) (page 11) shows w_{M_j, p}^t xi = (1 / sqrt(1 - (s - 1) *
+    c^2)) * (xi_p - c * sum_{i in I_j} xi_i), whence Sudakov''s lower bound on the independent block sums
+    proves Proposition 4.2 (page 10): K(Z^{(c, k)}, M_s, alpha, infty) >= A * (c * (s - 1) / sqrt(1 -
+    (s - 1) * c^2)) * sqrt(log floor(k / s)) - sqrt(2 log 2) for a universal constant A > 0 (and E[gamma_{M_s,
+    infty}] >= A * (c * (s - 1) / sqrt(1 - (s - 1) * c^2)) * sqrt(log floor(k / s))). Corollary 4.3 (pages
+    11-12) concludes that for any regime s_p = O(p^gamma) (0 <= gamma < 1) and delta_p = O(p^{-lambda})
+    (lambda >= 0), the worst-case PoSI constant over {X : delta(X, s_p) <= delta_p} scales as Theta(sqrt(log
+    p) + delta_p * sqrt(s_p * log p)), proving that Theorem 3.3 is minimax rate-optimal whenever delta_p
+    = O(1).'
+  evidence:
+  - source_id: bbn2018-pdf
+    locator: Section 4, Pages 10-12, Equations (17)-(18), Lemma 4.1, Proposition 4.2, Corollary 4.3
+    relation: supports
+  - source_id: bbn2018-crossref
+    locator: Electronic Journal of Statistics 12(2):3736-3757 abstract
+    relation: supports
+evidence_sources:
+- source_id: bbn2018-pdf
+  title: On the Post Selection Inference Constant under Restricted Isometry Properties
+  authors:
+  - François Bachoc
+  - Gilles Blanchard
+  - Pierre Neuvial
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1804.07566
+  persistent_id: https://doi.org/10.1214/18-EJS1490
+  version: arXiv:1804.07566v2 (12 Oct 2018; published in Electronic Journal of Statistics, Vol. 12, No.
+    2, pp. 3736-3757, 2018). Complete 22-page full-text PDF (308563 bytes) read across Sections 1-5 and
+    Appendices A-C.
+  access_level: full_text
+  accessed_at: '2026-10-17T17:25:00Z'
+  sha256: c703312f4db92644aeb50fa0fc55b377de0386920bba1cbdba0a6eadc8a4a090
+- source_id: bbn2018-crossref
+  title: On the post selection inference constant under restricted isometry properties (Electronic Journal
+    of Statistics Crossref Record)
+  authors:
+  - François Bachoc
+  - Gilles Blanchard
+  - Pierre Neuvial
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/18-EJS1490
+  persistent_id: https://doi.org/10.1214/18-EJS1490
+  version: Electronic Journal of Statistics 12(2):3736-3757 Crossref bibliographic metadata record (4418
+    bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:25:00Z'
+  sha256: 6983055f26d21f1f9622d49c0447357c975da594f66f2e86a37dd6d39405b643
+- source_id: bbn2018-abs
+  title: On the Post Selection Inference Constant under Restricted Isometry Properties (arXiv:1804.07566
+    Abstract)
+  authors:
+  - François Bachoc
+  - Gilles Blanchard
+  - Pierre Neuvial
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1804.07566
+  persistent_id: https://doi.org/10.48550/arXiv.1804.07566
+  version: arXiv:1804.07566v2 abstract and metadata record (6127 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:25:00Z'
+  sha256: 86886d722b4e8751c11c4339717c9531702523ab11382800bd860a1a874d1b7e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Provides Restricted Isometry Property (RIP) upper and lower bounds on the post-selection
+    inference constant K(X, M_s, alpha, r) for s-sparse submodels in linear Gaussian regression (AIO:LinearRegression).
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Valid post-selection confidence intervals calibrated by K(X, M_s, alpha, r) guarantee simultaneous
+    (1 - alpha) coverage regardless of the data-driven model selection procedure, preventing post-selection
+    data-dredging invalidation (AIO:DataDredgingBias).
+limitations:
+- Theorem 3.3 and the computable bounds U_bar_RIP(p, s, delta) and U_tilde_RIP(p, s, delta) require the
+  correlation-matrix Restricted Isometry Property constant delta(X, s) < 1 and become non-informative
+  compared to the generic sparse bound U_sparse(p, s) = sqrt(2 s log(6p / s)) (Lemma 2.4) once 2 * delta
+  * sqrt(1 + delta) / (1 - delta) >= 1 (i.e., delta >= 0.36, Section 3.2, page 8, Figure 1).
+- Evaluating delta(X, s) = sup_{|M| <= s} ||corr(X_M^t X_M) - I_{|M|}||_op exactly over all comb(p, s)
+  sparse submodels of a deterministic design matrix X is NP-hard in general (though delta(X, s) can be
+  upper-bounded via the mutual coherence (s - 1) * max_{i != j} |corr(X^t X)_{i, j}| or high-probability
+  subgaussian random-matrix bounds, Section 5, pages 12-13).
+- 'Three minor typographical slips in arXiv:1804.07566v2 were identified and verified during full-text
+  inspection: (1) in Section 2.1 (page 3, line 4), ''irrespective of the model selection mehod used''
+  prints ''mehod'' for ''method''; (2) in Section 5 (page 12, line 13), the coverage display writes ''P(forall
+  i in M_hat, (M_hat)_{i.M_hat} in CI_{i, M_hat}) >= 1 - alpha'', printing ''(M_hat)_{i.M_hat}'' instead
+  of the projected regression coefficient ''(beta_{M_hat})_{i.M_hat}'' (cf. Equation 5 on page 3); and
+  (3) in Appendix A Lemma A.3 (page 14, fourth line from bottom), the inline bound ''(mu + sqrt(2 log(2/alpha))/(1
+  - 2*sqrt(2 log(2/alpha))/r)_+'' omits the closing parenthesis after ''sqrt(2 log(2/alpha))'' in the
+  numerator (whereas Equation 22 in the proof on page 15 correctly writes ''(mu + sqrt(2 log(2/alpha)))
+  / (1 - 2*sqrt(2 log(2/alpha))/r)_+'').'
+- All 22 pages of the full-text PDF of Bachoc, Blanchard, & Neuvial (2018, Electronic Journal of Statistics
+  12(2):3736-3757, arXiv:1804.07566v2, DOI:10.1214/18-EJS1490) were read. Constructed numerical checks
+  in research/discovery/restricted-isometry-posi-constant-bounds-boundaries.py verify (1) Lemma 2.2 column-scale
+  invariance, Lemma 2.4 sparse cardinality inequality, and Lemma A.3 finite-r quantile bound, (2) Theorem
+  3.3 RIP Gaussian-width bound and Section 3.3 Figure 2 comparison (U_orth < U_RIP < U_tilde_RIP < U_bar_RIP
+  << U_sparse), and (3) Lemma 4.1 exact RIP constant delta(Z^{(c, k)}, s) = c * sqrt(s - 1), Equation
+  (18) block inverse identity, and Theorem 3.3 vector perturbation inequality ||w_{M, i} - z_{M, i}||
+  <= 2 * delta * c(delta).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T17:25:00Z'
+  updated_at: '2026-10-17T17:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

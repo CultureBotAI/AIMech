@@ -1,0 +1,108 @@
+id: AIMech:CompleteDictionaryRecoveryOverTheSphereAndRiemannianTrustRegionMethod
+name: Complete Dictionary Recovery Over the Sphere and Riemannian Trust-Region Method
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A nonconvex spherical optimization formulation and second-order *Riemannian Trust-Region (RTR)* algorithm over the unit sphere $\mathbb{S}^{n-1}$ (introduced by Ju Sun, Qing Qu, and John Wright in 2015/2017) for recovering a complete invertible dictionary $A_0\in\mathbb{R}^{n\times n}$ and sparse coefficient matrix $X_0\in\mathbb{R}^{n\times p}$ from $Y = A_0 X_0$ up to scale and permutation when $X_0$ follows an i.i.d. Bernoulli-Gaussian($\theta$) distribution with constant sparsity $\theta\in (0, 1/3)$. Observing that $\mathrm{row}(Y) = \mathrm{row}(X_0)$ so the $n$ rows of $X_0$ are the sparsest vectors in $\mathrm{row}(Y)$, the method sequentially finds directions $q\in\mathbb{S}^{n-1}$ by minimizing the smooth log-cosh sparsity surrogate $f(q; Y) = \frac{1}{p}\sum_{k=1}^p \mu\log\cosh(q^\top y_k / \mu)$ on $\mathbb{S}^{n-1}$ (Equation 1.5). Theorem 2.1 proves that when $p \ge C n^2\log^2 n/(\mu^2\theta)$ (down to $\theta = \Omega(1)$ where $O(n)$ nonzeros per column defeat existing $\ell_1$/SOS dictionary recovery methods), $f(q; X_0)$ has *no spurious local minima* across the entire sphere $\mathbb{S}^{n-1}$: in each of the $2n$ spherical caps $S_{\pm}^{(i)}$ mapped to $B(\sqrt{1 - 1/(4n)})$ via $q(w) = (w, \sqrt{1 - \|w\|^2})$, $g(w) = f(q(w))$ exhibits (1) strong convexity $\nabla^2 g(w) \succeq \frac{c_*\theta}{\mu}I$ in the core $R_1 = \{\|w\| \le \frac{\mu}{4\sqrt{2}}\}$ containing a unique local minimizer $w_*$ within $O(\mu\sqrt{\frac{n\log p}{\theta p}})$ of $e_i$ (Proposition 2.5, Lemma 2.3), (2) strictly positive radial gradient $\frac{w^\top \nabla g(w)}{\|w\|} \ge c_*\theta$ in the annulus $R_2 = \{\frac{\mu}{4\sqrt{2}} \le \|w\| \le \frac{1}{20\sqrt{5}}\}$ (Proposition 2.6), and (3) strictly negative radial curvature $\frac{w^\top \nabla^2 g(w) w}{\|w\|^2} \le -c_*\theta$ in the equatorial collar $R_3 = \{\frac{1}{20\sqrt{5}} \le \|w\| \le \sqrt{\frac{4n-1}{4n}}\}$ (Proposition 2.7), enabling the Riemannian Trust-Region algorithm with exponential-map retraction $R_q(\delta) = q\cos\|\delta\| + \frac{\delta}{\|\delta\|}\sin\|\delta\|$ and linear-programming rounding ($\min_q \|q^\top Y\|_1$ s.t. $\langle r, q\rangle = 1$, Lemma 4.2) to recover all $n$ dictionary atoms.'
+identity_notes: Resolved against all 442 pinned AIO concepts and 706 maintained AIMech concepts. Distinct from `AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition` (which analyzes fourth-order moment tensors via Noisy SGD rather than the smooth $\mu\log\cosh(q^\top y_k/\mu)$ sparsity surrogate on $\mathbb{S}^{n-1}$, the three-zone $(R_1,R_2,R_3)$ hemisphere chart decomposition, Riemannian Trust-Region steps, and LP rounding for complete dictionary recovery up to $\theta = \Omega(1)$).
+aliases:
+- Complete Dictionary Recovery Over the Sphere (Sun-Qu-Wright 2017)
+- Log-Cosh Spherical Sparsity Minimization and Riemannian Trust-Region Method
+- Three-Zone Spherical Landscape Analysis for Complete Dictionary Learning
+definition_evidence:
+- source_id: sqw2017-dictsphere-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: sqw2017-dictsphere-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: sqw2017-dictsphere-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-three-zone-hemisphere-landscape-without-spurious-local-minima
+  kind: mechanism
+  statement: "Covering $\\mathbb{S}^{n-1}$ by $2n$ overlapping spherical caps $S_{\\pm}^{(i)} = \\{q\\in\\mathbb{S}^{n-1} : q_i^2 \\ge \\frac{1}{4n}\\}$ parameterized by $q(w) = (w, \\sqrt{1 - \\|w\\|^2})\\in\\mathbb{R}^{n-1}\\times\\mathbb{R}$, Theorem 2.1 and Propositions 2.5\u20132.7 prove that with high probability when $\\theta\\in (0,1/3)$, $\\mu \\le c_a\\min(\\theta, 1/\\sqrt{n})$, and $p \\ge C n^2\\log^2 n/(\\mu^2\\theta)$, the pullback $g(w) = f(q(w); X_0)$ on every cap satisfies: (i) $\\nabla^2 g(w) \\succeq \\frac{c_*\\theta}{\\mu} I$ on $R_1 = \\{\\|w\\| \\le \\frac{\\mu}{4\\sqrt{2}}\\}$ with a unique local minimizer $w_*$ obeying $\\|w_*\\| \\le C\\frac{\\mu}{\\theta}\\sqrt{\\frac{n\\log p}{p}}$ (Lemma 2.3), (ii) $\\frac{w^\\top \\nabla g(w)}{\\|w\\|} \\ge c_*\\theta$ on $R_2 = \\{\\frac{\\mu}{4\\sqrt{2}} \\le \\|w\\| \\le \\frac{1}{20\\sqrt{5}}\\}$, and (iii) $\\frac{w^\\top \\nabla^2 g(w) w}{\\|w\\|^2} \\le -c_*\\theta$ on $R_3 = \\{\\frac{1}{20\\sqrt{5}} \\le \\|w\\| \\le \\sqrt{\\frac{4n-1}{4n}}\\}$, proving that $f(q;X_0)$ has no spurious local minima anywhere on $\\mathbb{S}^{n-1}$."
+  evidence:
+  - source_id: sqw2017-dictsphere-pdf
+    locator: Section 1.3-1.4, Equations (1.4)-(1.7), pp. 4-6; Section 2.1-2.3, Theorem 2.1, Lemma 2.3, & Propositions 2.5-2.7, pp. 7-15
+    relation: supports
+  - source_id: sqw2017-dictsphere-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-riemannian-trust-region-over-the-sphere-and-quadratic-local-convergence
+  kind: mechanism
+  statement: "Equipping $\\mathbb{S}^{n-1}$ with tangent space $T_q\\mathbb{S}^{n-1} = \\{\\delta : q^\\top\\delta = 0\\}$, exponential-map retraction $R_q(\\delta) = q\\cos\\|\\delta\\| + \\frac{\\delta}{\\|\\delta\\|}\\sin\\|\\delta\\|$ (Equation 3.4), Riemannian gradient $\\mathrm{grad}\\,f(q) = P_{T_q\\mathbb{S}^{n-1}}\\nabla f(q)$, and Riemannian Hessian $\\mathrm{Hess}\\,f(q) = P_{T_q\\mathbb{S}^{n-1}}(\\nabla^2 f(q) - \\langle q,\\nabla f(q)\\rangle I)P_{T_q\\mathbb{S}^{n-1}}$ (Equations 3.14\u20133.15), the Riemannian Trust-Region algorithm solves the quadratic subproblem $\\min_{\\delta\\in T_q\\mathbb{S}^{n-1}, \\|\\delta\\|\\le\\Delta} f(q) + \\langle\\mathrm{grad}\\,f(q),\\delta\\rangle + \\frac{1}{2}\\langle\\mathrm{Hess}\\,f(q)[\\delta],\\delta\\rangle$ (Equation 3.8); Theorem 3.1 proves global polynomial-time convergence from an arbitrary spherical initialization to $R_1$ followed by quadratic convergence $\\|q^{(k+1)} - q_*\\|_2 \\le C\\|q^{(k)} - q_*\\|_2^2$ inside $R_1$."
+  evidence:
+  - source_id: sqw2017-dictsphere-pdf
+    locator: Section 3.1-3.3, Equations (3.4)-(3.15) & Theorem 3.1, pp. 15-20
+    relation: supports
+  - source_id: sqw2017-dictsphere-cr
+    locator: IEEE Transactions on Information Theory 63(2):853-884 (2017) metadata
+    relation: supports
+- claim_id: claim-scope-lp-rounding-and-orthogonal-deflation-for-full-complete-dictionary-recovery
+  kind: scope
+  statement: Given an approximate local minimizer $r\in\mathbb{S}^{n-1}$ produced by RTR on preconditioned data $\overline{Y} = (\frac{1}{p\theta}Y Y^\top)^{-1/2} Y$ satisfying $\langle r, q_*\rangle \ge 249/250$, Lemma 4.2 proves that the linear program $\min_q \|q^\top \overline{Y}\|_1$ subject to $\langle r, q\rangle = 1$ recovers the exact dictionary row $q_*$ with high probability when $p \ge C n^2\log n$, and Algorithm 4.1 recovers all $n$ rows via sequential orthogonal subspace projection (Theorem 4.1).
+  evidence:
+  - source_id: sqw2017-dictsphere-pdf
+    locator: Section 4.1-4.2, Algorithm 4.1, Theorem 4.1, & Lemma 4.2, pp. 20-23; Section 9, pp. 42-48
+    relation: supports
+- claim_id: claim-limitation-complete-dictionary-square-invertibility-and-smoothing-bias
+  kind: limitation
+  statement: The row-space equivalence $\mathrm{row}(Y) = \mathrm{row}(X_0)$ requires the dictionary $A_0\in\mathbb{R}^{n\times n}$ to be complete (square and invertible) rather than overcomplete ($m > n$), and for finite $p$ the smoothed $\mu\log\cosh(\cdot/\mu)$ minimizer $w_*$ incurs a finite-sample shift $\|w_*\|_2 = O(\frac{\mu}{\theta}\sqrt{\frac{n\log p}{p}})$ away from the exact basis vector $e_n$ prior to LP rounding.
+  evidence:
+  - source_id: sqw2017-dictsphere-pdf
+    locator: Section 1.2, p. 3; Section 2.2, Lemma 2.3, p. 9; Section 5.1, pp. 23-24
+    relation: supports
+evidence_sources:
+- source_id: sqw2017-dictsphere-pdf
+  title: 'Complete Dictionary Recovery Over the Sphere I: Overview and the Geometric Picture'
+  authors: &id001
+  - Ju Sun
+  - Qing Qu
+  - John Wright
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1504.06785.pdf
+  persistent_id: https://doi.org/10.1109/TIT.2016.2632162
+  version: arXiv:1504.06785v3 full-text PDF (104 pages), published in IEEE Transactions on Information Theory 63(2):853-884 (2017). (2673053 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:16:00Z'
+  sha256: 0f18ad152929313d42d0c5f02b4b9775f6058f3a31458eafae4017e80fc57de5
+- source_id: sqw2017-dictsphere-abs
+  title: 'Complete Dictionary Recovery Over the Sphere I: Overview and the Geometric Picture (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1504.06785
+  persistent_id: https://arxiv.org/abs/1504.06785
+  version: arXiv abstract page (7733 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:16:00Z'
+  sha256: 5b58bf80bd556b5b2ad0a0ed94c80a2fdcee0e96ee7d5c8787bfdb9c7cf748d3
+- source_id: sqw2017-dictsphere-cr
+  title: 'Complete Dictionary Recovery Over the Sphere I: Overview and the Geometric Picture (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2016.2632162
+  persistent_id: https://doi.org/10.1109/TIT.2016.2632162
+  version: Crossref API work record (5462 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:16:00Z'
+  sha256: a105ca33d00512170139e76982a6f543f14565b19fa760ee6c4fe3aea7c9ac97
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Recovers sparse dictionary representations Y = A_0 X_0 by optimizing a smooth sparsity surrogate over the unit sphere S^{n-1}.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Uses empirical covariance preconditioning (1/(p*theta) Y Y^T)^{-1/2} Y to orthogonalize complete dictionaries prior to spherical optimization.
+limitations:
+- Restricted to complete (square invertible) dictionaries $A_0\in\mathbb{R}^{n\times n}$ where $\mathrm{row}(Y) = \mathrm{row}(X_0)$, requires smoothing parameter $\mu \le c_a\min(\theta, 1/\sqrt{n})$, and needs LP rounding or $\mu\to 0$ to eliminate the $O(\frac{\mu}{\theta}\sqrt{\frac{n\log p}{p}})$ finite-sample minimizer shift.
+curation:
+  created_at: '2026-10-19T06:16:00Z'
+  updated_at: '2026-10-19T06:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

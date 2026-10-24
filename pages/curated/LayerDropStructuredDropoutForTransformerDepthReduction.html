@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LayerDrop: Structured Dropout for On-Demand Transformer Depth Reduction · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>LayerDrop: Structured Dropout for On-Demand Transformer Depth Reduction</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LayerDrop: Structured Dropout for On-Demand Transformer Depth Reduction</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LayerDropStructuredDropoutForTransformerDepthReduction</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LayerDrop, LayerDrop Structured Layer Dropout for Transformers, On-Demand Transformer Depth Pruning via LayerDrop
+    </div>
+
+  <div class="detail-desc">
+    A structured dropout regularization and on-demand depth-pruning algorithm for Transformer networks that constrains a binary Bernoulli mask M in {0, 1} to be constant across each predefined layer weight group G in calG (so M[i] = M[j] for all (i, j) in G and entire layers are stochastically bypassed via residual connections with drop probability p during training, yielding N(1 - p) expected active layers), sets the optimal training drop rate to p* = 1 - r/N for a target inference depth of r layers, and extracts shallow sub-networks of any desired depth at inference time without post-hoc fine-tuning by deterministically dropping every other strided layer d == 0 (mod floor(1/p_prune)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Angela Fan, Edouard Grave, and Armand Joulin (ICLR 2020, arXiv:1909.11556). Distinct from unstructured weight DropConnect (which zeroes individual weights without reducing inference latency), from Stochastic Depth in ResNets (which uses a linear depth-decay survival schedule purely to accelerate training without inference-time layer pruning), and from distillation-based depth compression methods such as DistilBERT (Round 803) and TinyBERT (Round 800) that must train a separate student model for each target depth.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r810-claim-group-constant-structured-dropout-and-optimal-drop-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    LayerDrop generalizes DropConnect W_d = M o W by partitioning network parameters into predefined layer groups G in calG and enforcing M[i] = M[j] for all (i, j) in G with independent group drop probability p (Section 3.2.1); because N(1 - p) layers are active on average during training, targeting an inference-time pruned sub-network of r layers out of N yields the optimal training drop rate p* = 1 - r/N (Section 3.2.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r810-primary-pdf">Reducing Transformer Depth on Demand with Structured Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1 (Randomly Dropping Structures at Training Time) &amp; Section 3.2.2 (Setting the drop rate for optimal pruning), Pages 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r810-primary-pdf">Reducing Transformer Depth on Demand with Structured Dropout</a></span>
+        <span>· <strong>Locator:</strong> optimal_drop_rate and expected_active_layers verification in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r810-claim-every-other-strided-inference-pruning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At inference time, LayerDrop extracts shallow sub-networks from a single trained Transformer without fine-tuning using the deterministic &#39;Every Other&#39; strategy, which prunes at rate p_prune by dropping layers at depth d satisfying d == 0 (mod floor(1/p_prune)), matching or nearly matching validation-search and learned data-driven softmax layer-selection while avoiding the severe perplexity degradation caused by contiguous first-half or last-half layer removal.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r810-primary-pdf">Reducing Transformer Depth on Demand with Structured Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2 (Pruning at Inference Time) &amp; Section 6 (Ablation Studies, Figures 4-5), Pages 4 &amp; 7-8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r810-primary-pdf">Reducing Transformer Depth on Demand with Structured Dropout</a></span>
+        <span>· <strong>Locator:</strong> every_other_kept_layers verification for p_prune=0.25 and p_prune=0.50 in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r810-claim-deep-transformer-stabilization-and-roberta-pruning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    LayerDrop stabilizes and regularizes very deep Transformers—enabling a 12-encoder-layer Transformer to reach 30.2 BLEU on WMT14 En-De (where the baseline without LayerDrop diverges), a 40-layer Adaptive Inputs Transformer to reach 17.7 test perplexity on WikiText-103, and a 48-layer RoBERTa-Large model to train at almost 2x speed with p = 0.5—while 6-layer (50% pruned) and 3-layer (75% pruned) RoBERTa sub-networks outperform DistilBERT and from-scratch small models on MNLI and SST-2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r810-primary-pdf">Reducing Transformer Depth on Demand with Structured Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.2 (Tables 1-4, Figures 2-3) &amp; Appendix A.2-A.3 (Table 7, Figure 7), Pages 5-7 &amp; 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r810-claim-boundary-layer-sensitivity-and-high-pruning-rate-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In a LayerDrop-trained Transformer, the earliest input layers and final output projection layers remain disproportionately critical to performance (removing contiguous blocks of initial or final layers causes severe perplexity degradation from 19.7 to 26.1-29.3 on WikiText-103), and extracting aggressively pruned sub-networks (e.g., &gt;=50% depth reduction) requires training with a correspondingly large drop rate (p = 0.4-0.5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r810-primary-pdf">Reducing Transformer Depth on Demand with Structured Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 6 (Ablation Studies, Figures 4, 5, &amp; 6), Pages 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Input-adjacent and output-adjacent Transformer layers remain critical for token processing and vocabulary projection, so pruning contiguous initial or final layer blocks severely degrades accuracy.</li>
+      <li>Aggressive inference-time depth reduction (&gt;=50% layers pruned) requires training with a high LayerDrop rate (p = 0.4-0.5) to align train-time and test-time active depths.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Regularizes deep Transformer neural networks via group-constant layer dropout masks during training to enable zero-shot structured depth pruning at inference time.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r810-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r810-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1909.11556.pdf" target="_blank" rel="noopener">Reducing Transformer Depth on Demand with Structured Dropout</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Angela Fan, Edouard Grave, Armand Joulin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1909.11556</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e18966beebdb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r810-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r810-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1909.11556" target="_blank" rel="noopener">Reducing Transformer Depth on Demand with Structured Dropout (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Angela Fan, Edouard Grave, Armand Joulin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1909.11556</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1fbc269f83e9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r810-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r810-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1909.11556" target="_blank" rel="noopener">Reducing Transformer Depth on Demand with Structured Dropout (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Angela Fan, Edouard Grave, Armand Joulin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1909.11556</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2b9ddb7be4da…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ALayerDropStructuredDropoutForTransformerDepthReduction">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for LayerDrop: Structured Dropout for On-Demand Transformer Depth Reduction" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:LayerDropStructuredDropoutForTransformerDepthReduction</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">LayerDrop: Structured...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:53:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:53:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LayerDropStructuredDropoutForTransformerDepthReduction.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LayerDropStructuredDropoutForTransformerDepthReduction.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=LayerDrop%3A%20Structured%20Dropout%20for%20On-Demand%20Transformer%20Depth%20Reduction"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ALayerDropStructuredDropoutForTransformerDepthReduction"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,354 @@
+# Scientific author self-review of FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation)
+
+- Review: 20261019T100030Z-fedgnn-federated-graph-neural-network-privacy-preserving-recommendation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T10:00:00Z
+- Finished UTC: 2026-10-19T10:00:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 61bf96d482889fa91655104687c9eede9f9d091b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation | data/curated/FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.yaml | maintained | FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation | Validated history sidecar files. |
+| python3 fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py | passed | True | AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation | [PASS] Round 517 FedGNN (Wu et al. 2021): pseudo_mean_diff=0.0034, anonymity_deg=10.43, eps_LDP=1.00, matched_neighbors=[1] |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.
+
+FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation) is a distinct concept.
+
+Introduced by Chuhan Wu, Fangzhao Wu, Yang Cao, Yongfeng Huang, and Xing Xie in 'FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation' (arXiv:2102.04925, DBLP:journals/corr/abs-2102-04925). Distinct from FCF (Federated Collaborative Filtering, Ammad-ud-din et al. 2019), which models only first-order matrix factorization interactions and exposes interacted item IDs via non-zero item-embedding gradients; and distinct from FedSage+ (Zhang et al. NeurIPS 2021), which trains a local missing-neighbor generator (NeighGen) across multi-node subgraphs rather than expanding user-centric bipartite recommendation graphs via encrypted item matching and pseudo-item LDP gradients.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py passed with exit code 0: [PASS] Round 517 FedGNN (Wu et al. 2021): pseudo_mean_diff=0.0034, anonymity_deg=10.43, eps_LDP=1.00, matched_neighbors=[1]
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T100000Z-fedgnn-federated-graph-neural-network-privacy-preserving-recommendation.json | supports | No normalized identity match for AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py | supports | All constructed boundary assertions in fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py passed with exit code 0: [PASS] Round 517 FedGNN (Wu et al. 2021): pseudo_mean_diff=0.0034, anonymity_deg=10.43, eps_LDP=1.00, matched_neighbors=[1] |
+| r517-primary-pdf | https://arxiv.org/pdf/2102.04925.pdf; Full-text PDF | supports | Full-text PDF (arXiv (2021)) read and verified. |
+| r517-arxiv-abs | https://arxiv.org/abs/2102.04925; arXiv abstract | supports | arXiv abstract read and verified. |
+| r517-metadata-cr | https://dblp.org/rec/journals/corr/abs-2102-04925; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation in Round 517.
+- All pages of arXiv (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T100030Z-fedgnn-federated-graph-neural-network-privacy-preserving-recommendation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of FedGNN (Federated Graph Neural Network for
+  Privacy-Preserving Recommendation)
+started_at: '2026-10-19T10:00:00Z'
+finished_at: '2026-10-19T10:00:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+    against existing AIMech and AIO records and verified all claims against arXiv
+    (2021) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation)
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: 61bf96d482889fa91655104687c9eede9f9d091b
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.yaml
+    sha256: ba2016b3ebed93961da77469439e116b7141016df1e1642c287a2aaa0d94711f
+    role: target
+  - path: research/discovery/20261019T100000Z-fedgnn-federated-graph-neural-network-privacy-preserving-recommendation.json
+    sha256: 29fc9d9f9fb29723c36c5edda1488015dfa3ef3cf07b8b891966849ed79a6dde
+    role: context
+  - path: research/discovery/fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py
+    sha256: d527a093511afdb190bee511625e171abc0b8736ca04f1d90db868e1fc523882
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  path: data/curated/FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.yaml
+  label: FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py
+  command: python3 research/discovery/fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 517 FedGNN (Wu et al. 2021): pseudo_mean_diff=0.0034, anonymity_deg=10.43,
+    eps_LDP=1.00, matched_neighbors=[1]'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T100000Z-fedgnn-federated-graph-neural-network-privacy-preserving-recommendation.json
+  accessed_at: '2026-10-19T10:00:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T10:00:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py
+  accessed_at: '2026-10-19T10:00:00Z'
+  snapshot_sha256: d527a093511afdb190bee511625e171abc0b8736ca04f1d90db868e1fc523882
+  support: supports
+  summary: 'All constructed boundary assertions in fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py
+    passed with exit code 0: [PASS] Round 517 FedGNN (Wu et al. 2021): pseudo_mean_diff=0.0034,
+    anonymity_deg=10.43, eps_LDP=1.00, matched_neighbors=[1]'
+- evidence_id: r517-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2102.04925.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T10:00:00Z'
+  snapshot_sha256: a9cfe057f622db83db4293d06fb1087714dba6c925c4c3be161832c6f4179a46
+  support: supports
+  summary: Full-text PDF (arXiv (2021)) read and verified.
+- evidence_id: r517-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2102.04925
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T10:00:00Z'
+  snapshot_sha256: e77ed0ef2b95a361cafb707b639042e82cc7cc63ac1bd0f9f5748c7532e4d1fb
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r517-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/journals/corr/abs-2102-04925
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T10:00:00Z'
+  snapshot_sha256: fbeb4afdd158ed8f2d1d46cf1449f10eeaf9c3e93d3a7e40f75b999279aabc5f
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  evidence_ids:
+  - identity
+  - r517-primary-pdf
+  - r517-arxiv-abs
+  - r517-metadata-cr
+  summary: FedGNN (Federated Graph Neural Network for Privacy-Preserving Recommendation)
+    is a distinct concept.
+  details: 'Introduced by Chuhan Wu, Fangzhao Wu, Yang Cao, Yongfeng Huang, and Xing
+    Xie in ''FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation''
+    (arXiv:2102.04925, DBLP:journals/corr/abs-2102-04925). Distinct from FCF (Federated
+    Collaborative Filtering, Ammad-ud-din et al. 2019), which models only first-order
+    matrix factorization interactions and exposes interacted item IDs via non-zero
+    item-embedding gradients; and distinct from FedSage+ (Zhang et al. NeurIPS 2021),
+    which trains a local missing-neighbor generator (NeighGen) across multi-node subgraphs
+    rather than expanding user-centric bipartite recommendation graphs via encrypted
+    item matching and pseudo-item LDP gradients.'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  evidence_ids:
+  - mapping
+  - r517-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  evidence_ids:
+  - r517-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in fedgnn-federated-graph-neural-network-privacy-preserving-recommendation-boundaries.py
+    passed with exit code 0: [PASS] Round 517 FedGNN (Wu et al. 2021): pseudo_mean_diff=0.0034,
+    anonymity_deg=10.43, eps_LDP=1.00, matched_neighbors=[1]'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  evidence_ids:
+  - identity
+  - mapping
+  - r517-primary-pdf
+  - r517-arxiv-abs
+  - r517-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FedGnnFederatedGraphNeuralNetworkForPrivacyPreservingRecommendation
+  in Round 517.
+- All pages of arXiv (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

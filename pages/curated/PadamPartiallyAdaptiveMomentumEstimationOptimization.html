@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Padam Partially Adaptive Momentum Estimation Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Padam Partially Adaptive Momentum Estimation Optimization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Padam Partially Adaptive Momentum Estimation Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PadamPartiallyAdaptiveMomentumEstimationOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Padam, Partially Adaptive Momentum Estimation, Partially Adaptive Momentum Estimation Method, Partial Adaptive Exponent AMSGrad Optimizer
+    </div>
+
+  <div class="detail-desc">
+    Partially Adaptive Momentum Estimation (Padam) is a first-order adaptive stochastic optimization algorithm (Chen, Zhou, Tang, Yang, Cao, &amp; Gu, IJCAI 2020) that unifies AMSGrad and stochastic gradient descent with momentum (SGD-Momentum) by introducing a partial adaptive parameter p in (0, 1/2] on the second-order moment denominator: given stochastic gradients g_t = nabla f(x_t, xi_t), Padam updates m_t = beta_1 m_{t-1} + (1 - beta_1) g_t, v_t = beta_2 v_{t-1} + (1 - beta_2) g_t^2, and v_hat_t = max(v_hat_{t-1}, v_t), and performs the parameter update x_{t+1} = x_t - alpha_t * m_t / v_hat_t^p (Algorithm 1). Setting p = 1/2 recovers AMSGrad, whereas letting p -&gt; 0 reduces the update rule to SGD with momentum (up to the constant factor 1 - beta_1), resolving the &#39;small learning rate dilemma&#39; by allowing large base learning rates alpha_t that remain effective after multi-stage learning rate decay.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AMSGrad (Reddi et al., 2018), which fixes p = 1/2 and requires a small base learning rate alpha_t to prevent coordinates with tiny v_hat_{t,i} &lt;&lt; 1 from overshooting early in training; distinct from AdaMax (Kingma &amp; Ba, 2015), which generalizes the L_p norm of current and past gradients while keeping the overall scale of adaptation homogeneous of degree 0 in gradient magnitude, whereas Padam intentionally reduces the denominator power to v_hat_t^p with p in (0, 1/2]; and distinct from AdaBound (Luo et al., 2019), which clips adaptive learning rates to time-dependent intervals [eta_l(t), eta_u(t)].
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#small-learning-rate-dilemma-and-endpoint-interpolation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 3 (Algorithm 1, p. 3-4) shows that in fully adaptive methods (p = 1/2), coordinates with small v_hat_{t,i} &lt;&lt; 1 produce huge early effective learning rates alpha_t / v_hat_{t,i}^{1/2}, forcing practitioners to choose a small base learning rate alpha_t that becomes vanishingly small after several rounds of stage-wise decay (&#39;the small learning rate dilemma&#39;); choosing p in (0, 1/2) (such as p = 1/8) moderates v_hat_{t,i}^{-p} so Padam can adopt the same large base learning rate as SGD-Momentum (e.g., alpha = 0.1 on CIFAR/ImageNet) while continuously interpolating between SGD-Momentum at p -&gt; 0 and AMSGrad at p = 1/2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r610-primary-pdf">Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 1, p. 1-2; Section 3, Algorithm 1 &amp; Figure 1, p. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#auxiliary-iterate-identities-and-lemma-a5-moment-sum-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the auxiliary sequence z_t = x_t + (beta_1 / (1 - beta_1))(x_t - x_{t-1}) (Appendix A-B, Eq. A.1, p. 10, 13-15), Lemma A.1 proves the exact identities z_{t+1} - z_t = (beta_1 / (1 - beta_1))(alpha_{t-1} V_hat_{t-1}^{-p} - alpha_t V_hat_t^{-p}) m_{t-1} - alpha_t V_hat_t^{-p} g_t = (beta_1 / (1 - beta_1))[I - (alpha_t V_hat_t^{-p})(alpha_{t-1} V_hat_{t-1}^{-p})^{-1}](x_{t-1} - x_t) - alpha_t V_hat_t^{-p} g_t (Eqs. A.2-A.3), and Lemma A.5 proves that under ||nabla f(x; xi)||_infty &lt;= G_infty, gamma = beta_1 / beta_2^{2p} &lt; 1, and q in [max{4p - 1, 0}, 1], sum_{t=1}^T alpha_t^2 E[||V_hat_t^{-p} m_t||_2^2] &lt;= (T^{(1+q)/2} d^q alpha^2 (1 - beta_1) G_infty^{1+q-4p} / ((1 - beta_2)^{2p}(1 - gamma))) E[(sum_{i=1}^d ||g_{1:T,i}||_2)^{1-q}] (Eqs. B.1-B.6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r610-primary-pdf">Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.1 &amp; B.1-B.5, Lemmas A.1-A.5, Eqs. A.1-A.4 &amp; B.1-B.6, p. 10, 13-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#theorem43-and-corollary45-nonconvex-stationarity-convergence-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 4.3, Corollary 4.5, and Remark 4.6 (Section 4, Eqs. 4.1-4.3, p. 4-5 &amp; Appendix A, p. 10-13) prove that for L-smooth nonconvex objectives with G_infty-bounded stochastic gradients, p in [0, 1/4], beta_1 &lt; beta_2^{2p}, and cumulative gradient growth ||g_{1:T,i}||_2 &lt;= G_infty T^s with 0 &lt;= s &lt;= 1/2, Padam with optimal step size alpha = Theta((d^{1/2} T^{1/4 + s/2})^{-1}) satisfies E[||nabla f(x_out)||_2^2] &lt;= M_1 / (T alpha) + M_2 d / T + M&#39;_3 alpha d G_infty / T^{1/2 - s} = O(d^{1/2} / T^{3/4 - s/2} + d / T), matching nonconvex SGD&#39;s O(1 / sqrt(T)) rate in the worst case s = 1/2 and achieving a strictly faster rate in T when gradients are sparse (s &lt; 1/2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r610-primary-pdf">Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Eq. 1.1, p. 2; Section 4, Theorem 4.3, Corollary 4.5 &amp; Remark 4.6, Eqs. 4.1-4.3, p. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#empirical-generalization-on-cifar-imagenet-and-ptb</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across CIFAR-10, CIFAR-100, ImageNet (ILSVRC2012), and Penn Treebank benchmarks (Section 5, Tables 1-3 &amp; Figures 2-3, p. 5-8; Appendix D, Table 4 &amp; Figure 4, p. 16-17), Padam (with p = 1/8 on CNNs and p in {0.4, 0.2} on 2/3-layer LSTMs) achieves the highest test accuracy on CIFAR-10 VGGNet (93.78%) and WideResNet (95.34%), CIFAR-100 VGGNet (74.39%) and ResNet (77.85%), and ImageNet VGGNet (74.04% Top-1, 91.93% Top-5) and ResNet Top-5 (89.47%), as well as the lowest test perplexity on Penn Treebank 2-layer LSTM (61.53) and 3-layer LSTM (58.48), outperforming Adam, AMSGrad, AdamW, Yogi, and AdaBound.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r610-primary-pdf">Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Tables 1-3 &amp; Figures 2-3, p. 5-8; Appendix D, Table 4 &amp; Figure 4, p. 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires p &lt;= 1/2 and beta_1 &lt; beta_2^{2p} for convergence guarantees; values of p &gt; 1/2 break the non-increasing effective step-size bound and lead to non-convergence in the theoretical proof (Section 3, p. 3; Theorem 4.3, p. 4).</li>
+      <li>Introduces an additional hyperparameter p in (0, 1/2] that must be selected by grid search (e.g., p in {2/5, 1/4, 1/5, 1/8, 1/16}) and varies across modalities (p = 1/8 for CNNs vs. p = 0.4 or 0.2 for LSTMs) (Section 5, p. 5-7).</li>
+      <li>Maintains the extra running-maximum buffer v_hat_t = max(v_hat_{t-1}, v_t) in addition to m_t and v_t, increasing per-parameter optimizer state memory relative to SGD-Momentum and vanilla Adam (Algorithm 1, p. 3).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Padam is designed to close the generalization gap of adaptive gradient methods when training deep convolutional and recurrent neural networks (VGGNet-16, ResNet-18, WideResNet-16-4, and multi-layer LSTMs).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r610-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r610-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1806.06763.pdf" target="_blank" rel="noopener">Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jinghui Chen, Dongruo Zhou, Yiqi Tang, Ziyan Yang, Yuan Cao, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/ijcai/ChenZTYCG20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:28c1ec0fd7a4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r610-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r610-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1806.06763" target="_blank" rel="noopener">Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jinghui Chen, Dongruo Zhou, Yiqi Tang, Ziyan Yang, Yuan Cao, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1806.06763</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:526ce375a08a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r610-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r610-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/ijcai/ChenZTYCG20" target="_blank" rel="noopener">Closing the Generalization Gap of Adaptive Gradient Methods in Training Deep Neural Networks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jinghui Chen, Dongruo Zhou, Yiqi Tang, Ziyan Yang, Yuan Cao, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/ijcai/ChenZTYCG20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:99d6c59f9746…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3APadamPartiallyAdaptiveMomentumEstimationOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Padam Partially Adaptive Momentum Estimation Optimization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:PadamPartiallyAdaptiveMomentumEstimationOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Padam Partially...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:33:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:33:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PadamPartiallyAdaptiveMomentumEstimationOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PadamPartiallyAdaptiveMomentumEstimationOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Padam%20Partially%20Adaptive%20Momentum%20Estimation%20Optimization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3APadamPartiallyAdaptiveMomentumEstimationOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

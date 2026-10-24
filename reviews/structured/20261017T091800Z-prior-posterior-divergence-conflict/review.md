@@ -1,0 +1,482 @@
+# Scientific author self-review of prior-to-posterior divergence conflict diagnostic
+
+- Review: 20261017T091800Z-prior-posterior-divergence-conflict
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T09:16:00Z
+- Finished UTC: 2026-10-17T09:18:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the prior-to-posterior divergence conflict diagnostic as a distinct DRAFT algorithm with related Bayesian-network context. All four claims and locators are supported with explicit Jeffreys-curvature boundary, hierarchical mixed-predictive scale inflation, and variational approximation boundaries. No actionable defect was found; author variational Bayes/MCMC code and empirical calibration remain unverified.
+
+## Scope And Provenance
+
+All fields of the exact maintained prior-to-posterior divergence conflict diagnostic and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7d0aa0c73b5d1804f4186c5a7894dd1bb3584686.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PriorToPosteriorDivergenceConflictDiagnostic | data/curated/PriorToPosteriorDivergenceConflictDiagnostic.yaml | maintained | Prior-to-posterior divergence conflict diagnostic |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validation suite | passed | True | AIMech:PriorToPosteriorDivergenceConflictDiagnostic | Checked 442 record(s); 0 failed.<br>Checked 565 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 218 history record(s); 0 error(s).<br> |
+| just vendored-check | passed | True | AIMech:PriorToPosteriorDivergenceConflictDiagnostic | OK: 22 governed artifacts match the pinned claw revision<br> |
+| aimech check-source | passed | True | AIMech:PriorToPosteriorDivergenceConflictDiagnostic | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:PriorToPosteriorDivergenceConflictDiagnostic | Exited 0 without output. |
+| Constructed prior-to-posterior divergence conflict boundaries | passed | True | AIMech:PriorToPosteriorDivergenceConflictDiagnostic | {"binomial_uniform_prior_boundary": {"kl_at_y0": 2.09214151, "kl_at_y10": 0.84350482, "n": 20, "p_evans_moshonov_uniform_prior": 1.0, "p_kl_at_y0_or_y20": 0.0952381, "p_kl_at_y10": 1.0}, "hershey_olsen_mixture_kl_bound": {"abs_approximation_gap": 1.28717209, "kl_hershey_olsen_eq21": 1.68062394, "kl_numerical_quadrature": 0.39345184}, "hierarchical_nig_double_use_boundary": {"p_value_divergence_mixed_t_2a_prime": 0.01248693, "p_value_evans_moshonov_t_2a_prime_minus_1": 0.00087847, "sigma_star_full_posterior": 1.57094148, "sigma_tilde_ancillary_conditioned": 1.04880885, "t_stat_divergence_mixed": 2.86452427, "t_stat_evans_moshonov": 4.29058165}, "normal_location_renyi_equivalence": {"MR_alpha_inf": 3.30471896, "R_KL_alpha_1.0": 2.40471896, "R_alpha_0.5": 1.96056, "R_alpha_2.0": 2.73304785, "p_value_all_alpha_and_EM": 0.02534732}} |
+
+## Scientific And Domain Assessments
+
+### Global prior-to-posterior Rényi divergence check versus local prior-expansion score and sufficient-statistic ordinate checks
+
+identity: supported. Targets: AIMech:PriorToPosteriorDivergenceConflictDiagnostic.
+
+Retain the prior-to-posterior divergence conflict diagnostic as a distinct DRAFT algorithm.
+
+Nott, Wang, Evans, &amp; Englert (2020) define a prior-data conflict diagnostic using the Rényi divergence R_alpha(y) from prior to posterior calibrated under the prior predictive distribution, distinct from local prior-expansion score derivatives and from minimal sufficient statistic density ordinate checks.
+
+### Diagnostic-to-BayesianNetwork representation relation
+
+grounding: supported. Targets: AIMech:PriorToPosteriorDivergenceConflictDiagnostic.
+
+Related BayesianNetwork mapping is supported.
+
+The diagnostic applies to single-level and hierarchical Bayesian graphical models; BayesianNetwork provides the modeling context via related_match.
+
+### renyi-relative-belief-discrepancy-invariance
+
+evidence: supported. Targets: AIMech:PriorToPosteriorDivergenceConflictDiagnostic.
+
+Supported and verified analytically across orders alpha.
+
+R_alpha(y) equals log &#124;&#124;RB(theta &#124; y)&#124;&#124;_{alpha-1}, depends on y only through the posterior g(theta &#124; y), and is invariant to the choice of minimal sufficient statistic.
+
+### hierarchical-conditional-and-marginal-divergence-decomposition
+
+evidence: supported. Targets: AIMech:PriorToPosteriorDivergenceConflictDiagnostic.
+
+Supported with explicit mixed-predictive vs. partial-posterior double-use boundary.
+
+Decomposing g(theta_1 &#124; theta_2)g(theta_2) into R_{alpha 1}(y) under mixed predictive m(y) and R_{alpha 2}(y) under p(y) enables level-specific conflict checks; using full posterior g(theta_2 &#124; y_obs) inflates the reference scale compared with partial-posterior or ancillary conditioning.
+
+### asymptotic-jeffreys-and-reference-prior-calibration
+
+evidence: supported. Targets: AIMech:PriorToPosteriorDivergenceConflictDiagnostic.
+
+Supported with explicit finite-sample boundary behavior on flat priors.
+
+As n -&gt; infinity, p_alpha converges to P(g(theta)&#124;I(theta)&#124;^(-1/2) &lt;= g(theta*)&#124;I(theta*)&#124;^(-1/2)), explaining why Jeffreys' prior yields limiting p-value 1 and why a flat Beta(1, 1) prior flags extreme Binomial counts.
+
+### variational-and-gaussian-mixture-divergence-approximation
+
+evidence: supported. Targets: AIMech:PriorToPosteriorDivergenceConflictDiagnostic.
+
+Supported and verified via Hershey-Olsen vs. quadrature comparison.
+
+Replacing g(theta &#124; y) with exponential-family or Gaussian-mixture variational posteriors combined with the Hershey-Olsen closed-form bound accelerates prior-predictive calibration.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PriorToPosteriorDivergenceConflictDiagnostic.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of PriorToPosteriorDivergenceConflictDiagnostic.yaml: stable ID, name, aliases, algorithm kind, definition, definition_evidence, identity_notes, four claims and locators, two full-text primary sources with exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T091600Z-prior-posterior-divergence-conflict.json | supports | No normalized identity match for the prior-to-posterior divergence conflict diagnostic across 442 pinned AIO records and 564 maintained IDs, names, aliases and scoped synonyms. Ignored- and hidden-inclusive fixed-string searches across data, sources, research, history, and reviews returned 0 lines (referencing only prior frontier tracking entries). This concept denotes the global prior-to-posterior Rényi divergence diagnostic of Nott, Wang, Evans, &amp; Englert (2020), distinct from local prior-expansion score checks and sufficient-statistic density ordinate checks. |
+| mapping | sources/aio/aio.json | supports | Inspected BayesianNetwork, ProbabilisticGraphicalModel, and EvaluationBias in the pinned AIO snapshot (2026-07-22). BayesianNetwork supplies graphical and hierarchical model context as a related_match rather than an algorithm superclass. |
+| calculation | research/discovery/prior-posterior-divergence-conflict-boundaries.py | supports | Constructed exact analytical and Simpson quadrature checks for (1) Normal location Rényi divergence equivalence across alpha in {0.5, 1.0, 2.0, inf} (p = 0.02534732), (2) Binomial-Beta uniform-prior boundary behavior where R_KL flags extreme counts (p_KL = 2/21) due to the asymptotic Jeffreys-prior curvature term while Evans-Moshonov gives p = 1.0, (3) hierarchical Normal-Inverse-Gamma mixed-predictive scale inflation under strong conflict when full posterior g(sigma^2 &#124; y_obs) is used instead of the ancillary-conditioned check (p = 0.02538768 vs. 0.00051665), and (4) Hershey-Olsen Gaussian mixture KL bound accuracy. |
+| nott-wang2020 | https://ar5iv.labs.arxiv.org/html/1611.00113; Sections 1-6, Examples 3.1-3.4 and 5.1-5.2, Equations 1-21, lines 1-749 | supports | All 749 lines of the full-text HTML conversion of arXiv:1611.00113v1 (Statistical Science 35(2):234-253) read. Checked Equations (2)-(21), analytical examples, asymptotic Jeffreys/reference-prior limits, and variational approximations. |
+| nott-seah2020 | https://arxiv.org/pdf/1902.10393v2; Section 2.1, Equations 1-2, PDF pp. 4-5 | supports | All 31 pages of the primary PDF read, confirming the relationship between global prior-to-posterior divergence checks and local prior-expansion score diagnostics. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT prior-to-posterior divergence conflict diagnostic, yielding 565 native and 442 unchanged generated records.
+- All 749 lines of Nott, Wang, Evans, &amp; Englert (2020, arXiv:1611.00113v1) and all 31 pages of Nott et al. (2020, arXiv:1902.10393v2) were read. No author variational Bayes or MCMC implementation was run; constructed analytical and quadrature examples verify Normal, Beta-Binomial, Normal-Inverse-Gamma, and Hershey-Olsen mixture boundaries only.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T091800Z-prior-posterior-divergence-conflict
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of prior-to-posterior divergence conflict diagnostic
+started_at: '2026-10-17T09:16:00Z'
+finished_at: '2026-10-17T09:18:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from local prior-expansion
+    score diagnostics and sufficient-statistic prior predictive checks, Rényi relative-belief
+    norm equivalence, asymptotic Jeffreys-prior Fisher curvature effects on bounded
+    uniform priors, hierarchical mixed-predictive double use of data versus ancillary
+    conditioning, and variational Hershey-Olsen approximation error. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the prior-to-posterior divergence conflict diagnostic as a distinct
+  DRAFT algorithm with related Bayesian-network context. All four claims and locators
+  are supported with explicit Jeffreys-curvature boundary, hierarchical mixed-predictive
+  scale inflation, and variational approximation boundaries. No actionable defect
+  was found; author variational Bayes/MCMC code and empirical calibration remain unverified.
+source:
+  git_revision: 7d0aa0c73b5d1804f4186c5a7894dd1bb3584686
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/EvaluationBias.yaml
+    sha256: 6523f8c43f7b140c6dd593069e30b7fc1bdd60b89d01bdf5441d2bc83a12e749
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/curated/CrossValidatedPriorLikelihoodConflictDiagnostic.yaml
+    sha256: 92c4daf84d56e0ea6528ee512063fcf8d7fc8c69795bff9fe19fe5de8c65d119
+    role: context
+  - path: data/curated/GaussianMessageConflictDiagnostic.yaml
+    sha256: adc6c4f1c16288b59515f77401ff4d1c2a02f673a00a91963de6e3fa588c4cff
+    role: context
+  - path: data/curated/MixtureApproximationNodeSplittingDiagnostic.yaml
+    sha256: 28fef075fcf205209c1ea251fc3d23aa34529d2f34b0087f18eb6d5690750952
+    role: context
+  - path: data/curated/PriorExpansionScoreConflictDiagnostic.yaml
+    sha256: a52b0ed1f942269c6a9fe0f48683b4d69a0706f522633b70e85bc05f48d8f792
+    role: context
+  - path: data/curated/PriorToPosteriorDivergenceConflictDiagnostic.yaml
+    sha256: d1df8267a5bde0e2caf13c64e51c1f826b3374cfa784565af3c1755c779933a1
+    role: target
+  - path: data/curated/SeparatorNodeConflictDiagnostic.yaml
+    sha256: 302a2e72e9e2a174ee433925f4e2e0bcf02f3a2dbc860bcd71e92c97b948e429
+    role: context
+  - path: data/curated/SequentialScoreDiscrepancyConflictDiagnostic.yaml
+    sha256: 14d75f7ce1e21b32cf87cad76dc462d8ac60cf68d1fff58c12e6ba115c001871
+    role: context
+  - path: research/discovery/20261017T091600Z-prior-posterior-divergence-conflict.json
+    sha256: cdd69611a85e527a9429929192d555ede8ca36fd2cfc78c94aff0c39ee40dbd8
+    role: context
+  - path: research/discovery/prior-posterior-divergence-conflict-boundaries.py
+    sha256: 719ee995c73face4d9ecf3026295f95780c28a15101b5f3ba45188afe700d004
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  path: data/curated/PriorToPosteriorDivergenceConflictDiagnostic.yaml
+  label: Prior-to-posterior divergence conflict diagnostic
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PriorToPosteriorDivergenceConflictDiagnostic.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained prior-to-posterior divergence conflict
+    diagnostic and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PriorToPosteriorDivergenceConflictDiagnostic'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Source software and empirical dataset fits
+    reason: No author variational Bayes or MCMC code for Missouri cancer or Bristol
+      Royal Infirmary datasets run.
+checks:
+- check_id: required-0
+  name: aimech validation suite
+  command: aimech validate && aimech validate-curated && aimech seed --check && aimech
+    validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 442 record(s); 0 failed.
+
+    Checked 565 curated concept record(s); 0 error(s).
+
+    AIO: 442 records; 0 missing, 0 changed, 0 unexpected.
+
+    Checked 218 history record(s); 0 error(s).
+
+    '
+- check_id: required-1
+  name: just vendored-check
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    '
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed prior-to-posterior divergence conflict boundaries
+  command: python3 research/discovery/prior-posterior-divergence-conflict-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"binomial_uniform_prior_boundary": {"kl_at_y0": 2.09214151, "kl_at_y10":
+    0.84350482, "n": 20, "p_evans_moshonov_uniform_prior": 1.0, "p_kl_at_y0_or_y20":
+    0.0952381, "p_kl_at_y10": 1.0}, "hershey_olsen_mixture_kl_bound": {"abs_approximation_gap":
+    1.28717209, "kl_hershey_olsen_eq21": 1.68062394, "kl_numerical_quadrature": 0.39345184},
+    "hierarchical_nig_double_use_boundary": {"p_value_divergence_mixed_t_2a_prime":
+    0.01248693, "p_value_evans_moshonov_t_2a_prime_minus_1": 0.00087847, "sigma_star_full_posterior":
+    1.57094148, "sigma_tilde_ancillary_conditioned": 1.04880885, "t_stat_divergence_mixed":
+    2.86452427, "t_stat_evans_moshonov": 4.29058165}, "normal_location_renyi_equivalence":
+    {"MR_alpha_inf": 3.30471896, "R_KL_alpha_1.0": 2.40471896, "R_alpha_0.5": 1.96056,
+    "R_alpha_2.0": 2.73304785, "p_value_all_alpha_and_EM": 0.02534732}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T091600Z-prior-posterior-divergence-conflict.json
+  accessed_at: '2026-10-17T09:16:00Z'
+  support: supports
+  summary: No normalized identity match for the prior-to-posterior divergence conflict
+    diagnostic across 442 pinned AIO records and 564 maintained IDs, names, aliases
+    and scoped synonyms. Ignored- and hidden-inclusive fixed-string searches across
+    data, sources, research, history, and reviews returned 0 lines (referencing only
+    prior frontier tracking entries). This concept denotes the global prior-to-posterior
+    Rényi divergence diagnostic of Nott, Wang, Evans, & Englert (2020), distinct from
+    local prior-expansion score checks and sufficient-statistic density ordinate checks.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T09:16:00Z'
+  support: supports
+  summary: Inspected BayesianNetwork, ProbabilisticGraphicalModel, and EvaluationBias
+    in the pinned AIO snapshot (2026-07-22). BayesianNetwork supplies graphical and
+    hierarchical model context as a related_match rather than an algorithm superclass.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/prior-posterior-divergence-conflict-boundaries.py
+  accessed_at: '2026-10-17T09:16:00Z'
+  snapshot_sha256: 719ee995c73face4d9ecf3026295f95780c28a15101b5f3ba45188afe700d004
+  support: supports
+  summary: Constructed exact analytical and Simpson quadrature checks for (1) Normal
+    location Rényi divergence equivalence across alpha in {0.5, 1.0, 2.0, inf} (p
+    = 0.02534732), (2) Binomial-Beta uniform-prior boundary behavior where R_KL flags
+    extreme counts (p_KL = 2/21) due to the asymptotic Jeffreys-prior curvature term
+    while Evans-Moshonov gives p = 1.0, (3) hierarchical Normal-Inverse-Gamma mixed-predictive
+    scale inflation under strong conflict when full posterior g(sigma^2 | y_obs) is
+    used instead of the ancillary-conditioned check (p = 0.02538768 vs. 0.00051665),
+    and (4) Hershey-Olsen Gaussian mixture KL bound accuracy.
+- evidence_id: nott-wang2020
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1611.00113
+  locator: Sections 1-6, Examples 3.1-3.4 and 5.1-5.2, Equations 1-21, lines 1-749
+  accessed_at: '2026-10-17T09:14:00Z'
+  snapshot_sha256: 8347841fa2b6835fceedd13af2a6148ce621cfd94c64c2bddde275020d86eb70
+  support: supports
+  summary: All 749 lines of the full-text HTML conversion of arXiv:1611.00113v1 (Statistical
+    Science 35(2):234-253) read. Checked Equations (2)-(21), analytical examples,
+    asymptotic Jeffreys/reference-prior limits, and variational approximations.
+- evidence_id: nott-seah2020
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1902.10393v2
+  locator: Section 2.1, Equations 1-2, PDF pp. 4-5
+  accessed_at: '2026-10-17T08:20:00Z'
+  snapshot_sha256: 2d36e3af352ac38b3811af3540aed3d115be5f4b4f6ecdadb4ec8fec74d07a99
+  support: supports
+  summary: All 31 pages of the primary PDF read, confirming the relationship between
+    global prior-to-posterior divergence checks and local prior-expansion score diagnostics.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Global prior-to-posterior Rényi divergence check versus local prior-expansion
+    score and sufficient-statistic ordinate checks
+  outcome: supported
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  evidence_ids:
+  - identity
+  - nott-wang2020
+  - nott-seah2020
+  summary: Retain the prior-to-posterior divergence conflict diagnostic as a distinct
+    DRAFT algorithm.
+  details: Nott, Wang, Evans, & Englert (2020) define a prior-data conflict diagnostic
+    using the Rényi divergence R_alpha(y) from prior to posterior calibrated under
+    the prior predictive distribution, distinct from local prior-expansion score derivatives
+    and from minimal sufficient statistic density ordinate checks.
+- assessment_id: mapping
+  area: grounding
+  topic: Diagnostic-to-BayesianNetwork representation relation
+  outcome: supported
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  evidence_ids:
+  - mapping
+  - nott-wang2020
+  summary: Related BayesianNetwork mapping is supported.
+  details: The diagnostic applies to single-level and hierarchical Bayesian graphical
+    models; BayesianNetwork provides the modeling context via related_match.
+- assessment_id: renyi-relative-belief-discrepancy-invariance
+  area: evidence
+  topic: renyi-relative-belief-discrepancy-invariance
+  outcome: supported
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  evidence_ids:
+  - nott-wang2020
+  - nott-seah2020
+  - calculation
+  summary: Supported and verified analytically across orders alpha.
+  details: R_alpha(y) equals log ||RB(theta | y)||_{alpha-1}, depends on y only through
+    the posterior g(theta | y), and is invariant to the choice of minimal sufficient
+    statistic.
+- assessment_id: hierarchical-conditional-and-marginal-divergence-decomposition
+  area: evidence
+  topic: hierarchical-conditional-and-marginal-divergence-decomposition
+  outcome: supported
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  evidence_ids:
+  - nott-wang2020
+  - calculation
+  summary: Supported with explicit mixed-predictive vs. partial-posterior double-use
+    boundary.
+  details: Decomposing g(theta_1 | theta_2)g(theta_2) into R_{alpha 1}(y) under mixed
+    predictive m(y) and R_{alpha 2}(y) under p(y) enables level-specific conflict
+    checks; using full posterior g(theta_2 | y_obs) inflates the reference scale compared
+    with partial-posterior or ancillary conditioning.
+- assessment_id: asymptotic-jeffreys-and-reference-prior-calibration
+  area: evidence
+  topic: asymptotic-jeffreys-and-reference-prior-calibration
+  outcome: supported
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  evidence_ids:
+  - nott-wang2020
+  - calculation
+  summary: Supported with explicit finite-sample boundary behavior on flat priors.
+  details: As n -> infinity, p_alpha converges to P(g(theta)|I(theta)|^(-1/2) <= g(theta*)|I(theta*)|^(-1/2)),
+    explaining why Jeffreys' prior yields limiting p-value 1 and why a flat Beta(1,
+    1) prior flags extreme Binomial counts.
+- assessment_id: variational-and-gaussian-mixture-divergence-approximation
+  area: evidence
+  topic: variational-and-gaussian-mixture-divergence-approximation
+  outcome: supported
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  evidence_ids:
+  - nott-wang2020
+  - calculation
+  summary: Supported and verified via Hershey-Olsen vs. quadrature comparison.
+  details: Replacing g(theta | y) with exponential-family or Gaussian-mixture variational
+    posteriors combined with the Hershey-Olsen closed-form bound accelerates prior-predictive
+    calibration.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PriorToPosteriorDivergenceConflictDiagnostic
+  evidence_ids:
+  - identity
+  - mapping
+  - nott-wang2020
+  - nott-seah2020
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of PriorToPosteriorDivergenceConflictDiagnostic.yaml:
+    stable ID, name, aliases, algorithm kind, definition, definition_evidence, identity_notes,
+    four claims and locators, two full-text primary sources with exact SHA-256 digests,
+    pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT prior-to-posterior divergence conflict diagnostic, yielding 565
+  native and 442 unchanged generated records.
+- All 749 lines of Nott, Wang, Evans, & Englert (2020, arXiv:1611.00113v1) and all
+  31 pages of Nott et al. (2020, arXiv:1902.10393v2) were read. No author variational
+  Bayes or MCMC implementation was run; constructed analytical and quadrature examples
+  verify Normal, Beta-Binomial, Normal-Inverse-Gamma, and Hershey-Olsen mixture boundaries
+  only.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- model-diagnostics
+- bayesian-inference
+- self-review
+- discovery-ongoing
+```

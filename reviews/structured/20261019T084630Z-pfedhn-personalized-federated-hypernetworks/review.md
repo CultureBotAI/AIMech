@@ -1,0 +1,350 @@
+# Scientific author self-review of pFedHN (Personalized Federated Hypernetworks)
+
+- Review: 20261019T084630Z-pfedhn-personalized-federated-hypernetworks
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T08:46:00Z
+- Finished UTC: 2026-10-19T08:46:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain pFedHN (Personalized Federated Hypernetworks) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/PFedHnPersonalizedFederatedHypernetworks.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PFedHnPersonalizedFederatedHypernetworks
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base d36b79119f284028782586cf6974eabe1575c13c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PFedHnPersonalizedFederatedHypernetworks | data/curated/PFedHnPersonalizedFederatedHypernetworks.yaml | maintained | pFedHN (Personalized Federated Hypernetworks) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:PFedHnPersonalizedFederatedHypernetworks | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:PFedHnPersonalizedFederatedHypernetworks | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:PFedHnPersonalizedFederatedHypernetworks | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:PFedHnPersonalizedFederatedHypernetworks | Validated history sidecar files. |
+| python3 pfedhn-personalized-federated-hypernetworks-boundaries.py | passed | True | AIMech:PFedHnPersonalizedFederatedHypernetworks | [PASS] Round 443 pFedHN (Shamsian et al. 2021): pca_recon_err=0.1000==0.1000 &lt;&lt; global_err=53.10, sample_complexity_ratio=172.6x |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:PFedHnPersonalizedFederatedHypernetworks.
+
+pFedHN (Personalized Federated Hypernetworks) is a distinct concept.
+
+Distinct from Per-FedAvg (AIMech:PerFedAvgPersonalizedFederatedLearningWithTheoreticalGuarantees, Fallah et al. 2020) and pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which transmit and regularize a single shared d-dimensional model init across all clients rather than generating client-conditioned parameters theta_i = h(v_i; varphi) from a low-dimensional client descriptor v_i on the server.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:PFedHnPersonalizedFederatedHypernetworks.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:PFedHnPersonalizedFederatedHypernetworks.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in pfedhn-personalized-federated-hypernetworks-boundaries.py passed with exit code 0: [PASS] Round 443 pFedHN (Shamsian et al. 2021): pca_recon_err=0.1000==0.1000 &lt;&lt; global_err=53.10, sample_complexity_ratio=172.6x
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PFedHnPersonalizedFederatedHypernetworks.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T084600Z-pfedhn-personalized-federated-hypernetworks.json | supports | No normalized identity match for AIMech:PFedHnPersonalizedFederatedHypernetworks across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/pfedhn-personalized-federated-hypernetworks-boundaries.py | supports | All constructed boundary assertions in pfedhn-personalized-federated-hypernetworks-boundaries.py passed with exit code 0: [PASS] Round 443 pFedHN (Shamsian et al. 2021): pca_recon_err=0.1000==0.1000 &lt;&lt; global_err=53.10, sample_complexity_ratio=172.6x |
+| r443-primary-pdf | https://ar5iv.labs.arxiv.org/html/2103.04628; Full-text PDF | supports | Full-text PDF (Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:9489-9502 (2021)) read and verified. |
+| r443-arxiv-abs | https://arxiv.org/abs/2103.04628; arXiv abstract | supports | arXiv abstract read and verified. |
+| r443-metadata-cr | https://proceedings.mlr.press/v139/shamsian21a.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PFedHnPersonalizedFederatedHypernetworks in Round 443.
+- All pages of Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:9489-9502 (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T084630Z-pfedhn-personalized-federated-hypernetworks
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of pFedHN (Personalized Federated Hypernetworks)
+started_at: '2026-10-19T08:46:00Z'
+finished_at: '2026-10-19T08:46:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:PFedHnPersonalizedFederatedHypernetworks
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:9489-9502
+    (2021) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain pFedHN (Personalized Federated Hypernetworks) as a distinct DRAFT
+  algorithm. All four claims are supported by full-text primary evidence and pure-Python
+  boundary verification.
+source:
+  git_revision: d36b79119f284028782586cf6974eabe1575c13c
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/PFedHnPersonalizedFederatedHypernetworks.yaml
+    sha256: ab61c5f98dd4f185dd20da0b36e4cf0e8ff1fdde9275f733bec20dad5da5441c
+    role: target
+  - path: research/discovery/20261019T084600Z-pfedhn-personalized-federated-hypernetworks.json
+    sha256: 5ec4596d094b8b45e6b487907228fc402d08b75eb6c3b2c80f6b85660975c1ff
+    role: context
+  - path: research/discovery/pfedhn-personalized-federated-hypernetworks-boundaries.py
+    sha256: 82b17e5ce21ad522298586499a40ebe66dc22cd1d319ca54c0044a2203f06fb6
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PFedHnPersonalizedFederatedHypernetworks
+  path: data/curated/PFedHnPersonalizedFederatedHypernetworks.yaml
+  label: pFedHN (Personalized Federated Hypernetworks)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PFedHnPersonalizedFederatedHypernetworks.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/PFedHnPersonalizedFederatedHypernetworks.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PFedHnPersonalizedFederatedHypernetworks'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 pfedhn-personalized-federated-hypernetworks-boundaries.py
+  command: python3 research/discovery/pfedhn-personalized-federated-hypernetworks-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 443 pFedHN (Shamsian et al. 2021): pca_recon_err=0.1000==0.1000
+    << global_err=53.10, sample_complexity_ratio=172.6x'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T084600Z-pfedhn-personalized-federated-hypernetworks.json
+  accessed_at: '2026-10-19T08:46:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:PFedHnPersonalizedFederatedHypernetworks
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T08:46:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/pfedhn-personalized-federated-hypernetworks-boundaries.py
+  accessed_at: '2026-10-19T08:46:00Z'
+  snapshot_sha256: 82b17e5ce21ad522298586499a40ebe66dc22cd1d319ca54c0044a2203f06fb6
+  support: supports
+  summary: 'All constructed boundary assertions in pfedhn-personalized-federated-hypernetworks-boundaries.py
+    passed with exit code 0: [PASS] Round 443 pFedHN (Shamsian et al. 2021): pca_recon_err=0.1000==0.1000
+    << global_err=53.10, sample_complexity_ratio=172.6x'
+- evidence_id: r443-primary-pdf
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/2103.04628
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T08:46:00Z'
+  snapshot_sha256: 984e5e054811cffe1e1958562dad77a8c0310061ba0416539548b821d71a61b4
+  support: supports
+  summary: Full-text PDF (Proceedings of the 38th International Conference on Machine
+    Learning (ICML 2021), PMLR 139:9489-9502 (2021)) read and verified.
+- evidence_id: r443-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2103.04628
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T08:46:00Z'
+  snapshot_sha256: f0fc440c1546ea1532f8041a13180a04891bfe7b6b859a4d86e386587ae7eaa6
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r443-metadata-cr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v139/shamsian21a.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T08:46:00Z'
+  snapshot_sha256: 5e571637742cd2a1bc94e2972f27dbddd17c6d891769614c43c5ef87beb2525f
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  evidence_ids:
+  - identity
+  - r443-primary-pdf
+  - r443-arxiv-abs
+  - r443-metadata-cr
+  summary: pFedHN (Personalized Federated Hypernetworks) is a distinct concept.
+  details: Distinct from Per-FedAvg (AIMech:PerFedAvgPersonalizedFederatedLearningWithTheoreticalGuarantees,
+    Fallah et al. 2020) and pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes,
+    T. Dinh et al. 2020), which transmit and regularize a single shared d-dimensional
+    model init across all clients rather than generating client-conditioned parameters
+    theta_i = h(v_i; varphi) from a low-dimensional client descriptor v_i on the server.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  evidence_ids:
+  - mapping
+  - r443-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  evidence_ids:
+  - r443-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in pfedhn-personalized-federated-hypernetworks-boundaries.py
+    passed with exit code 0: [PASS] Round 443 pFedHN (Shamsian et al. 2021): pca_recon_err=0.1000==0.1000
+    << global_err=53.10, sample_complexity_ratio=172.6x'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PFedHnPersonalizedFederatedHypernetworks
+  evidence_ids:
+  - identity
+  - mapping
+  - r443-primary-pdf
+  - r443-arxiv-abs
+  - r443-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PFedHnPersonalizedFederatedHypernetworks in Round 443.
+- All pages of Proceedings of the 38th International Conference on Machine Learning
+  (ICML 2021), PMLR 139:9489-9502 (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

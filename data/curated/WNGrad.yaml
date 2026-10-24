@@ -1,0 +1,103 @@
+id: AIMech:WNGrad
+name: WNGrad
+concept_kind: algorithm
+review_status: DRAFT
+definition: A weight-normalization-inspired adaptive step-size gradient descent algorithm that maintains an inverse learning-rate scalar b_k > 0 (globally or per neuron) updated via the square-root-free nonlinear recurrence b_{k+1} = b_k + (lambda^2 ||g_k||_2^2) / b_k and updates parameters via x_{k+1} = x_k - (lambda / b_k) g_k, automatically stabilizing at a constant multiple of the unknown Lipschitz smoothness constant L in deterministic batch optimization while growing as O(sqrt(k)) to achieve O(1/sqrt(k)) convergence in stochastic convex optimization.
+identity_notes: Motivated by the Pythagorean norm growth ||v_{k+1}||_2^2 = ||v_k||_2^2 + (eta^2 / ||v_k||_2^2) ||P_{v_k^perp} nabla f||_2^2 of Weight Normalization on the unit sphere (Equation 4), WNGrad satisfies b_{k+1}^2 = b_k^2 + 2 ||g_k||_2^2 + ||g_k||_2^4 / b_k^2, avoiding square-root operations while remaining invariant to rescaling f -> lambda f when b_1 = C ||nabla f(x_1)||_2 (Remark 2.2). Also includes momentum extensions WNGrad-Momentum and WN-Adam (Algorithm 4).
+aliases:
+- Weight-Normalization Inspired Adaptive Learning Rate Gradient Descent
+- Square-Root-Free Reciprocal Step-Size Update Optimization
+- WN-Adam Weight-Normalized Adaptive Momentum
+definition_evidence:
+- source_id: r618-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r618-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r618-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: wngrad-spherical-projection-inspiration-and-scale-invariance
+  kind: mechanism
+  statement: Inspired by unit-sphere weight normalization where orthogonal tangent steps satisfy ||v_{k+1}||_2^2 = ||v_k||_2^2 + (eta^2 / ||v_k||_2^2) ||P_{v_k^perp}(nabla f)||_2^2 (Equation 4), WNGrad updates the inverse step size via b_{k+1} = b_k + ||g_k||_2^2 / b_k (so b_{k+1}^2 = b_k^2 + 2 ||g_k||_2^2 + ||g_k||_2^4 / b_k^2 without square roots) and is strictly invariant to objective rescaling f -> lambda f when b_1 = C ||nabla f(x_1)||_2 (Remark 2.2).
+  evidence:
+  - source_id: r618-primary-pdf
+    locator: Section 1.2-1.3 (Equations 3-5) and Section 2 (Remark 2.2), p. 3-5
+    relation: supports
+  - source_id: r618-metadata-cr
+    locator: Bibliographic metadata for Wu, Ward, & Bottou 2018
+    relation: supports
+- claim_id: wngrad-batch-lipschitz-stabilization-and-stochastic-convergence-scope
+  kind: scope
+  statement: For L-smooth non-convex functions in the batch setting with b_1 = delta L >= ||nabla f(x_1)||_2, Lemmas 2.4-2.6 and Theorem 2.3 prove that if b_k crosses L at step k_0 then b_{k_0} <= 3L + 2L^2 / b_1 and b_k stabilizes bounded above by b_{k_0} + 8(f(x_{k_0}) - f^*) for all k >= k_0, reaching min_{k<=T} ||nabla f(x_k)||_2^2 <= epsilon in O(1/epsilon) steps; in the stochastic convex setting with E||g_k||_2^2 <= G^2 and ||g_k||_2 >= gamma, Lemma 3.3 and Theorem 3.1 prove b_k >= gamma sqrt(k) and E[f(x_bar_k) - f^*] <= G^2 (D^2 + 2) / (gamma sqrt(k)) + b_1 ||x_1 - x^*||_2^2 / (2k).
+  evidence:
+  - source_id: r618-primary-pdf
+    locator: Section 2 (Theorem 2.3, Lemmas 2.4-2.6, p. 5-6), Section 3 (Theorem 3.1, Lemma 3.3, p. 6-8), and Appendices A.1-A.2 (p. 12-15)
+    relation: supports
+- claim_id: wngrad-per-neuron-deep-learning-and-wn-adam-applications
+  kind: application
+  statement: Applied with one inverse step-size accumulator b_j per neuron across two-layer MLPs on MNIST, five-layer CNNs on CIFAR-10, and (via WNGrad-Momentum and WN-Adam, Algorithm 4) ResNet-18 on CIFAR-10, WNGrad remains stable across four orders of magnitude of initial learning-rate / Lipschitz scale lambda in [10^{-4}, 10^1] where standard SGD and Adam diverge.
+  evidence:
+  - source_id: r618-primary-pdf
+    locator: Section 4 (Numerical Experiments), Algorithms 3-4, Figures 1-3, and Appendix A.3 (Figure 4), p. 8-10, 15
+    relation: supports
+- claim_id: wngrad-monotonic-accumulator-and-very-small-b1-overshoot-limitation
+  kind: limitation
+  statement: Because b_k is monotonically non-decreasing, an extremely small initialization b_1 = delta L << L causes a large initial transient bound O(L^2 / (delta^2 epsilon)) in Theorem 2.3 Case 2 before b_k reaches L, and in non-stationary deep learning tasks b_k cannot increase the effective learning rate 1/b_k once accumulated.
+  evidence:
+  - source_id: r618-primary-pdf
+    locator: Section 2 (Theorem 2.3 Case 2 and Lemma 2.6), p. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r618-primary-pdf
+  title: 'WNGrad: Learn the Learning Rate in Gradient Descent'
+  authors: &id001
+  - Xiaoxia Wu
+  - Rachel Ward
+  - Leon Bottou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1803.02865.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1803-02865.xml
+  version: arXiv (2018) (360515 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:41:00Z'
+  sha256: d2a295c7755c07c39522bb4c7c0e44bacd67361c677f74fa699825796a3f40de
+- source_id: r618-arxiv-abs
+  title: 'WNGrad: Learn the Learning Rate in Gradient Descent (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1803.02865
+  persistent_id: https://arxiv.org/abs/1803.02865
+  version: arXiv abstract page (7076 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:41:00Z'
+  sha256: d67f925c95434012849ca76e33f1bb25d9605bbe802afbce8e5761ecaf311d32
+- source_id: r618-metadata-cr
+  title: 'WNGrad: Learn the Learning Rate in Gradient Descent (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-1803-02865.xml
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1803-02865.xml
+  version: Crossref API work record (457 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:41:00Z'
+  sha256: b334e798d4d19af4aa75ad20cef5d610c333f68d7c0109dbca8953b940dc712b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: WNGrad and WN-Adam dynamically adapt per-neuron learning rates in deep neural networks for Lipschitz-scale robustness.
+limitations:
+- Because b_{k+1} = b_k + ||g_k||_2^2 / b_k is strictly non-decreasing, the effective learning rate 1 / b_k can only decrease over time and cannot re-expand if the optimization enters a flatter region.
+- If initialized with a very small b_1 = delta L (delta << 1), the initial overshoot before b_k crosses L scales as O(L / delta) under Lemma 2.6.
+curation:
+  created_at: '2026-10-19T11:41:00Z'
+  updated_at: '2026-10-19T11:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

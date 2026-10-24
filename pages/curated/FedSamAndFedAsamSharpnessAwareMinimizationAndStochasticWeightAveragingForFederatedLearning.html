@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic Weight Averaging for Federated Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic Weight Averaging for Federated Learning)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic Weight Averaging for Federated Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedSamAndFedAsamSharpnessAwareMinimizationAndStochasticWeightAveragingForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedSAM, FedASAM, Federated Sharpness-Aware Minimization, Federated Adaptive Sharpness-Aware Minimization
+    </div>
+
+  <div class="detail-desc">
+    A sharpness-aware federated optimization framework (Caldarola, Caputo, &amp; Ciccone 2022, Sections 3-4, Equations 1-5, Algorithm 1) that mitigates sharp-landscape misalignment across statistically heterogeneous clients by replacing local client SGD with Sharpness-Aware Minimization (FedSAM, perturbing local weights by epsilon^hat_k(w) = rho * grad L_k(w) / ||grad L_k(w)||_2, Equation 3) or Adaptive Sharpness-Aware Minimization (FedASAM, using scale-invariant normalization operator T_w^i = diag(|w|) so epsilon^tilde_k(w) = rho * T_w^2 grad L_k(w) / ||T_w grad L_k(w)||_2, Equation 5), combined on the server side with cyclic-learning-rate Stochastic Weight Averaging (SWA, w_SWA &lt;- (w_SWA * n_models + w^{t+1}) / (n_models + 1) every c rounds starting at fraction s of total rounds, Algorithm 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from centralized SAM (AIMech:SharpnessAwareMinimization, Foret et al. 2021) and centralized SWA (AIMech:StochasticWeightAveraging, Izmailov et al. 2018), which operate on a single centralized model without cross-client parameter averaging or heterogeneous client drift; and distinct from FedSpeed (AIMech:FedSpeedProxCorrectionAndGradientPerturbationForFederatedLearning, Sun et al. 2023), which combines a local proximal regularizer and prox-correction momentum variable g^hat_i^t with unnormalized extra-gradient perturbation rather than scale-invariant ASAM and server-side cyclic SWA.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r454-local-sam-and-scale-invariant-asam-perturbation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Drives each participating client k toward wider, lower-curvature basins (measured by reduced maximum Hessian eigenvalue lambda_max and trace Tr(H)) by evaluating local gradients at the adversarially perturbed point w + epsilon^hat_k(w) under Euclidean ball radius rho (FedSAM, Equation 3) or parameter-scale-normalized radius ||T_w^{-1} epsilon||_2 &lt;= rho (FedASAM, Equations 4-5), reducing the loss barrier when heterogeneous client models are averaged on the server.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r454-primary-pdf">Improving Generalization in Federated Learning by Seeking Flat Minima</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Loss Surfaces &amp; Section 4.1 SAM and ASAM on the Client Side (Equations 2-5, Table 1, Figures 1-3), pp. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r454-server-side-cyclic-swa-aggregation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Integrates server-side Stochastic Weight Averaging (SWA) after an initial warmup fraction s of total communication rounds by cycling the server-broadcast learning rate between alpha_1 and alpha_2 over cycle length c and updating the running average w_SWA &lt;- (w_SWA * n_models + w^{t+1}) / (n_models + 1) at the minimum of each cycle without increasing client-server communication cost.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r454-primary-pdf">Improving Generalization in Federated Learning by Seeking Flat Minima</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 SWA on the Server Side &amp; Algorithm 1, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r454-two-forward-backward-passes-per-local-step-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Doubles the local per-minibatch backpropagation cost on participating clients because each local step requires one gradient evaluation to compute the ascent perturbation epsilon^hat_k(w) and a second gradient evaluation at w + epsilon^hat_k(w).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r454-primary-pdf">Improving Generalization in Federated Learning by Seeking Flat Minima</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Equation 3 &amp; Algorithm 1 Client Update, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r454-heterogeneous-federated-vision-generalization-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to heterogeneous cross-device federated vision benchmarks including CIFAR-10, CIFAR-100, Federated Extended MNIST (FEMNIST), and Landmarks-User-160k using GroupNorm-equipped ResNet and MobileNetV2 architectures.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r454-primary-pdf">Improving Generalization in Federated Learning by Seeking Flat Minima</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments (Tables 1-4, Figures 3-5), pp. 8-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires two forward-backward gradient evaluations per local minibatch step on each active client, doubling local compute cost.</li>
+      <li>Does not eliminate client drift when local objectives have disjoint optima without additional drift-correction or control variates.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedSAM and FedASAM are federated learning optimization methods that combine client-side sharpness-aware minimization with server-side stochastic weight averaging.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r454-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r454-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2203.11834" target="_blank" rel="noopener">Improving Generalization in Federated Learning by Seeking Flat Minima</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Debora Caldarola, Barbara Caputo, Marco Ciccone
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/978-3-031-20050-2_38</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:729ea4595a15…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r454-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r454-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.11834" target="_blank" rel="noopener">Improving Generalization in Federated Learning by Seeking Flat Minima (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Debora Caldarola, Barbara Caputo, Marco Ciccone
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.11834</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cdc3282809a3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r454-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r454-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1007/978-3-031-20050-2_38" target="_blank" rel="noopener">Improving Generalization in Federated Learning by Seeking Flat Minima (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Debora Caldarola, Barbara Caputo, Marco Ciccone
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/978-3-031-20050-2_38</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f1e4e31eab3d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFedSamAndFedAsamSharpnessAwareMinimizationAndStochasticWeightAveragingForFederatedLearning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic Weight Averaging for Federated Learning)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FedSamAndFedAsamSharpnessAwareMinimizationAndStochasticWeightAveragingForFederatedLearning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FedSAM and FedASAM...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:57:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:57:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedSamAndFedAsamSharpnessAwareMinimizationAndStochasticWeightAveragingForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedSamAndFedAsamSharpnessAwareMinimizationAndStochasticWeightAveragingForFederatedLearning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FedSAM%20and%20FedASAM%20%28Sharpness-Aware%20Minimization%20and%20Server%20Stochastic%20Weight%20Averaging%20for%20Federated%20Learning%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedSamAndFedAsamSharpnessAwareMinimizationAndStochasticWeightAveragingForFederatedLearning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

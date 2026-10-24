@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BERT-PKD (Patient Knowledge Distillation for BERT Model Compression) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/learning_paradigm.html">Learning Paradigms</a>
+    <span>/</span>
+    <strong>BERT-PKD (Patient Knowledge Distillation for BERT Model Compression)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">BERT-PKD (Patient Knowledge Distillation for BERT Model Compression)</h1>
+    <span class="badge badge-curated">Learning Paradigms</span>
+    <span class="detail-id">AIMech:BERTPKDPatientKnowledgeDistillationForBERTModelCompression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BERT-PKD, Patient Knowledge Distillation, Patient-KD (PKD-Skip and PKD-Last)
+    </div>
+
+  <div class="detail-desc">
+    A multi-layer knowledge distillation method for compressing a deep pre-trained BERT teacher into a shallower n-layer BERT_n student (Sun, Cheng, Gan, &amp; Liu, EMNLP-IJCNLP 2019) that supplements output-layer soft-target cross-entropy L_DS and ground-truth hard-label cross-entropy L_CE^s with a patient teacher loss L_PT measuring the squared L2 distance between L2-normalized intermediate-layer [CLS] token representations of the student and k = n - 1 selected intermediate layers I_pt of the teacher under either a uniform skip strategy (PKD-Skip) or a top-layer contiguous strategy (PKD-Last): L_PKD = (1 - alpha) L_CE^s + alpha L_DS + beta L_PT.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from TinyBERT (AIMech:TinyBERTTransformerDistillationForNaturalLanguageUnderstanding) and MiniLM (AIMech:MiniLMDeepSelfAttentionDistillationForTaskAgnosticCompression), which match full sequence token hidden states or multi-head attention/value-relation matrices across all tokens. To avoid the computational cost and noise of distilling all token positions during task-specific fine-tuning, BERT-PKD initializes the n-layer student with the first n layers of pre-trained BERT and aligns only the L2-normalized [CLS] token embeddings across k = n - 1 intermediate layers via PKD-Skip (e.g., I_pt = {2, 4, 6, 8, 10} for 12-&gt;6) or PKD-Last (e.g., I_pt = {7, 8, 9, 10, 11}).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#bert-pkd-normalized-cls-patient-loss-and-layer-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an n-layer student BERT_n distilled from a deeper teacher (such as BERT_12), BERT-PKD selects k = n - 1 intermediate teacher layers I_pt via either PKD-Skip (every d_step layers, e.g., I_pt = {2, 4, 6, 8, 10} for n=6) or PKD-Last (the last k intermediate layers prior to the output layer, e.g., I_pt = {7, 8, 9, 10, 11} for n=6) and minimizes L_PKD = (1 - alpha) L_CE^s + alpha L_DS + beta L_PT (Equations 5, 8), where L_PT = sum_{i=1}^N sum_{j=1}^M || h_{i,j}^s / ||h_{i,j}^s||_2 - h_{i,I_pt(j)}^t / ||h_{i,I_pt(j)}^t||_2 ||_2^2 (Equations 6-7) aligns L2-normalized intermediate [CLS] token vectors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r802-primary-pdf">Patient Knowledge Distillation for BERT Model Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Patient Teacher for Model Compression), p. 4, Figure 1, Equations (6)-(8)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r802-primary-pdf">Patient Knowledge Distillation for BERT Model Compression</a></span>
+        <span>· <strong>Locator:</strong> pkd_layer_indices and patient_loss verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#bert-pkd-glue-and-race-empirical-gains-and-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On the official GLUE test benchmark and the RACE reading comprehension test set, 6-layer BERT_6-PKD (1.64x parameter reduction, 1.94x GPU inference speedup) and 3-layer BERT_3-PKD (2.40x parameter reduction, 3.73x speedup) consistently outperform direct fine-tuning (FT) and last-layer vanilla KD across SST-2, QQP, MNLI-m/mm, QNLI, RTE, and RACE (reaching 60.34% on RACE vs. 58.74% for BERT_6-KD and 54.32% for BERT_6-FT, Tables 1, 3, 4), with PKD-Skip outperforming PKD-Last by capturing diverse low-to-high-level layer semantics (Table 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r802-primary-pdf">Patient Knowledge Distillation for BERT Model Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3-4.4 (Tables 1-4, Figure 2), pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#bert-pkd-equal-hidden-dimension-and-initialization-mismatch</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because Equation (7) directly subtracts normalized student and teacher [CLS] vectors without a projection matrix and initializes BERT_k from the bottom k layers of the teacher, BERT-PKD cannot directly compute L_PT when student and teacher hidden dimensions differ (such as distilling BERT_24[Large] d=1024 into BERT_6[Base] d=768) and suffers from bottom-layer initialization mismatch when compressing 24-layer BERT_Large 4:1 into 6-layer BERT_6[Large] (Section 4.5, Table 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r802-primary-pdf">Patient Knowledge Distillation for BERT Model Compression</a></span>
+        <span>· <strong>Locator:</strong> Section 4.5 (Does a Better Teacher Help?, Table 5), pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires identical hidden dimension d between student and teacher [CLS] vectors in L_PT and suffers from bottom-layer initialization mismatch when compressing 24-layer BERT-Large into a 6-layer student without pre-training the student from scratch.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            BERT-PKD is a multi-layer knowledge distillation paradigm for compressing Transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r802-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r802-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1908.09355.pdf" target="_blank" rel="noopener">Patient Knowledge Distillation for BERT Model Compression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Siqi Sun, Yu Cheng, Zhe Gan, Jingjing Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1908.09355</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:31222dec4de6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r802-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r802-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1908.09355" target="_blank" rel="noopener">Patient Knowledge Distillation for BERT Model Compression (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Siqi Sun, Yu Cheng, Zhe Gan, Jingjing Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1908.09355</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:da120d49c02a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r802-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r802-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1908.09355" target="_blank" rel="noopener">Patient Knowledge Distillation for BERT Model Compression (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Siqi Sun, Yu Cheng, Zhe Gan, Jingjing Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1908.09355</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5f220c550c7e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ABERTPKDPatientKnowledgeDistillationForBERTModelCompression">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for BERT-PKD (Patient Knowledge Distillation for BERT Model Compression)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Learning Paradigms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:BERTPKDPatientKnowledgeDistillationForBERTModelCompression</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">BERT-PKD (Patient...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BERTPKDPatientKnowledgeDistillationForBERTModelCompression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BERTPKDPatientKnowledgeDistillationForBERTModelCompression.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=BERT-PKD%20%28Patient%20Knowledge%20Distillation%20for%20BERT%20Model%20Compression%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ABERTPKDPatientKnowledgeDistillationForBERTModelCompression"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

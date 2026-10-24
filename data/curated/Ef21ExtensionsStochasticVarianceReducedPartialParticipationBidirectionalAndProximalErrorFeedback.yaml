@@ -1,0 +1,111 @@
+id: AIMech:Ef21ExtensionsStochasticVarianceReducedPartialParticipationBidirectionalAndProximalErrorFeedback
+name: EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC, EF21-HB, EF21-Prox)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A suite of six algorithmic extensions of the Markov-compressor error-feedback method EF21 for distributed nonconvex and Polyak-Lojasiewicz (PL) optimization with contractive compressors C in B(alpha): (1) EF21-SGD replacing exact local gradients nabla f_i(x^t) with unbiased stochastic minibatch gradients hat{g}_i(x^t); (2) EF21-PAGE replacing local gradients with probabilistic PAGE variance-reduced estimators v_i^{t+1} (computed via full local gradients with probability p and recursive minibatch differences with probability 1 - p) to eliminate the stochastic variance floor; (3) EF21-PP supporting partial client participation where only a sampled subset S_t subseteq {1, ..., n} communicates c_i^t = C_i^t(nabla f_i(x^{t+1}) - g_i^t) while inactive clients retain g_i^{t+1} = g_i^t; (4) EF21-BC adding server-to-worker contractive compression C_M^t on the aggregated state difference; (5) EF21-HB incorporating heavy-ball momentum; and (6) EF21-Prox solving composite problems min_x f(x) + R(x) via x^{t+1} = prox_{gamma R}(x^t - gamma g^t).'
+identity_notes: Distinct from baseline EF21 (which requires full-batch local gradients, full client participation, uncompressed server broadcasts, no momentum, and smooth unconstrained objectives) and from EF-BV (which decomposes compressors into bias and variance parameters using an auxiliary scaling lambda). The EF21 extensions directly generalize the Markov compression recursion g_i^{t+1} = g_i^t + C_i^t(u_i^{t+1} - g_i^t) across six orthogonal operational axes.
+aliases:
+- EF21 with Bells and Whistles
+- EF21-PAGE
+- EF21-BC
+- EF21-PP
+- EF21-Prox
+- EF21-HB
+definition_evidence:
+- source_id: r577-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r577-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r577-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: ef21-page-variance-reduced-coupled-distortion-recursion
+  kind: mechanism
+  statement: In EF21-PAGE (Algorithm 2), each worker i maintains both a PAGE gradient estimator v_i^{t+1} (equal to nabla f_i(x^{t+1}) with probability p and v_i^t + hat{Delta}_i^t with probability 1 - p) and a compressed state g_i^{t+1} = g_i^t + C_i^t(v_i^{t+1} - g_i^t). Theorem 4 proves that by coupling the compression distortion G^t = (1/n) sum_i ||g_i^t - v_i^t||^2 and the PAGE variance V^t = (1/n) sum_i ||v_i^t - nabla f_i(x^t)||^2 in a three-term Lyapunov function, EF21-PAGE converges to an exact stationary point without the O(sigma^2 / tau) noise floor of EF21-SGD.
+  evidence:
+  - source_id: r577-primary-pdf
+    locator: Section 3.2, Algorithm 2 and Theorem 4, pp. 10-12
+    relation: supports
+- claim_id: ef21-bc-bidirectional-master-and-worker-markov-compression
+  kind: mechanism
+  statement: In EF21-BC (Algorithm 4), workers compress local gradient differences via c_i^{t+1} = C_i^t(nabla f_i(x^{t+1}) - g_i^t) with contractive parameter alpha_W, while the master maintains both a worker-average state g^t = (1/n) sum_i g_i^t and a broadcast state p^t updated via p^{t+1} = p^t + C_M^t(g^{t+1} - p^t) with contractive parameter alpha_M, achieving O(1 / (alpha_W alpha_M epsilon^2)) complexity for smooth nonconvex objectives and linear convergence under the Polyak-Lojasiewicz condition (Theorem 8).
+  evidence:
+  - source_id: r577-primary-pdf
+    locator: Section 3.4, Algorithm 4 and Theorem 8, pp. 14-16
+    relation: supports
+  - source_id: r577-metadata-cr
+    locator: Bibliographic record
+    relation: supports
+- claim_id: ef21-pp-and-ef21-prox-partial-participation-and-composite-convergence
+  kind: application
+  statement: EF21-PP (Algorithm 3, Theorem 6) preserves the Markov error-feedback invariant g^t = (1/n) sum_{i=1}^n g_i^t under arbitrary proper client sampling by keeping g_i^{t+1} = g_i^t for unsampled clients i not in S_t, while EF21-Prox (Algorithm 6, Theorem 12) replaces the smooth gradient update with x^{t+1} = prox_{gamma R}(x^t - gamma g^t) and guarantees O(1 / (alpha T)) decay of the squared generalized gradient mapping ||G_gamma(x^t)||^2.
+  evidence:
+  - source_id: r577-primary-pdf
+    locator: Section 3.3, Algorithm 3 and Theorem 6, pp. 12-14; Section 3.6, Algorithm 6 and Theorem 12, pp. 19-21
+    relation: supports
+- claim_id: ef21-sgd-large-minibatch-or-neighborhood-limitation
+  kind: limitation
+  statement: Unlike EF21-PAGE, vanilla EF21-SGD (Algorithm 1, Theorem 2) accumulates stochastic noise inside the contractive compressor C_i^t(hat{g}_i(x^{t+1}) - g_i^t), so with constant stepsize and fixed minibatch size tau it only converges to a neighborhood proportional to sigma^2 / (alpha^2 tau), requiring O(sigma^2 / (alpha^2 epsilon^2)) minibatch sizes to reach an epsilon-stationary point.
+  evidence:
+  - source_id: r577-primary-pdf
+    locator: Section 3.1, Theorem 2 and Corollary 3, pp. 8-10
+    relation: supports
+evidence_sources:
+- source_id: r577-primary-pdf
+  title: 'EF21 with Bells & Whistles: Practical Algorithmic Extensions of Modern Error Feedback'
+  authors: &id001
+  - Ilyas Fatkhullin
+  - Igor Sokolov
+  - Eduard Gorbunov
+  - Zhize Li
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.03294
+  persistent_id: https://dblp.org/search/publ/api?q=EF21+with+Bells+Whistles&format=json
+  version: Journal of Machine Learning Research (JMLR) 26(189):1-50 (2025) (11710025 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:00:00Z'
+  sha256: 66404399c838c651713b8026cf25c65cadd223010a59a6ce6c69b27267a60500
+- source_id: r577-arxiv-abs
+  title: 'EF21 with Bells & Whistles: Practical Algorithmic Extensions of Modern Error Feedback (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.03294
+  persistent_id: https://arxiv.org/abs/2110.03294
+  version: arXiv abstract page (7234 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:00:00Z'
+  sha256: afd67978b8a002652f11012a3df1e49f6cc393d9a5df02e00bf9722c54f871a4
+- source_id: r577-metadata-cr
+  title: 'EF21 with Bells & Whistles: Practical Algorithmic Extensions of Modern Error Feedback (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=EF21+with+Bells+Whistles&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=EF21+with+Bells+Whistles&format=json
+  version: Crossref API work record (1938 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:00:00Z'
+  sha256: 257b8ccee540eb63ff82dbbb7e940b27423db2b8e97b504aa8c457b0119e27aa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: EF21-PP, EF21-PAGE, and EF21-BC directly address partial client participation, local stochastic gradients, and bidirectional communication compression in federated optimization.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: EF21-Prox solves composite nonconvex problems with non-smooth sparsity-inducing regularizers R(x) under contractive gradient compression.
+limitations:
+- EF21-SGD without variance reduction requires large minibatch sizes O(1 / (alpha^2 epsilon^2)) to suppress compressor-amplified stochastic noise.
+- All extensions require contractive compressors with 0 < alpha <= 1 and store at least one d-dimensional state vector g_i^t per worker.
+curation:
+  created_at: '2026-10-19T11:00:00Z'
+  updated_at: '2026-10-19T11:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

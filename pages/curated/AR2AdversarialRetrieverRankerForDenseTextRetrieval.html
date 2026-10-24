@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AR2 Adversarial Retriever-Ranker for Dense Text Retrieval · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>AR2 Adversarial Retriever-Ranker for Dense Text Retrieval</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AR2 Adversarial Retriever-Ranker for Dense Text Retrieval</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AR2AdversarialRetrieverRankerForDenseTextRetrieval</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AR2, Adversarial Retriever-Ranker, AR2-G and AR2-D, Adversarial Minimax Retriever-Ranker Training
+    </div>
+
+  <div class="detail-desc">
+    A joint adversarial training algorithm for dense text retrieval that couples a dual-encoder retriever G_theta(q, d) = E_theta(q)^T E_theta(d) and a cross-encoder ranker D_phi(q, d) = w_phi^T E_phi([q, d]) in a contrastive minimax game J^{G*, D*} = min_theta max_phi E_{D_q^- ~ G_theta(q, .)}[log p_phi(d | q; D_q)] where D_q = {d} U D_q^- and p_phi(d | q; D_q) = exp(tau D_phi(q, d)) / sum_{d&#39; in D_q} exp(tau D_phi(q, d&#39;)), alternating coordinate updates that (1) train the ranker D_phi to maximize log p_phi(d | q; D_q) over the ground-truth passage d and n hard negatives D_q^- sampled from the top-K candidates of the retriever&#39;s FAISS ANN index, (2) update the retriever G_theta to minimize the tractable pairwise expectation upper bound J_hat^theta = E_{d^- ~ p_theta(. | q; D_q^-)}[log p_phi(d | q; {d, d^-})] via policy-gradient weighting grad_theta log p_theta(d^- | q; D_q^-) log p_phi(d | q; {d, d^-}) plus a cross-entropy distillation regularizer J_R^theta = H(p_phi(. | q; D_q), p_theta(. | q; D_q)) that prevents retriever probability collapse, and (3) refresh the corpus ANN index after each iteration.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from ANCE (Xiong et al., ICLR 2021, AIMech:ANCEApproximateNearestNeighborNegativeContrastiveLearning), which iteratively mines hard negatives from an ANN index without a cross-encoder ranker or adversarial minimax reward; distinct from RocketQA (Qu et al., NAACL 2021, AIMech:RocketQADenoisedHardNegativeSampling), which uses a static cross-encoder to filter hard negatives offline across separate pipeline stages rather than interactive minimax co-training; and distinct from IRGAN (Wang et al., SIGIR 2017), which uses a binary GAN discriminator objective log D_phi(d, q) + log(1 - D_phi(d^-, q)) rather than a listwise contrastive cross-encoder likelihood with entropy-smoothing distillation regularization.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r757-claim-contrastive-minimax-upper-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because direct optimization of the combinatorial expectation J^theta = E_{D_q^- ~ G_theta(q, .)}[log p_phi(d | q; {d} U D_q^-)] over n sampled negatives is intractable, AR2 derives the pairwise upper bound J^theta &lt;= J_hat^theta = E_{d_i^- ~ p_theta(. | q; D_q^-)}[log p_phi(d | q; {d, d_i^-})] with exact gradient grad_theta J_hat^theta = E_{d_i^- ~ p_theta(. | q; D_q^-)}[grad_theta log p_theta(d_i^- | q; D_q^-) log p_phi(d | q; {d, d_i^-})], which grants smooth high-probability updates to unlabeled false-negative documents that receive high relevance scores from the cross-encoder ranker D_phi.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r757-primary-pdf">Adversarial Retriever-Ranker for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Section 3.2, &amp; Appendix A.1, Equations 5-10 and 13-15, pp. 2, 4, 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r757-claim-distillation-entropy-regularization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To prevent the retriever G_theta from converging to overly sharp conditional probabilities over D_q = {d} U D_q^- that impede negative exploration during the 10-iteration coordinate game (1,500 retriever mini-batches and 500 ranker mini-batches per iteration followed by FAISS ANN index refresh), AR2 adds the cross-entropy distillation regularizer J_R^theta = H(p_phi(. | q; D_q), p_theta(. | q; D_q)), raising top-15 retriever distribution entropy on Natural Questions from 1.70 to 2.10 and improving R@1 from 57.8 to 58.7 and R@5 from 77.3 to 77.9.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r757-primary-pdf">Adversarial Retriever-Ranker for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Section 3.2-3.3, Section 4.2, &amp; Section 4.4, Equations 11-12, Algorithm 1, Table 5, pp. 2, 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r757-claim-nq-triviaqa-msmarco-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    First-stage dual-encoder retriever AR2-G achieves 77.9 R@5, 86.0 R@20, and 90.1 R@100 on Natural Questions test (rising to 78.8 R@5 / 86.5 R@20 / 90.4 R@100 with ERNIE-2.0-Large, and 65.6 R@1 / 81.5 R@5 / 84.9 R@10 when reranked by AR2-D), 78.2 R@5 / 84.4 R@20 / 87.9 R@100 on TriviaQA test (82.1 R@5 with AR2-D), and 39.5 MRR@10 / 87.8 R@50 / 98.6 R@1k on MS-MARCO Passage Dev (43.2 MRR@10 with AR2-D), outperforming ANCE, RocketQA, PAIR, coCondenser, and IRGAN (55.2 vs. 58.7 R@1 on NQ).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r757-primary-pdf">Adversarial Retriever-Ranker for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Abstract, Section 4.3-4.4, &amp; Appendix A.7-A.8, Tables 1-2, 4, 6, and 12-13, Figures 3-4, pp. 1, 6-8, 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r757-claim-training-latency-and-ann-refresh-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AR2 requires jointly holding and updating a 330M-parameter cross-encoder ranker alongside the 110M-parameter dual-encoder retriever across 10 iterations of corpus re-encoding and FAISS ANN index rebuilding (taking 9.1 hours on 8 A100 GPUs at n=15 negatives vs. 1.85 hours for DPR), and per-batch training latency scales nearly linearly with negative sample size n (from 210ms at n=1 to 630ms at n=15).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r757-primary-pdf">Adversarial Retriever-Ranker for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Section 4.4 (Table 3), &amp; Appendix A.2 (Table 7) and A.4 (Table 9), pp. 6-7, 13, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires training a large cross-encoder ranker (e.g., 330M-parameter ERNIE-2.0-Large) in tandem with the dual-encoder retriever and rebuilding the corpus-wide FAISS ANN index at every adversarial iteration (9.1 hours on 8 A100 GPUs after continuous pre-training and warm-up).</li>
+      <li>Per-batch training latency grows nearly linearly with the number of sampled hard negatives n per query (from 210ms at n=1 to 630ms at n=15), with diminishing retrieval accuracy gains beyond n=7.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AR2 jointly optimizes a dual-encoder Transformer neural retriever and a cross-encoder Transformer neural ranker through an adversarial minimax objective.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r757-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r757-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2110.03611.pdf" target="_blank" rel="noopener">Adversarial Retriever-Ranker for Dense Text Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hang Zhang, Yeyun Gong, Yelong Shen, Jiancheng Lv, Nan Duan, Weizhu Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2110.03611</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:10cd8607710d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r757-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r757-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2110.03611" target="_blank" rel="noopener">Adversarial Retriever-Ranker for Dense Text Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hang Zhang, Yeyun Gong, Yelong Shen, Jiancheng Lv, Nan Duan, Weizhu Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2110.03611</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:05e116ae50b0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r757-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r757-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2110.03611" target="_blank" rel="noopener">Adversarial Retriever-Ranker for Dense Text Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hang Zhang, Yeyun Gong, Yelong Shen, Jiancheng Lv, Nan Duan, Weizhu Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2110.03611</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4dbed51810dc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AAR2AdversarialRetrieverRankerForDenseTextRetrieval">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for AR2 Adversarial Retriever-Ranker for Dense Text Retrieval" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:AR2AdversarialRetrieverRankerForDenseTextRetrieval</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">AR2 Adversarial...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:00:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:00:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AR2AdversarialRetrieverRankerForDenseTextRetrieval.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AR2AdversarialRetrieverRankerForDenseTextRetrieval.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=AR2%20Adversarial%20Retriever-Ranker%20for%20Dense%20Text%20Retrieval"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AAR2AdversarialRetrieverRankerForDenseTextRetrieval"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

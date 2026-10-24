@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed Deep Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed Deep Learning)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed Deep Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:StochasticGradientPushAndOverlapSgpForDistributedDeepLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Stochastic Gradient Push, SGP and Overlap SGP, SGP and tau-OSGP
+    </div>
+
+  <div class="detail-desc">
+    An asymmetric push-only decentralized stochastic optimization algorithm over time-varying B-strongly-connected column-stochastic mixing matrices P^{(k)} (1^T P^{(k)} = 1^T, Assran et al. 2019, Section 2, Algorithm 1) in which each worker i maintains a biased parameter vector x_i^{(k)}, a scalar PushSum weight w_i^{(k)} initialized at w_i^{(0)} = 1, and a de-biased model z_i^{(k)} = x_i^{(k)} / w_i^{(k)} at which stochastic gradients nabla F_i(z_i^{(k)}; xi_i^{(k)}) are evaluated before pushing p_{j,i}^{(k)}(x_i^{(k)} - gamma nabla F_i(z_i^{(k)}; xi_i^{(k)})) and p_{j,i}^{(k)} w_i^{(k)} to out-neighbors j, together with its tau-step communication-overlapped variant tau-Overlap SGP (tau-OSGP) that hides communication latency over up to tau gradient steps.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Push-DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, &amp; Shi 2017), which tracks exact gradient differences via an additional d-dimensional state vector y_i(k) for strongly convex objectives, whereas SGP and tau-OSGP transmit only a single scalar PushSum weight w_i^{(k)} alongside x_i^{(k)} and establish smooth non-convex O(1 / sqrt(n K)) linear speedup and exact log_2(n)-step consensus over time-varying directed exponential graphs.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r430-pushsum-debiased-nonconvex-linear-speedup-and-delay-augmentation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because P^{(k)} is column-stochastic (1^T P^{(k)} = 1^T), SGP preserves the exact global sum invariants sum_{i=1}^n w_i^{(k)} = n and bar_x^{(k+1)} = bar_x^{(k)} - (gamma / n) sum_{i=1}^n nabla F_i(z_i^{(k)}; xi_i^{(k)}), while the PushSum ratio z_i^{(k)} = x_i^{(k)} / w_i^{(k)} contracts to the node-wide mean bar_x^{(k)} at geometric rate q = C (1 - c)^{1/(B+1)} &lt; 1 (Lemma 3); for tau-OSGP, augmenting the graph with n tau virtual delay nodes yields an n(tau + 1) x n(tau + 1) column-stochastic matrix hat_P^{(k)} (Appendix E), proving that both SGP and tau-OSGP achieve O(1 / sqrt(n K)) smooth non-convex convergence and O(n / K) consensus error (Theorems 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r430-primary-pdf">Stochastic Gradient Push for Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Theoretical Guarantees (Theorems 1-2, Corollary 1) &amp; Appendices B-E (Lemma 3, Virtual Delay Node Augmentation)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r430-directed-time-varying-exponential-graph-exact-log2n-consensus</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On the time-varying 1-peer directed exponential graph where node i sends only to out-neighbor (i + 2^{k mod log_2(n)}) mod n with weight 1/2 and retains self-weight 1/2, each node communicates with only a single peer per iteration while the product P^{(log_2(n)-1)} ... P^{(0)} equals the exact uniform averaging matrix (1/n) 1 1^T in log_2(n) steps whenever n is a power of 2 (Appendix A, Proposition 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r430-primary-pdf">Stochastic Gradient Push for Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2 &amp; Appendix A Directed Exponential Graph (Proposition 1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r430-packet-loss-sensitivity-and-heterogeneity-drift-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires reliable delivery of directed messages so that column-stochastic conservation 1^T P^{(k)} = 1^T is maintained, and because SGP does not track gradient differences, its non-convex bound includes an O(n / K) transient term that depends on inter-worker gradient dissimilarity sigma_2^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r430-primary-pdf">Stochastic Gradient Push for Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Assumptions 1-4 &amp; Theorem 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r430-imagenet-resnet50-32-node-256-gpu-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed training of ResNet-50 on ImageNet across 32 nodes (256 GPUs) over 1-peer time-varying directed exponential graphs, matching AllReduce validation accuracy (76.2%) while completing training 1.6x faster on 10 Gbps Ethernet.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r430-primary-pdf">Stochastic Gradient Push for Distributed Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments (Figures 1-5, Table 1), pp. 348-351</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Each worker must know its out-degree at step k to form column-stochastic out-weights summing to 1.</li>
+      <li>Large overlap delays tau in tau-OSGP enlarge the effective B-connectivity horizon to (tau + 1) B + tau, slowing consensus contraction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Stochastic Gradient Push and Overlap SGP are decentralized push-sum optimization algorithms for distributed and federated deep learning over directed graphs.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r430-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r430-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1811.10792" target="_blank" rel="noopener">Stochastic Gradient Push for Distributed Deep Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahmoud Assran, Nicolas Loizou, Nicolas Ballas, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/assran19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5c5f4ef332a6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r430-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r430-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1811.10792" target="_blank" rel="noopener">Stochastic Gradient Push for Distributed Deep Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahmoud Assran, Nicolas Loizou, Nicolas Ballas, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1811.10792</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4d61bf09bd7e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r430-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r430-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/assran19a.html" target="_blank" rel="noopener">Stochastic Gradient Push for Distributed Deep Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahmoud Assran, Nicolas Loizou, Nicolas Ballas, Michael Rabbat
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/assran19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5fa02623dcf2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AStochasticGradientPushAndOverlapSgpForDistributedDeepLearning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed Deep Learning)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:StochasticGradientPushAndOverlapSgpForDistributedDeepLearning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Stochastic Gradient...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:33:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:33:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StochasticGradientPushAndOverlapSgpForDistributedDeepLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StochasticGradientPushAndOverlapSgpForDistributedDeepLearning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Stochastic%20Gradient%20Push%20and%20Overlap%20SGP%20%28SGP%20and%20tau-OSGP%20for%20Distributed%20Deep%20Learning%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AStochasticGradientPushAndOverlapSgpForDistributedDeepLearning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+id: AIMech:RGDMultRobustDescentUsingSmoothedMultiplicativeNoise
+name: RGDMult Robust Descent Using Smoothed Multiplicative Noise
+concept_kind: algorithm
+review_status: DRAFT
+definition: A robust first-order stochastic optimization algorithm that minimizes population risk under heavy-tailed data distributions by perturbing model parameters with multiple independent draws of unit-mean multiplicative noise per outer iteration, estimating perturbed gradients on mini-batches via a coordinate-wise Catoni-type M-estimator, and aggregating the inner perturbed gradient estimates with a second Catoni M-estimator to bound excess multiplicative-noise variance by 1/m.
+identity_notes: No AIO class represents RGDMult or smoothed multiplicative-noise Catoni robust gradient descent; ArtificialNeuralNetwork (AIO:ArtificialNeuralNetwork) is the closest broad match covering neural and statistical learning models trained with multiplicative-noise descent.
+aliases:
+- RGDMult
+- Robust Gradient Descent with Smoothed Multiplicative Noise
+- Smoothed Multiplicative Noise Robust Descent
+definition_evidence:
+- source_id: r824-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r824-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r824-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: catoni-coordinatewise-m-estimator-gradient-concentration
+  kind: mechanism
+  statement: RGDMult estimates each coordinate of the gradient by solving a Catoni-type M-estimation root equation with a bounded soft-truncation influence function psi, achieving sub-Gaussian concentration around the true population gradient under only finite variance.
+  evidence:
+  - source_id: r824-primary-pdf
+    locator: Section 2.1, Equations 3-4 and Lemma 1, pp. 2-3
+    relation: supports
+- claim_id: smoothed-multiplicative-noise-variance-shrinking
+  kind: mechanism
+  statement: Averaging gradient evaluations across m independent draws of unit-mean multiplicative parameter noise per iteration preserves the expected multiplicatively perturbed objective while shrinking the excess multiplicative-noise variance term by a factor of 1/m.
+  evidence:
+  - source_id: r824-primary-pdf
+    locator: Section 2.2, Theorem 4 and Equations 5-6, p. 3; Section 3, Algorithm 1, p. 4
+    relation: supports
+- claim_id: heavy-tailed-statistical-risk-minimization-application
+  kind: application
+  statement: RGDMult is applied to empirical and population risk minimization under heavy-tailed data and gradient distributions where standard empirical-mean gradient descent and unsmoothed Bernoulli dropout suffer from high variance.
+  evidence:
+  - source_id: r824-primary-pdf
+    locator: Section 1, pp. 1-2; Section 4, Figures 2-4, pp. 5-7
+    relation: supports
+- claim_id: coordinatewise-catoni-dimension-scaling-limitation
+  kind: limitation
+  statement: Because the Catoni M-estimator is applied coordinate-wise across d parameters and union-bounded over coordinates, the high-probability gradient estimation error bound scales with sqrt(d log(d/delta)/n) and requires solving d scalar root-finding problems per step.
+  evidence:
+  - source_id: r824-primary-pdf
+    locator: Section 2.1, Lemma 1 and Remark 3, pp. 2-3; Section 3, Algorithm 1, p. 4
+    relation: supports
+evidence_sources:
+- source_id: r824-primary-pdf
+  title: Robust descent using smoothed multiplicative noise
+  authors: &id001
+  - Matthew J. Holland
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1810.06207
+  persistent_id: https://arxiv.org/abs/1810.06207
+  version: Proceedings of the 22nd International Conference on Artificial Intelligence and Statistics (AISTATS 2019), PMLR 89:703-711 (2019) (2567604 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:07:00Z'
+  sha256: 668def3e3c18e850418d9db6eb9bf4eaa54f99ea59fe7cc90a2370e4ae093392
+- source_id: r824-arxiv-abs
+  title: Robust descent using smoothed multiplicative noise (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.06207
+  persistent_id: https://arxiv.org/abs/1810.06207
+  version: arXiv abstract page (1293 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:07:00Z'
+  sha256: ce29cd9c5c55fcbc2cc354a76f5f7375b3269e017603bfdc32b3f1c8828c5c7a
+- source_id: r824-metadata-cr
+  title: Robust descent using smoothed multiplicative noise (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.06207
+  persistent_id: https://arxiv.org/abs/1810.06207
+  version: Crossref API work record (451 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:07:00Z'
+  sha256: 7b674594f46a29b5b136a1b78ca3c634f0ee8214b352f89f042d1fe82ec55756
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: RGDMult is a robust first-order optimization algorithm using smoothed multiplicative noise and Catoni M-estimation applicable to training statistical models and artificial neural networks.
+limitations:
+- Because the Catoni M-estimator is applied coordinate-wise across d parameters and union-bounded over coordinates, the high-probability gradient estimation error bound scales with sqrt(d log(d/delta)/n) and requires solving d scalar root-finding problems per step.
+curation:
+  created_at: '2026-10-19T15:07:00Z'
+  updated_at: '2026-10-19T15:07:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,100 @@
+id: AIMech:ChainOfLoRA
+name: Chain of LoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: An iterative parameter-efficient fine-tuning framework that approximates a higher-rank weight update by training a sequence of low-rank LoRA adapters, periodically merging each learned low-rank update B_j A_j into the frozen backbone weights, and re-initializing the adapter parameters to fit the remaining optimization residual without increasing peak trainable parameter count or inference latency.
+identity_notes: Distinct from standard LoRA (AIMech:LoRA, which optimizes a single pair of low-rank matrices B and A whose update rank is bounded above by a single rank r), from AdaLoRA (AIMech:AdaLoRA, which dynamically prunes singular values within a single SVD-parameterized adapter during training rather than chaining and merging successive residual low-rank updates), and from rsLoRA (AIMech:RsLoRA, which modifies the scaling factor alpha / sqrt(r) of a single high-rank LoRA module rather than constructing a high-rank update via a sequential chain of low-rank residual steps). Formulated by Xia, Qin, and Hazan (ICML 2024, PMLR 235:54088-54099, arXiv:2401.04151).
+aliases:
+- Chain of LoRA (COLA)
+- COLA Iterative Residual Low-Rank Adaptation
+- Frank-Wolfe Residual Chain of Low-Rank Adaptation
+definition_evidence:
+- source_id: r678-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r678-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r678-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: chainoflora-iterative-tune-merge-reset-update
+  kind: mechanism
+  statement: Chain of LoRA (COLA) constructs an M-step chain of low-rank adapters {(A_1, B_1), ..., (A_M, B_M)} by iteratively optimizing only the current low-rank matrices (A_j, B_j) of rank r_j against the accumulated frozen weight matrix W_{j-1} = W_0 + sum_{i=1}^{j-1} B_i A_i, merging the resulting product B_j A_j into W_{j-1} to form W_j = W_{j-1} + B_j A_j, and resetting the next adapter with Gaussian initialization for A_{j+1}, zero initialization for B_{j+1}, and cleared optimizer state.
+  evidence:
+  - source_id: r678-primary-pdf
+    locator: Section 4 Methodology, Eq. 3 and Algorithm 1, p. 3-4
+    relation: supports
+- claim_id: chainoflora-cumulative-rank-expansion-and-frank-wolfe-view
+  kind: mechanism
+  statement: Because the rank of a sum of M rank-r matrices is bounded above by min(M r, d, k) while only a single pair of matrices (A_j, B_j) of rank r_j is active in memory at any step j, Chain of LoRA expands the effective rank of the total weight update sum_{j=1}^M B_j A_j beyond r without increasing peak GPU memory or inference latency, interpreting each residual low-rank update as an approximate Frank-Wolfe conditional-gradient step in matrix space.
+  evidence:
+  - source_id: r678-primary-pdf
+    locator: Section 4.1 Residual Learning as Frank-Wolfe & Section 4.2 Complexity Analysis, p. 4-5
+    relation: supports
+- claim_id: chainoflora-llm-finetuning-application
+  kind: application
+  statement: Chain of LoRA is applied to parameter-efficient fine-tuning of large language models including OPT-1.3B, Llama-2-7B, and Llama-2-13B across commonsense reasoning, world knowledge, reading comprehension, and sequence classification benchmarks, consistently outperforming standard single-stage LoRA under identical total training epoch budgets and step-down rank schedules.
+  evidence:
+  - source_id: r678-primary-pdf
+    locator: Section 5 Experiments, Tables 1-3 and Figures 2-4, p. 5-8
+    relation: supports
+- claim_id: chainoflora-merged-weight-storage-overhead
+  kind: limitation
+  statement: Merging successive low-rank updates directly into the backbone weights or storing all M low-rank adapter pairs {(A_j, B_j)}_{j=1}^M for multi-task checkpoint switching increases disk checkpoint storage by a factor of M relative to storing a single rank-r LoRA adapter, and requires tuning the chain length M and per-step rank schedule.
+  evidence:
+  - source_id: r678-primary-pdf
+    locator: Section 4.2 Complexity Analysis & Section 5.3 Ablation Study, p. 4-5, 7-8
+    relation: supports
+evidence_sources:
+- source_id: r678-primary-pdf
+  title: 'Chain of LoRA: Efficient Fine-tuning of Language Models via Residual Learning'
+  authors: &id001
+  - Wenhan Xia
+  - Chengwei Qin
+  - Elad Hazan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2401.04151
+  persistent_id: https://dblp.org/rec/conf/icml/XiaQH24.xml
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024, PMLR 235) (2024) (898089 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:41:00Z'
+  sha256: 6fe04b5b8201e289b259c9392c4cc225789ed49b0332f0cc8b1d175ea439b3f1
+- source_id: r678-arxiv-abs
+  title: 'Chain of LoRA: Efficient Fine-tuning of Language Models via Residual Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2401.04151
+  persistent_id: https://arxiv.org/abs/2401.04151
+  version: arXiv abstract page (6207 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:41:00Z'
+  sha256: 3b568eed08402ce7fcdc763b8c6dce40de4ad6b6fdbe9c94bca7dc19986a1cae
+- source_id: r678-metadata-cr
+  title: 'Chain of LoRA: Efficient Fine-tuning of Language Models via Residual Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/XiaQH24.xml
+  persistent_id: https://dblp.org/rec/conf/icml/XiaQH24.xml
+  version: Crossref API work record (733 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:41:00Z'
+  sha256: fe4510b978d599d6386ba7b58c22deab739555b2710b7d521a0556fd62721eab
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Chain of LoRA adapts pretrained neural network weights via an iterative chain of merged residual low-rank updates.
+limitations:
+- Multi-task deployment that retains unmerged task-specific adapters requires storing all M low-rank pairs (M times the checkpoint storage of a single rank-r LoRA adapter) or storing the full merged weight matrix.
+- Dividing a fixed total training budget across too many short chain stages can leave individual low-rank residual adapters under-converged before merging.
+curation:
+  created_at: '2026-10-19T12:41:00Z'
+  updated_at: '2026-10-19T12:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

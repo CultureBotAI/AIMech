@@ -1,0 +1,358 @@
+# Scientific author self-review of Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization
+
+- Review: 20261019T073030Z-double-greedy-unconstrained-submodular-maximization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:30:00Z
+- Finished UTC: 2026-10-19T07:30:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 092607144a7ff5a46feddc7de0d776a59407197b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DoubleGreedyUnconstrainedSubmodularMaximization | data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml | maintained | Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DoubleGreedyUnconstrainedSubmodularMaximization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DoubleGreedyUnconstrainedSubmodularMaximization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:DoubleGreedyUnconstrainedSubmodularMaximization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DoubleGreedyUnconstrainedSubmodularMaximization | Validated history sidecar files. |
+| python3 double-greedy-unconstrained-submodular-maximization-boundaries.py | passed | True | AIMech:DoubleGreedyUnconstrainedSubmodularMaximization | [PASS] Double Greedy USM boundaries verified: OPT=5.900, Det=2.000 (ratio=0.3390), Rand=4.4293 (ratio=0.7507 &gt;= 0.5), Multilinear=4.8281 (ratio=0.8183 &gt;= 0.5) |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization.
+
+Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization is a distinct concept.
+
+Distinct from AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization (Round 348) and AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization (Round 349), which require monotone submodular objectives and only grow a single solution from emptyset (failing on non-monotone objectives where elements can have negative marginal contributions to supersets), whereas Double Greedy maintains both a growing lower bound X_i and a shrinking upper bound Y_i to exploit the complement symmetry f_bar(S) = f(N \ S) and achieve the optimal 1/2 approximation for unconstrained non-monotone submodular maximization.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in double-greedy-unconstrained-submodular-maximization-boundaries.py passed with exit code 0: [PASS] Double Greedy USM boundaries verified: OPT=5.900, Det=2.000 (ratio=0.3390), Rand=4.4293 (ratio=0.7507 &gt;= 0.5), Multilinear=4.8281 (ratio=0.8183 &gt;= 0.5)
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T073000Z-double-greedy-unconstrained-submodular-maximization.json | supports | No normalized identity match for AIMech:DoubleGreedyUnconstrainedSubmodularMaximization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/double-greedy-unconstrained-submodular-maximization-boundaries.py | supports | All constructed boundary assertions in double-greedy-unconstrained-submodular-maximization-boundaries.py passed with exit code 0: [PASS] Double Greedy USM boundaries verified: OPT=5.900, Det=2.000 (ratio=0.3390), Rand=4.4293 (ratio=0.7507 &gt;= 0.5), Multilinear=4.8281 (ratio=0.8183 &gt;= 0.5) |
+| r367-primary-pdf | https://www.openu.ac.il/personal_sites/moran-feldman/publications/SICOMP2015.pdf; Full-text PDF | supports | Full-text PDF (SIAM Journal on Computing 44(5):1384-1402 (preliminary version in FOCS 2012, pp. 649-658) (2015)) read and verified. |
+| r367-arxiv-abs | https://doi.org/10.1109/FOCS.2012.73; arXiv abstract | supports | arXiv abstract read and verified. |
+| r367-metadata-cr | https://doi.org/10.1137/130929205; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DoubleGreedyUnconstrainedSubmodularMaximization in Round 367.
+- All pages of SIAM Journal on Computing 44(5):1384-1402 (preliminary version in FOCS 2012, pp. 649-658) (2015) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T073030Z-double-greedy-unconstrained-submodular-maximization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Double Greedy Algorithm for Unconstrained
+  Non-Monotone Submodular Maximization
+started_at: '2026-10-19T07:30:00Z'
+finished_at: '2026-10-19T07:30:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+    against existing AIMech and AIO records and verified all claims against SIAM Journal
+    on Computing 44(5):1384-1402 (preliminary version in FOCS 2012, pp. 649-658) (2015)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Double Greedy Algorithm for Unconstrained Non-Monotone Submodular
+  Maximization as a distinct DRAFT algorithm. All three claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 092607144a7ff5a46feddc7de0d776a59407197b
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml
+    sha256: 48d1464f40d498018e0da5991d5af155931341c84e238398aaaef06749dedd8b
+    role: target
+  - path: research/discovery/20261019T073000Z-double-greedy-unconstrained-submodular-maximization.json
+    sha256: 86f6a7135da8fd02a5a641af7b54ea562f74422c46725ec8178db55b64e406b1
+    role: context
+  - path: research/discovery/double-greedy-unconstrained-submodular-maximization-boundaries.py
+    sha256: 5b525dd6bee860f68407f919bff7c2039393bc85d89fa8eef200e69ba9052fd4
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  path: data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml
+  label: Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DoubleGreedyUnconstrainedSubmodularMaximization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DoubleGreedyUnconstrainedSubmodularMaximization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 double-greedy-unconstrained-submodular-maximization-boundaries.py
+  command: python3 research/discovery/double-greedy-unconstrained-submodular-maximization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Double Greedy USM boundaries verified: OPT=5.900, Det=2.000 (ratio=0.3390),
+    Rand=4.4293 (ratio=0.7507 >= 0.5), Multilinear=4.8281 (ratio=0.8183 >= 0.5)'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T073000Z-double-greedy-unconstrained-submodular-maximization.json
+  accessed_at: '2026-10-19T07:30:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:30:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/double-greedy-unconstrained-submodular-maximization-boundaries.py
+  accessed_at: '2026-10-19T07:30:00Z'
+  snapshot_sha256: 5b525dd6bee860f68407f919bff7c2039393bc85d89fa8eef200e69ba9052fd4
+  support: supports
+  summary: 'All constructed boundary assertions in double-greedy-unconstrained-submodular-maximization-boundaries.py
+    passed with exit code 0: [PASS] Double Greedy USM boundaries verified: OPT=5.900,
+    Det=2.000 (ratio=0.3390), Rand=4.4293 (ratio=0.7507 >= 0.5), Multilinear=4.8281
+    (ratio=0.8183 >= 0.5)'
+- evidence_id: r367-primary-pdf
+  kind: primary_source
+  reference: https://www.openu.ac.il/personal_sites/moran-feldman/publications/SICOMP2015.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:30:00Z'
+  snapshot_sha256: 93eb8edc5f919db4919f59348effe1f439a7bb58514394d1cbce4c2296fda0cb
+  support: supports
+  summary: Full-text PDF (SIAM Journal on Computing 44(5):1384-1402 (preliminary version
+    in FOCS 2012, pp. 649-658) (2015)) read and verified.
+- evidence_id: r367-arxiv-abs
+  kind: primary_source
+  reference: https://doi.org/10.1109/FOCS.2012.73
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:30:00Z'
+  snapshot_sha256: 49ae9cafe4fcdf23c3301678a4a09b0c62b693d78a5a106b38805d17d8d125cd
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r367-metadata-cr
+  kind: primary_source
+  reference: https://doi.org/10.1137/130929205
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:30:00Z'
+  snapshot_sha256: 7d8d8953fbfd9ea01caa8519913100db0ab26135311974714fb72896d9857a53
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  evidence_ids:
+  - identity
+  - r367-primary-pdf
+  - r367-arxiv-abs
+  - r367-metadata-cr
+  summary: Double Greedy Algorithm for Unconstrained Non-Monotone Submodular Maximization
+    is a distinct concept.
+  details: Distinct from AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization
+    (Round 348) and AIMech:ContinuousGreedyAndMultilinearExtensionForMatroidSubmodularMaximization
+    (Round 349), which require monotone submodular objectives and only grow a single
+    solution from emptyset (failing on non-monotone objectives where elements can
+    have negative marginal contributions to supersets), whereas Double Greedy maintains
+    both a growing lower bound X_i and a shrinking upper bound Y_i to exploit the
+    complement symmetry f_bar(S) = f(N \ S) and achieve the optimal 1/2 approximation
+    for unconstrained non-monotone submodular maximization.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  evidence_ids:
+  - mapping
+  - r367-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  evidence_ids:
+  - r367-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in double-greedy-unconstrained-submodular-maximization-boundaries.py
+    passed with exit code 0: [PASS] Double Greedy USM boundaries verified: OPT=5.900,
+    Det=2.000 (ratio=0.3390), Rand=4.4293 (ratio=0.7507 >= 0.5), Multilinear=4.8281
+    (ratio=0.8183 >= 0.5)'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DoubleGreedyUnconstrainedSubmodularMaximization
+  evidence_ids:
+  - identity
+  - mapping
+  - r367-primary-pdf
+  - r367-arxiv-abs
+  - r367-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DoubleGreedyUnconstrainedSubmodularMaximization in Round
+  367.
+- All pages of SIAM Journal on Computing 44(5):1384-1402 (preliminary version in FOCS
+  2012, pp. 649-658) (2015) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

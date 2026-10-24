@@ -1,0 +1,100 @@
+id: AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling
+name: AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive importance sampling algorithm that iteratively updates parametric proposal distributions (such as multivariate Student-t densities fitted via weighted moment matching) while recycling all previously simulated particles at every iteration t by incrementally updating each past particle's Owen-Zhou deterministic multiple mixture denominator delta_i^l <- delta_i^l + N_t q_t(x_i^l) and recomputing importance weights omega_i^l = pi(x_i^l) / (delta_i^l / sum_{j=0}^t N_j) across the entire pooled trajectory.
+identity_notes: No AIO class represents Adaptive Multiple Importance Sampling (AMIS); MarkovChain (AIO:MarkovChain) is the closest broad match covering iterative stochastic simulation and Monte Carlo sampling processes.
+aliases:
+- Adaptive Multiple Importance Sampling
+- AMIS Past-Weight Recycling Importance Sampler
+- Cornuet-Marin-Mira-Robert Adaptive Multiple Importance Sampling
+definition_evidence:
+- source_id: r833-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r833-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r833-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: incremental-deterministic-mixture-past-weight-recycling
+  kind: mechanism
+  statement: At each adaptation stage t = 1, ..., T, AMIS evaluates the new proposal density q_t(x; theta^{t-1}) on all previously generated particles x_i^l (0 <= l <= t-1) to incrementally update their unnormalized mixture denominators delta_i^l <- delta_i^l + N_t q_t(x_i^l) and importance weights omega_i^l = pi(x_i^l) / [delta_i^l / sum_{j=0}^t N_j] (Algorithm 1, Equations 2-5), achieving exact deterministic-mixture pooling in (T+1) sum_{t=0}^T N_t density evaluations.
+  evidence:
+  - source_id: r833-primary-pdf
+    locator: Section 2-3, Equations 2-5 and Algorithm 1, pp. 3-6
+    relation: supports
+- claim_id: student-t-moment-matching-and-ess-scale-hierarchy-initialization
+  kind: mechanism
+  statement: AMIS updates multivariate Student-t proposal parameters T_3(mu^t, Sigma^t) using the pooled deterministic-mixture importance weights across all stages 0 <= l <= t (Equation 6) and initializes the baseline covariance scale via a geometric hierarchy sigma_0 * 2^eta,eta in {-4,...,8}, selecting the scale that maximizes the Effective Sample Size (ESS) before launching sequential adaptation (Section 4).
+  evidence:
+  - source_id: r833-primary-pdf
+    locator: Section 3, Equation 6, pp. 6-7; Section 4, pp. 7-9
+    relation: supports
+- claim_id: banana-shaped-posterior-and-population-genetics-application
+  kind: application
+  statement: AMIS is applied to Bayesian posterior integration, marginal likelihood estimation, and population genetics coalescent inference, substantially increasing Effective Sample Size and reducing estimator mean squared error on strongly twisted banana-shaped target distributions compared to unrecycled Population Monte Carlo.
+  evidence:
+  - source_id: r833-primary-pdf
+    locator: Section 6, Figures 2-5, pp. 11-16
+    relation: supports
+- claim_id: adaptive-proposal-dependence-bias-and-quadratic-stage-cost-limitation
+  kind: limitation
+  statement: Because adapted proposal parameters theta^t depend on earlier simulated particles, the retroactively reweighted terms for fixed stage sizes N_t are not strictly unbiased in finite samples (exhibiting bias when N_t = 1, Section 5) and require N_T -> infinity for asymptotic consistency (Lemma 1), while evaluating every new proposal on all past draws incurs O(T sum_{t=0}^T N_t) proposal evaluations.
+  evidence:
+  - source_id: r833-primary-pdf
+    locator: Section 3, p. 5; Section 5, Lemma 1 and Figure 1, pp. 9-11
+    relation: supports
+evidence_sources:
+- source_id: r833-primary-pdf
+  title: Adaptive Multiple Importance Sampling
+  authors: &id001
+  - Jean-Marie Cornuet
+  - Jean-Michel Marin
+  - Antonietta Mira
+  - Christian P. Robert
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0907.1254
+  persistent_id: https://arxiv.org/abs/0907.1254
+  version: Scandinavian Journal of Statistics 39(4):798-812 (arXiv:0907.1254v5) (2012) (746650 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:16:00Z'
+  sha256: 013bb11954af00cb5877dda31e4986a5dcfdaacd379f4bd539e9e28ab20bee2e
+- source_id: r833-arxiv-abs
+  title: Adaptive Multiple Importance Sampling (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0907.1254
+  persistent_id: https://arxiv.org/abs/0907.1254
+  version: arXiv abstract page (1523 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:16:00Z'
+  sha256: 5b75957b67d8f3ff3e6631f4450a2003aaca9bcbbf9f62e49bf99f9c2d8d2fea
+- source_id: r833-metadata-cr
+  title: Adaptive Multiple Importance Sampling (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0907.1254
+  persistent_id: https://arxiv.org/abs/0907.1254
+  version: Crossref API work record (408 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:16:00Z'
+  sha256: 117829116cb3402c735bbb9b2f6448e511add4a98bd4067920dea62e1a6d21c8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: broad_match
+  rationale: AMIS is an iterative Monte Carlo sampling algorithm that adapts sequential proposal distributions across stages to approximate posterior and target expectations.
+limitations:
+- Because adapted proposal parameters theta^t depend on earlier simulated particles, the retroactively reweighted terms for fixed stage sizes N_t are not strictly unbiased in finite samples (exhibiting bias when N_t = 1, Section 5) and require N_T -> infinity for asymptotic consistency (Lemma 1), while evaluating every new proposal on all past draws incurs O(T sum_{t=0}^T N_t) proposal evaluations.
+curation:
+  created_at: '2026-10-19T15:16:00Z'
+  updated_at: '2026-10-19T15:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

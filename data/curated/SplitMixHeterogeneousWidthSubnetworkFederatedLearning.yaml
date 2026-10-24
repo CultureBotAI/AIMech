@@ -1,0 +1,103 @@
+id: AIMech:SplitMixHeterogeneousWidthSubnetworkFederatedLearning
+name: Split-Mix Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A model-heterogeneous federated learning and in-situ customization algorithm (Split-Mix; Hong, Wang, Wang, and Zhou, ICLR 2022) that decomposes a full-width network into M = floor(1 / r) independent base sub-networks W = {w_{i,r}}_{i=1}^M of base width ratio r in (0, 1] initialized with rescaled Kaiming initialization matching the full-width variance. In each round t, client k with width budget R_k in {r, 2r, ..., 1} draws floor(R_k / r) base sub-networks via shuffled cyclic without-replacement sampling (SampleBaseModels, Algorithm 2), trains them independently in parallel on local data (LocalUpdate, Algorithm 3), and returns updates aggregated per base sub-network weighted by participating clients' sample sizes (Algorithm 1 lines 7-9). At deployment, an on-demand R-width model aggregates predictions of K_R = floor(R / r) base sub-networks via F(x; W^T) = (1 / K_R) sum_{i=1}^{K_R} f(x; w_{i,r}^T) (Algorithm 1 line 11), and for joint adversarial robustness customization (Split-Mix+DAT) mixes Dual Batch-Normalization statistics via DBN(x) = (1 - lambda) BN_c(x) + lambda BN_n(x) for lambda in [0, 1] (Eq. 2).
+identity_notes: Distinct from nested width-slimming heterogeneous FL algorithms such as HeteroFL (AIMech:HeteroFlWidthScaledSubnetworkAggregationForHeterogeneousFederatedLearning; Diao et al., ICLR 2021) and FjORD (AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning; Horvath et al., NeurIPS 2021), which slice nested prefix channel blocks from a single monolithic parameter tensor (causing wider channel blocks to be trained exclusively on wide-budget clients) rather than decomposing the model into M = floor(1/r) modular width-r base sub-networks sampled cyclically across all clients and ensembled on demand at inference time. Distinct from FedRolex (AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction; Alam et al., NeurIPS 2022), which extracts a deterministic rolling channel window from a single global model rather than maintaining M independent width-r base sub-networks with training-free Dual Batch-Normalization mixing.
+aliases:
+- Split-Mix
+- Split-Mix FL
+- Split-Mix and Split-Mix+DAT
+- Split-Mix On-Demand and In-Situ Customizable Federated Learning
+definition_evidence:
+- source_id: r506-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r506-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r506-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: split-mix-cyclic-base-subnetwork-sampling-and-ensemble-inference-mechanism
+  kind: mechanism
+  statement: In Split-Mix (Algorithms 1-3), the server initializes M = floor(1 / r) base sub-networks {w_{i,r}}_{i=1}^M of width ratio r using rescaled Kaiming initialization with the x1 full-width fan-in variance, assigns each client k with width budget R_k a subset W_k^t of floor(R_k / r) base sub-networks via shuffled cyclic sampling without replacement (Algorithm 2), aggregates each base model w_{i,r}^{t+1} over all clients k whose W_k^t contains w_{i,r}, and constructs an on-demand R-width predictor at inference by averaging K_R = floor(R / r) base sub-network outputs F(x; W^T) = (1 / K_R) sum_{i=1}^{K_R} f(x; w_{i,r}^T).
+  evidence:
+  - source_id: r506-primary-pdf
+    locator: Section 4.1 Customize Model Size via Width-wise Splitting and Mixing, Algorithms 1-3, pp. 4-6
+    relation: supports
+- claim_id: split-mix-dat-dual-batch-normalization-in-situ-robustness-customization-scope
+  kind: scope
+  statement: Split-Mix+DAT (Section 4.2, Eq. 2, p. 6; Algorithm 4, p. 14) equips each base sub-network with Dual Batch-Normalization (DBN) consisting of separate clean (BN_c) and PGD-adversarial (BN_n) normalization branches optimized under local loss (1 - beta) ell(f(x; BN_c), y) + beta ell(f(x + delta; BN_n), y), enabling training-free in-situ trade-off between standard accuracy and adversarial robustness after FL training via layer-wise linear interpolation DBN(x) = (1 - lambda) BN_c(x) + lambda BN_n(x) for lambda in [0, 1].
+  evidence:
+  - source_id: r506-primary-pdf
+    locator: Section 4.2 Customize Robustness by Mixing Dual Batch Normalization, Eq. (2), p. 6; Appendix A.2 Algorithm 4, p. 14
+    relation: supports
+- claim_id: split-mix-discrete-width-granularity-and-pseudo-residual-overhead-limitation
+  kind: limitation
+  statement: Split-Mix restricts customizable model widths to discrete integer multiples of the base width ratio r (R in {r, 2r, ..., M r}), requires tuning beta and PGD inner maximization steps on clients capable of adversarial training in Split-Mix+DAT, and incurs M-way parallel forward passes at full-width R = 1 inference (Section 4.1-4.2, pp. 4-6; Appendix B.1, pp. 14-16).
+  evidence:
+  - source_id: r506-primary-pdf
+    locator: Section 4.1-4.2, pp. 4-6; Appendix B.1 Customize Model Widths, pp. 14-16
+    relation: supports
+- claim_id: split-mix-domain-shift-and-heterogeneous-budget-image-classification-application
+  kind: application
+  statement: Applied to budget-heterogeneous and domain-heterogeneous federated image classification and in-situ robustness customization on CIFAR-10, DomainNet, and Digits (MNIST, SVHN, USPS, SynthDigits, MNIST-M) using PreActResNet-18, AlexNet, and ConvNet backbones.
+  evidence:
+  - source_id: r506-primary-pdf
+    locator: Section 5 Experiments, Figures 4-7, Table 1, pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r506-primary-pdf
+  title: Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization
+  authors: &id001
+  - Junyuan Hong
+  - Haotao Wang
+  - Zhangyang Wang
+  - Jiayu Zhou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2203.09747.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/HongWWZ22
+  version: International Conference on Learning Representations (ICLR 2022) (2022) (2215240 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:49:00Z'
+  sha256: ce80fbc0dde3ffc2f63abfd73ddcf5a99442e1cc460a275dfaea9593c74f0c90
+- source_id: r506-arxiv-abs
+  title: Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2203.09747
+  persistent_id: https://arxiv.org/abs/2203.09747
+  version: arXiv abstract page (6292 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:49:00Z'
+  sha256: 5de0cf8a9a0df59a772230694839ee5831794d951475f21a40ea66775f7c5c62
+- source_id: r506-metadata-cr
+  title: Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/HongWWZ22
+  persistent_id: https://dblp.org/rec/conf/iclr/HongWWZ22
+  version: Crossref API work record (1853 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:49:00Z'
+  sha256: 881de19f952b739181765daf686c6b460a656fce3096d0046fa297ce459f9c57
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: Split-Mix is a model-heterogeneous federated learning algorithm with width-wise base sub-network splitting and on-demand mixing.
+limitations:
+- Customizable inference widths are quantized to discrete multiples of the base sub-network width ratio r (Section 4.1, pp. 4-5).
+- Full-width (R = 1) inference evaluates M = floor(1 / r) independent width-r base sub-networks in parallel rather than a single dense weight tensor (Algorithm 1 line 11, p. 5).
+- In-situ adversarial robustness customization via Split-Mix+DAT requires a non-empty fraction of clients with sufficient compute budget to perform local PGD adversarial training on Dual Batch-Normalization branches (Section 4.2, p. 6; Section 5.2, p. 8).
+curation:
+  created_at: '2026-10-19T09:49:00Z'
+  updated_at: '2026-10-19T09:49:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

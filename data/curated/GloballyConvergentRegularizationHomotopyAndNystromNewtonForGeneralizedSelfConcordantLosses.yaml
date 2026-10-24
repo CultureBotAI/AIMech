@@ -1,0 +1,254 @@
+id: AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+name: Globally Convergent Regularization Homotopy and Nyström Newton Method for Generalized Self-Concordant
+  Losses
+concept_kind: mathematical_method
+aliases:
+- Globally Convergent Newton Methods for Ill-Conditioned Generalized Self-Concordant Losses (Marteau-Ferey,
+  Bach, & Rudi 2019)
+- Two-Phase Dikin-Ellipsoid Regularization Continuation Approximate Newton Scheme
+- Nyström Preconditioned Conjugate Gradient Approximate Newton Method for Generalized Self-Concordant
+  Kernel Learning
+definition: 'Globally Convergent Regularization Homotopy and Nyström Newton Method for Generalized Self-Concordant
+  Losses is a second-order convex optimization and non-parametric kernel learning methodology introduced
+  by Marteau-Ferey, Bach, and Rudi (2019, NeurIPS 32, arXiv:1907.01771v2) for minimizing regularized empirical
+  and Hilbert-space objectives f_lambda(x) = f(x) + (lambda/2)||x||^2 where (f, G) is generalized self-concordant:
+  nabla^{(3)} f(x)[h, k, k] <= sup_{g in G} |g . h| nabla^2 f(x)[k, k] with R = sup_{g in G} ||g|| < infinity
+  (covering logistic regression, softmax regression, bounded-feature GLMs, and log-cosh robust regression).
+  Defining the regularized Hessian H_lambda(x) = nabla^2 f(x) + lambda I, the Newton decrement nu_lambda(x)
+  = ||nabla f_lambda(x)||_{H_lambda^{-1}(x)}, the local Dikin radius r_lambda(x) = 1 / sup_{g in G} ||g||_{H_lambda^{-1}(x)}
+  >= sqrt(lambda)/R, and the Dikin ellipsoid D_lambda(c) = {x : nu_lambda(x) <= c r_lambda(x)}, Lemma
+  2 (Lemma 11) establishes that inside D_lambda(1/7), (1/4) nu_lambda(x)^2 <= f_lambda(x) - f_lambda(x_lambda^*)
+  <= nu_lambda(x)^2, exact Newton steps converge quadratically nu_lambda(x_t) <= 2^{-(2^t - 1)} nu_lambda(x_0),
+  and rho-relative approximate Newton steps tilde_Delta_t in LinApprox(H_lambda(x_t), nabla f_lambda(x_t),
+  rho) with ||tilde_Delta_t - Delta_lambda(x_t)||_{H_lambda(x_t)} <= rho nu_lambda(x_t) and rho <= 1/7
+  converge linearly nu_lambda(x_t) <= 2^{-t} nu_lambda(x_0). To enter the small Dikin ellipsoid D_lambda(1/7)
+  without polynomial condition-number dependence sqrt(L/lambda), Lemma 3 (Lemma 13) proves the continuation
+  inclusion D_mu(c/3) subseteq D_{q mu}(c), motivating a two-phase globalization scheme (Theorem 1): Phase
+  I starts at x_0 = 0 and mu_0 = 7 R ||nabla f(0)|| in D_{mu_0}(1/7) and performs t = 2 steps of rho-relative
+  approximate Newton per stage followed by the adaptive regularization decrease mu_{k+1} = q_{k+1} mu_k
+  with q_{k+1} = (1/3 + 7 R ||x_{k+1}||) / (1 + 7 R ||x_{k+1}||), reaching D_lambda(1/7) in K <= floor((3
+  + 11 R ||x_lambda^*||) log(7 R ||nabla f(0)|| / lambda)) stages; Phase II performs T = ceil(log_2 sqrt(1
+  vee (lambda epsilon^{-1} / R^2))) steps at lambda to guarantee f_lambda(x_hat) - f_lambda(x_lambda^*)
+  <= epsilon. In non-parametric reproducing kernel Hilbert space learning (Section 4, Algorithm 1, Theorems
+  3-4 and 6-7), combining Nyström projection onto M = O_tilde(df_lambda) leverage-score landmarks with
+  Q = O_tilde(df_lambda) Hessian subsampling and tau = 3 iterations of Cholesky-preconditioned conjugate
+  gradient achieves minimax optimal excess risk L(g_{Q,M,lambda}) - L(g^*) <= c_0(df_lambda/n + b_lambda^2
+  + epsilon) log(1/delta) in O_tilde(n df_lambda) time and O_tilde(df_lambda^2) memory, completely independent
+  of the condition number L/lambda.'
+identity_notes: Resolved against all 442 pinned AIO records and 618 maintained AIMech records. Distinct
+  from AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation (Ostrovskii & Bach 2021, which
+  establishes finite-sample excess risk and critical sample sizes of unregularized and L1-penalized ERM
+  under calibrated-design sub-Gaussianity rather than algorithmic two-phase regularization homotopy approximate
+  Newton optimization and Nyström preconditioned conjugate gradient kernel solvers), from AIMech:DeterministicBanachContractionAndNewtonKantorovichInequalitiesForSmoothMEstimators
+  (Kuchibhotla 2018, which derives deterministic Banach and Newton-Kantorovich localization bounds for
+  fixed-objective M-estimators rather than decreasing-regularization homotopy and Nyström RKHS projection),
+  and from AIMech:HigherOrderSmoothRegularizedEmpiricalRiskMinimizationAndSampleSplitNewton (which studies
+  one-pass sample-split Newton stepping across growing sample sizes rather than decreasing-regularization
+  Dikin-ellipsoid continuation on a fixed dataset or RKHS).
+definition_evidence:
+- source_id: marteauferey2019-gsc-newton-pdf
+  locator: Abstract, p. 1; Sections 1-4, pp. 1-10, Definitions 1-2, Lemmas 1-4, Theorems 1-4, Equations
+    (1)-(10); Appendices A-E, G-I, pp. 15-50 and 54-77, Propositions 1-19, Theorems 5-9, Algorithm 1
+  relation: supports
+- source_id: marteauferey2019-gsc-newton-abs
+  locator: arXiv:1907.01771v2 abstract and metadata
+  relation: supports
+- source_id: marteauferey2019-gsc-newton-neurips
+  locator: NeurIPS 32 (2019) proceedings abstract and metadata
+  relation: supports
+claims:
+- claim_id: generalized-self-concordant-dikin-ellipsoid-and-three-approximate-newton-regimes
+  kind: mechanism
+  statement: 'For a generalized self-concordant function (f, G) on a Hilbert space H satisfying nabla^{(3)}
+    f(x)[h, k, k] <= t_f(h) nabla^2 f(x)[k, k] with t_f(h) := sup_{g in G} |g . h| <= R ||h|| (Definitions
+    1 and 3-4), the regularized objective f_lambda(x) = f(x) + (lambda/2) ||x||^2 with Hessian H_lambda(x)
+    = nabla^2 f(x) + lambda I satisfies e^{-t(h)} H_lambda(x) <= H_lambda(x + h) <= e^{t(h)} H_lambda(x)
+    (Eq. 17), gradient bracketing phi_under(t(h)) ||h||_{H_lambda(x)} <= ||nabla f_lambda(x + h) - nabla
+    f_lambda(x)||_{H_lambda^{-1}(x)} <= phi_over(t(h)) ||h||_{H_lambda(x)} (Eq. 18), and function bracketing
+    with psi(t) = (e^t - t - 1)/t^2 (Proposition 2). Inside the Dikin ellipsoid D_lambda(c) := {x : nu_lambda(x)
+    <= c r_lambda(x)} with c <= 1/7, Lemma 5 and Lemma 6 (Lemma 2) prove t(x - x_lambda^*) <= -log(1 -
+    c) and (1/4) nu_lambda(x)^2 <= f_lambda(x) - f_lambda(x_lambda^*) <= nu_lambda(x)^2. For an approximate
+    Newton increment tilde_Delta satisfying ||tilde_Delta - Delta_lambda(x)||_{H_lambda(x)} <= rho nu_lambda(x)
+    + epsilon_0 with rho <= 1/7 and tilde_epsilon_0 = epsilon_0 / r_lambda(x) <= 1/21, Lemmas 8-11 and
+    Propositions 4-5 establish three regimes: quadratic contraction (10/3) tilde_nu_lambda(x - tilde_Delta)
+    <= ((10/3) tilde_nu_lambda(x))^2 when tilde_nu_lambda(x) >= rho and tilde_nu_lambda(x)^2 >= tilde_epsilon_0
+    (yielding nu_lambda(x_t) <= 2^{-(2^t - 1)} nu_lambda(x_0) for exact Newton); linear contraction tilde_nu_lambda(x
+    - tilde_Delta) <= (10 rho / 3) tilde_nu_lambda(x) <= (10/21) tilde_nu_lambda(x) <= (1/2) tilde_nu_lambda(x)
+    when rho >= tilde_nu_lambda(x) and rho tilde_nu_lambda(x) >= tilde_epsilon_0 (yielding nu_lambda(x_t)
+    <= 2^{-t} nu_lambda(x_0) for rho-relative ANM); and limiting precision nu_lambda(x - tilde_Delta)
+    <= 3 epsilon_0. Moreover, Lemma 12 proves that inside D_lambda(1/30), a single 1/20-relative Hessian
+    approximation at x_0 yields 1/7-relative approximate Newton steps for all x in D_lambda(1/30).'
+  evidence:
+  - source_id: marteauferey2019-gsc-newton-pdf
+    locator: Sections 2-3, pp. 4-6, Definitions 1-2, Lemmas 1-2, Equations (2)-(4); Appendices A-B, pp.
+      15-27, Definitions 3-4, Propositions 1-5, Lemmas 5-12, Equations (11)-(28)
+    relation: supports
+- claim_id: two-phase-regularization-homotopy-dikin-inclusion-and-global-convergence
+  kind: mechanism
+  statement: 'Lemma 3 and Lemma 13 prove the Dikin-ellipsoid continuation inclusion: if nu_mu(x) <= (c/3)
+    sqrt(mu)/R (or x in D_mu(c/3)) for c < 1, then setting tilde_mu = q mu with q >= (1/3 + R sqrt(mu)
+    ||x||_{H_mu^{-1}(x)} / c) / (1 + R sqrt(mu) ||x||_{H_mu^{-1}(x)} / c) (and in particular q >= (1/3
+    + R ||x|| / c) / (1 + R ||x|| / c)) guarantees nu_{tilde_mu}(x) <= c sqrt(tilde_mu)/R (or x in D_{tilde_mu}(c)).
+    Combining this with Lemma 14 and Corollary 3 (7 R ||x|| <= 7 R ||x_mu^*|| + 1 for c = 1/7), Proposition
+    6 and Theorem 1 establish that Phase I of the Proposed Globalization Scheme — initialized at x_0 =
+    0 and mu_0 = 7 R ||nabla f(0)|| so R nu_{mu_0}(x_0)/sqrt(mu_0) <= 1/7 (Remark 2) and executing t =
+    2 steps of rho-relative ANM (rho <= 1/7) followed by mu_{k+1} = q_{k+1} mu_k with q_{k+1} = (1/3 +
+    7 R ||x_{k+1}||) / (1 + 7 R ||x_{k+1}||) — maintains the invariant R nu_{mu_k}(x_k)/sqrt(mu_k) <=
+    1/7 for all k and enters D_lambda(1/7) in K <= floor((3 + 11 R ||x_lambda^*||) log(7 R ||nabla f(0)||
+    / lambda)) stages (or K <= (9/2 + 15 sup_{lambda <= mu <= mu_0} R sqrt(mu) ||x_mu^*||_{H_mu^{-1}(x_mu^*)})
+    log(mu_0/lambda) under the Hessian-norm variant of Proposition 7), after which Phase II performs T
+    = ceil(log_2 sqrt(1 vee (lambda epsilon^{-1} / R^2))) steps of ANM on f_lambda to achieve f_lambda(x_hat)
+    - f_lambda(x_lambda^*) <= epsilon.'
+  evidence:
+  - source_id: marteauferey2019-gsc-newton-pdf
+    locator: Section 3, pp. 6-8, Lemma 3, Theorem 1, Remark 1; Appendix C, pp. 28-35, Lemmas 13-14, Corollary
+      3, Propositions 6-8, Remark 2
+    relation: supports
+- claim_id: nystrom-subspace-projection-and-projector-capacity-excess-risk-preservation
+  kind: mechanism
+  statement: 'For an orthogonal projector P: H -> H_P with projector capacity C_P(x, lambda) := ||H(x)^{1/2}(I
+    - P)||^2 / lambda and source term s_lambda := lambda ||x_lambda^*||_{H_lambda^{-1}(x_lambda^*)}, Proposition
+    15 (Appendix G.2, p. 55) proves that if s_lambda / r_lambda(x_lambda^*) <= 1/4, C_P(x_lambda^*, lambda)
+    <= 1/120, and nu_{P,lambda}(x) <= r_{P,lambda}(x)/2, then the full-space Newton decrement is bounded
+    by nu_lambda(x) <= 3(nu_{P,lambda}(x) + s_lambda) and ||x - x_lambda^*|| <= 7 lambda^{-1/2}(nu_{P,lambda}(x)
+    + s_lambda). In non-parametric RKHS learning with bounded kernel K(x, x) <= kappa^2 and generalized
+    self-concordant loss |ell_z^{(3)}(t)| <= R_ell ell_z''''(t) (R = R_ell kappa), Theorem 3, Proposition
+    11, Theorem 6, and Propositions 18-19 prove that selecting M Nyström landmark points {x_tilde_1,...,x_tilde_M}
+    either uniformly with M >= (10 + 160 N_infinity^Sigma(eta)) log(8 kappa^2 / (eta delta)) or via q-approximate
+    leverage scores with M >= (6 + 486 q^2 N^Sigma(eta)) log(8 kappa^2 / (eta delta)) at scale eta = lambda
+    sqrt(2) / (1440(b_2^* vee 1)) guarantees ||H^{1/2}(f^*)(I - P_M)||^2 <= lambda sqrt(2) / 480 and excess
+    risk L(f_beta) - L(f^*) <= K_1 b_lambda^2 + K_2 ((df_lambda vee (Q^*)^2) / n) log(2/delta) + K_3 nu_hat_{M,lambda}^2(beta)
+    on the Cholesky-reparameterized M-dimensional objective L_hat_{M,lambda}(beta) = (1/n) sum_{i=1}^n
+    ell_{z_i}(e_i^T K_{nM} T^dagger beta) + (lambda/2)||beta||^2 where T^T T = K_{MM}.'
+  evidence:
+  - source_id: marteauferey2019-gsc-newton-pdf
+    locator: Section 4, pp. 8-9, Theorems 2-3, Equations (5)-(9); Appendix D.1-D.4, pp. 36-42, Propositions
+      9-11, Theorems 5-6; Appendices G-H, pp. 54-72, Propositions 15-19, Theorems 8-9
+    relation: supports
+- claim_id: preconditioned-conjugate-gradient-approximate-newton-and-condition-free-kernel-complexity
+  kind: scope
+  statement: To compute 1/7-relative approximate Newton steps on the Nyström-projected objective L_hat_{M,mu}(beta)
+    without forming the O(n M^2) Hessian H_hat_{M,mu}(beta) = (1/n) T^{-T} K_{Mn} D_n(beta) K_{nM} T^{-1}
+    + mu I_M, Proposition 12 (Appendix D.5.1, pp. 42-44) subsamples Q points (Q = O_tilde(1/lambda) uniformly
+    or Q = O_tilde(df_lambda) via leverage scores) to build the Cholesky preconditioner B^T B = (1/Q)
+    T^{-T} K_{MQ} D_Q K_{QM} T^{-1} + mu I_M satisfying (1/2) B^T B <= H_hat_{M,mu}(beta) <= (3/2) B^T
+    B (condition number <= 3, Equation 34), so that tau = 3 iterations of preconditioned conjugate gradient
+    achieve relative error rho <= 2((sqrt(3) - 1)/(sqrt(3) + 1))^3 approx 0.03896 <= 1/7 in O(n M + M^2
+    Q + M^3) time and O(n + M^2) memory. Combining this solver with the two-phase globalization scheme
+    along the regularized solution path Gamma_hat_{lambda,1/(6R)}^M (Lemma 15, Propositions 13-14, Algorithm
+    1), Theorem 4 and Theorem 7 prove that under capacity df_lambda <= Q^2 lambda^{-1/alpha} and source
+    condition b_lambda <= L lambda^{1/2 + r}, the method finishes in N_ns = O(R ||f^*|| log(n)) approximate
+    Newton steps and achieves the minimax optimal excess risk O(n^{-(1+2r)alpha / (1 + alpha(1+2r))} log(1/delta))
+    in total time O_tilde(R ||f^*|| n df_lambda c_X) and memory O_tilde(df_lambda^2), independent of the
+    polynomial condition number sqrt(C/lambda).
+  evidence:
+  - source_id: marteauferey2019-gsc-newton-pdf
+    locator: Section 4, pp. 9-10, Lemma 4, Theorem 4, Equation (10); Appendix D.5-D.6, pp. 42-48, Lemma
+      15, Propositions 12-14, Theorem 7, Equation (34); Appendix E, pp. 49-50, Algorithm 1
+    relation: supports
+evidence_sources:
+- source_id: marteauferey2019-gsc-newton-pdf
+  title: Globally Convergent Newton Methods for Ill-conditioned Generalized Self-concordant Losses
+  authors:
+  - Ulysse Marteau-Ferey
+  - Francis Bach
+  - Alessandro Rudi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1907.01771
+  persistent_id: https://doi.org/10.48550/arXiv.1907.01771
+  version: arXiv:1907.01771v2 (21 Nov 2019, 77 pages, 1101806 bytes); Advances in Neural Information Processing
+    Systems 32 (NeurIPS 2019).
+  access_level: full_text
+  accessed_at: '2026-10-18T13:04:00Z'
+  sha256: f520e8cee313c802dfda6f95e7d8336a34fdb3abcbf508b221c2100edcef1156
+- source_id: marteauferey2019-gsc-newton-abs
+  title: Globally Convergent Newton Methods for Ill-conditioned Generalized Self-concordant Losses (arXiv
+    Abstract)
+  authors:
+  - Ulysse Marteau-Ferey
+  - Francis Bach
+  - Alessandro Rudi
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1907.01771
+  persistent_id: https://doi.org/10.48550/arXiv.1907.01771
+  version: arXiv:1907.01771v2 abstract and metadata record (6750 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:04:00Z'
+  sha256: ac868ce14413122db2988cdd8d73a2514eff5a25105bd777eac6efc6458ece18
+- source_id: marteauferey2019-gsc-newton-neurips
+  title: Globally Convergent Newton Methods for Ill-conditioned Generalized Self-concordant Losses (NeurIPS
+    2019 Proceedings Metadata)
+  authors:
+  - Ulysse Marteau-Ferey
+  - Francis Bach
+  - Alessandro Rudi
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2019/hash/60495b4e033e9f60b32a6607b587aadd-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2019/hash/60495b4e033e9f60b32a6607b587aadd-Abstract.html
+  version: Advances in Neural Information Processing Systems 32 (NeurIPS 2019) proceedings record (10137
+    bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:07:00Z'
+  sha256: 56c131ef2c2b757d295e13186d75d4556e388b2b4ffd4d92db524d28e0c06eac
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: AIO:LogisticRegression represents logistic regression broadly, whereas AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+    provides the first globally convergent second-order regularization-homotopy and Nyström preconditioned
+    conjugate gradient algorithm solving ill-conditioned parametric and non-parametric (kernel) logistic
+    and softmax regression in O_tilde(n df_lambda) time.
+- target: AIO:RidgeRegression
+  relation: related_match
+  rationale: AIO:RidgeRegression represents L2-regularized linear regression broadly, whereas this method
+    generalizes Nyström-preconditioned L2-regularized least-squares solvers (such as FALKON) to L2-regularized
+    generalized self-concordant losses.
+limitations:
+- 'Dependence of Phase-I Stage Count on R ||x_lambda^*|| When No Unregularized Minimizer Exists: In Theorem
+  1 and Remark 1, the number of Phase-I regularization-decrease stages scales as O((1 + R ||x_lambda^*||)
+  log(R ||nabla f(0)|| / lambda)) (or with sup_{mu >= lambda} R sqrt(mu) ||x_mu^*||_{H_mu^{-1}(x_mu^*)}
+  in Proposition 7). While ||x_lambda^*|| is bounded by a lambda-independent constant whenever an unregularized
+  minimizer x^* exists (as in well-specified RKHS learning under source condition r > 0), in separable
+  parametric logistic regression where no finite unregularized minimizer exists, R ||x_lambda^*|| can
+  grow up to O(R / sqrt(lambda)) in the worst case.'
+- 'Conservative Proof Constants in Indirect Empirical-to-Projected Statistical Decomposition: As noted
+  in Remark 5 (Appendix H.3, p. 67), decomposing the statistical excess risk into separate blocks (population
+  to empirical ERM, and empirical ERM to Nyström-projected approximate ERM) inflates the theoretical constants
+  (K_1 <= 6.0e4, K_2 <= 6.0e6, K_3 <= 810 in Propositions 10 and 18), and in practice (Section 5, Appendix
+  F, p. 51) the safe theoretical factor q_{k+1} is replaced by a fast geometric cooling factor (dividing
+  mu by 1000 per stage).'
+- 'Primary-Source Typographical Notes in Marteau-Ferey, Bach, & Rudi (2019, arXiv:1907.01771v2): Verified
+  five self-correcting typographical/notational slips across the 77-page manuscript: (1) Theorem 1 (p.
+  7) writes ''q_k = (1/3 + 7 R ||x_k||)/(1 + 7 R ||x_k||)'' with an off-by-one index relative to the loop
+  update ''mu_{k+1} <- q_{k+1} mu_k'' in the Proposed Globalization Scheme box, whereas Proposition 6
+  (p. 31) writes the exact index ''q_{k+1} := (1/3 + 7 R ||x_{k+1}||)/(1 + 7 R ||x_{k+1}||)'', and the
+  box header on pp. 7, 26, and 31 prints ''Dikin ellispoid'' instead of ''Dikin ellipsoid''; (2) Appendix
+  B (p. 19, inline equation before B.1) writes ''||tilde_Delta_t - Delta_lambda(x_t)|| <= rho nu_lambda(x_t)
+  + epsilon_0'' omitting the H_lambda(x_t) subscript on the norm, whereas p. 20, Lemmas 8-9, and Proposition
+  4 write the exact Hessian norm ''||tilde_Delta_t - Delta_lambda(x_t)||_{H_lambda(x_t)} <= rho nu_lambda(x_t)
+  + epsilon_0''; (3) Appendix B.3 (p. 24, proof of Lemma 10) repeats ''tilde_nu_lambda(x_t) <= 2^{-(2^t-1)}
+  nu_lambda(x_0)'' twice instead of ''nu_lambda(x_t) <= 2^{-(2^t-1)} nu_lambda(x_0), tilde_nu_lambda(x_t)
+  <= 2^{-(2^t-1)} tilde_nu_lambda(x_0)'', and Proposition 5 (p. 25, fourth bullet) writes ''x_t . tilde_Delta_t
+  <= (6/7) varepsilon'' instead of ''nabla f_lambda(x_t) . tilde_Delta_t <= (6/7) varepsilon'' as proved
+  immediately below; (4) Proposition 12 (p. 44) writes ''tau = log(rho/2)/log((sqrt(3)+1)/sqrt(3)-1)''
+  missing the sign flip in ''log(2/rho)'' (for rho = 1/7, log(14)/log((sqrt(3)+1)/(sqrt(3)-1)) approx
+  2.003, yielding tau = 3); and (5) Appendix H.4.2 (p. 72, step 2 of proof of Theorem 9) writes ''beta
+  = 1/(1 + 2r + 1/lambda)'' instead of ''beta = 1/(1 + 2r + 1/alpha)'' as defined on p. 70.'
+- All 77 pages of the full-text PDF of Marteau-Ferey, Bach, & Rudi (2019, NeurIPS 32, arXiv:1907.01771v2)
+  were read. Constructed numerical checks in research/discovery/globally-convergent-newton-generalized-self-concordant-boundaries.py
+  verify (1) Appendix A.1 Eq. (13) helper identity phi_over(t)/phi_under(t) = e^t, Lemma 6 function-value
+  equivalence inside D_lambda(1/7), Lemma 10 quadratic exact-Newton convergence, and Proposition 5 linear
+  1/7-relative ANM convergence, (2) Lemma 3/13 Dikin-ellipsoid inclusion, Proposition 6, and Theorem 1
+  two-phase regularization homotopy globalization from mu_0 = 7 R ||nabla f(0)|| down to lambda = 1e-4,
+  and (3) Proposition 12 3-step preconditioned conjugate gradient relative error (0.000643 <= 0.038476
+  <= 1/7) and Proposition 15 Nyström projector capacity bound.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T20:05:00Z'
+  updated_at: '2026-10-18T20:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

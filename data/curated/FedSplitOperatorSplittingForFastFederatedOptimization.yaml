@@ -1,0 +1,99 @@
+id: AIMech:FedSplitOperatorSplittingForFastFederatedOptimization
+name: FedSplit (Operator Splitting for Fast Federated Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'An operator-splitting federated optimization algorithm (Pathak & Wainwright 2020, Algorithm 1) that reformulates finite-sum federated minimization min_{x in R^d} sum_{j=1}^m f_j(x) over the consensus subspace E = {(x_1,...,x_m) : x_1 = ... = x_m} as the monotone inclusion 0 in nabla F(x) + N_E(x) and applies Peaceman-Rachford reflection splitting T = (1/2) * (I + refl_{I_E} o refl_{s F}), updating client auxiliary variables via z_j^{(t+1/2)} = prox_{s f_j}(2 x^{(t)} - z_j^{(t)}), reflected local states z_j^{(t+1)} = z_j^{(t)} + 2 (z_j^{(t+1/2)} - x^{(t)}), and the server consensus iterate x^{(t+1)} = (1/m) sum_{j=1}^m z_j^{(t+1)}.'
+identity_notes: Distinct from FedAvg / multi-step FedGD(s, e) and FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization), whose deterministic fixed points fail to satisfy sum_{j=1}^m nabla f_j(x^*) = 0 when client objectives are heterogeneous (Propositions 1 and 2), from FedDyn (AIMech:FedDynFederatedLearningBasedOnDynamicRegularization, which maintains a server dual-like state h^t for partial client participation using ADMM-like linear penalties), and from FedPD (AIMech:FedPdFederatedPrimalDualOptimizationWithAdaptivityToNonIidData, which targets non-convex primal-dual augmented Lagrangian consensus with randomized communication skipping).
+aliases:
+- FedSplit
+- Peaceman-Rachford Federated Operator Splitting
+- 'FedSplit: An Algorithmic Framework for Fast Federated Optimization'
+definition_evidence:
+- source_id: r410-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r410-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r410-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r410-fedgd-and-fedprox-fixed-point-inconsistency-vs-fedsplit-correctness
+  kind: mechanism
+  statement: Propositions 1 and 2 prove that deterministic multi-step FedGD(s, e) with e > 1 local steps has fixed points satisfying sum_{i=1}^e sum_{j=1}^m nabla f_j(G_j^{i-1}(x^*)) = 0 (Eq. 8) and deterministic FedProx has fixed points satisfying sum_{j=1}^m nabla M_{s f_j}(x^*) = 0 (Eq. 14, zeros of the sum of Moreau envelope gradients), neither of which coincides with the global minimizer x_ls^* even on heterogeneous least-squares objectives (Eqs. 11, 14), whereas Proposition 3 proves that every FedSplit fixed point satisfies sum_{j=1}^m nabla f_j(x^*) = 0 for any step size s > 0.
+  evidence:
+  - source_id: r410-primary-pdf
+    locator: Section 2.1-2.3 (Propositions 1, 2, and 3, Eqs. 8-19) & Appendix A.1-A.3
+    relation: supports
+- claim_id: r410-sqrt-kappa-linear-contraction-under-exact-and-approximate-proximal-solvers
+  kind: mechanism
+  statement: Under l_*-strong convexity and L^*-smoothness (condition number kappa = L^* / l_*), Theorems 1 and 3 and Corollary 1 prove that FedSplit with step size s = 1 / sqrt(l_* L^*) contracts geometrically as ||z^{(t+1)} - z^*||_2 <= rho^t ||z^{(1)} - z^*||_2 + (2 / (1 - rho)) sqrt(m) b with contraction factor rho = 1 - 2 / (sqrt(kappa) + 1) + 2 nu / (sqrt(kappa) + 1), achieving O(sqrt(kappa) log(1 / varepsilon)) communication complexity even when each local proximal subproblem is solved only approximately via e = O(sqrt(kappa)) local gradient steps.
+  evidence:
+  - source_id: r410-primary-pdf
+    locator: Section 3 Main Results (Theorems 1, 2, and 3, Corollary 1, Eqs. 21-28) & Appendix B
+    relation: supports
+- claim_id: r410-convexity-and-persistent-client-state-limitation
+  kind: limitation
+  statement: FedSplit's operator-splitting fixed-point and contraction guarantees require convex (or strongly convex) local objectives so that the reflected resolvent operators are non-expansive or contractive, and each client j must maintain a persistent local auxiliary variable z_j^{(t)} across communication rounds.
+  evidence:
+  - source_id: r410-primary-pdf
+    locator: Section 2.2-2.3 (Algorithm 1) & Section 3.1-3.2 (Theorems 1-3)
+    relation: supports
+- claim_id: r410-ill-conditioned-heterogeneous-least-squares-and-logistic-regression-application
+  kind: application
+  statement: Applied to heterogeneous federated least-squares and binary logistic regression problems with high condition numbers kappa in {10, 10^4}, where FedSplit converges linearly to machine precision while FedGD and FedProx stagnate at non-vanishing optimality gaps.
+  evidence:
+  - source_id: r410-primary-pdf
+    locator: Section 2.1 (Figure 1) & Section 4 Numerical Experiments (Figures 2-3)
+    relation: supports
+evidence_sources:
+- source_id: r410-primary-pdf
+  title: 'FedSplit: An algorithmic framework for fast federated optimization'
+  authors: &id001
+  - Reese Pathak
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2005.05238
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/4ebd440d99504722d80de606ea8507da-Abstract.html
+  version: Advances in Neural Information Processing Systems 33 (NeurIPS 2020), pp. 7057-7066 (2020) (81114 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:13:00Z'
+  sha256: 250eb4e731c6fab73f20670c59b209349c4e1a7c60889945d0d4a558d8e563ff
+- source_id: r410-arxiv-abs
+  title: 'FedSplit: An algorithmic framework for fast federated optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.05238
+  persistent_id: https://arxiv.org/abs/2005.05238
+  version: arXiv abstract page (6600 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:13:00Z'
+  sha256: 7f5534466363dab8957b4860f5eea9e359d5394443d8d9bf7e071e66a1b873d2
+- source_id: r410-metadata-cr
+  title: 'FedSplit: An algorithmic framework for fast federated optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2020/hash/4ebd440d99504722d80de606ea8507da-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2020/hash/4ebd440d99504722d80de606ea8507da-Abstract.html
+  version: Crossref API work record (394 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:13:00Z'
+  sha256: 0486d4c37eedb9b064e1d4ae21f79bcc0087b9b09da89dfd47b0fbe7349a34c3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedSplit is a Peaceman-Rachford operator-splitting optimization method within Federated Learning.
+limitations:
+- Theoretical contraction guarantees require convex or strongly convex local objectives.
+- Clients must maintain persistent auxiliary state vectors z_j^{(t)} across rounds.
+curation:
+  created_at: '2026-10-19T08:13:00Z'
+  updated_at: '2026-10-19T08:13:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,102 @@
+id: AIMech:BeerGradientTrackingWithCommunicationCompressionForDecentralizedNonconvexOptimization
+name: BEER Gradient Tracking with Communication Compression for Decentralized Nonconvex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-compressed decentralized nonconvex optimization algorithm (BEER) that couples EF21-style Markov contractive error-feedback states H^t in R^(d x n) (tracking parameters X^t) and G^t in R^(d x n) (tracking gradient-tracking vectors V^t) with decentralized gossip mixing over a symmetric doubly-stochastic matrix W via X^(t+1) = X^t + gamma * H^t (W - I) - eta * V^t, H^(t+1) = H^t + C(X^(t+1) - H^t), V^(t+1) = V^t + gamma * G^t (W - I) + grad F(X^(t+1)) - grad F(X^t), and G^(t+1) = G^t + C(V^(t+1) - G^t), achieving a fast O(1/T) nonconvex stationarity rate with arbitrary alpha-contractive (possibly biased) compressors without bounded gradient-dissimilarity assumptions.
+identity_notes: Introduced by Haoyu Zhao, Boyue Li, Zhize Li, Peter Richtarik, and Yuejie Chi (NeurIPS 2022, Vol. 35, pp. 31653-31667; arXiv:2201.13320). Distinct from Choco-SGD (Koloskova et al., ICML 2019; Round 382), which compresses only model parameters without gradient tracking and attains a slower O(1/sqrt(T)) rate under bounded inter-client gradient dissimilarity; and distinct from EF21 (Richtarik, Sokolov, & Fatkhullin, NeurIPS 2021; Round 380), which operates on a centralized master-worker star topology rather than a decentralized peer-to-peer graph with dual parameter and gradient-tracking control variates.
+aliases:
+- BEER
+- BEER Decentralized Compressed Gradient Tracking
+- Gradient Tracking with Communication Compression for Decentralized Nonconvex Optimization
+definition_evidence:
+- source_id: r557-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r557-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r557-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: beer-coupled-ef21-parameter-and-gradient-tracking-invariance-mechanism
+  kind: mechanism
+  statement: BEER maintains compressed control variates H^t for parameters X^t and G^t for gradient-tracking estimates V^t using an alpha-contractive compressor C satisfying E||C(x) - x||^2 <= (1 - alpha)||x||^2 (Definition 2.2), and because H^t (W - I) (1/n) 1 = 0 and G^t (W - I) (1/n) 1 = 0 for doubly-stochastic W, Lemma B.3 establishes the exact global invariants v_bar^t = (1/n) sum_{i=1}^n grad f_i(x_i^t) and x_bar^(t+1) = x_bar^t - (eta/n) sum_{i=1}^n grad f_i(x_i^t) for all t >= 0.
+  evidence:
+  - source_id: r557-primary-pdf
+    locator: Section 2.2 Definition 2.2, Section 3 Algorithm 1, & Appendix B.1 Lemma B.3 (Equations 11-12), pp. 4, 7, 15
+    relation: supports
+- claim_id: beer-fast-o-1-over-t-nonconvex-and-linear-pl-rate-scope
+  kind: scope
+  statement: For L-smooth nonconvex objectives over a graph with spectral gap rho = 1 - sigma_max(W - (1/n) 1*1^T) > 0, Theorem 1 proves that BEER with gamma = Theta(alpha * rho) and eta = Theta(gamma * rho^2 * alpha / L) attains E||grad f(x_hat)||^2 <= epsilon^2 in T = O(L / (rho^3 * alpha^2 * epsilon^2)) communication rounds without data-heterogeneity assumptions, while Theorem 2 proves linear convergence O((1 / (mu * rho^3 * alpha^2)) log(1/epsilon)) under the Polyak-Lojasiewicz condition (Assumption 2) and minibatch size b = Theta(sigma^2 / (rho * alpha * epsilon^2)).
+  evidence:
+  - source_id: r557-primary-pdf
+    locator: Table 1 & Section 4 Theorems 1-2, pp. 3, 7-8
+    relation: supports
+- claim_id: beer-cubic-spectral-gap-and-dual-message-transmission-limitation
+  kind: limitation
+  statement: Each iteration transmits two compressed vectors (Q_h^(t+1) and Q_g^(t+1)) per node and stores four d-dimensional state vectors per node (x_i^t, h_i^t, v_i^t, g_i^t), and the theoretical communication complexity scales inversely with the cube of the graph spectral gap rho^3 and the square of the contraction factor alpha^2.
+  evidence:
+  - source_id: r557-primary-pdf
+    locator: Section 3 Algorithm 1 & Section 4 Theorem 1 Remark, pp. 7-8
+    relation: supports
+- claim_id: beer-heterogeneous-nonconvex-logistic-regression-and-cnn-training-application
+  kind: application
+  statement: Applied to decentralized nonconvex logistic regression with nonconvex regularizer on the a9a dataset and 1-hidden-layer neural network training on unshuffled heterogeneous MNIST across 10-node ring topologies using biased Top-k and unbiased Rand-k / gsgn compressors.
+  evidence:
+  - source_id: r557-primary-pdf
+    locator: Section 5 Numerical Experiments, Figures 2-4, pp. 9-10
+    relation: supports
+evidence_sources:
+- source_id: r557-primary-pdf
+  title: 'BEER: Fast O(1/T) Rate for Decentralized Nonconvex Optimization with Communication Compression'
+  authors: &id001
+  - Haoyu Zhao
+  - Boyue Li
+  - Zhize Li
+  - Peter Richtarik
+  - Yuejie Chi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2201.13320.pdf
+  persistent_id: https://openalex.org/W7133239078
+  version: Advances in Neural Information Processing Systems 35 (NeurIPS 2022) (2022) (1060476 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:40:00Z'
+  sha256: 7f6492f9472edfeb6133d39667df94e17e1cdd3ee7af21166491e9a0110eae22
+- source_id: r557-arxiv-abs
+  title: 'BEER: Fast O(1/T) Rate for Decentralized Nonconvex Optimization with Communication Compression (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2201.13320
+  persistent_id: https://arxiv.org/abs/2201.13320
+  version: arXiv abstract page (7674 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:40:00Z'
+  sha256: c359aa3a6d7ccb165ea41d56ec42937b056111cf7c79e2ed4f2179aeb96d8c47
+- source_id: r557-metadata-cr
+  title: 'BEER: Fast O(1/T) Rate for Decentralized Nonconvex Optimization with Communication Compression (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openalex.org/W7133239078
+  persistent_id: https://openalex.org/W7133239078
+  version: Crossref API work record (442976 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:40:00Z'
+  sha256: 8345aaf73caa627789bc2b9b1b10ed6bfdc4840a8a802a3f76c0397797464c14
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers distributed model optimization across networked data silos, whereas BEER is a decentralized peer-to-peer nonconvex optimization method combining gradient tracking with EF21 communication compression.
+limitations:
+- Requires two compressed vector transmissions and four full-dimensional state vectors per node per iteration.
+- Requires O(sigma^2 / (rho * alpha * epsilon^2)) minibatch size per iteration in the stochastic setting.
+curation:
+  created_at: '2026-10-19T10:40:00Z'
+  updated_at: '2026-10-19T10:40:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

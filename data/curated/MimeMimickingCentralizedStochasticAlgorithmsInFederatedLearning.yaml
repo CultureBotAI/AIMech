@@ -1,0 +1,105 @@
+id: AIMech:MimeMimickingCentralizedStochasticAlgorithmsInFederatedLearning
+name: Mime Framework for Mimicking Centralized Stochastic Algorithms in Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A general federated optimization framework (Mime and MimeLite) that adapts arbitrary centralized stateful stochastic optimizers A = (U, V) (including Heavy-Ball momentum, Adam, Adagrad, and momentum-based variance reduction MVR) to cross-device federated learning by decomposing A into a linear parameter step U(g, s) and a statistics update V(g, s), updating the optimizer statistics s_t = V(c_t, s_{t-1}) only once per communication round at the server using the unbiased cross-client average gradient c_t = (1/|S_t|) sum_{i in S_t} nabla f_i(x_{t-1}), broadcasting (x_{t-1}, s_{t-1}, c_t) so each sampled client i in S_t executes K local parameter steps y_{i,k} = y_{i,k-1} - eta * U(g_{i,k}, s_{t-1}) with frozen server statistics s_{t-1} and either SVRG variance-reduced local gradients g_{i,k} = nabla f_i(y_{i,k-1}; zeta_{i,k}) - nabla f_i(x_{t-1}; zeta_{i,k}) + c_t (Mime) or raw local stochastic gradients g_{i,k} = nabla f_i(y_{i,k-1}; zeta_{i,k}) (MimeLite).
+identity_notes: Distinct from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which requires stateful clients to store persistent control variates c_i across rounds and fails when clients are stateless or sampled once), from FedDyn (AIMech:FedDynDynamicRegularizationForFederatedLearning, which also requires stateful client gradient vectors), and from FedNova (AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization, which normalizes local step lengths rather than freezing server optimizer statistics s_{t-1} and applying cross-device SVRG control variates). No pinned AIO class covers Mime or stateless cross-device optimizer mimicking.
+aliases:
+- Mime
+- MimeLite
+- MimeMVR
+- Mimicking Centralized Stochastic Algorithms in Federated Learning
+definition_evidence:
+- source_id: r388-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r388-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r388-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r388-frozen-server-statistics-and-generic-optimizer-reduction
+  kind: mechanism
+  statement: Lemma 5 demonstrates that updating momentum or adaptive preconditioner statistics V(g, s) locally at every client step biases the statistics toward client-specific gradients, whereas Theorem I proves that for any optimizer A = (U, V) with linear step map U(g_1 + g_2, s) = U(g_1, s) + U(g_2, s), keeping s_{t-1} fixed during K local steps yields an exact server step x_t = x_{t-1} - eta_tilde * U(c_t + e_t, s_{t-1}) with effective step size eta_tilde = K * eta and bounded local drift perturbation ||e_t||^2 <= L^2 * E_K^t.
+  evidence:
+  - source_id: r388-primary-pdf
+    locator: Section 3.1-3.3 Algorithm 1, Appendix C Lemma 5, and Section 4.1 Theorem I, pp. 4-6, 17-20
+    relation: supports
+- claim_id: r388-hessian-dissimilarity-and-mimemvr-complexity
+  kind: mechanism
+  statement: Under delta-bounded Hessian dissimilarity ||nabla^2 f_i(x) - nabla^2 f(x)|| <= delta (Assumption A2*, where delta <= L and delta = 0 for homogeneous-curvature objectives even under arbitrarily large gradient dissimilarity G^2), Lemma 3 bounds the variance of the Mime SVRG correction by delta^2 ||y - x||^2, and Theorem IV proves that MimeMVR finds an epsilon-stationary point of nonconvex objectives in O(((1+delta) G^2 F / (S * eps^2))^{3/4} + (delta * sigma^2 / sqrt(S) + delta * G^2) / eps^{3/2} + (delta * K + L) / (eps * K)) rounds, matching the Omega((G / (sqrt(S) * eps))^{3/2}) lower bound of Theorem III and beating server-only momentum when delta << L.
+  evidence:
+  - source_id: r388-primary-pdf
+    locator: Section 2 Assumption A2*, Appendix B Lemma 3, and Section 4.2 Theorems III & IV, pp. 3, 6-8, 15
+    relation: supports
+- claim_id: r388-full-local-gradient-and-communication-overhead-limitation
+  kind: limitation
+  statement: Full Mime requires each active client to compute its full-batch local gradient nabla f_i(x_{t-1}) and evaluate two stochastic gradients per local step (at y_{i,k-1} and x_{t-1}) while broadcasting both x_{t-1}, s_{t-1}, and c_t (2x-3x downlink/uplink overhead), whereas MimeLite avoids the SVRG correction at the cost of an extra O(G^2) gradient-dissimilarity drift term.
+  evidence:
+  - source_id: r388-primary-pdf
+    locator: Section 3.2-3.3 Algorithm 1, Theorem I, and Section 4.2 Theorem V (MimeLiteMVR), pp. 5-8
+    relation: supports
+- claim_id: r388-stateless-cross-device-federated-deep-learning-application
+  kind: application
+  statement: Applied to stateless cross-device federated learning on EMNIST-62 (ResNet-18), CIFAR-100, and Shakespeare character-level LSTM benchmarks using MimeSGD, MimeMom, MimeAdam, and MimeMVR, outperforming FedAvg, FedAvgM, FedAdam, and SCAFFOLD under low client sampling rates.
+  evidence:
+  - source_id: r388-primary-pdf
+    locator: Section 5 Experimental Analysis, Figures 1-2 & Table 2, pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r388-primary-pdf
+  title: 'Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning'
+  authors: &id001
+  - Sai Praneeth Karimireddy
+  - Martin Jaggi
+  - Satyen Kale
+  - Mehryar Mohri
+  - Sashank J. Reddi
+  - Sebastian U. Stich
+  - Ananda Theertha Suresh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2008.03606.pdf
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/ecbe1ef9a0c869f69725461b9028c196-Abstract.html
+  version: Advances in Neural Information Processing Systems 34 (NeurIPS 2021), pp. 28052-28066 (2021) (131096 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:51:00Z'
+  sha256: 79afc2ca58368ba0b75128decde5026e0d5e307fbd3188f1f558a2daceb922bc
+- source_id: r388-arxiv-abs
+  title: 'Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2008.03606
+  persistent_id: https://arxiv.org/abs/2008.03606
+  version: arXiv abstract page (7593 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:51:00Z'
+  sha256: 28f6ce64a30f374cda0c16e2258e40b49fb095b26d42b6341beca64ed9b64637
+- source_id: r388-metadata-cr
+  title: 'Mime: Mimicking Centralized Stochastic Algorithms in Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2021/hash/ecbe1ef9a0c869f69725461b9028c196-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/ecbe1ef9a0c869f69725461b9028c196-Abstract.html
+  version: Crossref API work record (528 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:51:00Z'
+  sha256: ed124d0ce69c8b3700f451fe657e0954571cb580968b8119742af4b0df81d998
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: Mime is a stateless cross-device federated learning optimization framework that adapts centralized stateful stochastic optimizers via frozen server statistics and SVRG control variates.
+limitations:
+- Requires linearity of the base parameter update map U(g, s) in the gradient argument g so that local steps aggregate cleanly at the server.
+- Full Mime doubles local gradient evaluations per step and increases round communication by transmitting c_t and s_{t-1} alongside model parameters.
+curation:
+  created_at: '2026-10-19T07:51:00Z'
+  updated_at: '2026-10-19T07:51:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

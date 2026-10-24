@@ -1,0 +1,110 @@
+id: AIMech:PromptagatorFewShotDenseRetrievalDataGeneration
+name: Promptagator Few-Shot Dense Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A few-shot dense retrieval training method (Prompt-based Query Generation for Retriever) that prompts a large language model with task-specific document and query role descriptions alongside a small set (2 to 8) of in-domain relevant query-document pairs to generate synthetic queries across a target document corpus, trains an initial dual-encoder retriever on the noisy synthetic pairs to apply round-trip consistency filtering\u2014retaining a synthetic pair only if its source passage is ranked in the top-K retrieved passages\u2014and fine-tunes a compact task-specific dual encoder and optional cross-attention reranker (Promptagator++) on the filtered data."
+identity_notes: Distinct from InPars (AIMech:InParsInContextDataAugmentationForInformationRetrieval), which filters synthetic queries by length-normalized generation log-probability and trains only a second-stage cross-encoder reranker over BM25 candidates, whereas Promptagator conditions on task-specific search-intent role prefixes (e.g., counter-argument vs. fact-check claim), performs round-trip retrieval consistency filtering using a self-trained initial dual encoder without external QA models, and produces a standalone first-stage dense dual encoder. Also distinct from zero-shot hypothetical document embedding at query time (AIMech:HyDEHypotheticalDocumentEmbeddings), which calls an LLM online for every test query rather than distilling synthetic queries offline into a fast 110M dual encoder.
+aliases:
+- Promptagator
+- Prompt-based Query Generation for Retriever
+- Promptagator Few-Shot Dense Retrieval and Round-Trip Filtering
+definition_evidence:
+- source_id: r740-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r740-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r740-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: promptagator-intent-conditioned-query-generation
+  kind: mechanism
+  statement: Promptagator constructs a prompt of the form (e_doc(d_1), e_query(q_1), ..., e_doc(d_k), e_query(q_k), e_doc(d)) using task-specific document and query role prefixes and at most k=8 examples to sample synthetic queries q_hat from a large language model across target corpus passages d in D_T, capturing task-specific search intents such as counter-argument retrieval or claim verification.
+  evidence:
+  - source_id: r740-primary-pdf
+    locator: Section 2.1 & Section 3.1, pp. 3-4, Table 4
+    relation: supports
+- claim_id: promptagator-self-supervised-round-trip-consistency-filter
+  kind: mechanism
+  statement: Without relying on an external supervised question-answering model, Promptagator trains an initial dual-encoder retriever on the raw synthetic (q, d) pairs and filters the synthetic dataset by keeping (q, d) only when the initial retriever ranks the source passage d within the top-K (with K=1) passages for q.
+  evidence:
+  - source_id: r740-primary-pdf
+    locator: Section 3.2 & Section 4.1, pp. 4 & 6
+    relation: supports
+- claim_id: promptagator-beir-dual-encoder-and-reranker-application
+  kind: application
+  statement: Evaluated across 11 heterogeneous retrieval datasets in BEIR, a 110M-parameter Promptagator dual encoder trained from at most 8 examples without MS MARCO supervision outperforms MS MARCO-supervised ColBERT v2 and SPLADE v2 by over 1.2 nDCG@10 on average, and adding a 110M Promptagator++ cross-attention reranker yields an additional 5.0 nDCG@10 gain.
+  evidence:
+  - source_id: r740-primary-pdf
+    locator: Section 4.2, pp. 6-7, Table 2
+    relation: supports
+  - source_id: r740-metadata-cr
+    locator: DBLP bibliographic record Zhuyun Dai et al. ICLR 2023
+    relation: supports
+- claim_id: promptagator-small-corpus-filtering-overfitting-limitation
+  kind: limitation
+  statement: On very small target corpora (such as NFCorpus and SciFact), aggressive top-1 round-trip consistency filtering can discard too many synthetic pairs and cause subsequent dual-encoder fine-tuning to overfit, slightly reducing retrieval accuracy.
+  evidence:
+  - source_id: r740-primary-pdf
+    locator: Section 4.3, p. 7, Figure 2(a)
+    relation: supports
+evidence_sources:
+- source_id: r740-primary-pdf
+  title: 'Promptagator: Few-shot Dense Retrieval From 8 Examples'
+  authors: &id001
+  - Zhuyun Dai
+  - Vincent Y. Zhao
+  - Ji Ma
+  - Yi Luan
+  - Jianmo Ni
+  - Jing Lu
+  - Anton Bakalov
+  - Kelvin Guu
+  - Keith B. Hall
+  - Ming-Wei Chang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2209.11755.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Promptagator+Few-shot+Dense+Retrieval+From+8+Examples+Dai&h=5&format=xml
+  version: The Eleventh International Conference on Learning Representations (ICLR 2023) (2023) (1761373 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:43:00Z'
+  sha256: c2dec45d0b2d4c9393a5e8f51a52628897e511960a253d9dcfc00348fae93457
+- source_id: r740-arxiv-abs
+  title: 'Promptagator: Few-shot Dense Retrieval From 8 Examples (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2209.11755
+  persistent_id: https://arxiv.org/abs/2209.11755
+  version: arXiv abstract page (6967 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:43:00Z'
+  sha256: ba6931e0fa26e9814767dc6f77fcc4bbfa7ec36164c6bc1c934132fe9d9ae874
+- source_id: r740-metadata-cr
+  title: 'Promptagator: Few-shot Dense Retrieval From 8 Examples (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Promptagator+Few-shot+Dense+Retrieval+From+8+Examples+Dai&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Promptagator+Few-shot+Dense+Retrieval+From+8+Examples+Dai&h=5&format=xml
+  version: Crossref API work record (979 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:43:00Z'
+  sha256: 128123e6b1281551a734effbe9cf6ab2436d6d700ce7ad83d2c316d791cbd28a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Promptagator distills a prompted large language model into a neural dual-encoder retriever and cross-attention reranker via round-trip filtered synthetic queries.
+limitations:
+- Offline synthetic dataset generation across up to one million documents per corpus with a 137B-parameter language model incurs high upfront compute cost.
+- Sensitive to noisy or misannotated examples in the few-shot prompt (such as 'not enough info' labels in Climate-FEVER).
+curation:
+  created_at: '2026-10-19T13:43:00Z'
+  updated_at: '2026-10-19T13:43:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FADA (Federated Adversarial Domain Adaptation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FADA (Federated Adversarial Domain Adaptation)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FADA (Federated Adversarial Domain Adaptation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FadaFederatedAdversarialDomainAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FADA, Federated Adversarial Domain Adaptation
+    </div>
+
+  <div class="detail-desc">
+    FADA (Federated Adversarial Domain Adaptation) is a privacy-preserving multi-source unsupervised domain adaptation algorithm for federated learning that transfers knowledge from N decentralized labeled source clients {D_{S_i}}_{i=1}^N to an unlabeled target client D_T without sharing raw client data by combining (1) a dynamic attention mechanism that weights each source client&#39;s gradients via softmax over K-means target feature clustering gap-statistics gains I_i^{gain} = I_i^{p-1} - I_i^p, (2) decoupled adversarial domain alignment between each source extractor G_i and target extractor G_t using extracted feature vectors rather than raw samples, and (3) adversarial feature disentanglement with Mutual Information Neural Estimation (MINE) to separate domain-invariant features f_{di} from domain-specific features f_{ds}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Xingchao Peng, Zijun Huang, Yizhe Zhu, and Kate Saenko in &#39;Federated Adversarial Domain Adaptation&#39; (ICLR 2020; arXiv:1911.02054). Distinct from centralized multi-source domain adaptation methods (DCTN, Xu et al. CVPR 2018; M3SDA, Peng et al. ICCV 2019; MDAN, Zhao et al. NeurIPS 2018), which require direct co-location of source and target domain examples on a single machine; and distinct from FedBN (Li et al. ICLR 2021), which handles feature shift across labeled federated clients via local batch normalization rather than adapting multiple labeled source clients to an unlabeled target client via dynamic attention and MINE feature disentanglement.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fada-weighted-federated-domain-adaptation-generalization-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 2 (and Theorem 3 in Appendix G) proves that for a target classifier h_T = sum_{i=1}^N alpha_i h_{S_i} formed as a convex combination of N decentralized source hypotheses (alpha_i &gt;= 0, sum_i alpha_i = 1) of VC dimension d with sample size m per domain, the target error is bounded with probability at least 1 - delta by epsilon_T(h_T) &lt;= hat_epsilon_{tilde_S}(sum_i alpha_i h_{S_i}) + sum_{i=1}^N alpha_i ((1/2) hat_d_{H Delta H}(hat_D_{S_i}, hat_D_T) + lambda_i) + 4 sqrt((2 d log(2 N m) + log(4/delta)) / (N m)) (Equations 2 and 9), showing that target generalization depends on the alpha_i-weighted empirical H Delta H divergences between each source client and the target.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r516-primary-pdf">Federated Adversarial Domain Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Theorem 2, Equation (2), pages 3-4; Appendix G, Theorem 3, page 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fada-dynamic-attention-via-kmeans-gap-statistics-gain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To suppress negative transfer from irrelevant source domains while updating the target model, FADA clusters unlabeled target features into k K-means clusters {C_r}_{r=1}^k, measures intra-cluster dispersion I = sum_{r=1}^k (1 / (2 n_r)) sum_{i,j in C_r} ||f_i^t - f_j^t||_2 (Equation 3), computes each source domain&#39;s gap-statistic improvement I_i^{gain} = I_i^{p-1} - I_i^p across training steps, and weights source gradients by Softmax(I_1^{gain}, ..., I_N^{gain}).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r516-primary-pdf">Federated Adversarial Domain Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Equation (3), page 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fada-decoupled-adversarial-alignment-and-mine-feature-disentanglement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because source and target data cannot be shared across nodes, FADA aligns each source generator G_i and target generator G_t through a domain identifier DI_i operating solely on extracted feature representations (Equations 4-5), while locally disentangling domain-invariant features f_{di} = D_{di}(G(x)) from domain-specific features f_{ds} = D_{ds}(G(x)) by training class identifier CI_i on f_{di} (Equation 6), adversarially confusing CI_i on f_{ds} via negative entropy L_{ent} = -(1/K) sum_k log CI_i(f_{ds})_k (Equation 7), and minimizing the Mutual Information Neural Estimator (MINE) lower bound I(P, Q) = (1/n) sum_{i=1}^n T(p, q, theta) - log((1/n) sum_{i=1}^n exp(T(p, q&#39;, theta))) (Equation 8) between f_{di} and f_{ds}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r516-primary-pdf">Federated Adversarial Domain Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Equations (4)-(8) and Figure 2, pages 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fada-empirical-performance-on-digit-five-office-caltech-and-domainnet</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across federated multi-source adaptation benchmarks, FADA improves average target accuracy over the bare FedAvg baseline from 70.6% to 78.9% on Digit-Five (Table 1), from 89.5% to 92.0% on Office-Caltech10 (Table 2), from 67.9% to 75.3% on Office-31 (Table 4), and from 41.2% to 45.2% on DomainNet (Table 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r516-primary-pdf">Federated Adversarial Domain Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3, Tables 1-4, pages 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exchanges extracted feature vectors and domain-identifier gradients between each source domain and the target domain during adversarial alignment (Section 3.2), which hides raw images but still exposes intermediate feature activations unless combined with cryptographic or differential-privacy protections.</li>
+      <li>Remains below centralized multi-source domain adaptation upper bounds that have joint access to raw source and target samples (e.g., 78.9% for FADA vs. 85.0% for centralized f-DANN on Digit-Five, Table 1).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FADA is a multi-source federated adversarial domain adaptation algorithm under AIO:FederatedLearning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r516-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r516-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1911.02054.pdf" target="_blank" rel="noopener">Federated Adversarial Domain Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xingchao Peng, Zijun Huang, Yizhe Zhu, Kate Saenko
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/PengHZS20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d0c7e4e392e4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r516-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r516-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1911.02054" target="_blank" rel="noopener">Federated Adversarial Domain Adaptation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xingchao Peng, Zijun Huang, Yizhe Zhu, Kate Saenko
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1911.02054</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ec40b03619a1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r516-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r516-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/PengHZS20" target="_blank" rel="noopener">Federated Adversarial Domain Adaptation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xingchao Peng, Zijun Huang, Yizhe Zhu, Kate Saenko
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/PengHZS20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f8d70d7d2419…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFadaFederatedAdversarialDomainAdaptation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FADA (Federated Adversarial Domain Adaptation)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FadaFederatedAdversarialDomainAdaptation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FADA (Federated...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:59:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:59:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FadaFederatedAdversarialDomainAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FadaFederatedAdversarialDomainAdaptation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FADA%20%28Federated%20Adversarial%20Domain%20Adaptation%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFadaFederatedAdversarialDomainAdaptation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

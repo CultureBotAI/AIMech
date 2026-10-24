@@ -1,0 +1,104 @@
+id: AIMech:InParsInContextDataAugmentationForInformationRetrieval
+name: InPars In-Context Data Augmentation for Information Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A few-shot synthetic data augmentation method for information retrieval (Inquisitive Parrots for Search) that prompts a pretrained language model with a fixed prefix of N (e.g., 3) document-question demonstrations\u2014either standard pairs (Vanilla) or pairs contrasting a generic 'bad question' with a descriptive 'good question' (Guided by Bad Questions, GBQ)\u2014to generate a synthetic question for each sampled corpus document, filters the generated pairs by selecting the top K with highest length-normalized token log-probability p_q = (1/|q|) sum_{i=1}^{|q|} log p(q_i | t, d, q_{<i}), samples negative documents from BM25 candidates, and fine-tunes a neural reranker."
+identity_notes: Distinct from Promptagator (AIMech:PromptagatorFewShotDenseRetrievalDataGeneration), which filters synthetic pairs via round-trip top-1 retrieval consistency using an initial dual encoder and trains a first-stage dense dual encoder, whereas InPars filters synthetic pairs directly by their length-normalized autoregressive generation log-probability p_q under the generator LM and trains a monoT5 sequence-to-sequence reranker over BM25 candidates.
+aliases:
+- InPars
+- Inquisitive Parrots for Search
+- InPars Few-Shot Synthetic Query Generation for IR
+definition_evidence:
+- source_id: r741-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r741-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r741-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: inpars-length-normalized-logprob-filtering-mechanism
+  kind: mechanism
+  statement: Given a few-shot prompt prefix t and sampled document d, InPars autoregressively generates a candidate question q and retains only the top K (e.g., 10,000 out of 100,000) synthetic (q, d) pairs ranked by average token log-probability p_q = (1/|q|) sum_{i=1}^{|q|} log p(q_i | t, d, q_{<i}).
+  evidence:
+  - source_id: r741-primary-pdf
+    locator: Section 3 & Section 6.3, pp. 2-3 & 8, Equation 1
+    relation: supports
+- claim_id: inpars-guided-by-bad-questions-prompting-mechanism
+  kind: mechanism
+  statement: To prevent the language model from generating overly generic questions that match many passages, the Guided by Bad Questions (GBQ) template pairs each in-context passage with both a shallow MS MARCO 'bad question' and a context-specific 'good question', instructing the model to generate a good question for the target document.
+  evidence:
+  - source_id: r741-primary-pdf
+    locator: Section 4.2 & Section 6.1, pp. 4 & 7, Figure 2
+    relation: supports
+- claim_id: inpars-neural-reranker-adaptation-application
+  kind: application
+  statement: InPars is applied to unsupervised and domain-adapted passage and document reranking on MS MARCO, TREC-DL 2020, Robust04, Natural Questions, and TREC-COVID, enabling monoT5 rerankers trained without human-labeled in-domain queries to outperform BM25, Contriever, and direct GPT-3 API reranking.
+  evidence:
+  - source_id: r741-primary-pdf
+    locator: Section 5, p. 6, Table 1
+    relation: supports
+  - source_id: r741-metadata-cr
+    locator: DBLP bibliographic record Luiz Henrique Bonifacio et al. SIGIR 2022
+    relation: supports
+- claim_id: inpars-first-stage-bm25-recall-dependency-limitation
+  kind: limitation
+  statement: Because InPars trains a cross-encoder reranker applied to the top-1000 documents retrieved by bag-of-words BM25, its overall recall is upper-bounded by lexical first-stage retrieval and it can slightly degrade models already heavily supervised on in-domain MS MARCO queries.
+  evidence:
+  - source_id: r741-primary-pdf
+    locator: Section 4.3 & Section 5, pp. 5-7
+    relation: supports
+evidence_sources:
+- source_id: r741-primary-pdf
+  title: 'InPars: Data Augmentation for Information Retrieval using Large Language Models'
+  authors: &id001
+  - Luiz Bonifacio
+  - Hugo Abonizio
+  - Marzieh Fadaee
+  - Rodrigo Nogueira
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2202.05144.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=InPars+Data+Augmentation+for+Information+Retrieval+Bonifacio&h=5&format=xml
+  version: Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2022) (2022) (555448 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:44:00Z'
+  sha256: b2e1e7be17b723b0959110ceb9ae155e16b9e443f9915b3da87c10f54cbe2b92
+- source_id: r741-arxiv-abs
+  title: 'InPars: Data Augmentation for Information Retrieval using Large Language Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2202.05144
+  persistent_id: https://arxiv.org/abs/2202.05144
+  version: arXiv abstract page (6091 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:44:00Z'
+  sha256: 2106e22d85f280ee2cb8e78ae01a0b647902207fb6f0fc5840f62d80ae0a01ac
+- source_id: r741-metadata-cr
+  title: 'InPars: Data Augmentation for Information Retrieval using Large Language Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=InPars+Data+Augmentation+for+Information+Retrieval+Bonifacio&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=InPars+Data+Augmentation+for+Information+Retrieval+Bonifacio&h=5&format=xml
+  version: Crossref API work record (787 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:44:00Z'
+  sha256: f8bb31831600a661e8b483e885a678101e0aca84afa24a08349352a211359385
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: InPars uses a few-shot prompted neural language model to generate synthetic query-document training data for neural transformer rerankers.
+limitations:
+- Generating 100,000 candidate questions per target collection requires substantial LLM inference calls before filtering.
+- Randomly sampling negatives from the top-1000 BM25 results can occasionally introduce false-negative passages.
+curation:
+  created_at: '2026-10-19T13:44:00Z'
+  updated_at: '2026-10-19T13:44:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

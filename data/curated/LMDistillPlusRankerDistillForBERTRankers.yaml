@@ -1,0 +1,105 @@
+id: AIMech:LMDistillPlusRankerDistillForBERTRankers
+name: LM Distill + Ranker Distill (Two-Round Knowledge Distillation for BERT Rankers)
+concept_kind: learning_paradigm
+review_status: DRAFT
+definition: 'A two-round knowledge distillation paradigm for compressing BERT-based neural rerankers (Gao, Dai, & Callan, ICTIR 2020) that explicitly disentangles and transfers two sources of teacher capability: (1) general-purpose language modeling knowledge via LM Distill, which distills a pre-trained 12-layer BERT language model over a large text corpus into a compact student language model, and (2) search-specific relevance modeling knowledge via Ranker Distill, which subsequently distills both intermediate self-attention distributions and output relevance predictions from a fine-tuned 12-layer BERT ranker onto the LM-distilled student, preserving statistical non-inferiority to the full BERT ranker at up to 9x inference speedup.'
+identity_notes: Distinct from single-stage Ranker Distill (which distills a fine-tuned BERT ranker directly onto a randomly initialized student and fails to recover general language modeling knowledge) and from LM Distill + Fine-tuning (which fine-tunes a distilled LM directly on hard search labels and degrades or overfits under high compression such as 4-layer H=312 students). By pairing LM Distill initialization with Ranker Distill intermediate-attention and output supervision, LM Distill + Ranker Distill prevents overfitting past 5M training pairs and achieves statistical non-inferiority on both 6-layer (H=768) and 4-layer (H=312) rankers.
+aliases:
+- LM Distill + Ranker Distill
+- Two-Round LM and Ranker Knowledge Distillation for BERT Rerankers
+- LM-Distill-Plus-Ranker-Distill
+definition_evidence:
+- source_id: r798-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r798-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r798-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lm-plus-ranker-distill-three-regime-separation
+  kind: mechanism
+  statement: 'The framework decomposes BERT ranker compression into three regimes (Figure 1): Ranker Distill alone (distilling a fine-tuned BERT ranker into a randomly initialized student), LM Distill + Fine-tuning (distilling general-purpose LM predictions into a student LM followed by supervised search fine-tuning), and LM Distill + Ranker Distill (initializing the student via LM Distill and then distilling intermediate self-attention distributions and output relevance signals from a fine-tuned BERT ranker teacher).'
+  evidence:
+  - source_id: r798-primary-pdf
+    locator: Section 3 (Distilling BERT for Ranking), pp. 1-2, Figure 1
+    relation: supports
+  - source_id: r798-primary-pdf
+    locator: non_inferiority_margin_check and kl_divergence verification
+    relation: supports
+- claim_id: lm-plus-ranker-distill-noninferiority-and-9x-speedup
+  kind: application
+  statement: On MS MARCO Passage Ranking and TREC 2019 DL Queries, Ranker Distill alone fails 3%-margin non-inferiority testing at both 6 layers (0.3380 MRR@10) and 4 layers (0.3286 MRR@10 vs. 0.3527 for 12-layer BERT), and LM Distill + Fine-tuning fails at 4 layers (0.3320 MRR@10), whereas LM Distill + Ranker Distill achieves statistical non-inferiority at both 6 layers (0.3600 MRR@10, 2.0x speedup) and 4 layers with H=312 (0.3501 MRR@10, 0.6827 NDCG@10, 9.0x speedup at 0.33s per 1000 documents or 30 queries/sec at depth 100, Tables 1-2).
+  evidence:
+  - source_id: r798-primary-pdf
+    locator: Section 5.1 (Impacts on Ranking Performance), p. 3, Tables 1-2
+    relation: supports
+  - source_id: r798-primary-pdf
+    locator: Table 1 non-inferiority and depth-100 throughput verification
+    relation: supports
+- claim_id: lm-plus-ranker-distill-sample-complexity-and-overfitting-resistance
+  kind: mechanism
+  statement: While a 6-layer LM-distilled student converges near full BERT accuracy within 100K-1M training pairs, a highly compressed 4-layer (H=312) student requires 5M-10M pairs to recover lost LM capacity; beyond 5M pairs, direct fine-tuning degrades due to overfitting whereas Ranker Distill continues improving monotonically (Section 5.2, Figure 2).
+  evidence:
+  - source_id: r798-primary-pdf
+    locator: Section 5.2 (Impacts on Training), p. 4, Figure 2
+    relation: supports
+- claim_id: lm-plus-ranker-distill-offline-training-time-cost
+  kind: limitation
+  statement: Because Ranker Distill executes both the 12-layer teacher and the student during training and requires 5x more training steps for the 4-layer model to converge (5M vs. 1M examples), reaching within 5% of teacher accuracy requires 5.5 hours (6-layer) to 14.8 hours (4-layer) on 4 GPUs, which is 5x-9x slower than direct fine-tuning (1.1h and 1.6h, Table 3).
+  evidence:
+  - source_id: r798-primary-pdf
+    locator: Section 5.2 (Fine-tuning vs. Ranker Distill during Training, Table 3), p. 4
+    relation: supports
+evidence_sources:
+- source_id: r798-primary-pdf
+  title: Understanding BERT Rankers Under Distillation
+  authors: &id001
+  - Luyu Gao
+  - Zhuyun Dai
+  - Jamie Callan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2007.11088.pdf
+  persistent_id: https://arxiv.org/bibtex/2007.11088
+  version: Proceedings of the 2020 ACM SIGIR International Conference on the Theory of Information Retrieval (ICTIR 2020) (2020) (515106 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:41:00Z'
+  sha256: 1429e48ff3f7f43a6e14dd0d026417aee34ac4dd2561e2534a78ffe4812824df
+- source_id: r798-arxiv-abs
+  title: Understanding BERT Rankers Under Distillation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.11088
+  persistent_id: https://arxiv.org/abs/2007.11088
+  version: arXiv abstract page (6192 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:41:00Z'
+  sha256: 2af67f5b92634fa3297c3a115f7c9c69c0c3cf6b43cd44cb17adebb5f196c7dd
+- source_id: r798-metadata-cr
+  title: Understanding BERT Rankers Under Distillation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2007.11088
+  persistent_id: https://arxiv.org/bibtex/2007.11088
+  version: Crossref API work record (426 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:41:00Z'
+  sha256: b5cf635b448033d9909fd75a51fdfcedbc3ac99d72df60ceb9205cf2be188e83
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LM Distill + Ranker Distill is a two-stage knowledge distillation learning paradigm for Transformer neural network rankers.
+limitations:
+- Ranker Distill requires running both teacher and student forward passes over 5M-10M training pairs for highly compressed 4-layer models, increasing offline training time by 5x-9x compared to direct fine-tuning (14.8h vs. 1.6h).
+curation:
+  created_at: '2026-10-19T14:41:00Z'
+  updated_at: '2026-10-19T14:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

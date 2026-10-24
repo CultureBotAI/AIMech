@@ -1,0 +1,109 @@
+id: AIMech:DoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients
+name: DoReFa-Net (Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients)
+concept_kind: algorithm
+review_status: DRAFT
+definition: DoReFa-Net (Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients) is a low-bitwidth neural network training and inference framework that executes both forward and backward passes via bitwise AND and popcount convolution kernels (Eq. 3) by deterministically quantizing weights to k_w bits via tanh-normalized uniform quantization f_omega^k(r_i) = 2 * quantize_k(tanh(r_i) / (2 * max(|tanh(r_i)|)) + 0.5) - 1 (or layer-mean scaling E(|r_i|) * sign(r_i) for 1-bit weights), deterministically quantizing [0, 1]-bounded activations to k_a bits via f_alpha^k(r) = quantize_k(r), and stochastically quantizing backpropagated activation gradients dr to k_g bits via per-instance max-abs scaling and additive uniform noise N(k) = sigma / (2^k - 1) with sigma ~ Uniform(-0.5, 0.5).
+identity_notes: Distinct from PACT (AIMech:PACTParameterizedClippingActivationForQuantizedNeuralNetworks) which learns a parameterized activation clipping bound alpha with full-precision gradients rather than fixed [0, 1] clipping with stochastic low-bitwidth gradient quantization, and distinct from TTQ (AIMech:TTQTrainedTernaryQuantization) which learns asymmetric ternary weight scales {-W_l^n, 0, +W_l^p}.
+aliases:
+- DoReFa-Net
+- DoReFa-Net Low-Bitwidth Gradient Quantization
+- Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients
+definition_evidence:
+- source_id: r822-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r822-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r822-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: dorefa-net-bitwise-dot-product-and-tanh-weight-activation-quantization
+  kind: mechanism
+  statement: DoReFa-Net decomposes fixed-point dot products between M-bit and K-bit vectors into bitwise AND and bitcount operations sum_{m=0}^{M-1} sum_{k=0}^{K-1} 2^{m+k} bitcount[and(c_m(x), c_k(y))] (Eq. 3), deterministically quantizes k-bit weights via f_omega^k(r_i) = 2 * quantize_k(tanh(r_i) / (2 * max(|tanh(r_i)|)) + 0.5) - 1 (Eq. 9; or sign(r_i) * E(|r_i|) for k = 1, Eq. 7), and quantizes [0, 1]-clipped activations via f_alpha^k(r) = quantize_k(r) (Eq. 11) with Straight-Through Estimator backpropagation (Eqs. 5-6).
+  evidence:
+  - source_id: r822-primary-pdf
+    locator: Section 2.1-2.3.2, Equations 1-11, pp. 2-4
+    relation: supports
+  - source_id: r822-primary-pdf
+    locator: bitwise_dot_uint2 and dorefa_weight_quantize
+    relation: supports
+- claim_id: dorefa-net-stochastic-unbiased-gradient-quantization-and-maxpool-fusion
+  kind: mechanism
+  statement: Because backpropagated activation gradients dr are unbounded and span a wide dynamic range, DoReFa-Net maps dr into [0, 1] per sample via max_0(|dr|), injects uniform dithering noise N(k) = sigma / (2^k - 1) with sigma ~ Uniform(-0.5, 0.5) to yield unbiased k-bit stochastic gradients f_gamma^k(dr) = 2 * max_0(|dr|) * [quantize_k(dr / (2 * max_0(|dr|)) + 0.5 + N(k)) - 0.5] (Eqs. 12-14), and commutes activation quantization past max-pooling via quantize_k(max(a, b)) = max(quantize_k(a), quantize_k(b)) (Eq. 15).
+  evidence:
+  - source_id: r822-primary-pdf
+    locator: Section 2.3.3-2.5, Equations 12-15 and Algorithm 1, pp. 4-6
+    relation: supports
+  - source_id: r822-primary-pdf
+    locator: dorefa_grad_quantize and main
+    relation: supports
+- claim_id: dorefa-net-1bit-weight-2bit-activation-6bit-gradient-imagenet-training
+  kind: application
+  statement: On SVHN, CIFAR-10, and ImageNet (AlexNet), DoReFa-Net trains convolutional networks with 1-bit weights, 2-bit activations, and 6-bit stochastic gradients (or 8-bit gradients with <4-bit weights/activations) while maintaining competitive classification accuracy and enabling bitwise acceleration on CPU, FPGA, and ASIC platforms.
+  evidence:
+  - source_id: r822-primary-pdf
+    locator: Section 3 (Experiment Results), Tables 1-3 and Figures 2-4, pp. 6-9
+    relation: supports
+- claim_id: dorefa-net-first-last-layer-full-precision-and-sub-4bit-gradient-collapse
+  kind: limitation
+  statement: DoReFa-Net keeps the first convolutional layer and final classification layer unquantized because quantizing them significantly degrades accuracy (Section 2.6), and quantizing backpropagated gradients below 4 bits (e.g., 2-bit gradients) causes substantial accuracy degradation.
+  evidence:
+  - source_id: r822-primary-pdf
+    locator: Section 2.6 (First and the Last Layer, p. 5) and Section 3.1 (Table 1, p. 7)
+    relation: supports
+evidence_sources:
+- source_id: r822-primary-pdf
+  title: 'DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients'
+  authors: &id001
+  - Shuchang Zhou
+  - Yuxin Wu
+  - Zekun Ni
+  - Xinyu Zhou
+  - He Wen
+  - Yuheng Zou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1606.06160
+  persistent_id: https://arxiv.org/bibtex/1606.06160
+  version: arXiv (2016) (451718 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:05:00Z'
+  sha256: e38d5092f8fa26204e728e35e7aa8df9ef2857d62db80f8ca752d171ddf0c5ed
+- source_id: r822-arxiv-abs
+  title: 'DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1606.06160
+  persistent_id: https://arxiv.org/abs/1606.06160
+  version: arXiv abstract page (7128 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:05:00Z'
+  sha256: e5447e03e437c34581c2abcad9177a29d4f37807fac7fedd80ecdbe1ff138824
+- source_id: r822-metadata-cr
+  title: 'DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1606.06160
+  persistent_id: https://arxiv.org/bibtex/1606.06160
+  version: Crossref API work record (452 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:05:00Z'
+  sha256: f1bc6f277d99f37be450cc9d9a856121101c90a369c05c505f69226a112ee0c5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: DoReFa-Net is a low-bitwidth quantization method for training and inference of deep convolutional neural networks.
+limitations:
+- Requires leaving the first convolutional layer and the final classification layer in higher precision to avoid substantial accuracy drops.
+- Backpropagated gradient quantization below 4 bits causes significant accuracy degradation even with stochastic dithering.
+curation:
+  created_at: '2026-10-19T15:05:00Z'
+  updated_at: '2026-10-19T15:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

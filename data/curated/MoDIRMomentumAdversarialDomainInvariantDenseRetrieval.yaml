@@ -1,0 +1,112 @@
+id: AIMech:MoDIRMomentumAdversarialDomainInvariantDenseRetrieval
+name: MoDIR Momentum Adversarial Domain Invariant Representation Learning for Zero-Shot Dense Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'An unsupervised domain adaptation algorithm for zero-shot dense text retrieval (ZeroDR) that transfers a dual-encoder g(; theta_g) from a labeled source domain x^s = (q^s, d^s) to an unlabeled target domain x^t = (q^t, d^t) by maintaining a momentum queue Q_k = {e_{q^s}, e_{d^s}, e_{q^t}, e_{d^t} | (q^s, d^s, q^t, d^t) in B_{k-n+1:k}} of stop-gradient detached embeddings e = Phi(g(; theta_g)) across the most recent n batches (with 1:1 source-to-target and 1:1 positive-to-negative ratios) to train a linear domain classifier f(e) = softmax(W_f e) via binary cross-entropy L_D(e; f) = -log f(e) for source embeddings and -log(1 - f(e)) for target embeddings, while adversarially updating the dense retrieval encoder g with f frozen to minimize the sum of the source ranking loss and the domain confusion loss: min_{theta_g} sum_{x^{s+}, x^{s-}} L_R(r(x^{s+}), r(x^{s-})) + lambda sum_{x in {x^s, x^t}} L_M(x; g, f), where L_M(x; g, f) = -1/2 (log f(g(q)) + log(1 - f(g(q))) + log f(g(d)) + log(1 - f(g(d)))).'
+identity_notes: Distinct from COCO-DR (AIMech:COCODRDenseRetrievalDistributionallyRobustContrastiveLearning), which adapts to unlabeled target corpora via implicit Continuous Contrastive Learning and queries clustered by source task without a target domain during fine-tuning; distinct from GPL (AIMech:GPLGenerativePseudoLabelingForDenseRetrieval), which generates synthetic target-domain queries and distills a cross-encoder rather than aligning source and target embedding spaces via adversarial domain confusion; and distinct from standard single-batch DANN/ADDA, which update the domain discriminator on only the current mini-batch without a multi-batch stop-gradient momentum queue Q_k and fail to capture the scattered locality of dense retrieval spaces (Table 2, Figure 3).
+aliases:
+- MoDIR
+- Momentum Adversarial Domain Invariant Representation Learning
+- Zero-Shot Dense Retrieval with Momentum Adversarial Domain Invariant Representations
+definition_evidence:
+- source_id: r763-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r763-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r763-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: modir-momentum-queue-domain-boundary-estimation
+  kind: mechanism
+  statement: Because dense retrieval embedding spaces prioritize local nearest-neighbor clusters over global class manifolds (Figure 1), single-batch domain classifier updates yield inaccurate domain boundaries; MoDIR stabilizes boundary estimation by training f(e) = softmax(W_f e) on a momentum queue Q_k of stop-gradient detached source and target embeddings from the past n batches (Equations 3-7), closing the gap between Local and Global Domain Classification Accuracy (Section 4.3, Figure 3).
+  evidence:
+  - source_id: r763-primary-pdf
+    locator: Section 2.2 & Section 4.3, Equations 3-7, Figures 1-3, Table 2, pp. 2-4, 6-7
+    relation: supports
+  - source_id: r763-primary-pdf
+    locator: main() verification of momentum queue domain boundary alignment vs noisy single-batch estimation
+    relation: supports
+- claim_id: modir-adversarial-confusion-loss-alignment
+  kind: mechanism
+  statement: Freezing the domain classifier f and minimizing the adversarial confusion loss L_M(x; g, f) = -1/2 (log f(g(q)) + log(1 - f(g(q))) + log f(g(d)) + log(1 - f(g(d)))) alongside the source ranking loss L_R (Equations 8-11) drives target-domain embeddings into the source-domain manifold (increasing KNN-Source% on TREC-COVID from 5.2% to 17.2% in Table 3 and Figure 4).
+  evidence:
+  - source_id: r763-primary-pdf
+    locator: Section 2.3 & Section 4.4, Equations 8-11, Table 3, Figures 4-5, pp. 4, 7-8
+    relation: supports
+  - source_id: r763-primary-pdf
+    locator: main() verification of confusion_loss_pair global minimum at f=0.5 and gradient step toward domain invariance
+    relation: supports
+- claim_id: modir-beir-zero-shot-applications
+  kind: application
+  statement: Evaluated across 15 zero-shot target domains from the BEIR benchmark without target relevance labels, MoDIR consistently improves over its base ANCE model, including gains on TREC-COVID (0.654 to 0.676 at 10k steps and 0.724 at 50k steps), Touche-2020 (+10.9%, 0.284 to 0.315), BioASQ (+4.6%), and Climate-FEVER (+4.0%) (Tables 1-3).
+  evidence:
+  - source_id: r763-primary-pdf
+    locator: Section 4.1-4.4, Tables 1-3, pp. 5-7
+    relation: supports
+  - source_id: r763-metadata-cr
+    locator: BibTeX citation record for arXiv:2110.07581
+    relation: supports
+- claim_id: modir-per-target-model-and-coverage-limitation
+  kind: limitation
+  statement: MoDIR trains a separate adapted encoder for each target domain using unlabeled target queries and documents, and its zero-shot transfer gains depend on the source domain containing overlapping information needs (failing to improve queries about novel concepts absent from the source corpus, such as 'mRNA vaccine' in Table 4).
+  evidence:
+  - source_id: r763-primary-pdf
+    locator: Section 3 Experimental Setups & Section 4.5 Case Study, Table 4, pp. 4-5, 8-9
+    relation: supports
+evidence_sources:
+- source_id: r763-primary-pdf
+  title: Zero-Shot Dense Retrieval with Momentum Adversarial Domain Invariant Representations
+  authors: &id001
+  - Ji Xin
+  - Chenyan Xiong
+  - Ashwin Srinivasan
+  - Ankita Sharma
+  - Damien Jose
+  - Paul N. Bennett
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.07581
+  persistent_id: https://arxiv.org/bibtex/2110.07581
+  version: 'Findings of the Association for Computational Linguistics: ACL 2022 (2022) (897032 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T14:06:00Z'
+  sha256: c47733663e52cc8b98c00d6d83db1b502ffb0f543f91e6566b689289fa331f97
+- source_id: r763-arxiv-abs
+  title: Zero-Shot Dense Retrieval with Momentum Adversarial Domain Invariant Representations (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.07581
+  persistent_id: https://arxiv.org/abs/2110.07581
+  version: arXiv abstract page (7096 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:06:00Z'
+  sha256: e0943da98309c4a35c2b9e1a2c47002a2813f2e02045b256c7b40d64904f9b64
+- source_id: r763-metadata-cr
+  title: Zero-Shot Dense Retrieval with Momentum Adversarial Domain Invariant Representations (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2110.07581
+  persistent_id: https://arxiv.org/bibtex/2110.07581
+  version: Crossref API work record (466 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:06:00Z'
+  sha256: 731b27cf520ba19b29e2b39d3d2413c5a5080d159aeb777bf300abab44e4b597
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MoDIR trains a neural Transformer dual-encoder dense retriever alongside a linear domain discriminator using a multi-batch momentum queue and adversarial confusion loss.
+limitations:
+- Requires access to unlabeled target-domain queries and documents during adversarial adaptation and produces a separate adapted model per target domain.
+- When a target query involves novel concepts absent from the source domain (such as 'mRNA vaccine' in MS MARCO), adversarial domain alignment can shift focus toward superficial lexical neighbors and hurt retrieval accuracy (Table 4).
+curation:
+  created_at: '2026-10-19T14:06:00Z'
+  updated_at: '2026-10-19T14:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

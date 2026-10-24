@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LISA (Layerwise Importance Sampled AdamW) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>LISA (Layerwise Importance Sampled AdamW)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LISA (Layerwise Importance Sampled AdamW)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LISALayerwiseImportanceSampledAdamW</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LISA, Layerwise Importance Sampled AdamW, Layerwise Importance Sampling AdamW, Layerwise Importance Sampling for Memory-Efficient LLM Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient full-rank optimization algorithm for large language models that emulates the skewed layerwise update-norm distribution of Low-Rank Adaptation without low-rank subspace restrictions by permanently unfreezing the bottom embedding and top language-modeling head layers while periodically sampling a small fixed number gamma of intermediate Transformer layers every K iterations to update with AdamW.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from BAdam (AIMech:BAdamBlockCoordinateAdamFullParameterOptimization), which partitions all model layers into D blocks of equal status and updates one block per K-step epoch via cyclic or random-reshuffling block coordinate descent; LISA is grounded in the empirical skewness of layerwise weight norms w^{(ell)} = (1/T) sum_{t=1}^T ||theta_t^{(ell)}||_2 in LoRA (where embedding and LM head norms exceed intermediate layers by 10^2x), assigning importance-sampling probabilities {1.0, gamma/N_L, ..., gamma/N_L, 1.0} so E and H remain continuously active while gamma intermediate layers are sampled every K steps. Distinct from LoRA (AIMech:LoraLowRankAdaptation), which freezes base weights and constrains updates to rank-r adapter matrices across all layers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lisa-skewed-weight-norm-and-importance-sampling-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Observing that LoRA&#39;s layerwise mean weight norms w^{(ell)} = (1/T) * sum_{t=1}^T ||theta_t^{(ell)}||_2 are skewed by factors of hundreds toward the token-embedding and language-modeling head layers relative to intermediate Transformer blocks, LISA matches expected layerwise step sizes eta_t^{(ell)} = tilde_eta_t^{(ell)} * (tilde_w^{(ell)} / w^{(ell)}) in full-rank space by setting layer activation probabilities {p_ell}_{ell=1}^{N_L} = {1.0, gamma/N_L, ..., gamma/N_L, 1.0} and, every K iterations, freezing all intermediate layers except gamma randomly sampled layers that are updated alongside the embedding and head layers via AdamW.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r640-primary-pdf">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 Figure 2 and Algorithm 1, pages 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lisa-memory-and-iteration-speedup-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because LISA introduces no auxiliary adapter modules, deletes redundant intermediate activations during backpropagation, and allocates gradients and AdamW states only for the embedding layer, LM head, and gamma active intermediate layers (E+H+gamma L), it reduces LLaMA-2-7B fine-tuning memory from 59 GB (full training) to 21-23 GB (fitting on a single 24 GB GPU), reduces LLaMA-2-70B memory to 71-75 GB vs 79 GB for LoRA rank 128, and achieves a 2.9x per-iteration speedup over full-parameter training (1.5x over LoRA).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r640-primary-pdf">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Table 1 and Figures 3-4, pages 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#lisa-regularized-convex-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Viewing AdamW on loss f(w) as randomized block-coordinate Adam on the scaled quadratic-regularized objective f^{reg}(w) = f(w) + (1/2) * w^T S w with positive semidefinite diagonal matrix S, Theorem 1 guarantees that for convex smooth f on a bounded domain with bounded stochastic gradients, LISA iterates satisfy (1/T) * sum_{t=1}^T f^{reg}(w_t) - f_*^{reg} &lt;= O(1 / sqrt(T)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r640-primary-pdf">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Theoretical Properties of LISA and Theorem 1, page 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#lisa-llm-instruction-tuning-and-continual-pretraining-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across instruction tuning of TinyLlama-1.1B, Mistral-7B, LLaMA-2-7B, and LLaMA-2-70B on Alpaca-GPT4, GSM8K, and PubMedQA, and continual pre-training on 1.5B tokens of OpenWebMath, LISA outperforms LoRA by 10%-35% on MT-Bench (reaching 6.72 vs 6.10 for LoRA and 6.25 for full training on LLaMA-2-70B) and matches full-parameter continual pre-training on GSM8K at less than half the GPU memory cost (26 GB vs 59 GB).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r640-primary-pdf">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.4 Tables 2-5, pages 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#lisa-forward-pass-base-model-memory-and-uniform-middle-sampling-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During the forward pass, LISA still requires the full pre-trained base model weights to reside in GPU memory, and its default E+H+gamma L schedule samples all intermediate layers with uniform probability gamma / N_L rather than adapting middle-layer sampling probabilities to task- or architecture-specific importance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r640-primary-pdf">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning</a></span>
+        <span>· <strong>Locator:</strong> Limitations Section, page 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires holding the full base model parameters in memory during the forward pass unless paired with weight quantization.</li>
+      <li>Approximates intermediate-layer importance with uniform sampling probability gamma / N_L across all middle layers.</li>
+      <li>Requires tuning the sampling period K and active middle-layer count gamma alongside the learning rate.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LISA is a layerwise importance-sampled AdamW optimization algorithm for fine-tuning and continual pre-training of deep Transformer language and diffusion models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r640-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r640-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2403.17919.pdf" target="_blank" rel="noopener">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rui Pan, Xiang Liu, Shizhe Diao, Renjie Pi, Jipeng Zhang, Chi Han, Tong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/PanLDPZH024</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e79aa3ab643c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r640-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r640-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2403.17919" target="_blank" rel="noopener">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rui Pan, Xiang Liu, Shizhe Diao, Renjie Pi, Jipeng Zhang, Chi Han, Tong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2403.17919</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3a249d44fba4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r640-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r640-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/PanLDPZH024" target="_blank" rel="noopener">LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rui Pan, Xiang Liu, Shizhe Diao, Renjie Pi, Jipeng Zhang, Chi Han, Tong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/PanLDPZH024</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:497b885086b2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ALISALayerwiseImportanceSampledAdamW">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for LISA (Layerwise Importance Sampled AdamW)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:LISALayerwiseImportanceSampledAdamW</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">LISA (Layerwise...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:03:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:03:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LISALayerwiseImportanceSampledAdamW.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LISALayerwiseImportanceSampledAdamW.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=LISA%20%28Layerwise%20Importance%20Sampled%20AdamW%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ALISALayerwiseImportanceSampledAdamW"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

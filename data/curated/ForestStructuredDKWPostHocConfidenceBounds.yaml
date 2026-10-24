@@ -1,0 +1,237 @@
+id: AIMech:ForestStructuredDKWPostHocConfidenceBounds
+name: Forest-structured Dvoretzky-Kiefer-Wolfowitz post hoc confidence bounds
+concept_kind: mathematical_method
+aliases:
+- Forest-structured reference family post hoc false positive bounds
+- Bilinear bottom-up tree interpolation for post hoc false discovery bounds
+- Local DKW-Massart quadratic-inversion reference-family calibration
+- Simes-DKW hybrid post hoc confidence envelope
+definition: 'A multiple-testing post hoc inference methodology that constructs simultaneous (1 - alpha)-confidence
+  upper bounds V(S) on the number of false positives |S cap H_0(P)| across all 2^m subsets S subset N_m
+  = {1, ..., m} by combining a deterministic forest-structured reference family R_ref = (R_k, zeta_k(X))_{k
+  in K} (where any two regions R_k, R_{k''} are either disjoint or nested: R_k cap R_{k''} in {R_k, R_{k''},
+  empty}) with random local Dvoretzky-Kiefer-Wolfowitz-Massart (DKW) upper bounds zeta_k(X). Unlike nested
+  data-dependent p-value level-set reference families with fixed capacities zeta_k = k - 1, multi-subset
+  interpolation V_tilde^q_{R_ref}(S) = min_{Q subset K, |Q| <= q} (sum_{k in Q} (zeta_k wedge |S cap R_k|)
+  + |S \ cup_{k in Q} R_k|) is proven to equal the exact combinatorial optimal bound V^*_{R_ref}(S) =
+  V_tilde_{R_ref}(S) = V_tilde^d_{R_ref}(S) whenever R_ref has a forest structure (where d is the maximum
+  number of pairwise disjoint regions in R_ref, Theorem 3.6) and is computable in O(Hm) (or bilinear O(|K|
+  |S|)) time via a bottom-up tree dynamic program over the completed atomic forest R_ref^oplus (Algorithm
+  1). Local capacities calibrated via quadratic inversion of the tight Massart-DKW inequality control
+  the Joint Error Rate at level alpha under null super-uniformity and independence (Proposition 4.1),
+  uniformly dominate the Genovese-Wasserman (2004) DKW bound (Remark 4.3, Lemma A.1), improve Simes and
+  Bonferroni post hoc bounds by an asymptotic factor 1 - r on localized signal regions of signal density
+  r (Proposition 4.5, Corollary 4.6), and combine with the Simes bound into a hybrid envelope V^gamma_{hybrid}(alpha,
+  S) = min(V_{Simes}((1-gamma)alpha, S), V_{tree}(gamma*alpha, S)) (Section 5.3).'
+identity_notes: 'Distinct from AIMech:ReferenceFamilyJERPostHocConfidenceBounds (Blanchard, Neuvial, &
+  Roquain 2020, The Annals of Statistics 48(3):1281-1303, arXiv:1703.02307), which studies random data-dependent
+  p-value level-set reference regions R_k(X) = {i : p_i(X) <= t_k(lambda)} with fixed capacities zeta_k
+  = k - 1 calibrated by single-step or step-down lambda-calibration and uses single-region interpolation
+  V_bar_{R_ref}(S) = |S| wedge min_k (zeta_k + |S \ R_k|) (exact only for nested families R_1 subset ...
+  subset R_K). Durand, Blanchard, Neuvial, & Roquain (2020, Scandinavian Journal of Statistics 47(4):1114-1148,
+  arXiv:1807.01470v2, DOI:10.1111/sjos.12453) instead fix deterministic multiscale spatial/hierarchical
+  regions R_k satisfying the (Forest) condition (two regions are either disjoint or nested) with random
+  local error capacities zeta_k(X), introduce the q-subset interpolation hierarchy V_tilde^q_{R_ref}(S),
+  prove exact optimality V^*_{R_ref}(S) = V_tilde_{R_ref}(S) = V_tilde^d_{R_ref}(S) on any forest family
+  together with an O(Hm) bottom-up tree dynamic program (Theorem 3.6, Algorithm 1, and Algorithm 2 atomic
+  decomposition), derive the quadratic-inversion local DKW-Massart bound zeta_k(X) (Proposition 4.1) and
+  its asymptotic 1 - r localized-signal improvement over Simes/Bonferroni (Proposition 4.5, Corollary
+  4.6), and introduce the Simes-DKW hybrid bound V^gamma_{hybrid}(alpha, S). Also distinct from AIMech:SimultaneousPathwiseFalseDiscoveryProportionBounds
+  (Katsevich & Ramdas 2020), which bounds ordered pathwise sets S_t along a single filtration.'
+definition_evidence:
+- source_id: durand2020-pdf
+  locator: Sections 1-5, pp. 1-14, Equations 1-23, Lemma 2.1, Definition 3.1, Lemma 3.3, Definition 3.5,
+    Theorem 3.6, Corollary 3.7, Algorithm 1, Proposition 4.1, Proposition 4.5, Corollary 4.6
+  relation: supports
+- source_id: durand2020-crossref
+  locator: Scandinavian Journal of Statistics 47(4):1114-1148 publication metadata and abstract
+  relation: supports
+- source_id: durand2020-abs
+  locator: arXiv:1807.01470v2 abstract and metadata
+  relation: supports
+claims:
+- claim_id: multi-subset-interpolation-hierarchy-and-forest-exactness-theorem
+  kind: mechanism
+  statement: 'For any reference family R_ref = (R_k(X), zeta_k(X))_{k in K} of cardinality K = |K|, Section
+    2.3 (Equations 8-9, Lemma 2.1, page 4) defines the q-subset interpolation hierarchy V_tilde^q_{R_ref}(S)
+    = min_{Q subset K, |Q| <= q} (sum_{k in Q} (zeta_k wedge |S cap R_k|) + |S \ cup_{k in Q} R_k|) for
+    1 <= q <= K and V_tilde_{R_ref}(S) = V_tilde^K_{R_ref}(S), satisfying V^*_{R_ref}(S) <= V_tilde_{R_ref}(S)
+    <= V_tilde^q_{R_ref}(S) <= V_tilde^1_{R_ref}(S) = V_bar_{R_ref}(S). On non-forest families, V^*_{R_ref}(S)
+    < V_tilde_{R_ref}(S) can be strict (Example 2.2, page 4: m = 4, K = 3, R_1 = {1,2,4}, R_2 = {2,3,4},
+    R_3 = {1,3,4}, zeta_1 = zeta_2 = zeta_3 = 1, S = N_4 gives V^*_{R_ref}(S) = 1 < V_tilde_{R_ref}(S)
+    = 2). When R_ref satisfies the (Forest) condition (forall k, k'' in K, R_k cap R_{k''} in {R_k, R_{k''},
+    empty}, Definition 3.1, page 5), Lemma 3.3 and Algorithm 2 (Appendix B, pages 22-24) construct an
+    atomic partition (P_n)_{1 <= n <= N} of N_m such that every R_k = P_{i:j} = cup_{i <= n <= j} P_n;
+    completing R_ref to R_ref^oplus by adjoining missing atoms with trivial bounds zeta_{i,i} = |P_i|
+    preserves V^*_{R_ref^oplus}(S) = V^*_{R_ref}(S) and V_tilde_{R_ref^oplus}(S) = V_tilde_{R_ref}(S)
+    (Definition 3.5, Lemma A.4, pages 6, 22), and Theorem 3.6 (pages 6, 15-17) proves exact equality V^*_{R_ref}(S)
+    = V_tilde_{R_ref}(S) = V_tilde^d_{R_ref}(S) where d is the maximum number of pairwise disjoint sets
+    in R_ref, recovering V^*_{R_ref} = V_bar_{R_ref} under (Nested) (d = 1) and V^*_{R_ref}(S) = sum_{k=1}^K
+    (zeta_k wedge |S cap R_k|) + |S \ cup_{k=1}^K R_k| under (Disjoint) (Corollary 3.7, page 7).'
+  evidence:
+  - source_id: durand2020-pdf
+    locator: Section 2.3, p. 4, Equations 8-10, Lemma 2.1, Example 2.2; Section 3.1-3.2, pp. 5-7, Definition
+      3.1, Example 3.2, Lemma 3.3, Example 3.4, Definition 3.5, Theorem 3.6, Corollary 3.7; Section 7.1-7.3,
+      pp. 15-18; Appendix A, pp. 21-22, Lemmas A.2-A.4; Appendix B, pp. 22-24, Algorithm 2
+    relation: supports
+  - source_id: durand2020-crossref
+    locator: Scandinavian Journal of Statistics 47(4):1114-1148 abstract
+    relation: supports
+- claim_id: bottom-up-dynamic-programming-algorithm-on-completed-forest
+  kind: mechanism
+  statement: 'Algorithm 1 (Section 3.2, pages 7-8) computes the exact optimal bound V^*_{R_ref}(S) on
+    any forest-structured reference family by first completing R_ref to R_ref^oplus so (All-atoms) holds,
+    computing node depths phi(k) = 1 + |{k'' in K : R_{k''} supsetneq R_k}| (Equation 11) and maximal
+    forest depth H = max_{k in K} phi(k), forming the level partitions K^h = {(i, j) in K^oplus : phi(i,
+    j) = h or (i = j and phi(i, i) <= h)} (which partition N_m for every 1 <= h <= H by Lemma A.2, page
+    21), initializing V_k = zeta_k wedge |S cap R_k| for k in K^H, and iterating bottom-up for h = H -
+    1, ..., 1 via newV_k = min(zeta_k wedge |S cap R_k|, sum_{k'' in Succ_k} V_{k''}) where Succ_k = {k''
+    in K^{h+1} : R_{k''} subset R_k}, returning V^*_{R_ref}(S) = sum_{k in K^1} V_k in O(Hm) time (or
+    bilinear complexity in the sizes of the reference hierarchy and selected subset S).'
+  evidence:
+  - source_id: durand2020-pdf
+    locator: Section 3.2, pp. 7-8, Figures 4-5, Algorithm 1; Section 7.2.1, pp. 16-17, Equations 27-31;
+      Appendix A, p. 21, Lemma A.2
+    relation: supports
+  - source_id: durand2020-crossref
+    locator: Scandinavian Journal of Statistics 47(4):1114-1148 abstract (bilinear complexity statement)
+    relation: supports
+- claim_id: local-dkw-massart-quadratic-inversion-calibration-and-gw-dominance
+  kind: mechanism
+  statement: 'For any K = |K| deterministic reference regions R_k subset N_m with alpha / K < 1/2, under
+    (Superunif) and (Indep), Proposition 4.1 and Section 7.4 (pages 9, 18, Equations 16-17 and 32) prove
+    that R_ref = (R_k, zeta_k(X))_{k in K} controls the Joint Error Rate at level alpha using local bounds
+    obtained by quadratic inversion of the Dvoretzky-Kiefer-Wolfowitz inequality with Massart''s (1990)
+    tight constant: |R_k cap H_0| <= |R_k| wedge min_{t in [0, 1)} (C / (2(1 - t)) + sqrt(C^2 / (4(1 -
+    t)^2) + sum_{i in R_k} 1{p_i(X) > t} / (1 - t)))^2 where C = sqrt((1/2) log(K / alpha)), computable
+    by evaluating the finite minimum over the s + 1 grid points 0 = p_{(0)} <= p_{(1)} <= ... <= p_{(s)}
+    of ordered p-values in R_k (Remark 4.2, page 9). Remark 4.3 and Lemma A.1 (Equation 33, page 21: d
+    wedge (b/(2a) + sqrt(b^2/(4a^2) + c/a))^2 <= d wedge ((c + d^{1/2}*b)/a)) prove that this quadratic-inversion
+    bound is a uniform improvement over the classical Genovese & Wasserman (2004, Equation 16) DKW bound
+    zeta^{GW}_k(X) = |R_k| wedge min_{t in [0, 1)} floor((sum_{i in R_k} 1{p_i(X) > t} + |R_k|^{1/2} *
+    C) / (1 - t)).'
+  evidence:
+  - source_id: durand2020-pdf
+    locator: Section 4.1, pp. 8-9, Equations 16-17, Proposition 4.1, Remarks 4.2-4.4; Section 7.4, p.
+      18, Equation 32; Appendix A, p. 21, Lemma A.1, Equation 33
+    relation: supports
+- claim_id: localized-signal-asymptotic-improvement-and-simes-dkw-hybrid-envelope
+  kind: mechanism
+  statement: Under the regular partition R_k = {1 + (k - 1)s, ..., ks} (1 <= k <= K = m/s) where region
+    R_1 contains false nulls in proportion r = |R_1 cap H_1| / |R_1| in (0, 1) with independent one-sided
+    Gaussian test statistics X_i ~ N(mu, 1) (mu > 0) and R_2, ..., R_K are purely null, Proposition 4.5
+    (pages 10, 18-19, Equations 20-23) establishes that E(V_{DKW}(R_1))/|R_1| <= 1 wedge (1 - r + 2*r*Phi_bar(mu)
+    + (4*C/sqrt(s))*(1 + C/sqrt(s))), whereas E(V_{Simes}(R_1))/|R_1| >= (1 - r)*(1 - alpha*s/m) + r*Phi_bar(mu
+    - Phi_bar^{-1}(alpha*s/m)) and E(V_{Bonf}(R_1))/|R_1| = (1 - r)*(1 - alpha/m) + r*Phi_bar(mu - Phi_bar^{-1}(alpha/m)).
+    Corollary 4.6 (page 10) proves that as m -> infty with s >> log K, s << m, mu -> infty, and mu - Phi_bar^{-1}(alpha*s/m)
+    -> -infty, limsup_m E(V_{DKW}(R_1))/|R_1| <= 1 - r while limsup_m E(V_{Simes}(R_1))/|R_1| = limsup_m
+    E(V_{Bonf}(R_1))/|R_1| = 1, improving Simes and Bonferroni by an asymptotic factor 1 - r. Because
+    V_{tree} depends on alpha only through 2*C^2 = log(K / alpha) (Remark 4.4) while paying a minimum
+    floor cost zeta_k(X) >= floor(log(K/alpha)/2) >= 1 on small sets, Section 5.3 (pages 12-14, Figure
+    10) defines the hybrid post hoc bound V^gamma_{hybrid}(alpha, S) = min(V_{Simes}((1 - gamma)*alpha,
+    S), V_{tree}(gamma*alpha, S)) for gamma in [0, 1], which is a valid (1 - alpha) post hoc bound by
+    a two-term union bound that matches Simes pinpointing on small p-value level sets S_k and multiscale
+    DKW-tree proportion estimation on larger sets.
+  evidence:
+  - source_id: durand2020-pdf
+    locator: Section 4.2, pp. 9-10, Equations 18-23, Proposition 4.5, Figure 6, Corollary 4.6; Section
+      5.1-5.3, pp. 11-14, Figures 7-10; Section 7.5, pp. 18-19
+    relation: supports
+  - source_id: durand2020-abs
+    locator: arXiv:1807.01470v2 abstract
+    relation: supports
+evidence_sources:
+- source_id: durand2020-pdf
+  title: 'Post hoc false positive control for spatially structured hypotheses (Published in Scandinavian
+    Journal of Statistics as: Post hoc false positive control for structured hypotheses)'
+  authors:
+  - Guillermo Durand
+  - Gilles Blanchard
+  - Pierre Neuvial
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1807.01470
+  persistent_id: https://doi.org/10.1111/sjos.12453
+  version: arXiv:1807.01470v2 (19 Sep 2018; published in Scandinavian Journal of Statistics, Vol. 47,
+    No. 4, pp. 1114-1148, Dec 2020). Complete 24-page full-text PDF (713481 bytes) read across Sections
+    1-7 and Appendices A-B.
+  access_level: full_text
+  accessed_at: '2026-10-17T17:05:00Z'
+  sha256: c8e024a9c369dc010ef3f7af754267fc07dad921a2525ab3ed717e3cee077e9b
+- source_id: durand2020-crossref
+  title: Post hoc false positive control for structured hypotheses (Scandinavian Journal of Statistics
+    Crossref Record)
+  authors:
+  - Guillermo Durand
+  - Gilles Blanchard
+  - Pierre Neuvial
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1111/sjos.12453
+  persistent_id: https://doi.org/10.1111/sjos.12453
+  version: Scandinavian Journal of Statistics 47(4):1114-1148 Crossref bibliographic metadata record (3764
+    bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:05:00Z'
+  sha256: ab88eb06001fb7ea657c92970f067c9b65236a97503b85893e8df9de5a9b37e5
+- source_id: durand2020-abs
+  title: Post hoc false positive control for spatially structured hypotheses (arXiv:1807.01470 Abstract)
+  authors:
+  - Guillermo Durand
+  - Gilles Blanchard
+  - Pierre Neuvial
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1807.01470
+  persistent_id: https://doi.org/10.48550/arXiv.1807.01470
+  version: arXiv:1807.01470v2 abstract and metadata record (6495 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T17:05:00Z'
+  sha256: 7bcfe7da684a82ac7adbd6b06f3d36b582472ea7714bc0486cb14b1456f1f0a5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Forest-structured DKW post hoc confidence bounds V(S) provide simultaneous (1 - alpha)-confidence
+    guarantees on false positives over all 2^m data-dependently selected subsets S subset N_m, directly
+    preventing post-selection data-snooping invalidation (AIO:DataDredgingBias).
+limitations:
+- Exact equality V^*_{R_ref}(S) = V_tilde_{R_ref}(S) = V_tilde^d_{R_ref}(S) and the O(Hm) bottom-up dynamic
+  program (Theorem 3.6, Algorithm 1) require the reference family R_ref to satisfy the (Forest) condition
+  (any two regions are disjoint or nested); when reference regions overlap without nesting, V^*_{R_ref}(S)
+  < V_tilde_{R_ref}(S) can be strict (Example 2.2, page 4, verified in research/discovery/forest-structured-dkw-post-hoc-confidence-bounds-boundaries.py
+  where V^*_{R_ref}(S) = 1 < V_tilde_{R_ref}(S) = 2).
+- The local DKW-Massart calibration (Proposition 4.1) requires within-region independence of null p-values
+  (Indep) and incurs an unavoidable non-zero floor cost zeta_k(X) >= floor(log(K/alpha)/2) >= 1 whenever
+  alpha <= e^{-2}*K (page 9), making pure DKW bounds trivial on small selection sets S of size |S| <=
+  floor(log(K/alpha)/2) unless combined with Simes via the hybrid bound V^gamma_{hybrid} (Section 5.3,
+  pages 12-14).
+- 'Four minor typographical slips in arXiv:1807.01470v2 were identified and verified during full-text
+  inspection: (1) in Section 2.2 (page 4, line 1), ''for all S subset N_m, V^*_{R_ref}(R) <= V(R)'' writes
+  R instead of S inside V^*_{R_ref} and V, (2) in Equation (16) and Remark 4.2 (page 9), the integer floor
+  brackets floor(...)^2 are printed inside the exponent 2 rather than enclosing the squared expression
+  floor((...)^2) derived in Equation (32) of the proof of Proposition 4.1 (page 18; note also page 9 line
+  13 writes zeta_k(X) >= floor(log(K/alpha)/2) = floor(C^2), which is the floor of the square rather than
+  the square of the floor), (3) in Section 5.2 (page 12, line 1), ''choice of the model parameters d (in
+  rows)'' writes d instead of r (the signal proportion parameter shown in the row labels of Figure 8),
+  and (4) in Section 6.2 Equation (24) (page 15), P_{X~P}(|R_k cap H_0(P)| <= L_k(lambda)) <= lambda writes
+  ''<= L_k(lambda)'' inside the probability instead of ''> L_k(lambda)'' (or ''>= 1 - lambda'' on the
+  right-hand side).'
+- All 24 pages of the full-text PDF of Durand, Blanchard, Neuvial, & Roquain (2020, Scandinavian Journal
+  of Statistics 47(4):1114-1148, arXiv:1807.01470v2, DOI:10.1111/sjos.12453) were read. Constructed numerical
+  checks in research/discovery/forest-structured-dkw-post-hoc-confidence-bounds-boundaries.py verify (1)
+  Example 2.2 non-forest gap V^* = 1 < V_tilde = 2, (2) Example 3.2/3.4 node depths, Algorithm 2 atomic
+  partition, and Theorem 3.6 / Algorithm 1 exactness across all 256 subsets of an 8-element forest, (3)
+  Proposition 4.1 empirical JER control and Remark 4.3 / Lemma A.1 strict dominance over the Genovese-Wasserman
+  (2004) DKW bound across 3,000 region-trial checks, and (4) Proposition 4.5 / Figure 6 localized-signal
+  ratio upper bounds and Section 5.3 Simes-DKW hybrid envelope complementarity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T17:05:00Z'
+  updated_at: '2026-10-17T17:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

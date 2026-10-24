@@ -1,0 +1,101 @@
+id: AIMech:NOAHNeuralPromptSearch
+name: NOAH (Neural Prompt Search)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A one-shot neural architecture search (NAS) parameter-efficient tuning methodology for large vision models that embeds Visual Prompt Tuning (VPT-Deep), Low-Rank Adaptation (LoRA), and Adapter modules into each Transformer block of a weight-entangled supernet and conducts parameter-constrained evolutionary search over per-module application depths and per-layer token lengths or bottleneck ranks for each downstream dataset.
+identity_notes: Introduced by Yuanhan Zhang, Kaiyang Zhou, and Ziwei Liu (2022, arXiv:2206.04673; published in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 47, no. 7, pp. 5268-5280). Distinct from UniPELT (Mao et al., ACL 2022; AIMech Round 693), which combines fixed-dimension Adapter, Prefix-Tuning, and LoRA submodules via continuous sigmoid gates in language models, and distinct from individual hand-crafted prompt modules (VPT, Adapter, LoRA). Both inherited (retraining-free) and retrained NOAH subnet deployment modes are covered within this record.
+aliases:
+- Neural Prompt Search
+- NOAH One-Shot Neural Prompt Architecture Search
+- NOAH Prompt Module Search
+definition_evidence:
+- source_id: r700-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r700-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r700-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: noah-unified-prompt-supernet-mechanism
+  kind: mechanism
+  statement: 'NOAH embeds three complementary prompt modules into each of the 12 blocks of a frozen Vision Transformer supernet: VPT-Deep at the block input x = [CLS, P, E] with m learnable tokens P (Eq. 4), LoRA residuals alongside query and key projections Q = x W_q + s x W^down_q W^up_q and K = x W_k + s x W^down_k W^up_k (Eq. 3), and a bottleneck Adapter h'' = phi(h W_down) W_up after the normalized MLP output (Eq. 2), training the supernet via uniform subnet sampling over module depths in {3, 6, 9, 12} and embedding dimensions in {1, 5, 10} or {5, 10, 50, 100} with AutoFormer weight entanglement so prefix tokens and low-rank dimensions are maximally shared across subnets.'
+  evidence:
+  - source_id: r700-primary-pdf
+    locator: Section 2.1 Background, Eqs. 1-4, pp. 2-3; Section 2.2 Prompt Search Algorithm, Figure 1(a) & Figure 2, pp. 2-4; Appendix A.2 Table 5, p. 10
+    relation: supports
+- claim_id: noah-evolutionary-search-and-synergy-mechanism
+  kind: mechanism
+  statement: After supernet training, NOAH performs evolutionary search (crossover of module trajectories between top-k parent subnets and mutation of active depth in {0, 3, 6, 9, 12} and layer dimensions with probability 0.2) under a parameter budget cap (0.64M parameters on VTAB-1k), discovering complementary architectures where Adapter and LoRA concentrate in deep layers (dimension > 4) while VPT spans all depths, and allowing inherited subnets to be deployed directly without retraining (74.1% vs. 75.5% retrained average on VTAB-1k).
+  evidence:
+  - source_id: r700-primary-pdf
+    locator: Section 2.2 Evolutionary Search & Figure 2, p. 4; Section 3 Implementation Details, p. 5; Section 3.4 Architecture of Subnet & With vs Without Retraining, Figure 5 & Table 3, pp. 7-8
+    relation: supports
+- claim_id: noah-vtab-fewshot-domain-gen-application
+  kind: application
+  statement: Evaluated on ViT-B/16 across the 19-dataset VTAB-1k benchmark (achieving 75.5% average top-1 accuracy with 0.43M average parameters, outperforming Full tuning 68.9%, VPT 72.0%, Adapter 73.9%, and LoRA 74.5%), 5-dataset few-shot visual recognition (Food101, OxfordFlowers102, StanfordCars, OxfordPets, FGVCAircraft), and domain generalization from 16-shot ImageNet to ImageNetV2 (+6.8%), ImageNet-Sketch (+4.8%), ImageNet-A (+5.0%), and ImageNet-R (+5.2%).
+  evidence:
+  - source_id: r700-primary-pdf
+    locator: Section 3.1-3.3, Table 1, Figure 3, Figure 4 & Table 2, pp. 5-7
+    relation: supports
+- claim_id: noah-supernet-cost-and-extremely-low-shot-limitation
+  kind: limitation
+  statement: NOAH requires 500 epochs of supernet training plus 5 epochs of evolutionary search (and 100 epochs of subnet retraining for peak performance), increasing development cost over training a single prompt module, and in extreme 1-shot or 2-shot regimes or specialized datasets such as EuroSAT it performs only on par with or slightly behind standalone LoRA.
+  evidence:
+  - source_id: r700-primary-pdf
+    locator: Section 3 Implementation Details, p. 5; Section 3.1 Observation 2 & Section 3.2 Results, p. 6; Section 5 Discussion, Limitation and Future Work, p. 9
+    relation: supports
+evidence_sources:
+- source_id: r700-primary-pdf
+  title: Neural Prompt Search
+  authors: &id001
+  - Yuanhan Zhang
+  - Kaiyang Zhou
+  - Ziwei Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2206.04673.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Neural+Prompt+Search+Yuanhan+Zhang&format=xml
+  version: arXiv / IEEE Transactions on Pattern Analysis and Machine Intelligence (2022) (1030981 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:03:00Z'
+  sha256: 391336d5e8c26d1d1538e0089095ad71d3893dc926b0f047925e37d90c0e98a2
+- source_id: r700-arxiv-abs
+  title: Neural Prompt Search (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2206.04673
+  persistent_id: https://arxiv.org/abs/2206.04673
+  version: arXiv abstract page (6523 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:03:00Z'
+  sha256: 481f405e8ec5c1218db6debcc03e510379e650f1861c683dfab3552a9da9fc30
+- source_id: r700-metadata-cr
+  title: Neural Prompt Search (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Neural+Prompt+Search+Yuanhan+Zhang&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Neural+Prompt+Search+Yuanhan+Zhang&format=xml
+  version: Crossref API work record (832 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:03:00Z'
+  sha256: f7b996f791f2ac353cb22e65ecd9bb50820aa26f131eed4daead1dca34bf6e2b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: NOAH searches over parameter-efficient prompt module architectures embedded within frozen Vision Transformer neural networks.
+limitations:
+- Training the weight-entangled supernet (500 epochs) and running evolutionary search before optional subnet retraining (100 epochs) increases upfront computational development cost compared to a single fixed prompt module.
+- In extreme low-shot regimes (1 or 2 labeled shots per class), NOAH performs similarly to standalone LoRA and Adapter rather than showing a clear margin, requiring more labeled examples (e.g., 8-16 shots) to realize its full search advantage.
+- On certain Specialized remote-sensing datasets such as EuroSAT, NOAH slightly trails standalone LoRA or VPT.
+curation:
+  created_at: '2026-10-19T13:03:00Z'
+  updated_at: '2026-10-19T13:03:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

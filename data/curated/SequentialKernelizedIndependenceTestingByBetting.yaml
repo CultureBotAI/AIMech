@@ -1,0 +1,241 @@
+id: AIMech:SequentialKernelizedIndependenceTestingByBetting
+name: Sequential kernelized independence testing by betting
+aliases:
+- SKIT
+- Sequential Hilbert-Schmidt Independence Criterion Test by Betting
+- HSIC-SKIT
+- COCO-SKIT and KCC-SKIT
+- Symmetry-Based Sequential Kernel Independence Test
+concept_kind: mathematical_method
+definition: 'A sequential nonparametric independence hypothesis testing framework (Podkopaev, Blobaum,
+  Kasiviswanathan, & Ramdas 2023, ICML / PMLR 202:27957-27993, arXiv:2212.07383) that tests whether streaming
+  paired random variables Z_t = (X_t, Y_t) on general spaces X x Y are statistically independent (H_0
+  : P_{XY} = P_X x P_Y against H_1 : P_{XY} != P_X x P_Y) under arbitrary optional stopping and time-varying
+  marginal distributions by pairing consecutive draws (Z_{2t-1}, Z_{2t}) with their coordinate-swapped
+  pseudo-observations tilde{Z}_{2t-1} = (X_{2t-1}, Y_{2t}), tilde{Z}_{2t} = (X_{2t}, Y_{2t-1}) to evaluate
+  predictable witness functions from reproducing kernel Hilbert spaces G x H — instantiated via the Hilbert-Schmidt
+  Independence Criterion (HSIC), the Constrained Covariance (COCO), or the Kernel Canonical Correlation
+  (KCC), or via symmetry-preserving odd, sequential signed-rank, and predictive betting payoffs for unbounded
+  kernels — and updating a wealth martingale K_t = prod_{i=1}^t (1 + lambda_i f_i(Z_{2i-1}, Z_{2i})) via
+  the Online Newton Step (ONS) strategy so that stopping at tau = inf{t >= 1 : K_t >= 1/alpha} controls
+  nonasymptotic anytime Type-I error P_{H_0}(tau < infty) <= alpha and achieves power-one consistency
+  with variance-adaptive exponential log-wealth growth.'
+identity_notes: 'No normalized identity match for sequential kernelized independence testing by betting
+  across all 442 pinned AIO records and 580 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches across data, sources, research, history, and reviews returned only lines in Round 185 artifacts
+  where Podkopaev, Blobaum, Kasiviswanathan, & Ramdas (2023, ICML / PMLR 202:27957-27993, arXiv:2212.07383)
+  was queued as a pending frontier lead. Distinct from AIMech:NonparametricTwoSampleTestingByBetting (Shekhar
+  & Ramdas 2023, IEEE TIT 70(2):1178-1203, arXiv:2112.09162), which tests two-sample equality H_0 : P_X
+  = P_Y and touches on independence only as an empirical risk minimization operator-invariance specialization
+  or inefficient 3-sample reduction, whereas Podkopaev et al. (2023) develop the dedicated 2-sample-per-step
+  coordinate-swap HSIC tensor-product witness payoff with O(t) cached norm updates (Appendix F.2), generalized-eigenvalue
+  spectral COCO and KCC sequential tests with incomplete Cholesky nuclear-norm scaling (Section 3, Appendix
+  F.1), time-varying instantaneous independence testing under single-marginal drift and simultaneous-shift
+  necessity counterexamples (Section 2, Theorem 3, Appendix D Example 3), and symmetry-based odd, sequential
+  signed-rank, and predictive betting payoffs for unbounded kernels (Section 4, Theorem 5).'
+definition_evidence:
+- source_id: podkopaev2023-skit-ar5iv
+  locator: Section 1–2, lines 19–282, Equations 1–19, Assumptions 1–2, Theorems 1–3, Proposition 1; Section
+    3, lines 284–370, Equations 20–24, Algorithm 3, Theorem 4; Section 4, lines 371–460, Equations 25–28,
+    Proposition 2, Theorem 5, Algorithm 4
+  relation: supports
+- source_id: podkopaev2023-skit-pmlr
+  locator: Proceedings of the 40th International Conference on Machine Learning (ICML 2023), PMLR 202:27957–27993
+    official publication record
+  relation: supports
+- source_id: podkopaev2023-skit-abs
+  locator: arXiv:2212.07383 abstract and ICML 2023 metadata record
+  relation: supports
+claims:
+- claim_id: hsic-swap-payoff-betting-martingale-linear-time-norm-and-ons-growth-rate
+  kind: mechanism
+  statement: 'For characteristic reproducing kernel Hilbert spaces G on X (kernel k, feature map phi)
+    and H on Y (kernel l, feature map psi) satisfying sup_x k(x,x) <= 1 and sup_y l(y,y) <= 1 (Assumption
+    1), HSIC-SKIT pairs consecutive observations Z_{2t-1} = (X_{2t-1}, Y_{2t-1}) and Z_{2t} = (X_{2t},
+    Y_{2t}) with coordinate-swapped pseudo-samples tilde{Z}_{2t-1} = (X_{2t-1}, Y_{2t}) and tilde{Z}_{2t}
+    = (X_{2t}, Y_{2t-1}) to form the F_{t-1}-predictable normalized witness payoff f_t(Z_{2t-1}, Z_{2t})
+    = (1/2) <hat{g}_t, (phi(X_{2t}) - phi(X_{2t-1})) x (psi(Y_{2t}) - psi(Y_{2t-1}))>_{G x H} in [-1,
+    1] where hat{g}_t = (hat{mu}_{XY} - hat{mu}_X x hat{mu}_Y) / ||hat{mu}_{XY} - hat{mu}_X x hat{mu}_Y||_{G
+    x H} (Equations 9–14, Proposition 1), whose denominator norm ||hat{mu}_{XY}^{(t)} - hat{mu}_X^{(t)}
+    x hat{mu}_Y^{(t)}||_{G x H} = sqrt((1/(2t)^2) tr(K^{(t)} L^{(t)}) - (2/(2t)^3) 1_{2t}^T K^{(t)} L^{(t)}
+    1_{2t} + (1/(2t)^4)(1_{2t}^T K^{(t)} 1_{2t})(1_{2t}^T L^{(t)} 1_{2t})) is updated in O(t) time per
+    step by caching tr(K^{(t)} L^{(t)}), K^{(t)} 1_{2t}, and L^{(t)} 1_{2t} (Appendix F.2, Equations 49–53);
+    coupling f_t with the Online Newton Step (ONS) betting strategy lambda_t in [-1/2, 1/2] (Algorithm
+    2) yields a test martingale K_t = prod_{i=1}^t (1 + lambda_i f_i(Z_{2i-1}, Z_{2i})) satisfying P_{H_0}(exists
+    t >= 1 : K_t >= 1/alpha) <= alpha, P_{H_1}(tau < infty) = 1 (Theorem 1), and variance-adaptive asymptotic
+    log-wealth growth rate liminf_{t->infty} (log K_t)/t >= (E[f*]/4)(min(E[f*] / E[(f*)^2], 1)) >= HSIC(P_{XY};
+    G, H) / 4 (Theorem 2, Appendix B.2 Lemmas 8–11), outperforming the 3-observations-per-step reduction
+    to two-sample testing (Section 1(i), Remark 1, Appendix A.2 Figure 7).'
+  evidence:
+  - source_id: podkopaev2023-skit-ar5iv
+    locator: Section 1(i), lines 40–55; Section 2, lines 124–253, Equations 5–17, Assumption 1, Proposition
+      1, Remark 1, Theorems 1–2, Example 2, Algorithms 1–2; Appendix A.2, lines 555–573, Figure 7; Appendix
+      B.2, lines 881–1081, Lemmas 8–11, Equations 29–44; Appendix F.2, lines 1335–1367, Equations 49–53
+    relation: supports
+  - source_id: podkopaev2023-skit-abs
+    locator: Abstract (Sequential kernelized independence testing by betting, HSIC instantiation, anytime
+      validity, and sequential adaptivity)
+    relation: supports
+- claim_id: time-varying-instantaneous-independence-validity-and-simultaneous-shift-counterexample
+  kind: mechanism
+  statement: 'Under non-stationary time-varying streams Z_t = (X_t, Y_t) ~ P_{XY}^{(t)} testing the instantaneous
+    independence null H_0 : P_{XY}^{(t)} = P_X^{(t)} x P_Y^{(t)} for all t >= 1 against H_1 : exists t
+    >= 1 with P_{XY}^{(t)} != P_X^{(t)} x P_Y^{(t)} (Equations 2–3), where batch permutation tests fail
+    even when only X_t drifts over time (Example 1), HSIC-SKIT preserves nonasymptotic Type-I error P_{H_0}(exists
+    t >= 1 : K_t >= 1/alpha) <= alpha whenever each consecutive pair (Z_{2t-1}, Z_{2t}) satisfies conditional
+    exchangeability of either (X_{2t-1}, X_{2t}) or (Y_{2t-1}, Y_{2t}) given F_{t-1} and conditional cross-independence
+    X_{2t-1} _||_ Y_{2t} | F_{t-1}, X_{2t} _||_ Y_{2t-1} | F_{t-1} (Assumption 2, Theorem 3, Appendix
+    B.2.2 Equations 45–46, holding in particular whenever at most one marginal distribution changes between
+    2t-1 and 2t as in Equations 18–19); conversely, Appendix D Example 3 proves that forbidding simultaneous
+    shifts in both marginals is necessary: if X_{2t-1}, Y_{2t-1} ~ Ber(1/2) independently and X_{2t},
+    Y_{2t} ~ (1/2) Ber(1/2) independently under linear kernels with fixed witness g(x, y) = x y, then
+    E[f_t(Z_{2t-1}, Z_{2t}) | F_{t-1}] = (1/2)(1/4 - 1/2)(1/4 - 1/2) = 1/32 != 0 despite instantaneous
+    independence at both 2t-1 and 2t.'
+  evidence:
+  - source_id: podkopaev2023-skit-ar5iv
+    locator: Section 1(ii), lines 56–70, Equations 2–3, Example 1; Section 2, lines 254–282, Equations
+      18–19, Assumption 2, Theorem 3; Appendix B.2.2, lines 1082–1106, Equations 45–46; Appendix D, lines
+      1173–1205, Example 3
+    relation: supports
+  - source_id: podkopaev2023-skit-pmlr
+    locator: PMLR 202:27957–27993 abstract and bibliographic summary (handling time-varying distribution
+      drift)
+    relation: supports
+- claim_id: spectral-coco-and-kcc-generalized-eigenvalue-skit-and-cholesky-normalization
+  kind: mechanism
+  statement: 'For spectral kernel independence criteria including the Constrained Covariance (COCO) and
+    Kernel Canonical Correlation (KCC), factorized predictable witnesses hat{g}_t in G and hat{h}_t in
+    H are constructed from the leading generalized eigenvector (alpha, beta) of the centered Gram matrices
+    tilde{K} = H K H and tilde{L} = H L H solving the generalized eigenproblem [0, (1/n) tilde{K} tilde{L};
+    (1/n) tilde{L} tilde{K}, 0] [alpha; beta] = gamma [tilde{K} + kappa_1 I, 0; 0, tilde{L} + kappa_2
+    I] [alpha; beta] (Equations 20 and 47), rescaled to enforce ||hat{g}_t||_G^2 = alpha^T tilde{K} alpha
+    <= 1 and ||hat{h}_t||_H^2 = beta^T tilde{L} beta <= 1 (Equations 22–23, 48) so that the factorized
+    payoff f_t(Z_{2t-1}, Z_{2t}) = (1/2)(hat{g}_t(X_{2t}) - hat{g}_t(X_{2t-1}))(hat{h}_t(Y_{2t}) - hat{h}_t(Y_{2t-1}))
+    lies in [-1, 1] and satisfies E_{H_0}[f_t(Z_{2t-1}, Z_{2t}) | F_{t-1}] = 0, guaranteeing P_{H_0}(exists
+    t >= 1 : K_t >= 1/alpha) <= alpha under ONS betting (Algorithm 3, Theorem 4, Appendix B.3, Appendix
+    D Remark 6); for computational tractability, incomplete Cholesky factorization K approx G_1 G_1^T
+    of rank M << 2t with nuclear-norm error ||K - G_1 G_1^T||_* <= delta bounds the witness norm via alpha_0^T
+    H K H alpha_0 <= alpha_0^T H G_1 G_1^T H alpha_0 + delta ||H alpha_0||_2^2, preserving ||hat{g}_t||_G
+    <= 1 in O(M^2 t) time (Appendix F.1, lines 1301–1334).'
+  evidence:
+  - source_id: podkopaev2023-skit-ar5iv
+    locator: Section 3, lines 284–370, Equations 20–24, Algorithm 3, Theorem 4, Remark 3; Appendix B.3,
+      lines 1107–1117; Appendix D, lines 1206–1236, Equations 47–48, Remark 6; Appendix F.1, lines 1301–1334
+    relation: supports
+- claim_id: symmetry-based-skit-payoffs-for-unbounded-kernels
+  kind: mechanism
+  statement: 'When the kernels k and l are unbounded (violating Assumption 1, e.g., linear kernels k(x,
+    x'') = x x''), Proposition 2 proves that under H_0 (or Assumption 2) the unnormalized witness contrast
+    W_t = <hat{g}_t, (phi(X_{2t}) - phi(X_{2t-1})) x (psi(Y_{2t}) - psi(Y_{2t-1}))>_{G x H} = hat{g}_t(X_{2t},
+    Y_{2t}) + hat{g}_t(X_{2t-1}, Y_{2t-1}) - hat{g}_t(X_{2t}, Y_{2t-1}) - hat{g}_t(X_{2t-1}, Y_{2t}) (Equation
+    25) is conditionally symmetric around zero given F_{t-1} (W_t | F_{t-1} =^d -W_t | F_{t-1}, Appendix
+    B.4), enabling three bounded symmetry-based payoffs in [-1, 1] with E_{H_0}[f_t(W_t) | F_{t-1}] =
+    0: (1) composition with any odd bounded function phi_odd : R -> [-1, 1] normalized by a predictable
+    scale N_{t-1} such as f_t^odd(W_t) = tanh(W_t / N_{t-1}) (Equation 26), (2) the sequential signed-rank
+    payoff f_t^rank(W_t) = sign(W_t) rk(|W_t|) / t where rk(|W_t|) = sum_{i=1}^t 1{|W_i| <= |W_t|} (Equation
+    27), and (3) the composition-of-bets predictive payoff f_t^pred(W_t) = (2 p_t(|W_t|) - 1)_+ (1 - 2
+    ell_t(W_t)) driven by an online sign-prediction probability p_t(|W_t|) and 0-1 loss ell_t(W_t) (Equation
+    28), each yielding an anytime-valid SKIT with P_{H_0}(exists t >= 1 : K_t >= 1/alpha) <= alpha (Theorem
+    5, Algorithm 4).'
+  evidence:
+  - source_id: podkopaev2023-skit-ar5iv
+    locator: Section 4, lines 371–460, Equations 25–28, Proposition 2, Remark 4, Theorem 5, Algorithm
+      4; Appendix B.4, lines 1118–1168
+    relation: supports
+evidence_sources:
+- source_id: podkopaev2023-skit-ar5iv
+  title: Sequential Kernelized Independence Testing
+  authors:
+  - Aleksandr Podkopaev
+  - Patrick Blobaum
+  - Shiva Prasad Kasiviswanathan
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2212.07383
+  persistent_id: https://proceedings.mlr.press/v202/podkopaev23a.html
+  version: arXiv:2212.07383v2 (published in Proceedings of the 40th International Conference on Machine
+    Learning, PMLR 202:27957–27993, 2023). Complete full-text ar5iv HTML conversion read across Sections
+    1–6 and Appendices A–F (1,368 lines, 131,590 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T13:35:00Z'
+  sha256: 7c7c96c17f9206e06efde4b3c4338b0cc297d40b6f0037f934523ed7077fbf51
+- source_id: podkopaev2023-skit-pmlr
+  title: Sequential Kernelized Independence Testing (ICML 2023 / PMLR 202:27957-27993 Record)
+  authors:
+  - Aleksandr Podkopaev
+  - Patrick Blobaum
+  - Shiva Prasad Kasiviswanathan
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/podkopaev23a.html
+  persistent_id: https://proceedings.mlr.press/v202/podkopaev23a.html
+  version: Proceedings of the 40th International Conference on Machine Learning (ICML 2023), PMLR Vol.
+    202, pp. 27957–27993 official landing page and abstract (4,235 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T13:35:00Z'
+  sha256: 2efc16eb3712b9ea2ed3532d73a94292582b04339a0a7fa6e2f41fad4c55b0c8
+- source_id: podkopaev2023-skit-abs
+  title: Sequential Kernelized Independence Testing (arXiv:2212.07383 Abstract)
+  authors:
+  - Aleksandr Podkopaev
+  - Patrick Blobaum
+  - Shiva Prasad Kasiviswanathan
+  - Aaditya Ramdas
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2212.07383
+  persistent_id: https://doi.org/10.48550/arXiv.2212.07383
+  version: arXiv:2212.07383 abstract and ICML 2023 metadata record (6,752 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T13:35:00Z'
+  sha256: 1206a67911e85351ce8a5edd08ed903f124446590204354a26275565b0e34d47
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: 'Sequential kernelized independence testing by betting constructs a nonnegative test martingale
+    K_t under H_0 whose Ville stopping rule tau = inf{t >= 1 : K_t >= 1/alpha} controls Type-I error under
+    continuous monitoring and optional stopping, preventing false-positive inflation from sequential peeking
+    (AIO:DataDredgingBias).'
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: SKIT processes streaming paired observations sequentially across filtrations (F_t)_{t>=0},
+    including non-stationary time-varying marginal distributions (X_t, Y_t) ~ P_X^{(t)} x P_Y^{(t)} and
+    real-world financial/meteorological time-series dependence monitoring (Section 2 Theorem 3, Section
+    5.2; AIO:TimeSeriesAnalysis).
+limitations:
+- Although caching tr(K^{(t)} L^{(t)}), K^{(t)} 1_{2t}, and L^{(t)} 1_{2t} reduces each step-t plug-in
+  HSIC witness payoff evaluation from O(t^2) to O(t) (Appendix F.2, Equations 49–53), accumulating t steps
+  still incurs O(t^2) total memory and time unless a sliding window, minibatching, or low-rank incomplete
+  Cholesky approximation is used (Section 3, Appendix F.1).
+- 'Under non-stationary time-varying streams Z_t ~ P_{XY}^{(t)}, SKIT''s anytime Type-I error guarantee
+  for testing instantaneous independence H_0 : P_{XY}^{(t)} = P_X^{(t)} x P_Y^{(t)} requires that at most
+  one marginal distribution shifts between consecutive observations 2t-1 and 2t (or that Assumption 2''s
+  conditional exchangeability holds); if both marginals P_X^{(t)} and P_Y^{(t)} shift simultaneously at
+  every odd/even step, the swap-based witness payoff can have nonzero conditional expectation under H_0
+  (Appendix D, Example 3, where E[f_t | F_{t-1}] = 1/32).'
+- For spectral COCO-SKIT and KCC-SKIT (Section 3, Theorem 4) and symmetry-based SKITs with unbounded kernels
+  (Section 4, Theorem 5), nonasymptotic anytime Type-I error <= alpha is rigorously guaranteed, but formal
+  power-one consistency and exponential wealth growth rate theorems analogous to Theorems 1–2 are established
+  only for the bounded-kernel HSIC-SKIT plug-in witness (Section 3 Remark 3, Section 4).
+- All 1,368 lines of Podkopaev, Blobaum, Kasiviswanathan, & Ramdas (2023, arXiv:2212.07383) were read.
+  Constructed numerical checks in research/discovery/sequential-kernelized-independence-testing-by-betting-boundaries.py
+  verify Section 2 & Appendix F.2 Example 2 log-growth rates (0.020136 for Kelly bet vs. -0.002447 for
+  overshoot bet), exact agreement between O(t) cached norm updates and O(t^2) tensor-product norms (max
+  diff 2e-15), direct HSIC-SKIT Type-I error 0.0 <= 0.05, power 1.0, and faster mean stopping sample size
+  (95.43 vs. 180.0 for the 3-sample reduction to two-sample testing), Section 2 Theorem 3 & Appendix D
+  Example 3 zero conditional payoff (0.0) under single-marginal drift vs. exact 1/32 (0.03125) bias under
+  simultaneous marginal shifts and SKIT Type-I error 0.0 vs. batch permutation test Type-I error 1.0 under
+  drifting marginals, Section 3 & Appendix F.1 Cholesky nuclear-norm upper bound (3.8895 <= 3.9260) and
+  COCO-SKIT nonlinear power 1.0 (null Type-I error 0.0), and Section 4 Theorem 5 unbounded linear-kernel
+  |W_t| = 635.81 > 1.0 vs. symmetry-based odd (power 1.0, Type-I 0.0), signed-rank (power 1.0, Type-I
+  0.0), and predictive (power 0.9667, Type-I 0.0) SKITs.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T13:35:00Z'
+  updated_at: '2026-10-17T13:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

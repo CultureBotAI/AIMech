@@ -1,0 +1,108 @@
+id: AIMech:AltMinPhaseAndSparseAltMinPhaseAlternatingMinimizationPhaseRetrieval
+name: AltMinPhase and SparseAltMinPhase (Resampled Alternating Minimization for Phase Retrieval)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "The first non-convex alternating minimization algorithm with provable global geometric convergence for phase retrieval and sparse phase retrieval (introduced by Praneeth Netrapalli, Prateek Jain, and Sujay Sanghavi in 2013/2015). Given magnitude measurements $y_i = |\\langle a_i,x^*\\rangle|$ ($i=1,\\dots,m$), reformulating the measurement model with a diagonal unit-modulus phase matrix $C^* = \\mathrm{diag}(\\mathrm{Ph}(A x^*))$ yields $\\min_{|C_{ii}|=1, x\\in\\mathbb{C}^n}\\|A x - C y\\|_2$ (Equation 1). *AltMinPhase* (Algorithm 1) initializes $x^0$ as the scaled leading eigenvector of the weighted covariance matrix $Y = \\frac{1}{m}\\sum_{\\ell=1}^m y_\\ell^2 a_\\ell a_\\ell^*$ (whose expectation $\\mathbb{E}[Y] = \\|x^*\\|_2^2(I + 2\\frac{x^*(x^*)^*}{\\|x^*\\|_2^2})$ has spectral gap 3 vs. 1), and at each iteration $t=0,\\dots,T-1$ alternates between exact phase projection $C^{t+1} = \\mathrm{diag}(\\mathrm{Ph}(A^{(t+1)} x^t))$ and least-squares signal estimation $x^{t+1} = \\arg\\min_{x\\in\\mathbb{C}^n}\\|A^{(t+1)} x - C^{t+1} y^{(t+1)}\\|_2$ on a fresh sample batch $(A^{(t+1)},y^{(t+1)})$. By decomposing the true measurements as $y_i = c_i^*(a_i^\\top x^*) = c_i^*(\\alpha_t a_i^\\top x^t - a_i^\\top w^t)$ ($\\langle x^t,w^t\\rangle = 0$, $\\|w^t\\|_2 = \\sqrt{1-\\alpha_t^2}$), Lemma 4.3 proves that the phase-error vector $v_i^t = (c_i^t - c_i^*)y_i$ satisfies $\\frac{1}{m}\\|(A^{(t+1)})^* v^t\\|_2 \\le \\frac{1}{2}\\|w^t\\|_2$ when $\\mathrm{dist}(x^t,x^*) \\le 1/6$, establishing per-step contraction $\\mathrm{dist}(x^{t+1},x^*) \\le \\frac{3}{4}\\mathrm{dist}(x^t,x^*)$ (Theorem 2.1) with $m = O(n\\log^3 n(\\log n + \\log(1/\\epsilon)))$ measurements. For $k$-sparse signals $x^*$, *SparseAltMinPhase* (Algorithm 2) selects support $\\hat{S}$ from the top-$k$ marginal energy coordinates $\\sum_{\\ell=1}^m y_\\ell^2 |a_{\\ell j}|^2$ (whose gap separates $j\\in S$ from $j\\notin S$ whenever $|x_j^*| \\ge \\frac{C}{\\sqrt{k}}\\|x^*\\|_2$, Lemma 5.1) or replaces least squares by CoSaMP, achieving $O((k^2\\log n + k\\log n\\log(1/\\epsilon)))$ sample complexity (Theorems 2.2\u20132.3)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 700 maintained AIMech concepts. Distinct from `AIMech:PhaseLiftConvexSemidefiniteProgrammingPhaseRetrieval` (Candes, Strohmer, & Voroninski 2013, which lifts $x^*\in\mathbb{C}^n$ to an $n\times n$ PSD matrix $X = x x^*$ solved by convex SDP in $O(n^3)$ per-step cost) and `AIMech:TruncatedAmplitudeFlowAndOrthogonalityPromotingInitializationForQuadraticEquations` (Wang, Giannakis, & Eldar 2018, which performs single-pool truncated subgradient steps on amplitude loss rather than alternating exact phase projection $C^{t+1}$ and exact least-squares/CoSaMP minimization across resampled batches).
+aliases:
+- AltMinPhase (Alternating Minimization for Phase Retrieval)
+- SparseAltMinPhase (Sparse Phase Retrieval via Alternating Minimization and CoSaMP)
+- Netrapalli-Jain-Sanghavi Alternating Minimization Phase Retrieval
+definition_evidence:
+- source_id: njs2015-altminphase-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: njs2015-altminphase-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: njs2015-altminphase-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-spectral-initialization-and-alternating-phase-least-squares-contraction
+  kind: mechanism
+  statement: For Gaussian measurements $a_\ell\sim\mathcal{N}(0,I)$, the weighted covariance matrix $Y = \frac{1}{m}\sum_{\ell=1}^m y_\ell^2 a_\ell a_\ell^*$ has expectation $\mathbb{E}[Y] = \|x^*\|_2^2(I + 2\frac{x^*(x^*)^*}{\|x^*\|_2^2})$ so its top eigenvector $x^0$ achieves $\mathrm{dist}(x^0,x^*) \le c_0 < 1/6$ with $m_0 = O(n\log^3 n)$ samples (Lemma 4.1); from any iterate with $\|w^t\|_2 = \sqrt{1 - |\langle x^t,x^*\rangle|^2} \le 1/6$, the exact least-squares update $x^{t+1} = ((A^{(t+1)})^* A^{(t+1)})^{-1}(A^{(t+1)})^* C^{t+1} y^{(t+1)}$ satisfies $x^{t+1} = \alpha_t x^* - w^t + ((A^{(t+1)})^* A^{(t+1)})^{-1}(A^{(t+1)})^* v^t$ where the phase-disagreement indicator $\mathbf{1}_{c_i^t c_i^* = -1}$ occurs only when $|a_i^\top w^t| \ge \alpha_t|a_i^\top x^t|$, bounding $\frac{1}{m}\|(A^{(t+1)})^* v^t\|_2 \le \frac{1}{2}\|w^t\|_2$ (Lemma 4.3) and proving $\mathrm{dist}(x^{t+1},x^*) \le \frac{3}{4}\mathrm{dist}(x^t,x^*)$ (Theorem 2.1 & Lemma 4.2).
+  evidence:
+  - source_id: njs2015-altminphase-pdf
+    locator: Section II & Section IV, Algorithm 1, Theorem 2.1, & Lemmas 4.1-4.3, pp. 4-6, 9-12
+    relation: supports
+  - source_id: njs2015-altminphase-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-sparse-altminphase-marginal-support-selection-and-cosamp-refinement
+  kind: mechanism
+  statement: For a $k$-sparse vector $x^*\in\mathbb{R}^n$ with support $S = \mathrm{supp}(x^*)$, the marginal fourth-moment statistics $Z_j = \frac{1}{m}\sum_{\ell=1}^m y_\ell^2 |a_{\ell j}|^2$ satisfy $\mathbb{E}[Z_j] = \|x^*\|_2^2 + 2|x_j^*|^2$, so selecting the $k$ largest $Z_j$ exactly recovers $S$ using $m = O(k^2\log n)$ samples when $\min_{j\in S}|x_j^*| \ge \frac{C}{\sqrt{k}}\|x^*\|_2$ (Theorem 2.2 & Lemma 5.1); for arbitrary $k$-sparse signals without a minimum non-zero entry bound, *SparseAltMinPhase* (Algorithm 2) initializes on the active support of high-magnitude coordinates and replaces the least-squares step by $x^{t+1} = \mathrm{CoSaMP}(A^{(t+1)}/\sqrt{m}, C^{t+1} y^{(t+1)}/\sqrt{m}, k)$, achieving $\|x^T - c x^*\|_2 \le \epsilon\|x^*\|_2$ with $m = O(k^2\log n + k\log n\log(1/\epsilon))$ samples (Theorem 2.3 & Lemma 5.3).
+  evidence:
+  - source_id: njs2015-altminphase-pdf
+    locator: Section II & Section V, Algorithm 2, Theorems 2.2 & 2.3, & Lemmas 5.1-5.3, pp. 5-6, 13-16
+    relation: supports
+  - source_id: njs2015-altminphase-cr
+    locator: Crossref metadata and published abstract for IEEE Trans. Signal Process. 63(18):4814-4826
+    relation: supports
+- claim_id: claim-noise-robustness-and-quadratic-computational-scaling
+  kind: scope
+  statement: "Under noisy magnitude measurements $y = |A x^* + \\eta|$ with $\\|\\eta\\|_\\infty \\le \\frac{\\|x^*\\|_2}{100\\sqrt{n}}$ and $\\|\\eta\\|_2 \\le \\frac{\\sqrt{m}\\|x^*\\|_2}{100}$, Theorem 4.4 proves that AltMinPhase achieves $\\mathrm{dist}(x^T,x^*) \\le \\epsilon + \\frac{4\\|\\eta\\|_2}{\\sqrt{m}\\|x^*\\|_2}$ in $O(n^2\\log^3 n(\\log n + \\log^2(1/\\epsilon)))$ total arithmetic operations \u2014 quadratically faster in dimension $n$ than the $O(n^3/\\epsilon^2)$ interior-point/first-order complexity of semidefinite programming relaxations such as PhaseLift."
+  evidence:
+  - source_id: njs2015-altminphase-pdf
+    locator: Section II, Table 1, p. 6; Section IV-A, Theorem 4.4, pp. 12-13
+    relation: supports
+- claim_id: claim-limitation-sample-splitting-polylog-overhead-and-quadratic-sparse-bottleneck
+  kind: limitation
+  statement: The theoretical proof of AltMinPhase relies on fresh independent measurement batches $(A^{(t+1)},y^{(t+1)})$ at each iteration to decouple $x^t$ from $A^{(t+1)}$, incurring an extra $O(\log^3 n\log(1/\epsilon))$ sample factor over the information-theoretic $O(n)$ threshold, while SparseAltMinPhase requires $m = \Omega(k^2\log n)$ samples for fourth-moment support identification rather than the information-theoretic $O(k\log(n/k))$ limit.
+  evidence:
+  - source_id: njs2015-altminphase-pdf
+    locator: Section II, Remarks on Theorem 2.1 & Theorem 2.3, pp. 4-6; Section VI Conclusions, p. 17
+    relation: supports
+evidence_sources:
+- source_id: njs2015-altminphase-pdf
+  title: Phase Retrieval using Alternating Minimization
+  authors: &id001
+  - Praneeth Netrapalli
+  - Prateek Jain
+  - Sujay Sanghavi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1306.0160.pdf
+  persistent_id: https://doi.org/10.1109/TSP.2015.2448516
+  version: arXiv:1306.0160v2 full-text PDF (26 pages), published in IEEE Transactions on Signal Processing 63(18):4814-4826 (2015). (841311 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:04:00Z'
+  sha256: ae53ddb41a4ca9f88551d886e168b7b6401602ddfaba303981ee243efa9a3502
+- source_id: njs2015-altminphase-abs
+  title: Phase Retrieval using Alternating Minimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1306.0160
+  persistent_id: https://arxiv.org/abs/1306.0160
+  version: arXiv abstract page (7014 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:04:00Z'
+  sha256: 98f69f85f0f18d4d40c0d33b9e3838d23bd7c2690524108c4602acdf5a86e3ef
+- source_id: njs2015-altminphase-cr
+  title: Phase Retrieval using Alternating Minimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TSP.2015.2448516
+  persistent_id: https://doi.org/10.1109/TSP.2015.2448516
+  version: Crossref API work record (2850 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:04:00Z'
+  sha256: 191cfc4ddd0e4452a5d148acfb3d5dff8186da7ddc599bc29ba846f3c83a0178
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Alternates exact unit-modulus phase imputation with ordinary least-squares linear regression (or sparse CoSaMP regression) at each iteration.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Initializes the alternating minimization loop using the leading eigenvector of the intensity-weighted sample covariance matrix.
+limitations:
+- Theoretical convergence analysis uses sample-splitting across $T = O(\log(1/\epsilon))$ disjoint measurement batches (requiring $m = O(n\log^3 n(\log n + \log(1/\epsilon)))$ i.i.d. Gaussian measurements), and sparse support initialization requires $m = \Omega(k^2\log n)$ samples.
+curation:
+  created_at: '2026-10-19T06:04:00Z'
+  updated_at: '2026-10-19T06:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

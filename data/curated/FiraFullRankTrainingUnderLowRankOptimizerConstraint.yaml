@@ -1,0 +1,116 @@
+id: AIMech:FiraFullRankTrainingUnderLowRankOptimizerConstraint
+name: Fira (Full-Rank Training under Low-Rank Optimizer Constraint)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A memory-efficient full-rank neural network optimization framework that maintains adaptive optimizer states strictly within a low-rank gradient subspace while preserving full-rank weight updates by rescaling the orthogonal-complement residual gradient using the low-rank optimizer's matrix- or column-level gradient-norm scaling factor and smoothing abrupt gradient surges via a relative norm-growth limiter.
+identity_notes: Distinct from GaLore (AIMech:GaLoreGradientLowRankProjection), which projects the full-rank gradient G_t into a rank-r subspace R_t = P_t^T G_t and completely discards the orthogonal residual (I - P_t P_t^T) G_t = G_t - P_t R_t; Fira retains the same low-rank optimizer states (mr + 2nr + 1 floats per m x n matrix) but scales and adds back G_t - P_t R_t using the low-rank adaptive scaling factor phi_t(R_t) = ||psi_t(R_t)|| / ||R_t|| alongside a multiplicative norm-growth limiter gamma.
+aliases:
+- Fira
+- Fira Optimizer Framework
+- Full-Rank Training under Low-Rank Constraint via Norm-Based Scaling
+- Fira Norm-Based Scaling and Norm-Growth Limiter
+definition_evidence:
+- source_id: r636-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r636-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r636-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fira-norm-based-scaling-orthogonal-complement-mechanism
+  kind: mechanism
+  statement: Given full-rank gradient G_t in R^{m x n} (m <= n) and rank-r SVD projection matrix P_t in R^{m x r} updated every T steps, Fira computes the low-rank projected gradient R_t = P_t^T G_t in R^{r x n} and its adaptive optimizer correction psi_t(R_t) using low-rank states M_t, V_t in R^{r x n}, defines the matrix-level scaling factor phi_t(R_t) = ||psi_t(R_t)|| / ||R_t|| (or column-wise factors phi_t(R_t)_i = ||psi_t(R_{t,:,i})|| / (||R_{t,:,i}|| + epsilon) for i = 1, ..., n), and rescales the orthogonal residual gradient S_t = phi_t(R_t) * (G_t - P_t R_t) so the parameter update W_{t+1} = W_t - eta * (P_t psi_t(R_t) + S_t) preserves full-rank gradient information with only mr + 2nr + 1 optimizer states.
+  evidence:
+  - source_id: r636-primary-pdf
+    locator: Section 4.1 Equations (9)-(11), Section 4.3 Table 2, and Appendix A.1 Algorithm 1, pages 5-7, 14
+    relation: supports
+- claim_id: fira-norm-growth-limiter-mechanism
+  kind: mechanism
+  statement: 'To prevent training loss spikes triggered by periodic projection-subspace switching (t mod T = 0) and steep curvature along unsmoothed residual directions, Fira applies a relative norm-growth limiter to the scaled residual gradient S_t = phi_t(R_t)(G_t - P_t R_t): whenever ||S_t|| / ||S_{t-1}|| > gamma (default gamma = 1.01), S_t is rescaled to (S_t / ||S_t||) * gamma * ||S_{t-1}||, converting abrupt gradient norm jumps into bounded geometric growth while preserving direction.'
+  evidence:
+  - source_id: r636-primary-pdf
+    locator: Section 4.2 Equation (12), Figure 3, and Appendix A.1 Algorithm 1, pages 6-7, 14
+    relation: supports
+- claim_id: fira-scaling-approximation-error-and-variance-scope
+  kind: scope
+  statement: Under bounded component-wise adaptive scaling c_min <= |psi_i(g_i)/g_i| <= c_max, Theorem 1 proves that the squared scaling-factor approximation error satisfies kappa(r) = |phi_t^2(G_t) - phi_t^2(R_t)| <= (c_max^2 - c_min^2) * (1 - ||G_r||^2 / ||G||^2), and Theorem 2 proves under early-stage Gaussian gradients and inverse-chi-squared second moments (rho > 4) that Dirichlet(1/2, ..., 1/2) weighting yields Var[phi^2] = (3 / (n + 2)) * Var[psi^2] <= Var[psi^2].
+  evidence:
+  - source_id: r636-primary-pdf
+    locator: Appendix E.1 Theorem 1 Equations (13)-(26) and Appendix E.2 Theorem 2 Equations (27)-(45), pages 18-22
+    relation: supports
+- claim_id: fira-llm-pretraining-and-finetuning-application
+  kind: application
+  statement: In C4 pre-training of LLaMA-60M/130M/350M/1B/7B and commonsense-reasoning fine-tuning of LLaMA-7B (BoolQ, PIQA, SIQA, HellaSwag, WinoGrande, ARC-e, ARC-c, OBQA), Fira reduces optimizer-state memory by 61.1% on LLaMA-1B and uses 8x smaller optimizer state memory (rank 64 vs 512) on LLaMA-7B while achieving lower validation perplexity and higher average accuracy (76.9% vs 62.7% for GaLore and 74.7% for LoRA).
+  evidence:
+  - source_id: r636-primary-pdf
+    locator: Section 5.1-5.3 Tables 3-4 and Figure 4, pages 7-9
+    relation: supports
+- claim_id: fira-full-gradient-materialization-and-domain-scope-limitation
+  kind: limitation
+  statement: Unlike LoRA, which stores only low-rank adapter gradients (mr + nr), Fira computes full-rank weight gradients (mn) during backpropagation and incurs a slight throughput overhead relative to GaLore and LoRA from column-wise norm-based scaling and norm-growth limiting.
+  evidence:
+  - source_id: r636-primary-pdf
+    locator: Section 4.3 Table 2 page 7, Appendix C.2 Tables 8-9 pages 15-16, and Appendix L Limitations page 26
+    relation: supports
+evidence_sources:
+- source_id: r636-primary-pdf
+  title: 'Fira: Can We Achieve Full-rank Training of LLMs Under Low-rank Constraint?'
+  authors: &id001
+  - Xi Chen
+  - Kaituo Feng
+  - Changsheng Li
+  - Xunhao Lai
+  - Xiangyu Yue
+  - Ye Yuan
+  - Guoren Wang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2410.01623.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/ChenFLLYYW25
+  version: Advances in Neural Information Processing Systems 38 (NeurIPS 2025) (2025) (7696920 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:59:00Z'
+  sha256: 6ef3647c0d0b5fd62cfb5f11c9bdbc8944e6fbf5b99e7b2b3838e64eba8992bd
+- source_id: r636-arxiv-abs
+  title: 'Fira: Can We Achieve Full-rank Training of LLMs Under Low-rank Constraint? (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2410.01623
+  persistent_id: https://arxiv.org/abs/2410.01623
+  version: arXiv abstract page (7329 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:59:00Z'
+  sha256: abee3707cbbae3bd7a39337d9390ba5feb4c5afa7a10c0e3314cd98b7c3f1cd1
+- source_id: r636-metadata-cr
+  title: 'Fira: Can We Achieve Full-rank Training of LLMs Under Low-rank Constraint? (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/ChenFLLYYW25
+  persistent_id: https://dblp.org/rec/conf/nips/ChenFLLYYW25
+  version: Crossref API work record (2111 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:59:00Z'
+  sha256: 70ff0fe919b77f1d827a7ba609acfdd70536cfa6b8a35e1b350fe0327f1e79b6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Fira is a memory-efficient full-rank optimization algorithm for pre-training and fine-tuning deep neural network and Transformer language models.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Fira uses periodic truncated SVD subspace projection P_t in R^{m x r} to compress optimizer states into a low-rank subspace while reconstructing full-rank updates.
+limitations:
+- Requires materializing full-rank weight gradients (mn) before projection and orthogonal-complement scaling.
+- Incurs a modest throughput reduction compared to GaLore and LoRA due to column-wise norm computation and norm-growth limiting.
+- Empirically validated primarily on autoregressive Transformer language models rather than diffusion or multimodal architectures.
+curation:
+  created_at: '2026-10-19T11:59:00Z'
+  updated_at: '2026-10-19T11:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

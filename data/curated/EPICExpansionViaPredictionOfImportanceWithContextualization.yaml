@@ -1,0 +1,109 @@
+id: AIMech:EPICExpansionViaPredictionOfImportanceWithContextualization
+name: EPIC Expansion via Prediction of Importance with Contextualization
+concept_kind: architecture
+review_status: DRAFT
+definition: A lexicon-grounded representation-based neural passage re-ranking architecture that maps a query q into a sparse |V|-dimensional vector phi_q where each present query term t_i receives contextualized log-softplus importance weight w_q(t_i) = ln(1 + softplus(theta_1^T f_i(q))) (summed across repeated occurrences), and maps a passage d offline at index time into a |V|-dimensional lexicon vector phi_d(tau) = c(d) * max_{t_j in d}(w_d(t_j) * psi_j(tau)) combining a projection psi_j = Theta_2 f_j(d) into the vocabulary space, token importance w_d(t_j) = ln(1 + softplus(theta_3^T f_j(d))), and a sigmoid [CLS] passage-quality gate c(d) = sigmoid(theta_4^T d_[CLS]), scoring relevance via the inner product sim(q, d) = phi_q^T phi_d over query terms with optional top-r document vector pruning.
+identity_notes: Distinct from SPLADE (AIMech:SPLADESparseLexicalAndExpansionModel), which applies log(1 + ReLU(.)) directly to MLM logits with explicit FLOPS regularization for first-stage inverted-index retrieval without separate token-salience factors w_d(t_j) or a sigmoid [CLS] document-quality gate c(d); and distinct from SPARTA (AIMech:SPARTASparseTransformerMatchingForRetrieval), which computes non-contextualized query-to-contextualized-document token max dot products followed by ReLU(b + .) and log(1 + .) without query contextualization or a learned vocabulary expansion projection matrix Theta_2.
+aliases:
+- EPIC
+- Expansion via Prediction of Importance with Contextualization
+- EPIC Lexicon-Grounded Neural Ranking Model
+definition_evidence:
+- source_id: r779-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r779-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r779-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: epic-log-softplus-term-importance-and-cls-gated-lexicon-expansion
+  kind: mechanism
+  statement: EPIC encodes an n-term query q with BERT into contextualized vectors f_i(q) in R^e (e = 768) and forms a sparse vector phi_q in R^{|V|} (|V| = 30,522) assigning each query term t_i importance w_q(t_i) = ln(1 + softplus(theta_1^T f_i(q))) summed across duplicates (Equation 1), while encoding an m-term passage d at index time via lexicon projection psi_j = Theta_2 f_j(d) in R^{|V|} (with Theta_2 initialized from BERT's pre-trained MLM prediction matrix), token importance w_d(t_j) = ln(1 + softplus(theta_3^T f_j(d))) (Equation 2), overall passage quality c(d) = sigmoid(theta_4^T d_[CLS]) (Equation 3), and max-pooling phi_d(tau) = c(d) * max_{t_j in d}(w_d(t_j) * psi_j(tau)) (Equation 4), scoring pairs by sim(q, d) = sum_{tau in V} phi_q(tau) * phi_d(tau) (Equation 5).
+  evidence:
+  - source_id: r779-primary-pdf
+    locator: Section 2 & Section 3 (Training), Figure 1 & Equations 1-5, pp. 1-3
+    relation: supports
+  - source_id: r779-primary-pdf
+    locator: term_importance(), build_query_vector(), build_doc_vector(), and epic_similarity()
+    relation: supports
+- claim_id: epic-top-r-document-representation-pruning
+  kind: mechanism
+  statement: Because approximately 74% of entries in the dense |V|-dimensional passage vector phi_d have values of 0.1 or below (Figure 2), EPIC prunes each pre-computed passage vector by retaining only its top r largest values (e.g., r = 2000 reducing the 30,522-term vocabulary by 93.4%, or r = 1000 reducing it by 96.7%), cutting per-passage storage from ~60 KiB (500 GiB for MS MARCO in fp16) to 3.9 KiB (34 GiB total) with no statistically significant difference in MRR@10 (Section 3, Table 1 & pp. 3-4).
+  evidence:
+  - source_id: r779-primary-pdf
+    locator: Section 3 (Effect of document representation pruning & Cost of pre-computing), Table 1 & Figure 2, pp. 3-4
+    relation: supports
+  - source_id: r779-primary-pdf
+    locator: prune_top_r() and main() verification of pruned scoring preservation
+    relation: supports
+- claim_id: epic-msmarco-and-treccar-additive-reranking-application
+  kind: application
+  statement: "On MS MARCO passage ranking Dev, re-ranking BM25 with EPIC raises MRR@10 from 0.198 to 0.273 (48ms latency with r = 1000 pruning), and re-ranking docTTTTTquery with EPIC achieves an additive gain to 0.304 MRR@10 at 78ms (0.303 MRR@10 at 68ms\u2014only 5ms overhead over docTTTTTquery\u2014when pruned at r = 1000, Table 1), while on TREC CAR 2017 EPIC increases BM25 MRR from 0.235 to 0.353, outperforming DeepCT at 0.332 (Section 3, p. 3)."
+  evidence:
+  - source_id: r779-primary-pdf
+    locator: Section 3 (Ranking effectiveness & Ranking efficiency), Table 1, pp. 3-4
+    relation: supports
+- claim_id: epic-dense-vector-storage-and-aggressive-pruning-drop-limitation
+  kind: limitation
+  statement: Unpruned EPIC passage representations are dense |V|-dimensional vectors requiring ~60 KiB per passage (500 GiB across MS MARCO) and must be loaded from disk for candidate re-ranking rather than queried directly as a sparse inverted index, while aggressive pruning down to r = 100 terms causes a sharp drop in MRR@10 (from 0.273 to 0.241 on BM25 and from 0.304 to 0.285 on docTTTTTquery, Section 3, p. 4).
+  evidence:
+  - source_id: r779-primary-pdf
+    locator: Section 3 (Effect of document representation pruning & Cost of pre-computing), pp. 3-4
+    relation: supports
+evidence_sources:
+- source_id: r779-primary-pdf
+  title: Expansion via Prediction of Importance with Contextualization
+  authors: &id001
+  - Sean MacAvaney
+  - Franco Maria Nardini
+  - Raffaele Perego
+  - Nicola Tonellotto
+  - Nazli Goharian
+  - Ophir Frieder
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.14245.pdf
+  persistent_id: https://arxiv.org/bibtex/2004.14245
+  version: SIGIR 2020 (2020) (1089717 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:22:00Z'
+  sha256: 1a1438fc18a166413021e216c94bf62f296f164649d96b31572d52d58cced021
+- source_id: r779-arxiv-abs
+  title: Expansion via Prediction of Importance with Contextualization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.14245
+  persistent_id: https://arxiv.org/abs/2004.14245
+  version: arXiv abstract page (7403 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:22:00Z'
+  sha256: 9c827eab0448b91927d3eff20009920ad40991640c3db064f992db3fb48f3e26
+- source_id: r779-metadata-cr
+  title: Expansion via Prediction of Importance with Contextualization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.14245
+  persistent_id: https://arxiv.org/bibtex/2004.14245
+  version: Crossref API work record (536 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:22:00Z'
+  sha256: 4420c142ee2aaba1111fe99cf8ae722d3393db74e3c46301e2f4cc5ebe45d8bc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: EPIC fine-tunes a contextualized BERT-base neural network with learned linear salience heads, a vocabulary projection matrix initialized from the MLM head, and a sigmoid [CLS] quality gate.
+limitations:
+- Unpruned passage vectors are dense across the 30,522-term vocabulary (~500 GiB for MS MARCO in 16-bit floats), requiring top-r pruning for practical disk storage and re-ranking.
+- Pruning passage representations too aggressively (e.g., r = 100 terms per passage) substantially degrades MRR@10 effectiveness.
+curation:
+  created_at: '2026-10-19T14:22:00Z'
+  updated_at: '2026-10-19T14:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

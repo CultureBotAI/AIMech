@@ -1,0 +1,93 @@
+id: AIMech:FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning
+name: FoolsGold Cosine-Similarity Sybil Defense for Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A sybil-resilient federated learning aggregation algorithm that tracks each client's cumulative historical gradient vector H_i = sum_{t=1}^T Delta_{i,t}, computes pairwise indicative-feature weighted cosine similarities cs_{ij} between historical updates, applies a ratio-based pardoning rule cs_{ij} *= v_i / v_j whenever v_j > v_i (where v_i = max_{k != i} cs_{ik}) to avoid penalizing honest clients, inverts and max-normalizes the row-wise maximum similarities into alpha_i = (1 - max_j cs_{ij}) / max_k(1 - max_j cs_{kj}), and rescales client learning rates via a centered logit function alpha_i = clip_{[0,1]}(kappa * (ln(alpha_i / (1 - alpha_i)) + 0.5)) before updating w_{t+1} = w_t + sum_i alpha_i Delta_{i,t}.
+identity_notes: Distinct from FLTrust (which computes cosine similarity against a central server's root-dataset reference gradient g_0 rather than pairwise historical inter-client similarity with pardoning and logit inversion), and distinct from majority-bounded distance filters (Krum, Multi-Krum, Bulyan) that assume fewer than 50% malicious clients. Specifically denotes the FoolsGold algorithm of Fung, Yoon, & Beschastnikh (RAID 2020 / arXiv:1808.04866, Section 5, Algorithm 1, and Appendix A).
+aliases:
+- FoolsGold
+- FoolsGold Sybil-Resilient Federated Aggregation
+- FoolsGold Contribution-Similarity Adaptive Learning Rate
+definition_evidence:
+- source_id: r526-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r526-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r526-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r526-historical-indicative-cosine-pardoning-and-logit-weighting
+  kind: mechanism
+  statement: In each synchronous round t, FoolsGold (Algorithm 1) accumulates client i's historical update H_i = sum_{tau=1}^t Delta_{i,tau}, computes S_t-weighted cosine similarity cs_{ij} over output-layer indicative features S_t, sets v_i = max_j cs_{ij}, pardons clients with lower maximum similarity via cs_{ij} *= v_i / v_j when v_j > v_i, computes normalized trust alpha_i = (1 - max_j cs_{ij}) / max_k(1 - max_j cs_{kj}), and applies alpha_i = clip_{[0,1]}(kappa * (ln(alpha_i / (1 - alpha_i)) + 0.5)) to update w_{t+1} = w_t + sum_i alpha_i Delta_{i,t}.
+  evidence:
+  - source_id: r526-primary-pdf
+    locator: Section 5, Algorithm 1, pp. 5-6
+    relation: supports
+- claim_id: r526-sybil-majority-resilience-and-convergence-conditions
+  kind: scope
+  statement: Without requiring an upper bound on the number of sybils or a server validation dataset, FoolsGold suppresses colluding sybil groups (including scenarios where sybils constitute up to 99% of participants, A-99) and preserves O(1/T^2) SGD convergence (Appendix A) whenever asymptotic sybil similarity exceeds beta_m >= 1 - e^{-0.5*kappa}/(1 + e^{-0.5*kappa}) (driving h(i,t) -> 0) and honest inter-client similarity satisfies beta_g <= 1 - e^{0.5*kappa}/(1 + e^{0.5*kappa}) (keeping h(i,t) -> 1).
+  evidence:
+  - source_id: r526-primary-pdf
+    locator: Section 6.1 Table 3 and Figure 4, pp. 7-8; Appendix A Conditions 1-2, p. 14
+    relation: supports
+- claim_id: r526-single-adversary-and-adaptive-threshold-limitation
+  kind: limitation
+  statement: Because FoolsGold identifies attackers solely through pairwise inter-client update similarity, it cannot detect a poisoning attack mounted by a single non-colluding malicious client (Attack A-1, requiring augmentation with Multi-Krum at f = 1) and can be bypassed if an informed adversary spawns sufficiently many sybils to rate-limit poisoned updates below a similarity threshold M (Algorithm 2).
+  evidence:
+  - source_id: r526-primary-pdf
+    locator: Section 6.1, pp. 7-8; Section 6.4 Algorithm 2 and Figure 9, pp. 10-11; Section 7 and Figure 12, pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r526-primary-pdf
+  title: Mitigating Sybils in Federated Learning Poisoning
+  authors: &id001
+  - Clement Fung
+  - Chris J. M. Yoon
+  - Ivan Beschastnikh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1808.04866.pdf
+  persistent_id: https://www.usenix.org/conference/raid2020/presentation/fung
+  version: 23rd International Symposium on Research in Attacks, Intrusions and Defenses (RAID 2020), pp. 301-316 (2020) (1034479 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:09:00Z'
+  sha256: f0fa583381236963f6c0086d2f249962490147c061be6645d3be5f11e4f6295b
+- source_id: r526-arxiv-abs
+  title: Mitigating Sybils in Federated Learning Poisoning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1808.04866
+  persistent_id: https://arxiv.org/abs/1808.04866
+  version: arXiv abstract page (7300 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:09:00Z'
+  sha256: b364d83bc80373e23a5aad2d6bb4425e88222b11de029d1b2d4c8275df95067e
+- source_id: r526-metadata-cr
+  title: Mitigating Sybils in Federated Learning Poisoning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.usenix.org/conference/raid2020/presentation/fung
+  persistent_id: https://www.usenix.org/conference/raid2020/presentation/fung
+  version: Crossref API work record (2909 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:09:00Z'
+  sha256: ac84f3c518fef6ae8905df3435d1a083aa4d95ec821634c7efeb69b8c151f6d6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FoolsGold is a sybil-resilient client update weighting and aggregation method for federated learning.
+limitations:
+- Cannot detect a poisoning attack executed by a single non-colluding malicious client without sybils (Attack A-1), requiring composition with a single-outlier filter such as Multi-Krum.
+- Incompatible with cryptographic secure aggregation protocols that hide individual client update vectors from the central server.
+curation:
+  created_at: '2026-10-19T10:09:00Z'
+  updated_at: '2026-10-19T10:09:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

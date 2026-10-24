@@ -1,0 +1,107 @@
+id: AIMech:SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability
+name: Some Invalid Some Valid Instrumental Variables Estimator (sisVIVE) and 50% Majority-Rule Identifiability
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'An $\ell_1$-penalized instrumental variables methodology and structural identifiability theory (introduced by Hyunseung Kang, Anru Zhang, T. Tony Cai, and Dylan S. Small in 2016) that estimates the causal effect $\beta^*$ of an endogenous exposure $D_i$ on an outcome $Y_i$ in the presence of potentially invalid instruments $\mathbf{Z}_{i.} \in \mathbb{R}^L$ without prior knowledge of which instruments are valid. Under the Additive Linear, Constant Effects (ALICE) potential outcomes model, the observed outcome satisfies $Y_i = \mathbf{Z}_{i.}^T\boldsymbol{\alpha}^* + D_i\beta^* + \epsilon_i$ with $\mathbb{E}(\epsilon_i | \mathbf{Z}_{i.}) = 0$ (Equation 3), where $\boldsymbol{\alpha}^* = \boldsymbol{\phi}^* + \boldsymbol{\psi}^*$ aggregates direct pleiotropic effects ($\boldsymbol{\phi}^*$) and unmeasured confounder associations ($\boldsymbol{\psi}^*$), so instrument $j \in \{1, \dots, L\}$ is valid if and only if $\alpha_j^* = 0$ (Definition 1, p. 10). Given the reduced-form moment equations $\boldsymbol{\Gamma}^* = \boldsymbol{\alpha}^* + \boldsymbol{\gamma}^*\beta^*$ (Equation 7) and a sparsity bound $s = \|\boldsymbol{\alpha}^*\|_0 < U$, Theorem 1 (p. 13) and Corollary 1 (p. 14) establish that $(\boldsymbol{\alpha}^*, \beta^*)$ is uniquely identified without knowing the valid subset whenever $U \le L/2$ (the 50% majority rule: strictly more than half of the instruments are valid). The sisVIVE estimator (Equation 10, p. 15) solves the convex program $(\hat{\boldsymbol{\alpha}}_\lambda, \hat{\beta}_\lambda) \in \arg\min_{\boldsymbol{\alpha}, \beta} \frac{1}{2}\|\mathbf{P}_{\mathbf{Z}}(\mathbf{Y} - \mathbf{Z}\boldsymbol{\alpha} - \mathbf{D}\beta)\|_2^2 + \lambda\|\boldsymbol{\alpha}\|_1$ where $\mathbf{P}_{\mathbf{Z}} = \mathbf{Z}(\mathbf{Z}^T\mathbf{Z})^{-1}\mathbf{Z}^T$, which reduces algebraically to a two-step Lasso on $\mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{Z}$ followed by linear projection onto $\hat{\mathbf{D}} = \mathbf{P}_{\mathbf{Z}}\mathbf{D}$ (Theorem 3, Equation 17, p. 21) and is solvable along the entire regularization path in $O(nL^2)$ via LARS.'
+identity_notes: Resolved against all 442 pinned AIO concepts and 666 maintained AIMech concepts. Distinct from `AIMech:SelfTuningPivotalHighDimensionalInstrumentalVariablesAndSensitivityConfidenceSets` (Gautier & Rose 2011/2021, which solves a self-normalized conic program for high-dimensional endogenous structural parameters $\beta \in \mathbb{R}^{d_X}$ and scale $\sigma$ rather than proving the Theorem 1 / Corollary 1 50% majority-rule combinatorial identifiability criterion on $\boldsymbol{\Gamma}^* = \boldsymbol{\alpha}^* + \boldsymbol{\gamma}^*\beta^*$ and the Theorem 3 exact two-step orthogonal-projection Lasso reduction $\mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{Z}$ for a scalar exposure with invalid instruments), distinct from `AIMech:SelfNormalizedLassoOptimalInstrumentEstimationAndSupNormWeakIdentificationTesting` (Belloni, Chen, Chernozhukov, & Hansen 2012, which assumes all instruments satisfy the exclusion restriction $\mathbb{E}[\epsilon_i | Z_i] = 0$ and uses first-stage Lasso to select strong instruments from a large valid set rather than penalizing structural exclusion-restriction violations $\boldsymbol{\alpha}^*$), and distinct from `AIMech:PenalizedFocusedGeneralizedMethodOfMomentsForHighDimensionalEndogenousRegression` (Fan & Liao 2014, which estimates high-dimensional sparse structural regressors under valid over-identifying moments via nonconcave penalized Focused GMM).
+aliases:
+- sisVIVE
+- Some Invalid Some Valid Instrumental Variables Estimator
+- Kang-Zhang-Cai-Small Invalid Instrument Lasso Estimator
+- Majority-Rule Mendelian Randomization Instrumental Variables Estimator
+definition_evidence:
+- source_id: kzcs2016-sisvive-pdf
+  locator: Section 2, pp. 5-10, Equations (1)-(6), Definition 1; Section 3, pp. 10-22, Equations (7)-(17), Theorems 1-3, Corollaries 1-2
+  relation: supports
+- source_id: kzcs2016-sisvive-abs
+  locator: arXiv:1401.5755 abstract
+  relation: supports
+- source_id: kzcs2016-sisvive-crossref
+  locator: DOI:10.1080/01621459.2014.994705 bibliographic record
+  relation: supports
+claims:
+- claim_id: combinatorial-consistency-criterion-and-fifty-percent-majority-rule
+  kind: mechanism
+  statement: 'Given reduced-form moments $\boldsymbol{\Gamma}^* = E(\mathbf{Z}^T\mathbf{Z})^{-1}E(\mathbf{Z}^T\mathbf{Y}) = \boldsymbol{\alpha}^* + \boldsymbol{\gamma}^*\beta^*$ and $\boldsymbol{\gamma}^* = E(\mathbf{Z}^T\mathbf{Z})^{-1}E(\mathbf{Z}^T\mathbf{D})$ with $\gamma_j^* \ne 0$ ($j = 1, \dots, L$) and at most $s = \|\boldsymbol{\alpha}^*\|_0 < U$ invalid instruments (Equation 7), Theorem 1 (Section 3.1, p. 13) proves that $(\boldsymbol{\alpha}^*, \beta^*)$ has a unique solution in $\mathcal{C}_U = \{(\boldsymbol{\alpha}, \beta) : \|\boldsymbol{\alpha}\|_0 < U\}$ if and only if there do not exist two subsets $C_m, C_{m''} \subseteq \{1, \dots, L\}$ of size $|C_m| = |C_{m''}| = L - U + 1$ with constants $q_m \ne q_{m''}$ such that $\gamma_j^* q_m = \Gamma_j^*$ for $j \in C_m$ and $\gamma_j^* q_{m''} = \Gamma_j^*$ for $j \in C_{m''}$. By pigeonhole overlap $|C_m \cap C_{m''}| \ge 2(L - U + 1) - L = L - 2U + 2 \ge 2$ whenever $U \le L/2$, Corollary 1 (p. 14) establishes that $s < U \le L/2$ is a universal sufficient condition for unique identifiability of $(\boldsymbol{\alpha}^*, \beta^*)$ without knowing which instruments are valid.'
+  evidence:
+  - source_id: kzcs2016-sisvive-pdf
+    locator: Section 3.1, pp. 10-15, Equations (7)-(9), Theorem 1, Corollary 1; Appendix E.1-E.2, pp. 61-63
+    relation: supports
+- claim_id: two-step-orthogonal-projection-lasso-reduction-and-lars-homotopy
+  kind: mechanism
+  statement: 'Theorem 3 (Section 3.4, p. 21, Equation 17) proves that minimizing the joint sisVIVE criterion $\frac{1}{2}\|\mathbf{P}_{\mathbf{Z}}(\mathbf{Y} - \mathbf{Z}\boldsymbol{\alpha} - \mathbf{D}\beta)\|_2^2 + \lambda\|\boldsymbol{\alpha}\|_1$ (Equation 10) is algebraically equivalent to the two-step estimator: Step 1 solves the standard Lasso problem $\hat{\boldsymbol{\alpha}}_\lambda \in \arg\min_{\boldsymbol{\alpha} \in \mathbb{R}^L} \frac{1}{2}\|\mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{P}_{\mathbf{Z}}\mathbf{Y} - \mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{Z}\boldsymbol{\alpha}\|_2^2 + \lambda\|\boldsymbol{\alpha}\|_1$, and Step 2 computes $\hat{\beta}_\lambda = \frac{\hat{\mathbf{D}}^T(\mathbf{Y} - \mathbf{Z}\hat{\boldsymbol{\alpha}}_\lambda)}{\|\hat{\mathbf{D}}\|_2^2}$ where $\hat{\mathbf{D}} = \mathbf{P}_{\mathbf{Z}}\mathbf{D}$ and $\mathbf{P}_{\hat{\mathbf{D}}^\perp} = \mathbf{I} - \hat{\mathbf{D}}\hat{\mathbf{D}}^T / \|\hat{\mathbf{D}}\|_2^2$, enabling the entire regularization path $(\hat{\boldsymbol{\alpha}}_\lambda, \hat{\beta}_\lambda)$ for all $\lambda > 0$ to be computed in $O(nL^2)$ via LARS.'
+  evidence:
+  - source_id: kzcs2016-sisvive-pdf
+    locator: Section 3.2, p. 15, Equations (10)-(11); Section 3.4, p. 21, Theorem 3, Equation (17)
+    relation: supports
+- claim_id: nonasymptotic-causal-effect-bounds-under-restricted-isometry-and-mutual-incoherence
+  kind: scope
+  statement: "Let $\\delta_{2s}^-(\\mathbf{Z}), \\delta_{2s}^+(\\mathbf{Z})$ and $\\delta_{2s}^+(\\mathbf{P}_{\\hat{\\mathbf{D}}}\\mathbf{Z})$ denote the restricted isometry constants of $\\mathbf{Z}$ and $\\mathbf{P}_{\\hat{\\mathbf{D}}}\\mathbf{Z}$ (Equation 12). Under the condition $2\\delta_{2s}^-(\\mathbf{Z}) > \\delta_{2s}^+(\\mathbf{Z}) + 2\\delta_{2s}^+(\\mathbf{P}_{\\hat{\\mathbf{D}}}\\mathbf{Z})$ and regularization $\\lambda \\ge 3\\|\\mathbf{Z}^T\\mathbf{P}_{\\hat{\\mathbf{D}}^\\perp}\\boldsymbol{\\epsilon}\\|_\\infty$, Theorem 2 (Section 3.3, pp. 18\u201319, Equation 13) establishes the non-asymptotic causal-effect error bound $|\\hat{\\beta}_\\lambda - \\beta^*| \\le \\frac{|\\hat{\\mathbf{D}}^T\\boldsymbol{\\epsilon}|}{\\|\\hat{\\mathbf{D}}\\|_2^2} + \\frac{1}{\\|\\hat{\\mathbf{D}}\\|_2}\\frac{(4/3\\sqrt{5})\\lambda\\sqrt{s\\delta_{2s}^+(\\mathbf{P}_{\\hat{\\mathbf{D}}}\\mathbf{Z})}}{2\\delta_{2s}^-(\\mathbf{Z}) - \\delta_{2s}^+(\\mathbf{Z}) - 2\\delta_{2s}^+(\\mathbf{P}_{\\hat{\\mathbf{D}}}\\mathbf{Z})}$. Under pairwise instrument coherence $\\mu = \\max_{i \\ne j}|\\mathbf{Z}_{.i}^T\\mathbf{Z}_{.j}| / (\\|\\mathbf{Z}_{.i}\\|_2\\|\\mathbf{Z}_{.j}\\|_2)$ and instrument-strength balancing $\\rho = \\max_j \\|\\hat{\\mathbf{D}}^T\\mathbf{Z}_{.j}\\|_2 / (\\|\\hat{\\mathbf{D}}\\|_2\\|\\mathbf{Z}_{.j}\\|_2)$ (Equation 14) with $s < \\min(\\frac{1}{12\\mu}, \\frac{1}{10\\rho^2})$ (Equation 15), Corollary 2 (pp. 19\u201320, Equation 16) proves $|\\hat{\\beta}_\\lambda - \\beta^*| \\le \\frac{|\\hat{\\mathbf{D}}^T\\boldsymbol{\\epsilon}|}{\\|\\hat{\\mathbf{D}}\\|_2^2} + \\frac{1}{\\|\\hat{\\mathbf{D}}\\|_2}\\frac{(4\\sqrt{105}/9)\\lambda s\\rho}{1 - s(5\\rho^2 + 6\\mu)}$."
+  evidence:
+  - source_id: kzcs2016-sisvive-pdf
+    locator: Section 3.3, pp. 16-20, Equations (12)-(16), Theorem 2, Corollary 2; Appendix E.3-E.4, pp. 64-72
+    relation: supports
+evidence_sources:
+- source_id: kzcs2016-sisvive-pdf
+  title: Instrumental Variables Estimation with Some Invalid Instruments and its Application to Mendelian Randomization
+  authors:
+  - Hyunseung Kang
+  - Anru Zhang
+  - T. Tony Cai
+  - Dylan S. Small
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1401.5755.pdf
+  persistent_id: https://doi.org/10.1080/01621459.2014.994705
+  version: arXiv:1401.5755v3 full-text PDF (99 pages, 1092529 bytes); published in Journal of the American Statistical Association 111(513):132-144 (2016).
+  access_level: full_text
+  accessed_at: '2026-10-19T04:57:00Z'
+  sha256: 74945ff92ecb2c619e28ad2ab9bc4ab757beaff8b346bc23e6c759c8666bb907
+- source_id: kzcs2016-sisvive-abs
+  title: Instrumental Variables Estimation with Some Invalid Instruments and its Application to Mendelian Randomization
+  authors:
+  - Hyunseung Kang
+  - Anru Zhang
+  - T. Tony Cai
+  - Dylan S. Small
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1401.5755
+  persistent_id: https://arxiv.org/abs/1401.5755
+  version: arXiv:1401.5755 abstract page (6597 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:57:00Z'
+  sha256: a1e29bfe75fc679af4d6d4b256f416a454356fa44e3ef9b4cc2e139b3ba551e0
+- source_id: kzcs2016-sisvive-crossref
+  title: Instrumental Variables Estimation with Some Invalid Instruments and its Application to Mendelian Randomization
+  authors:
+  - Hyunseung Kang
+  - Anru Zhang
+  - T. Tony Cai
+  - Dylan S. Small
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1080/01621459.2014.994705
+  persistent_id: https://doi.org/10.1080/01621459.2014.994705
+  version: Crossref API metadata (2840 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:57:00Z'
+  sha256: 20df538012f7cef716725813a790907e9b6af806f84864feb24e84dd792c39d8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Penalizes the l1 norm of direct instrument-outcome effects alpha in a two-step orthogonal-projection Lasso program.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Estimates linear structural causal effect beta* of an endogenous exposure D on outcome Y using projected linear regression.
+limitations:
+- Without prior domain knowledge of which instruments are valid, unique identifiability of $(\boldsymbol{\alpha}^*, \beta^*)$ breaks down when $50\%$ or more of the candidate instruments are invalid ($s \ge L/2$) and the invalid instruments' direct effects $\alpha_j^*$ align proportionally with their first-stage strengths $\gamma_j^*$ to form a competing cluster of size $\ge L - U + 1$ (Theorem 1, Section 3.1, p. 13).
+- The finite-sample $\ell_2$ performance guarantees in Theorem 2 and Corollary 2 require the projected matrix $\mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{Z}$ to satisfy restricted isometry ($2\delta_{2s}^-(\mathbf{Z}) > \delta_{2s}^+(\mathbf{Z}) + 2\delta_{2s}^+(\mathbf{P}_{\hat{\mathbf{D}}}\mathbf{Z})$) or mutual incoherence $s < \min(1/(12\mu), 1/(10\rho^2))$, which constrains both pairwise instrument correlation $\mu$ and the dominance $\rho$ of any single instrument in $\hat{\mathbf{D}}$.
+- 'Primary-source typographical audit of `arXiv:1401.5755v3`: (1) Section 3.1 line 1 (p. 12) writes ''$\boldsymbol{\Gamma}^* = E(\mathbf{Z}^T\mathbf{Y})E(\mathbf{Z}^T\mathbf{Z})^{-1}$'' and ''$\boldsymbol{\gamma}^* = E(\mathbf{Z}^T\mathbf{D})E(\mathbf{Z}^T\mathbf{Z})^{-1}$'' placing the $L \times 1$ column vector on the left of the $L \times L$ inverse matrix instead of ''$E(\mathbf{Z}^T\mathbf{Z})^{-1}E(\mathbf{Z}^T\mathbf{Y})$''; (2) Appendix B.4 lines 10 and 13 (p. 48) write ''$k \in \operatorname{supp}(\boldsymbol{\alpha}^*)^C$ (i.e. set of invalid instruments)'' instead of ''(i.e. set of valid instruments)'' and ''$j$ now belongs to $\operatorname{supp}(\boldsymbol{\alpha}^*)^C$ and $k$ belongs to $\operatorname{supp}(\boldsymbol{\alpha}^*)^C$'' (repeating ''$^C$''); (3) Appendix B.4 paragraph 2 line 3 (p. 51) spells ''sisSIVE\''s performance'' instead of ''sisVIVE\''s performance''; (4) Appendix E.1 line 5 (p. 62) writes ''let $A^{(1)}$ and $^{(2)}$ be any pair'' omitting ''$A$'' before ''$^{(2)}$''; (5) Appendix E.2 Proof of Corollary 1 line 6 (p. 63) writes ''whenever $U \ge L/2$'' with reversed inequality instead of ''whenever $U \le L/2$''; (6) Appendix E.3 line 13 (p. 67) writes ''$2\delta_{2s}^-(\mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{Z}) > \delta_{2s}^-(\mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{Z})$'' with a minus superscript on the right-hand side instead of ''$\delta_{2s}^+(\mathbf{P}_{\hat{\mathbf{D}}^\perp}\mathbf{Z})$''; and (7) Appendix Figure 28 caption line 2 (p. 98) writes ''There are ten ($L = 100$) instruments''.'
+curation:
+  created_at: '2026-10-19T04:57:00Z'
+  updated_at: '2026-10-19T04:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,100 @@
+id: AIMech:TSHTTwoStageHardThresholdingWithPluralityVotingForInvalidInstruments
+name: TSHT Two-Stage Hard Thresholding with Plurality Voting for Invalid Instruments
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: An instrumental variable causal inference and confidence interval construction method for settings with invalid instruments that first applies hard thresholding to first-stage exposure-instrument regression coefficients (or high-dimensional debiased Lasso estimates) to select relevant instruments, and second applies pairwise hard thresholding to candidate invalidity residuals to construct a symmetric voting matrix whose plurality winner identifies the set of valid instruments for post-selection causal effect estimation.
+identity_notes: No AIO class represents Two-Stage Hard Thresholding with Plurality Voting for invalid instrumental variables; LinearRegression (AIO:LinearRegression) is the closest broad match covering linear instrumental variable regression models.
+aliases:
+- TSHT with Plurality Voting
+- Two-Stage Hard Thresholding with Voting for Invalid Instruments
+- TSHT Instrumental Variable Estimator
+definition_evidence:
+- source_id: r832-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r832-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r832-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: plurality-rule-causal-effect-identification
+  kind: mechanism
+  statement: 'Under the plurality rule (Condition IN1-P), the causal effect beta^* is uniquely identified whenever the set of valid relevant instruments S^* = {j in S : pi_j^* = 0} is strictly larger than any cluster of invalid relevant instruments sharing a common non-zero ratio pi_j^* / gamma_j^* = c != 0 (Theorem 1), strictly relaxing the 50% majority validity requirement.'
+  evidence:
+  - source_id: r832-primary-pdf
+    locator: Section 2.2, Condition IN1-P and Theorem 1, pp. 6-7
+    relation: supports
+- claim_id: two-stage-hard-thresholding-and-symmetric-voting-matrix
+  kind: mechanism
+  statement: Stage 1 selects strong relevant instruments S_hat by hard thresholding first-stage estimates |gamma_hat_j| against a noise-calibrated threshold (Equations 5-6), and Stage 2 evaluates each candidate beta^[j] = Gamma_hat_j / gamma_hat_j across all k in S_hat by hard thresholding the invalidity residual Gamma_hat_k - beta^[j] gamma_hat_k to form a symmetric binary voting matrix V_hat and select the plurality winner S_hat_V (Equations 7-12).
+  evidence:
+  - source_id: r832-primary-pdf
+    locator: Section 3.2-3.5, Equations 5-12, pp. 8-11
+    relation: supports
+- claim_id: mendelian-randomization-and-econometric-iv-application
+  kind: application
+  statement: TSHT with voting is applied to construct asymptotically valid confidence intervals for causal effects in low- and high-dimensional instrumental variable regressions and Mendelian randomization studies with pleiotropic genetic variants.
+  evidence:
+  - source_id: r832-primary-pdf
+    locator: Section 3.7, Equations 13-17, pp. 12-14; Section 5-6, pp. 19-28
+    relation: supports
+- claim_id: plurality-violation-and-weak-instrument-screening-limitation
+  kind: limitation
+  statement: TSHT requires the plurality rule (Condition IN1-P) and sufficient first-stage instrument strength to pass Stage 1 hard thresholding; if a coordinated pleiotropic mechanism causes a single non-zero ratio c != 0 to outnumber the valid instruments, or if valid instruments are too weak to survive Stage 1 screening, TSHT can select an invalid cluster.
+  evidence:
+  - source_id: r832-primary-pdf
+    locator: Section 2.2, p. 6; Section 3.2, p. 9; Section 4.1, Theorem 2 conditions, pp. 14-16
+    relation: supports
+evidence_sources:
+- source_id: r832-primary-pdf
+  title: Confidence Intervals for Causal Effects with Invalid Instruments using Two-Stage Hard Thresholding with Voting
+  authors: &id001
+  - Zijian Guo
+  - Hyunseung Kang
+  - T. Tony Cai
+  - Dylan S. Small
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1603.05224
+  persistent_id: https://arxiv.org/abs/1603.05224
+  version: 'Journal of the Royal Statistical Society: Series B (Statistical Methodology) 80(5):793-820 (arXiv:1603.05224v3) (2018) (831572 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T15:15:00Z'
+  sha256: 0ef075b24ff26df02f667c67c82b6e32e8781abd04810e0304ebc628c68c1f7d
+- source_id: r832-arxiv-abs
+  title: Confidence Intervals for Causal Effects with Invalid Instruments using Two-Stage Hard Thresholding with Voting (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1603.05224
+  persistent_id: https://arxiv.org/abs/1603.05224
+  version: arXiv abstract page (1359 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:15:00Z'
+  sha256: ba281d12dc1e5f5c2be818958613a7a320423b2cd069f86d8fa8bb226b748983
+- source_id: r832-metadata-cr
+  title: Confidence Intervals for Causal Effects with Invalid Instruments using Two-Stage Hard Thresholding with Voting (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1603.05224
+  persistent_id: https://arxiv.org/abs/1603.05224
+  version: Crossref API work record (435 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:15:00Z'
+  sha256: 5ddf18480264bb54737f824f3d85c69d9062783ae6135afb056e4e55cd53cac9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: broad_match
+  rationale: TSHT with plurality voting estimates linear structural causal effects via two-stage hard thresholding and post-selection two-stage least squares regression.
+limitations:
+- TSHT requires the plurality rule (Condition IN1-P) and sufficient first-stage instrument strength to pass Stage 1 hard thresholding; if a coordinated pleiotropic mechanism causes a single non-zero ratio c != 0 to outnumber the valid instruments, or if valid instruments are too weak to survive Stage 1 screening, TSHT can select an invalid cluster.
+curation:
+  created_at: '2026-10-19T15:15:00Z'
+  updated_at: '2026-10-19T15:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

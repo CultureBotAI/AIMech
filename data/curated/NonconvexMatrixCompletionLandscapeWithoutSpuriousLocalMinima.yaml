@@ -1,0 +1,96 @@
+id: AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima
+name: Nonconvex Matrix Completion Optimization Landscape Without Spurious Local Minima
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A global nonconvex optimization landscape characterization (introduced by Rong Ge, Jason D. Lee, and Tengyu Ma in 2016) proving that the Burer\u2013Monteiro factored matrix completion objective $f(\\boldsymbol{X}) = \\frac{1}{2p}\\|\\mathcal{P}_\\Omega(\\boldsymbol{M} - \\boldsymbol{X}\\boldsymbol{X}^\\top)\\|_F^2 + \\lambda R(\\boldsymbol{X})$ over $\\boldsymbol{X} \\in \\mathbb{R}^{d\\times r}$ with quartic row-norm incoherence regularizer $R(\\boldsymbol{X}) = \\sum_{i=1}^d (\\|\\boldsymbol{X}_i\\|_2 - \\alpha)_+^4$ (Equation 5.1) has **no spurious local minima** and obeys the global $(\\theta,\\gamma,\\zeta)$-strict saddle property (Definition 2.1). Specifically, when a positive semidefinite rank-$r$ matrix $\\boldsymbol{M} = \\boldsymbol{Z}\\boldsymbol{Z}^\\top$ satisfies $\\mu$-incoherence ($\\|\\boldsymbol{Z}_i\\|_2 \\le \\mu\\sqrt{r/d}\\sigma_1(\\boldsymbol{Z})$) and entries are observed independently with probability $p \\ge \\tilde{\\Omega}(\\frac{\\mu^4 r^6 \\kappa^4}{d\\varepsilon^2})$, Theorem 1.1 and Theorem 5.3 prove that every critical point $\\nabla f(\\boldsymbol{X}) = \\boldsymbol{0}$ is either (1) a global minimum satisfying $\\boldsymbol{X}\\boldsymbol{X}^\\top = \\boldsymbol{M}$ (up to $\\varepsilon$ in the noisy case), or (2) a strict saddle point where the Hessian exhibits strictly negative curvature $\\lambda_{\\min}(\\nabla^2 f(\\boldsymbol{X})) \\le -\\Omega(\\mu^2 \\sigma_r(\\boldsymbol{M}) r/d) < 0$. The proof constructs an explicit escape direction $\\boldsymbol{\\Delta} = \\boldsymbol{X} - \\boldsymbol{Z}\\boldsymbol{R}$ aligned to $\\boldsymbol{Z}$ via the Procrustes rotation $\\boldsymbol{R}$ and combines concentration of the sampling operator $\\|\\mathcal{P}_\\Omega(\\boldsymbol{A}) - p\\boldsymbol{A}\\|_F^2$ on low-rank incoherent tangent matrices with the directional convexity inequality $\\langle \\nabla R(\\boldsymbol{X}), \\boldsymbol{\\Delta}\\rangle \\ge 0$ (Claim C.3, Lemma 5.7) to show that $\\langle \\boldsymbol{\\Delta}, \\nabla^2 f(\\boldsymbol{X})\\boldsymbol{\\Delta}\\rangle \\ge 0$ combined with $\\nabla f(\\boldsymbol{X}) = \\boldsymbol{0}$ forces $\\|\\boldsymbol{M} - \\boldsymbol{X}\\boldsymbol{X}^\\top\\|_F = 0$."
+identity_notes: Resolved against all 442 pinned AIO concepts and 691 maintained AIMech concepts. Distinct from `AIMech:DebiasedNoisyMatrixCompletionInferenceAndUncertaintyQuantification` (Chen, Fan, Ma, & Yan 2019) and `AIMech:ImplicitRegularizationInNonconvexStatisticalEstimationByLeaveOneOutTrajectoryAnalysis` (Ma, Wang, Chi, & Chen 2020), which analyze local convergence from a spectral initialization rather than proving the global absence of spurious local minima and strict-saddle geometry across the entire factor space $\mathbb{R}^{d\times r}$ from arbitrary random initialization.
+aliases:
+- No Spurious Local Minima in Nonconvex Matrix Completion
+- Ge-Lee-Ma Strict-Saddle Landscape for Factored Matrix Completion
+- Global Landscape of Burer-Monteiro Matrix Completion with Row-Norm Regularization
+definition_evidence:
+- source_id: glm2016-mclandscape-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: glm2016-mclandscape-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: glm2016-mclandscape-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-strict-saddle-negative-curvature-along-procrustes-alignment-direction
+  kind: mechanism
+  statement: "For the full-observation factored objective $g(\\boldsymbol{X}) = \\frac{1}{2}\\|\\boldsymbol{M} - \\boldsymbol{X}\\boldsymbol{X}^\\top\\|_F^2$ with $\\boldsymbol{M} = \\boldsymbol{Z}\\boldsymbol{Z}^\\top$, Proposition 4.1 and Lemma 4.2 prove that along the optimal Procrustes alignment difference $\\boldsymbol{\\Delta} = \\boldsymbol{X} - \\boldsymbol{U}$ (where $\\boldsymbol{U} = \\boldsymbol{Z}\\boldsymbol{R}$ minimizes $\\|\\boldsymbol{X} - \\boldsymbol{Z}\\boldsymbol{R}\\|_F$ over orthogonal $\\boldsymbol{R}\\in\\mathbb{O}_r$), the directional Hessian quadratic form satisfies $\\langle\\boldsymbol{\\Delta}, \\nabla^2 g(\\boldsymbol{X})\\boldsymbol{\\Delta}\\rangle = \\|\\boldsymbol{\\Delta}\\boldsymbol{X}^\\top + \\boldsymbol{X}\\boldsymbol{\\Delta}^\\top\\|_F^2 - 2\\langle \\boldsymbol{M} - \\boldsymbol{X}\\boldsymbol{X}^\\top, \\boldsymbol{\\Delta}\\boldsymbol{\\Delta}^\\top\\rangle = 2\\langle \\nabla g(\\boldsymbol{X}), \\boldsymbol{\\Delta}\\rangle - \\|\\boldsymbol{M} - \\boldsymbol{X}\\boldsymbol{X}^\\top\\|_F^2 + 3\\|\\boldsymbol{\\Delta}\\boldsymbol{\\Delta}^\\top\\|_F^2 \\le 2\\langle \\nabla g(\\boldsymbol{X}), \\boldsymbol{\\Delta}\\rangle - \\frac{1}{2}\\|\\boldsymbol{M} - \\boldsymbol{X}\\boldsymbol{X}^\\top\\|_F^2$, certifying strictly negative curvature whenever $\\|\\nabla g(\\boldsymbol{X})\\|_F$ is small and $\\boldsymbol{X}\\boldsymbol{X}^\\top \\ne \\boldsymbol{M}$ (Sections 3 and 4, Claims 1f\u20132f, Proposition 4.1, Lemma 4.2)."
+  evidence:
+  - source_id: glm2016-mclandscape-pdf
+    locator: Section 3 (Claims 1f-2f, pp. 4-5), Section 4 (Proposition 4.1, Lemma 4.2, pp. 5-6)
+    relation: supports
+- claim_id: claim-quartic-row-norm-incoherence-regularizer-directional-monotonicity
+  kind: mechanism
+  statement: For the smooth quartic row-norm regularizer $R(\boldsymbol{X}) = \sum_{i=1}^d (\|\boldsymbol{X}_i\|_2 - \alpha)_+^4$ with threshold $\alpha \ge 2\mu\sqrt{r/d}\sigma_1(\boldsymbol{Z})$, Proposition 5.2, Lemma 5.7, and Claim C.3 prove that for any target factor $\boldsymbol{U}$ with $\|\boldsymbol{U}_i\|_2 \le \alpha/2$, the gradient inner product satisfies $\langle \nabla R(\boldsymbol{X}), \boldsymbol{X} - \boldsymbol{U}\rangle \ge 2 R(\boldsymbol{X}) \ge 0$ and the directional Hessian satisfies $\langle \boldsymbol{\Delta}, \nabla^2 R(\boldsymbol{X})\boldsymbol{\Delta}\rangle \le 6\langle \nabla R(\boldsymbol{X}), \boldsymbol{\Delta}\rangle$, ensuring that every point with small gradient has incoherent rows $\|\boldsymbol{X}_i\|_2 \le 2\alpha$ without introducing any spurious stationary points (Section 5, Equation 5.1, Proposition 5.2, Lemma 5.7, Appendix C, Claim C.3).
+  evidence:
+  - source_id: glm2016-mclandscape-pdf
+    locator: Section 5 (Eq. 5.1, Proposition 5.2, Lemma 5.7, pp. 6-8), Appendix C (Claim C.3, pp. 17-19)
+    relation: supports
+- claim_id: claim-global-convergence-of-random-initialized-stochastic-gradient-descent
+  kind: application
+  statement: Because $f(\boldsymbol{X})$ satisfies the global $(\theta,\gamma,\zeta)$-strict saddle property with no spurious local minima whenever $p \ge \tilde{\Omega}(\mu^4 r^6 \kappa^4 / d)$ (Theorems 1.1 and 5.3) and extends to asymmetric rectangular matrices $\boldsymbol{M}\in\mathbb{R}^{d_1\times d_2}$ via symmetric lifting (Section 6, Theorem 6.1), perturbed/stochastic gradient descent from an arbitrary random initialization converges in polynomial time to a global minimum $\boldsymbol{X}\boldsymbol{X}^\top = \boldsymbol{M}$ without requiring spectral initialization (Section 1, Theorem 1.1; Section 2, Theorem 2.2; Section 5, Theorem 5.3; Section 6, Theorem 6.1).
+  evidence:
+  - source_id: glm2016-mclandscape-pdf
+    locator: Section 1 (Theorem 1.1, p. 2), Section 2 (Theorem 2.2, p. 4), Section 5 (Theorem 5.3, p. 7), Section 6 (Theorem 6.1, p. 8)
+    relation: supports
+evidence_sources:
+- source_id: glm2016-mclandscape-pdf
+  title: Matrix Completion has No Spurious Local Minimum
+  authors: &id001
+  - Rong Ge
+  - Jason D. Lee
+  - Tengyu Ma
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1605.07272.pdf
+  persistent_id: https://arxiv.org/abs/1605.07272
+  version: arXiv:1605.07272v4 full-text PDF (27 pages), published in Advances in Neural Information Processing Systems (NeurIPS) 29:2973-2981 (2016). (583357 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:46:00Z'
+  sha256: 6448040cbd485df94a803e2112ec65ddd871584c56b4fee936558c658c8606de
+- source_id: glm2016-mclandscape-abs
+  title: Matrix Completion has No Spurious Local Minimum (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1605.07272
+  persistent_id: https://arxiv.org/abs/1605.07272
+  version: arXiv abstract page (6964 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:46:00Z'
+  sha256: 2f754912d4477076a916404fbfce7ab5774e0fc27b622f4c71986bd3ba48d1d5
+- source_id: glm2016-mclandscape-cr
+  title: Matrix Completion has No Spurious Local Minimum (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1605.07272
+  persistent_id: https://arxiv.org/abs/1605.07272
+  version: Crossref API work record (6964 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:46:00Z'
+  sha256: 2f754912d4477076a916404fbfce7ab5774e0fc27b622f4c71986bd3ba48d1d5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Establishes the global strict-saddle optimization landscape for low-rank matrix completion via Burer-Monteiro factorization.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Characterizes exact recovery of low-rank positive semidefinite matrices from partial entry observations without spurious local minima.
+limitations:
+- The global landscape sample complexity bound p >= Omega_tilde(mu^4 r^6 kappa^4 / d) has higher polynomial dependence on the rank r and condition number kappa = sigma_1(M) / sigma_r(M) than local-convergence bounds starting from a spectral initialization.
+- Requires explicit quartic row-norm regularization R(X) when p < 1 to prevent iterates from escaping into high-coherence spikes aligned with the sparse sampling mask Omega.
+curation:
+  created_at: '2026-10-19T05:46:00Z'
+  updated_at: '2026-10-19T05:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

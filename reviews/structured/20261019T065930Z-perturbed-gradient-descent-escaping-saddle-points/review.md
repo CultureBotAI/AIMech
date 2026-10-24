@@ -1,0 +1,370 @@
+# Scientific author self-review of Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization
+
+- Review: 20261019T065930Z-perturbed-gradient-descent-escaping-saddle-points
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T06:59:00Z
+- Finished UTC: 2026-10-19T06:59:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base a12c6db6ff4e6b7554286d17a231599b98893873.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization | data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml | maintained | Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization | Validated history sidecar files. |
+| python3 perturbed-gradient-descent-escaping-saddle-points-boundaries.py | passed | True | AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization | [PASS] Round 337 Perturbed Gradient Descent (Jin et al. 2017): lemma7_hess_id_err=7.11e-15, rayleigh_zero=-6.6667, f_stuck=8.0000, f_escaped=3.32e-26, max_vol_ratio_over_delta=0.4502 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.
+
+Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization is a distinct concept.
+
+Distinct from Strict-Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition (&#96;AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition&#96;), which injects noise at every stochastic step with poly(d / epsilon) iteration dependence, and from Gradient Descent Avoidance of Strict Saddle Points via Stable Manifold Theorem (&#96;AIMech:GradientDescentAvoidanceOfStrictSaddlePointsViaStableManifoldTheorem&#96;), which establishes asymptotic measure-zero avoidance without quantitative polynomial iteration bounds. Specifically captures the Jin et al. (2017) thresholded ball-perturbation rule (Algorithm 1), the two-point coupling width bound for the thin-pancake stuck region (Lemmas 14-17), the dimension-free log^4(d)/epsilon^2 rate (Theorem 3), and the global strict-saddle/regularity decomposition for symmetric low-rank matrix factorization (Lemmas 6-7).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in perturbed-gradient-descent-escaping-saddle-points-boundaries.py passed with exit code 0: [PASS] Round 337 Perturbed Gradient Descent (Jin et al. 2017): lemma7_hess_id_err=7.11e-15, rayleigh_zero=-6.6667, f_stuck=8.0000, f_escaped=3.32e-26, max_vol_ratio_over_delta=0.4502
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T065900Z-perturbed-gradient-descent-escaping-saddle-points.json | supports | No normalized identity match for AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/perturbed-gradient-descent-escaping-saddle-points-boundaries.py | supports | All constructed boundary assertions in perturbed-gradient-descent-escaping-saddle-points-boundaries.py passed with exit code 0: [PASS] Round 337 Perturbed Gradient Descent (Jin et al. 2017): lemma7_hess_id_err=7.11e-15, rayleigh_zero=-6.6667, f_stuck=8.0000, f_escaped=3.32e-26, max_vol_ratio_over_delta=0.4502 |
+| r337-primary-pdf | https://arxiv.org/pdf/1703.00887.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 34th International Conference on Machine Learning (ICML 2017), PMLR 70:1724-1732 / J. ACM 68(2):11 (2021) (2017)) read and verified. |
+| r337-arxiv-abs | https://arxiv.org/abs/1703.00887; arXiv abstract | supports | arXiv abstract read and verified. |
+| r337-metadata-cr | https://proceedings.mlr.press/v70/jin17a.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization in Round 337.
+- All pages of Proceedings of the 34th International Conference on Machine Learning (ICML 2017), PMLR 70:1724-1732 / J. ACM 68(2):11 (2021) (2017) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T065930Z-perturbed-gradient-descent-escaping-saddle-points
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Perturbed Gradient Descent for Escaping Saddle
+  Points in Hessian-Lipschitz Optimization
+started_at: '2026-10-19T06:59:00Z'
+finished_at: '2026-10-19T06:59:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 34th International Conference on Machine Learning (ICML 2017), PMLR 70:1724-1732
+    / J. ACM 68(2):11 (2021) (2017) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz
+  Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: a12c6db6ff4e6b7554286d17a231599b98893873
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml
+    sha256: 890854d598cbd6674d1ab305aa71ce66c3e3c3dd572dfad4fb6fbf00afbf9de9
+    role: target
+  - path: research/discovery/20261019T065900Z-perturbed-gradient-descent-escaping-saddle-points.json
+    sha256: 763aefb6bcb0c313231df186d94c55544c91fb3670beafedab36432a2344c83b
+    role: context
+  - path: research/discovery/perturbed-gradient-descent-escaping-saddle-points-boundaries.py
+    sha256: 9315bc797e6ad73b13c6d65ad33288e0e9c277c22a97942b6e2d5c45d99a9ed4
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  path: data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml
+  label: Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz
+    Optimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 perturbed-gradient-descent-escaping-saddle-points-boundaries.py
+  command: python3 research/discovery/perturbed-gradient-descent-escaping-saddle-points-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 337 Perturbed Gradient Descent (Jin et al. 2017): lemma7_hess_id_err=7.11e-15,
+    rayleigh_zero=-6.6667, f_stuck=8.0000, f_escaped=3.32e-26, max_vol_ratio_over_delta=0.4502'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T065900Z-perturbed-gradient-descent-escaping-saddle-points.json
+  accessed_at: '2026-10-19T06:59:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T06:59:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/perturbed-gradient-descent-escaping-saddle-points-boundaries.py
+  accessed_at: '2026-10-19T06:59:00Z'
+  snapshot_sha256: 9315bc797e6ad73b13c6d65ad33288e0e9c277c22a97942b6e2d5c45d99a9ed4
+  support: supports
+  summary: 'All constructed boundary assertions in perturbed-gradient-descent-escaping-saddle-points-boundaries.py
+    passed with exit code 0: [PASS] Round 337 Perturbed Gradient Descent (Jin et al.
+    2017): lemma7_hess_id_err=7.11e-15, rayleigh_zero=-6.6667, f_stuck=8.0000, f_escaped=3.32e-26,
+    max_vol_ratio_over_delta=0.4502'
+- evidence_id: r337-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1703.00887.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T06:59:00Z'
+  snapshot_sha256: 52953f9c6a2b284ddd9b3ccac70d8b773563ccc6f6ef47379075ccfb733ebb58
+  support: supports
+  summary: Full-text PDF (Proceedings of the 34th International Conference on Machine
+    Learning (ICML 2017), PMLR 70:1724-1732 / J. ACM 68(2):11 (2021) (2017)) read
+    and verified.
+- evidence_id: r337-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1703.00887
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T06:59:00Z'
+  snapshot_sha256: edc14bc55d0ebf744b8435ef0a19d53b6177b9c260b25698729c46c3ed4d5929
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r337-metadata-cr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v70/jin17a.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T06:59:00Z'
+  snapshot_sha256: b6ae0bb4db1576121a30426a6bf9761bfb3bb241171d7b87ba66fe31bd0dd491
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  evidence_ids:
+  - identity
+  - r337-primary-pdf
+  - r337-arxiv-abs
+  - r337-metadata-cr
+  summary: Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz
+    Optimization is a distinct concept.
+  details: Distinct from Strict-Saddle Property and Noisy Stochastic Gradient Saddle
+    Escaping for Orthogonal Tensor Decomposition (`AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition`),
+    which injects noise at every stochastic step with poly(d / epsilon) iteration
+    dependence, and from Gradient Descent Avoidance of Strict Saddle Points via Stable
+    Manifold Theorem (`AIMech:GradientDescentAvoidanceOfStrictSaddlePointsViaStableManifoldTheorem`),
+    which establishes asymptotic measure-zero avoidance without quantitative polynomial
+    iteration bounds. Specifically captures the Jin et al. (2017) thresholded ball-perturbation
+    rule (Algorithm 1), the two-point coupling width bound for the thin-pancake stuck
+    region (Lemmas 14-17), the dimension-free log^4(d)/epsilon^2 rate (Theorem 3),
+    and the global strict-saddle/regularity decomposition for symmetric low-rank matrix
+    factorization (Lemmas 6-7).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  evidence_ids:
+  - mapping
+  - r337-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  evidence_ids:
+  - r337-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in perturbed-gradient-descent-escaping-saddle-points-boundaries.py
+    passed with exit code 0: [PASS] Round 337 Perturbed Gradient Descent (Jin et al.
+    2017): lemma7_hess_id_err=7.11e-15, rayleigh_zero=-6.6667, f_stuck=8.0000, f_escaped=3.32e-26,
+    max_vol_ratio_over_delta=0.4502'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r337-primary-pdf
+  - r337-arxiv-abs
+  - r337-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+  in Round 337.
+- All pages of Proceedings of the 34th International Conference on Machine Learning
+  (ICML 2017), PMLR 70:1724-1732 / J. ACM 68(2):11 (2021) (2017) were read in full
+  text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

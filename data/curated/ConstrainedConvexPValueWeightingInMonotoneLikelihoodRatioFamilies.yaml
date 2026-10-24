@@ -1,0 +1,211 @@
+id: AIMech:ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies
+name: Constrained convex p-value weighting in monotone likelihood ratio families (Princessp)
+aliases:
+- Princessp
+- Prior-Informed Convexly Constrained Spjotvoll P-Value Weighting
+- Order- and Box-Constrained Convex P-Value Weighting
+- Monotone Likelihood Ratio Convex P-Value Weighting
+concept_kind: mathematical_method
+definition: 'A convex-optimization p-value weighting methodology (Princessp: ''PRior-INformed, Convexly
+  Constrained Spjotvoll'') introduced by Edgar Dobriban (2018, Information and Inference: A Journal of
+  the IMA 7(2):251-275, arXiv:1603.05334v2, DOI:10.1093/imaiai/iax013) for testing massive collections
+  of J hypotheses H_{0,j}: theta_j = theta_{0,j} against H_{a,j}: theta_j = theta_{a,j} at per-test significance
+  level q in (0, 1) using p-values P_j and prior weights w_j >= 0 with J^{-1} sum_{j=1}^J w_j = 1 (controlling
+  the family-wise error rate via weighted Bonferroni P_j <= q w_j or the false discovery rate via weighted
+  Benjamini-Hochberg). By re-parametrizing the power of the j-th test in terms of the p-value threshold
+  u_j = q w_j as the receiver operating characteristic (ROC) function R_j(u_j) = F_{a,j}(F_{0,j}^{-1}(u_j))
+  rather than the non-concave critical-value parametrization c_j = F_{0,j}^{-1}(q w_j), Dobriban proves
+  that R_j(u_j) is concave on [0, 1] whenever the test statistic comes from an absolutely continuous parametric
+  family with monotone likelihood ratio (MLR) for one-sided tests (Proposition 2.1) or from a canonical
+  exponential family for two-sided equal-tailed tests |T_j| >= z(u_j/2) (Proposition 2.2), where unconstrained
+  two-sided Gaussian weights take the closed form w_j^* = 2 q^{-1} Phi(-|mu_j|/2 - |mu_j|^{-1} arccosh(lambda
+  exp(mu_j^2/2))) (Proposition 2.3). Because unconstrained Spjotvoll weights become non-monotone in |mu_j|
+  when q exceeds a critical level (assigning less weight to the largest effect sizes; Propositions 3.1-3.2)
+  and place zero weight on small prior effects, Princessp maximizes J^{-1} sum_{j=1}^J R_j(q w_j) subject
+  to the convex constraint set C = {w in R^J : J^{-1} sum_{j=1}^J w_j = 1, l <= w_j <= u, w_1 <= w_2 <=
+  ... <= w_J} for hypotheses sorted by increasing |mu_j|, enforcing effect-size monotonicity and non-zero
+  minimum weights l in (0, 1] via an O(J)-step interior-point Newton solver whose barrier Hessian + order-constraint
+  KKT matrix reduces to a symmetric tridiagonal-plus-rank-1 system solved in O(J) time via the Sherman-Morrison
+  formula combined with hybrid subsampling for large J.'
+identity_notes: No normalized identity match for Constrained convex p-value weighting in monotone likelihood
+  ratio families (Princessp) across all 442 pinned AIO records and 591 maintained IDs, names, aliases
+  and scoped synonyms. Only frontier reference matches in Round 194-196 discovery artifacts were found.
+  Distinct from AIMech:BayesOptimalPValueWeightingUnderGaussianPrior (Dobriban, Fortney, Kim, & Owen 2015),
+  which models uncertain Gaussian priors mu_i ~ N(eta_i, sigma_i^2) on one-sided Gaussian means and solves
+  an unconstrained non-convex marginal power optimization via quadratic-root critical values and jump-discontinuity
+  sorting, whereas Dobriban (2018) proves concavity of the ROC function R_j(q w_j) across general monotone
+  likelihood ratio (MLR) families and two-sided exponential-family tests (Propositions 2.1-2.3), proves
+  non-monotonicity of unconstrained Spjotvoll weights in |mu_j| for moderate q (Propositions 3.1-3.2),
+  and formulates Princessp to maximize average ROC power under linear order constraints w_1 <= ... <=
+  w_J and box bounds l <= w_j <= u via an O(J) tridiagonal-plus-rank-1 interior-point solver (Section
+  4.2); and distinct from AIMech:OptimalMultiWeightedStepUpProcedureForFDRControl (Roquain & van de Wiel
+  2009) and AIMech:AdaptiveDataDrivenOptimalPValueWeighting (Durand 2019).
+definition_evidence:
+- source_id: dobriban2018-princessp-ar5iv
+  locator: Section 1–1.2, lines 62–145; Section 2.1–2.2, lines 146–285, Propositions 2.1–2.3; Section
+    3.1–3.2, lines 286–395, Propositions 3.1–3.2; Section 4.1–4.2, lines 396–556
+  relation: supports
+- source_id: dobriban2018-princessp-crossref
+  locator: 'Information and Inference: A Journal of the IMA, Vol. 7, Issue 2, pp. 251–275, June 2018 bibliographic
+    record (DOI:10.1093/imaiai/iax013)'
+  relation: supports
+- source_id: dobriban2018-princessp-abs
+  locator: arXiv:1603.05334v2 abstract and Information and Inference DOI metadata
+  relation: supports
+claims:
+- claim_id: roc-reparametrization-concavity-in-mlr-families
+  kind: mechanism
+  statement: Whereas the critical-value parametrization c_j -> 1 - F_{a,j}(c_j) subject to J^{-1} sum_{j=1}^J
+    (1 - F_{0,j}(c_j)) = q is non-convex (neither concave nor convex even in the Gaussian shift model),
+    re-parametrizing power in terms of the per-test significance threshold u_j = q w_j via the receiver
+    operating characteristic (ROC) function R_j(u_j) = 1 - F_{a,j}(F_{0,j}^{-1}(1 - u_j)) (for upper-tail
+    tests) or F_{a,j}(F_{0,j}^{-1}(u_j)) (for lower-tail tests) yields a concave function on [0, 1] with
+    derivative R_j'(u_j) = f_{a,j}(F_{0,j}^{-1}(1 - u_j)) / f_{0,j}(F_{0,j}^{-1}(1 - u_j)) whenever the
+    test statistic comes from an absolutely continuous parametric family {F_theta} with monotone likelihood
+    ratio (MLR) and theta_{a,j} > theta_{0,j} (Proposition 2.1, Section 6.1), reducing optimal p-value
+    weighting under any convex constraint set C to a convex optimization problem.
+  evidence:
+  - source_id: dobriban2018-princessp-ar5iv
+    locator: Section 2.1, lines 155–227, Proposition 2.1; Section 6.1, lines 682–711
+    relation: supports
+  - source_id: dobriban2018-princessp-crossref
+    locator: Information and Inference 7(2):251–275 publication record
+    relation: supports
+- claim_id: two-sided-exponential-family-concavity-and-closed-form-gaussian-weights
+  kind: mechanism
+  statement: 'For two-sided tests rejecting H_{0,j}: theta_j = 0 in favor of theta_j != 0 when |T_j| >=
+    z(u_j/2) with F_0(z(u)) = 1 - u in a canonical one-parameter exponential family f_theta(t) = exp(theta
+    t - A(theta)) f_0(t), the two-sided ROC function R_theta(u) = 1 - F_theta(z(u/2)) + F_theta(-z(u/2))
+    has derivative R_theta''(u) = (1/2)[f_theta(z(u/2))/f_0(z(u/2)) + f_theta(-z(u/2))/f_0(-z(u/2))] =
+    exp(-A(theta)) cosh(theta z(u/2)), which is non-increasing on [0, 1] because u -> z(u/2) >= 0 is decreasing
+    and cosh(|theta| x) is increasing on [0, infinity), establishing concavity of R_theta(u) on [0, 1]
+    (Proposition 2.2, Section 6.2); in particular, for the two-sided Gaussian model T_j ~ N(mu_j, 1) with
+    mu_j != 0, whenever J^{-1} sum_{j=1}^J Phi(-|mu_j|/2) >= q/2, the unconstrained Spjotvoll two-sided
+    optimal weights are given in closed form by w_j^* = 2 q^{-1} Phi(-|mu_j|/2 - |mu_j|^{-1} arccosh(lambda
+    exp(mu_j^2/2))), where lambda > 1 is the unique root of J^{-1} sum_{j=1}^J w_j(lambda) = 1 (Proposition
+    2.3, Section 6.3).'
+  evidence:
+  - source_id: dobriban2018-princessp-ar5iv
+    locator: Section 2.2, lines 228–285, Propositions 2.2 and 2.3; Section 6.2–6.3, lines 712–748
+    relation: supports
+  - source_id: dobriban2018-princessp-abs
+    locator: Abstract (convex optimization formulation for one-sided and two-sided tests)
+    relation: supports
+- claim_id: spjotvoll-non-monotonicity-at-moderate-significance-levels
+  kind: mechanism
+  statement: 'In the Gaussian shift model with distinct non-zero prior effect sizes |mu_j|, there exists
+    a critical significance threshold q_0 > 0 such that the unconstrained Spjotvoll weight vector w^*
+    is strictly increasing in |mu_j| (both one-sided for mu_j < 0 and two-sided for mu_j != 0) for all
+    q <= q_0 (Proposition 3.1, Section 6.4), whereas for larger q > q_0 when dual multiplier lambda >
+    1, the weight function mu -> w^*(mu) is unimodal on (-infinity, 0): it increases from 0 at mu = 0
+    to a peak at the negative root mu = -sqrt(2 log lambda) of mu^2/2 - log lambda = 0 (one-sided) or
+    at the unique root mu = -sqrt(a^*) of a - 2 tanh(a/2 + acosh(lambda exp(a/2))) acosh(lambda exp(a/2))
+    = 0 (two-sided, Proposition 3.2, Section 6.5) and then decreases to Phi(0)/q = 1/(2q) as |mu| -> infinity,
+    paradoxically assigning smaller weights to the largest prior effects than to intermediate prior effects.'
+  evidence:
+  - source_id: dobriban2018-princessp-ar5iv
+    locator: Section 3.1–3.2, lines 286–395, Propositions 3.1 and 3.2, Figures 1–2; Section 6.4–6.5, lines
+      749–830
+    relation: supports
+- claim_id: princessp-order-and-box-constrained-tridiagonal-rank1-solver
+  kind: mechanism
+  statement: 'To eliminate both the non-monotonicity of unconstrained Spjotvoll weights at moderate q
+    and the fragility of assigning zero weight to underestimated effects, Princessp (Section 3.1 & Section
+    4.1–4.2) sorts hypotheses by |mu_1| <= |mu_2| <= ... <= |mu_J| and maximizes J^{-1} sum_{j=1}^J R_j(q
+    w_j) over the convex polytope C = {w in R^J : J^{-1} sum_{j=1}^J w_j = 1, l <= w_j <= u, w_1 <= w_2
+    <= ... <= w_J} with lower bound l in (0, 1] and upper bound u >= 1; in the log-barrier interior-point
+    method minimizing t f_0(w) + sum_{k=1}^{J+1} phi_k(w) subject to 1^T w = J, the barrier Hessian H
+    is symmetric tridiagonal (because each constraint w_k - w_{k+1} <= 0 couples only adjacent indices),
+    so the Newton KKT system [[H, 1], [1^T, 0]] [Delta w; nu] = [-g; 0] decomposes into two tridiagonal
+    linear solves H x = -g and H y = 1 combined via the Sherman-Morrison formula nu = (1^T x)/(1^T y)
+    and Delta w = x - nu y in O(J) arithmetic operations per Newton step (Section 4.2.1), while a hybrid
+    subsampling and linear-interpolation scheme resolves numerical ill-conditioning from active equality
+    clusters when J is large (Section 4.2.2).'
+  evidence:
+  - source_id: dobriban2018-princessp-ar5iv
+    locator: Section 3.1, lines 295–338; Section 4.1–4.2.2, lines 396–556; Section 5.1–5.2, lines 557–660
+    relation: supports
+evidence_sources:
+- source_id: dobriban2018-princessp-ar5iv
+  title: Weighted mining of massive collections of p-values by convex optimization
+  authors:
+  - Edgar Dobriban
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1603.05334
+  persistent_id: https://doi.org/10.1093/imaiai/iax013
+  version: 'arXiv:1603.05334v2 (published in Information and Inference: A Journal of the IMA, Vol. 7,
+    Issue 2, pp. 251–275, June 2018). Complete full-text ar5iv HTML conversion read across Sections 1–6
+    (962 lines, 102,584 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-17T15:15:00Z'
+  sha256: 2cb5aec839dc83af3c17cf19656ce656b33187513af08341990941df259bc513
+- source_id: dobriban2018-princessp-crossref
+  title: Weighted mining of massive collections of P-values by convex optimization (Information and Inference
+    Record)
+  authors:
+  - Edgar Dobriban
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1093/imaiai/iax013
+  persistent_id: https://doi.org/10.1093/imaiai/iax013
+  version: 'Information and Inference: A Journal of the IMA, Vol. 7, Issue 2, pp. 251–275, June 2018 Crossref
+    bibliographic metadata record (5,561 bytes).'
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:15:00Z'
+  sha256: 8c16d847b555d2ce062b4faf587c8f385c834ab95051566fc32d5a9938f071c0
+- source_id: dobriban2018-princessp-abs
+  title: Weighted mining of massive collections of p-values by convex optimization (arXiv:1603.05334 Abstract)
+  authors:
+  - Edgar Dobriban
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1603.05334
+  persistent_id: https://doi.org/10.48550/arXiv.1603.05334
+  version: arXiv:1603.05334v2 abstract and Information and Inference 2018 DOI metadata record (6,521 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:15:00Z'
+  sha256: b43dd4a2f163c568fd7e983076b5606f4b5bddec57e8d35f7acf0ddb58e30544
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Constrained convex p-value weighting (Princessp) allocates monotone, box-bounded per-hypothesis
+    significance thresholds q w_j using prior effect-size estimates while strongly controlling frequentist
+    family-wise error rate or false discovery rate to prevent multiplicity-induced false positives (AIO:DataDredgingBias).
+limitations:
+- Concavity of the receiver operating characteristic (ROC) objective R_j(q w_j) requires continuous test
+  statistics with monotone likelihood ratio (Proposition 2.1) or canonical exponential-family structure
+  for two-sided equal-tailed tests (Proposition 2.2); discrete test statistics produce piecewise-constant
+  step-function ROC curves that are not concave (Section 2.1), and non-MLR heavy-tailed models such as
+  the Cauchy shift family violate concavity (Section 2.1).
+- In the log-barrier interior-point solver (Section 4.2.1–4.2.2), adjacent weights that are equal at the
+  constrained optimum (w_k^* = w_{k+1}^*) force the barrier Hessian entries (w_{k+1} - w_k)^{-2} -> infinity
+  as the barrier parameter t increases, causing numerical ill-conditioning for large J > 10^3 that requires
+  solving the convex program on a grid/subsample of size S ~ 500 and linearly interpolating the resulting
+  monotone weight function (Section 4.2.2).
+- Princessp optimizes weights assuming point estimates mu_j of the prior effect sizes and requires user
+  specification of the lower bound l in [0, 1] and upper bound u >= 1 (typically l in {0.1, 0.25, 0.5});
+  when prior effect estimates have known heterogeneous standard errors sigma_j > 0 in a Gaussian model
+  without order constraints, analytical Bayes p-value weighting (Dobriban et al. 2015) directly integrates
+  over the Gaussian prior uncertainty.
+- 'All 962 lines of Dobriban (2018, Information and Inference: A Journal of the IMA 7(2):251-275, arXiv:1603.05334v2,
+  DOI:10.1093/imaiai/iax013) were read. Constructed numerical checks in research/discovery/constrained-convex-p-value-weighting-in-monotone-likelihood-ratio-families-boundaries.py
+  verify (1) Proposition 2.1 ROC concavity in Gaussian shift and Exponential scale MLR families (gaussian_roc_strictly_concave
+  = True, exp_mlr_strictly_concave = True) versus non-concavity of the critical-value parametrization
+  (second derivative at c = -3 is +0.241971 > 0) and discrete Bernoulli step ROC (bernoulli_step_roc_non_concave
+  = True), (2) Propositions 2.2 & 2.3 two-sided exponential-family concavity and exact closed-form two-sided
+  Gaussian arccosh weights (lambda^* = 0.08047, budget error = 0.0, max KKT stationarity error = 9.71445146547012e-17),
+  (3) Propositions 3.1 & 3.2 small-q monotonicity at q = 4e-06 (monotone = True) versus moderate-q non-monotonicity
+  at q = 0.001 where w^*(|mu|=3.5) = 1.16198 < w^*(|mu|=2.2) = 2.375011 and Proposition 3.2 two-sided
+  mode a^* = 230.464399 (root error = 2.6645352591003757e-15), and (4) Section 4.2 Princessp O(J) tridiagonal-plus-rank-1
+  Sherman-Morrison KKT solver (KKT residual = 4.6629367034256575e-15, order and box constraints satisfied
+  = True / True, active-tie barrier curvature max H = 1.24e+10, and power on an underestimated true signal
+  mu_true = -2.5 improved from 0.0 under Spjotvoll to 0.391248 under Princessp with l = 0.5).'
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T15:15:00Z'
+  updated_at: '2026-10-17T15:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

@@ -1,0 +1,361 @@
+# Scientific author self-review of LoRA-XS
+
+- Review: 20261019T123930Z-lora-xs-extremely-small-svd-latent-low-rank-adaptation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:39:00Z
+- Finished UTC: 2026-10-19T12:39:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain LoRA-XS as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/LoRAXS.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:LoRAXS
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base d6850fb356b8b698bf3d0d4c990fc7a5f8fb87d1.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LoRAXS | data/curated/LoRAXS.yaml | maintained | LoRA-XS |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:LoRAXS | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:LoRAXS | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:LoRAXS | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:LoRAXS | Validated history sidecar files. |
+| python3 lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py | passed | True | AIMech:LoRAXS | [PASS] Round 676 LoRA-XS (Balazy et al., ECAI 2025): param_ratio_lora_vs_xs=128x, idemp_err=8.08e-16, dist_svd=2.3027&lt;dist_rand=18.0575&lt;dist_bot=19.1387 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:LoRAXS.
+
+LoRA-XS is a distinct concept.
+
+Distinct from AIMech:LowRankAdaptation (which trains A in R^{m x r} and B in R^{r x n} requiring (m+n)r parameters per module), AIMech:VeraVectorBasedRandomMatrixAdaptation (which shares frozen random matrices and learns diagonal scaling vectors of size n + r per module that still grow linearly with hidden dimension n), and AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation (which initializes A and B with the top-r SVD of W but updates all (m+n)r entries of A and B during training). LoRA-XS (Low-Rank Adaptation with eXtremely Small number of parameters; Klaudia Balazy, Mohammadreza Banaei, Karl Aberer, &amp; Jacek Tabor, ECAI 2025, arXiv:2405.17604) proves (Section 3.2, Theorem 1 &amp; Appendix B) that for fixed orthonormal U_r, V_r, the mapping p_{U_r, V_r}(X) = U_r (U_r^T X V_r) V_r^T is the Frobenius-orthogonal projection onto the r^2-dimensional subspace S^r_{U_r, V_r} = {U_r R V_r^T : R in R^{r x r}}, and that the top-r SVD factors of W minimize the Frobenius approximation distance under the pre-training gradient alignment assumption W ~ (1/k) sum_i G_i. By freezing A = U_r Sigma_r and B = V_r^T and training only R ~ N(0, sigma^2) in R^{r x r}, LoRA-XS reduces trainable parameters by a factor of 2n/r relative to LoRA and (n+r)/r^2 relative to VeRA while merging into W post-training with zero inference latency.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:LoRAXS.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:LoRAXS.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py passed with exit code 0: [PASS] Round 676 LoRA-XS (Balazy et al., ECAI 2025): param_ratio_lora_vs_xs=128x, idemp_err=8.08e-16, dist_svd=2.3027&lt;dist_rand=18.0575&lt;dist_bot=19.1387
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:LoRAXS.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T123900Z-lora-xs-extremely-small-svd-latent-low-rank-adaptation.json | supports | No normalized identity match for AIMech:LoRAXS across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py | supports | All constructed boundary assertions in lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py passed with exit code 0: [PASS] Round 676 LoRA-XS (Balazy et al., ECAI 2025): param_ratio_lora_vs_xs=128x, idemp_err=8.08e-16, dist_svd=2.3027&lt;dist_rand=18.0575&lt;dist_bot=19.1387 |
+| r676-primary-pdf | https://arxiv.org/pdf/2405.17604.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 28th European Conference on Artificial Intelligence (ECAI 2025) (2025)) read and verified. |
+| r676-arxiv-abs | https://arxiv.org/abs/2405.17604; arXiv abstract | supports | arXiv abstract read and verified. |
+| r676-metadata-cr | https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&amp;format=xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:LoRAXS in Round 676.
+- All pages of Proceedings of the 28th European Conference on Artificial Intelligence (ECAI 2025) (2025) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T123930Z-lora-xs-extremely-small-svd-latent-low-rank-adaptation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of LoRA-XS
+started_at: '2026-10-19T12:39:00Z'
+finished_at: '2026-10-19T12:39:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:LoRAXS
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 28th European Conference on Artificial Intelligence (ECAI 2025) (2025)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain LoRA-XS as a distinct DRAFT algorithm. All four claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: d6850fb356b8b698bf3d0d4c990fc7a5f8fb87d1
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/LoRAXS.yaml
+    sha256: 0e0f65011ab5426a298932f0ec91163e8fd4b16b8d3fa2bd4ea11e5582e014db
+    role: target
+  - path: research/discovery/20261019T123900Z-lora-xs-extremely-small-svd-latent-low-rank-adaptation.json
+    sha256: 73a211f12f99d270126831dc47ad90197b7c47600087c7a6c068ab4783e8f565
+    role: context
+  - path: research/discovery/lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py
+    sha256: cef8124e9f39593898bc19f25ce6138c1f8d5090382de7cfa9c9c4613146e240
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LoRAXS
+  path: data/curated/LoRAXS.yaml
+  label: LoRA-XS
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LoRAXS.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/LoRAXS.yaml and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:LoRAXS'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LoRAXS
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LoRAXS
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LoRAXS
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LoRAXS
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LoRAXS
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py
+  command: python3 research/discovery/lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LoRAXS
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 676 LoRA-XS (Balazy et al., ECAI 2025): param_ratio_lora_vs_xs=128x,
+    idemp_err=8.08e-16, dist_svd=2.3027<dist_rand=18.0575<dist_bot=19.1387'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T123900Z-lora-xs-extremely-small-svd-latent-low-rank-adaptation.json
+  accessed_at: '2026-10-19T12:39:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:LoRAXS across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:39:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py
+  accessed_at: '2026-10-19T12:39:00Z'
+  snapshot_sha256: cef8124e9f39593898bc19f25ce6138c1f8d5090382de7cfa9c9c4613146e240
+  support: supports
+  summary: 'All constructed boundary assertions in lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py
+    passed with exit code 0: [PASS] Round 676 LoRA-XS (Balazy et al., ECAI 2025):
+    param_ratio_lora_vs_xs=128x, idemp_err=8.08e-16, dist_svd=2.3027<dist_rand=18.0575<dist_bot=19.1387'
+- evidence_id: r676-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2405.17604.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:39:00Z'
+  snapshot_sha256: daae7df48df3171d6ffdeb9410e1724a2037b16eed3738fad92a5fe86011506a
+  support: supports
+  summary: Full-text PDF (Proceedings of the 28th European Conference on Artificial
+    Intelligence (ECAI 2025) (2025)) read and verified.
+- evidence_id: r676-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2405.17604
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:39:00Z'
+  snapshot_sha256: 506fc2500e95a1e38d1eb452573f1e5914b66fd7e359a48ed3caa0aff82edf1f
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r676-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=LoRA-XS+Low-Rank+Adaptation+Extremely+Small&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:39:00Z'
+  snapshot_sha256: b02a2e787ddd5aa850d06c42a4d906ed3a7c3e586b820a7fd77a5f8b7e68037f
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:LoRAXS
+  evidence_ids:
+  - identity
+  - r676-primary-pdf
+  - r676-arxiv-abs
+  - r676-metadata-cr
+  summary: LoRA-XS is a distinct concept.
+  details: 'Distinct from AIMech:LowRankAdaptation (which trains A in R^{m x r} and
+    B in R^{r x n} requiring (m+n)r parameters per module), AIMech:VeraVectorBasedRandomMatrixAdaptation
+    (which shares frozen random matrices and learns diagonal scaling vectors of size
+    n + r per module that still grow linearly with hidden dimension n), and AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation
+    (which initializes A and B with the top-r SVD of W but updates all (m+n)r entries
+    of A and B during training). LoRA-XS (Low-Rank Adaptation with eXtremely Small
+    number of parameters; Klaudia Balazy, Mohammadreza Banaei, Karl Aberer, & Jacek
+    Tabor, ECAI 2025, arXiv:2405.17604) proves (Section 3.2, Theorem 1 & Appendix
+    B) that for fixed orthonormal U_r, V_r, the mapping p_{U_r, V_r}(X) = U_r (U_r^T
+    X V_r) V_r^T is the Frobenius-orthogonal projection onto the r^2-dimensional subspace
+    S^r_{U_r, V_r} = {U_r R V_r^T : R in R^{r x r}}, and that the top-r SVD factors
+    of W minimize the Frobenius approximation distance under the pre-training gradient
+    alignment assumption W ~ (1/k) sum_i G_i. By freezing A = U_r Sigma_r and B =
+    V_r^T and training only R ~ N(0, sigma^2) in R^{r x r}, LoRA-XS reduces trainable
+    parameters by a factor of 2n/r relative to LoRA and (n+r)/r^2 relative to VeRA
+    while merging into W post-training with zero inference latency.'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:LoRAXS
+  evidence_ids:
+  - mapping
+  - r676-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:LoRAXS
+  evidence_ids:
+  - r676-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in lora-xs-extremely-small-svd-latent-low-rank-adaptation-boundaries.py
+    passed with exit code 0: [PASS] Round 676 LoRA-XS (Balazy et al., ECAI 2025):
+    param_ratio_lora_vs_xs=128x, idemp_err=8.08e-16, dist_svd=2.3027<dist_rand=18.0575<dist_bot=19.1387'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:LoRAXS
+  evidence_ids:
+  - identity
+  - mapping
+  - r676-primary-pdf
+  - r676-arxiv-abs
+  - r676-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:LoRAXS in Round 676.
+- All pages of Proceedings of the 28th European Conference on Artificial Intelligence
+  (ECAI 2025) (2025) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

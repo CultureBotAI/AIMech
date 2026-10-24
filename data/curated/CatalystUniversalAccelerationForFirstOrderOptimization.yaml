@@ -1,0 +1,104 @@
+id: AIMech:CatalystUniversalAccelerationForFirstOrderOptimization
+name: Catalyst Universal Acceleration for First-Order Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: Catalyst Universal Acceleration for First-Order Optimization is a generic outer-loop inexact accelerated proximal point framework introduced by Lin, Mairal, and Harchaoui (2015, 2018) that accelerates a broad class of first-order and incremental finite-sum optimization algorithms M (such as SAG, SAGA, SVRG, SDCA, MISO, and randomized coordinate descent) on composite objectives min_{x in R^p} {F(x) := f(x) + psi(x)} (where f is mu-strongly convex and L-smooth, or convex with mu = 0). At outer step k, Algorithm 1 forms the better-conditioned (mu + kappa)-strongly convex auxiliary proximal subproblem G_k(x) = F(x) + (kappa / 2)||x - y_{k-1}||_2^2 around the extrapolated center y_{k-1}, computes an approximate minimizer x_k approx argmin_x G_k(x) using the inner method M up to tolerance G_k(x_k) - G_k^* <= epsilon_k, updates alpha_k in (0, 1) via the Nesterov quadratic equation alpha_k^2 = (1 - alpha_k) alpha_{k-1}^2 + q alpha_k with q = mu / (mu + kappa), and extrapolates y_k = x_k + beta_k (x_k - x_{k-1}) with beta_k = alpha_{k-1}(1 - alpha_{k-1}) / (alpha_{k-1}^2 + alpha_k). Using canonical quadratic estimate sequences (Lemmas A.6-A.8, Equations 20-28) and a discrete Gronwall-type quadratic sequence inequality (Lemma A.10), Theorem 3.1 proves that when epsilon_k = (2/9)(F(x_0) - F^*)(1 - rho)^k with rho < sqrt(q), the outer loop achieves the accelerated linear rate F(x_k) - F^* <= (8 / (sqrt(q) - rho)^2)(1 - rho)^{k+1}(F(x_0) - F^*); balancing the inner and outer work via kappa = L / (n + 1) - mu reduces total finite-sum gradient complexity from O((n + L/mu) log(1/epsilon)) to tilde{O}((n + sqrt(n L / mu)) log(1/epsilon)).
+identity_notes: Distinct from Regularized Nonlinear Acceleration of Fixed-Point Iterations (`AIMech:RegularizedNonlinearAccelerationOfFixedPointIterations`), which extrapolates a post-hoc trajectory of fixed-point iterates via Tikhonov-regularized residual Gram inversion without modifying the inner objective, and from specific inner variance-reduced solvers that require custom algorithm-specific momentum couplings. Specifically captures the Catalyst black-box proximal wrapper G_k(x) = F(x) + (kappa/2)||x - y_{k-1}||^2, the canonical estimate-sequence recurrences (Equations 20-28), warm-start inner-loop complexity bounds (Proposition 3.2), and optimal smoothing parameter selection kappa = O(L / n) for finite-sum optimization.
+aliases:
+- Lin-Mairal-Harchaoui Catalyst Generic Acceleration Scheme
+- Inexact Accelerated Proximal Point Envelope for Finite-Sum Optimization
+- Catalyst Acceleration for SAG, SAGA, SVRG, SDCA, and MISO
+definition_evidence:
+- source_id: r340-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r340-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r340-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any sequence {x_k} and parameter q = mu / (mu + kappa), the canonical estimate sequence defined by gamma_k = (1 - alpha_{k-1}) gamma_{k-1} + alpha_{k-1} mu (Equation 20) and v_k = ((1 - alpha_{k-1}) gamma_{k-1} v_{k-1} + alpha_{k-1} mu x_k - alpha_{k-1} kappa (y_{k-1} - x_k)) / gamma_k (Equation 21) under the Algorithm 1 recurrence alpha_k^2 = (1 - alpha_k) alpha_{k-1}^2 + q alpha_k and y_k = x_k + beta_k (x_k - x_{k-1}) with beta_k = alpha_{k-1}(1 - alpha_{k-1}) / (alpha_{k-1}^2 + alpha_k) satisfies the exact algebraic identities gamma_k = (kappa + mu) alpha_{k-1}^2 (Equation 27), v_k = (x_k - (1 - alpha_{k-1}) x_{k-1}) / alpha_{k-1} (Equation 28), and (1 - alpha_k) gamma_k v_k - alpha_k kappa y_k + alpha_k(1 - alpha_k)(kappa + mu) x_k = 0 (Lemma A.8).
+  evidence:
+  - source_id: r340-primary-pdf
+    locator: Appendix A.1, Lemmas A.6, A.7, and A.8 (Equations 20-28), pp. 11-14
+    relation: supports
+  - source_id: r340-arxiv-abs
+    locator: 'Abstract: Generic acceleration scheme based on inexact accelerated proximal point iterations'
+    relation: supports
+- claim_id: claim-02
+  kind: mechanism
+  statement: When F is mu-strongly convex and each inner subproblem G_k(x) is solved to accuracy G_k(x_k) - G_k^* <= epsilon_k = (2/9)(F(x_0) - F^*)(1 - rho)^k with rho < sqrt(q) = sqrt(mu / (mu + kappa)), Theorem 3.1 guarantees F(x_k) - F^* <= (8 / (sqrt(q) - rho)^2)(1 - rho)^{k+1}(F(x_0) - F^*); when mu = 0 (convex F) and alpha_0 = (sqrt(5) - 1)/2, the multiplier sequence lambda_k = prod_{i=0}^{k-1}(1 - alpha_i) satisfies 2 / (k + 2)^2 <= lambda_k <= 4 / (k + 2)^2 for all k >= 0 (Lemma B.3), yielding O(1 / k^2) outer convergence for decaying errors epsilon_k = 2(F(x_0) - F^*) / (9(k + 2)^{4 + eta}) (Theorem 3.3).
+  evidence:
+  - source_id: r340-primary-pdf
+    locator: Section 3.2-3.4, Theorems 3.1 and 3.3, pp. 4-5; Appendix A.2, Lemma A.10 and Proof of Theorem 3.1, pp. 14-16; Appendix B, Lemma B.3, p. 19
+    relation: supports
+  - source_id: r340-metadata-cr
+    locator: 'Abstract: Catalyst achieves optimal convergence rates in strongly convex and convex settings with explicit control of inexactness'
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: If the inner-loop optimization error epsilon_k fails to decay fast enough (e.g., constant non-decaying inner error epsilon_k = epsilon_0 > 0), the error accumulation term sum_{j=1}^k sqrt(2 lambda_k / lambda_j * epsilon_j) in Proposition A.9 prevents convergence to F^* and causes the outer iterate sequence to stall above an error floor.
+  evidence:
+  - source_id: r340-primary-pdf
+    locator: Appendix A.2, Proposition A.9 (Equation 29), p. 14; Appendix B, Proposition B.2 (Equation 35), p. 18
+    relation: supports
+evidence_sources:
+- source_id: r340-primary-pdf
+  title: A Universal Catalyst for First-Order Optimization
+  authors: &id001
+  - Hongzhou Lin
+  - Julien Mairal
+  - Zaid Harchaoui
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1506.02186.pdf
+  persistent_id: https://www.jmlr.org/papers/v18/17-748.html
+  version: Advances in Neural Information Processing Systems 28 (NeurIPS 2015), pp. 3384-3392 / JMLR 18(209):1-54 (2018) (2015) (398020 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:02:00Z'
+  sha256: 503077fd6d1cd3bbea7ea7886f5ac1cc61d076cd023fe1ade7bfbf5c761fff4d
+- source_id: r340-arxiv-abs
+  title: A Universal Catalyst for First-Order Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1506.02186
+  persistent_id: https://arxiv.org/abs/1506.02186
+  version: arXiv abstract page (5846 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:02:00Z'
+  sha256: 0172446f1c5cdbd1b29a1d456eb3205506a12ccfc8ae4ca57143cdecccc64058
+- source_id: r340-metadata-cr
+  title: A Universal Catalyst for First-Order Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/v18/17-748.html
+  persistent_id: https://www.jmlr.org/papers/v18/17-748.html
+  version: Crossref API work record (6090 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:02:00Z'
+  sha256: debec91becc79003d7fa805b0ffc51e6309a47e967a7da18e85a675ef3a01a52
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Accelerates finite-sum l_1/l_2-regularized logistic regression solvers (SAG, SAGA, SVRG, SDCA, MISO) to optimal tilde{O}(n + sqrt(n L / mu)) complexity.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Handles composite non-smooth l_1 regularizers psi(x) = lambda ||x||_1 via inexact proximal subproblems.
+- target: AIO:RidgeRegression
+  relation: related_match
+  rationale: Adds quadratic proximal regularization (kappa/2)||x - y_{k-1}||_2^2 at every outer step to improve the subproblem condition number.
+limitations:
+- Incurs a logarithmic inner-loop factor log(L / mu) in total complexity due to solving sequence of auxiliary subproblems G_k(x), and requires tuning the smoothing parameter kappa and inner stopping criterion.
+curation:
+  created_at: '2026-10-19T07:02:00Z'
+  updated_at: '2026-10-19T07:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

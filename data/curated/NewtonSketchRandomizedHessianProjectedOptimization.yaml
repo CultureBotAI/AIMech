@@ -1,0 +1,231 @@
+id: AIMech:NewtonSketchRandomizedHessianProjectedOptimization
+name: Newton Sketch Randomized Hessian-Projected Second-Order Optimization and Sketched Interior-Point
+  Barrier Method
+concept_kind: mathematical_method
+aliases:
+- Newton Sketch (Pilanci & Wainwright 2017)
+- Sketched Newton Method with Tangent-Cone Gaussian Width Guarantees
+- Partial Newton Sketch with Exact Self-Concordant Barrier Hessian
+- Randomized Orthonormal System Hessian-Square-Root Newton Sketch
+- Newton Sketch Interior-Point Central-Path Barrier Method
+definition: Newton Sketch Randomized Hessian-Projected Second-Order Optimization and Sketched Interior-Point
+  Barrier Method is a randomized second-order convex optimization and interior-point methodology introduced
+  by Pilanci and Wainwright (2017, SIAM Journal on Optimization 27(1):205-245, arXiv:1505.02250v1, DOI:10.1137/15M1021106)
+  for minimizing twice-differentiable convex objectives min_{x in C} f(x) over a closed convex constraint
+  set C subseteq R^d. Given an n x d Hessian matrix square root nabla^2 f(x)^{1/2} satisfying (nabla^2
+  f(x)^{1/2})^T nabla^2 f(x)^{1/2} = nabla^2 f(x) (such as diag{g_i''(<a_i, x>)^{1/2}} A for separable
+  generalized linear models or analytic barrier terms) and an independent isotropic sketch matrix S^t
+  in R^{m x n} with E[(S^t)^T S^t] = I_n (drawn from a sub-Gaussian ensemble, a randomized orthonormal
+  system such as the fast Hadamard or Fourier transform with cost O(n d log m), or leverage-score row
+  sampling), the fully sketched Newton update computes x^{t+1} := argmin_{x in C} { (1/2)||S^t nabla^2
+  f(x^t)^{1/2}(x - x^t)||_2^2 + <nabla f(x^t), x - x^t> } (Equation 6); for additive decompositions f
+  = f_0 + g where g has a structured or separable Hessian (such as a log-barrier or regularizer), the
+  partially sketched Newton update (Equation 8) sketches only nabla^2 f_0(x^t) via Q^t := (S^t nabla^2
+  f_0(x^t)^{1/2})^T S^t nabla^2 f_0(x^t)^{1/2} + nabla^2 g(x^t). Under strong convexity gamma and smoothness
+  beta restricted to the tangent cone K at x^* and L-Lipschitz Hessian continuity, a sketch dimension
+  m >= (c/eps^2) max_{x in C} W^2(nabla^2 f(x)^{1/2} K) (which is at most O(s log d) << min{n, d} for
+  l_1-constrained problems with an s-sparse optimum, Lemma 8) guarantees local linear-quadratic convergence
+  ||x^{t+1} - x^*||_2 <= eps(beta/gamma)||x^t - x^*||_2 + (4L/gamma)||x^t - x^*||_2^2 (Theorem 1) and
+  super-linear convergence under eps(t) = 1/log(1+t) (Corollary 1). For strictly convex self-concordant
+  functions and self-concordant barrier problems (Algorithms 1-3, Theorems 2-4), backtracking line search
+  on the approximate Newton decrement achieves global affine-invariant iteration complexity T <= (f(x^0)
+  - f(x^*))/nu + 0.65 log_2(1/(16 delta)) completely independent of condition numbers and Lipschitz constants.
+identity_notes: Resolved against all 442 pinned AIO records and 619 maintained AIMech records. Distinct
+  from AIMech:GloballyConvergentRegularizationHomotopyAndNystromNewtonForGeneralizedSelfConcordantLosses
+  (Marteau-Ferey, Bach, & Rudi 2019, which combines decreasing-regularization Dikin-ellipsoid homotopy
+  continuation with Nyström subspace projection and 3-step Cholesky-preconditioned conjugate gradient
+  for L2-regularized generalized self-concordant RKHS losses rather than isotropic sub-Gaussian/ROS sketching
+  of the Hessian square root over convex constraint tangent cones and log-barrier interior-point central
+  paths), from AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation (Ostrovskii & Bach
+  2021, which establishes statistical finite-sample localization and excess risk bounds for empirical
+  M-estimators rather than randomized Hessian-sketched second-order optimization algorithms), and from
+  AIMech:DeterministicBanachContractionAndNewtonKantorovichInequalitiesForSmoothMEstimators (Kuchibhotla
+  2018, which proves deterministic Banach and Newton-Kantorovich localization bounds for fixed-objective
+  M-estimators).
+definition_evidence:
+- source_id: pilanci2017-newton-sketch-pdf
+  locator: Abstract, p. 1; Sections 1-5, pp. 1-19, Equations (1)-(26), Theorems 1-4, Corollary 1, Algorithms
+    1-3; Section 6 & Appendices A-C, pp. 20-33, Lemmas 1-8, Equations (27)-(61)
+  relation: supports
+- source_id: pilanci2017-newton-sketch-abs
+  locator: arXiv:1505.02250v1 abstract and metadata
+  relation: supports
+- source_id: pilanci2017-newton-sketch-crossref
+  locator: SIAM Journal on Optimization 27(1):205-245 (2017) Crossref metadata and abstract (DOI:10.1137/15M1021106)
+  relation: supports
+claims:
+- claim_id: full-and-partial-hessian-square-root-newton-sketch-and-ros-complexity
+  kind: mechanism
+  statement: 'Given a twice-differentiable convex function f: R^d -> R over a convex constraint set C
+    subseteq R^d with an n x d Hessian square-root matrix nabla^2 f(x)^{1/2} satisfying (nabla^2 f(x)^{1/2})^T
+    nabla^2 f(x)^{1/2} = nabla^2 f(x) for n >= rank(nabla^2 f(x)) (for example, diag{g_i''''(<a_i, x>)^{1/2}}_{i=1}^n
+    A for separable objectives g(Ax) = sum_{i=1}^n g_i(<a_i, x>) or diag(1/|b_i - <a_i, x>|) A for polyhedral
+    log-barriers) and an independent isotropic sketch matrix S^t in R^{m x n} satisfying E[(S^t)^T S^t]
+    = I_n, the Newton Sketch update (Equation 6) solves x^{t+1} := argmin_{x in C} { (1/2)||S^t nabla^2
+    f(x^t)^{1/2}(x - x^t)||_2^2 + <nabla f(x^t), x - x^t> }, which in the unconstrained case C = R^d reduces
+    to x^{t+1} = x^t - ((nabla^2 f(x^t)^{1/2})^T (S^t)^T S^t nabla^2 f(x^t)^{1/2})^{-1} nabla f(x^t) (Equation
+    7). For an additive decomposition f = f_0 + g, the partially sketched Newton update (Equation 8) sketches
+    only nabla^2 f_0(x^t) while retaining the exact Hessian nabla^2 g(x^t) via Q^t := (S^t nabla^2 f_0(x^t)^{1/2})^T
+    S^t nabla^2 f_0(x^t)^{1/2} + nabla^2 g(x^t). When S^t is drawn from a randomized orthonormal system
+    (Hadamard or Fourier ROS, Section 2.2) with rows s^T = sqrt(n/m) e_j^T H D, forming S^t nabla^2 f(x^t)^{1/2}
+    requires O(n d log m) operations and each unconstrained step costs O(n d log m + d m^2) rather than
+    O(n d^2) for classical Newton''s method.'
+  evidence:
+  - source_id: pilanci2017-newton-sketch-pdf
+    locator: Section 1, p. 2; Section 2.2, pp. 3-4; Section 3.1-3.2, pp. 5-8, Examples 1-2, Equations
+      (5a)-(10)
+    relation: supports
+- claim_id: tangent-cone-gaussian-width-local-linear-quadratic-and-superlinear-convergence
+  kind: mechanism
+  statement: Let x^* = argmin_{x in C} f(x), let K := {Delta in R^d | x^* + t Delta in C for some t >
+    0} be the tangent cone at x^* (Equation 11), let gamma = inf_{z in K cap S^{d-1}} <z, nabla^2 f(x^*)
+    z> and beta = sup_{z in K cap S^{d-1}} <z, nabla^2 f(x^*) z> be the cone-constrained Hessian extreme
+    eigenvalues (Equation 13), and suppose nabla^2 f is L-Lipschitz continuous (Equation 2). Defining
+    the tangent-cone sketch random variables Z_1(S; x) := sup_{w in nabla^2 f(x)^{1/2} K cap S^{n-1}}
+    <w, (S^T S - I) r> and Z_2(S; x) := inf_{w in nabla^2 f(x)^{1/2} K cap S^{n-1}} ||S w||_2^2 (Section
+    6.1, p. 20), whenever ||Delta^t||_2 < gamma/(2L) the error Delta^t = x^t - x^* satisfies ||Delta^{t+1}||_2
+    <= (6 beta Z_1^t / (gamma Z_2^t)) ||Delta^t||_2 + (4L / (gamma Z_2^t)) ||Delta^t||_2^2 (Equation 27).
+    Under sketch dimension m >= (c / eps^2) max_{x in C} W^2(nabla^2 f(x)^{1/2} K) for sub-Gaussian sketches
+    (or with an additional log^4 n factor for ROS sketches over self-bounding cones, Lemma 1) and initialization
+    ||x^0 - x^*||_2 <= delta * gamma / (8L), Theorem 1 (Equation 14) establishes the linear-quadratic
+    recursion ||x^{t+1} - x^*||_2 <= eps (beta/gamma) ||x^t - x^*||_2 + (4L/gamma) ||x^t - x^*||_2^2 with
+    probability at least 1 - c_1 e^{-c_2 m eps^2}, and Corollary 1 proves that iteration-dependent sketching
+    accuracy eps(t) = 1 / log(1 + t) yields super-linear convergence lim_{t -> infty} ||x^{t+1} - x^*||_2
+    / ||x^t - x^*||_2 = 0. For l_1-constrained generalized linear models with an s-sparse optimum ||x^*||_0
+    <= s, Lemma 8 (Appendix C, p. 33, Equation 25) bounds max_{x in C} W(nabla^2 f(x)^{1/2} K) <= 6 sqrt(s
+    log d) sqrt(psi_max''/psi_min'') max_j ||A_j||_2 / sqrt(gamma_s^-(A)), so a sketch dimension m = O(s
+    log d) << min{n, d} suffices.
+  evidence:
+  - source_id: pilanci2017-newton-sketch-pdf
+    locator: Section 3.3, pp. 9-11, Theorem 1, Corollary 1, Equations (11)-(16); Section 5.1, pp. 15-16,
+      Equations (23)-(25); Section 6.1, pp. 20-23, Lemma 1, Equations (27)-(34); Appendix C, p. 33, Lemma
+      8
+    relation: supports
+- claim_id: self-concordant-two-phase-global-convergence-and-sketched-interior-point-barrier-complexity
+  kind: scope
+  statement: 'For a strictly convex self-concordant function f: R^d -> R (Algorithm 1, Theorem 2) or f
+    = f_0 + g where f_0 is self-concordant and g is a self-concordant barrier for C whose Hessian nabla^2
+    g(x) is retained unsketched (Algorithm 2, Theorem 3), if m^t >= (c_3 / eps^2) max_{x in C} W^2(nabla^2
+    f(x)^{1/2} K^t), then with probability at least 1 - c_1 e^{-c_2 m^t eps^2} the sketched Newton step
+    v_NSK and exact Newton step v_NE satisfy ||nabla^2 f(x)^{1/2}(v_NSK - v_NE)||_2 <= eps ||nabla^2 f(x)^{1/2}
+    v_NE||_2 (Lemma 2, Equation 37; Lemma 7, Equation 48), and the approximate Newton decrement tilde_lambda_f(x)
+    := (-<nabla f(x), v_NSK>)^{1/2} satisfies (1 - eps) lambda_f(x) <= tilde_lambda_f(x) <= (1 + eps)
+    lambda_f(x) and ||nabla^2 f(x)^{1/2} v_NSK||_2 <= ((1+eps)/(1-eps)) tilde_lambda_f(x) (Lemmas 5-6,
+    Equations 42, 44b, 58). Defining eta = (1/8) (1 - (1/2)((1+eps)/(1-eps))^2 - a) / ((1+eps)/(1-eps))^3
+    > 0 and nu = a b eta^2 / (1 + ((1+eps)/(1-eps)) eta) > 0 for backtracking line-search parameters (a,
+    b) (Equation 18), Lemma 3 proves two phases: in Phase I (tilde_lambda_f(x) > eta), each backtracking
+    step decreases f by at least nu (Equation 39); in Phase II (tilde_lambda_f(x) <= eta), unit steps
+    satisfy lambda_f(x_NSK) <= ((1+eps) lambda_f(x)^2 + eps lambda_f(x)) / (1 - (1+eps) lambda_f(x))^2
+    <= (16/25) lambda_f(x) (Equations 44a and 46), yielding global complexity T <= (f(x^0) - f(x^*))/nu
+    + 0.65 log_2(1 / (16 delta)). When embedded as the centering solver inside the log-barrier interior-point
+    method min_{x in R^d} {tau f_0(x) - sum_{j=1}^r log(-g_j(x))} with barrier multiplier mu > 1 (Algorithm
+    3), Theorem 4 (Equation 22) bounds the total Newton Sketch iterations to reach delta-optimality by
+    ceil(log(r/(tau^0 delta)) / log mu) * (r(mu - 1 - log mu)/nu + 0.65 log_2(1/(16 delta))), accelerating
+    primal and dual interior-point solvers for LPs, portfolio QPs, SVMs, d >> n dual Lasso, and metric
+    learning SDPs (Section 5).'
+  evidence:
+  - source_id: pilanci2017-newton-sketch-pdf
+    locator: Sections 4.1-4.3, pp. 11-15, Equation (18), Algorithms 1-3, Theorems 2-4, Equation (22);
+      Sections 5.2-5.5, pp. 16-20; Sections 6.2-6.3 & Appendices A-B, pp. 23-32, Lemmas 2-7, Equations
+      (35)-(60)
+    relation: supports
+evidence_sources:
+- source_id: pilanci2017-newton-sketch-pdf
+  title: 'Newton Sketch: A Linear-time Optimization Algorithm with Linear-Quadratic Convergence'
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1505.02250
+  persistent_id: https://doi.org/10.1137/15M1021106
+  version: arXiv:1505.02250v1 (9 May 2015, 35 pages, 832028 bytes); published in SIAM Journal on Optimization
+    27(1):205-245 (2017).
+  access_level: full_text
+  accessed_at: '2026-10-18T13:18:00Z'
+  sha256: c5fb649d2da871645581ea88f5721f8c57fcde7dc5c754e407091aeb26e98a68
+- source_id: pilanci2017-newton-sketch-abs
+  title: 'Newton Sketch: A Linear-time Optimization Algorithm with Linear-Quadratic Convergence (arXiv
+    Abstract)'
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1505.02250
+  persistent_id: https://doi.org/10.48550/arXiv.1505.02250
+  version: arXiv:1505.02250v1 abstract and metadata record (6179 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:18:00Z'
+  sha256: fcdada05a6d2ce0caf69158a3596cbeba4e726c91b01bd0ec5b6af6e8bee10a3
+- source_id: pilanci2017-newton-sketch-crossref
+  title: 'Newton Sketch: A Near Linear-Time Optimization Algorithm with Linear-Quadratic Convergence (SIAM
+    J. Optim. Crossref Metadata)'
+  authors:
+  - Mert Pilanci
+  - Martin J. Wainwright
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1137/15M1021106
+  persistent_id: https://doi.org/10.1137/15M1021106
+  version: SIAM Journal on Optimization 27(1):205-245 (2017) Crossref work record (3258 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T13:18:00Z'
+  sha256: 91aa7dc0bc05ae7986daf1aa6fd92152a7608ada010ea47c26a57d680f8ba291
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: AIO:LogisticRegression represents logistic regression broadly, whereas Newton Sketch (Section
+    3.2 Example 2, Section 5.1, and Section 5.4) provides a near-linear-time randomized Hessian-projected
+    second-order solver for unconstrained and l_1-constrained logistic regression and generalized linear
+    models.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: AIO:LassoRegression represents L1-regularized linear regression broadly, whereas Newton Sketch
+    solves both primal l_1-constrained GLMs with O(s log d) sketch dimension via LARS/Lasso subproblems
+    (Section 5.1, Lemma 8) and high-dimensional d >> n dual Lasso via partially sketched log-barrier interior-point
+    steps in O(d m^2) time (Section 5.5).
+limitations:
+- 'Requirement of Accessible n x d Hessian Square-Root Factorization: As noted in Section 3.1 (p. 5),
+  computing the sketched Hessian S^t nabla^2 f(x^t)^{1/2} without forming the full d x d Hessian nabla^2
+  f(x^t) requires an explicit n x d matrix square root nabla^2 f(x^t)^{1/2} (such as diagonal-times-data-matrix
+  structure in generalized linear models and separable analytic barriers).'
+- 'Asymptotic Linear Floor Under Fixed Sketch Size and ROS Polylogarithmic Factor: Under a fixed sketch
+  dimension m, Theorem 1 (Equations 14-15) exhibits linear-quadratic convergence whose asymptotic local
+  rate is linear with factor eps(beta/gamma) once ||x^t - x^*||_2 << 1 unless the sketch size is inflated
+  by log^2(1+t) across iterations (Corollary 1); moreover, randomized orthonormal system (ROS) sketches
+  over self-bounding cones require an extra log^4 n factor in the sufficient sketch dimension (Lemma 1(b),
+  p. 21).'
+- 'Primary-Source Typographical and Domain-Threshold Notes in Pilanci & Wainwright (2017, arXiv:1505.02250v1):
+  Verified five self-correcting typographical/notational details across the 35-page manuscript: (1) Section
+  3.1 (p. 6) writes ''S^t in R^{m x d}'' instead of ''S^t in R^{m x n}'' below Equation (6), and Equation
+  (7) on p. 6 and Section 6.2 on p. 23 omit the transpose on the first nabla^2 f(x^t)^{1/2} factor in
+  ((nabla^2 f(x^t)^{1/2})^T (S^t)^T S^t nabla^2 f(x^t)^{1/2})^{-1} nabla f(x^t); (2) Section 4.1 (p. 11,
+  Equation 18) states that eta = (1/8)(1 - (1/2)((1+eps)/(1-eps))^2 - a)/((1+eps)/(1-eps))^3 is defined
+  for eps in (0, 1/4), whereas strict positivity eta > 0 (required by Lemma 3, p. 24, and verified at
+  the end of Section 6.2.1 on p. 26 via a <= 1/2 - (1/2)(eps'')^2 - eps'') holds if and only if (1+eps)/(1-eps)
+  < sqrt(2(1-a)), i.e., eps < (sqrt(2(1-a)) - 1)/(sqrt(2(1-a)) + 1) <= 3 - 2 sqrt(2) approx 0.17157 (and
+  eps < 0.14590 for the standard choice a = 0.1); (3) Algorithms 1-2 (pp. 12-13) and Section 6.2 (p. 23)
+  write the approximate Newton decrement tilde_lambda_f(x) without the square root (and without the minus
+  sign in Algorithms 1-2), whereas Lemma 5 (p. 25, Equation 42), Equation (43) (p. 26), Lemma 6 (p. 26,
+  Equation 44b), and Appendix A.3 (p. 30, Equation 58) use the square-root decrement tilde_lambda_f(x)
+  = (-<nabla f(x), v_NSK>)^{1/2}; (4) Theorem 4 (p. 14, Equation 22) and the combined bound N = N_1 +
+  N_2 at the top of p. 25 print gamma in the denominator instead of the Phase-I decrement parameter nu;
+  and (5) Lemma 3(b) and the Second Phase Analysis on p. 24 print ''1 - c_1 e^{c_2 m eps^2}'' and ''1
+  - N_2 c_1 e^{c_2 m}'' missing the minus sign in the exponent.'
+- All 35 pages of the full-text PDF of Pilanci & Wainwright (2015/2017, SIAM J. Optim. 27(1):205-245,
+  arXiv:1505.02250v1) were read. Constructed numerical checks in research/discovery/newton-sketch-randomized-hessian-optimization-boundaries.py
+  verify (1) Section 6.1 Equation (27) basic inequality pre-bound and empirical convergence of Partial
+  Newton Sketch (Equation 8) vs. Corollary 1 super-linear schedule on L2-regularized logistic regression,
+  (2) Lemma 3, Lemma 4, Lemma 5, Lemma 6, and Equation (18) self-concordant Phase-I/Phase-II bounds and
+  the exact positivity threshold eps < 0.14590 for a = 0.1, and (3) Section 4.3 log-barrier central-path
+  suboptimality f_0(x_hat(tau)) - f_0(x^*) <= r/tau and Lemma 8 l_1-ball tangent-cone inclusion ||z||_1
+  <= 2 sqrt(s) ||z||_2.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T20:20:00Z'
+  updated_at: '2026-10-18T20:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

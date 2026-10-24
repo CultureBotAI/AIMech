@@ -1,0 +1,98 @@
+id: AIMech:SSFScaleAndShiftFeatures
+name: Scaling & Shifting Your Features
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient fine-tuning algorithm (SSF) for pre-trained deep neural networks (including Vision Transformers, hierarchical Transformers, convolutional networks, and MLPs) that freezes all pre-trained backbone weights and inserts lightweight linear feature modulation modules (SSF-ADA) after backbone operations (such as multi-head self-attention, MLP, convolution, and normalization layers) to alleviate upstream-to-downstream distribution mismatch. Given an intermediate feature tensor x in R^{(N^2+1) x d}, each SSF-ADA module applies an input-independent, channel-wise Hadamard scale vector gamma in R^d (initialized from a normal distribution with mean 1) and additive shift vector beta in R^d (initialized with mean 0) via y = gamma (*) x + beta. Because SSF-ADA is a purely linear affine transformation, at inference time gamma and beta are algebraically absorbed into the frozen preceding linear or convolutional weights w and biases b via structural re-parameterization y = (gamma (*) w) * t + (gamma (*) b + beta), yielding zero extra inference parameters and zero extra inference FLOPs.
+identity_notes: 'Distinct from Batch Normalization (AIO:BatchNormalizationLayer), Layer Normalization, FiLM, and AdaIN: SSF-ADA modulates outputs of general backbone operations (MSA, MLP, and normalization layers) rather than only normalization layers, and uses task-level input-independent parameters (gamma, beta) so they can be folded into preceding linear weights at inference time without conditional generator networks or nonlinear activations. Distinct from BitFit (AIMech:BitFit), which only tunes existing bias terms without multiplicative channel scaling or post-operation residual shifts, and from Adapter / VPT methods that retain unmergeable modules or extra tokens at inference time.'
+aliases:
+- SSF
+- SSF-ADA
+- Scaling and Shifting Your Features
+- Scale and Shift Features Fine-Tuning
+definition_evidence:
+- source_id: r692-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r692-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r692-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: ssf-reparameterization-zero-inference-overhead
+  kind: mechanism
+  statement: During fine-tuning, SSF inserts SSF-ADA modules after K backbone operations to compute y = gamma (*) x + beta with input-independent scale gamma in R^d and shift beta in R^d (initialized with normal distributions centered at 1 and 0, respectively); during inference, when preceded by a linear or convolutional operation x = w * t + b, SSF re-parameterizes the weights as w' = gamma (*) w and b' = gamma (*) b + beta (Equation 5), incurring m*L*d trainable parameters during training and exactly zero extra parameters and zero extra FLOPs at inference time (Table 2).
+  evidence:
+  - source_id: r692-primary-pdf
+    locator: Section 3.2-3.3, Equations 4-5, Table 2, pp. 5-6; Section 4.3, Table 6c-6d, p. 9
+    relation: supports
+- claim_id: ssf-fgvc-vtab-and-ood-generalization
+  kind: application
+  statement: On ViT-B/16 pre-trained on ImageNet-21K, SSF achieves 90.72% mean Top-1 accuracy across five FGVC datasets (0.39M trainable parameters vs. 85.98M for full fine-tuning at 88.54% and 0.85M for VPT-Deep at 89.11%) and 73.10% mean Top-1 accuracy across the 19-task VTAB-1k benchmark (0.24M trainable parameters vs. 65.57% for full fine-tuning and 69.43% for VPT-Deep), while improving out-of-distribution robustness on ImageNet-A (45.88% vs. 34.49%), ImageNet-R (56.77% vs. 51.29%), and ImageNet-C (41.47 mCE vs. 46.47 mCE).
+  evidence:
+  - source_id: r692-primary-pdf
+    locator: Section 4.2, Tables 3-5, pp. 7-8; Section 4.4, Table 7, p. 9
+    relation: supports
+- claim_id: ssf-dense-prediction-and-independent-task-limitation
+  kind: limitation
+  statement: On dense prediction tasks such as COCO object detection and instance segmentation with Mask R-CNN (34.9 AP^b / 33.5 AP^m vs. 43.7 AP^b / 39.8 AP^m for full fine-tuning) and ADE20K semantic segmentation with UPerNet (38.9 mIoU vs. 44.5 mIoU for full fine-tuning), modulating only linear scale and shift features leaves a substantial accuracy gap relative to full backbone fine-tuning, and SSF treats each downstream task independently without modeling cross-task correlations.
+  evidence:
+  - source_id: r692-primary-pdf
+    locator: Appendix A.3 & B, Table 9, p. 18; Appendix D, p. 20
+    relation: supports
+evidence_sources:
+- source_id: r692-primary-pdf
+  title: 'Scaling & Shifting Your Features: A New Baseline for Efficient Model Tuning'
+  authors: &id001
+  - Dongze Lian
+  - Daquan Zhou
+  - Jiashi Feng
+  - Xinchao Wang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2210.08823.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Scaling+Shifting+Your+Features+Lian&format=xml
+  version: Advances in Neural Information Processing Systems (NeurIPS 2022) (2022) (3323529 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:55:00Z'
+  sha256: 43899f3e99b52db9780d2534a5350ce2971d0a5f5d25cdd1031506abccfaaa58
+- source_id: r692-arxiv-abs
+  title: 'Scaling & Shifting Your Features: A New Baseline for Efficient Model Tuning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2210.08823
+  persistent_id: https://arxiv.org/abs/2210.08823
+  version: arXiv abstract page (6989 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:55:00Z'
+  sha256: 1e0a859cdfebcb8ed5271b4fe45a6b4565b939bbab1d578acbef3785d12eebeb
+- source_id: r692-metadata-cr
+  title: 'Scaling & Shifting Your Features: A New Baseline for Efficient Model Tuning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Scaling+Shifting+Your+Features+Lian&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Scaling+Shifting+Your+Features+Lian&format=xml
+  version: Crossref API work record (892 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:55:00Z'
+  sha256: d2d551f75ad71940999bb541c79ec02d5e1d926806c94480664f590048749e7e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SSF adapts pre-trained artificial neural network backbones via mergeable channel-wise affine feature modulation.
+- target: AIO:BatchNormalizationLayer
+  relation: related_match
+  rationale: Like batch normalization folding, SSF uses channel-wise scale and shift parameters that fold into preceding linear or convolutional weights at inference time.
+limitations:
+- Exhibits a substantial performance gap relative to full fine-tuning on dense prediction benchmarks such as COCO object detection/instance segmentation and ADE20K semantic segmentation (Appendix B, Table 9).
+- Zero-mean random initialization of the scale vector gamma disrupts pre-trained feature propagation and can fail to converge, requiring unit-mean normal initialization around gamma = 1 and beta = 0 (Section 4.3, Table 6c).
+curation:
+  created_at: '2026-10-19T12:55:00Z'
+  updated_at: '2026-10-19T12:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

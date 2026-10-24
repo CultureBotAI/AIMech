@@ -1,0 +1,103 @@
+id: AIMech:RennalaSgdAndMaleniaSgdMinimaxOptimalParallelStochasticOptimization
+name: Rennala SGD and Malenia SGD
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A pair of minimax time-optimal semi-asynchronous parallel stochastic gradient algorithms \u2014 Rennala SGD (Method 4, for homogeneous i.i.d. worker distributions) and Malenia SGD (Method 6, for heterogeneous worker distributions f(x) = (1/n) sum_{i=1}^n E[f_i(x; xi_i)]) \u2014 analyzed under the Time Multiple Oracles Protocol (Protocol 3) where worker i in [n] requires tau_i seconds (0 < tau_1 <= ... <= tau_n) to compute an unbiased sigma^2-variance-bounded stochastic gradient. At each outer step k, workers continuously compute gradients at the current iterate x^k while the server discards any stale gradient whose iteration tag k' != k: Rennala SGD accumulates S = max{ceil(sigma^2 / epsilon), 1} fresh gradients g^k = (1/S) sum_{s=1}^S hat{nabla} f(x^k; xi_s) and attains the homogeneous minimax wall-clock time complexity Theta(min_{m in [n]} ((1/m) sum_{i=1}^m 1/tau_i)^{-1} (L Delta / epsilon + sigma^2 L Delta / (m epsilon^2))) without prior knowledge of tau_1, ..., tau_n, whereas Malenia SGD accumulates per-worker counts B_i until ((1/n) sum_{i=1}^n 1/B_i)^{-1} >= S/n and updates with the unweighted worker-mean average g^k = (1/n) sum_{i=1}^n (1/B_i) sum_{j=1}^{B_i} hat{nabla} f_i(x^k; xi_{i,j}), attaining the heterogeneous minimax time complexity Theta(tau_n L Delta / epsilon + ((1/n) sum_{i=1}^n tau_i) sigma^2 L Delta / (n epsilon^2))."
+identity_notes: Distinct from classical Asynchronous SGD (which applies delayed gradients hat{nabla} f(x^{k - delta_k}) computed at stale iterates and suffers suboptimal wall-clock complexity when slow stragglers inject large delays) and from synchronous Minibatch SGD (which waits for the slowest worker tau_n at every batch). Rennala SGD and Malenia SGD run workers in an asynchronous loop but strictly filter for current-iterate gradients (k' = k), automatically excluding slow stragglers i > m^* in the homogeneous regime and balancing harmonic sample sizes in the heterogeneous regime.
+aliases:
+- Rennala SGD
+- Malenia SGD
+- Accelerated Rennala SGD
+- Time Multiple Oracles Protocol Parallel SGD
+definition_evidence:
+- source_id: r579-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r579-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r579-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: time-multiple-oracles-protocol-and-homogeneous-minimax-lower-bound
+  kind: mechanism
+  statement: Under the Time Multiple Oracles Protocol (Protocol 3) and wall-clock complexity measure m_{time}(A_{zr}, F_{Delta,L}) (Equation 6), Theorem 6.4 proves using a zero-chain worst-case function F_T and parallel Bernoulli-gated stateful delay oracles O_{tau_i}^{hat{nabla} f} that any zero-respecting parallel algorithm requires at least Omega(min_{m in [n]} ((1/m) sum_{i=1}^m 1/tau_i)^{-1} (L Delta / epsilon + sigma^2 L Delta / (m epsilon^2))) seconds to find an epsilon-stationary point E[||nabla f(hat{x})||^2] <= epsilon, even if the algorithm is allowed to interrupt ongoing worker computations (Protocol 8, Section F).
+  evidence:
+  - source_id: r579-primary-pdf
+    locator: Section 4-6, Protocol 2-3, Equation (6), Theorem 6.4, pp. 4-7; Appendix D.2 and F, pp. 21-27, 42
+    relation: supports
+- claim_id: rennala-sgd-automatic-straggler-truncation-and-optimal-time-rate
+  kind: mechanism
+  statement: With batch size S = max{ceil(sigma^2 / epsilon), 1} and stepsize gamma = min{1/L, epsilon S / (2 L sigma^2)}, Rennala SGD (Method 4) requires K >= 24 Delta L / epsilon outer iterations (Theorem 7.4) and completes each batch in at most 2 min_{j in [n]} (sum_{i=1}^j 1/tau_i)^{-1} (S + j) seconds (Proof of Theorem 7.5, Lemma D.7), automatically assigning B_i = 0 to all slow workers i > j^* whose latency tau_i exceeds the active harmonic threshold without knowing tau_1, ..., tau_n in advance.
+  evidence:
+  - source_id: r579-primary-pdf
+    locator: Section 7, Method 4, Theorems 7.4 and 7.5, pp. 8-9; Appendix D.3.3-D.4.3, Lemma D.7, pp. 30-35
+    relation: supports
+  - source_id: r579-metadata-cr
+    locator: Bibliographic record
+    relation: supports
+- claim_id: malenia-sgd-harmonic-batch-condition-and-heterogeneous-minimax-optimality
+  kind: application
+  statement: In the heterogeneous data regime, Theorem A.2 establishes the lower bound Omega(tau_n L Delta / epsilon + ((1/n) sum_{i=1}^n tau_i) sigma^2 L Delta / (n epsilon^2)), and Malenia SGD (Method 6, Theorems A.3-A.4) attains this bound within a constant factor of 96 by waiting at each outer step k until the harmonic mean of per-worker fresh sample counts B_i satisfies ((1/n) sum_{i=1}^n 1/B_i)^{-1} >= S/n with S = max{ceil(sigma^2 / epsilon), n}, which bounds the aggregated gradient variance by (1/n^2) sum_{i=1}^n sigma^2 / B_i <= sigma^2 / S.
+  evidence:
+  - source_id: r579-primary-pdf
+    locator: Appendix A, Table 2, Method 6, Theorems A.2-A.4, pp. 16-18; Appendix E.3-E.4, pp. 40-41
+    relation: supports
+- claim_id: worst-straggler-bottleneck-in-heterogeneous-deterministic-regime
+  kind: limitation
+  statement: In the heterogeneous regime where workers hold distinct local distributions D_i without data-similarity assumptions, Theorem A.2 proves that the optimization term tau_n L Delta / epsilon depends unavoidably on the slowest worker's delay tau_n, because the non-zero objective component can reside entirely on the n-th worker.
+  evidence:
+  - source_id: r579-primary-pdf
+    locator: Appendix A.1-A.2, Theorem A.2, pp. 16-17; Appendix E.1, Part 1, p. 36
+    relation: supports
+evidence_sources:
+- source_id: r579-primary-pdf
+  title: Optimal Time Complexities of Parallel Stochastic Optimization Methods Under a Fixed Computation Model
+  authors: &id001
+  - Alexander Tyurin
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2305.12387
+  persistent_id: https://dblp.org/search/publ/api?q=Optimal+Time+Complexities+Parallel+Stochastic+Optimization+Tyurin+Richtarik&format=json
+  version: Advances in Neural Information Processing Systems 36 (NeurIPS 2023) (2023) (1154177 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:02:00Z'
+  sha256: 9147aec69519d81c6d8c5aba9435feb050e9df2cc925e17dfb32ffc242bc8347
+- source_id: r579-arxiv-abs
+  title: Optimal Time Complexities of Parallel Stochastic Optimization Methods Under a Fixed Computation Model (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2305.12387
+  persistent_id: https://arxiv.org/abs/2305.12387
+  version: arXiv abstract page (6084 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:02:00Z'
+  sha256: 8fd764778b566d909aa5c95a1352c12877138c84acf11a9100604df48f0373f2
+- source_id: r579-metadata-cr
+  title: Optimal Time Complexities of Parallel Stochastic Optimization Methods Under a Fixed Computation Model (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Optimal+Time+Complexities+Parallel+Stochastic+Optimization+Tyurin+Richtarik&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Optimal+Time+Complexities+Parallel+Stochastic+Optimization+Tyurin+Richtarik&format=json
+  version: Crossref API work record (1216 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:02:00Z'
+  sha256: b9d7a66cae2aa69b3eedbfbbebb4c3e619af164564b2b41b49530e518040d480
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Rennala SGD and Malenia SGD optimize homogeneous and heterogeneous distributed/federated objectives across parallel workers with heterogeneous compute latencies.
+limitations:
+- Wall-clock optimality proofs assume the fixed computation model where worker i takes deterministic time tau_i per stochastic gradient evaluation (assuming negligible communication delay).
+- In the heterogeneous regime without data similarity, Malenia SGD must collect at least one gradient per outer step from every worker, so the deterministic term scales with the slowest worker's latency tau_n.
+curation:
+  created_at: '2026-10-19T11:02:00Z'
+  updated_at: '2026-10-19T11:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

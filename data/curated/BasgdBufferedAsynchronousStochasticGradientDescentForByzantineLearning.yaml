@@ -1,0 +1,99 @@
+id: AIMech:BasgdBufferedAsynchronousStochasticGradientDescentForByzantineLearning
+name: BASGD Buffered Asynchronous Stochastic Gradient Descent for Byzantine Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: An asynchronous Byzantine-resilient parameter-server optimization algorithm proposed by Yang and Li (ICML 2021) that resists malicious worker attacks and arbitrary worker delays without storing any validation instances on the server by maintaining B server-side buffers (0 < B <= m) and a dynamic worker-to-buffer mapping table {beta_s}_{s=0}^{m-1}, accumulating incoming worker gradients into running buffer averages h_b in buffer b = beta_s mod B while immediately returning the current model w^t to worker s, executing a robust aggregation step G^t = Aggr([h_1, ..., h_B]) using a q-Byzantine-Robust (q-BR) or (A_1, A_2)-effective aggregator whenever all B buffers contain at least one gradient, and reassigning active workers across buffers if a timer exceeds Delta seconds.
+identity_notes: Distinct from Kardam (AIMech:KardamLipschitzAndFrequencyFilteredAsynchronousByzantineStochasticGradientDescent, which filters individual incoming gradients via empirical Lipschitz quantiles and a 2f-window frequency filter without server buffers) and from Zeno++ (AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent, which requires a clean validation dataset stored on the server to compute candidate loss-descent scores). Also distinct from synchronous s-Bucketing (AIMech:BucketingForAgnosticByzantineRobustAggregationOnHeterogeneousDatasets, which randomly reshuffles synchronous worker momentum vectors at every barrier step). BASGD (Yang & Li, ICML 2021, PMLR 139:11751-11761, Algorithm 1 & Section 3.1-3.3, pp. 3-5) routes each arriving asynchronous gradient g from worker s into buffer b = beta_s mod B via the online mean update N_b^t <- N_b^t + 1, h_b <- ((N_b^t - 1) h_b + g) / N_b^t, immediately replies to worker s with the latest w^t without synchronization barriers, triggers a parameter update w^{t+1} <- w^t - eta Aggr([h_1, ..., h_B]) and zeroes all buffers as soon as N_b^t > 0 for every b in [B], and resets the mapping table {beta_s} to redistribute active workers across all B buffers whenever the step timer exceeds the reassignment interval Delta.
+aliases:
+- BASGD
+- Buffered Asynchronous SGD
+- Buffered Asynchronous Stochastic Gradient Descent
+definition_evidence:
+- source_id: r539-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r539-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r539-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: basgd-server-buffer-running-average-q-br-aggregation-and-timer-reassignment
+  kind: mechanism
+  statement: 'BASGD maintains B server buffers and a mapping table {beta_s}_{s=0}^{m-1}: when worker s sends gradient g, the server updates buffer b = beta_s mod B via N_b^t <- N_b^t + 1 and h_b <- ((N_b^t - 1) h_b + g)/N_b^t and immediately returns w^t to worker s; once N_b^t > 0 for all b in [B], it aggregates G^t = Aggr([h_1, ..., h_B]) via a q-BR function (Coordinate-Wise Median or q-Trimmed Mean, Definitions 1-3 & Proposition 1), updates w^{t+1} <- w^t - eta G^t, and zeroes the buffers, or reassigns active workers across [B] if the timer exceeds Delta.'
+  evidence:
+  - source_id: r539-primary-pdf
+    locator: Section 3.1-3.3, Algorithm 1, Definitions 1-3, and Proposition 1, pp. 3-5
+    relation: supports
+- claim_id: basgd-asynchronous-non-convex-convergence-under-q-br-and-effective-aggregators
+  kind: scope
+  statement: When the combined number of Byzantine and heavily delayed (tau_k^t > tau_{max}) workers is at most r <= q < B/2, Lemmas 1-2 and Theorem 1 prove that BASGD with any q-BR aggregator achieves O(1/sqrt(T)) convergence up to a variance/bias neighborhood controlled by Lambda_{B,q,r} = (B-r)sqrt(B-r+1)/sqrt((B-q-1)(q-r+1)), and Theorem 2 proves dimension-free O(tau_{max}/sqrt(T)) + A_1 convergence for any (A_1, A_2)-effective stable aggregation function (Definitions 4-5).
+  evidence:
+  - source_id: r539-primary-pdf
+    locator: Section 3.2, Definitions 4-5, pp. 4-5; Section 4, Lemmas 1-2, Theorems 1-2, and Proposition 2, pp. 6-7
+    relation: supports
+- claim_id: basgd-buffer-count-update-frequency-and-reassignment-timer-limitation
+  kind: limitation
+  statement: Choosing a larger buffer count B increases resilience against Byzantine workers (up to r <= floor((B-1)/2) for median) but reduces the server's parameter update frequency, while an improperly tuned reassignment interval Delta either discards buffered gradients too frequently (small Delta) or delays recovery from unresponsive straggler buffers (large Delta).
+  evidence:
+  - source_id: r539-primary-pdf
+    locator: Section 3.2-3.3, p. 5; Section 5.2, Figure 3(a) & 3(d), pp. 7-8
+    relation: supports
+- claim_id: basgd-asynchronous-resnet-and-wikitext-lstm-byzantine-training-application
+  kind: application
+  statement: Applied to asynchronous Byzantine-resilient distributed training of ResNet-20 on CIFAR-10 and 2-layer LSTM language models on WikiText-2 under negative-gradient (NG) and random-disturbance (RD) attacks with random worker delays.
+  evidence:
+  - source_id: r539-primary-pdf
+    locator: Section 5.1-5.3, Table 1 and Figures 3-4, pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r539-primary-pdf
+  title: 'BASGD: Buffered Asynchronous SGD for Byzantine Learning'
+  authors: &id001
+  - Yi-Rui Yang
+  - Wu-Jun Li
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/yang21e/yang21e.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/YangL21.xml
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:11751-11761 (2021) (474682 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:22:00Z'
+  sha256: 0ea7ac6f66c9cc0f72894d89117a491003ef24d7273dedd5f60ae74ff72a1412
+- source_id: r539-arxiv-abs
+  title: 'BASGD: Buffered Asynchronous SGD for Byzantine Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/yang21e.html
+  persistent_id: https://proceedings.mlr.press/v139/yang21e.html
+  version: arXiv abstract page (4022 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:22:00Z'
+  sha256: 7a727e0b403a6aa680ed199e4e5a224fd8c89ddd3b6aefa8422549109a91e31e
+- source_id: r539-metadata-cr
+  title: 'BASGD: Buffered Asynchronous SGD for Byzantine Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/YangL21.xml
+  persistent_id: https://dblp.org/rec/conf/icml/YangL21.xml
+  version: Crossref API work record (436 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:22:00Z'
+  sha256: 9c34e5f76625260d107d75e69d14354521886aa7d55beb2f537de884348ff614
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning is the closely related distributed learning paradigm; BASGD provides instance-free asynchronous Byzantine-resilient stochastic gradient descent via server-side gradient buffering and timer-based reassignment.
+limitations:
+- Requires the total number of Byzantine and heavily delayed workers r to be strictly less than half the number of buffers B (r <= q < B/2).
+- Wait-for-all-buffers aggregation introduces a semi-asynchronous server update step whose frequency decreases as the buffer count B increases.
+curation:
+  created_at: '2026-10-19T10:22:00Z'
+  updated_at: '2026-10-19T10:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

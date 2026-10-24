@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HIBERT (Hierarchical Bidirectional Transformers for Document Summarization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/architecture.html">Architectures</a>
+    <span>/</span>
+    <strong>HIBERT (Hierarchical Bidirectional Transformers for Document Summarization)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HIBERT (Hierarchical Bidirectional Transformers for Document Summarization)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:HIBERTHierarchicalBidirectionalTransformersForDocumentSummarization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HIBERT, Hierarchical Bidirectional Transformers for Document Summarization, HIBERT Document-Level Pre-trained Hierarchical Transformer
+    </div>
+
+  <div class="detail-desc">
+    A hierarchical bidirectional Transformer document encoding and pre-training framework (Zhang, Wei, &amp; Zhou, ACL 2019) that stacks a word-level sentence Transformer encoder producing sentence vectors from per-sentence end-of-sentence positions and a document-level Transformer encoder computing context-sensitive sentence representations across an entire document, pre-trained on unlabeled documents via a sentence-level masking and autoregressively decoded masked-sentence prediction objective before fine-tuning for extractive document summarization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from flat BERT/RoBERTa encoders (which concatenate tokens into a single sequence and pre-train with token-level MLM and next-sentence prediction) and from SMITH (AIMech:SMITHSiameseMultiDepthTransformerBasedHierarchicalEncoder, which replaces autoregressive masked-sentence decoding with masked sentence-block projection classification in a Siamese dual-encoder retrieval architecture). HIBERT pre-trains a two-level hierarchical Transformer encoder by masking 15% of sentences (80% all-[MASK] tokens, 10% unchanged, 10% random sentence replacement) and predicting each masked sentence word-by-word via an auxiliary Transformer decoder that injects the context-sensitive sentence representation d_tilde_k into the two-layer feed-forward network after multi-head self-attention.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hibert-hierarchical-sentence-and-document-encoders</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    HIBERT encodes a document D = (S_1, S_2, ..., S_|D|) with a sentence Transformer encoder E_S that maps each sentence S_k = (w_1^k, ..., w_|S_k|^k) (terminated by an end-of-sentence token) to hidden vectors (h_1^k, ..., h_|S_k|^k) and selects the final hidden state s_k = h_|S_k|^k as the sentence representation, followed by a document Transformer encoder E_D that adds sentence positional embeddings p_k to form d_k = s_k + p_k and applies multi-layer bidirectional self-attention across (d_1, ..., d_|D|) to obtain context-sensitive sentence representations (d_tilde_1, ..., d_tilde_|D|).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r791-primary-pdf">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 (Hierarchical Transformer Encoders), pp. 2-3, Figure 1</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r791-primary-pdf">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</a></span>
+        <span>· <strong>Locator:</strong> hibert_decoder_step verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hibert-sentence-masking-and-context-injected-decoder</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To pre-train HIBERT on unlabeled documents, 15% of sentences in D are selected at random (80% masked by replacing every word with [MASK], 10% kept unchanged, and 10% replaced with a random sentence from another document), and an auxiliary Transformer decoder predicts each selected sentence S_k word-by-word by injecting its context-sensitive sentence vector d_tilde_k into the intermediate representation h_tilde_j^k after masked multi-head attention via x_tilde_j^k = h_tilde_j^k + d_tilde_k and g_tilde_j^k = W_2^ff max(0, W_1^ff x_tilde_j^k + b_1) + b_2 (Equations 4-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r791-primary-pdf">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Sentence Masking) &amp; Section 3.3 (Sentence Prediction), pp. 3-4, Figure 2, Equations (4)-(8)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r791-primary-pdf">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</a></span>
+        <span>· <strong>Locator:</strong> mask_document_sentences and hibert_decoder_step verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#hibert-extractive-summarization-empirical-gains</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When fine-tuned as a hierarchical extractive summarizer predicting binary sentence labels Y = (y_1, ..., y_|D|), HIBERT_M (12+12 layers) achieves 42.37 ROUGE-1, 19.95 ROUGE-2, and 38.83 ROUGE-L on CNN/DailyMail (+1.25 ROUGE-1 and +1.25 ROUGE-2 over the non-pre-trained HIER-BERT baseline) and 49.47 ROUGE-1, 26.17 ROUGE-2, and 46.69 ROUGE-L on New York Times50.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r791-primary-pdf">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 (Results), pp. 5-7, Tables 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#hibert-autoregressive-sentence-decoding-pretraining-cost</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Pre-training HIBERT requires an auxiliary autoregressive Transformer decoder that predicts every masked sentence token-by-token, incurring higher pre-training compute and memory overhead than non-autoregressive masked sentence-block projection objectives and requiring sentences to be truncated to 50 words and documents to 30 sentences during training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r791-primary-pdf">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Sentence Prediction) &amp; Section 4.2 (Implementation), pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Pre-training requires an auxiliary autoregressive Transformer decoder over masked sentences and truncates documents to 30 sentences of at most 50 words each.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            HIBERT is a specialized hierarchical two-level bidirectional Transformer neural network architecture for document encoding and extractive summarization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r791-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r791-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1905.06566.pdf" target="_blank" rel="noopener">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xingxing Zhang, Furu Wei, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1905.06566</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:465bec71c3e7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r791-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r791-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1905.06566" target="_blank" rel="noopener">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xingxing Zhang, Furu Wei, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1905.06566</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:85c487ce0e08…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r791-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r791-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1905.06566" target="_blank" rel="noopener">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xingxing Zhang, Furu Wei, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1905.06566</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2e808b56f3f4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AHIBERTHierarchicalBidirectionalTransformersForDocumentSummarization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for HIBERT (Hierarchical Bidirectional Transformers for Document Summarization)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Architectures</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:HIBERTHierarchicalBidirectionalTransformersForDocumentSummarization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">HIBERT (Hierarchical...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:34:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:34:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HIBERTHierarchicalBidirectionalTransformersForDocumentSummarization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HIBERTHierarchicalBidirectionalTransformersForDocumentSummarization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=HIBERT%20%28Hierarchical%20Bidirectional%20Transformers%20for%20Document%20Summarization%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AHIBERTHierarchicalBidirectionalTransformersForDocumentSummarization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

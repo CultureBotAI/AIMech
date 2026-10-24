@@ -1,0 +1,93 @@
+id: AIMech:PageProbabilisticGradientEstimatorForNonconvexOptimization
+name: PAGE (Probabilistic Gradient Estimator) for Non-Convex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A single-loop (loopless) variance-reduced stochastic optimization algorithm and probabilistic gradient estimator (Li, Bao, Zhang, & Richtarik 2021) for non-convex finite-sum and online minimization min_x f(x) = (1/n) sum_{i=1}^n f_i(x) that updates iterates via x^{t+1} = x^t - eta * g^t and constructs the gradient estimator g^{t+1} by a Bernoulli coin flip with probability p_t in (0, 1]: with probability p_t it computes a fresh minibatch SGD gradient (1/b) sum_{i in I} nabla f_i(x^{t+1}) of size |I| = b, and with probability 1 - p_t it reuses the previous estimator with a small-minibatch SARAH/SPIDER recursive correction g^t + (1/b'') sum_{i in I''} (nabla f_i(x^{t+1}) - nabla f_i(x^t)) of size |I''| = b'' << b, achieving optimal non-convex gradient complexity O(n + n^{1/2} * varepsilon^{-2}) (and O(b + b^{1/2} * varepsilon^{-2}) with b = Theta(sigma^2 / varepsilon^2) in the online setting) using a large constant step size eta = 1 / (2L) when p_t = b'' / (b + b'') and b'' = n^{1/2}.'
+identity_notes: Distinct from double-loop recursive gradient methods SARAH (Nguyen et al. 2017, AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization), SPIDER (Fang et al. 2018, AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization), and SpiderBoost (Wang et al. 2019, Round 376), which reset the gradient estimator at deterministic epoch boundaries mod(k, q) = 0; from L-SVRG / Loopless Katyusha (Kovalev et al. 2020, AIMech:LooplessSVRGAndLooplessKatyushaStochasticOptimization, which uses a loopless coin flip to update an anchor point w^t in the SVRG control-variate estimator nabla f_i(x^t) - nabla f_i(w^t) + nabla f(w^t) rather than switching between a fresh minibatch gradient and a recursive path-integrated step); and from STORM (Cutkosky & Orabona 2019, AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization, which blends both terms at every step via deterministic weight a_t rather than a probabilistic two-branch estimator with unequal minibatch sizes b and b').
+aliases:
+- PAGE
+- Probabilistic Gradient Estimator
+- Loopless Probabilistic Recursive Gradient Estimator
+definition_evidence:
+- source_id: r374-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r374-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r374-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r374-claim-page-variance-recursion-and-lyapunov-descent
+  kind: mechanism
+  statement: Under average L-smoothness E_i||nabla f_i(x) - nabla f_i(y)||_2^2 <= L^2 ||x - y||_2^2 (Assumption 2), the PAGE estimator (Equation 3) satisfies the one-step conditional variance recursion E[||g^{t+1} - nabla f(x^{t+1})||_2^2 | F_t] <= (1 - p_t) ||g^t - nabla f(x^t)||_2^2 + ((1 - p_t) L^2 / b') ||x^{t+1} - x^t||_2^2 + p_t * I(b < n) * sigma^2 / b (Lemmas 3-4); combining this with the exact gradient descent identity f(x^{t+1}) <= f(x^t) - (eta/2) ||nabla f(x^t)||_2^2 - (1/(2*eta) - L/2) ||x^{t+1} - x^t||_2^2 + (eta/2) ||g^t - nabla f(x^t)||_2^2 (Lemma 2) yields strict decrease of the Lyapunov potential Phi_t = f(x^t) - f^* + (eta / (2 * p_t)) ||g^t - nabla f(x^t)||_2^2 whenever eta <= 1 / (L * (1 + ((1 - p_t) / (p_t * b'))^{1/2})).
+  evidence:
+  - source_id: r374-primary-pdf
+    locator: Section 3-4, Equation (3), Theorems 1 and 3; Appendix A, Lemmas 2, 3, and 4
+    relation: supports
+- claim_id: r374-claim-optimal-nonconvex-and-pl-linear-convergence
+  kind: mechanism
+  statement: Setting p_t = b' / (b + b') with b = n (finite-sum) or b = ceil(2*sigma^2 / varepsilon^2) (online) and any b' in [1, b^{1/2}] gives (1 - p_t)/(p_t * b') = b / b'^2, allowing step size eta = 1 / (L * (1 + b^{1/2}/b')) (= 1/(2L) when b' = b^{1/2}) and expected per-step gradient cost p_t * b + (1 - p_t) * b' <= 2*b', finding E||nabla f(xhat_T)||_2 <= varepsilon in O(b + b^{1/2} * L * Delta_0 / varepsilon^2) = O(min(n + n^{1/2}/varepsilon^2, sigma^2/varepsilon^2 + sigma/varepsilon^3)) stochastic gradient evaluations, matching the Carmon et al. / Fang et al. / Arjevani et al. lower bounds (Theorems 1-4, Corollaries 1-4); furthermore, under the mu-Polyak-Lojasiewicz condition 1/2 * ||nabla f(x)||_2^2 >= mu * (f(x) - f^*), PAGE automatically switches to linear convergence O((b + b^{1/2} * L / mu) * log(1/varepsilon)) without restarting an outer loop (Theorem 5, Corollary 5).
+  evidence:
+  - source_id: r374-primary-pdf
+    locator: Section 1, Table 1; Section 4, Theorems 1-5, Corollaries 1-5; Appendix A.2 and Appendix B
+    relation: supports
+- claim_id: r374-claim-unifies-sgd-gd-and-loopless-sarah-spider
+  kind: application
+  statement: PAGE continuously interpolates between pure minibatch SGD (recovered at p_t = 1 with b < n), full-batch gradient descent (recovered at p_t = 1 with b = n), and loopless variance-reduced recursive gradient descent (for p_t = b'/(b+b')), and empirically outperforms SGD, SVRG, SCSG, and SPIDER on non-convex neural network training on MNIST and CIFAR-10.
+  evidence:
+  - source_id: r374-primary-pdf
+    locator: Section 3.1, Special Cases; Section 5, Experiments, Figures 1-2
+    relation: supports
+evidence_sources:
+- source_id: r374-primary-pdf
+  title: 'PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization'
+  authors: &id001
+  - Zhize Li
+  - Hongyan Bao
+  - Xiangliang Zhang
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2008.10898
+  persistent_id: https://proceedings.mlr.press/v139/li21a.html
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:6286-6295 (arXiv:2008.10898v3) (2021) (101870 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:37:00Z'
+  sha256: f23577a4052adee8c7a4f231895bb43a63917e575836da3d940919728aeb1767
+- source_id: r374-arxiv-abs
+  title: 'PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2008.10898
+  persistent_id: https://arxiv.org/abs/2008.10898
+  version: arXiv abstract page (7577 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:37:00Z'
+  sha256: dcaa79d623e1c56e7c635dea1cc8cd35aba79fef2b4528814f84e1323391d771
+- source_id: r374-metadata-cr
+  title: 'PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v139/li21a.html
+  persistent_id: https://proceedings.mlr.press/v139/li21a.html
+  version: Crossref API work record (4225 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:37:00Z'
+  sha256: 30b011e9052c5e97e23deeb8e761643371e479dbd6d0022792b8d27a5ed05cff
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Used to optimize non-convex regularized empirical risk and multi-class classification objectives.
+limitations:
+- In the finite-sum setting (b = n) or high-accuracy online regime (b = Theta(sigma^2/varepsilon^2)), the Bernoulli coin flip occasionally triggers a large batch of size b with probability p_t = b'/(b + b'), causing non-uniform per-iteration compute latency compared to uniform-batch single-loop methods like STORM (Section 3, Algorithm 1).
+curation:
+  created_at: '2026-10-19T07:37:00Z'
+  updated_at: '2026-10-19T07:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

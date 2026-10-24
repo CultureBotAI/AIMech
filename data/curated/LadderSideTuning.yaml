@@ -1,0 +1,99 @@
+id: AIMech:LadderSideTuning
+name: Ladder Side-Tuning (LST)
+concept_kind: architecture
+review_status: DRAFT
+definition: A parameter- and memory-efficient transfer learning architecture that separates all trainable parameters from a frozen backbone network f into a parallel lightweight side network g of hidden dimension scaled by 1/r, fuses downsampled intermediate backbone activations h_i^f with side-network representations h_{i-1}^g via learned temperature-scaled sigmoid gates mu_i * h_i^f + (1 - mu_i) * h_{i-1}^g (mu_i = sigmoid(alpha_i / T)), initializes g via Fisher-information or magnitude structural pruning of f, and completely eliminates backpropagation through the frozen backbone.
+identity_notes: Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA (AIMech:LoRAFA), Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers), and IA3 (AIMech:IA3ActivationRescaling), all of which insert trainable parameters inside the backbone and must cache backbone nonlinearity derivatives {sigma'} for chain-rule backpropagation (capping memory savings at <= 50%), and from vanilla Side-Tuning (which fuses representations only at the final output layer without intermediate gated ladder shortcuts, structural pruning initialization, or side-network layer dropping). Formulated by Sung, Cho, and Bansal (NeurIPS 2022, arXiv:2206.06522).
+aliases:
+- LST
+- Ladder Side-Tuning
+- Backpropagation-Free Gated Ladder Side Network
+definition_evidence:
+- source_id: r691-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r691-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r691-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lst-backbone-backpropagation-elimination-memory-mechanism
+  kind: mechanism
+  statement: Because in-backbone PETL methods must compute dL/da_{i+1} = (dL/da_{i+2}) sigma'_{i+1} W_{i+1} through the frozen backbone, they cannot reduce the nonlinearity derivative cache |sigma'| (limiting backpropagation memory savings to at most 50%), whereas LST detaches trainable parameters into a separate side network g with dimension reduction factor r so that backpropagation memory scales as (|a| + |sigma'|) / r.
+  evidence:
+  - source_id: r691-primary-pdf
+    locator: Section 3.1-3.2, Eq. 1-2 and Figure 2-3, p. 2, 4-5
+    relation: supports
+- claim_id: lst-gated-ladder-connections-and-structural-pruning-init
+  kind: mechanism
+  statement: At each side-network layer i, LST downsamples the intermediate backbone activation by 1/r and combines it with the previous side-layer activation h_{i-1}^g via mu_i * h_i^f + (1 - mu_i) * h_{i-1}^g with mu_i = sigmoid(alpha_i / T) (T = 0.1), initializes side-network weights by selecting the top d_out / r rows and corresponding columns of backbone matrices ranked by row-wise empirical Fisher information I = (1/N) sum (nabla_W log p(y_i | x_i))^2 or weight magnitude, and optionally drops intermediate side-network layers.
+  evidence:
+  - source_id: r691-primary-pdf
+    locator: Section 3.2-3.4, Figure 3-4, p. 5-7
+    relation: supports
+- claim_id: lst-glue-and-vision-language-transfer-application
+  kind: application
+  statement: LST is applied to T5-base, T5-large, and T5-3B on the GLUE benchmark and to CLIP-T5 on vision-and-language tasks (VQA, GQA, NLVR2, MSCOCO), saving 69% of full fine-tuning GPU training memory (2.7x more memory savings than Adapter and LoRA at matched parameter budgets) and enabling T5-large/T5-3B and CLIP-T5 adaptation within a 16GB GPU budget.
+  evidence:
+  - source_id: r691-primary-pdf
+    locator: Section 5 Experimental Results, Tables 1-3 and Figures 1, 5-6, p. 2, 8-9
+    relation: supports
+- claim_id: lst-sequential-ladder-inference-dependency-limitation
+  kind: limitation
+  statement: Unlike LoRA modules that merge into backbone weights W_0 with zero extra inference graph nodes, LST retains the separate side network g and linear downsample/upsample ladder projections at inference time, requiring parallel execution of backbone and side-network layers to avoid extra inference latency.
+  evidence:
+  - source_id: r691-primary-pdf
+    locator: Section 1, p. 2 & Section 5 Table 1 and Table 3 Inference Memory columns, p. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r691-primary-pdf
+  title: 'LST: Ladder Side-Tuning for Parameter and Memory Efficient Transfer Learning'
+  authors: &id001
+  - Yi-Lin Sung
+  - Jaemin Cho
+  - Mohit Bansal
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2206.06522.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=2206.06522&format=xml
+  version: Advances in Neural Information Processing Systems 35 (NeurIPS 2022) (2022) (621246 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:54:00Z'
+  sha256: ac80e04a02048afcf0ac7a336e2648589fee44651577ae8a0e101002d1ebd58a
+- source_id: r691-arxiv-abs
+  title: 'LST: Ladder Side-Tuning for Parameter and Memory Efficient Transfer Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2206.06522
+  persistent_id: https://arxiv.org/abs/2206.06522
+  version: arXiv abstract page (7166 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:54:00Z'
+  sha256: 10781be7c8197a9463e528926da9026363b4130593cbd9e74786731c6fb04d2f
+- source_id: r691-metadata-cr
+  title: 'LST: Ladder Side-Tuning for Parameter and Memory Efficient Transfer Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=2206.06522&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=2206.06522&format=xml
+  version: Crossref API work record (681 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:54:00Z'
+  sha256: 5d58a3930f112b6dfb5ea7261908d97b6a29c67d257f6fbe4955cb062db23fa9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Ladder Side-Tuning (LST) is a parallel side-network neural architecture connected to a frozen backbone via gated shortcut projections.
+limitations:
+- Cannot be algebraically merged into the frozen backbone weights at inference time and requires executing the side network alongside the backbone.
+curation:
+  created_at: '2026-10-19T12:54:00Z'
+  updated_at: '2026-10-19T12:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

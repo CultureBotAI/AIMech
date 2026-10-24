@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLoRA: Stacking-Based Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FLoRA: Stacking-Based Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FLoRA: Stacking-Based Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FLoRA, Stacking-Based Federated Heterogeneous LoRA, FLoRA Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations
+    </div>
+
+  <div class="detail-desc">
+    A noise-free, rank-heterogeneous federated parameter-efficient fine-tuning algorithm (FLoRA; Wang, Shen, He, Sun, Wang, Lyu, and Li, NeurIPS 2024) that enables K distributed clients with heterogeneous LoRA ranks {r_k}_{k=0}^K to collaboratively fine-tune a pre-trained model W in R^{m x n}. In each communication round, client k initializes and trains local low-rank adapter matrices A_k in R^{r_k x n} and B_k in R^{m x r_k}; instead of independently averaging A_k and B_k (which introduces cross-client error sum_{i != j} p_i p_j B_i A_j and squared diagonal weights p_k^2, Eq. 6), the server constructs global stacked adapters by vertically concatenating scaled A_k blocks A = p_0 A_0 (+) p_1 A_1 (+) ... (+) p_K A_K in R^{(sum_{k=0}^K r_k) x n} and horizontally concatenating B_k blocks B = B_0 (+) B_1 (+) ... (+) B_K in R^{m x (sum_{k=0}^K r_k)} (Eqs. 9-12) (optionally permuting rank-1 sub-modules at random for cross-client privacy), satisfying the exact identity B A = sum_{k=0}^K p_k B_k A_k before redistributing (B, A) to update local base models W &lt;- W + B A.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FFA-LoRA (AIMech:FfaLoraFederatedFreezeALowRankAdaptation; Sun et al., ICLR 2024), which eliminates aggregation cross-terms by freezing a homogeneous random projection matrix A_0 across all clients rather than training both A_k and B_k with heterogeneous client ranks r_k and stacking them on the server. Distinct from FedIT (Zhang et al., 2023) and zero-padded heterogeneous LoRA (HetLoRA; Cho et al., 2023), which average A_k and B_k separately and suffer from cross-client product noise (sum_k p_k B_k)(sum_k p_k A_k) != sum_k p_k B_k A_k. Also distinct from centralized memory-efficient low-rank gradient projection (Flora; Hao et al., 2024), which resamples random projection matrices on a single machine rather than stacking multi-client heterogeneous LoRA adapters in federated learning.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#flora-block-matrix-stacking-exact-aggregation-and-rank1-permutation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given K + 1 participating clients with arbitrary local LoRA ranks r_k and sample-proportion weights p_k = |D_k| / sum_{j=0}^K |D_j| applied to A_k only, FLoRA vertically stacks A = p_0 A_0 (+) ... (+) p_K A_K in R^{(sum_k r_k) x n} and horizontally stacks B = B_0 (+) ... (+) B_K in R^{m x (sum_k r_k)} (Eqs. 9-12, pp. 4-6), guaranteeing the exact noise-free outer-product decomposition B A = sum_{k=0}^K p_k B_k A_k (Eq. 10) while allowing the server to decompose (B, A) into sum_k r_k rank-1 sub-modules and randomly permute their order so clients cannot identify individual peers&#39; adapters (Section 5, p. 9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r511-primary-pdf">FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2, Eqs. (7)-(12), Figures 2-3, pp. 4-6; Section 5 The Privacy Preservation of FLoRA, p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#flora-non-iid-strongly-convex-convergence-rate-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumptions 1-5 (L-smoothness, mu-strong convexity, bounded stochastic gradient variance sigma_k^2 and second moment G^2, and unbiased LoRA local update steps B_k^{(t+1)} A_k^{(t+1)} - B_k^{(t)} A_k^{(t)} = eta^{(t)} nabla F_k(W_k^{(t)} | xi_k^{(t)})), Theorem 1 (Appendix B, Eqs. 13-14, p. 14) proves that FLoRA with step size alpha_k / r_k = 2 / (mu (gamma + t)), kappa = L / mu, and gamma = max{8 kappa, E} bounds the expected fine-tuning optimality gap by delta^{(T)} = E[F(w^{(T-1)} + B^{(T)} A^{(T)})] - F* &lt;= (2 kappa / (gamma + T))(M / mu + 2 L ||W^{(1)} - W*||^2) = O(1 / T) where M = sum_{k=1}^K p_k^2 sigma_k^2 + 6 L Gamma + 8 (E - 1)^2 G^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r511-primary-pdf">FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations</a></span>
+        <span>· <strong>Locator:</strong> Appendix B Convergence Analysis, Assumptions 1-5, Theorem 1, Eqs. (13)-(14), pp. 13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#flora-downlink-stacked-rank-communication-and-reinitialization-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the server broadcasts the stacked matrices A in R^{(sum_k r_k) x n} and B in R^{m x (sum_k r_k)} whose inner dimension equals the sum of all participating clients&#39; ranks sum_{k=0}^K r_k, FLoRA increases per-round downlink communication relative to FedIT (e.g., 0.215 vs 0.177 of full fine-tuning over 3 rounds in Figure 6, p. 9) and requires clients to merge B A into W and re-initialize fresh local LoRA adapters each round (Section 3.2, pp. 5-6; Section 5, pp. 8-9; Appendix C, p. 14).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r511-primary-pdf">FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Local Fine-tuning &amp; Update Local Models, pp. 5-6; Section 5 Figure 6, pp. 8-9; Appendix C Limitation, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#flora-heterogeneous-rank-federated-llm-instruction-tuning-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to homogeneous and rank-heterogeneous (r_k in {4, 8, 16, 32, 64} and dynamic AdaLoRA) federated instruction tuning of TinyLlama-1.1B, LLaMA-7B, and Llama2-7B on Dolly-15K, Alpaca, Wizard, and ShareGPT evaluated on MMLU and MT-bench.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r511-primary-pdf">FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments, Table 1, Figures 4-5, pp. 6-8; Appendix A.3 Tables 3-4, p. 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Downlink communication per round scales with the sum of participating clients&#39; LoRA ranks sum_{k=0}^K r_k rather than a single average rank (Section 3.2, p. 6; Appendix C, p. 14).</li>
+      <li>Merging the stacked global update B A into the base weight matrix W at each round requires re-initializing local LoRA adapters before the next round of local training (Section 3.2, p. 5).</li>
+      <li>Empirical performance is sensitive to the dataset- and model-dependent choice of the scaling factor p_k (Section 4.2, Figure 5, p. 8).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FLoRA is a federated fine-tuning algorithm that aggregates heterogeneous client LoRA adapters via noise-free matrix stacking.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r511-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r511-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2409.05976.pdf" target="_blank" rel="noopener">FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ziyao Wang, Zheyu Shen, Yexiao He, Guoheng Sun, Hongyi Wang, Lingjuan Lyu, Ang Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/WangSHS0LL24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bf2a952105e6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r511-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r511-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2409.05976" target="_blank" rel="noopener">FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ziyao Wang, Zheyu Shen, Yexiao He, Guoheng Sun, Hongyi Wang, Lingjuan Lyu, Ang Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2409.05976</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9d56705d958e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r511-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r511-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/WangSHS0LL24" target="_blank" rel="noopener">FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ziyao Wang, Zheyu Shen, Yexiao He, Guoheng Sun, Hongyi Wang, Lingjuan Lyu, Ang Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/WangSHS0LL24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b108b3ff0768…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFloraStackingBasedFederatedHeterogeneousLowRankAdaptation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FLoRA: Stacking-Based Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FLoRA: Stacking-Based...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:54:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:54:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FloraStackingBasedFederatedHeterogeneousLowRankAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FloraStackingBasedFederatedHeterogeneousLowRankAdaptation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FLoRA%3A%20Stacking-Based%20Federated%20Fine-Tuning%20with%20Heterogeneous%20Low-Rank%20Adaptations"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFloraStackingBasedFederatedHeterogeneousLowRankAdaptation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

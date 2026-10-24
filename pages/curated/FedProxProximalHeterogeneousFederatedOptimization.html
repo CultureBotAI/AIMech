@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedProx Proximal Heterogeneous Federated Optimization with Variable Inexact Local Work · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FedProx Proximal Heterogeneous Federated Optimization with Variable Inexact Local Work</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedProx Proximal Heterogeneous Federated Optimization with Variable Inexact Local Work</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedProxProximalHeterogeneousFederatedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedProx, Federated Proximal Optimization, Proximal Federated Averaging with Inexact Local Solvers
+    </div>
+
+  <div class="detail-desc">
+    A federated optimization framework (FedProx) for statistically and systemically heterogeneous networks in which each round t samples K devices (with probabilities p_k) and each selected device k computes a gamma_k^t-inexact local minimizer w_{k}^{t+1} of the proximal-regularized local surrogate h_k(w; w^t) = F_k(w) + (mu / 2) * ||w - w^t||^2 satisfying ||grad h_k(w_k^{t+1}; w^t)|| &lt;= gamma_k^t * ||grad F_k(w^t)|| with gamma_k^t in [0, 1) determined by device-specific systems constraints, followed by server aggregation w^{t+1} = (1/K) sum_{k in S_t} w_k^{t+1}, guaranteeing O(1/epsilon) nonconvex stationarity convergence under B-local gradient dissimilarity without dropping straggler devices or requiring stateful client memory.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from control-variate drift correction (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which requires persistent client state c_i and 2x communication rather than a stateless proximal surrogate), from uniform-epoch periodic local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, which corresponds to mu = 0 with fixed homogeneous local steps), and from centralized proximal stochastic gradient methods (AIMech:SpiderBoostAndProximalSpiderBoostWithMomentumForNonconvexOptimization). Narrower than AIO:FederatedLearning, which covers general federated learning without specifying proximal local surrogates or gamma_k^t-inexact partial-work aggregation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r385-gamma-inexact-proximal-surrogate-and-partial-work-aggregation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By replacing the unconstrained local objective F_k(w) of FedAvg with the proximal surrogate h_k(w; w^t) = F_k(w) + (mu / 2) * ||w - w^t||^2 (whose gradient at w^t equals grad F_k(w^t)) and formalizing variable device- and round-dependent local computation via Definition 2&#39;s gamma_k^t-inexactness condition ||grad h_k(w_k^{t+1}; w^t)|| &lt;= gamma_k^t * ||grad F_k(w^t)|| for gamma_k^t in [0, 1), Algorithm 2 aggregates partial updates from straggling devices while restricting local iterate deviation ||w_k^{t+1} - w^t|| &lt;= ((1 + gamma_k^t) / bar_mu) * ||grad F_k(w^t)||.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r385-primary-pdf">Federated Optimization in Heterogeneous Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 Definitions 1-2, Algorithm 2, and Appendix A.1 Equations (6)-(7), pp. 3-5, 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r385-b-dissimilarity-nonconvex-expected-descent-guarantee</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Definition 3&#39;s B-local dissimilarity E_k[||grad F_k(w)||^2] &lt;= B^2 * ||grad f(w)||^2 for L-smooth, L_minus-weakly convex local functions with bar_mu = mu - L_minus &gt; 0, Theorem 4 and Corollary 9 prove that each round satisfies E_{S_t}[f(w^{t+1})] &lt;= f(w^t) - rho * ||grad f(w^t)||^2 with rho = (1 - gamma * B) / mu - (L * B * (1 + gamma)) / (mu * bar_mu) - (L * (1 + gamma)^2 * B^2) / (2 * bar_mu^2 * K) &gt; 0, achieving O(L * B^2 * Delta / epsilon) iteration complexity to an epsilon-stationary point (Theorem 6 and Corollary 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r385-primary-pdf">Federated Optimization in Heterogeneous Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Definition 3, Assumption 1, Theorem 4, Remark 5, Theorem 6, and Corollaries 7-9, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r385-proximal-penalty-tuning-and-nonzero-bias-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Setting mu too large slows convergence on IID data by excessively restricting local updates near w^t, and under non-vanishing gradient variance sigma^2 &gt; 0 at the optimum (Theorem 11), dissimilarity B_epsilon &lt;= sqrt(1 + sigma^2 / epsilon) grows as epsilon -&gt; 0, requiring larger mu = O(L * sigma^2 / epsilon) and K = O(sigma^2 / epsilon).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r385-primary-pdf">Federated Optimization in Heterogeneous Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 5.3.1-5.3.2 (Choosing mu) and Appendix A.2 Corollary 10 &amp; Theorem 11, pp. 8-9, 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r385-heterogeneous-federated-benchmarks-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated multinomial logistic regression on MNIST and FEMNIST and nonconvex LSTM language/sentiment modeling on Shakespeare and Sent140 under 50% and 90% device straggler rates, improving testing accuracy by 22% on average in highly heterogeneous settings.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r385-primary-pdf">Federated Optimization in Heterogeneous Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments, Table 1 and Figures 1-3, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Does not eliminate asymptotic client drift with a fixed positive local learning rate unless mu grows or local step sizes decay, because the proximal center w^t has non-zero local gradients grad F_k(w*) != 0 at the global optimum.</li>
+      <li>Requires hyperparameter selection or adaptive heuristics for the proximal penalty parameter mu.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedProx is a specific federated optimization algorithm within AIO:FederatedLearning that introduces a proximal penalty (mu/2)||w - w^t||^2 and gamma_k^t-inexact local solvers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r385-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r385-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1812.06127.pdf" target="_blank" rel="noopener">Federated Optimization in Heterogeneous Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d442dd8dd547…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r385-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r385-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1812.06127" target="_blank" rel="noopener">Federated Optimization in Heterogeneous Networks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1812.06127</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab516e6c40bd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r385-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r385-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html" target="_blank" rel="noopener">Federated Optimization in Heterogeneous Networks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4ecb4fe7e917…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFedProxProximalHeterogeneousFederatedOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FedProx Proximal Heterogeneous Federated Optimization with Variable Inexact Local Work" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FedProxProximalHeterogeneousFederatedOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FedProx Proximal...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:48:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:48:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedProxProximalHeterogeneousFederatedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedProxProximalHeterogeneousFederatedOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FedProx%20Proximal%20Heterogeneous%20Federated%20Optimization%20with%20Variable%20Inexact%20Local%20Work"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedProxProximalHeterogeneousFederatedOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,104 @@
+id: AIMech:PTuningV2DeepContinuousPromptTuning
+name: P-Tuning v2 Deep Continuous Prompt Tuning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient deep continuous prompt tuning method for natural language understanding and token-level sequence labeling that freezes the pretrained Transformer backbone, prepends independent trainable continuous prefix prompt vectors across multiple or all Transformer layers rather than only the input embedding layer, and attaches a randomly initialized linear classification head over token or [CLS] representations in place of language-modeling verbalizers, tuning 0.1% to 3% of model parameters.
+identity_notes: Distinct from single-layer Prompt Tuning (Lester et al., EMNLP 2021, AIMech:PromptTuning) and original P-Tuning (Liu et al., 2021), which insert continuous prompts only in the input embedding layer with verbalizers and underperform on models below 10B parameters and on sequence tagging tasks; also distinct from Prefix-Tuning (Li & Liang, ACL 2021, AIMech:PrefixTuning), which targets autoregressive natural language generation with mandatory MLP reparameterization rather than bidirectional NLU and token-level sequence tagging with task-dependent reparameterization and linear token classification heads.
+aliases:
+- P-Tuning v2
+- PT-2 Deep Prompt Tuning for NLU
+- Multi-Layer Continuous Prompt Tuning for NLU and Sequence Tagging
+definition_evidence:
+- source_id: r717-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r717-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r717-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r717-claim-deep-layer-prompts
+  kind: mechanism
+  statement: P-Tuning v2 inserts independent trainable continuous prompts as prefix tokens into every layer (or a selected deep layer interval) of a frozen pretrained Transformer rather than only the input embedding layer, increasing per-task tunable capacity from ~0.01% to 0.1%-3% of backbone parameters and giving deeper-layer prompts direct influence over output predictions.
+  evidence:
+  - source_id: r717-primary-pdf
+    locator: Section 3.2 & Section 4.3, Figures 2-3, pp. 2-3, 5
+    relation: supports
+- claim_id: r717-claim-linear-head-no-verbalizer
+  kind: mechanism
+  statement: To support token-level sequence labeling tasks that are incompatible with single-token language-modeling verbalizers, P-Tuning v2 replaces the verbalizer and LM head with a randomly initialized linear classification head over token representations (or [CLS] for sequence classification) and optionally shares continuous prompts across multi-task pre-training before per-task adaptation.
+  evidence:
+  - source_id: r717-primary-pdf
+    locator: Section 3.3 & Section 4.3, Tables 1 and 4, Appendix A, pp. 3, 5, 7
+    relation: supports
+- claim_id: r717-claim-scale-and-task-universality
+  kind: application
+  statement: Across bidirectional NLU backbones spanning 330M to 10B parameters (BERT-large, RoBERTa-large, DeBERTa-xlarge, GLM-xlarge, GLM-xxlarge), P-Tuning v2 matches full fine-tuning on SuperGLUE and closes the massive accuracy gap of single-layer prompt tuning on NER (CoNLL03, OntoNotes 5.0, CoNLL04), extractive QA (SQuAD 1.1 and 2.0, where single-layer PT drops to 1.0-2.4 EM on SQuAD 1.1 and 50.2 EM on SQuAD 2.0), and SRL (CoNLL05, CoNLL12).
+  evidence:
+  - source_id: r717-primary-pdf
+    locator: Section 4.1-4.2, Tables 2-3, Figure 1, pp. 1, 4-5
+    relation: supports
+- claim_id: r717-claim-prompt-length-reparam-limitation
+  kind: limitation
+  statement: 'Optimal prompt length and MLP reparameterization utility in P-Tuning v2 vary substantially across tasks and datasets: hard sequence labeling tasks require long prefix prompts (around 100 tokens, which increases attention key/value sequence length at every layer), and MLP reparameterization improves RTE and CoNLL04 but degrades performance on CoNLL12 compared to direct embedding optimization.'
+  evidence:
+  - source_id: r717-primary-pdf
+    locator: Section 3.3 & Appendix B, Figure 4, pp. 3, 8
+    relation: supports
+evidence_sources:
+- source_id: r717-primary-pdf
+  title: 'P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-tuning Universally Across Scales and Tasks'
+  authors: &id001
+  - Xiao Liu
+  - Kaixuan Ji
+  - Yicheng Fu
+  - Weng Lam Tam
+  - Zhengxiao Du
+  - Zhilin Yang
+  - Jie Tang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.07602.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=P-Tuning+v2+Prompt+Tuning+Can+Be+Comparable+Liu&format=xml
+  version: 'Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL 2022, Volume 2: Short Papers), pp. 61-68 (2022) (695040 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:20:00Z'
+  sha256: 21b7c79a440778635bd4b7586476f7dad8593ebcb14d4f81c0bba8244a43ab4c
+- source_id: r717-arxiv-abs
+  title: 'P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-tuning Universally Across Scales and Tasks (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.07602
+  persistent_id: https://arxiv.org/abs/2110.07602
+  version: arXiv abstract page (7081 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:20:00Z'
+  sha256: 6bf00861dd89968428a28e6d6d138f00f6b9ba10658e866589ec4bf858d366bb
+- source_id: r717-metadata-cr
+  title: 'P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-tuning Universally Across Scales and Tasks (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=P-Tuning+v2+Prompt+Tuning+Can+Be+Comparable+Liu&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=P-Tuning+v2+Prompt+Tuning+Can+Be+Comparable+Liu&format=xml
+  version: Crossref API work record (793 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:20:00Z'
+  sha256: 5f03322ec789e7be55856aa8ea6e81bf7b8ab7faea5f2f9a4595e7169ea37552
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: P-Tuning v2 adapts frozen deep Transformer neural networks across NLU and sequence labeling tasks by prepending trainable continuous prompts to every layer.
+limitations:
+- Requires task-specific hyperparameter tuning of prompt length (from <20 tokens on simple classification tasks to >=100 tokens on hard sequence labeling tasks) and choice of direct embedding vs. MLP reparameterization, which can hurt performance on benchmarks such as CoNLL12.
+- Evaluated in fully supervised settings rather than few-shot settings, and prepending long prefix prompts (e.g., 100 tokens) to every Transformer layer increases attention computation and key-value memory overhead during forward and backward passes.
+curation:
+  created_at: '2026-10-19T13:20:00Z'
+  updated_at: '2026-10-19T13:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

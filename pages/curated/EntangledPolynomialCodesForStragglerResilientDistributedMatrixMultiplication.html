@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entangled Polynomial Codes for Straggler-Resilient Distributed Matrix Multiplication · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Entangled Polynomial Codes for Straggler-Resilient Distributed Matrix Multiplication</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Entangled Polynomial Codes for Straggler-Resilient Distributed Matrix Multiplication</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:EntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Entangled Polynomial Code, Entangled Polynomial Codes, Bilinear-Complexity Entangled Polynomial Coding
+    </div>
+
+  <div class="detail-desc">
+    A straggler-resilient linear coded computing method for distributed matrix multiplication C = A^T B across N worker nodes that partitions A in F^{s x r} into p x m blocks A_{j,k} and B in F^{s x t} into p x n blocks B_{j&#39;,k&#39;} (allowing each worker to store a 1/(pm) fraction of A and a 1/(pn) fraction of B) and encodes worker i&#39;s stored submatrices at distinct evaluation point x_i in F as A_tilde_i = sum_{j=0}^{p-1} sum_{k=0}^{m-1} A_{j,k} x_i^{j + k p} and B_tilde_i = sum_{j&#39;=0}^{p-1} sum_{k&#39;=0}^{n-1} B_{j&#39;,k&#39;} x_i^{(p - 1 - j&#39;) + k&#39; p m}, so that each desired inner-dimension sum C_{k,k&#39;} = sum_{j=0}^{p-1} A_{j,k}^T B_{j,k&#39;} aligns onto the unique degree-(p - 1 + k p + k&#39; p m) coefficient of the degree-(p m n + p - 2) worker product polynomial h(x_i) = A_tilde_i^T B_tilde_i and can be recovered from any K_{entangled-poly} = p m n + p - 1 non-straggling workers.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Polynomial Codes (AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication, which restrict p = 1 and partition input matrices only along their outer dimensions) and from MatDot and PolyDot Codes (AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication, where PolyDot achieves recovery threshold m^2 (2p - 1) for m = n because unaligned inner-dimension cross-terms double the polynomial degree in p): Entangled Polynomial Codes (Yu, Maddah-Ali, &amp; Avestimehr, ISIT 2018 / IEEE TIT 2020) assign exponent strides (alpha, beta, theta) = (1, p, p m) with reversed inner-dimension powers x_i^j and x_i^{p-1-j&#39;} to align all p summands of each C_{k,k&#39;} onto x_i^{p-1 + k p + k&#39; p m}, reducing the recovery threshold by a factor of 2 to p m n + p - 1 and further to 2 R(p, m, n) - 1 via bilinear-complexity tensor decompositions.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#epc-degree-alignment-recovery-threshold</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By choosing exponent strides (alpha, beta, theta) = (1, p, p m) in Definition 4 (Eq. 28), each worker i evaluates a polynomial h(x_i) = A_tilde_i^T B_tilde_i of degree p m n + p - 2 in which each subblock C_{k,k&#39;} = sum_{j=0}^{p-1} A_{j,k}^T B_{j,k&#39;} appears as the exact coefficient of x_i^{p - 1 + k p + k&#39; p m}, achieving recovery threshold K_{entangled-poly} = p m n + p - 1 from any subset of p m n + p - 1 non-straggling workers via polynomial interpolation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r542-primary-pdf">Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding</a></span>
+        <span>· <strong>Locator:</strong> Section III Theorem 1 p. 3 Eq. 10; Section IV-B p. 7 Eq. 28-29</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#epc-linear-converse-and-bilinear-complexity-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Entangled Polynomial Codes achieve the optimal linear recovery threshold K*_{linear} = p m n + p - 1 = p m + p n - 1 whenever m = 1 or n = 1 (Theorem 2, Lemma 1, Eq. 12 and 30), and for arbitrary (p, m, n) an improved bilinear-complexity construction using a rank-R tensor decomposition of m-by-p by p-by-n matrix multiplication achieves recovery threshold 2 R - 1, characterizing K*_{linear} within a factor of 2 as R(p, m, n) &lt;= K*_{linear} &lt;= 2 R(p, m, n) - 1 (Theorem 3, Eq. 15).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r542-primary-pdf">Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding</a></span>
+        <span>· <strong>Locator:</strong> Section III Theorems 2-3 p. 4-5 Eq. 12-15; Section V Lemma 1 p. 8 Eq. 30; Section VI p. 9-10 Eq. 40-48</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#epc-real-field-vandermonde-conditioning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When implemented over the field of real or complex numbers rather than a finite field, decoding Entangled Polynomial Codes requires interpolating a degree-(p m n + p - 2) polynomial (or degree-(2 R - 2) polynomial in the bilinear-complexity variant), which can suffer from numerical ill-conditioning and floating-point precision loss as p m n grows.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r542-primary-pdf">Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding</a></span>
+        <span>· <strong>Locator:</strong> Section VII Concluding Remarks p. 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Over real or complex fields, polynomial interpolation of degree p m n + p - 2 or 2 R(p, m, n) - 2 suffers from Vandermonde numerical conditioning degradation as partition counts p, m, n grow.</li>
+      <li>Achieving the factor-of-2 optimal bound 2 R(p, m, n) - 1 requires an explicit low-rank bilinear-complexity tensor decomposition (a, b, c) for (p, m, n), whose exact minimum rank R(p, m, n) is NP-hard to determine in general.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Entangled Polynomial Codes provide optimal straggler-resilient coded matrix multiplication across distributed worker nodes in large-scale distributed and federated machine learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r542-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r542-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1801.07487.pdf" target="_blank" rel="noopener">Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qian Yu, Mohammad Ali Maddah-Ali, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/YuMA20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:19ca132faffc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r542-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r542-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1801.07487" target="_blank" rel="noopener">Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qian Yu, Mohammad Ali Maddah-Ali, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1801.07487</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:92d512f3a3a6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r542-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r542-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/tit/YuMA20" target="_blank" rel="noopener">Straggler Mitigation in Distributed Matrix Multiplication: Fundamental Limits and Optimal Coding (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qian Yu, Mohammad Ali Maddah-Ali, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/YuMA20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:848da46a7d6b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AEntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Entangled Polynomial Codes for Straggler-Resilient Distributed Matrix Multiplication" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:EntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Entangled Polynomial...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:25:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:25:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/EntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication.yaml" target="_blank" rel="noopener">
+      <code>data/curated/EntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Entangled%20Polynomial%20Codes%20for%20Straggler-Resilient%20Distributed%20Matrix%20Multiplication"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AEntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

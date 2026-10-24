@@ -1,0 +1,105 @@
+id: AIMech:GlobalEAndLocalEEntropyBasedPromptOrdering
+name: GlobalE and LocalE Entropy-Based Prompt Ordering
+concept_kind: algorithm
+review_status: DRAFT
+definition: A validation-free prompt ordering method for few-shot in-context learning that first generates an unlabeled probing set directly from the pretrained language model conditioned on the available training demonstrations, and then selects high-performing permutations of those demonstrations by maximizing either the global Shannon entropy of hard class predictions across the probing set (GlobalE) or the mean local predictive entropy per probing instance (LocalE).
+identity_notes: Distinct from post-hoc output probability calibration methods such as Contextual Calibration (AIMech:CalibrateBeforeUseContextualCalibration) and Domain-Conditional PMI (AIMech:PMIDCDomainConditionalPointwiseMutualInformation), which rescale label probabilities for a fixed prompt rather than ranking and selecting optimal permutations of in-context demonstrations. Also distinct from retrieval-based example selection methods that choose which examples to include per test query rather than ordering a fixed few-shot support set without any labeled development data.
+aliases:
+- GlobalE and LocalE Prompt Ordering
+- GlobalE / LocalE Entropy-Based Demonstration Ordering
+- Entropy-Based Few-Shot Prompt Permutation Selection
+definition_evidence:
+- source_id: r733-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r733-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r733-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: globale-locale-generative-probing-set-construction
+  kind: mechanism
+  statement: To evaluate candidate prompt permutations without access to a labeled development set, the method prompts the pretrained language model with concatenated training demonstrations to sample artificial unlabeled probing inputs from the target task distribution.
+  evidence:
+  - source_id: r733-primary-pdf
+    locator: Section 3.1, p. 8089, Figure 2
+    relation: supports
+- claim_id: globale-and-locale-entropy-scoring-equations
+  kind: mechanism
+  statement: For each candidate permutation of the K demonstrations, GlobalE computes the Shannon entropy of the empirical distribution of argmax class predictions across the probing set to eliminate permutations that suffer from degenerate single-class collapse, whereas LocalE computes the average predictive distribution entropy across individual probing inputs.
+  evidence:
+  - source_id: r733-primary-pdf
+    locator: Section 3.2, pp. 8089-8090, Equations 2-5
+    relation: supports
+- claim_id: globale-locale-few-shot-order-sensitivity-application
+  kind: application
+  statement: GlobalE and LocalE are applied to few-shot text classification across GPT-2, GPT-3, and RoBERTa models, improving accuracy by an average of 13% over random orderings and drastically reducing variance across demonstration permutations without using labeled validation examples.
+  evidence:
+  - source_id: r733-primary-pdf
+    locator: Section 4 & Section 5, pp. 8090-8094, Tables 1-4
+    relation: supports
+  - source_id: r733-metadata-cr
+    locator: DBLP bibliographic record conf/acl/LuBMRS22
+    relation: supports
+- claim_id: globale-locale-factorial-permutation-cost-limitation
+  kind: limitation
+  statement: Exhaustively scoring all K! permutations scales factorially with the number of in-context examples K, requiring Monte Carlo subsampling of permutations when K is large and assuming that the true target class distribution is approximately balanced.
+  evidence:
+  - source_id: r733-primary-pdf
+    locator: Section 3.2 & Section 5, pp. 8089-8095
+    relation: supports
+evidence_sources:
+- source_id: r733-primary-pdf
+  title: 'Fantastically Ordered Prompts and Where to Find Them: Overcoming Few-Shot Prompt Order Sensitivity'
+  authors: &id001
+  - Yao Lu
+  - Max Bartolo
+  - Alastair Moore
+  - Sebastian Riedel
+  - Pontus Stenetorp
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.08786.pdf
+  persistent_id: https://dblp.org/rec/conf/acl/LuBMRS22.xml
+  version: 'Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) (ACL 2022) (2022) (567535 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:36:00Z'
+  sha256: 7a5b89546628145d6a55e44d75ddd5dc989cc1d8ef92212533fb4833c2f36ebf
+- source_id: r733-arxiv-abs
+  title: 'Fantastically Ordered Prompts and Where to Find Them: Overcoming Few-Shot Prompt Order Sensitivity (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.08786
+  persistent_id: https://arxiv.org/abs/2104.08786
+  version: arXiv abstract page (7103 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:36:00Z'
+  sha256: 88ac2cefa4bac33aacf2cdb0c9739fba9ad6108555526d029d648cbc79f3253b
+- source_id: r733-metadata-cr
+  title: 'Fantastically Ordered Prompts and Where to Find Them: Overcoming Few-Shot Prompt Order Sensitivity (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/acl/LuBMRS22.xml
+  persistent_id: https://dblp.org/rec/conf/acl/LuBMRS22.xml
+  version: Crossref API work record (931 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:36:00Z'
+  sha256: 165f0b96c8c1ff2148109dc319086fe7def4ca835d65a7976b20f6b18042c58e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: GlobalE and LocalE select non-degenerate demonstration permutations for few-shot in-context learning in pretrained neural language models.
+limitations:
+- Evaluating candidate permutations across the probing set requires additional forward inference passes proportional to the number of evaluated permutations times the probing set size.
+- Performant permutations selected for one language model or parameter scale do not reliably transfer to different model families or sizes.
+curation:
+  created_at: '2026-10-19T13:36:00Z'
+  updated_at: '2026-10-19T13:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

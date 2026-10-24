@@ -1,0 +1,352 @@
+# Scientific author self-review of Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT)
+
+- Review: 20261019T121930Z-boft-orthogonal-butterfly-finetuning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:19:00Z
+- Finished UTC: 2026-10-19T12:19:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/BoftOrthogonalButterflyFinetuning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:BoftOrthogonalButterflyFinetuning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 28c9a867672d9861d505c6018bf5d2d8901470ae.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:BoftOrthogonalButterflyFinetuning | data/curated/BoftOrthogonalButterflyFinetuning.yaml | maintained | Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:BoftOrthogonalButterflyFinetuning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:BoftOrthogonalButterflyFinetuning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:BoftOrthogonalButterflyFinetuning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:BoftOrthogonalButterflyFinetuning | Validated history sidecar files. |
+| python3 boft-orthogonal-butterfly-finetuning-boundaries.py | passed | True | AIMech:BoftOrthogonalButterflyFinetuning | [PASS] Round 656 BOFT boundary and mathematical verification succeeded. |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:BoftOrthogonalButterflyFinetuning.
+
+Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT) is a distinct concept.
+
+Distinct from additive low-rank adapters such as LoRA (Hu et al., 2022) and DoRA (Liu et al., 2024), which add a low-rank update W_0 + B A that alters pairwise neuron angles (hyperspherical energy) rather than multiplying W^0 by an exact orthogonal matrix R^T R = I_d. Also distinct from single-stage block-diagonal Orthogonal Finetuning (OFT, Qiu et al., 2023), which corresponds to the degenerate m = 1 special case of BOFT and cannot mix coordinates across distinct b-dimensional blocks.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:BoftOrthogonalButterflyFinetuning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:BoftOrthogonalButterflyFinetuning.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in boft-orthogonal-butterfly-finetuning-boundaries.py passed with exit code 0: [PASS] Round 656 BOFT boundary and mathematical verification succeeded.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:BoftOrthogonalButterflyFinetuning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T121900Z-boft-orthogonal-butterfly-finetuning.json | supports | No normalized identity match for AIMech:BoftOrthogonalButterflyFinetuning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/boft-orthogonal-butterfly-finetuning-boundaries.py | supports | All constructed boundary assertions in boft-orthogonal-butterfly-finetuning-boundaries.py passed with exit code 0: [PASS] Round 656 BOFT boundary and mathematical verification succeeded. |
+| r656-primary-pdf | https://arxiv.org/pdf/2311.06243.pdf; Full-text PDF | supports | Full-text PDF (The Twelfth International Conference on Learning Representations (ICLR 2024) (2024)) read and verified. |
+| r656-arxiv-abs | https://arxiv.org/abs/2311.06243; arXiv abstract | supports | arXiv abstract read and verified. |
+| r656-metadata-cr | https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:BoftOrthogonalButterflyFinetuning in Round 656.
+- All pages of The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T121930Z-boft-orthogonal-butterfly-finetuning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Parameter-Efficient Orthogonal Finetuning
+  via Butterfly Factorization (BOFT)
+started_at: '2026-10-19T12:19:00Z'
+finished_at: '2026-10-19T12:19:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:BoftOrthogonalButterflyFinetuning
+    against existing AIMech and AIO records and verified all claims against The Twelfth
+    International Conference on Learning Representations (ICLR 2024) (2024) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization
+  (BOFT) as a distinct DRAFT algorithm. All four claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 28c9a867672d9861d505c6018bf5d2d8901470ae
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/BoftOrthogonalButterflyFinetuning.yaml
+    sha256: 0e95746296cf9647d382a72e65100bf7dba4bee8c1ecd1ea6884b1bfa0146627
+    role: target
+  - path: research/discovery/20261019T121900Z-boft-orthogonal-butterfly-finetuning.json
+    sha256: 62cd7dbc9b1a5dcb8a6868f6cda6e67eab36658d672a17669aa0a7bf53fcae1b
+    role: context
+  - path: research/discovery/boft-orthogonal-butterfly-finetuning-boundaries.py
+    sha256: 21896c6be7f03c0107d1b6ca73d3b5c822c3184f729390903c15fb42a0ddc2ed
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:BoftOrthogonalButterflyFinetuning
+  path: data/curated/BoftOrthogonalButterflyFinetuning.yaml
+  label: Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BoftOrthogonalButterflyFinetuning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/BoftOrthogonalButterflyFinetuning.yaml and
+    its primary evidence.
+  selection: 'Exact maintained ID: AIMech:BoftOrthogonalButterflyFinetuning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 boft-orthogonal-butterfly-finetuning-boundaries.py
+  command: python3 research/discovery/boft-orthogonal-butterfly-finetuning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 656 BOFT boundary and mathematical verification succeeded.'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T121900Z-boft-orthogonal-butterfly-finetuning.json
+  accessed_at: '2026-10-19T12:19:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:BoftOrthogonalButterflyFinetuning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:19:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/boft-orthogonal-butterfly-finetuning-boundaries.py
+  accessed_at: '2026-10-19T12:19:00Z'
+  snapshot_sha256: 21896c6be7f03c0107d1b6ca73d3b5c822c3184f729390903c15fb42a0ddc2ed
+  support: supports
+  summary: 'All constructed boundary assertions in boft-orthogonal-butterfly-finetuning-boundaries.py
+    passed with exit code 0: [PASS] Round 656 BOFT boundary and mathematical verification
+    succeeded.'
+- evidence_id: r656-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2311.06243.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:19:00Z'
+  snapshot_sha256: 12f41a8e5b2ff1d5816f3bcad0606fc53a5d99101006ade5aa7b4c7efc9851ec
+  support: supports
+  summary: Full-text PDF (The Twelfth International Conference on Learning Representations
+    (ICLR 2024) (2024)) read and verified.
+- evidence_id: r656-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2311.06243
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:19:00Z'
+  snapshot_sha256: 4fc2151a80b0e273c94c3334780847aa0e407186a2307f172e7427e883d064a0
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r656-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:19:00Z'
+  snapshot_sha256: a0743813a62282113bcc2277f6ac702add8bc91e36b572e9a89f363b4a7344d8
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  evidence_ids:
+  - identity
+  - r656-primary-pdf
+  - r656-arxiv-abs
+  - r656-metadata-cr
+  summary: Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT)
+    is a distinct concept.
+  details: Distinct from additive low-rank adapters such as LoRA (Hu et al., 2022)
+    and DoRA (Liu et al., 2024), which add a low-rank update W_0 + B A that alters
+    pairwise neuron angles (hyperspherical energy) rather than multiplying W^0 by
+    an exact orthogonal matrix R^T R = I_d. Also distinct from single-stage block-diagonal
+    Orthogonal Finetuning (OFT, Qiu et al., 2023), which corresponds to the degenerate
+    m = 1 special case of BOFT and cannot mix coordinates across distinct b-dimensional
+    blocks.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  evidence_ids:
+  - mapping
+  - r656-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  evidence_ids:
+  - r656-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in boft-orthogonal-butterfly-finetuning-boundaries.py
+    passed with exit code 0: [PASS] Round 656 BOFT boundary and mathematical verification
+    succeeded.'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:BoftOrthogonalButterflyFinetuning
+  evidence_ids:
+  - identity
+  - mapping
+  - r656-primary-pdf
+  - r656-arxiv-abs
+  - r656-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:BoftOrthogonalButterflyFinetuning in Round 656.
+- All pages of The Twelfth International Conference on Learning Representations (ICLR
+  2024) (2024) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

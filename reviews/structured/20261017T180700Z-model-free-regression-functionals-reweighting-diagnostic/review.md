@@ -1,0 +1,490 @@
+# Scientific author self-review of Model-free regression functionals, regressor-reweighting well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit
+
+- Review: 20261017T180700Z-model-free-regression-functionals-reweighting-diagnostic
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T18:05:00Z
+- Finished UTC: 2026-10-17T18:07:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Model-free regression functionals, regressor-reweighting well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit as a distinct DRAFT mathematical_method with related LinearRegression and LogisticRegression mappings. All four claims and locators across Buja et al. (2019, Statistical Science 34(4):545-565, arXiv:1612.03257v2) are supported with explicit reweighting-feature necessity and effective-sample-size limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b802f97117c1a742e140e299be10a4bd3acabf13.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | data/curated/ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.yaml | maintained | Model-free regression functionals, regressor-reweighting well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | All 610 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | Exited 0 without output. |
+| Constructed Buja et al. 2019 Part II BHHJ proper scoring, reweighting tilt diagnostic, partial influence function, and M-of-N XY-bootstrap checks | passed | True | AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit | All model-free regression functionals &amp; reweighting diagnostic boundary checks passed. |
+
+## Scientific And Domain Assessments
+
+### ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit versus ModelRobustNonlinearityConsistentSandwichAndRAVSpecificationTest
+
+identity: supported. Targets: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.
+
+Retain Model-free regression functionals, regressor-reweighting well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit as a distinct DRAFT mathematical_method.
+
+Buja et al. (2019, Part II) generalize the model-free framework to optimization, proper scoring rule, and estimating-equation regression functionals, proving Propositions 3.3.1-3.3.3, Lemma 4.1 / Proposition 4.1 reweighting invariance and the Gaussian decile tilt diagnostic, Lemma 6.6 / Proposition 6.6 partial influence function characterization and Corollary 7.1 Pythagorean CLT split, and Proposition 8.1 M-of-N XY-bootstrap sandwich limit.
+
+### Mappings to AIO:LinearRegression and AIO:LogisticRegression
+
+grounding: supported. Targets: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.
+
+Related mappings to LinearRegression and LogisticRegression are supported.
+
+Encompasses linear, generalized linear, and logistic regression functionals (AIO:LinearRegression, AIO:LogisticRegression).
+
+### proper-scoring-and-estimating-equation-regression-functionals-and-well-specification
+
+evidence: supported. Targets: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.
+
+Supported by Sections 2-3 (Equations 1-7, Propositions 3.3.1-3.3.3) and Appendix A.1-A.2 &amp; A.4.
+
+Verified BHHJ density power divergence Fisher consistency and redescending influence function.
+
+### regressor-only-reweighting-invariance-and-gaussian-decile-tilt-diagnostic
+
+evidence: supported. Targets: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.
+
+Supported by Sections 4-5 (Equations 8-9, Lemma 4.1, Proposition 4.1).
+
+Verified exact invariance of reweighted functional under well-specification vs. nonzero tilt statistic d under quadratic nonlinearity.
+
+### canonical-estimation-offset-partial-influence-function-and-pythagorean-clt
+
+evidence: supported. Targets: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.
+
+Supported by Sections 6-7 (Equations 10-12, Propositions 6.4-6.6, Lemma 6.6, Corollary 7.1) and Appendix A.3.
+
+Verified L^2(P) orthogonality of Noise IF and Approximation IF, Pythagorean variance split, and vanishing Noise EO in the deterministic noiseless limit.
+
+### frechet-differentiable-functional-m-of-n-xy-bootstrap-sandwich-limit
+
+evidence: supported. Targets: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.
+
+Supported by Section 8 (Proposition 8.1, Corollary 8.1) and Appendix A.5.
+
+Verified convergence of M-of-N XY-bootstrap variance to empirical sandwich covariance AV[P_hat_N; theta(.)].
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, pinned AIO mappings and rationales, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T180500Z-model-free-regression-functionals-reweighting-diagnostic.json | supports | No normalized identity match for Model-free regression functionals, regressor-reweighting well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit across 442 pinned AIO records and 609 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected LinearRegression and LogisticRegression in the pinned AIO snapshot (2026-07-22). Both provide accurate related_match context. |
+| calculation | research/discovery/model-free-regression-functionals-reweighting-diagnostic-boundaries.py | supports | Executed pure-Python verification in research/discovery/model-free-regression-functionals-reweighting-diagnostic-boundaries.py (SHA-256 0adc88a7e5c209379bd0b63c7d05a36952e06a517418c0dc28357ba247a24852): verified (1) Basu-Harris-Hjort-Jones density power divergence S_alpha Fisher consistency at true Gaussian (mu_0, sigma_0) and redescending location score psi_alpha(y) -&gt; 0 for extreme outliers; (2) Lemma 4.1 &amp; Proposition 4.1 exact invariance of reweighted OLS slope across interior deciles xi_(1)..xi_(9) under well-specification (tilt d = 0) vs. monotonic slope drift and large positive tilt d &gt; 0.8 under quadratic misspecification; (3) Propositions 6.4-6.6 &amp; Corollary 7.1 exact L^2(P) orthogonality between Noise IF = IF(Y, X) - IF(X) and Approximation IF = IF(X), Pythagorean variance split Var(IF) = E[Var(IF&#124;X)] + Var(IF(X)), and vanishing of Noise EO in the deterministic noiseless limit; and (4) Proposition 8.1 &amp; Corollary 8.1 convergence of scaled M-of-N XY-bootstrap variance M * Var*(theta^*_M - theta_hat_N) to the empirical sandwich covariance AV[P_hat_N; theta(.)]. |
+| buja2019p2-pdf | https://arxiv.org/pdf/1612.03257; Pages 1-36, Sections 1-9 and Appendix A.1-A.5 (Equations 1-12, Propositions 3.3.1-3.3.3, Lemma 4.1, Proposition 4.1, Propositions 6.4-6.6, Lemma 6.6, Corollary 7.1, Proposition 8.1, Corollary 8.1) | supports | All 36 pages of the full-text PDF of arXiv:1612.03257v2 read. Checked all definitions, propositions, lemmas, corollaries, equations, and proofs. |
+| buja2019p2-crossref | https://api.crossref.org/works/10.1214/18-STS694; Statistical Science 34(4):545-565 publication record | supports | Official Statistical Science 34(4):545-565 Crossref record read and verified. |
+| buja2019p2-abs | https://arxiv.org/abs/1612.03257; arXiv:1612.03257v2 abstract and metadata | supports | arXiv:1612.03257v2 abstract and metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Model-free regression functionals, regressor-reweighting well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit record, yielding 610 native and 442 unchanged generated records.
+- All 36 PDF pages of arXiv:1612.03257v2 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T180700Z-model-free-regression-functionals-reweighting-diagnostic
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Model-free regression functionals, regressor-reweighting
+  well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit
+started_at: '2026-10-17T18:05:00Z'
+finished_at: '2026-10-17T18:07:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from ModelRobustNonlinearityConsistentSandwichAndRAVSpecificationTest
+    (Buja et al. 2019 Part I), verified BHHJ proper scoring rule Fisher consistency,
+    Lemma 4.1 / Proposition 4.1 regressor-reweighting invariance and tilt test, Propositions
+    6.4-6.6 & Corollary 7.1 partial influence function and Pythagorean CLT variance
+    split, and Proposition 8.1 M-of-N XY-bootstrap sandwich limit, and documented
+    six typographical notes in arXiv:1612.03257v2 (pp. 4, 6, 21, 24, 25, 34). This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Model-free regression functionals, regressor-reweighting well-specification
+  diagnostic, and M-of-N XY-bootstrap sandwich limit as a distinct DRAFT mathematical_method
+  with related LinearRegression and LogisticRegression mappings. All four claims and
+  locators across Buja et al. (2019, Statistical Science 34(4):545-565, arXiv:1612.03257v2)
+  are supported with explicit reweighting-feature necessity and effective-sample-size
+  limitations.
+source:
+  git_revision: b802f97117c1a742e140e299be10a4bd3acabf13
+  state: working_tree
+  inputs:
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/curated/ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.yaml
+    sha256: 3649acaa5ebd6b4674737c58a6829ba76c826e958f0ba04ac97400745c938b3e
+    role: target
+  - path: data/curated/ModelRobustNonlinearityConsistentSandwichAndRAVSpecificationTest.yaml
+    sha256: c8c5f645da2f3ac808a0e5e84edf89ef3d5a2ba9f1b5df765a2a3a1a5a2c9c67
+    role: context
+  - path: data/curated/UniformlyValidPostModelSelectionConfidenceIntervals.yaml
+    sha256: 939ac08492a6cc3c1f0bce260f79c2a08e93deb4ec571bc2ab0eb1c2f6821dad
+    role: context
+  - path: research/discovery/20261017T180500Z-model-free-regression-functionals-reweighting-diagnostic.json
+    sha256: 9995dfbcf78ee37eadc2c5a1ae3663bf5130087659bb36d7d62a2f72c8a087b3
+    role: context
+  - path: research/discovery/model-free-regression-functionals-reweighting-diagnostic-boundaries.py
+    sha256: 0adc88a7e5c209379bd0b63c7d05a36952e06a517418c0dc28357ba247a24852
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  path: data/curated/ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.yaml
+  label: Model-free regression functionals, regressor-reweighting well-specification
+    diagnostic, and M-of-N XY-bootstrap sandwich limit
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 610 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Buja et al. 2019 Part II BHHJ proper scoring, reweighting tilt
+    diagnostic, partial influence function, and M-of-N XY-bootstrap checks
+  command: python3 research/discovery/model-free-regression-functionals-reweighting-diagnostic-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All model-free regression functionals & reweighting diagnostic boundary
+    checks passed.
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T180500Z-model-free-regression-functionals-reweighting-diagnostic.json
+  accessed_at: '2026-10-17T18:05:00Z'
+  support: supports
+  summary: No normalized identity match for Model-free regression functionals, regressor-reweighting
+    well-specification diagnostic, and M-of-N XY-bootstrap sandwich limit across 442
+    pinned AIO records and 609 maintained IDs, names, aliases and scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T18:05:00Z'
+  support: supports
+  summary: Inspected LinearRegression and LogisticRegression in the pinned AIO snapshot
+    (2026-07-22). Both provide accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/model-free-regression-functionals-reweighting-diagnostic-boundaries.py
+  accessed_at: '2026-10-17T18:05:00Z'
+  snapshot_sha256: 0adc88a7e5c209379bd0b63c7d05a36952e06a517418c0dc28357ba247a24852
+  support: supports
+  summary: 'Executed pure-Python verification in research/discovery/model-free-regression-functionals-reweighting-diagnostic-boundaries.py
+    (SHA-256 0adc88a7e5c209379bd0b63c7d05a36952e06a517418c0dc28357ba247a24852): verified
+    (1) Basu-Harris-Hjort-Jones density power divergence S_alpha Fisher consistency
+    at true Gaussian (mu_0, sigma_0) and redescending location score psi_alpha(y)
+    -> 0 for extreme outliers; (2) Lemma 4.1 & Proposition 4.1 exact invariance of
+    reweighted OLS slope across interior deciles xi_(1)..xi_(9) under well-specification
+    (tilt d = 0) vs. monotonic slope drift and large positive tilt d > 0.8 under quadratic
+    misspecification; (3) Propositions 6.4-6.6 & Corollary 7.1 exact L^2(P) orthogonality
+    between Noise IF = IF(Y, X) - IF(X) and Approximation IF = IF(X), Pythagorean
+    variance split Var(IF) = E[Var(IF|X)] + Var(IF(X)), and vanishing of Noise EO
+    in the deterministic noiseless limit; and (4) Proposition 8.1 & Corollary 8.1
+    convergence of scaled M-of-N XY-bootstrap variance M * Var*(theta^*_M - theta_hat_N)
+    to the empirical sandwich covariance AV[P_hat_N; theta(.)].'
+- evidence_id: buja2019p2-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1612.03257
+  locator: Pages 1-36, Sections 1-9 and Appendix A.1-A.5 (Equations 1-12, Propositions
+    3.3.1-3.3.3, Lemma 4.1, Proposition 4.1, Propositions 6.4-6.6, Lemma 6.6, Corollary
+    7.1, Proposition 8.1, Corollary 8.1)
+  accessed_at: '2026-10-17T18:05:00Z'
+  snapshot_sha256: 72a14bd879fea7af300f738eac9ee12150971e696fe7a54091308e8a10fd7309
+  support: supports
+  summary: All 36 pages of the full-text PDF of arXiv:1612.03257v2 read. Checked all
+    definitions, propositions, lemmas, corollaries, equations, and proofs.
+- evidence_id: buja2019p2-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/18-STS694
+  locator: Statistical Science 34(4):545-565 publication record
+  accessed_at: '2026-10-17T18:05:00Z'
+  snapshot_sha256: ee7d6d0599045cf704dfc2cda4f820eab301cebbd13e4b3248070627648dad9b
+  support: supports
+  summary: Official Statistical Science 34(4):545-565 Crossref record read and verified.
+- evidence_id: buja2019p2-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1612.03257
+  locator: arXiv:1612.03257v2 abstract and metadata
+  accessed_at: '2026-10-17T18:05:00Z'
+  snapshot_sha256: c949deb1ad28bbdd850cb940ddf6db17d1202c48149c6dcd48db708f6eef93dd
+  support: supports
+  summary: arXiv:1612.03257v2 abstract and metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit versus
+    ModelRobustNonlinearityConsistentSandwichAndRAVSpecificationTest
+  outcome: supported
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  evidence_ids:
+  - identity
+  - buja2019p2-pdf
+  - buja2019p2-crossref
+  summary: Retain Model-free regression functionals, regressor-reweighting well-specification
+    diagnostic, and M-of-N XY-bootstrap sandwich limit as a distinct DRAFT mathematical_method.
+  details: Buja et al. (2019, Part II) generalize the model-free framework to optimization,
+    proper scoring rule, and estimating-equation regression functionals, proving Propositions
+    3.3.1-3.3.3, Lemma 4.1 / Proposition 4.1 reweighting invariance and the Gaussian
+    decile tilt diagnostic, Lemma 6.6 / Proposition 6.6 partial influence function
+    characterization and Corollary 7.1 Pythagorean CLT split, and Proposition 8.1
+    M-of-N XY-bootstrap sandwich limit.
+- assessment_id: mapping
+  area: grounding
+  topic: Mappings to AIO:LinearRegression and AIO:LogisticRegression
+  outcome: supported
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  evidence_ids:
+  - mapping
+  - buja2019p2-pdf
+  summary: Related mappings to LinearRegression and LogisticRegression are supported.
+  details: Encompasses linear, generalized linear, and logistic regression functionals
+    (AIO:LinearRegression, AIO:LogisticRegression).
+- assessment_id: proper-scoring-and-estimating-equation-regression-functionals-and-well-specification
+  area: evidence
+  topic: proper-scoring-and-estimating-equation-regression-functionals-and-well-specification
+  outcome: supported
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  evidence_ids:
+  - buja2019p2-pdf
+  - buja2019p2-crossref
+  - calculation
+  summary: Supported by Sections 2-3 (Equations 1-7, Propositions 3.3.1-3.3.3) and
+    Appendix A.1-A.2 & A.4.
+  details: Verified BHHJ density power divergence Fisher consistency and redescending
+    influence function.
+- assessment_id: regressor-only-reweighting-invariance-and-gaussian-decile-tilt-diagnostic
+  area: evidence
+  topic: regressor-only-reweighting-invariance-and-gaussian-decile-tilt-diagnostic
+  outcome: supported
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  evidence_ids:
+  - buja2019p2-pdf
+  - buja2019p2-abs
+  - calculation
+  summary: Supported by Sections 4-5 (Equations 8-9, Lemma 4.1, Proposition 4.1).
+  details: Verified exact invariance of reweighted functional under well-specification
+    vs. nonzero tilt statistic d under quadratic nonlinearity.
+- assessment_id: canonical-estimation-offset-partial-influence-function-and-pythagorean-clt
+  area: evidence
+  topic: canonical-estimation-offset-partial-influence-function-and-pythagorean-clt
+  outcome: supported
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  evidence_ids:
+  - buja2019p2-pdf
+  - calculation
+  summary: Supported by Sections 6-7 (Equations 10-12, Propositions 6.4-6.6, Lemma
+    6.6, Corollary 7.1) and Appendix A.3.
+  details: Verified L^2(P) orthogonality of Noise IF and Approximation IF, Pythagorean
+    variance split, and vanishing Noise EO in the deterministic noiseless limit.
+- assessment_id: frechet-differentiable-functional-m-of-n-xy-bootstrap-sandwich-limit
+  area: evidence
+  topic: frechet-differentiable-functional-m-of-n-xy-bootstrap-sandwich-limit
+  outcome: supported
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  evidence_ids:
+  - buja2019p2-pdf
+  - buja2019p2-crossref
+  - calculation
+  summary: Supported by Section 8 (Proposition 8.1, Corollary 8.1) and Appendix A.5.
+  details: Verified convergence of M-of-N XY-bootstrap variance to empirical sandwich
+    covariance AV[P_hat_N; theta(.)].
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+  evidence_ids:
+  - identity
+  - mapping
+  - buja2019p2-pdf
+  - buja2019p2-crossref
+  - buja2019p2-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, pinned AIO mappings and rationales, four scoped limitations, and UTC
+    curation metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Model-free regression functionals, regressor-reweighting well-specification
+  diagnostic, and M-of-N XY-bootstrap sandwich limit record, yielding 610 native and
+  442 unchanged generated records.
+- All 36 PDF pages of arXiv:1612.03257v2 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- model-misspecification
+- regression-functionals
+- proper-scoring-rules
+- self-review
+- discovery-ongoing
+```

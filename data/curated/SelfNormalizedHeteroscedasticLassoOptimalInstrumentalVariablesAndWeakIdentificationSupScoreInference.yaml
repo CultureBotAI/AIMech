@@ -1,0 +1,107 @@
+id: AIMech:SelfNormalizedHeteroscedasticLassoOptimalInstrumentalVariablesAndWeakIdentificationSupScoreInference
+name: Self-Normalized Heteroscedastic LASSO Optimal Instrumental Variables and Weak-Identification Sup-Score Inference
+concept_kind: algorithm
+review_status: DRAFT
+definition: A high-dimensional sparse instrumental variable (IV) estimation and inference framework (introduced by Alexandre Belloni, Daniel Chen, Victor Chernozhukov, and Christian Hansen in 2012) that estimates the conditional expectation $D(z_i) = \mathbb{E}[d_i \mid z_i]$ of endogenous regressors $d_i$ given $p \gg n$ dictionary instruments $f_i = (f_{i1}, \dots, f_{ip})'$ under heteroscedastic and non-Gaussian first-stage disturbances $\zeta_i = d_i - D(z_i)$ via LASSO and Post-LASSO with iterative self-normalized moderate-deviation penalty loadings $\widehat{\gamma}_j = \sqrt{\mathbb{E}_n[f_{ij}^2 \widehat{\zeta}_i^2]}$ and $\lambda = 2c\sqrt{n}\Phi^{-1}(1 - \gamma/(2p))$ ($c > 1$, Algorithm A.1). Grounded in Jing, Shao, and Wang's (2003) self-normalized moderate deviation theorem (Lemma 5), the score-calibrated loadings control the maximal heteroscedastic score $\max_{1 \le j \le p} |\sqrt{n}\mathbb{E}_n[f_{ij}\zeta_i]| / \sqrt{\mathbb{E}_n[f_{ij}^2\zeta_i^2]} \le \Phi^{-1}(1 - \gamma/(2p))$ without Gaussianity or homoscedasticity, delivering near-oracle first-stage rates $\|\widehat{D}_i - D_i\|_{2,n} = O_P(\sqrt{s\log(p \vee n)/n})$ (Theorem 1), semiparametrically efficient structural IV estimation $\sqrt{n}(\widehat{\alpha}^* - \alpha_0) \to_d \mathcal{N}(0, \Omega_0)$ under $s^2\log^2(p \vee n)/n \to 0$ (Theorems 2-4), and weak-identification-robust confidence regions via the Sup-Score test statistic $\widehat{S}(\alpha) = \max_{1 \le j \le p} \frac{|\sqrt{n}\mathbb{E}_n[(y_i - d_i'\alpha)f_{ij}]|}{\sqrt{\mathbb{E}_n[(y_i - d_i'\alpha)^2 f_{ij}^2]}}$ and its exact dual Inverse LASSO null-solution equivalence $\widehat{S}(\alpha) \le \Lambda \iff \widehat{\beta}_{\mathrm{IL}}(\alpha; 2\Lambda\sqrt{n}) = 0$ (Section 3.5, Eqs. 3.17-3.19).
+identity_notes: Resolved against all 442 pinned AIO concepts and 660 maintained AIMech concepts. Distinct from `AIMech:DoubleDebiasedMachineLearningAndNeymanOrthogonalCrossFitting` (Chernozhukov et al. 2018, which introduces general cross-fitted Neyman-orthogonal scores for arbitrary black-box ML learners rather than Belloni et al.'s 2012 iterative self-normalized heteroscedastic penalty loadings $\widehat{\gamma}_j = \sqrt{\mathbb{E}_n[f_{ij}^2 \widehat{\zeta}_i^2]}$, Post-LASSO optimal instrument construction with additional instruments $I_i$, or weak-identification-robust Sup-Score / Inverse LASSO inference), distinct from `AIMech:SquareRootLassoPivotalConicSparseRegression` (Belloni, Chernozhukov, & Wang 2011, which eliminates homoscedastic noise scale $\sigma$ via conic root-MSE loss rather than predictor-specific heteroscedastic self-normalized loadings $\widehat{\gamma}_j$), and distinct from `AIMech:L1PenalizedAndPostPenalizedQuantileRegressionProcessInHighDimensionalSparseModels` (Belloni & Chernozhukov 2011, which uses distribution-free conditional quantile rankscores).
+aliases:
+- Self-Normalized Heteroscedastic LASSO and Post-LASSO for Optimal Instruments
+- BCCH Sparse Optimal Instrumental Variables and Sup-Score Test
+- Iterative Self-Normalized Penalty Loading LASSO and Post-LASSO IV
+- High-Dimensional Weak-Identification Sup-Score and Inverse LASSO Inference
+definition_evidence:
+- source_id: bcch2012-iv-pdf
+  locator: Section 2, pp. 4-11, Equations (2.1)-(2.12); Section 3, pp. 11-24, Conditions CF, SM, RF, SE, and HL, Equations (3.1)-(3.19), Theorems 1-4; Appendix A, pp. 34-43, Algorithm A.1, Equations (A.1)-(A.10), Lemmas 1-5; Appendices B-F, pp. 43-59
+  relation: supports
+- source_id: bcch2012-iv-abs
+  locator: arXiv:1010.4345 abstract
+  relation: supports
+- source_id: bcch2012-iv-crossref
+  locator: DOI:10.3982/ECTA9626 Crossref metadata
+  relation: supports
+claims:
+- claim_id: self-normalized-moderate-deviation-heteroscedastic-loadings-and-first-stage-oracle-rates
+  kind: mechanism
+  statement: Under conditional heteroscedasticity and non-Gaussian disturbances $\zeta_i = d_i - D(z_i)$ with bounded third moments $\max_j (\bar{\mathbb{E}}[|f_{ij}\zeta_i|^3])^{1/3} / (\bar{\mathbb{E}}[f_{ij}^2\zeta_i^2])^{1/2} \le K_n$ and $K_n^3 \log^{3/2}(p \vee n) \le \delta_n \sqrt{n}$, Jing, Shao, and Wang's (2003) self-normalized moderate deviation lemma (Lemma 5, Eq. A.8, p. 41) guarantees $\mathbb{P}\left(\max_{1 \le j \le p} \frac{|\sqrt{n}\mathbb{E}_n[f_{ij}\zeta_i]|}{\sqrt{\mathbb{E}_n[f_{ij}^2\zeta_i^2]}} > \Phi^{-1}(1 - \gamma/(2p))\right) \le \gamma(1 + o(1))$. Algorithm A.1's iterative refinement of data-driven loadings $\widehat{\gamma}_j^{(k)} = \sqrt{\mathbb{E}_n[f_{ij}^2(d_i - f_i'\widehat{\beta}^{(k)})^2]}$ from initial demeaned loadings $\widehat{\gamma}_j^{(0)} = \sqrt{\mathbb{E}_n[f_{ij}^2(d_i - \bar{d})^2]}$ achieves asymptotically valid loading bounds $l \overset{P}{\to} 1 \overset{P}{\leftarrow} u$ ($l\gamma_j^0 \le \widehat{\gamma}_j \le u\gamma_j^0$, Lemma 12, p. 44), and under the restricted eigenvalue condition $\kappa_{\bar{c}} > 0$ and sparse eigenvalue bounds $\phi_{\min}(m) > 0$, both LASSO and Post-LASSO (incorporating up to $k_n$ additional instruments $I_i$) satisfy $\|\widehat{D}_i - D_i\|_{2,n} \lesssim_P \frac{c\sqrt{s\log(p \vee n)/n}}{(1-a)\kappa_{\bar{c}}} + \sqrt{\frac{k_n\log(p \vee n)}{n\phi_{\min}(k_n + \widehat{s})}} + c_s$ with sparsity $\widehat{s} = |\widehat{T}| \lesssim_P s$ (Theorem 1, Eqs. 3.10-3.11, p. 17; Lemmas 6-8, pp. 42-43).
+  evidence:
+  - source_id: bcch2012-iv-pdf
+    locator: Section 3.1-3.3, pp. 10-18, Equations (3.1)-(3.11), Theorem 1; Appendix A, pp. 38-39, Algorithm A.1; Appendix B, pp. 40-44, Lemmas 1-12
+    relation: supports
+- claim_id: semiparametric-efficiency-and-root-n-asymptotic-normality-under-s-squared-sparsity
+  kind: mechanism
+  statement: When the structural parameter $\alpha_0 \in \mathbb{R}^{k_d}$ in $y_i = d_i'\alpha_0 + \epsilon_i$ ($\mathbb{E}[\epsilon_i \mid z_i] = 0$) is strongly identified ($\lambda_{\min}(\mathbb{E}[D_i D_i']) \ge \mu_0 > 0$) and the sparsity index satisfies $\frac{s^2\log^2(p \vee n)}{n} \to 0$ with approximation error $c_s \lesssim \sqrt{s/n}$, the cross-term $\sqrt{n}\mathbb{E}_n[(\widehat{D}_i - D_i)\epsilon_i]$ is $o_P(1)$ because Cauchy-Schwarz and the self-normalized score bound yield $|\sqrt{n}\mathbb{E}_n[(f_i'\widehat{\beta} - D_i)\epsilon_i]| \le \|\widehat{\beta} - \beta_{0n}\|_1 \max_j |\sqrt{n}\mathbb{E}_n[f_{ij}\epsilon_i]| + |\sqrt{n}\mathbb{E}_n[r_i\epsilon_i]| = O_P(\sqrt{s^2\log^2(p \vee n)/n}) = o_P(1)$ (Appendix E, Step 2, p. 55). Consequently, the IV estimator $\widehat{\alpha} = (\mathbb{E}_n[\widehat{D}_i d_i'])^{-1}\mathbb{E}_n[\widehat{D}_i y_i]$ is asymptotically equivalent to the infeasible oracle optimal-instrument estimator and satisfies $\Omega_n^{-1/2}\sqrt{n}(\widehat{\alpha} - \alpha_0) \to_d \mathcal{N}(0, I)$ with consistent plug-in sandwich variance $\widehat{\Omega}_n$ (Theorem 2, Eq. 3.12, p. 19; Theorems 3-4, pp. 21-22).
+  evidence:
+  - source_id: bcch2012-iv-pdf
+    locator: Section 3.4, pp. 18-23, Equations (3.12)-(3.16), Theorems 2-4; Appendix E, pp. 54-60, Proofs of Theorems 2-4
+    relation: supports
+- claim_id: weak-identification-robust-sup-score-test-and-inverse-lasso-duality
+  kind: mechanism
+  statement: 'Without assuming strong identification or instrument sparsity, testing $H_0 : \alpha = \alpha_0$ under $\mathbb{E}[(y_i - d_i''\alpha_0)f_{ij}] = 0$ ($1 \le j \le p$) via the self-normalized Sup-Score statistic $\widehat{S}(\alpha) = \max_{1 \le j \le p} \frac{|\sqrt{n}\mathbb{E}_n[(y_i - d_i''\alpha)f_{ij}]|}{\sqrt{\mathbb{E}_n[(y_i - d_i''\alpha)^2 f_{ij}^2]}}$ with critical value $\Lambda_{1-\gamma} = c\Phi^{-1}(1 - \gamma/(2p))$ ($c > 1$) yields confidence regions $\mathcal{C}_{1-\gamma} = \{\alpha : \widehat{S}(\alpha) \le \Lambda_{1-\gamma}\}$ with uniform asymptotic coverage $\liminf_{n \to \infty} \mathbb{P}(\alpha_0 \in \mathcal{C}_{1-\gamma}) \ge 1 - \gamma$ even when instruments are arbitrarily weak or unidentified (Section 3.5, Eqs. 3.17-3.18, pp. 23-24). Moreover, by the KKT conditions of LASSO regressions of the structural residual $y_i - d_i''\alpha$ on $f_i$ with residual-self-normalized loadings $\widehat{\gamma}_j(\alpha) = \sqrt{\mathbb{E}_n[(y_i - d_i''\alpha)^2 f_{ij}^2]}$ and penalty $\lambda = 2\Lambda_{1-\gamma}\sqrt{n}$, $\widehat{S}(\alpha) \le \Lambda_{1-\gamma}$ holds if and only if the Inverse LASSO solution is identically zero ($\widehat{\beta}_{\mathrm{IL}}(\alpha) = 0$, Eq. 3.19, p. 25).'
+  evidence:
+  - source_id: bcch2012-iv-pdf
+    locator: Section 3.5, pp. 23-25, Equations (3.17)-(3.19)
+    relation: supports
+evidence_sources:
+- source_id: bcch2012-iv-pdf
+  title: Sparse Models and Methods for Optimal Instruments With an Application to Eminent Domain
+  authors:
+  - Alexandre Belloni
+  - Daniel Chen
+  - Victor Chernozhukov
+  - Christian Hansen
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1010.4345.pdf
+  persistent_id: https://doi.org/10.3982/ECTA9626
+  version: arXiv:1010.4345v5 full-text PDF (80 pages, 1539502 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T04:00:00Z'
+  sha256: 4430646f1db891ef06ca5a7a5eb2e4050d3f79522e96cceba442ec1e850d01b3
+- source_id: bcch2012-iv-abs
+  title: Sparse Models and Methods for Optimal Instruments With an Application to Eminent Domain
+  authors:
+  - Alexandre Belloni
+  - Daniel Chen
+  - Victor Chernozhukov
+  - Christian Hansen
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1010.4345
+  persistent_id: https://arxiv.org/abs/1010.4345
+  version: arXiv:1010.4345 abstract page (7494 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:00:00Z'
+  sha256: a9c223262c80956748f3a20e74c8101b64e1ca34b6d65d166f7d463371589004
+- source_id: bcch2012-iv-crossref
+  title: Sparse Models and Methods for Optimal Instruments With an Application to Eminent Domain
+  authors:
+  - Alexandre Belloni
+  - Daniel Chen
+  - Victor Chernozhukov
+  - Christian Hansen
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.3982/ECTA9626
+  persistent_id: https://doi.org/10.3982/ECTA9626
+  version: Econometrica 80(6):2369-2429 (2012) Crossref metadata (995 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T04:00:00Z'
+  sha256: 4138bfa25e819d8a85763aa785af9eaf071d9242cd6c3c3fff4bba3130ea9ff3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Equips LASSO and Post-LASSO with iterative self-normalized heteroscedastic penalty loadings for high-dimensional optimal instrument estimation and Inverse LASSO weak-IV inference.
+- target: AIO:LinearRegression
+  relation: broad_match
+  rationale: Estimates linear instrumental variable structural models with high-dimensional sparse first-stage conditional expectations.
+limitations:
+- Root-$n$ asymptotic normality and semiparametric efficiency of the plug-in IV estimator $\widehat{\alpha}$ without sample splitting (Theorems 2-4) require the stronger sparsity scaling $s^2\log^2(p \vee n)/n \to 0$ (rather than $s\log(p \vee n)/n \to 0$) together with strong identification $\lambda_{\min}(\mathbb{E}[D_i D_i']) \ge \mu_0 > 0$; when $s = 0$ on a given simulation draw, the two-stage IV estimator cannot be formed and one must fall back to the Sup-Score / Inverse LASSO confidence set.
+- When all $p$ candidate instruments are weak or when the structural parameter $\alpha_0$ is multi-dimensional, the Sup-Score / Inverse LASSO confidence region $\mathcal{C}_{1-\gamma}$ must be computed by grid inversion over $\alpha \in \mathbb{R}^{k_d}$ and has power scaling with $\sqrt{\log p / n}$ against sparse alternatives rather than $\ell_2$-dense weak instruments.
+- 'Primary-source typographical audit of `arXiv:1010.4345v5`: (1) Section 1 (p. 6, line 24) writes `''Tikhohov regularization''` instead of `''Tikhonov regularization''`; (2) Section 3.1 (p. 13, line 11) writes `''perform poorely''` instead of `''perform poorly''`; (3) Section 5.2 (p. 32, line 4) writes `''Tthe standard error estimate''` instead of `''The standard error estimate''`; (4) Appendix B Proof of Lemma 6 (p. 42, line 10) writes `$\|\widehat{\Gamma}_l^0\|_\infty / \kappa_{\bar{C}}$'' instead of `$\|\widehat{\Upsilon}_l^0\|_\infty / \kappa_{\bar{C}}$''; and (5) Appendix E Proof of Theorem 3 Step 3 (p. 58, line 13) writes `$a_l(x_i^i)$'' instead of `$a_l(x_i^k)$''.'
+curation:
+  created_at: '2026-10-19T04:00:00Z'
+  updated_at: '2026-10-19T04:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

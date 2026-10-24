@@ -1,0 +1,365 @@
+# Scientific author self-review of Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion
+
+- Review: 20261019T070130Z-soft-impute-iterative-soft-thresholded-svd-matrix-completion
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:01:00Z
+- Finished UTC: 2026-10-19T07:01:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 32788b5467ee593b2dd79b101933cb84e240d5ae.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion | data/curated/SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.yaml | maintained | Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion | Validated history sidecar files. |
+| python3 soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py | passed | True | AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion | [PASS] Round 339 Soft-Impute (Mazumder, Hastie, &amp; Tibshirani 2010): lemma6_err=8.88e-16, max_eq13_err=8.88e-16, max_eq22_err=0.00e+00, f_inf=3.528894, final_step_diff=1.91e-20 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.
+
+Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion is a distinct concept.
+
+Distinct from Singular Value Thresholding Algorithm for Matrix Completion (&#96;AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion&#96;), which solves the equality-constrained Uzawa dual subgradient iteration Y^k = Y^{k-1} + delta_k P_Omega(X - Z^k) on sparse dual matrices rather than the unconstrained majorization-minimization update Z^{k+1} = S_lambda(P_Omega(X) + P_Omega^perp(Z^k)) with sparse-plus-low-rank Lanczos decomposition and warm-started regularization paths. Also distinct from AltMinSense and AltMinComplete Alternating Minimization for Low-Rank Matrix Sensing and Completion (&#96;AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion&#96;), which performs non-convex fixed-rank alternating least squares without nuclear-norm soft-thresholding.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py passed with exit code 0: [PASS] Round 339 Soft-Impute (Mazumder, Hastie, &amp; Tibshirani 2010): lemma6_err=8.88e-16, max_eq13_err=8.88e-16, max_eq22_err=0.00e+00, f_inf=3.528894, final_step_diff=1.91e-20
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T070100Z-soft-impute-iterative-soft-thresholded-svd-matrix-completion.json | supports | No normalized identity match for AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py | supports | All constructed boundary assertions in soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py passed with exit code 0: [PASS] Round 339 Soft-Impute (Mazumder, Hastie, &amp; Tibshirani 2010): lemma6_err=8.88e-16, max_eq13_err=8.88e-16, max_eq22_err=0.00e+00, f_inf=3.528894, final_step_diff=1.91e-20 |
+| r339-primary-pdf | https://www.jmlr.org/papers/volume11/mazumder10a/mazumder10a.pdf; Full-text PDF | supports | Full-text PDF (Journal of Machine Learning Research (JMLR) 11:2287-2322 (2010)) read and verified. |
+| r339-arxiv-abs | https://www.jmlr.org/papers/v11/mazumder10a.html; arXiv abstract | supports | arXiv abstract read and verified. |
+| r339-metadata-cr | https://www.jmlr.org/papers/v11/mazumder10a.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion in Round 339.
+- All pages of Journal of Machine Learning Research (JMLR) 11:2287-2322 (2010) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T070130Z-soft-impute-iterative-soft-thresholded-svd-matrix-completion
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Soft-Impute Iterative Soft-Thresholded SVD
+  for Large Matrix Completion
+started_at: '2026-10-19T07:01:00Z'
+finished_at: '2026-10-19T07:01:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+    against existing AIMech and AIO records and verified all claims against Journal
+    of Machine Learning Research (JMLR) 11:2287-2322 (2010) and pure-Python boundary
+    checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: 32788b5467ee593b2dd79b101933cb84e240d5ae
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.yaml
+    sha256: ac5d630ecc58c893629f7ddec4ce6a1b1ae134fae3c05fda97410c9d7f6382ec
+    role: target
+  - path: research/discovery/20261019T070100Z-soft-impute-iterative-soft-thresholded-svd-matrix-completion.json
+    sha256: 271a98f8d4f241d06e00c5650c7011fc0dd49e86c176fb19b973b628806b405d
+    role: context
+  - path: research/discovery/soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py
+    sha256: fe7023d8c6c0123c8f924aa649bfa5e489f4cd2a3ce0c359ae465848ab5f432d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  path: data/curated/SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.yaml
+  label: Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py
+  command: python3 research/discovery/soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 339 Soft-Impute (Mazumder, Hastie, & Tibshirani 2010): lemma6_err=8.88e-16,
+    max_eq13_err=8.88e-16, max_eq22_err=0.00e+00, f_inf=3.528894, final_step_diff=1.91e-20'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T070100Z-soft-impute-iterative-soft-thresholded-svd-matrix-completion.json
+  accessed_at: '2026-10-19T07:01:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:01:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py
+  accessed_at: '2026-10-19T07:01:00Z'
+  snapshot_sha256: fe7023d8c6c0123c8f924aa649bfa5e489f4cd2a3ce0c359ae465848ab5f432d
+  support: supports
+  summary: 'All constructed boundary assertions in soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py
+    passed with exit code 0: [PASS] Round 339 Soft-Impute (Mazumder, Hastie, & Tibshirani
+    2010): lemma6_err=8.88e-16, max_eq13_err=8.88e-16, max_eq22_err=0.00e+00, f_inf=3.528894,
+    final_step_diff=1.91e-20'
+- evidence_id: r339-primary-pdf
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/volume11/mazumder10a/mazumder10a.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:01:00Z'
+  snapshot_sha256: 86e08b09025411e0e287c5699812caa3158e2f8901bc1d2f036584061a2816dd
+  support: supports
+  summary: Full-text PDF (Journal of Machine Learning Research (JMLR) 11:2287-2322
+    (2010)) read and verified.
+- evidence_id: r339-arxiv-abs
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/v11/mazumder10a.html
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:01:00Z'
+  snapshot_sha256: 80ff9857985e8cbc302210ae7e48c4014d9cf3bc1a0528c717091c6d9a77eb50
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r339-metadata-cr
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/v11/mazumder10a.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:01:00Z'
+  snapshot_sha256: 1be02ecfc9130d3061b837f470ace9db60a0cf634e79fabd935bed4096d43d8c
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  evidence_ids:
+  - identity
+  - r339-primary-pdf
+  - r339-arxiv-abs
+  - r339-metadata-cr
+  summary: Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion
+    is a distinct concept.
+  details: Distinct from Singular Value Thresholding Algorithm for Matrix Completion
+    (`AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion`), which solves
+    the equality-constrained Uzawa dual subgradient iteration Y^k = Y^{k-1} + delta_k
+    P_Omega(X - Z^k) on sparse dual matrices rather than the unconstrained majorization-minimization
+    update Z^{k+1} = S_lambda(P_Omega(X) + P_Omega^perp(Z^k)) with sparse-plus-low-rank
+    Lanczos decomposition and warm-started regularization paths. Also distinct from
+    AltMinSense and AltMinComplete Alternating Minimization for Low-Rank Matrix Sensing
+    and Completion (`AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion`),
+    which performs non-convex fixed-rank alternating least squares without nuclear-norm
+    soft-thresholding.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  evidence_ids:
+  - mapping
+  - r339-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  evidence_ids:
+  - r339-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in soft-impute-iterative-soft-thresholded-svd-matrix-completion-boundaries.py
+    passed with exit code 0: [PASS] Round 339 Soft-Impute (Mazumder, Hastie, & Tibshirani
+    2010): lemma6_err=8.88e-16, max_eq13_err=8.88e-16, max_eq22_err=0.00e+00, f_inf=3.528894,
+    final_step_diff=1.91e-20'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  evidence_ids:
+  - identity
+  - mapping
+  - r339-primary-pdf
+  - r339-arxiv-abs
+  - r339-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+  in Round 339.
+- All pages of Journal of Machine Learning Research (JMLR) 11:2287-2322 (2010) were
+  read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

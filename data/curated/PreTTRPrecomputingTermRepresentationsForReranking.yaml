@@ -1,0 +1,109 @@
+id: AIMech:PreTTRPrecomputingTermRepresentationsForReranking
+name: PreTTR Precomputing Transformer Term Representations
+concept_kind: architecture
+review_status: DRAFT
+definition: "A decoupled-layer Transformer document re-ranking architecture and token-representation compression method that applies a cross-segment attention mask in the first l layers L_1, ..., L_l of an n-layer Transformer during training\u2014preventing query tokens ([CLS]; q; [SEP]) from attending to document tokens (d; [SEP]) and vice versa\u2014so that layer-l document token representations s_l in R^{m x d} can be precomputed offline at index time, compressed to dimension e < d via a GELU bottleneck encoder-decoder pre-trained to minimize mean squared error on the attention score matrices of the remaining n - l layers, and concatenated at query time with the layer-l query representations to execute only layers L_{l+1}, ..., L_n (computing only the [CLS] token in the final layer L_n)."
+identity_notes: Distinct from ColBERT (AIMech:ColBERTContextualizedLateInteraction), which encodes queries and documents completely independently through all Transformer layers and interacts only via a parameter-free sum-of-MaxSim dot-product operator at the output; and distinct from standard cross-encoder Transformer distillation (such as TinyBERT or DistilBERT), which reduces total layer count for both query and document at query time rather than precomputing the first l document layers at index time and executing only the upper n - l interaction layers online.
+aliases:
+- PreTTR
+- Precomputing Transformer Term Representations
+- PreTTR Split-Layer Transformer Re-Ranking
+definition_evidence:
+- source_id: r780-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r780-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r780-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: prettr-lower-layer-cross-segment-attention-masking-and-split-execution
+  kind: mechanism
+  statement: 'PreTTR masks cross-segment attention in layers L_1, ..., L_l so query tokens ([CLS]; q; [SEP]) and document tokens (d; [SEP]) attend only within their own segments, while removing the mask in layers L_{l+1}, ..., L_n (Section 4.1, Figures 1-2): this makes index-time document encoding through layers 1..l mathematically independent of the query, reduces query-time Transformer layer traversal cost by approximately (n - l) / n, and further accelerates layer L_n by computing only the [CLS] output representation used by W_combine (Equation 1 & Section 6.3).'
+  evidence:
+  - source_id: r780-primary-pdf
+    locator: Sections 3-4.1 & 6.3, Figures 1-2 & Equation 1, pp. 3-5, 8
+    relation: supports
+  - source_id: r780-primary-pdf
+    locator: self_attention_layer() verification of zero difference between masked joint and decoupled index/query encoding
+    relation: supports
+- claim_id: prettr-gelu-token-compression-with-upper-layer-attention-mse-loss
+  kind: mechanism
+  statement: To compress the layer-l token representations s_l in R^{m x d} before disk storage, PreTTR inserts a bottleneck encoder r = GELU(s_l W_comp + b_comp) in R^{m x e} (e < d) and linear batch-normalized decoder s_hat_l in R^{m x d} between layers L_l and L_{l+1}, pre-training the compression parameters on unlabeled text to minimize the average mean squared error of the upper-layer attention score tensors L(a_{l+1}, ..., a_n, a_hat_{l+1}, ..., a_hat_n) = (1 / (n - l)) * sum_{i=l+1}^n MSE(a_i, a_hat_i) (Equation 2) prior to end-to-end relevance fine-tuning (Section 4.2).
+  evidence:
+  - source_id: r780-primary-pdf
+    locator: Section 4.2, Equation 2, p. 5
+    relation: supports
+  - source_id: r780-primary-pdf
+    locator: compress_decompress() and attention_mse_loss() verification
+    relation: supports
+- claim_id: prettr-webtrack-and-robust04-speedup-and-storage-reduction-application
+  kind: application
+  statement: 'On TREC WebTrack 2012 and TREC Robust 2004, PreTTR accelerates Vanilla BERT top-100 document re-ranking by up to 42.2x at l = 11 on WebTrack (0.046s vs. 1.941s per query with no statistically significant loss in P@20: 0.3380 vs. 0.3460, Tables 3 & 5) and 9.2x at l = 10 on Robust04 (0.266s vs. 2.437s), generalizes to RoBERTa (up to 56.3x speedup) and DistilBERT (up to 24.1x speedup, Table 6), and reduces ClueWeb09-B token storage by up to 97.5% (from 112 TB to 2.8 TB) when combining spam filtering, e = 128 compression, and 16-bit floats (Section 6.2, p. 7).'
+  evidence:
+  - source_id: r780-primary-pdf
+    locator: Section 6, Tables 3-6, pp. 7-9
+    relation: supports
+- claim_id: prettr-per-token-storage-footprint-and-high-layer-graded-relevance-limitation
+  kind: limitation
+  statement: Even with e = 128 compression and 16-bit floating-point storage, storing per-token representations for web-scale corpora requires multiple terabytes (2.8 TB on ClueWeb09-B and 195 GB at e = 256 on Robust04, Section 6.2), and deferring query-document interaction until the final layer (l = 11) significantly degrades graded relevance metrics (ERR@20 on WebTrack and both P@20 and nDCG@20 on longer Robust04 queries, Table 3 & Section 6.4).
+  evidence:
+  - source_id: r780-primary-pdf
+    locator: Sections 6.1-6.2 & 6.4, Tables 3-4, pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r780-primary-pdf
+  title: Efficient Document Re-Ranking for Transformers by Precomputing Term Representations
+  authors: &id001
+  - Sean MacAvaney
+  - Franco Maria Nardini
+  - Raffaele Perego
+  - Nicola Tonellotto
+  - Nazli Goharian
+  - Ophir Frieder
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.14255.pdf
+  persistent_id: https://arxiv.org/bibtex/2004.14255
+  version: SIGIR 2020 (2020) (775249 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:23:00Z'
+  sha256: f40c8c78c99611a67a5c0f0067eecf9a605f9f34477c55ba1e4077ede7533360
+- source_id: r780-arxiv-abs
+  title: Efficient Document Re-Ranking for Transformers by Precomputing Term Representations (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.14255
+  persistent_id: https://arxiv.org/abs/2004.14255
+  version: arXiv abstract page (7276 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:23:00Z'
+  sha256: dd4eea1a6a58519dd9ab86b19ddaa514136567a5a3c262b4632d4e9c13fb6de2
+- source_id: r780-metadata-cr
+  title: Efficient Document Re-Ranking for Transformers by Precomputing Term Representations (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.14255
+  persistent_id: https://arxiv.org/bibtex/2004.14255
+  version: Crossref API work record (550 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:23:00Z'
+  sha256: dbcfff32f4f40bd770f58a7cefdd34ac812778f4618e021507b5d609e95e7d70
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PreTTR modifies deep Transformer neural networks (BERT, RoBERTa, DistilBERT) with lower-layer cross-segment attention masking and a GELU token-compression bottleneck.
+limitations:
+- Requires storing compressed contextualized vectors for every token of every document in the corpus (e.g., 195 GB for Robust04 at e = 256 and 2.8 TB for ClueWeb09-B at e = 128 with fp16).
+- Precomputing up to the penultimate layer (l = 11 in a 12-layer BERT) degrades graded relevance metrics (ERR@20 and nDCG@20) and fails on longer, more qualified queries such as TREC Robust 2004.
+curation:
+  created_at: '2026-10-19T14:23:00Z'
+  updated_at: '2026-10-19T14:23:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,116 @@
+id: AIMech:MicroAdamSparseGradientWithQuantizedErrorFeedbackOptimization
+name: MicroAdam (Sparse-Gradient Adaptive Optimization with Quantized Error Feedback)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A memory-efficient adaptive optimization algorithm that replaces dense first- and second-moment optimizer states with a circular sliding window of m Top-k sparse error-compensated gradients (storing block-relative int16 indices and bfloat16 values) alongside a 4-bit quantized error-feedback accumulator, dynamically reconstructing bias-corrected Adam statistics at each step with provable AMSGrad-rate non-convex convergence.
+identity_notes: Distinct from 8-bit Adam (AIMech:EightBitOptimizerBlockwiseQuantization), which quantizes dense first- and second-moment vectors m_t, v_t in R^d to 8 bits (2d bytes total); MicroAdam stores a circular window of m = 10 Top-k sparse gradients (k = d/100) plus a 4-bit quantized error-feedback vector e_t (0.5d + 4mk = 0.9d bytes, less than half of 8-bit Adam). Distinct from GaLore (AIMech:GaLoreGradientLowRankProjection), which projects gradients into a low-rank SVD subspace without error feedback.
+aliases:
+- MicroAdam
+- MicroAdam Optimizer
+- MicroAdamW
+- Top-k Sparse Sliding-Window Adam with Quantized Error Feedback
+definition_evidence:
+- source_id: r639-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r639-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r639-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: microadam-sliding-window-topk-and-quantized-ef-mechanism
+  kind: mechanism
+  statement: At each step t, MicroAdam dequantizes the 4-bit error-feedback state into the gradient accumulator a_t = g_t + Q^{-1}(e_t, delta_t, Delta_t), extracts the Top-k largest-magnitude entries (I_t, V_t) = T_k(|a_t|) (with k = d/100 and block-relative int16 indices within blocks B_d < 2^{15} - 1), zeros those entries in a_t, quantizes the residual error e_{t+1} = Q(a_t, delta_{t+1}, Delta_{t+1}) to b = 4 bits, writes (I_t, V_t) into row t mod m of circular buffer G, and dynamically computes m_hat_t = AdamStats(beta_1, G) and v_hat_t = AdamStats(beta_2, G^2) via unrolled decay z[I_i] <- z[I_i] + beta^r V_i.
+  evidence:
+  - source_id: r639-primary-pdf
+    locator: Section 3-3.1 Algorithms 1-2, pages 3-5
+    relation: supports
+- claim_id: microadam-optimizer-state-memory-footprint-mechanism
+  kind: mechanism
+  statement: Storing the 4-bit error feedback buffer (0.5d bytes) and the circular window G of m sparse gradients with int16 indices and bfloat16 values (4mk bytes) yields total optimizer-state memory M_{mu A}(m) = 0.5d + 4mk bytes, which for k = d/100 is strictly smaller than 8-bit AdamW's 2d bytes whenever m < m_max = 37.5, requiring 0.9d bytes (5.65 GB vs 12.55 GB for 8-bit AdamW and 50.21 GB for FP32 AdamW) on LLaMA-2 7B at m = 10.
+  evidence:
+  - source_id: r639-primary-pdf
+    locator: Section 3.2 Memory footprint analysis and Discussion, pages 5-6, and Appendix D pages 16-17
+    relation: supports
+- claim_id: microadam-contractive-unbiased-convergence-scope
+  kind: scope
+  statement: 'Under a q-contractive gradient compressor C (q = sqrt(1 - k/d)) and an unbiased omega-bounded error quantizer Q (Lemma 1: omega = (sqrt(d - 2) / (2^b - 1)) * (Delta - delta) / sqrt(Delta^2 + delta^2)) satisfying q_omega = (1 + omega) * q < 1, Lemma 3 bounds the error buffer by ||e_t||^2 <= 4 * q_omega^2 * G^2 / (1 - q_omega^2)^2, Theorem 1 proves O(1/sqrt(T) + d/T) non-convex gradient stationarity matching AMSGrad, and Theorem 2 proves O(log(T)/T) convergence under the Polyak-Lojasiewicz condition.'
+  evidence:
+  - source_id: r639-primary-pdf
+    locator: Section 4.1-4.3 Assumptions 1-6, Lemma 1, Theorems 1-2, pages 6-8, and Appendix E.1-E.3 Lemma 3, pages 18-30
+    relation: supports
+- claim_id: microadam-llm-finetuning-and-imagenet-resnet-application
+  kind: application
+  statement: Applied to full fine-tuning of BERT-Base/Large and OPT-1.3B on GLUE/MNLI, LLaMA-2 7B/13B on GSM-8k and Open-Platypus, and from-scratch pre-training of ResNet-18/50 on ImageNet, MicroAdam matches or exceeds uncompressed AdamW and 8-bit AdamW accuracy (including 77.37% vs 72.05% for AdamW on ResNet-50 due to sparse-update implicit regularization) while enabling LLaMA-2 7B full fine-tuning on a single 40 GB GPU.
+  evidence:
+  - source_id: r639-primary-pdf
+    locator: Section 5 Tables 1-4, pages 8-10, and Appendix A page 14
+    relation: supports
+- claim_id: microadam-sparse-update-llm-pretraining-limitation
+  kind: limitation
+  statement: With window size m = 10 and density k = d/100, the per-step parameter update u_t has at least 90% sparsity, which is insufficient for from-scratch pre-training of large language models whose self-attention projection matrices require dense updates to learn global token correlations.
+  evidence:
+  - source_id: r639-primary-pdf
+    locator: Section 3 Properties and Limitations page 3, Section 5 Pre-training LLMs page 10, and Section 6 Limitations page 10
+    relation: supports
+evidence_sources:
+- source_id: r639-primary-pdf
+  title: 'MicroAdam: Accurate Adaptive Optimization with Low Space Overhead and Provable Convergence'
+  authors: &id001
+  - Ionut-Vlad Modoranu
+  - Mher Safaryan
+  - Grigory Malinovsky
+  - Eldar Kurtic
+  - Thomas Robert
+  - "Peter Richt\xE1rik"
+  - Dan Alistarh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2405.15593.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/ModoranuSMK0RA24
+  version: Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) (3146416 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:02:00Z'
+  sha256: 199f75a4fee3f3c3bc4c1c2a92831aa7ba8bd0beacd2263cdac46d7f18d19ce3
+- source_id: r639-arxiv-abs
+  title: 'MicroAdam: Accurate Adaptive Optimization with Low Space Overhead and Provable Convergence (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2405.15593
+  persistent_id: https://arxiv.org/abs/2405.15593
+  version: arXiv abstract page (6917 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:02:00Z'
+  sha256: 6629c4e74ce7077867ff3d2ca6ddf8158c367bfbb235c590640eb6c0ebdbe93d
+- source_id: r639-metadata-cr
+  title: 'MicroAdam: Accurate Adaptive Optimization with Low Space Overhead and Provable Convergence (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/ModoranuSMK0RA24
+  persistent_id: https://dblp.org/rec/conf/nips/ModoranuSMK0RA24
+  version: Crossref API work record (2221 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:02:00Z'
+  sha256: 3326d806e668464d464b4bfb9a84879908bbdf71ff2afd5afc644dd6f3548b0e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MicroAdam is a memory-efficient adaptive gradient optimizer for fine-tuning large language models and training convolutional neural networks.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: MicroAdam applies Top-k gradient sparsification (99% sparsity) over a circular sliding window coupled with 4-bit quantized error feedback to reconstruct sparse adaptive updates.
+limitations:
+- Produces sparse parameter updates (at most m * k non-zeros per step, e.g., <=10% density for m=10, k=1%), which degrades from-scratch LLM pre-training.
+- Requires custom CUDA kernels with shared-memory block-relative indexing to achieve wall-clock parity with AdamW.
+- Per-layer allocation of quantization metadata (delta, Delta) can slightly increase PyTorch allocator fragmentation on small models (<100M parameters).
+curation:
+  created_at: '2026-10-19T12:02:00Z'
+  updated_at: '2026-10-19T12:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

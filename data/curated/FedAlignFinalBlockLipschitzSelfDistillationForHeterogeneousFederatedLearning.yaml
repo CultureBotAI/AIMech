@@ -1,0 +1,103 @@
+id: AIMech:FedAlignFinalBlockLipschitzSelfDistillationForHeterogeneousFederatedLearning
+name: FedAlign (Data-Free Final-Block Lipschitz Self-Distillation via Slimmed Sub-Block Transmitting Matrices)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A resource-efficient local self-distillation regularization algorithm for heterogeneous federated learning (Mendieta, Yang, Wang, Lee, Ding, & Chen 2022, Sections 3.4 & 4, Equations 3-7, Algorithm 1) that mitigates client drift by aligning the approximated Lipschitz constants of a neural network''s final block L across full width and a uniformly slimmed fractional width omega_S in (0, 1) while reusing intermediate features from block L - 1. During local training on batch (x, y) in D, each client runs a single full-network forward pass f_{theta_{L-1}}, f_{theta_L}, pred = F_theta(x) and one additional partial forward pass of the final block L at reduced channel width omega_S using f_{theta_{L-1}} as input: f_{theta_L^{omega_S}} = F_{theta_L^{omega_S}}(f_{theta_{L-1}}). The client constructs feature-map transmitting matrices X_F = (f_{theta_{L-1}})^T f_{theta_L} and X_S = (f_{theta_{L-1}})^T f_{theta_L^{omega_S}} (Equations 6-7), approximates their spectral norms K_F = ||X_F||_{SN} and K_S = ||X_S||_{SN} via Power Iteration, and minimizes the local objective L_{FA} = L_{CE}(F_theta(x), y) + mu L_{Lip}(K_S, K_F) (Equation 5), where L_{Lip}(K_S, K_F) is the mean squared error between K_S and K_F.'
+identity_notes: Distinct from FJORD (AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning, Horvath et al. 2021), which executes end-to-end forward passes through nested Ordered Dropout sub-models and distills output class logits via KL divergence rather than reusing penultimate block features f_{theta_{L-1}} on only the final block L and matching spectral-norm Lipschitz constants ||X_S||_{SN} and ||X_F||_{SN}; and distinct from MOON (AIMech:MoonModelContrastiveFederatedLearning, Li et al. 2021), which stores three full models in memory to compute a representation contrastive loss (~3x compute and memory overhead) rather than training a single model in-place with a 1.02x FLOPs final-block Lipschitz regularization penalty.
+aliases:
+- FedAlign
+- Federated Final-Block Lipschitz Alignment
+- Final-Block Slimmed Sub-Network Lipschitz Self-Distillation for Federated Learning
+definition_evidence:
+- source_id: r495-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r495-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r495-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r495-claim-1
+  kind: mechanism
+  statement: FedAlign reuses penultimate feature maps f_{theta_{L-1}} as input to a temporarily uniformly pruned sub-block F_{theta_L^{omega_S}} of fractional channel width omega_S (default omega_S = 0.25), forms transmitting matrices X_F = f_{theta_{L-1}}^T f_{theta_L} and X_S = f_{theta_{L-1}}^T f_{theta_L^{omega_S}} (with adaptive average pooling when spatial dimensions differ), and penalizes the mean squared error L_{Lip}(K_S, K_F) between their Power-Iteration spectral norms K_F = ||X_F||_{SN} and K_S = ||X_S||_{SN} (Equations 5-7, Algorithm 1, Supplementary Section E).
+  evidence:
+  - source_id: r495-primary-pdf
+    locator: Section 4, p. 7, Equations 5-7, Algorithm 1, Figure 2; Supplementary Section E, p. 12
+    relation: supports
+- claim_id: r495-claim-2
+  kind: mechanism
+  statement: Second-order analysis across clients using top Hessian eigenvalue lambda_max, Hessian trace H_T, cross-client diagonal Hessian norm difference H_N^{k,j} = (||Diag(H_k)||_F - ||Diag(H_j)||_F)^2 (Equation 3), and directional cosine similarity H_D^{k,j} = (Diag(H_k) . Diag(H_j)) / (||Diag(H_k)||_F ||Diag(H_j)||_F) (Equation 4) shows that FedAlign achieves the lowest top Hessian eigenvalue (lambda_max = 143 vs. 297 for FedAvg and 252 for MOON on CIFAR-100) and highest directional alignment (H_D = 0.99) while adding only 2% forward-pass FLOPs (89.1 vs. 87.3 MFLOPs) and 0 additional stored parameters.
+  evidence:
+  - source_id: r495-primary-pdf
+    locator: Section 3.4, pp. 4-5, Equations 3-4, Table 1; Section 4, pp. 6-8, Table 5; Supplementary Sections A-B, p. 11, Tables 8-9
+    relation: supports
+- claim_id: r495-claim-3
+  kind: limitation
+  statement: While FedAlign strongly reduces the top Hessian eigenvalue lambda_max and improves cross-client Hessian directional similarity H_D, it does not directly penalize cross-client Hessian diagonal norm differences, resulting in a higher H_N (9655 on CIFAR-100) than full-network multi-pass GradAug (2924) and MOON (5712) (Supplementary Section B, Table 9).
+  evidence:
+  - source_id: r495-primary-pdf
+    locator: Supplementary Section B, p. 11, Table 9
+    relation: supports
+- claim_id: r495-claim-4
+  kind: application
+  statement: Evaluated on Dirichlet-partitioned CIFAR-100 (ResNet56), CIFAR-10 (ResNet56), and ImageNet-200 (ResNet18) across varying heterogeneity levels (Dir(alpha) with alpha in {0.1, 0.5, 2.5} and homogeneous), local epochs E in {10, 20, 30}, and partial client participation, reaching 60% accuracy on CIFAR-100 in 37 rounds (3297 MFLOPs, 11.56 Gb) compared to 84 rounds for FedAvg and 55 rounds for MOON.
+  evidence:
+  - source_id: r495-primary-pdf
+    locator: Section 4.1, pp. 6-8, Tables 5-7; Supplementary Section A, p. 11, Table 8
+    relation: supports
+evidence_sources:
+- source_id: r495-primary-pdf
+  title: 'Local Learning Matters: Rethinking Data Heterogeneity in Federated Learning'
+  authors: &id001
+  - Matias Mendieta
+  - Taojiannan Yang
+  - Pu Wang
+  - Minwoo Lee
+  - Zhengming Ding
+  - Chen Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2111.14213.pdf
+  persistent_id: https://doi.org/10.1109/CVPR52688.2022.00821
+  version: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR 2022) (2022) (721055 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:38:00Z'
+  sha256: 0dc144b789dad6d2bd93a5a6c06fda876153b34f4793b17a1641d3938ae4d1d7
+- source_id: r495-arxiv-abs
+  title: 'Local Learning Matters: Rethinking Data Heterogeneity in Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2111.14213
+  persistent_id: https://arxiv.org/abs/2111.14213
+  version: arXiv abstract page (1519 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:38:00Z'
+  sha256: 888ab76b50aeb229f4a1fbeef1731fc2f4e8ecf82c92793e49dfcdd0a78c7ea1
+- source_id: r495-metadata-cr
+  title: 'Local Learning Matters: Rethinking Data Heterogeneity in Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/CVPR52688.2022.00821
+  persistent_id: https://doi.org/10.1109/CVPR52688.2022.00821
+  version: Crossref API work record (504 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:38:00Z'
+  sha256: a9acce23cfadcb5c73f341a9702af87a173008c7227d242ee766072598d46ec5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedAlign is a local self-distillation and Lipschitz regularization algorithm for Federated Learning.
+limitations:
+- Does not directly regularize cross-client Hessian norm discrepancies H_N (Supplementary Section B, Table 9).
+- Sensitive to the sub-block width fraction omega_S, requiring sufficient channel width in the final block to support uniform slimming (Supplementary Section C, Table 10).
+curation:
+  created_at: '2026-10-19T09:38:00Z'
+  updated_at: '2026-10-19T09:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

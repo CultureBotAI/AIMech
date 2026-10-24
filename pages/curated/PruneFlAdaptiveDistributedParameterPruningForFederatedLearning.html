@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PruneFL: Adaptive and Distributed Parameter Pruning for Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>PruneFL: Adaptive and Distributed Parameter Pruning for Federated Learning</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">PruneFL: Adaptive and Distributed Parameter Pruning for Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PruneFlAdaptiveDistributedParameterPruningForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PruneFL, Adaptive and Distributed Parameter Pruning for Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    An adaptive distributed parameter pruning and reconfiguration framework for federated learning (PruneFL; Jiang, Wang, Valls, Ko, Lee, Leung, and Tassiulas, IEEE TNNLS 2023) that executes initial iterative pruning on a single selected client prior to federated training and subsequently reconfigures (prunes and regrows) the shared sparse parameter set M = A union P_bar every R_r rounds during multi-client federated training (Algorithm 1). At each reconfiguration step, PruneFL models the single-step empirical risk reduction as Delta(M) approx sum_{j in M} g_j^2 (Eq. 6) and the single-round execution time as T(M) = c + sum_{j in M} t_j, and maximizes the risk-reduction rate Gamma(A union P_bar) = Delta(A union P_bar) / T(A union P_bar) (Eq. 7) over prunable indices P via a greedy O(|P| log |P|) sorting algorithm (Algorithm 2) that orders j in P in non-increasing order of g_j^2 / t_j and includes j while g_j^2 / t_j &gt;= Gamma(A union P_bar).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from personalized sparse federated learning methods such as DisPFL (AIMech:DisPflDecentralizedSparseTrainingForPersonalizedFederatedLearning; Dai et al., ICML 2022), which maintain client-specific fixed-density masks over a decentralized peer-to-peer graph rather than dynamically resizing a shared global model mask M_k via an exact greedy optimizer of the risk-reduction-per-unit-time ratio Gamma(M). Distinct from static post-training or lottery-ticket initialization pruning (Frankle &amp; Carbin, 2019), which fixes a predetermined target sparsity ratio and requires rewinding weights to initialization rather than adaptively shrinking and regrowing the active parameter set during ongoing federated optimization.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#prunefl-greedy-risk-reduction-per-time-reconfiguration-optimality-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given non-prunable parameter set A and prunable candidate set P with squared gradient components g_j^2 and per-round execution time costs t_j &gt; 0, Theorem 1 (p. 5; proof via Lemmas 1-2 in Appendix B-1, pp. 14-15) proves that Algorithm 2—which sorts j in P in non-increasing order of g_j^2 / t_j and greedily adds j to P_bar while g_j^2 / t_j &gt;= Gamma(A union P_bar)—finds a global maximizer of Gamma(A union P_bar) = (Delta(A) + sum_{j in P_bar} g_j^2) / (c + T_A + sum_{j in P_bar} t_j) in O(|P| log |P|) time.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r508-primary-pdf">Model Pruning Enables Efficient Federated Learning on Edge Devices</a></span>
+        <span>· <strong>Locator:</strong> Section IV-A to IV-C, Eqs. (6)-(7), Algorithm 2, Theorem 1, pp. 4-5; Appendix B-1, Lemmas 1-2, pp. 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#prunefl-masked-gradient-stationary-point-convergence-rate-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Assumptions 1-4 (L-smoothness, bounded mini-batch variance sigma^2, bounded full-gradient second moment G^2, and non-expansiveness ||w - w odot m||^2 &lt;= ||w - w*||^2 of mask projection), Theorem 2 (p. 6; proof in Appendix B-2, pp. 15-19) proves that PruneFL with step size eta = sqrt(N / K) achieves (1 / K) sum_{k=0}^{K-1} E[||nabla F(w&#39;(k)) odot m_{w&#39;}(k)||^2] &lt;= 2(E[F(w&#39;(0))] - F*) / sqrt(N K) + (4 tau^2 L^2 G^2 / K) + (2 L sigma^2 / sqrt(N K)) = O(1 / sqrt(N K)) + O(1 / K).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r508-primary-pdf">Model Pruning Enables Efficient Federated Learning on Edge Devices</a></span>
+        <span>· <strong>Locator:</strong> Section IV-D Convergence Analysis, Assumptions 1-4, Theorem 2, p. 6; Appendix B-2, Lemma 3 and Proof of Theorem 2, pp. 15-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#prunefl-profiling-calibration-and-dense-gradient-accumulation-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PruneFL requires offline device profiling to estimate per-parameter round-time coefficients t_j and overhead constant c via linear regression, relies on a trusted client&#39;s local dataset for Stage-1 initial pruning, and requires clients to accumulate exponential moving averages of full-dimensional squared gradients g_j^2 across reconfiguration intervals (Section III-A to III-B, pp. 3-4; Section V-A, pp. 6-7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r508-primary-pdf">Model Pruning Enables Efficient Federated Learning on Edge Devices</a></span>
+        <span>· <strong>Locator:</strong> Section III-A Initial Pruning at a Selected Client, Section III-B, pp. 3-4; Section V-A Time Profiling, Fig. 4, pp. 6-7; Appendix A, pp. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#prunefl-raspberry-pi-edge-federated-training-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to edge-device federated training on Raspberry Pi 4 and Android devices across FEMNIST, CIFAR-10, ImageNet-100, and CelebA using Conv-2, VGG-11, ResNet-18, and MobileNetV2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r508-primary-pdf">Model Pruning Enables Efficient Federated Learning on Edge Devices</a></span>
+        <span>· <strong>Locator:</strong> Section V Experimental Results, Figs. 4-11, Tables I-II, pp. 6-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires device-specific linear-regression time profiling of t_j and c to calibrate the denominator of Gamma(A union P_bar) (Section V-A, Fig. 4, pp. 6-7).</li>
+      <li>Stage-1 initial pruning relies on a single selected client&#39;s local data distribution before federated training begins, which can temporarily bias the initial mask under severe non-IID data until Stage-2 server reconfigurations regrow missing parameters (Section III-A, p. 3; Section V-E, p. 9).</li>
+      <li>Unstructured weight pruning requires sparse tensor algebra libraries (such as custom sparse-dense matrix multiplication kernels) to achieve actual computation and memory savings on edge CPUs (Section V-A, p. 6; Appendix A, pp. 12-13).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PruneFL is an adaptive distributed parameter pruning algorithm for federated learning on resource-constrained edge devices.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PruneFL dynamically optimizes a sparse parameter mask to maximize empirical risk reduction per unit round time.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r508-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r508-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1909.12326.pdf" target="_blank" rel="noopener">Model Pruning Enables Efficient Federated Learning on Edge Devices</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuang Jiang, Shiqiang Wang, Victor Valls, Bong Jun Ko, Wei-Han Lee, Kin K. Leung, Leandros Tassiulas
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/tnnls.2022.3166101</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:90bb3e9d9991…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r508-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r508-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1909.12326" target="_blank" rel="noopener">Model Pruning Enables Efficient Federated Learning on Edge Devices (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuang Jiang, Shiqiang Wang, Victor Valls, Bong Jun Ko, Wei-Han Lee, Kin K. Leung, Leandros Tassiulas
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1909.12326</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b631d6ac891b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r508-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r508-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/tnnls.2022.3166101" target="_blank" rel="noopener">Model Pruning Enables Efficient Federated Learning on Edge Devices (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuang Jiang, Shiqiang Wang, Victor Valls, Bong Jun Ko, Wei-Han Lee, Kin K. Leung, Leandros Tassiulas
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/tnnls.2022.3166101</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:af3579897425…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3APruneFlAdaptiveDistributedParameterPruningForFederatedLearning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for PruneFL: Adaptive and Distributed Parameter Pruning for Federated Learning" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:PruneFlAdaptiveDistributedParameterPruningForFederatedLearning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">PruneFL: Adaptive and...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:51:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:51:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PruneFlAdaptiveDistributedParameterPruningForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PruneFlAdaptiveDistributedParameterPruningForFederatedLearning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=PruneFL%3A%20Adaptive%20and%20Distributed%20Parameter%20Pruning%20for%20Federated%20Learning"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3APruneFlAdaptiveDistributedParameterPruningForFederatedLearning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oja&#39;s Streaming PCA Algorithm with Matrix-Bernstein-Matching Finite-Sample Guarantees · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Oja&#39;s Streaming PCA Algorithm with Matrix-Bernstein-Matching Finite-Sample Guarantees</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Oja&#39;s Streaming PCA Algorithm with Matrix-Bernstein-Matching Finite-Sample Guarantees</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Jain-Jin-Kakade-Netrapalli-Sidford Oja Streaming PCA Analysis, Matrix-Product Operator Analysis of Oja&#39;s Streaming PCA Algorithm, Single-Pass O(d)-Space Oja Eigenvector Estimator
+    </div>
+
+  <div class="detail-desc">
+    Oja&#39;s Streaming PCA Algorithm with Matrix-Bernstein-Matching Finite-Sample Guarantees is a single-pass O(d)-space, linear-time streaming eigenvector estimation procedure and operator-theoretic convergence analysis established by Jain, Jin, Kakade, Netrapalli, and Sidford (2016) that initializes w_0 uniformly at random on the unit sphere in R^d and applies the normalized rank-1/matrix update w_i &lt;- (w_{i-1} + eta_i A_i w_{i-1}) / ||w_{i-1} + eta_i A_i w_{i-1}||_2 over independent streaming samples A_1, ..., A_n satisfying E[A_i] = Sigma, ||A_i - Sigma||_2 &lt;= M, and max{||E[(A_i-Sigma)(A_i-Sigma)^T]||_2, ||E[(A_i-Sigma)^T(A_i-Sigma)]||_2} &lt;= V, using a shifted inverse-linear step size sequence eta_i = alpha / ((lambda_1 - lambda_2)(beta + i)) to match (and asymptotically improve by O(log d) upon) the batch Matrix Bernstein + Wedin sample complexity without warm-start initialization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from generic PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) and DimensionalityReduction (AIO:DimensionalityReduction), which do not specify O(d)-space single-pass Oja updates or cumulative matrix-product operator moment bounds. Distinct from AIMech:NoisyPowerMethodForStreamingAndDifferentiallyPrivatePCA (Round 356), which groups samples into L blocks for block power iteration and incurs an extra O(lambda_1/(lambda_1 - lambda_2) * log n) sample-complexity factor (Table 1, p. 5). Also distinct from AIMech:ShiftAndInvertPreconditioningForFasterEigenvectorComputation (Round 354), which requires an O(gap)-close warm-start vector x_0 in the streaming setting, whereas Jain et al. (2016) prove global convergence from a uniform random unit vector w_0.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r357-claim-cumulative-operator-representation-and-one-step-power-lemma</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Oja&#39;s streaming update w_i = (w_{i-1} + eta_i A_i w_{i-1}) / ||w_{i-1} + eta_i A_i w_{i-1}||_2 initialized from a uniform random unit vector w_0 is algebraically identical to one step of the power method w_n = B_n w_0 / ||B_n w_0||_2 applied to the cumulative matrix product B_n = (I + eta_n A_n)(I + eta_{n-1} A_{n-1})...(I + eta_1 A_1) (Section 3, Equations 3-4), and with probability at least 1 - delta over w_0, the sine-squared alignment error with the top eigenvector v_1 of Sigma satisfies sin^2(v_1, w_n) = 1 - (v_1^T B_n w_0 / ||B_n w_0||_2)^2 &lt;= (C log(1/delta) / delta) * Tr(V_perp^T B_n B_n^T V_perp) / (v_1^T B_n B_n^T v_1) (Lemma 3.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r357-primary-pdf">Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja&#39;s Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Algorithm 1, p. 3; Section 3, Equations 3-4 and Lemma 3.1, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r357-claim-second-and-fourth-moment-operator-recurrences</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the streaming matrix Bernstein conditions (Definition 1) with V_bar = V + lambda_1^2 and step sizes eta_i &lt;= 1 / (4 max{M, lambda_1}), the operator B_t satisfies (1) ||E[B_t B_t^T]||_2 &lt;= exp(sum_{i=1}^t (2 eta_i lambda_1 + eta_i^2 V_bar)) (Lemma 5.1), (2) E[Tr(V_perp^T B_t B_t^T V_perp)] &lt;= exp(sum_{j=1}^t (2 eta_j lambda_2 + eta_j^2 V_bar)) * (d + V sum_{i=1}^t eta_i^2 exp(sum_{j=1}^i 2 eta_j (lambda_1 - lambda_2))) (Lemma 5.2), (3) E[v_1^T B_t B_t^T v_1] &gt;= exp(sum_{i=1}^t (2 eta_i lambda_1 - 4 eta_i^2 lambda_1^2)) (Lemma 5.3), and (4) E[(v_1^T B_t B_t^T v_1)^2] &lt;= exp(sum_{i=1}^t (4 eta_i lambda_1 + 10 eta_i^2 V_bar)) (Lemma 5.4), which combine via Markov&#39;s and Chebyshev&#39;s inequalities to yield the general finite-sample error bound of Theorem 3.1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r357-primary-pdf">Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja&#39;s Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Theorem 3.1, pp. 8-9; Section 5, Lemmas 5.1, 5.2, 5.3, and 5.4, and Proof of Theorem 3.1, pp. 10-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r357-claim-shifted-inverse-linear-stepsize-finite-sample-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Setting the step size sequence eta_t = alpha / ((lambda_1 - lambda_2)(beta + t)) for alpha &gt; 1/2 and beta = 20 max(M*alpha/(lambda_1 - lambda_2), (V + lambda_1^2)alpha^2 / ((lambda_1 - lambda_2)^2 log(1 + delta/100))) guarantees that for n &gt; beta, with probability at least 1 - delta, Oja&#39;s algorithm achieves sin^2(w_n, v_1) &lt;= (C log(1/delta) / delta^2) * (d*(beta/n)^{2*alpha} + (alpha^2 V) / ((2*alpha - 1)(lambda_1 - lambda_2)^2 n)) (Theorem 4.1), matching the batch Matrix Bernstein + Wedin bound O(V log(d) / ((lambda_1 - lambda_2)^2 n) + (2*beta/n)^{2 log d}) for alpha = log d (Theorem 1.2) and improving the asymptotic leading term by O(log d) to O(V / ((lambda_1 - lambda_2)^2 n) + 1/n^2) for alpha = 6 when n &gt; beta^{1.2} d^{0.1} (Theorem 1.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r357-primary-pdf">Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja&#39;s Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Theorems 1.1, 1.2, and 1.3, and Table 1, pp. 2-5; Section 4, Theorem 4.1, pp. 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Applies only to top-1 eigenvector estimation (k = 1), requires knowledge or estimation of the eigengap lambda_1 - lambda_2 and variance parameters (M, V) to set the step-size schedule eta_t, and achieves sub-exponential O(1/n) error decay on finite datasets (Section 1, p. 4; Section 6, p. 15).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Analyzes Oja&#39;s classical single-pass streaming algorithm for top-1 principal component estimation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Computes the leading spectral projection direction of a covariance matrix in O(d) memory.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r357-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r357-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1602.06929.pdf" target="_blank" rel="noopener">Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja&#39;s Algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Prateek Jain, Chi Jin, Sham M. Kakade, Praneeth Netrapalli, Aaron Sidford
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v49/jain16.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:888933897fd0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r357-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r357-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1602.06929" target="_blank" rel="noopener">Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja&#39;s Algorithm (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Prateek Jain, Chi Jin, Sham M. Kakade, Praneeth Netrapalli, Aaron Sidford
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1602.06929</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:16603792d540…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r357-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r357-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v49/jain16.html" target="_blank" rel="noopener">Streaming PCA: Matching Matrix Bernstein and Near-Optimal Finite Sample Guarantees for Oja&#39;s Algorithm (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Prateek Jain, Chi Jin, Sham M. Kakade, Praneeth Netrapalli, Aaron Sidford
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v49/jain16.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d6ea23c3d883…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AStreamingPCANearOptimalFiniteSampleOjaAlgorithm">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Oja&#39;s Streaming PCA Algorithm with Matrix-Bernstein-Matching Finite-Sample Guarantees" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:StreamingPCANearOptimalFiniteSampleOjaAlgorithm</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Oja&#39;s Streaming PCA...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:PrincipalComponentAnalysis (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:20:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:20:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StreamingPCANearOptimalFiniteSampleOjaAlgorithm.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StreamingPCANearOptimalFiniteSampleOjaAlgorithm.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Oja%27s%20Streaming%20PCA%20Algorithm%20with%20Matrix-Bernstein-Matching%20Finite-Sample%20Guarantees"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AStreamingPCANearOptimalFiniteSampleOjaAlgorithm"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

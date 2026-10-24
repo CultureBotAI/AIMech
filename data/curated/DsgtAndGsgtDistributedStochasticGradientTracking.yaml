@@ -1,0 +1,99 @@
+id: AIMech:DsgtAndGsgtDistributedStochasticGradientTracking
+name: DSGT and GSGT (Distributed and Gossip Stochastic Gradient Tracking)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A family of decentralized stochastic optimization algorithms over doubly stochastic network graphs W (Pu & Nedic 2021, Sections 2 and 4, Equations 4 and 37-39) in which each agent i maintains a local model x_{i,k} and an auxiliary stochastic gradient tracker y_{i,k} initialized at y_{i,0} = g_i(x_{i,0}, xi_{i,0}), updating in synchronous Distributed Stochastic Gradient Tracking (DSGT) via x_{k+1} = W(x_k - alpha_k y_k) and y_{k+1} = W y_k + G(x_{k+1}, xi_{k+1}) - G(x_k, xi_k), or in randomized pairwise Gossip Stochastic Gradient Tracking (GSGT) by activating a single directed wake-up edge (i_k, j_k) per iteration to average iterates and gradient trackers across {i_k, j_k}.
+identity_notes: Distinct from deterministic DIGing and Push-DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, & Shi 2017), which analyze exact gradients over time-varying B-connected graphs via small-gain theorems, and from D2 (AIMech:D2VarianceReducedDecentralizedTrainingOverHeterogeneousData, Tang et al. 2018), which uses a single-variable two-step recursion X_{t+1} = (2 X_t - X_{t-1} - gamma G_t + gamma G_{t-1}) W requiring lambda_n(W) > -1/3 rather than explicit dynamic average consensus tracking y_{k+1} = W y_k + G_{k+1} - G_k and randomized pairwise gossip GSGT.
+aliases:
+- DSGT and GSGT
+- Distributed Stochastic Gradient Tracking
+- Gossip Stochastic Gradient Tracking
+definition_evidence:
+- source_id: r428-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r428-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r428-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r428-dynamic-average-tracking-invariant-and-constant-stepsize-linear-speedup
+  kind: mechanism
+  statement: Initializing y_0 = G(x_0, xi_0) under a doubly stochastic mixing matrix W preserves the exact dynamic average conservation bar_y_k = (1/n) 1^T y_k = (1/n) 1^T G(x_k, xi_k) at every iteration k (Lemma 2, Eq. 5); under mu-strong convexity and L-smoothness with constant step-size alpha, the 3x3 error-moment matrix A contracts at rate rho(A) <= 1 - 2 alpha mu Gamma / (Gamma + 1) (Lemma 4, Eq. 10) to a steady-state MSE limsup_{k->infty} (1/n) E[||x_k - 1 x^*||^2] <= (alpha sigma^2 / (mu n)) O(1) + (alpha^2 L^2 sigma^2 / (mu^2 (1 - rho_w)^3)) O(rho_w^2 ||W - I||^2) completely free of inter-agent gradient heterogeneity ||nabla f_i(x^*)||^2 (Theorem 1, Remark 1, Eqs. 11-12).
+  evidence:
+  - source_id: r428-primary-pdf
+    locator: Section 2-3 Main Results & Convergence Analysis (Lemmas 2-7, Theorem 1, Remark 1, Equations 5-12)
+    relation: supports
+- claim_id: r428-diminishing-stepsize-topology-independent-asymptotic-efficiency-and-gsgt
+  kind: mechanism
+  statement: With diminishing step-sizes alpha_k = theta / (m + k) (where theta mu > 1), DSGT achieves the asymptotic mean-squared error 2 theta^2 sigma^2 / (n (theta mu - 1) k) for every agent (minimized at theta = 2 / mu to 8 sigma^2 / (n mu^2 k)), matching centralized stochastic gradient descent independent of the network spectral gap 1 - rho_w (Theorem 2, Remark 3); furthermore, GSGT preserves 1^T y_k = 1^T G(x_k, xi_k) via pairwise edge updates (Eqs. 37-39) and reduces communication volume by O(|E| / n) on well-connected graphs (Section 4, Theorem 3).
+  evidence:
+  - source_id: r428-primary-pdf
+    locator: Section 2.1 Theorem 2 & Remark 3 (Equations 13-14); Section 4 GSGT (Equations 37-39, Lemma 8, Theorem 3)
+    relation: supports
+- claim_id: r428-doubly-stochastic-mixing-and-dual-message-overhead-limitation
+  kind: limitation
+  statement: Requires a doubly stochastic mixing matrix W (or symmetric pairwise gossip updates in GSGT) so that 1^T W = 1^T holds, and requires exchanging both the iterate x_{i,k} - alpha_k y_{i,k} and the tracker y_{i,k} across active links.
+  evidence:
+  - source_id: r428-primary-pdf
+    locator: Section 2.1 Assumption 1 & Equations 4, 37-38
+    relation: supports
+- claim_id: r428-decentralized-logistic-regression-and-ridge-regression-sensor-networks-application
+  kind: application
+  statement: Applied to decentralized ridge regression and regularized logistic classification over random Erdos-Renyi, ring, and grid multi-agent networks, eliminating the steady-state heterogeneity bias of decentralized stochastic gradient descent.
+  evidence:
+  - source_id: r428-primary-pdf
+    locator: Section 5 Numerical Experiments (Figures 1-5)
+    relation: supports
+evidence_sources:
+- source_id: r428-primary-pdf
+  title: Distributed Stochastic Gradient Tracking Methods
+  authors: &id001
+  - Shi Pu
+  - Angelia Nedic
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1805.11454
+  persistent_id: https://doi.org/10.1007/s10107-020-01487-0
+  version: Mathematical Programming 187(1-2):409-457 (2021) (85993 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:31:00Z'
+  sha256: e0bd98aa5e8b1c30b25ebf5cb5b4560602d614c82d142462ff8ae5430594e319
+- source_id: r428-arxiv-abs
+  title: Distributed Stochastic Gradient Tracking Methods (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1805.11454
+  persistent_id: https://arxiv.org/abs/1805.11454
+  version: arXiv abstract page (14924 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:31:00Z'
+  sha256: 4d61bf09bd7efd31c145f4cf59f2826333ee7dc17c84b71298e1f503ff7eeb4e
+- source_id: r428-metadata-cr
+  title: Distributed Stochastic Gradient Tracking Methods (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1007/s10107-020-01487-0
+  persistent_id: https://doi.org/10.1007/s10107-020-01487-0
+  version: Crossref API work record (314 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:31:00Z'
+  sha256: 7b9492473d768a621c00ec00dde3c1eb82567cc2e45ec33f7a95d8c3c2337458
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: DSGT and GSGT are decentralized stochastic gradient tracking methods that eliminate client data heterogeneity bias without a central server.
+limitations:
+- Doubles per-round communication payload compared to un-tracked D-PSGD because both iterates and gradient trackers are mixed across neighbors.
+- In GSGT, the secondary node j_k in each wake-up pair must also evaluate a fresh local stochastic gradient at its updated iterate to preserve exact sum conservation.
+curation:
+  created_at: '2026-10-19T08:31:00Z'
+  updated_at: '2026-10-19T08:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,101 @@
+id: AIMech:PolytroponModularSkillAllocation
+name: Polytropon (Latent Task-Skill Allocation for Modular Multitask Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A modular multitask learning algorithm that assumes each task T_i is associated with a variable-size subset of latent discrete skills from a shared inventory S (|S| << |T|) and jointly learns, in an end-to-end fashion with a two-speed learning rate or Indian Buffet Process prior, a layer-specific Gumbel-sigmoid relaxed binary task-skill allocation matrix Z_hat in [0, 1]^{|T| x |S|} and a matrix Phi of skill-specific parameter-efficient adaptations (such as Low-Rank Adapters or Lottery-Ticket Sparse Fine-Tuning) superimposed onto a shared base parameterization theta_0 via row-normalized averaging theta_i = theta_0 + sum_{S_j} Phi_{j,*} (z_hat_{i,j} / sum_{S_k} z_hat_{i,k}).
+identity_notes: Introduced by Edoardo M. Ponti, Alessandro Sordoni, Yoshua Bengio, and Siva Reddy (2022/ICLR 2023, arXiv:2202.13914; official implementation github.com/McGill-NLP/polytropon, referred to as SKILLED / Polytropon). Distinct from MoE and MoLE (AIMech Round 686), which route tokens via competitive softmax/top-k gating conditioned on the input rather than learning a non-competitive variable-subset binary soft partition Z over skills conditioned on the task, and distinct from HyperFormer (AIMech Round 703), which entangles task knowledge inside a continuous hypernetwork rather than recombining discrete modular skill parameterizations.
+aliases:
+- Polytropon
+- Skilled Latent-Skill Multitask Model
+- Gumbel-Sigmoid Task-Skill Allocation with Modular LoRA Skills
+definition_evidence:
+- source_id: r707-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r707-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r707-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: polytropon-gumbel-sigmoid-soft-partition-and-normalized-superposition-mechanism
+  kind: mechanism
+  statement: To allow each task T_i to activate a variable-size hierarchy of skills without inter-skill softmax competition, Polytropon relaxes each binary task-skill cell z_{i,j} via a differentiable Gumbel-sigmoid sample z_hat_{i,j} = sigma((1/tau) log((sigma(z_{i,j}) u) / ((1 - sigma(z_{i,j}))(1 - u)))) with u ~ Uniform(0, 1) (Eq. 2), normalizes each task row prior to composition to stabilize parameter norms as theta_i = theta_0 + sum_{S_j} Phi_{j,*} (z_hat_{i,j} / sum_{S_k} z_hat_{i,k}) (Eq. 3), and implements skill-specific Transformer linear projections via rank-r LoRA tensors A in R^{|S| x o x r}, B in R^{|S| x r x i} as x' = [W_0 + (z^T A B)] x + b_0 (Eq. 6).
+  evidence:
+  - source_id: r707-primary-pdf
+    locator: Section 2.1 Soft Partitions, Eq. 2, p. 3; Section 2.2 Skill-specific Parameters, Eq. 3, pp. 3-4; Section 2.4 Low-rank Approximations, Eq. 6, p. 4
+    relation: supports
+- claim_id: polytropon-ibp-prior-and-two-speed-learning-rate-scope
+  kind: scope
+  statement: To prevent the task-skill allocation matrix Z_hat from collapsing into a high-entropy non-sparse state where all skills remain general-purpose, Polytropon regularizes Z either with an Indian Buffet Process (IBP) log-prior log p(Z | alpha) (Eq. 4) or a two-speed learning rate that updates Z at a higher learning rate ([10^{-1}, 10^{-2}]) than skill parameters Phi ({10^{-2}, 10^{-3}, 10^{-4}}), adding 4 l (2 h r + |T|) |S| parameters for LoRA across l layers (~0.78% of BART-Large parameters per skill at r = 16, l = 24, h = 1024).
+  evidence:
+  - source_id: r707-primary-pdf
+    locator: Section 2.3 Inductive Biases, Eq. 4, p. 4; Section 4.2 Experimental Setup, pp. 7-8; Section 4.3 Eqs. 8-10 & Figure 5, pp. 8-9
+    relation: supports
+- claim_id: polytropon-babyai-rl-and-crossfit-few-shot-nlp-application
+  kind: application
+  statement: On 8 levels of the BabyAI grounded instruction-following RL benchmark, Polytropon (SKILLED) with 90%-sparse LT-SFT skills reaches >0.99 success rate in 2,218,226 episodes (2,143,491 with IBP prior), outperforming Shared (3,544,294), Expert ground-truth skills (4,608,019), and Private (>6,000,000); on few-shot adaptation across 20 held-out CrossFit NLP tasks with BART-Large, SKILLED achieves 56.9 average score, surpassing Shared (53.9), HyperFormer (52.7), Private (49.4), and Expert (43.0).
+  evidence:
+  - source_id: r707-primary-pdf
+    locator: Section 3.3 Results, Figure 3, p. 6; Section 4.3 Results, Table 1, pp. 7-8; Appendix A-B Tables 3-4, p. 15
+    relation: supports
+- claim_id: polytropon-lt-sft-early-training-memory-and-hyperparameter-limitation
+  kind: limitation
+  statement: When parameterized with architecture-agnostic Lottery-Ticket Sparse Fine-Tuning (LT-SFT, Eq. 5), Polytropon suffers from high space complexity during the initial dense magnitude-selection episodes before top-k pruning, and requires validation tuning of the discrete skill inventory size |S| and the two-speed learning rate ratio between Z and Phi.
+  evidence:
+  - source_id: r707-primary-pdf
+    locator: Section 2.4 Sparse Approximations, Eq. 5, p. 4; Section 4.2 Experimental Setup, p. 7
+    relation: supports
+evidence_sources:
+- source_id: r707-primary-pdf
+  title: Combining Modular Skills in Multitask Learning
+  authors: &id001
+  - Edoardo M. Ponti
+  - Alessandro Sordoni
+  - Yoshua Bengio
+  - Siva Reddy
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2202.13914.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Combining+Modular+Skills+in+Multitask+Learning&format=xml
+  version: arXiv / ICLR 2023 (2022) (800125 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:10:00Z'
+  sha256: e7a018e118e261da3401e44fb161df6119bec2946fc2874e0c9075afc96eb603
+- source_id: r707-arxiv-abs
+  title: Combining Modular Skills in Multitask Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2202.13914
+  persistent_id: https://arxiv.org/abs/2202.13914
+  version: arXiv abstract page (6749 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:10:00Z'
+  sha256: d51b97436eb6ce5b526ff0ebea6f66b1077440b8cbc7e14b08e259fb90ffe53a
+- source_id: r707-metadata-cr
+  title: Combining Modular Skills in Multitask Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Combining+Modular+Skills+in+Multitask+Learning&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Combining+Modular+Skills+in+Multitask+Learning&format=xml
+  version: Crossref API work record (711 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:10:00Z'
+  sha256: d77f508f6474d18aa80506386bf4096dffafb03b55bfe7d214681e563aa3cc2e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Polytropon instantiates task-specific neural network layers by superimposing a row-normalized Gumbel-sigmoid subset of modular LoRA or sparse skill adaptations onto a shared base network.
+limitations:
+- Sparse LT-SFT skill parameterizations incur high memory overhead during the early dense training phase required to identify top-k magnitude changes.
+- Requires selecting the number of latent skills |S| and tuning separate learning rates for the allocation matrix Z and skill parameters Phi.
+curation:
+  created_at: '2026-10-19T13:10:00Z'
+  updated_at: '2026-10-19T13:10:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

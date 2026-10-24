@@ -1,0 +1,94 @@
+id: AIMech:ParallelGreedySubmodularMaximizationInLogarithmicAdaptivityAndNearlyLinearTime
+name: Parallel Greedy Submodular Maximization in Logarithmic Adaptivity and Nearly-Linear Time via Poly-Logarithmic Batch Filtering
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Parallel Greedy Submodular Maximization in Logarithmic Adaptivity and Nearly-Linear Time is a randomized parallel value-oracle algorithm introduced by Ene and Nguyen (2018, 2019) for maximizing a monotone non-negative submodular function f : 2^V -> R_{>=0} subject to a cardinality constraint |S| <= k. Operating over O(1/epsilon) outer phases (each increasing f(S) by at least epsilon*M/100) and O(ln n / epsilon) inner iterations per phase with block size ell = epsilon^2 * k / (100 ln n), the algorithm samples only m = O((ln n)^2 / epsilon^4) random subsets R_1, ..., R_m ~ U(U_t, ell): if max_j f(R_j | S) >= (1 - 10*epsilon)*(ell/k)*(M - Old), it adds R_max to S; otherwise it draws Theta(ln n / epsilon) batches of m random subsets, selects a batch i satisfying avg_i <= (1 - 8*epsilon)*(ell/k)*(M - Old) and sum_{e in U_t} v_{i,e} <= |U_t|*(1 - 8*epsilon)*(M - Old)/k, and filters out U_t^- = {e in U_t : v_{i,e} < (1 - 7*epsilon)*(M - Old)/k}, achieving a (1 - 1/e - O(epsilon)) approximation in O(ln n / epsilon^2) adaptive rounds and O(n poly(log n, 1/epsilon)) total oracle queries.'
+identity_notes: Distinct from AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization (Round 360), which requires a polynomial number O(n * (k + log n)^2) of random set samples per adaptive round to concentrate every individual element's marginal gain to within O(OPT/k); Ene and Nguyen (2019) instead sample only poly-logarithmically many random sets m = O((ln n)^2 / epsilon^4) and bound the aggregate loss of OPT deterministically against the empirical batch average avg_i (Claim 9), reducing total oracle queries and running time to nearly-linear O(n poly(log n, 1/epsilon)). Also distinct from AIMech:RandGreeDiRandomizedDistributedSubmodularMaximization (Round 361), which is a two-round MapReduce partitioning algorithm with Omega(k) sequential adaptivity per machine.
+aliases:
+- Ene-Nguyen Nearly-Linear-Time Low-Adaptivity Submodular Maximization
+- Poly-Logarithmic Batch Filtering for Adaptive Submodular Maximization
+- Nearly-Optimal Adaptivity and Query Complexity Submodular Greedy Algorithm
+definition_evidence:
+- source_id: r362-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r362-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r362-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r362-claim-expected-block-density-and-polylog-batch-filtering
+  kind: mechanism
+  statement: For any monotone submodular function f, current solution S, unfiltered pool U_t, and block size ell <= |U_t|, submodularity and random-permutation coupling imply E_{R~U(U_t, ell)}[f(e | S union (R\{e})) | e in R] >= E_{R~U(U_t, ell)}[f(e | S union (R\{e})) | e notin R], which establishes the deterministic expectation inequality E_{R~U(U_t, ell)}[f(R | S)] >= (ell / |U_t|) * sum_{e in U_t} E[f(e | S union R)] (Claim 6); consequently, if E[f(R | S)] >= (1 - 9*epsilon)*(ell/k)*(M - Old), sampling m = Theta((ln n)^2 / epsilon^4) sets finds R_max with f(R_max | S) >= (1 - 10*epsilon)*(ell/k)*(M - Old) with probability at least 1 - 1/n^2 (Lemma 4), whereas if E[f(R | S)] <= (1 - 9*epsilon)*(ell/k)*(M - Old), then with probability at least 1 - 1/n^3 at least one of Theta(ln n / epsilon) batches satisfies the empirical density conditions and filters out at least an epsilon-fraction |U_t^-| >= epsilon*|U_t| of elements (Lemma 5).
+  evidence:
+  - source_id: r362-primary-pdf
+    locator: Section 2, Algorithm 1, p. 5; Section 2.1, Lemma 4, Lemma 5, and Claim 6, pp. 6-9
+    relation: supports
+- claim_id: r362-claim-deterministic-aggregate-opt-survival-invariant
+  kind: mechanism
+  statement: Without requiring per-element marginal gain estimates v_{i,e} to concentrate individually, conditioning on successful batch selection guarantees by deterministic submodularity and monotonicity that in every filtering step t, f(OPT intersect U_{t+1} | S) >= f(OPT intersect U_t | S) - (ell/k)*(M - Old) - |OPT intersect U_t^-|*(1 - 7*epsilon)*(M - Old)/k, maintaining the phase invariant f((OPT intersect U_t) union S) >= M - ((t - 1)*ell/k)*(M - Old) - (|OPT \ (U_t union S)| / k)*(1 - 7*epsilon)*(M - Old) (Claim 9); combined with at most 6*ln(n)/epsilon gain iterations per phase (Claim 8), this invariant forces f((OPT intersect U_t) union S) - f(S) > 0 and bounds the number of filtering iterations per phase by at most 2*ln(n)/epsilon (Claim 10, Lemma 7).
+  evidence:
+  - source_id: r362-primary-pdf
+    locator: Section 2.1, Lemma 7, Claim 8, Claim 9, and Claim 10, pp. 9-11
+    relation: supports
+- claim_id: r362-claim-nearly-optimal-adaptivity-and-nearly-linear-query-complexity
+  kind: mechanism
+  statement: Across O(1/epsilon) outer phases and 2*epsilon^{-1}*ln(n) parallel geometric guesses for M in [f(OPT)/(1 + epsilon), f(OPT)], every gain step satisfies M - f(S union R_max) <= (M - f(S))*exp(-(1 - 11*epsilon)*|R_max|/k), inductively ensuring M - f(S) <= M*exp(-(1 - 11*epsilon)*|S|/k) and feasibility |S| <= k (Lemma 12), achieving a (1 - 1/e - epsilon) approximation with high probability in O(ln(n)/epsilon^2) adaptive rounds and O(n*poly(log n, 1/epsilon)) total function evaluations and additional running time (Theorem 2, Lemma 11).
+  evidence:
+  - source_id: r362-primary-pdf
+    locator: Section 1, Theorem 2, p. 2; Section 2, p. 4; Section 2.1, Lemmas 11 and 12, pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r362-primary-pdf
+  title: Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time
+  authors: &id001
+  - Alina Ene
+  - Huy L. Nguyen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1804.05379.pdf
+  persistent_id: https://api.crossref.org/works/10.1137/1.9781611975482.18
+  version: Proceedings of the 30th Annual ACM-SIAM Symposium on Discrete Algorithms (SODA 2019), pp. 274-282 (arXiv:1804.05379) (2019) (188833 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:25:00Z'
+  sha256: f5bd35bad5456f26a4aa40468100124fdabff4f51a4ebe1cce5809402ce9453d
+- source_id: r362-arxiv-abs
+  title: Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1804.05379
+  persistent_id: https://arxiv.org/abs/1804.05379
+  version: arXiv abstract page (6408 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:25:00Z'
+  sha256: 0be4afd6f9d343c77db9efbf6cf45c00c24dfcc551cdc8b67e0e63827ed39479
+- source_id: r362-metadata-cr
+  title: Submodular Maximization with Nearly-optimal Approximation and Adaptivity in Nearly-linear Time (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1137/1.9781611975482.18
+  persistent_id: https://api.crossref.org/works/10.1137/1.9781611975482.18
+  version: Crossref API work record (1038 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:25:00Z'
+  sha256: c6b5174e31cd949ad0960598b5d41b3b4d201fed10b719eb8bc967b0ea37df2f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Enables nearly-linear-time, logarithmic-adaptivity parallel exemplar clustering and experimental design.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Selects cardinality-constrained representative subsets in O(ln n / epsilon^2) adaptive rounds with nearly-linear query complexity.
+limitations:
+- Restricted to monotone non-negative submodular functions under a cardinality constraint |S| <= k, and the poly(log n, 1/epsilon) query overhead per element involves O((ln n)^3 / epsilon^5) samples per filtering step across 2*epsilon^{-1}*ln(n) parallel guesses for M (Section 2, pp. 4-5).
+curation:
+  created_at: '2026-10-19T07:25:00Z'
+  updated_at: '2026-10-19T07:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

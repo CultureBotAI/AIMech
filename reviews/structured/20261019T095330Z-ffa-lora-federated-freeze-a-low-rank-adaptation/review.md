@@ -1,0 +1,358 @@
+# Scientific author self-review of FFA-LoRA: Federated Freeze-A Low-Rank Adaptation
+
+- Review: 20261019T095330Z-ffa-lora-federated-freeze-a-low-rank-adaptation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T09:53:00Z
+- Finished UTC: 2026-10-19T09:53:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain FFA-LoRA: Federated Freeze-A Low-Rank Adaptation as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base ddd894d3b6643135e51bd400e68f6c4f905413c5.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FfaLoraFederatedFreezeALowRankAdaptation | data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml | maintained | FFA-LoRA: Federated Freeze-A Low-Rank Adaptation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:FfaLoraFederatedFreezeALowRankAdaptation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:FfaLoraFederatedFreezeALowRankAdaptation | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:FfaLoraFederatedFreezeALowRankAdaptation | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:FfaLoraFederatedFreezeALowRankAdaptation | Validated history sidecar files. |
+| python3 ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py | passed | True | AIMech:FfaLoraFederatedFreezeALowRankAdaptation | FFA-LoRA boundary verification passed: {'lora_agg_err': 1.651494, 'ffa_agg_err': 1.6184142622847344e-16, 'thm1_convergence_errs': [0.171516, 0.006861, 6.9e-05, 1e-06]} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:FfaLoraFederatedFreezeALowRankAdaptation.
+
+FFA-LoRA: Federated Freeze-A Low-Rank Adaptation is a distinct concept.
+
+Distinct from vanilla federated LoRA / FedIT (Zhang et al., 2023; Kuang et al., 2023), which jointly trains both low-rank matrices A and B on each client and averages them separately on the server—incurring the bilinear aggregation error (1/2)(B_1 + B_2)(1/2)(A_1 + A_2) != (1/2)(B_1 A_1 + B_2 A_2) (Eq. 3) and quadratic DP-SGD noise amplification xi_B xi_A. Distinct from FLoRA (AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation; Wang et al., NeurIPS 2024), which trains both A_k and B_k on clients and eliminates cross-term aggregation noise by stacking A_k vertically and B_k horizontally on the server rather than freezing A_0 globally across clients. Also encompasses the authors' ultra-low-budget QVP Adapter extension W = W_0 + Q_0 V P_0 with frozen Q_0 in R^{d x r}, P_0 in R^{r x k} and trainable zero-initialized V in R^{r x r} (Appendix A.4, p. 16).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:FfaLoraFederatedFreezeALowRankAdaptation.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:FfaLoraFederatedFreezeALowRankAdaptation.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py passed with exit code 0: FFA-LoRA boundary verification passed: {'lora_agg_err': 1.651494, 'ffa_agg_err': 1.6184142622847344e-16, 'thm1_convergence_errs': [0.171516, 0.006861, 6.9e-05, 1e-06]}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:FfaLoraFederatedFreezeALowRankAdaptation.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T095300Z-ffa-lora-federated-freeze-a-low-rank-adaptation.json | supports | No normalized identity match for AIMech:FfaLoraFederatedFreezeALowRankAdaptation across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py | supports | All constructed boundary assertions in ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py passed with exit code 0: FFA-LoRA boundary verification passed: {'lora_agg_err': 1.651494, 'ffa_agg_err': 1.6184142622847344e-16, 'thm1_convergence_errs': [0.171516, 0.006861, 6.9e-05, 1e-06]} |
+| r510-primary-pdf | https://arxiv.org/pdf/2403.12313.pdf; Full-text PDF | supports | Full-text PDF (International Conference on Learning Representations (ICLR 2024) (2024)) read and verified. |
+| r510-arxiv-abs | https://arxiv.org/abs/2403.12313; arXiv abstract | supports | arXiv abstract read and verified. |
+| r510-metadata-cr | https://dblp.org/rec/conf/iclr/SunLLD24; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FfaLoraFederatedFreezeALowRankAdaptation in Round 510.
+- All pages of International Conference on Learning Representations (ICLR 2024) (2024) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T095330Z-ffa-lora-federated-freeze-a-low-rank-adaptation
+kind: record
+repository: CultureBotAI/AIMech
+title: 'Scientific author self-review of FFA-LoRA: Federated Freeze-A Low-Rank Adaptation'
+started_at: '2026-10-19T09:53:00Z'
+finished_at: '2026-10-19T09:53:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+    against existing AIMech and AIO records and verified all claims against International
+    Conference on Learning Representations (ICLR 2024) (2024) and pure-Python boundary
+    checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: 'Retain FFA-LoRA: Federated Freeze-A Low-Rank Adaptation as a distinct DRAFT
+  algorithm. All four claims are supported by full-text primary evidence and pure-Python
+  boundary verification.'
+source:
+  git_revision: ddd894d3b6643135e51bd400e68f6c4f905413c5
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml
+    sha256: f9965823fbe3e4bf98815c26fb68fc4bac2fe654d7faa0758d15857d529e8e10
+    role: target
+  - path: research/discovery/20261019T095300Z-ffa-lora-federated-freeze-a-low-rank-adaptation.json
+    sha256: aeaa3b2618f8769064a26314d22b2dbd9cacc7791c706426210db5b76b8e2333
+    role: context
+  - path: research/discovery/ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py
+    sha256: 50ca1213b8fcfc97b4d7c86cbd2479b459a0bce10cc9ac7688ba8d7bf7cc4d94
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  path: data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml
+  label: 'FFA-LoRA: Federated Freeze-A Low-Rank Adaptation'
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:FfaLoraFederatedFreezeALowRankAdaptation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py
+  command: python3 research/discovery/ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'FFA-LoRA boundary verification passed: {''lora_agg_err'': 1.651494, ''ffa_agg_err'':
+    1.6184142622847344e-16, ''thm1_convergence_errs'': [0.171516, 0.006861, 6.9e-05,
+    1e-06]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T095300Z-ffa-lora-federated-freeze-a-low-rank-adaptation.json
+  accessed_at: '2026-10-19T09:53:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T09:53:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py
+  accessed_at: '2026-10-19T09:53:00Z'
+  snapshot_sha256: 50ca1213b8fcfc97b4d7c86cbd2479b459a0bce10cc9ac7688ba8d7bf7cc4d94
+  support: supports
+  summary: 'All constructed boundary assertions in ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py
+    passed with exit code 0: FFA-LoRA boundary verification passed: {''lora_agg_err'':
+    1.651494, ''ffa_agg_err'': 1.6184142622847344e-16, ''thm1_convergence_errs'':
+    [0.171516, 0.006861, 6.9e-05, 1e-06]}'
+- evidence_id: r510-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2403.12313.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T09:53:00Z'
+  snapshot_sha256: 8c69b08e409ec1751d10268a4c73463aa0b5d93d159086d329da94b2e801ff1c
+  support: supports
+  summary: Full-text PDF (International Conference on Learning Representations (ICLR
+    2024) (2024)) read and verified.
+- evidence_id: r510-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2403.12313
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T09:53:00Z'
+  snapshot_sha256: 643e81ec144a982f0bca00dee357423e1745eff4afe5d37eca257654813521e7
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r510-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/iclr/SunLLD24
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T09:53:00Z'
+  snapshot_sha256: b54d1636107616bd04d6d8c494612db62a66683a94e59f17238db9b164d9d4c5
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  evidence_ids:
+  - identity
+  - r510-primary-pdf
+  - r510-arxiv-abs
+  - r510-metadata-cr
+  summary: 'FFA-LoRA: Federated Freeze-A Low-Rank Adaptation is a distinct concept.'
+  details: Distinct from vanilla federated LoRA / FedIT (Zhang et al., 2023; Kuang
+    et al., 2023), which jointly trains both low-rank matrices A and B on each client
+    and averages them separately on the server—incurring the bilinear aggregation
+    error (1/2)(B_1 + B_2)(1/2)(A_1 + A_2) != (1/2)(B_1 A_1 + B_2 A_2) (Eq. 3) and
+    quadratic DP-SGD noise amplification xi_B xi_A. Distinct from FLoRA (AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation;
+    Wang et al., NeurIPS 2024), which trains both A_k and B_k on clients and eliminates
+    cross-term aggregation noise by stacking A_k vertically and B_k horizontally on
+    the server rather than freezing A_0 globally across clients. Also encompasses
+    the authors' ultra-low-budget QVP Adapter extension W = W_0 + Q_0 V P_0 with frozen
+    Q_0 in R^{d x r}, P_0 in R^{r x k} and trainable zero-initialized V in R^{r x
+    r} (Appendix A.4, p. 16).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  evidence_ids:
+  - mapping
+  - r510-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  evidence_ids:
+  - r510-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py
+    passed with exit code 0: FFA-LoRA boundary verification passed: {''lora_agg_err'':
+    1.651494, ''ffa_agg_err'': 1.6184142622847344e-16, ''thm1_convergence_errs'':
+    [0.171516, 0.006861, 6.9e-05, 1e-06]}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:FfaLoraFederatedFreezeALowRankAdaptation
+  evidence_ids:
+  - identity
+  - mapping
+  - r510-primary-pdf
+  - r510-arxiv-abs
+  - r510-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:FfaLoraFederatedFreezeALowRankAdaptation in Round 510.
+- All pages of International Conference on Learning Representations (ICLR 2024) (2024)
+  were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

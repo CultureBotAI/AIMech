@@ -1,0 +1,103 @@
+id: AIMech:FedProxProximalHeterogeneousFederatedOptimization
+name: FedProx Proximal Heterogeneous Federated Optimization with Variable Inexact Local Work
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated optimization framework (FedProx) for statistically and systemically heterogeneous networks in which each round t samples K devices (with probabilities p_k) and each selected device k computes a gamma_k^t-inexact local minimizer w_{k}^{t+1} of the proximal-regularized local surrogate h_k(w; w^t) = F_k(w) + (mu / 2) * ||w - w^t||^2 satisfying ||grad h_k(w_k^{t+1}; w^t)|| <= gamma_k^t * ||grad F_k(w^t)|| with gamma_k^t in [0, 1) determined by device-specific systems constraints, followed by server aggregation w^{t+1} = (1/K) sum_{k in S_t} w_k^{t+1}, guaranteeing O(1/epsilon) nonconvex stationarity convergence under B-local gradient dissimilarity without dropping straggler devices or requiring stateful client memory.
+identity_notes: Distinct from control-variate drift correction (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which requires persistent client state c_i and 2x communication rather than a stateless proximal surrogate), from uniform-epoch periodic local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, which corresponds to mu = 0 with fixed homogeneous local steps), and from centralized proximal stochastic gradient methods (AIMech:SpiderBoostAndProximalSpiderBoostWithMomentumForNonconvexOptimization). Narrower than AIO:FederatedLearning, which covers general federated learning without specifying proximal local surrogates or gamma_k^t-inexact partial-work aggregation.
+aliases:
+- FedProx
+- Federated Proximal Optimization
+- Proximal Federated Averaging with Inexact Local Solvers
+definition_evidence:
+- source_id: r385-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r385-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r385-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r385-gamma-inexact-proximal-surrogate-and-partial-work-aggregation
+  kind: mechanism
+  statement: By replacing the unconstrained local objective F_k(w) of FedAvg with the proximal surrogate h_k(w; w^t) = F_k(w) + (mu / 2) * ||w - w^t||^2 (whose gradient at w^t equals grad F_k(w^t)) and formalizing variable device- and round-dependent local computation via Definition 2's gamma_k^t-inexactness condition ||grad h_k(w_k^{t+1}; w^t)|| <= gamma_k^t * ||grad F_k(w^t)|| for gamma_k^t in [0, 1), Algorithm 2 aggregates partial updates from straggling devices while restricting local iterate deviation ||w_k^{t+1} - w^t|| <= ((1 + gamma_k^t) / bar_mu) * ||grad F_k(w^t)||.
+  evidence:
+  - source_id: r385-primary-pdf
+    locator: Section 3.1-3.2 Definitions 1-2, Algorithm 2, and Appendix A.1 Equations (6)-(7), pp. 3-5, 13
+    relation: supports
+- claim_id: r385-b-dissimilarity-nonconvex-expected-descent-guarantee
+  kind: mechanism
+  statement: Under Definition 3's B-local dissimilarity E_k[||grad F_k(w)||^2] <= B^2 * ||grad f(w)||^2 for L-smooth, L_minus-weakly convex local functions with bar_mu = mu - L_minus > 0, Theorem 4 and Corollary 9 prove that each round satisfies E_{S_t}[f(w^{t+1})] <= f(w^t) - rho * ||grad f(w^t)||^2 with rho = (1 - gamma * B) / mu - (L * B * (1 + gamma)) / (mu * bar_mu) - (L * (1 + gamma)^2 * B^2) / (2 * bar_mu^2 * K) > 0, achieving O(L * B^2 * Delta / epsilon) iteration complexity to an epsilon-stationary point (Theorem 6 and Corollary 7).
+  evidence:
+  - source_id: r385-primary-pdf
+    locator: Section 4 Definition 3, Assumption 1, Theorem 4, Remark 5, Theorem 6, and Corollaries 7-9, pp. 5-6
+    relation: supports
+- claim_id: r385-proximal-penalty-tuning-and-nonzero-bias-limitation
+  kind: limitation
+  statement: Setting mu too large slows convergence on IID data by excessively restricting local updates near w^t, and under non-vanishing gradient variance sigma^2 > 0 at the optimum (Theorem 11), dissimilarity B_epsilon <= sqrt(1 + sigma^2 / epsilon) grows as epsilon -> 0, requiring larger mu = O(L * sigma^2 / epsilon) and K = O(sigma^2 / epsilon).
+  evidence:
+  - source_id: r385-primary-pdf
+    locator: Section 5.3.1-5.3.2 (Choosing mu) and Appendix A.2 Corollary 10 & Theorem 11, pp. 8-9, 14
+    relation: supports
+- claim_id: r385-heterogeneous-federated-benchmarks-application
+  kind: application
+  statement: Applied to federated multinomial logistic regression on MNIST and FEMNIST and nonconvex LSTM language/sentiment modeling on Shakespeare and Sent140 under 50% and 90% device straggler rates, improving testing accuracy by 22% on average in highly heterogeneous settings.
+  evidence:
+  - source_id: r385-primary-pdf
+    locator: Section 5 Experiments, Table 1 and Figures 1-3, pp. 6-9
+    relation: supports
+evidence_sources:
+- source_id: r385-primary-pdf
+  title: Federated Optimization in Heterogeneous Networks
+  authors: &id001
+  - Tian Li
+  - Anit Kumar Sahu
+  - Manzil Zaheer
+  - Maziar Sanjabi
+  - Ameet Talwalkar
+  - Virginia Smith
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1812.06127.pdf
+  persistent_id: https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html
+  version: Proceedings of Machine Learning and Systems (MLSys 2020), Vol. 2, pp. 429-450 (2020) (95234 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:48:00Z'
+  sha256: d442dd8dd5477c31d2d8f03b1540f9c1f96d0fe8156bb3cedc8ccce56387e05b
+- source_id: r385-arxiv-abs
+  title: Federated Optimization in Heterogeneous Networks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1812.06127
+  persistent_id: https://arxiv.org/abs/1812.06127
+  version: arXiv abstract page (7598 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:48:00Z'
+  sha256: ab516e6c40bd71ee3ba9c521d39e10edb0389f3f4f959864a864de1b64538ca1
+- source_id: r385-metadata-cr
+  title: Federated Optimization in Heterogeneous Networks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html
+  persistent_id: https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html
+  version: Crossref API work record (352 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:48:00Z'
+  sha256: 4ecb4fe7e917b7a0774b2351a6f99162f78b991e08fd59a6ae2f05a77a33da24
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedProx is a specific federated optimization algorithm within AIO:FederatedLearning that introduces a proximal penalty (mu/2)||w - w^t||^2 and gamma_k^t-inexact local solvers.
+limitations:
+- Does not eliminate asymptotic client drift with a fixed positive local learning rate unless mu grows or local step sizes decay, because the proximal center w^t has non-zero local gradients grad F_k(w*) != 0 at the global optimum.
+- Requires hyperparameter selection or adaptive heuristics for the proximal penalty parameter mu.
+curation:
+  created_at: '2026-10-19T07:48:00Z'
+  updated_at: '2026-10-19T07:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

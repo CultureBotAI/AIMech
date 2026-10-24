@@ -1,0 +1,105 @@
+id: AIMech:QhmAndQhAdamQuasiHyperbolicMomentumAndAdaptiveOptimization
+name: Quasi-Hyperbolic Momentum (QHM) and Quasi-Hyperbolic Adam (QHAdam) Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Quasi-Hyperbolic Momentum (QHM) and Quasi-Hyperbolic Adam (QHAdam) are first-order stochastic optimization algorithms (Ma & Yarats, ICLR 2019) that replace standard exponentially weighted moving average (EWMA) moment estimators with time-inconsistent quasi-hyperbolic weighted moving averages (QHWMA) parameterized by immediate discount factors nu in R (or nu_1, nu_2 in R) and exponential discount factors beta in [0, 1) (or beta_1, beta_2 in [0, 1)). QHM updates a normalized momentum buffer g_{t+1} = beta g_t + (1 - beta) nabla L_hat_t(theta_t) and steps via a nu-weighted average of the momentum step and plain SGD: theta_{t+1} = theta_t - alpha [(1 - nu) nabla L_hat_t(theta_t) + nu g_{t+1}]. QHAdam analogously maintains bias-corrected first and second moment buffers g''_{t+1} = (1 - beta_1^{t+1})^{-1} g_{t+1} and s''_{t+1} = (1 - beta_2^{t+1})^{-1} s_{t+1} and updates parameters via theta_{t+1} = theta_t - alpha [((1 - nu_1) nabla L_hat_t(theta_t) + nu_1 g''_{t+1}) / (sqrt((1 - nu_2)(nabla L_hat_t(theta_t))^2 + nu_2 s''_{t+1}) + epsilon)].'
+identity_notes: Distinct from standard Polyak momentum and Nesterov's Accelerated Gradient (NAG), which tightly couple the momentum buffer's exponential discount factor beta to the current gradient's weight (recovered as special cases of QHM at nu = 1 and nu = beta, respectively); distinct from Aggregated Momentum (AggMo, Lucas et al., 2018), which maintains K >= 2 separate momentum buffers rather than a single momentum buffer interpolated with the current gradient; and distinct from vanilla Adam (Kingma & Ba, 2015) and NAdam (Dozat, 2016), which correspond to QHAdam at (nu_1, nu_2) = (1, 1) and (modulo bias correction) (nu_1, nu_2) = (beta_1, 1) without second-moment immediate discounting nu_2 < 1.
+aliases:
+- QHM
+- QHAdam
+- Quasi-Hyperbolic Momentum
+- Quasi-Hyperbolic Adam
+- QHWMA Stochastic Gradient Optimization
+definition_evidence:
+- source_id: r609-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r609-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r609-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: qhwma-limit-covariance-and-time-inconsistent-discounting
+  kind: mechanism
+  statement: Appendix A.5-A.8 and G (Eqs. 5, 7, Fact A.2, p. 16-18, 31) prove that QHM's update direction is a quasi-hyperbolic weighted moving average QHWMA_{nu, beta}(x_{0...t}) = (1 - nu * beta) x_t + nu(1 - beta) sum_{i=1}^t beta^i x_{t-i} with time-inconsistent discount ratios delta(i + tau)/delta(i) = (nu(1 - beta)/(1 - nu * beta)) beta^tau for i = 0 versus beta^tau for i > 0, and that for independent random vectors x_{0...t} with covariance Sigma, lim_{t->infty} Cov[QHWMA_{nu, beta}(x_{0...t})] = rho * Sigma where rho = (1 - nu * beta)^2 + [nu * beta(1 - beta)]^2 / (1 - beta^2), which recovers the EWMA limit covariance (1 - beta)/(1 + beta) at nu = 1 (Fact A.1) and satisfies the tight lower bound rho >= (1 - nu)^2 for any nu < 1.
+  evidence:
+  - source_id: r609-primary-pdf
+    locator: Appendix A.3-A.8, Facts A.1-A.2 & Eqs. 5-7, p. 15-18; Appendix G, p. 31
+    relation: supports
+- claim_id: linear-operator-unification-of-two-state-optimizers
+  kind: mechanism
+  statement: Section 4 (Table 1, p. 3-5) and Appendix C-D (Eqs. 10-11, p. 20-26) prove via coordinate-wise linear operator transition matrices that QHM (with 1 auxiliary buffer and 3 scaled vector additions) unifies plain SGD (nu = 0), Polyak momentum (nu = 1), and NAG (nu = beta); is bijective with Synthesized Nesterov Variants (SNV, Lessard et al. 2016) via gamma = alpha(1 - beta), beta_1 = beta, beta_2 = (1 - nu)beta/(1 - beta) (thereby recovering Robust Momentum and Triple Momentum with global linear convergence rate 1 - 1/sqrt(kappa) on strongly convex smooth functions); recovers PID control optimizers (Recht 2018; An et al. 2018) with k_P = -alpha * nu * beta/(1 - beta), k_I = alpha, k_D = alpha * nu * beta^2/(1 - beta)^2; and recovers AccSGD (Kidambi et al. 2018) via alpha = delta * epsilon(1 + xi)/(1 + epsilon), nu = (epsilon * xi - 1)/(epsilon(1 + xi)), beta = (kappa - epsilon^2 xi)/(kappa + epsilon * xi) while proving that AccSGD cannot recover NAG because nu = beta requires xi = (1 - epsilon + sqrt(4 kappa + (1 - epsilon)^2))/(2 epsilon) > sqrt(kappa).
+  evidence:
+  - source_id: r609-primary-pdf
+    locator: Section 4.1-4.5, Table 1, p. 3-5; Appendix C.1-C.5 & D, Eqs. 10-11, p. 20-26
+    relation: supports
+- claim_id: fact-f1-tight-per-step-update-bound-for-qhadam-and-adam
+  kind: mechanism
+  statement: Fact F.1 (Appendix F, Eqs. 12-19, p. 28-30) proves that for 0 < beta_1 < sqrt(beta_2) < 1 (with epsilon = 0 and without bias correction), QHAdam's per-coordinate update magnitude is tightly bounded above by ||g_tilde_{t+1} / sqrt(s_tilde_{t+1})||_infty <= sqrt((1 - nu_1 beta_1)^2 / (1 - nu_2 beta_2) + [nu_1 beta_1(1 - beta_1)]^2 [1 - (beta_1^2 / beta_2)^t] / (nu_2(1 - beta_2)(beta_2 - beta_1^2))), attained by the worst-case gradient sequence x_t = (1 - nu_1 beta_1)/(1 - nu_2 beta_2) and x_{t-i} = (nu_1(1 - beta_1)beta_1^i)/(nu_2(1 - beta_2)beta_2^i) (Eq. 17); in the limit t -> infty for vanilla Adam (nu_1 = nu_2 = 1), this yields (1 - beta_1)sqrt(beta_2 / ((1 - beta_2)(beta_2 - beta_1^2))) approx 7.27 alpha at beta_1 = 0.9, beta_2 = 0.999, disproving Kingma & Ba (2015)'s claimed bound alpha * max{1, (1 - beta_1)/sqrt(1 - beta_2)} approx 3.16 alpha and showing that setting nu_2 < 1 in QHAdam tightens the maximum per-step update to prevent gradient-spike explosions.
+  evidence:
+  - source_id: r609-primary-pdf
+    locator: Section 5, p. 5-6; Appendix F.1-F.3, Fact F.1 & Eqs. 12-19, Figure 3, p. 28-30
+    relation: supports
+- claim_id: empirical-stability-and-performance-across-vision-nlp-rl-and-nmt
+  kind: application
+  statement: 'Across parameter sweeps and large-scale case studies (Section 6, Tables 2-3 & Figures 1-2, p. 6-8; Appendix H, Table 4, p. 32-33), QHM with default nu = 0.7, beta = 0.999 outperforms optimal NAG on EMNIST, CIFAR-10 (PreActResNet18), and ImageNet (ResNet50/ResNet152: 0.2128 vs. 0.2137 top-1 error), improves WikiText-103 FConvLM validation perplexity from 34.92 to 34.45 (at nu = 0.98, beta = 0.998), and outperforms AggMo-Best on EMNIST autoencoders (test MSE 2.0851 vs. 2.2827), while QHAdam improves TD3 MuJoCo continuous control returns and eliminates 4/10 seed explosions on WMT16 EN-DE Transformer translation to reach 29.45 BLEU (vs. 29.17 for Adam).'
+  evidence:
+  - source_id: r609-primary-pdf
+    locator: Section 6.1-6.2, Tables 2-3 & Figures 1-2, p. 6-8; Appendix H, Table 4, p. 32-33
+    relation: supports
+  - source_id: r609-arxiv-abs
+    locator: Abstract
+    relation: supports
+evidence_sources:
+- source_id: r609-primary-pdf
+  title: Quasi-hyperbolic momentum and Adam for deep learning
+  authors: &id001
+  - Jerry Ma
+  - Denis Yarats
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1810.06801.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/MaY19
+  version: 7th International Conference on Learning Representations (ICLR 2019) (2019) (4208370 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:32:00Z'
+  sha256: 2b64e7a84ba35be5883027c28cba14c1052ec6f2192451a8b255a0cefe769fd7
+- source_id: r609-arxiv-abs
+  title: Quasi-hyperbolic momentum and Adam for deep learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.06801
+  persistent_id: https://arxiv.org/abs/1810.06801
+  version: arXiv abstract page (6563 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:32:00Z'
+  sha256: d9165936177bd920442d08aab4d12782602575bd3589bd23686c50e99fd8b114
+- source_id: r609-metadata-cr
+  title: Quasi-hyperbolic momentum and Adam for deep learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/MaY19
+  persistent_id: https://dblp.org/rec/conf/iclr/MaY19
+  version: Crossref API work record (1560 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:32:00Z'
+  sha256: b89b16e90780fe41d1fd170fe5559fdc820289dc4be4c239ab3041d70a6c712d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: QHM and QHAdam are general-purpose optimizers for deep neural networks across convolutional image classification, gated convolutional language modeling, Transformer neural machine translation, and actor-critic reinforcement learning.
+limitations:
+- Because QHM normalizes (dampens) its momentum buffer by (1 - beta), converting from unnormalized momentum or NAG with learning rate alpha_NAG and discount factor beta requires rescaling the learning rate by (1 - beta)^{-1} (e.g., 10x larger when replacing beta = 0.9) (Section 2, Section 7.1, p. 2, 9).
+- For any immediate discount factor nu < 1, the asymptotic covariance scaling factor rho of the QHWMA gradient estimator is lower-bounded by (1 - nu)^2 regardless of how close beta is set to 1 (Appendix A.7, p. 17).
+- Formal nonconvex or general stochastic convergence rate proofs for QHAdam are not established in the paper and are left as future work (Section 5, Section 7.2, p. 6, 9).
+curation:
+  created_at: '2026-10-19T11:32:00Z'
+  updated_at: '2026-10-19T11:32:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

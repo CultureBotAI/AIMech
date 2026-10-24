@@ -1,0 +1,103 @@
+id: AIMech:EdgePopupUntrainedSubnetworkScoreOptimization
+name: Edge-Popup Untrained Subnetwork Score Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A subnetwork discovery algorithm for randomly weighted neural networks that keeps all weights w_{uv} (including first, last, and batch-normalization layers) frozen at their random initialization, associates each edge (u, v) with a positive real-valued popup score s_{uv}, deterministically selects the subgraph of edges in each layer l with the top-k% highest scores via hard indicator h(s_{uv}) in {0, 1} to compute layer inputs I_v = sum_u w_{uv} Z_u h(s_{uv}), and updates all scores (including currently inactive edges) via stochastic gradient descent with the straight-through estimator s_tilde_{uv} = s_{uv} - alpha (dL/dI_v) w_{uv} Z_u.
+identity_notes: Distinct from stochastic Bernoulli supermask sampling (Zhou et al., NeurIPS 2019), which samples binary masks stochastically on every forward pass and suffers high gradient variance at scale, from Discovering Neural Wirings (DNW, Wortsman et al., NeurIPS 2019), which selects top-k% edges by weight magnitude while modifying the weights themselves, from Piggyback (AIMech:PiggybackBinaryWeightMaskMultiTaskAdaptation), which thresholds masks on ImageNet-pretrained backbones with a trained linear classifier head, and from SupSup (AIMech:SupSupSupermasksInSuperposition), which extends Edge-Popup to multi-task superposition and one-shot entropy-based task inference.
+aliases:
+- Edge-Popup
+- edge-popup Algorithm
+- Edge-Popup Supermask Optimization
+- Popup Score Top-k Untrained Subnetwork Search
+definition_evidence:
+- source_id: r721-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r721-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r721-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r721-claim-swap-descent-theorem
+  kind: mechanism
+  statement: 'Under the Edge-Popup straight-through score update s_tilde_{uv} = s_{uv} - alpha (dL/dI_v) w_{uv} Z_u, whenever a non-empty set of inactive edges E_new whose weighted outputs w_{uv} Z_u align with the negative loss gradient -dL/dI_v increases in score enough to replace an equal number of edges E_old in a layer''s top-k% active set (s_{new} < s_{old} and s_tilde_{new} > s_tilde_{old}), the first-order Taylor expansion guarantees that the mini-batch loss strictly decreases: L(I_tilde) < L(I).'
+  evidence:
+  - source_id: r721-primary-pdf
+    locator: Section 3.2 & Appendix B.1, Theorem 1, Equations 7-21, pp. 4, 11
+    relation: supports
+- claim_id: r721-claim-combinatorial-search-space-and-scaling
+  kind: mechanism
+  statement: Because Edge-Popup selects kn weights out of n per layer, the combinatorial search space of (n choose kn) subnetworks is maximized when k is in [30%, 70%] (peaking near k = 50% while degenerating to empty networks as k -> 0% and random untrained networks as k -> 100%), and sampling weights from the Signed Kaiming Constant distribution U_k = {-sigma_k, +sigma_k} with sigma_k = sqrt(2 / n_{l-1}) (or Scaled Kaiming with factor sqrt(1/k)) preserves forward activation variance and substantially outperforms Xavier Normal or Kaiming Uniform initialization.
+  evidence:
+  - source_id: r721-primary-pdf
+    locator: Section 4.1-4.5, Figures 3, 6, 7, and 10, pp. 5-8
+    relation: supports
+- claim_id: r721-claim-imagenet-untrained-subnetwork-application
+  kind: application
+  statement: "Without ever modifying any weight or batch-normalization parameter, Edge-Popup discovers an untrained subnetwork (k = 30%, 20.6M parameters) inside a randomly weighted Wide ResNet-50 initialized with Signed Kaiming Constant that achieves 73.3% top-1 accuracy on ImageNet\u2014matching a dense 21.8M-parameter ResNet-34 trained with SGD (73.3%)\u2014and discovers a 13M-parameter untrained subnetwork inside ResNet-101 achieving 72.3% top-1 accuracy."
+  evidence:
+  - source_id: r721-primary-pdf
+    locator: Section 4.6 & Appendix A, Figure 8, Table 2, pp. 8, 11-12
+    relation: supports
+- claim_id: r721-claim-not-lottery-tickets-limitation
+  kind: limitation
+  statement: 'Subnetworks discovered by Edge-Popup at random initialization are not Lottery Ticket winning tickets: when their weights are subsequently trained from initialization with SGD on ImageNet, they do not reach the accuracy of the dense parent network and perform no better than training a randomly chosen 30% subnetwork (e.g., 73.6% vs. 73.5% on ResNet-50), and finding competitive untrained subnetworks requires the parent network to be substantially wider and deeper than a standard trained model.'
+  evidence:
+  - source_id: r721-primary-pdf
+    locator: Section 4.6 & Appendix C.2, Table 3, pp. 8, 12-13
+    relation: supports
+evidence_sources:
+- source_id: r721-primary-pdf
+  title: What's Hidden in a Randomly Weighted Neural Network?
+  authors: &id001
+  - Vivek Ramanujan
+  - Mitchell Wortsman
+  - Aniruddha Kembhavi
+  - Ali Farhadi
+  - Mohammad Rastegari
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1911.13299.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=What%27s+Hidden+in+a+Randomly+Weighted+Neural+Network+Ramanujan&format=xml
+  version: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR 2020), pp. 11893-11902 (2020) (1064645 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:24:00Z'
+  sha256: f5a836023e8cb3c50de655646883b12910952598d7872e33190518c5ecfdd8a0
+- source_id: r721-arxiv-abs
+  title: What's Hidden in a Randomly Weighted Neural Network? (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1911.13299
+  persistent_id: https://arxiv.org/abs/1911.13299
+  version: arXiv abstract page (6849 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:24:00Z'
+  sha256: 9e48095891c2981438c754b16f56a38f0c605970e18bb524a44121e271112d23
+- source_id: r721-metadata-cr
+  title: What's Hidden in a Randomly Weighted Neural Network? (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=What%27s+Hidden+in+a+Randomly+Weighted+Neural+Network+Ramanujan&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=What%27s+Hidden+in+a+Randomly+Weighted+Neural+Network+Ramanujan&format=xml
+  version: Crossref API work record (969 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:24:00Z'
+  sha256: ef11c49e47142d8c79e88e760fd0da5e1e20087053e07a5c7b89970bf6bb613b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Edge-Popup optimizes binary subnetwork connectivity scores within fixed randomly initialized deep neural networks without updating any weight values.
+limitations:
+- Requires an overparameterized parent network with substantially greater width or depth than a standard weight-trained network to match dense trained accuracy, and fails when k approaches 0% or 100% or when weights are initialized with Xavier Normal or Kaiming Uniform distributions.
+- Discovered subnetworks do not exhibit the Lottery Ticket property when their weights are subsequently trained with SGD, achieving roughly the same accuracy as training a random subnetwork of equal sparsity.
+curation:
+  created_at: '2026-10-19T13:24:00Z'
+  updated_at: '2026-10-19T13:24:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

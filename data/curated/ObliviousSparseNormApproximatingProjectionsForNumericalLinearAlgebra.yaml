@@ -1,0 +1,97 @@
+id: AIMech:ObliviousSparseNormApproximatingProjectionsForNumericalLinearAlgebra
+name: Oblivious Sparse Norm-Approximating Projections (OSNAP) for Fast Numerical Linear Algebra
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'An Oblivious Sparse Norm-Approximating Projection (OSNAP) is a distribution over sparse sketching matrices Pi in {0, +1/sqrt(s), -1/sqrt(s)}^{m x n}, introduced and analyzed by Nelson and Nguyen (2013), that forms an oblivious subspace embedding (OSE) preserving (1 - varepsilon)*||x||_2 <= ||Pi x||_2 <= (1 + varepsilon)*||x||_2 simultaneously for all vectors x in any fixed d-dimensional subspace W subset R^n with probability at least 1 - delta. Writing Pi_{i,j} = delta_{i,j} * sigma_{i,j} / sqrt(s) with random signs sigma_{i,j} in {-1, +1} and column-sparsity indicators delta_{i,j} in {0, 1}, an OSNAP satisfies two structural properties: (1) every column j in [n] has exactly sum_{i=1}^m delta_{i,j} = s non-zero entries with probability 1, and (2) the indicators delta_{i,j} are negatively correlated such that E[prod_{(i,j) in S} delta_{i,j}] <= (s/m)^{|S|} for all S subseteq [m] x [n].'
+identity_notes: "Distinct from AIMech:ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation (Round 364), which preserves rank-k left projection costs ||(I - P)A||_F^2 + c in O(k/varepsilon^2) dimensions (and uses OSNAP as an underlying sketching primitive), whereas OSNAP is a sparse oblivious subspace embedding preserving ||Pi U y||_2 in (1 +- varepsilon)*||y||_2 for all y in R^d simultaneously\u2014equivalently bounding all singular values of Pi U in [1 - varepsilon, 1 + varepsilon] via a Bai-Yin moment method on generalized dot-product multigraphs. Also distinct from AIMech:FrequentDirectionsDeterministicMatrixSketching (Round 363), which is a deterministic SVD-shrinkage sketch requiring O(n*d*ell) time rather than O(s*nnz(A)) sparse hashing time."
+aliases:
+- OSNAP
+- Oblivious Sparse Norm-Approximating Projection
+- Nelson-Nguyen Sparse Oblivious Subspace Embedding
+definition_evidence:
+- source_id: r365-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r365-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r365-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r365-claim-optimal-s1-countsketch-subspace-embedding-second-moment-bound
+  kind: mechanism
+  statement: 'For any orthonormal basis U in R^{n x d} of a d-dimensional subspace W subset R^n and an OSNAP Pi with s = 1 non-zero per column (the CountSketch / Thorup-Zhang sketch) specified by a pairwise-independent hash h : [n] -> [m] and 4-wise independent signs sigma in {-1, +1}^n, the Gram error matrix S - I = (Pi U)^* (Pi U) - I_d has entries (S - I)_{k,k''} = sum_{r=1}^m sum_{i != j} delta_{r,i} delta_{r,j} sigma_{r,i} sigma_{r,j} u_i^k u_j^{k''} (Eq. 3), diagonal variance E[(S - I)_{k,k}^2] <= 2/m, and off-diagonal variance E[(S - I)_{k,k''}^2] = (1/m)*sum_{i != j} ((u_i^k)^2 (u_j^{k''})^2 + u_i^k u_i^{k''} u_j^k u_j^{k''}) <= 1/m (since sum_{i != j} u_i^k u_i^{k''} u_j^k u_j^{k''} = -sum_i (u_i^k)^2 (u_i^{k''})^2 <= 0 by orthogonality <u^k, u^{k''}> = 0), yielding E||S - I||_F^2 <= (d^2 + d)/m and guaranteeing via Weyl''s inequality (Theorem 2) that all singular values of Pi U lie in [1 - varepsilon, 1 + varepsilon] with probability >= 1 - delta for m >= delta^{-1}*(d^2 + d)/(2*varepsilon - varepsilon^2)^2 = O(d^2 / (delta * varepsilon^2)) (Theorem 3).'
+  evidence:
+  - source_id: r365-primary-pdf
+    locator: Section 1.2, pp. 4-5; Section 2, Theorem 2, Eq. (2)-(4), and Theorem 3, pp. 6-8
+    relation: supports
+- claim_id: r365-claim-high-moment-multigraph-bai-yin-bound-for-subquadratic-osnap
+  kind: mechanism
+  statement: For general OSNAPs with s > 1, expanding the even trace moment E[tr((S - I)^ell)] (Eq. 6-7) over 3-layered multigraphs G in G with even bond multiplicities in MR(G) and recursively reducing each induced Eulerian dot-product multigraph G_hat via minimum 2-edge cuts into 4-edge-connected components possessing two edge-disjoint spanning trees T_1, T_2 (Theorem 6, Corollary 7, Lemmas 10-11, Eq. 15-19) bounds the graph product by y! * d^{y - w + 1} and E[tr((S - I)^ell)] <= e*d*ell^{4.5} * max_{2 <= b <= ell} (b^3 / s)^{ell - b} * ((b^4 / e)*sqrt(d/m))^b (Eq. 20); this proves that all singular values of Pi U lie in [1 - varepsilon, 1 + varepsilon] with probability >= 1 - delta either for m = Omega(d * log^8(d/delta) / varepsilon^2) and s = Theta(log^3(d/delta) / varepsilon) (Theorem 9) or for m = Omega(d^{1 + gamma} / varepsilon^2) and s = Theta(1/varepsilon) for any constant gamma > 0 using only Omega(log(d/delta))-wise independent hash functions (Theorem 12).
+  evidence:
+  - source_id: r365-primary-pdf
+    locator: Section 1.2, p. 5; Section 2, Lemmas 4-5, Theorem 6, Corollary 7, Fact 8, Theorem 9, Lemmas 10-11, Eq. (6)-(20), and Theorem 12, pp. 8-17
+    relation: supports
+- claim_id: r365-claim-input-sparsity-leverage-scores-regression-and-low-rank-approximation
+  kind: application
+  statement: Plugging OSNAPs into randomized numerical linear algebra pipelines yields (1 +- varepsilon) approximation of all n leverage scores of a rank-r matrix A in O_tilde(nnz(A)/varepsilon^2 + r^omega * varepsilon^{-2*omega}) time (Theorem 14), (1 + varepsilon)-approximate least-squares regression min_x ||Ax - b||_2 in O(nnz(A) + d^3 log(d/varepsilon)/varepsilon^2) time via Theorem 3 (Theorem 15) or O(nnz(A)*((log r)^{O(1)} + log(n/varepsilon)) + r^omega*(log r)^{O(1)} + r^2 log(1/varepsilon)) time via Theorem 9 (Theorem 16), and (1 + varepsilon) Frobenius-norm rank-k approximation in O(nnz(A) + O_tilde(n*k^2 + n*k^{omega-1}*varepsilon^{-1-omega} + k^omega*varepsilon^{-2-omega})) or O(nnz(A)*log^{O(1)} k + O_tilde(n*k^{omega-1}*varepsilon^{-1-omega} + k^omega*varepsilon^{-2-omega})) time (Theorems 17-18).
+  evidence:
+  - source_id: r365-primary-pdf
+    locator: Section 1, Figure 1, p. 4; Section 3.1-3.3, Theorems 14, 15, 16, 17, and 18, pp. 17-19
+    relation: supports
+evidence_sources:
+- source_id: r365-primary-pdf
+  title: 'OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings'
+  authors: &id001
+  - Jelani Nelson
+  - Huy L. Nguyen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1211.1002.pdf
+  persistent_id: https://api.crossref.org/works/10.1109/focs.2013.21
+  version: Proceedings of the 2013 IEEE 54th Annual Symposium on Foundations of Computer Science (FOCS 2013), pp. 117-126 (arXiv:1211.1002) (2013) (304987 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:28:00Z'
+  sha256: cc4448e6a2be495a8a1614b703cb79a679c1d176dca6929dc3ef13853664b285
+- source_id: r365-arxiv-abs
+  title: 'OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1211.1002
+  persistent_id: https://arxiv.org/abs/1211.1002
+  version: arXiv abstract page (7145 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:28:00Z'
+  sha256: 6d3cf4f80e81ba8d1e745b0c2cd5978016adb8c66fdc864fc2ac13390538fb41
+- source_id: r365-metadata-cr
+  title: 'OSNAP: Faster numerical linear algebra algorithms via sparser subspace embeddings (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/focs.2013.21
+  persistent_id: https://api.crossref.org/works/10.1109/focs.2013.21
+  version: Crossref API work record (2100 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:28:00Z'
+  sha256: 003bf09532f538504d7c15da762ecb7cd562426c249bf2e8216568d81642e656
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: OSNAP constructs sparse oblivious subspace embeddings for linear dimensionality reduction.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Accelerates overdetermined least-squares linear regression to input-sparsity time O_tilde(nnz(A) + r^omega).
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Accelerates low-rank matrix approximation and leverage-score estimation.
+limitations:
+- Achieving s = 1 non-zero per column necessarily requires quadratic sketch dimension m = Omega(d^2 / varepsilon^2) (Theorem 3 and [NN12] sparsity lower bound, p. 3), while reducing sketch dimension to nearly linear m = O_tilde(d / varepsilon^2) increases column sparsity to s = Theta(log^3(d/delta) / varepsilon) and requires O(log(d/delta))-wise independent hash functions (Theorem 9, p. 8).
+curation:
+  created_at: '2026-10-19T07:28:00Z'
+  updated_at: '2026-10-19T07:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

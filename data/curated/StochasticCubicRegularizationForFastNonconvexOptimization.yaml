@@ -1,0 +1,97 @@
+id: AIMech:StochasticCubicRegularizationForFastNonconvexOptimization
+name: Stochastic Cubic Regularization for Fast Nonconvex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: Stochastic Cubic Regularization for Fast Nonconvex Optimization is a Hessian-free (Hessian-vector-product based) stochastic second-order optimization method introduced by Tripuraneni, Stern, Jin, Regier, and Jordan (2018) for minimizing generalonline stochastic nonconvex objectives min_{x in R^d} f(x) = E_{xi ~ D}[f(x; xi)] with ell-Lipschitz gradients and rho-Lipschitz Hessians that finds an epsilon-second-order stationary point (||grad f(x)|| <= epsilon, lambda_min(grad^2 f(x)) >= -sqrt(rho * epsilon)) within O~(epsilon^{-3.5}) total stochastic gradient and stochastic Hessian-vector product evaluations without variance reduction or momentum acceleration (Theorem 1, Corollary 3). At each outer iteration t, Algorithm 1 draws two independent minibatches S_1 of size n_1 = O~(sigma_1^2 / epsilon^2) and S_2 of size n_2 = O~(sigma_2^2 / (rho * epsilon)) so that the averaged gradient g_t and linear Hessian-vector operator B_t[.] concentrate within ||g_t - grad f(x_t)|| <= c_1 epsilon and ||(B_t - grad^2 f(x_t))v|| <= c_2 sqrt(rho * epsilon)||v|| via matrix Bernstein inequalities (Lemma 4), and approximately minimizes the local stochastic third-order cubic submodel tilde{m}(Delta) = Delta^T g_t + (1/2) Delta^T B_t[Delta] + (rho / 6)||Delta||^3 (Equation 7) using a perturbed gradient descent subsolver (Algorithm 3) that takes an analytical Cauchy step Delta = -R_c g_t / ||g_t|| when ||g_t|| >= ell^2 / rho and otherwise runs T(epsilon) = O~(ell / sqrt(rho * epsilon)) gradient descent steps on a sphere-perturbed gradient tilde{g} = g_t + sigma * zeta.
+identity_notes: Distinct from SPIDER Stochastic Path-Integrated Differential Estimator for Non-Convex Optimization (`AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization`), which is a first-order path-integrated variance-reduction method finding first-order stationary points in O(epsilon^{-3}) gradient evaluations, and from Perturbed Accelerated Gradient Descent with Negative-Curvature Reset for Escaping Saddle Points (`AIMech:PerturbedAcceleratedGradientDescentWithNegativeCurvatureResetForSaddlePointEscape`), which operates in the deterministic full-gradient setting rather than the online stochastic approximation regime E_{xi ~ D}[f(x; xi)] using minibatch stochastic cubic submodels and stochastic Hessian-vector products.
+aliases:
+- Tripuraneni-Stern-Jin-Regier-Jordan Stochastic Cubic Regularized Newton Method
+- Hessian-Vector Product Stochastic Cubic Regularization
+- Online Stochastic Cubic Regularization with Gradient Descent Subsolver
+definition_evidence:
+- source_id: r353-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r353-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r353-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r353-claim-matrix-bernstein-minibatch-concentration-and-cubic-movement
+  kind: mechanism
+  statement: By the matrix Bernstein inequality (Lemma 4), minibatch sizes n_1 = O~(max(M_1/epsilon, sigma_1^2/epsilon^2)) and n_2 = O~(max(M_2/sqrt(rho*epsilon), sigma_2^2/(rho*epsilon))) guarantee ||g_t - grad f(x_t)|| <= c_1 epsilon and ||(B_t - grad^2 f(x_t))v|| <= c_2 sqrt(rho*epsilon)||v|| with high probability, under which the global minimizer Delta_t^* of the stochastic cubic submodel satisfies m_t(x_t + Delta_t^*) - m_t(x_t) <= -(rho / 12)||Delta_t^*||^3 (Lemma 5) and ||Delta_t^*|| >= (1/2) sqrt(epsilon / rho) whenever x_t + Delta_t^* is not an epsilon-second-order stationary point of f (Lemma 6).
+  evidence:
+  - source_id: r353-primary-pdf
+    locator: Section 4.1, Lemmas 4-6, pp. 8-9; Appendix A.2, Equations 12-21, pp. 14-17
+    relation: supports
+- claim_id: r353-claim-cauchy-step-and-perturbed-gd-cubic-subsolver
+  kind: mechanism
+  statement: 'The gradient-descent Cubic-Subsolver (Algorithm 3) requires only Hessian-vector products B_t[v]: when ||g_t|| >= ell^2 / rho, a single analytical Cauchy step Delta = -R_c g_t / ||g_t|| with Cauchy radius R_c = -g^T B g / (rho ||g||^2) + sqrt((g^T B g / (rho ||g||^2))^2 + 2||g|| / rho) >= (7/10)(ell / rho) decreases both tilde{m} and f by at least (7/20) sqrt(epsilon^3 / rho) (Lemma 9); when ||g_t|| < ell^2 / rho, running T(epsilon) = O~(ell / sqrt(rho * epsilon)) steps of sphere-perturbed gradient descent on tilde{m} satisfies Condition 1 (Lemma 2, Lemma 11).'
+  evidence:
+  - source_id: r353-primary-pdf
+    locator: Section 3.1, Algorithm 3 and Lemma 2, p. 7; Appendix B.1-B.3, Lemmas 9 and 11, pp. 22-25
+    relation: supports
+- claim_id: r353-claim-three-point-five-stochastic-oracle-complexity
+  kind: mechanism
+  statement: Across at most T_out = O(sqrt(rho)(f(x_0) - f^*) / epsilon^{1.5}) outer cubic-regularization iterations (Equation 26), each iteration evaluates the minibatch gradient once (O~(sigma_1^2 / epsilon^2) stochastic gradients) and queries the minibatch Hessian-vector product T(epsilon) = O~(ell / sqrt(rho * epsilon)) times (O~(sigma_2^2 ell / (rho^{1.5} epsilon^{1.5})) Hessian-vector products), yielding a total oracle complexity of O~((sqrt(rho) Delta_f / epsilon^{1.5})(sigma_1^2 / epsilon^2 + sigma_2^2 ell / (rho^{1.5} epsilon^{1.5}))) = O~(epsilon^{-3.5}) to output an epsilon-second-order stationary point with probability at least 1 - delta (Theorem 1, Corollary 3, Remark 4).
+  evidence:
+  - source_id: r353-primary-pdf
+    locator: Section 3, Theorem 1, Remark 1, and Corollary 3, pp. 6-7; Appendix A.5, Equation 26 and Remark 4, pp. 20-21
+    relation: supports
+evidence_sources:
+- source_id: r353-primary-pdf
+  title: Stochastic Cubic Regularization for Fast Nonconvex Optimization
+  authors: &id001
+  - Nilesh Tripuraneni
+  - Mitchell Stern
+  - Chi Jin
+  - Jeffrey Regier
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1711.02838.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Stochastic+Cubic+Regularization+Tripuraneni&format=json
+  version: Advances in Neural Information Processing Systems 31 (NeurIPS 2018), pp. 2904-2913 (arXiv:1711.02838) (2018) (722615 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:16:00Z'
+  sha256: 22f6b90d453e8f57ccd4ba261b61e5a2865b26b048b1645ccc9c2309111f2b07
+- source_id: r353-arxiv-abs
+  title: Stochastic Cubic Regularization for Fast Nonconvex Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1711.02838
+  persistent_id: https://arxiv.org/abs/1711.02838
+  version: arXiv abstract page (6830 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:16:00Z'
+  sha256: f42f3eb95217cf58bf162da5fb6261d767ba31fe1a8fcf1f6d739c794c994e82
+- source_id: r353-metadata-cr
+  title: Stochastic Cubic Regularization for Fast Nonconvex Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Stochastic+Cubic+Regularization+Tripuraneni&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Stochastic+Cubic+Regularization+Tripuraneni&format=json
+  version: Crossref API work record (1969 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:16:00Z'
+  sha256: 753da2e1b114bd37f6725b6a61c137566e22e1af172302ec98b4241923ae9e59
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Optimizes smooth nonconvex stochastic empirical risk and deep autoencoder reconstruction objectives.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Demonstrated to escape multiple saddle points rapidly when training deep nonlinear autoencoders on high-dimensional image data.
+limitations:
+- Requires O~(epsilon^{-2}) gradient minibatch sizes at small tolerances epsilon to concentrate g_t without variance reduction, and requires backpropagating stochastic Hessian-vector products grad^2 f(x; xi) v at each inner subsolver step.
+curation:
+  created_at: '2026-10-19T07:16:00Z'
+  updated_at: '2026-10-19T07:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

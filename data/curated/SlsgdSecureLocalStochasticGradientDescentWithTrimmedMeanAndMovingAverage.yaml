@@ -1,0 +1,100 @@
+id: AIMech:SlsgdSecureLocalStochasticGradientDescentWithTrimmedMeanAndMovingAverage
+name: SLSGD Secure Local Stochastic Gradient Descent with Trimmed Mean and Moving Average
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-resilient communication-efficient distributed on-device optimization algorithm proposed by Xie, Koyejo, and Gupta (ECML-PKDD 2019) that generalizes Federated Averaging and Local SGD to non-IID data, heterogeneous local iteration counts, and data-poisoned or compromised workers by aggregating sampled local models with a coordinate-wise b-trimmed mean and updating the global model via a server-side exponential moving average.
+identity_notes: 'Distinct from single-step synchronous Coordinate-Wise Median and Trimmed Mean Gradient Aggregation (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustGradientAggregation, which aggregates single-step gradients without multi-step local SGD updates or server-side moving-average variance reduction) and from standard Federated Averaging / Local SGD (which corresponds to SLSGD Option I with b = 0 and alpha = 1). SLSGD (Xie et al., ECML-PKDD 2019, pp. 213-228 / arXiv:1903.06996, Algorithm 1, p. 6) samples a subset S_t of k workers in each global epoch t, runs H_t^i >= H_{min} heterogeneous local SGD iterations x_{t,h}^i <- x_{t,h-1}^i - gamma nabla f(x_{t,h-1}^i; z_{t,h}^i) from x_{t,0}^i = x_{t-1} on each device i in S_t, aggregates the resulting local models via coordinate-wise b-trimmed mean x_t'' = Trmean_b({x_{t,H_t^i}^i : i in S_t}) = (1 / (k - 2b)) sum_{i=b+1}^{k-b} u_{i:k} (Option II, Definition 3), and updates the global model via the moving average x_t <- (1 - alpha) x_{t-1} + alpha x_t'' (with alpha in (0, 1]).'
+aliases:
+- SLSGD
+- Secure Local Stochastic Gradient Descent
+- Secure Local SGD
+definition_evidence:
+- source_id: r535-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r535-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r535-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: slsgd-two-level-trimmed-mean-model-aggregation-and-moving-average-update
+  kind: mechanism
+  statement: 'In each global epoch t, SLSGD activates k randomly sampled devices S_t to perform H_t^i >= H_{min} local SGD steps and applies two levels of server-side defense: (1) Option II aggregates the pushed local models via the coordinate-wise b-trimmed mean x_t'' = Trmean_b({x_{t,H_t^i}^i : i in S_t}) = (1/(k-2b)) sum_{i=b+1}^{k-b} u_{i:k}, and (2) updates the global model via a moving average x_t <- (1 - alpha) x_{t-1} + alpha x_t'' that simultaneously dampens robust-aggregation error and local-update drift.'
+  evidence:
+  - source_id: r535-primary-pdf
+    locator: Section 4, Algorithm 1, Lines 4-15 and Section 4.1, Definition 3 & Remark 2, pp. 6-7
+    relation: supports
+- claim_id: slsgd-non-iid-convergence-and-poisoning-error-bound-theorem
+  kind: scope
+  statement: Whereas standard Local SGD / FedAvg (Option I with alpha = 1) suffers unbounded expected error under model replacement by q_1 poisoned workers (Proposition 1), Theorem 2 proves that for 2q <= 2b < k and step size gamma <= min(1/L, 2), SLSGD with Option II converges on L-smooth mu-lower-bounded Taylor functions at rate (1 - alpha + alpha(1 - gamma/2)^{H_{min}})^T [F(x_0) - F(x_*)] up to an error neighborhood O(V_1) + O(beta V_2) with beta = 1 + 1/(k-q) - 1/n + k(k+b)/(k-b-q)^2.
+  evidence:
+  - source_id: r535-primary-pdf
+    locator: Section 5.2-5.3, Theorem 1, Proposition 1, and Theorem 2, pp. 8-9, 23-28
+    relation: supports
+- claim_id: slsgd-per-epoch-sampled-byzantine-minority-and-trimmed-variance-limitation
+  kind: limitation
+  statement: SLSGD requires that the number of poisoned workers q among the k sampled devices in each epoch satisfy 2q <= 2b < k, and increasing the trimming parameter b or decreasing the moving-average weight alpha trades off convergence speed against variance and poisoning tolerance through the factor k(k+b)/(k-b-q)^2.
+  evidence:
+  - source_id: r535-primary-pdf
+    locator: Section 5.3, Theorem 2 & Remark 5, p. 9; Section 6.3-6.5, pp. 12-15
+    relation: supports
+- claim_id: slsgd-on-device-federated-vision-and-language-modeling-application
+  kind: application
+  statement: Applied to attack-tolerant on-device distributed training of convolutional neural networks on balanced and unbalanced non-IID CIFAR-10 partitions and LSTM language models on WikiText-2 under label-flipping and label-permutation data poisoning.
+  evidence:
+  - source_id: r535-primary-pdf
+    locator: Section 6.1-6.4, Figures 1-6, pp. 10-14; Appendix Section 8, Figures 7-13, pp. 17-23
+    relation: supports
+evidence_sources:
+- source_id: r535-primary-pdf
+  title: 'SLSGD: Secure and Efficient Distributed On-device Machine Learning'
+  authors: &id001
+  - Cong Xie
+  - Oluwasanmi Koyejo
+  - Indranil Gupta
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1903.06996.pdf
+  persistent_id: https://dblp.org/rec/conf/pkdd/XieKG19.xml
+  version: Machine Learning and Knowledge Discovery in Databases (ECML PKDD 2019), LNCS Vol. 11907, pp. 213-228 (2019) (703932 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:18:00Z'
+  sha256: 0e457aa62e92787fffeeed1cf44a8a492bd60c7a75773eb7bec3cf8354ea7752
+- source_id: r535-arxiv-abs
+  title: 'SLSGD: Secure and Efficient Distributed On-device Machine Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1903.06996
+  persistent_id: https://arxiv.org/abs/1903.06996
+  version: arXiv abstract page (6221 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:18:00Z'
+  sha256: 6fdba080dca2c7e67b7cf1913393e7f07bc910db001eaa4f7942a96c73312f47
+- source_id: r535-metadata-cr
+  title: 'SLSGD: Secure and Efficient Distributed On-device Machine Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/pkdd/XieKG19.xml
+  persistent_id: https://dblp.org/rec/conf/pkdd/XieKG19.xml
+  version: Crossref API work record (513 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:18:00Z'
+  sha256: cc894f0e1d8d1b29dc870da0686c75cde9285672e8e700c341c569dbc584d4e3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: AIO:FederatedLearning is the broad decentralized on-device learning paradigm that SLSGD generalizes with trimmed-mean model aggregation and server-side moving-average updates.
+limitations:
+- Requires 2q <= 2b < k in each communication epoch so that the b-trimmed mean can filter all q compromised workers among the k sampled devices.
+- Because trimming operates independently on each coordinate of the local parameter vectors, high-dimensional non-IID parameter drift increases the error neighborhood O(beta V_2) when b is large.
+curation:
+  created_at: '2026-10-19T10:18:00Z'
+  updated_at: '2026-10-19T10:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

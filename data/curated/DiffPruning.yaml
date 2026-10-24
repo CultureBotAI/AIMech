@@ -1,0 +1,97 @@
+id: AIMech:DiffPruning
+name: Diff Pruning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient transfer learning algorithm that formulates task-specific fine-tuning as learning a sparse difference ('diff') vector delta_tau added to frozen shared pre-trained parameters theta via theta_tau = theta + delta_tau. To learn which coordinates to modify during training, Diff Pruning decomposes delta_tau = z_tau (*) w_tau using a stretched Hard-Concrete gate z_tau = min(1, max(0, s_tau * (r - l) + l)) with s_tau = sigma(log u - log(1 - u) + alpha_tau), u ~ U(0, 1), l < 0, and r > 1, and optimizes a closed-form differentiable expected L0-norm penalty E[||delta_tau||_0] = sum_{i=1}^d sigma(alpha_{tau,i} - log(-l/r)). In its Structured Diff Pruning extension, parameters are partitioned into G matrix/bias groups {g(1), ..., g(G)} with per-group gates z_tau^j so delta_{tau,i}^j = z_{tau,i} * z_tau^j * w_{tau,i} and E[||delta_tau||_0] = sum_{j=1}^G sum_{i in g(j)} sigma(alpha_{tau,i} - log(-l/r)) * sigma(alpha_tau^j - log(-l/r)). After training, exact budget control (e.g., t% = 0.5% nonzeros) is achieved by projecting delta_tau onto the target L0-ball via magnitude pruning on delta_tau followed by fixed-mask fine-tuning.
+identity_notes: Distinct from standard weight pruning and Movement Pruning (AIMech:MovementPruning), which mask the pre-trained parameters theta directly (setting masked weights to zero) rather than masking the additive task difference delta_tau = theta_tau - theta (which preserves the unpruned pre-trained value theta_i when delta_{tau,i} = 0). Also distinct from low-rank additive adapters such as LoRA (AIMech:LowRankAdaptation), which constrain delta_tau to a low-rank matrix product rather than an L0-sparse coordinate/group-gated difference vector.
+aliases:
+- Structured Diff Pruning
+- Adaptive Diff Pruning
+- L0-Regularized Diff Pruning
+- Difference Vector Pruning for Transfer Learning
+definition_evidence:
+- source_id: r694-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r694-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r694-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: diff-pruning-hard-concrete-l0-and-structured-group-gates
+  kind: mechanism
+  statement: Diff Pruning relaxes the binary mask on delta_tau = z_tau (*) w_tau using a stretched Hard-Concrete distribution on (l, r)^d (with l = -1.5, r = 1.5, w_tau initialized to 0, and alpha_tau initialized to 5), yielding the differentiable expected L0 penalty sum_{i=1}^d sigma(alpha_{tau,i} - log(-l/r)); Structured Diff Pruning multiplies each element mask by a matrix/bias-group gate z_tau^j (393 groups in BERT_LARGE), increasing the average percentage of completely zeroed parameter groups at 0.5% sparsity from 6.3% (non-structured) to 28.1% (structured) (Table 3).
+  evidence:
+  - source_id: r694-primary-pdf
+    locator: Section 3.1-3.3, pp. 3-4; Section 4.3, pp. 4-5; Section 6.2, Table 3, pp. 6-7
+    relation: supports
+- claim_id: diff-pruning-l0-ball-projection-glue-and-squad-performance
+  kind: application
+  statement: By projecting delta_tau onto an exact L0-ball via magnitude pruning and fine-tuning with the nonzero mask fixed, Structured Diff Pruning matches full fine-tuning of BERT_LARGE on the GLUE test server (80.6 average score vs. 80.6 for full fine-tuning, 79.4 for unstructured Diff Pruning, and 75.5 for non-adaptive diff pruning) while modifying only 0.5% of parameters per task (13.6 MB storage for positions + weights vs. 49.0 MB for 3.6% Adapters and 1297.0 MB for full fine-tuning), and achieves 93.2 F1 on SQuAD v1.1 at 1.0% sparsity vs. 90.8 F1 for full fine-tuning.
+  evidence:
+  - source_id: r694-primary-pdf
+    locator: Section 3.2, p. 3; Section 5.1-5.2, Table 1 & Figure 1, pp. 5-6; Section 6.4 & 6.6, Tables 4 & 6, pp. 7-8
+    relation: supports
+- claim_id: diff-pruning-training-memory-speed-and-index-storage-limitation
+  kind: limitation
+  statement: During training, Diff Pruning requires extra GPU memory to store and optimize the auxiliary log-alpha parameters alpha_tau alongside the dense weight vector w_tau, runs approximately 1.5x to 2x slower per minibatch than standard fine-tuning, and requires storing integer coordinate indices alongside nonzero float weights for each task's compressed diff vector.
+  evidence:
+  - source_id: r694-primary-pdf
+    locator: Section 6.6-6.7, pp. 7-8, Table 6
+    relation: supports
+evidence_sources:
+- source_id: r694-primary-pdf
+  title: Parameter-Efficient Transfer Learning with Diff Pruning
+  authors: &id001
+  - Demi Guo
+  - Alexander M. Rush
+  - Yoon Kim
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2012.07463.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Parameter+Efficient+Transfer+Learning+Diff+Pruning+Guo&format=xml
+  version: Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (ACL/IJCNLP 2021) (2021) (513545 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:57:00Z'
+  sha256: e4c9f421b65ab494219f8e0f3928b6f3c898a6875a18ffc1beae3c9219bb036b
+- source_id: r694-arxiv-abs
+  title: Parameter-Efficient Transfer Learning with Diff Pruning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2012.07463
+  persistent_id: https://arxiv.org/abs/2012.07463
+  version: arXiv abstract page (6968 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:57:00Z'
+  sha256: 8777622955e9889aa17bde9ed7d76a35b6643ab973180588279cd08c6fb1dff4
+- source_id: r694-metadata-cr
+  title: Parameter-Efficient Transfer Learning with Diff Pruning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Parameter+Efficient+Transfer+Learning+Diff+Pruning+Guo&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Parameter+Efficient+Transfer+Learning+Diff+Pruning+Guo&format=xml
+  version: Crossref API work record (863 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:57:00Z'
+  sha256: 3182c390e22cc415c79c6e6b59f5d521ee91300621fcfed1844487f63271892b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: narrow_match
+  rationale: Diff Pruning is a sparse learning method that regularizes an additive task-specific parameter difference vector with a stretched Hard-Concrete L0 penalty and L0-ball projection.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Diff Pruning adapts pre-trained deep neural networks across streaming or multi-task deployments by storing only sparse task-specific diff vectors.
+limitations:
+- Requires optimizing both alpha_tau and w_tau during training, increasing training memory overhead and slowing per-minibatch training speed by approximately 1.5x to 2x relative to standard fine-tuning (Section 6.7).
+- Requires storing integer coordinate indices in addition to nonzero floating-point weights for each task's sparse diff vector, and suffers a 3.5-point GLUE validation drop (from 84.9 to 81.4) if post-projection fixed-mask fine-tuning is omitted (Section 6.4, Footnote 16; Section 6.6).
+curation:
+  created_at: '2026-10-19T12:57:00Z'
+  updated_at: '2026-10-19T12:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

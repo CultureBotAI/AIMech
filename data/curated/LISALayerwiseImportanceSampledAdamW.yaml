@@ -1,0 +1,113 @@
+id: AIMech:LISALayerwiseImportanceSampledAdamW
+name: LISA (Layerwise Importance Sampled AdamW)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A memory-efficient full-rank optimization algorithm for large language models that emulates the skewed layerwise update-norm distribution of Low-Rank Adaptation without low-rank subspace restrictions by permanently unfreezing the bottom embedding and top language-modeling head layers while periodically sampling a small fixed number gamma of intermediate Transformer layers every K iterations to update with AdamW.
+identity_notes: Distinct from BAdam (AIMech:BAdamBlockCoordinateAdamFullParameterOptimization), which partitions all model layers into D blocks of equal status and updates one block per K-step epoch via cyclic or random-reshuffling block coordinate descent; LISA is grounded in the empirical skewness of layerwise weight norms w^{(ell)} = (1/T) sum_{t=1}^T ||theta_t^{(ell)}||_2 in LoRA (where embedding and LM head norms exceed intermediate layers by 10^2x), assigning importance-sampling probabilities {1.0, gamma/N_L, ..., gamma/N_L, 1.0} so E and H remain continuously active while gamma intermediate layers are sampled every K steps. Distinct from LoRA (AIMech:LoraLowRankAdaptation), which freezes base weights and constrains updates to rank-r adapter matrices across all layers.
+aliases:
+- LISA
+- Layerwise Importance Sampled AdamW
+- Layerwise Importance Sampling AdamW
+- Layerwise Importance Sampling for Memory-Efficient LLM Fine-Tuning
+definition_evidence:
+- source_id: r640-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r640-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r640-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: lisa-skewed-weight-norm-and-importance-sampling-mechanism
+  kind: mechanism
+  statement: Observing that LoRA's layerwise mean weight norms w^{(ell)} = (1/T) * sum_{t=1}^T ||theta_t^{(ell)}||_2 are skewed by factors of hundreds toward the token-embedding and language-modeling head layers relative to intermediate Transformer blocks, LISA matches expected layerwise step sizes eta_t^{(ell)} = tilde_eta_t^{(ell)} * (tilde_w^{(ell)} / w^{(ell)}) in full-rank space by setting layer activation probabilities {p_ell}_{ell=1}^{N_L} = {1.0, gamma/N_L, ..., gamma/N_L, 1.0} and, every K iterations, freezing all intermediate layers except gamma randomly sampled layers that are updated alongside the embedding and head layers via AdamW.
+  evidence:
+  - source_id: r640-primary-pdf
+    locator: Section 3.1-3.2 Figure 2 and Algorithm 1, pages 4-5
+    relation: supports
+- claim_id: lisa-memory-and-iteration-speedup-mechanism
+  kind: mechanism
+  statement: Because LISA introduces no auxiliary adapter modules, deletes redundant intermediate activations during backpropagation, and allocates gradients and AdamW states only for the embedding layer, LM head, and gamma active intermediate layers (E+H+gamma L), it reduces LLaMA-2-7B fine-tuning memory from 59 GB (full training) to 21-23 GB (fitting on a single 24 GB GPU), reduces LLaMA-2-70B memory to 71-75 GB vs 79 GB for LoRA rank 128, and achieves a 2.9x per-iteration speedup over full-parameter training (1.5x over LoRA).
+  evidence:
+  - source_id: r640-primary-pdf
+    locator: Section 4.1 Table 1 and Figures 3-4, pages 5-6
+    relation: supports
+- claim_id: lisa-regularized-convex-convergence-scope
+  kind: scope
+  statement: Viewing AdamW on loss f(w) as randomized block-coordinate Adam on the scaled quadratic-regularized objective f^{reg}(w) = f(w) + (1/2) * w^T S w with positive semidefinite diagonal matrix S, Theorem 1 guarantees that for convex smooth f on a bounded domain with bounded stochastic gradients, LISA iterates satisfy (1/T) * sum_{t=1}^T f^{reg}(w_t) - f_*^{reg} <= O(1 / sqrt(T)).
+  evidence:
+  - source_id: r640-primary-pdf
+    locator: Section 5 Theoretical Properties of LISA and Theorem 1, page 9
+    relation: supports
+- claim_id: lisa-llm-instruction-tuning-and-continual-pretraining-application
+  kind: application
+  statement: Across instruction tuning of TinyLlama-1.1B, Mistral-7B, LLaMA-2-7B, and LLaMA-2-70B on Alpaca-GPT4, GSM8K, and PubMedQA, and continual pre-training on 1.5B tokens of OpenWebMath, LISA outperforms LoRA by 10%-35% on MT-Bench (reaching 6.72 vs 6.10 for LoRA and 6.25 for full training on LLaMA-2-70B) and matches full-parameter continual pre-training on GSM8K at less than half the GPU memory cost (26 GB vs 59 GB).
+  evidence:
+  - source_id: r640-primary-pdf
+    locator: Section 4.2-4.4 Tables 2-5, pages 6-8
+    relation: supports
+- claim_id: lisa-forward-pass-base-model-memory-and-uniform-middle-sampling-limitation
+  kind: limitation
+  statement: During the forward pass, LISA still requires the full pre-trained base model weights to reside in GPU memory, and its default E+H+gamma L schedule samples all intermediate layers with uniform probability gamma / N_L rather than adapting middle-layer sampling probabilities to task- or architecture-specific importance.
+  evidence:
+  - source_id: r640-primary-pdf
+    locator: Limitations Section, page 10
+    relation: supports
+evidence_sources:
+- source_id: r640-primary-pdf
+  title: 'LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning'
+  authors: &id001
+  - Rui Pan
+  - Xiang Liu
+  - Shizhe Diao
+  - Renjie Pi
+  - Jipeng Zhang
+  - Chi Han
+  - Tong Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2403.17919.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/PanLDPZH024
+  version: Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) (1903089 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:03:00Z'
+  sha256: e79aa3ab643c97e5ca83980f92268ed23dbb0bedf2cf81b7a519d5ce7b9ba5e2
+- source_id: r640-arxiv-abs
+  title: 'LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2403.17919
+  persistent_id: https://arxiv.org/abs/2403.17919
+  version: arXiv abstract page (7555 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:03:00Z'
+  sha256: 3a249d44fba430109615ce8b975376d881501af14d731176281f4aeca7edd10e
+- source_id: r640-metadata-cr
+  title: 'LISA: Layerwise Importance Sampling for Memory-Efficient Large Language Model Fine-Tuning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/PanLDPZH024
+  persistent_id: https://dblp.org/rec/conf/nips/PanLDPZH024
+  version: Crossref API work record (2175 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:03:00Z'
+  sha256: 497b885086b232d6e1b2259eda4c8921e488631c81087dd409485919d1604b27
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LISA is a layerwise importance-sampled AdamW optimization algorithm for fine-tuning and continual pre-training of deep Transformer language and diffusion models.
+limitations:
+- Requires holding the full base model parameters in memory during the forward pass unless paired with weight quantization.
+- Approximates intermediate-layer importance with uniform sampling probability gamma / N_L across all middle layers.
+- Requires tuning the sampling period K and active middle-layer count gamma alongside the learning rate.
+curation:
+  created_at: '2026-10-19T12:03:00Z'
+  updated_at: '2026-10-19T12:03:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

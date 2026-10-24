@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedLin (Federated Linearized Learning with Client Heterogeneity and Gradient Sparsification) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FedLin (Federated Linearized Learning with Client Heterogeneity and Gradient Sparsification)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedLin (Federated Linearized Learning with Client Heterogeneity and Gradient Sparsification)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedLinFederatedLinearizedLearningWithClientHeterogeneityAndGradientSparsification</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedLin, Federated Linearized Learning, FedLin with Server and Client Gradient Sparsification
+    </div>
+
+  <div class="detail-desc">
+    A federated optimization algorithm (Mitra et al. 2021, Section 3, Algorithm 1, Equation 8; Section 4, Algorithms 2-3) that resolves the speed-accuracy conflict under simultaneous objective and systems heterogeneity (variable local steps tau_i &gt;= 1) by updating each client i via the fresh-gradient linearized correction x_{i,l+1}^{(t)} = x_{i,l}^{(t)} - eta_i (nabla f_i(x_{i,l}^{(t)}) - nabla f_i(bar_x_t) + g_t) with client-specific step-size eta_i = bar_eta / tau_i and current global gradient g_t = (1/m) sum_{i=1}^m nabla f_i(bar_x_t) (or error-compensated TOP-k sparsified gradients in Algorithms 2-3).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, Karimireddy et al. 2020), which uses stale control variates c_i from round t-1 that violate the exact single-step fixed-point property at x^* and lacks client- inversely scaled step-sizes eta_i = bar_eta / tau_i for arbitrary systems heterogeneity, and from FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization) and FedNova (AIMech:FedNovaNormalizedAveragingForHeterogeneousFederatedOptimization), which Propositions 1-2 prove converge to distorted surrogate objectives under constant step-sizes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r433-surrogate-distortion-of-fedprox-fednova-and-fedlin-linear-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On heterogeneous quadratics f_i(x) = (1/2)(x - c_i)^T A_i (x - c_i), Propositions 1 and 2 prove that FedProx and FedNova converge to distorted surrogate minimizers weighted by Q_i = sum_{l=0}^{tau_i-1} [I - eta(A_i + beta I)]^l (Eqs. 5, 7, 9, 10), whereas FedLin (Algorithm 1) with eta_i = bar_eta / tau_i satisfies the exact fixed-point property x_{i,l}^{(t)} = x^* whenever bar_x_t = x^* and achieves global linear convergence f(bar_x_{T+1}) - f(x^*) &lt;= (1 - 1 / (6 kappa))^T (f(bar_x_1) - f(x^*)) under arbitrary objective and systems heterogeneity (Theorem 1), matching a 2-client lower bound proving that local steps H cannot eliminate the kappa condition-number dependence (Theorem 6, Appendix E).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r433-primary-pdf">Linear Convergence in Federated Learning: Tackling Client Heterogeneity and Sparse Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Propositions 1-2 (Equations 5-7, 9-10), Section 3 Theorem 1 &amp; Theorem 6, and Appendix E</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r433-asymmetric-server-versus-client-top-k-sparsification-theorems</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under contractive TOP-k gradient sparsification with parameter delta = d / k, FedLin reveals a fundamental asymmetry between server-side and client-side compression (Section 4): server-side sparsification converges linearly to the exact optimum x^* even without error feedback at rate 1 - mu / (2 (delta_s + sqrt(delta_s)) delta_s L) (Theorem 7) and improves to 1 - 1 / (96 kappa delta_s) with server error feedback (Theorem 8) because ||nabla f(bar_x_t)|| -&gt; 0 at x^*, whereas client-side sparsification with error feedback converges linearly only to an O(delta_c D^2) neighborhood proportional to heterogeneity D^2 when nabla f_i(x^*) != 0 (Theorem 9, Corollary 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r433-primary-pdf">Linear Convergence in Federated Learning: Tackling Client Heterogeneity and Sparse Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Gradient Sparsification in FedLin (Algorithms 2-3, Theorems 7-9, Corollary 1) &amp; Appendices F-I</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r433-two-communication-phases-or-stale-gradient-tradeoff-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Computing the fresh global gradient g_t = (1/m) sum_{i=1}^m nabla f_i(bar_x_t) requires an extra gradient-aggregation round per epoch, and stochastic noise in local mini-batch gradients reintroduces an O(bar_eta sigma^2) variance floor (Theorem 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r433-primary-pdf">Linear Convergence in Federated Learning: Tackling Client Heterogeneity and Sparse Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Theorem 4 &amp; Section 4 Discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r433-heterogeneous-logistic-regression-and-cifar10-federated-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to heterogeneous federated logistic regression and neural network classification on MNIST and CIFAR-10 under non-IID client partitions and random local iteration counts tau_i.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r433-primary-pdf">Linear Convergence in Federated Learning: Tackling Client Heterogeneity and Sparse Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experimental Results (Figures 1-3) &amp; Appendix J</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Client-side TOP-k sparsification cannot eliminate the O(delta_c D^2) heterogeneity neighborhood without decaying step-sizes or uncompressed periodic syncs.</li>
+      <li>Local steps tau_i do not reduce the condition-number dependence kappa in the worst-case heterogeneous setting (Theorem 6).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedLin is a federated optimization algorithm that achieves linear convergence under simultaneous objective and systems heterogeneity and gradient sparsification.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedLin analyzes contractive TOP-k gradient sparsification with error feedback at both server and clients.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r433-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r433-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/2102.07053" target="_blank" rel="noopener">Linear Convergence in Federated Learning: Tackling Client Heterogeneity and Sparse Gradients</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aritra Mitra, Rayana H. Jaafar, George J. Pappas, Hamed Hassani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2021/hash/7a6bda9ad6ffdac035c752743b7e9d0f-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c8b14664dbf5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r433-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r433-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2102.07053" target="_blank" rel="noopener">Linear Convergence in Federated Learning: Tackling Client Heterogeneity and Sparse Gradients (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aritra Mitra, Rayana H. Jaafar, George J. Pappas, Hamed Hassani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.07053</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0df343f2f1d4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r433-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r433-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2021/hash/7a6bda9ad6ffdac035c752743b7e9d0f-Abstract.html" target="_blank" rel="noopener">Linear Convergence in Federated Learning: Tackling Client Heterogeneity and Sparse Gradients (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aritra Mitra, Rayana H. Jaafar, George J. Pappas, Hamed Hassani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2021/hash/7a6bda9ad6ffdac035c752743b7e9d0f-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ffd1c450f32a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFedLinFederatedLinearizedLearningWithClientHeterogeneityAndGradientSparsification">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FedLin (Federated Linearized Learning with Client Heterogeneity and Gradient Sparsification)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FedLinFederatedLinearizedLearningWithClientHeterogeneityAndGradientSparsification</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FedLin (Federated...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:36:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:36:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedLinFederatedLinearizedLearningWithClientHeterogeneityAndGradientSparsification.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedLinFederatedLinearizedLearningWithClientHeterogeneityAndGradientSparsification.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FedLin%20%28Federated%20Linearized%20Learning%20with%20Client%20Heterogeneity%20and%20Gradient%20Sparsification%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedLinFederatedLinearizedLearningWithClientHeterogeneityAndGradientSparsification"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

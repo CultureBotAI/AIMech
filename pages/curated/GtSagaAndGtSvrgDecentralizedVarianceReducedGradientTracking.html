@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GT-SAGA and GT-SVRG, GT-SAGA, GT-SVRG, Decentralized Variance-Reduced Gradient Tracking
+    </div>
+
+  <div class="detail-desc">
+    A unified decentralized finite-sum stochastic optimization framework (GT-VR, Xin, Khan, &amp; Kar 2020, Sections II-III, Algorithms 1-2) for minimizing F(x) = (1/n) sum_{i=1}^n (1/m_i) sum_{j=1}^{m_i} f_{i,j}(x) over a primitive doubly stochastic network W that couples local variance-reduced gradient estimators r_i^k with dynamic gradient tracking x_i^{k+1} = sum_j w_{ij} x_j^k - alpha y_i^k and y_i^{k+1} = sum_j w_{ij} y_j^k + r_i^{k+1} - r_i^k: GT-SAGA (Algorithm 1) computes g_i^k = nabla f_{i,s_i^k}(x_i^k) - nabla f_{i,s_i^k}(z_{i,s_i^k}^k) + (1/m_i) sum_j nabla f_{i,j}(z_{i,j}^k) from a local gradient table, while GT-SVRG (Algorithm 2) computes v_i^k = nabla f_{i,s_i^k}(x_i^k) - nabla f_{i,s_i^k}(tau_i^k) + nabla f_i(tau_i^k) relative to periodic local checkpoints tau_i^k = x_i^{t T}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from DSGT and GSGT (AIMech:DsgtAndGsgtDistributedStochasticGradientTracking, Pu &amp; Nedic 2021), which use unreduced stochastic gradients G_i(x_{i,k}, xi_{i,k}) and suffer an O(alpha sigma^2 / n) steady-state variance neighborhood under constant step size, and from centralized SAGA (AIMech:SagaFastIncrementalGradientMethodWithSupportForNonStronglyConvexCompositeObjectives, Defazio et al. 2014) and SVRG (AIMech:StochasticVarianceReducedGradient, Johnson &amp; Zhang 2013), which operate on a single shared parameter vector without decentralized consensus or inter-node gradient tracking.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r436-simultaneous-elimination-of-local-variance-and-network-heterogeneity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Whereas decentralized SGD under constant step size alpha converges only to an error ball proportional to both intra-node sample variance nu^2 and inter-node gradient heterogeneity zeta^2 = (1/n) sum_{i=1}^n ||nabla f_i(x^*)||^2 (Eq. 2), coupling local SAGA/SVRG estimators (which drive intra-node variance to zero as x_i^k -&gt; x^*, Lemmas 3-4) with gradient tracking y_i^k (which preserves bar_y^k = bar_r^k and eliminates zeta^2) achieves exact global Q-linear convergence to x^* without any neighborhood floor (Theorems 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r436-primary-pdf">Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence</a></span>
+        <span>· <strong>Locator:</strong> Section I Introduction (Equation 2), Section III Main Results (Theorems 1-2), &amp; Section IV Convergence Analysis (Lemmas 2-4)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r436-complexity-bounds-and-big-data-network-independent-linear-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L-smooth mu-strongly convex functions with condition number Q = L / mu, spectral gap 1 - sigma of W, M = max_i m_i, and m = min_i m_i, GT-SAGA (Theorem 1) achieves epsilon-accuracy in O(max{M, (M/m) Q^2 (1 - sigma)^{-2}} log(1/epsilon)) component gradient evaluations and communication rounds, while GT-SVRG (Theorem 2) with inner loop T = O(Q^2 (1 - sigma)^{-2} log Q) achieves O((M + Q^2 (1 - sigma)^{-2} log Q) log(1/epsilon)) component gradients and O(Q^2 (1 - sigma)^{-2} log Q log(1/epsilon)) communications; in the big-data regime m ~ M &gt;&gt; Q^2 (1 - sigma)^{-2}, both attain network-independent O(M log(1/epsilon)) complexity, yielding an exact 1/n linear speedup over centralized SAGA/SVRG (Remark 1, Table I).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r436-primary-pdf">Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence</a></span>
+        <span>· <strong>Locator:</strong> Section III Main Results (Theorem 1, Theorem 2, Remark 1, Remark 2, Table I), pp. 6259-6261</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r436-storage-versus-synchronization-tradeoff-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GT-SAGA requires O(p m_i) local memory at each node i to store all m_i component gradients, whereas GT-SVRG avoids O(p m_i) storage (using O(p) memory) but requires synchronized periodic full-batch gradient evaluations nabla f_i(x_i^{t T}) every T iterations (Remark 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r436-primary-pdf">Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence</a></span>
+        <span>· <strong>Locator:</strong> Section III Remark 2 (Comparison between GT-SAGA and GT-SVRG), p. 6260</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r436-decentralized-logistic-regression-on-real-benchmark-datasets-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized l_2-regularized logistic regression across undirected exponential, grid, and random geometric graphs on CIFAR-10, MNIST, a9a, and w8a.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r436-primary-pdf">Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence</a></span>
+        <span>· <strong>Locator:</strong> Section V Numerical Experiments (Figures 1-5), pp. 6265-6267</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>GT-SAGA requires O(p m_i) memory per node to store the component gradient table.</li>
+      <li>GT-SVRG requires periodic full local gradient evaluations every T inner iterations.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GT-SAGA and GT-SVRG unify decentralized gradient tracking with finite-sum variance reduction over peer-to-peer networks.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Evaluated on decentralized regularized logistic classification.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r436-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r436-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ar5iv.labs.arxiv.org/html/1912.04230" target="_blank" rel="noopener">Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ran Xin, Usman A. Khan, Soummya Kar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TSP.2020.3031071</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1f3942598b0c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r436-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r436-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1912.04230" target="_blank" rel="noopener">Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ran Xin, Usman A. Khan, Soummya Kar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1912.04230</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ce8fd75c192…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r436-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r436-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/TSP.2020.3031071" target="_blank" rel="noopener">Variance-Reduced Decentralized Stochastic Optimization With Accelerated Convergence (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ran Xin, Usman A. Khan, Soummya Kar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TSP.2020.3031071</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a25637a9e060…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AGtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:GtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">GT-SAGA and GT-SVRG...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:39:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:39:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=GT-SAGA%20and%20GT-SVRG%20%28Decentralized%20Variance-Reduced%20Gradient%20Tracking%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AGtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

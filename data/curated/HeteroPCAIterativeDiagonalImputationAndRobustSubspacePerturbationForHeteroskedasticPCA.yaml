@@ -1,0 +1,96 @@
+id: AIMech:HeteroPCAIterativeDiagonalImputationAndRobustSubspacePerturbationForHeteroskedasticPCA
+name: HeteroPCA Iterative Diagonal Imputation and Robust Subspace Perturbation for Heteroskedastic PCA
+concept_kind: algorithm
+review_status: DRAFT
+definition: An iterative spectral estimation algorithm and deterministic subspace perturbation framework (introduced by Anru R. Zhang, T. Tony Cai, and Yihong Wu in 2022) for recovering the principal rank-$r$ subspace $\boldsymbol{U}$ of a low-rank signal matrix $\boldsymbol{M} = \boldsymbol{U}\boldsymbol{\Lambda}\boldsymbol{U}^\top$ from observations $\widehat{\boldsymbol{\Sigma}} = \boldsymbol{M} + \boldsymbol{Z}$ corrupted by severe diagonal heteroskedasticity $\boldsymbol{D}(\boldsymbol{Z})$. Whereas classical PCA fails when diagonal noise variances $\sigma_i^2$ are non-uniform and one-step diagonal deletion ($\boldsymbol{\Delta}(\widehat{\boldsymbol{\Sigma}})$ setting the diagonal to zero) incurs a non-vanishing rank-$r$ diagonal bias $\|\boldsymbol{D}(\boldsymbol{M})\| \asymp \frac{I(\boldsymbol{U})r}{p}\lambda_1$, HeteroPCA (Algorithm 1) initializes $\boldsymbol{N}^{(0)} = \boldsymbol{\Delta}(\widehat{\boldsymbol{\Sigma}})$ and iteratively updates $\widetilde{\boldsymbol{N}}^{(t)} = \mathrm{SVD}_r(\boldsymbol{N}^{(t)})$ (best rank-$r$ SVD approximation) followed by $\boldsymbol{N}^{(t+1)} = \boldsymbol{\Delta}(\widehat{\boldsymbol{\Sigma}}) + \boldsymbol{D}(\widetilde{\boldsymbol{N}}^{(t)})$ for $t=0,\dots,T-1$. By establishing the operator-norm contraction identities $\|\boldsymbol{D}(\boldsymbol{P}_U\boldsymbol{D}(\boldsymbol{A}))\| \le \frac{I(\boldsymbol{U})r}{p}\|\boldsymbol{D}(\boldsymbol{A})\|$ and $\|\boldsymbol{D}(\boldsymbol{P}_U\boldsymbol{A})\| \le \sqrt{\frac{I(\boldsymbol{U})r}{p}}\|\boldsymbol{A}\|$ under incoherence $I(\boldsymbol{U}) = \frac{p}{r}\max_i \|\boldsymbol{U}^\top\boldsymbol{e}_i\|_2^2$ (Lemma 1) alongside the sharp factor-2 off-diagonal operator bound $\sup_{\boldsymbol{M}\ne 0}\|\boldsymbol{\Delta}(\boldsymbol{M})\|/\|\boldsymbol{M}\| = 2 - 2/p < 2$ (Lemma 4), Theorem 3 proves the deterministic robust $\sin\Theta$ bound $\|\sin\boldsymbol{\Theta}(\widehat{\boldsymbol{U}},\boldsymbol{U})\| \lesssim \min\{\frac{\|\boldsymbol{\Delta}(\boldsymbol{Z})\|}{\sigma_r(\boldsymbol{M})}, 1\}$ completely independent of the diagonal corruption $\boldsymbol{D}(\boldsymbol{Z})$.
+identity_notes: Resolved against all 442 pinned AIO concepts and 689 maintained AIMech concepts. Distinct from `AIMech:HeteroskedasticPCAPrincipalSubspaceConfidenceRegionsAndSpikedCovarianceInferenceWithMissingData` (Yan, Chen, & Fan 2024, which develops distributional asymptotic normality and $\chi_r^2$ confidence regions for subspace rows and linear forms by building upon the HeteroPCA estimator) and from `AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices` (Abbe, Fan, Wang, & Zhong 2020, which analyzes un-imputed symmetric random matrices).
+aliases:
+- HeteroPCA
+- Heteroskedastic Principal Component Analysis via Iterative Diagonal Imputation
+- Zhang-Cai-Wu Robust sin Theta Subspace Perturbation under Diagonal Corruption
+definition_evidence:
+- source_id: zcw2022-heteropca-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: zcw2022-heteropca-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: zcw2022-heteropca-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-incoherent-projection-diagonal-contraction-and-factor-two-off-diagonal-bound
+  kind: mechanism
+  statement: For any rank-$r$ subspace $\boldsymbol{U}\in\mathbb{O}_{p,r}$ with incoherence parameter $I(\boldsymbol{U}) = \frac{p}{r}\max_{i\in[p]}\|\boldsymbol{P}_U\boldsymbol{e}_i\|_2^2$, Lemma 1 proves that for any matrix $\boldsymbol{A}$ the diagonal operator $\boldsymbol{D}(\cdot)$ satisfies $\|\boldsymbol{D}(\boldsymbol{P}_U\boldsymbol{D}(\boldsymbol{A}))\| \le \frac{I(\boldsymbol{U})r}{p}\|\boldsymbol{D}(\boldsymbol{A})\|$ and $\|\boldsymbol{D}(\boldsymbol{P}_U\boldsymbol{A})\| \le \sqrt{\frac{I(\boldsymbol{U})r}{p}}\|\boldsymbol{A}\|$, while Lemma 4 proves that the zero-diagonal operator $\boldsymbol{\Delta}(\boldsymbol{M}) = \boldsymbol{M} - \boldsymbol{D}(\boldsymbol{M})$ satisfies the sharp extremal bound $\|\boldsymbol{\Delta}(\boldsymbol{M})\| \le 2\|\boldsymbol{M}\|$ for general matrices and $\sup_{\boldsymbol{M}=\boldsymbol{M}^\top\ne 0} \frac{\|\boldsymbol{\Delta}(\boldsymbol{M})\|}{\|\boldsymbol{M}\|} = 2 - \frac{2}{p}$ attained by $\boldsymbol{M} = \mathbf{1}_p\mathbf{1}_p^\top - \frac{p}{2}\boldsymbol{I}_p$ (Section 5, Lemmas 1 and 4).
+  evidence:
+  - source_id: zcw2022-heteropca-pdf
+    locator: Section 5 (Lemma 1, p. 68; Lemma 4, p. 71), Supplement Proof of Lemma 4
+    relation: supports
+- claim_id: claim-deterministic-robust-sin-theta-theorem-independent-of-diagonal-perturbation
+  kind: mechanism
+  statement: Under the incoherence condition $\max\{\frac{p}{r}\max_i\|\boldsymbol{P}_U\boldsymbol{e}_i\|_2^2, \frac{q}{r}\max_j\|\boldsymbol{P}_V\boldsymbol{e}_j\|_2^2\} \le c_0$, Theorem 3 proves that HeteroPCA (Algorithm 1) run for $T$ iterations on any perturbed matrix $\boldsymbol{N} = \boldsymbol{M} + \boldsymbol{Z}$ satisfies $\max\{\|\sin\boldsymbol{\Theta}(\boldsymbol{U}^{(T)},\boldsymbol{U})\|, \|\sin\boldsymbol{\Theta}(\boldsymbol{V}^{(T)},\boldsymbol{V})\|\} \le \min\{\Gamma_T, 1\}$ where $\Gamma_t \le \frac{\|\boldsymbol{\Delta}(\boldsymbol{Z})\|}{c_1\sigma_r(\boldsymbol{M})} + 2^{-(t+3)}$, converging geometrically to exact recovery when $\boldsymbol{\Delta}(\boldsymbol{Z}) = \boldsymbol{0}$ regardless of the magnitude of the diagonal perturbation $\boldsymbol{D}(\boldsymbol{Z})$ (Section 3, Theorem 3, Section 5, Proof of Theorem 3).
+  evidence:
+  - source_id: zcw2022-heteropca-pdf
+    locator: Section 2 (Algorithm 1, p. 57), Section 3 (Theorem 3, pp. 61-62), Section 5 (pp. 68-73)
+    relation: supports
+- claim_id: claim-minimax-optimal-subspace-recovery-under-heteroskedastic-spiked-covariance-and-poisson-pca
+  kind: application
+  statement: For the heteroskedastic spiked covariance model $\boldsymbol{Y}_k = \boldsymbol{X}_k + \boldsymbol{\varepsilon}_k$ with $\mathrm{Cov}(\boldsymbol{X}_k) = \boldsymbol{U}\boldsymbol{\Lambda}\boldsymbol{U}^\top$ and $\mathrm{Cov}(\boldsymbol{\varepsilon}_k) = \mathrm{diag}(\sigma_1^2,\dots,\sigma_p^2)$, Theorems 1 and 2 establish that HeteroPCA achieves the minimax-optimal subspace estimation rate $\mathbb{E}\|\sin\boldsymbol{\Theta}(\widehat{\boldsymbol{U}},\boldsymbol{U})\| \asymp \min\{\sqrt{\frac{p}{n}}\frac{\lambda_1^{1/2}\sigma_{\max}}{\lambda_r} + \frac{\sqrt{p}\sigma_{\mathrm{ave}}\sigma_{\max}}{\sqrt{n}\lambda_r}, 1\}$ where $\sigma_{\mathrm{ave}}^2 = \frac{1}{p}\sum_{i=1}^p \sigma_i^2$, strictly improving over standard SVD and diagonal-deletion SVD as well as extending to Poisson PCA and SVD with heteroskedastic missing data (Sections 2.2 and 4, Theorems 1, 2, 4, and 5).
+  evidence:
+  - source_id: zcw2022-heteropca-pdf
+    locator: Section 2.2 (Theorems 1-2, pp. 58-60), Section 4 (Theorems 4-5, pp. 63-66)
+    relation: supports
+evidence_sources:
+- source_id: zcw2022-heteropca-pdf
+  title: 'Heteroskedastic PCA: Algorithm, Optimality, and Applications'
+  authors: &id001
+  - Anru R. Zhang
+  - T. Tony Cai
+  - Yihong Wu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1810.08316.pdf
+  persistent_id: https://doi.org/10.1214/21-AOS2074
+  version: arXiv:1810.08316v3 full-text PDF (56 pages), published in The Annals of Statistics 50(1):53-80 (2022). (1054754 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:42:00Z'
+  sha256: 45e13fbed3d9ce23cf1de41de4688f17fafdf0b46dbddc1960d634a7e5a1c58f
+- source_id: zcw2022-heteropca-abs
+  title: 'Heteroskedastic PCA: Algorithm, Optimality, and Applications (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.08316
+  persistent_id: https://arxiv.org/abs/1810.08316
+  version: arXiv abstract page (6180 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:42:00Z'
+  sha256: 1e2b02ae49631e04421342b175d789c98f6cda3482b2c7b991bab919a19556c4
+- source_id: zcw2022-heteropca-cr
+  title: 'Heteroskedastic PCA: Algorithm, Optimality, and Applications (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/21-AOS2074
+  persistent_id: https://doi.org/10.1214/21-AOS2074
+  version: Crossref API work record (6562 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:42:00Z'
+  sha256: 4e4b4cfd258b9a50ff30816730bf5065b488eed77c3d5d3de61ce09b8b702629
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: narrow_match
+  rationale: Provides an iterative diagonal-imputation SVD algorithm and minimax-optimal perturbation bounds for Principal Component Analysis under heteroskedastic noise.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Recovers low-dimensional principal subspaces when observation noise variances vary wildly across coordinates or entries.
+limitations:
+- Requires the true principal subspace U to be incoherent (I(U) * r / p <= c_0 < 1); if a singular vector is localized on a single coordinate (spiky basis vector e_i), its diagonal entry cannot be separated from an arbitrary diagonal noise spike D(Z)_{i,i}.
+- Each HeteroPCA iteration requires computing a truncated rank-r SVD of the p x p (or p_1 x p_2) matrix N^(t), incurring O(T * p^2 * r) computational cost.
+curation:
+  created_at: '2026-10-19T05:42:00Z'
+  updated_at: '2026-10-19T05:42:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

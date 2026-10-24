@@ -1,0 +1,96 @@
+id: AIMech:TruncatedAmplitudeFlowAndOrthogonalityPromotingInitializationForQuadraticEquations
+name: Truncated Amplitude Flow and Orthogonality-Promoting Initialization for Random Quadratic Equations
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A two-stage nonconvex-nonsmooth phase retrieval algorithm (introduced by Gang Wang, Georgios B. Giannakis, and Yonina C. Eldar in 2018) that recovers an unknown signal $\\boldsymbol{x} \\in \\mathbb{R}^n$ or $\\mathbb{C}^n$ from $m$ magnitude measurements $\\psi_i = |\\langle \\boldsymbol{a}_i, \\boldsymbol{x}\\rangle|$ by minimizing the amplitude-based empirical loss $\\ell(\\boldsymbol{z}) = \\frac{1}{2m}\\sum_{i=1}^m (\\psi_i - |\\boldsymbol{a}_i^\\top\\boldsymbol{z}|)^2$ (Equation 5). Stage 1 introduces *orthogonality-promoting initialization* (Equations 14\u201323, Algorithm 1): exploiting the concentration of $\\frac{1}{m}\\sum_{i=1}^m \\frac{\\boldsymbol{a}_i\\boldsymbol{a}_i^\\top}{\\|\\boldsymbol{a}_i\\|_2^2} \\approx \\frac{1}{n}\\boldsymbol{I}_n$, it selects the subset $\\overline{\\mathcal{I}}_0$ of cardinality $|\\overline{\\mathcal{I}}_0| = \\lceil \\frac{1}{6}m\\rceil$ corresponding to the largest normalized inner products $\\psi_i / \\|\\boldsymbol{a}_i\\|_2$, computes the leading unit eigenvector $\\tilde{\\boldsymbol{z}}_0$ of $\\overline{\\boldsymbol{Y}}_0 = \\frac{1}{|\\overline{\\mathcal{I}}_0|}\\sum_{i\\in\\overline{\\mathcal{I}}_0} \\frac{\\boldsymbol{a}_i\\boldsymbol{a}_i^\\top}{\\|\\boldsymbol{a}_i\\|_2^2}$ via power iterations without fourth-moment heavy tails, and scales $\\boldsymbol{z}_0 = \\sqrt{\\frac{1}{m}\\sum_{i=1}^m \\psi_i^2}\\,\\tilde{\\boldsymbol{z}}_0$. Stage 2 refines $\\boldsymbol{z}_t$ via *truncated generalized gradient* iterations $\\boldsymbol{z}_{t+1} = \\boldsymbol{z}_t - \\frac{\\mu}{m}\\sum_{i\\in\\mathcal{I}_{t+1}}(\\boldsymbol{a}_i^\\top\\boldsymbol{z}_t - \\psi_i \\frac{\\boldsymbol{a}_i^\\top\\boldsymbol{z}_t}{|\\boldsymbol{a}_i^\\top\\boldsymbol{z}_t|})\\boldsymbol{a}_i$ over the watershed truncation set $\\mathcal{I}_{t+1} = \\{1\\le i\\le m : |\\boldsymbol{a}_i^\\top\\boldsymbol{z}_t| / \\psi_i \\ge \\frac{1}{1+\\gamma}\\}$ (Equations 6\u20137 and 11), eliminating measurements near the hyperplane $\\boldsymbol{a}_i^\\top\\boldsymbol{z}_t = 0$ whose estimated signs $\\mathrm{sign}(\\boldsymbol{a}_i^\\top\\boldsymbol{z}_t)$ disagree with $\\mathrm{sign}(\\boldsymbol{a}_i^\\top\\boldsymbol{x})$."
+identity_notes: "Resolved against all 442 pinned AIO concepts and 692 maintained AIMech concepts. Distinct from `AIMech:WirtingerFlowPhaseRetrievalAndSpectralInitialization` (Cand\xE8s, Li, & Soltanolkotabi 2015) and `AIMech:TruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems` (Chen & Cand\xE8s 2017), which minimize smooth fourth-order intensity-based or Poisson losses using fourth-moment spectral initialization and discard large-residual measurements, whereas Truncated Amplitude Flow minimizes the nonsmooth second-order amplitude loss $\\frac{1}{2m}\\sum_i(\\psi_i - |\\boldsymbol{a}_i^\\top\\boldsymbol{z}|)^2$ using magnitude-free spherical covariance initialization $\\overline{\\boldsymbol{Y}}_0$ and truncates small-$|\\boldsymbol{a}_i^\\top\\boldsymbol{z}_t|/\\psi_i$ watershed measurements that carry corrupted signs."
+aliases:
+- Truncated Amplitude Flow (TAF)
+- Orthogonality-Promoting Initialization and Truncated Generalized Gradient Flow
+- Wang-Giannakis-Eldar Truncated Amplitude Flow for Phase Retrieval
+definition_evidence:
+- source_id: wge2018-taf-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: wge2018-taf-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: wge2018-taf-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-orthogonality-promoting-initialization-subspace-ratio-and-sample-complexity
+  kind: mechanism
+  statement: "For unit signal $\\|\\boldsymbol{x}\\|_2 = 1$ and leading unit eigenvector $\\tilde{\\boldsymbol{z}}_0$ of $\\overline{\\boldsymbol{Y}}_0 = \\frac{1}{|\\overline{\\mathcal{I}}_0|}\\overline{\\boldsymbol{S}}_0^\\top\\overline{\\boldsymbol{S}}_0$, Lemma 1 establishes the deterministic subspace perturbation inequality $\\frac{1}{2}\\|\\boldsymbol{x}\\boldsymbol{x}^\\top - \\tilde{\\boldsymbol{z}}_0\\tilde{\\boldsymbol{z}}_0^\\top\\|_F^2 = \\sin^2\\theta \\le \\frac{\\|\\overline{\\boldsymbol{S}}_0\\boldsymbol{x}^\\perp\\|_2^2}{\\|\\overline{\\boldsymbol{S}}_0\\boldsymbol{x}\\|_2^2}$ (Equations 29 and 68), and combining the conditional spherical sub-Gaussian upper bound $\\|\\overline{\\boldsymbol{S}}_0\\boldsymbol{x}^\\perp\\|_2^2 \\le 1.01|\\overline{\\mathcal{I}}_0|/n$ (Lemma 2) with the order-statistic chi-square lower bound $\\|\\overline{\\boldsymbol{S}}_0\\boldsymbol{x}\\|_2^2 \\ge \\frac{0.99|\\overline{\\mathcal{I}}_0|}{2.3n}[1 + \\log(m/|\\overline{\\mathcal{I}}_0|)]$ (Lemma 3) proves Proposition 1: $\\mathrm{dist}(\\boldsymbol{z}_0, \\boldsymbol{x}) \\le \\rho\\|\\boldsymbol{x}\\|_2$ with high probability once $m \\ge c_1|\\overline{\\mathcal{I}}_0| \\ge c_2 n$ (Section V-A, Proposition 1, Lemmas 1\u20133, Appendix A\u2013C)."
+  evidence:
+  - source_id: wge2018-taf-pdf
+    locator: Section II-B (Eqs. 14-23, pp. 8-12), Section V-A (Proposition 1, Lemmas 1-3, pp. 19-20), Appendices A-C (pp. 25-31)
+    relation: supports
+- claim_id: claim-watershed-sign-truncation-and-local-regularity-condition
+  kind: mechanism
+  statement: "Decomposing each generalized gradient summand as $\\partial\\ell_i(\\boldsymbol{z}) = \\boldsymbol{a}_i\\boldsymbol{a}_i^\\top\\boldsymbol{h} + (\\frac{\\boldsymbol{a}_i^\\top\\boldsymbol{x}}{|\\boldsymbol{a}_i^\\top\\boldsymbol{x}|} - \\frac{\\boldsymbol{a}_i^\\top\\boldsymbol{z}}{|\\boldsymbol{a}_i^\\top\\boldsymbol{z}|})\\psi_i\\boldsymbol{a}_i$ where $\\boldsymbol{h} = \\boldsymbol{z} - \\boldsymbol{x}$ (Equation 10), Lemma 4 proves that any surviving wrong-sign measurement in $\\mathcal{E}_i \\cap \\mathcal{K}_i$ ($|\\boldsymbol{a}_i^\\top\\boldsymbol{z}|/|\\boldsymbol{a}_i^\\top\\boldsymbol{x}| \\ge \\frac{1}{1+\\gamma}$ and $\\mathrm{sign}(\\boldsymbol{a}_i^\\top\\boldsymbol{z}) \\ne \\mathrm{sign}(\\boldsymbol{a}_i^\\top\\boldsymbol{x})$) must satisfy $|\\boldsymbol{a}_i^\\top\\boldsymbol{h}|/|\\boldsymbol{a}_i^\\top\\boldsymbol{x}| \\ge \\frac{2+\\gamma}{1+\\gamma}$ ($\\mathcal{D}_i$), and Lemmas 5\u20136 bound the Cauchy ratio tail to prove the Local Regularity Condition $\\langle \\boldsymbol{h}, \\frac{1}{m}\\nabla\\ell_{\\mathrm{tr}}(\\boldsymbol{z})\\rangle \\ge (1 - \\zeta_1 - \\zeta_2 - 2\\epsilon)\\|\\boldsymbol{h}\\|_2^2$ with $\\zeta_1 \\approx 0.08$ and $\\zeta_2^\\prime \\approx 0.2463$ at $\\rho = 1/10, \\gamma = 0.7$ (Section V-B, Propositions 2\u20133, Lemmas 4\u20136, Appendices D\u2013E)."
+  evidence:
+  - source_id: wge2018-taf-pdf
+    locator: Section II-A (Eqs. 5-12, pp. 5-8), Section V-B (Propositions 2-3, Lemmas 4-6, pp. 20-24), Appendices D-E (pp. 31-35)
+    relation: supports
+- claim_id: claim-linear-time-geometric-convergence-and-noise-stability-near-information-limit
+  kind: application
+  statement: "Theorem 1 and Equation 26 prove that with step size $\\mu \\le \\mu_0 \\approx 0.8388$ and truncation threshold $\\gamma \\ge 1/2$, Truncated Amplitude Flow contracts geometrically as $\\mathrm{dist}(\\boldsymbol{z}_t,\\boldsymbol{x}) \\le \\rho(1-\\nu)^t\\|\\boldsymbol{x}\\|_2$ in $O(mn\\log(1/\\epsilon))$ total flops and satisfies $\\mathrm{dist}(\\boldsymbol{z}_t,\\boldsymbol{x}) \\lesssim (1-\\nu)^t\\|\\boldsymbol{x}\\|_2 + \\frac{1}{\\sqrt{m}}\\|\\boldsymbol{\\eta}\\|_2$ under additive amplitude noise $\\psi_i = |\\boldsymbol{a}_i^\\top\\boldsymbol{x}| + \\eta_i$, achieving 100% empirical recovery at $m = 3n$ and $>50\\%$ recovery at the real-valued information-theoretic limit $m = 2n - 1$ (Sections III\u2013IV, Theorem 1, Equations 24\u201326)."
+  evidence:
+  - source_id: wge2018-taf-pdf
+    locator: Section III (Algorithm 1, Theorem 1, Eqs. 24-26, pp. 12-13), Section IV (Figs. 7-10, pp. 13-17)
+    relation: supports
+evidence_sources:
+- source_id: wge2018-taf-pdf
+  title: Solving Systems of Random Quadratic Equations via Truncated Amplitude Flow
+  authors: &id001
+  - Gang Wang
+  - Georgios B. Giannakis
+  - Yonina C. Eldar
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1605.08285.pdf
+  persistent_id: https://doi.org/10.1109/TIT.2017.2756858
+  version: arXiv:1605.08285v5 full-text PDF (37 pages), published in IEEE Transactions on Information Theory 64(2):773-794 (2018). (1935543 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:48:00Z'
+  sha256: bad2cff5dd6500ef1d770f25e465a7b945bbc914d7b2213ca3290b3e38e89264
+- source_id: wge2018-taf-abs
+  title: Solving Systems of Random Quadratic Equations via Truncated Amplitude Flow (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1605.08285
+  persistent_id: https://arxiv.org/abs/1605.08285
+  version: arXiv abstract page (7185 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:48:00Z'
+  sha256: f8b0b8d3cbf93c85302b13267cec67254c0aab6053efa25e7be0c526cb58c859
+- source_id: wge2018-taf-cr
+  title: Solving Systems of Random Quadratic Equations via Truncated Amplitude Flow (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2017.2756858
+  persistent_id: https://doi.org/10.1109/TIT.2017.2756858
+  version: Crossref API work record (10420 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:48:00Z'
+  sha256: 8691a79001e620cc4cab294b57f158398348645a58dd3eeb5c0b2d3c62a01177
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Uses leading-eigenvector spherical covariance projection for orthogonality-promoting initialization followed by truncated generalized gradient refinement.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Recovers an unknown linear parameter vector x from unsigned modulus measurements |<a_i, x>| via iterative sign-truncated least-squares updates.
+limitations:
+- The watershed truncation rule |a_i^T z_t| >= psi_i / (1 + gamma) relies on the initial estimate z_0 lying within a constant relative neighborhood dist(z_0, x) <= rho ||x||_2; if initialization fails at very small sample sizes m < 2n - 1, the problem is information-theoretically underdetermined.
+- Replacing the minimum-eigenvalue formulation (Eq. 16) with the complementary maximum-eigenvalue matrix Y_bar_0 (Eq. 18) relies on the concentration of (1/m) sum_i a_i a_i^T / ||a_i||_2^2 around (1/n) I_n, which requires isotropic or pre-whitened sensing vectors.
+curation:
+  created_at: '2026-10-19T05:48:00Z'
+  updated_at: '2026-10-19T05:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

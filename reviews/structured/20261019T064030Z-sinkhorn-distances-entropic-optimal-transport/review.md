@@ -1,0 +1,367 @@
+# Scientific author self-review of Sinkhorn Distances and Entropic Regularized Optimal Transport
+
+- Review: 20261019T064030Z-sinkhorn-distances-entropic-optimal-transport
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T06:40:00Z
+- Finished UTC: 2026-10-19T06:40:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Sinkhorn Distances and Entropic Regularized Optimal Transport as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 14232f52d949adaca556a5b059fc09d33c3fcdc8.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport | data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml | maintained | Sinkhorn Distances and Entropic Regularized Optimal Transport |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport | Validated history sidecar files. |
+| python3 sinkhorn-distances-entropic-optimal-transport-boundaries.py | passed | True | AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport | {"concept": "SinkhornDistancesAndEntropicRegularizedOptimalTransport", "cost_trajectory_vs_lambda": [0.931449, 0.808138, 0.80002, 0.8], "entropy_trajectory_vs_lambda": [1.897269, 1.77826, 1.758002, 1.75789], "kl_glued_xz": 0.155965, "kl_mutual_info_xy": 0.402584, "marginal_feasibility_err": 1.6653345369377348e-15, "non_coincidence_self_distance": 0.160602, "status": "VERIFIED"} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport.
+
+Sinkhorn Distances and Entropic Regularized Optimal Transport is a distinct concept.
+
+Distinct from 1-Wasserstein discriminator critic maximization in Wasserstein GANs (AIMech:WassersteinGANAndKantorovichRubinsteinDualityCritic) and from classical combinatorial auction / network-simplex linear programming solvers. Specifically captures Cuturi's (2013) Primal-Sinkhorn entropy ball constraint U_alpha(r, c) (Definition 1 and Equation 1), the Dual-Sinkhorn entropic Lagrangian d_M^lambda(r, c) = &lt;P^lambda, M&gt; (Equation 2), the metric symmetry and triangle-inequality proof via conditional gluing of transport plans and strong data-processing inequality I(X; Z) &lt;= min(I(X; Y), I(Y; Z)) (Theorem 1 and Lemma 1), the Gibbs kernel diagonal scaling characterization P^lambda = diag(u) exp(-lambda M) diag(v) (Lemma 2), and the vectorized Sinkhorn-Knopp algorithm (Algorithm 1).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in sinkhorn-distances-entropic-optimal-transport-boundaries.py passed with exit code 0: {"concept": "SinkhornDistancesAndEntropicRegularizedOptimalTransport", "cost_trajectory_vs_lambda": [0.931449, 0.808138, 0.80002, 0.8], "entropy_trajectory_vs_lambda": [1.897269, 1.77826, 1.758002, 1.75789], "kl_glued_xz": 0.155965, "kl_mutual_info_xy": 0.402584, "marginal_feasibility_err": 1.6653345369377348e-15, "non_coincidence_self_distance": 0.160602, "status": "VERIFIED"}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T064000Z-sinkhorn-distances-entropic-optimal-transport.json | supports | No normalized identity match for AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/sinkhorn-distances-entropic-optimal-transport-boundaries.py | supports | All constructed boundary assertions in sinkhorn-distances-entropic-optimal-transport-boundaries.py passed with exit code 0: {"concept": "SinkhornDistancesAndEntropicRegularizedOptimalTransport", "cost_trajectory_vs_lambda": [0.931449, 0.808138, 0.80002, 0.8], "entropy_trajectory_vs_lambda": [1.897269, 1.77826, 1.758002, 1.75789], "kl_glued_xz": 0.155965, "kl_mutual_info_xy": 0.402584, "marginal_feasibility_err": 1.6653345369377348e-15, "non_coincidence_self_distance": 0.160602, "status": "VERIFIED"} |
+| r324-primary-pdf | https://arxiv.org/pdf/1306.0895v1; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems (NeurIPS 2013), 26:2292-2300 (2013)) read and verified. |
+| r324-arxiv-abs | https://arxiv.org/abs/1306.0895v1; arXiv abstract | supports | arXiv abstract read and verified. |
+| r324-metadata-cr | https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport in Round 324.
+- All pages of Advances in Neural Information Processing Systems (NeurIPS 2013), 26:2292-2300 (2013) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T064030Z-sinkhorn-distances-entropic-optimal-transport
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Sinkhorn Distances and Entropic Regularized
+  Optimal Transport
+started_at: '2026-10-19T06:40:00Z'
+finished_at: '2026-10-19T06:40:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems (NeurIPS 2013), 26:2292-2300 (2013) and
+    pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Sinkhorn Distances and Entropic Regularized Optimal Transport as a
+  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
+source:
+  git_revision: 14232f52d949adaca556a5b059fc09d33c3fcdc8
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml
+    sha256: 70406382426026c61566ec3143eda7f3fc8bea22e5c8e1e38e1d374b063a3380
+    role: target
+  - path: research/discovery/20261019T064000Z-sinkhorn-distances-entropic-optimal-transport.json
+    sha256: a2cc057d22c218fe3d6f9767c7befe7ec628fd71ccbbf845a79c3a11c96f84f2
+    role: context
+  - path: research/discovery/sinkhorn-distances-entropic-optimal-transport-boundaries.py
+    sha256: 1ea4b54d60d3ad5a273749b4522081ae10d505dcc3c54ba0e7e0c7120076e78b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  path: data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml
+  label: Sinkhorn Distances and Entropic Regularized Optimal Transport
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/SinkhornDistancesAndEntropicRegularizedOptimalTransport.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 sinkhorn-distances-entropic-optimal-transport-boundaries.py
+  command: python3 research/discovery/sinkhorn-distances-entropic-optimal-transport-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"concept": "SinkhornDistancesAndEntropicRegularizedOptimalTransport",
+    "cost_trajectory_vs_lambda": [0.931449, 0.808138, 0.80002, 0.8], "entropy_trajectory_vs_lambda":
+    [1.897269, 1.77826, 1.758002, 1.75789], "kl_glued_xz": 0.155965, "kl_mutual_info_xy":
+    0.402584, "marginal_feasibility_err": 1.6653345369377348e-15, "non_coincidence_self_distance":
+    0.160602, "status": "VERIFIED"}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T064000Z-sinkhorn-distances-entropic-optimal-transport.json
+  accessed_at: '2026-10-19T06:40:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T06:40:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/sinkhorn-distances-entropic-optimal-transport-boundaries.py
+  accessed_at: '2026-10-19T06:40:00Z'
+  snapshot_sha256: 1ea4b54d60d3ad5a273749b4522081ae10d505dcc3c54ba0e7e0c7120076e78b
+  support: supports
+  summary: 'All constructed boundary assertions in sinkhorn-distances-entropic-optimal-transport-boundaries.py
+    passed with exit code 0: {"concept": "SinkhornDistancesAndEntropicRegularizedOptimalTransport",
+    "cost_trajectory_vs_lambda": [0.931449, 0.808138, 0.80002, 0.8], "entropy_trajectory_vs_lambda":
+    [1.897269, 1.77826, 1.758002, 1.75789], "kl_glued_xz": 0.155965, "kl_mutual_info_xy":
+    0.402584, "marginal_feasibility_err": 1.6653345369377348e-15, "non_coincidence_self_distance":
+    0.160602, "status": "VERIFIED"}'
+- evidence_id: r324-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1306.0895v1
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T06:40:00Z'
+  snapshot_sha256: f666b9bce6bbe0111fbaa49d550c7c58a53da11f5e62bdb547b422b83414f20f
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems (NeurIPS
+    2013), 26:2292-2300 (2013)) read and verified.
+- evidence_id: r324-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1306.0895v1
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T06:40:00Z'
+  snapshot_sha256: af40e4e68f0469d5c9a9763dddaa761e62043417b7e32b41dbd7d3ba0c97413b
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r324-metadata-cr
+  kind: primary_source
+  reference: https://papers.nips.cc/paper/2013/hash/af21d0c97db2e27e13572cbf59eb343d-Abstract.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T06:40:00Z'
+  snapshot_sha256: bef913c6effcfdf23c6cd24cfdc4be924757c30778a91fef744ab9e8b213c6ea
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  evidence_ids:
+  - identity
+  - r324-primary-pdf
+  - r324-arxiv-abs
+  - r324-metadata-cr
+  summary: Sinkhorn Distances and Entropic Regularized Optimal Transport is a distinct
+    concept.
+  details: Distinct from 1-Wasserstein discriminator critic maximization in Wasserstein
+    GANs (AIMech:WassersteinGANAndKantorovichRubinsteinDualityCritic) and from classical
+    combinatorial auction / network-simplex linear programming solvers. Specifically
+    captures Cuturi's (2013) Primal-Sinkhorn entropy ball constraint U_alpha(r, c)
+    (Definition 1 and Equation 1), the Dual-Sinkhorn entropic Lagrangian d_M^lambda(r,
+    c) = <P^lambda, M> (Equation 2), the metric symmetry and triangle-inequality proof
+    via conditional gluing of transport plans and strong data-processing inequality
+    I(X; Z) <= min(I(X; Y), I(Y; Z)) (Theorem 1 and Lemma 1), the Gibbs kernel diagonal
+    scaling characterization P^lambda = diag(u) exp(-lambda M) diag(v) (Lemma 2),
+    and the vectorized Sinkhorn-Knopp algorithm (Algorithm 1).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  evidence_ids:
+  - mapping
+  - r324-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  evidence_ids:
+  - r324-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in sinkhorn-distances-entropic-optimal-transport-boundaries.py
+    passed with exit code 0: {"concept": "SinkhornDistancesAndEntropicRegularizedOptimalTransport",
+    "cost_trajectory_vs_lambda": [0.931449, 0.808138, 0.80002, 0.8], "entropy_trajectory_vs_lambda":
+    [1.897269, 1.77826, 1.758002, 1.75789], "kl_glued_xz": 0.155965, "kl_mutual_info_xy":
+    0.402584, "marginal_feasibility_err": 1.6653345369377348e-15, "non_coincidence_self_distance":
+    0.160602, "status": "VERIFIED"}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  evidence_ids:
+  - identity
+  - mapping
+  - r324-primary-pdf
+  - r324-arxiv-abs
+  - r324-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SinkhornDistancesAndEntropicRegularizedOptimalTransport
+  in Round 324.
+- All pages of Advances in Neural Information Processing Systems (NeurIPS 2013), 26:2292-2300
+  (2013) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

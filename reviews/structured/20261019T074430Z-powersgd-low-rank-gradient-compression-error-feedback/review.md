@@ -1,0 +1,358 @@
+# Scientific author self-review of PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error Feedback
+
+- Review: 20261019T074430Z-powersgd-low-rank-gradient-compression-error-feedback
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:44:00Z
+- Finished UTC: 2026-10-19T07:44:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error Feedback as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/PowerSgdLowRankGradientCompressionWithErrorFeedback.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 1c84e4e0ae822a2fc410a62669766cb0bd403cf5.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback | data/curated/PowerSgdLowRankGradientCompressionWithErrorFeedback.yaml | maintained | PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error Feedback |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback | Validated history sidecar files. |
+| python3 powersgd-low-rank-gradient-compression-error-feedback-boundaries.py | passed | True | AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback | [PASS] Round 381 PowerSGD Low-Rank Gradient Compression boundaries verified. |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback.
+
+PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error Feedback is a distinct concept.
+
+Distinct from coordinate-wise sparse or quantized gradient compressors (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression, AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding, and AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, which require all_gather or hierarchical re-compression because non-linear sparse/quantized codes are not closed under addition), and from randomized SVD batch matrix sketching (AIMech:RandomizedSingularValueDecompositionViaSubspaceIteration). No pinned AIO class covers PowerSGD or linear all-reduce low-rank gradient compression with error feedback.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in powersgd-low-rank-gradient-compression-error-feedback-boundaries.py passed with exit code 0: [PASS] Round 381 PowerSGD Low-Rank Gradient Compression boundaries verified.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T074400Z-powersgd-low-rank-gradient-compression-error-feedback.json | supports | No normalized identity match for AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/powersgd-low-rank-gradient-compression-error-feedback-boundaries.py | supports | All constructed boundary assertions in powersgd-low-rank-gradient-compression-error-feedback-boundaries.py passed with exit code 0: [PASS] Round 381 PowerSGD Low-Rank Gradient Compression boundaries verified. |
+| r381-primary-pdf | https://arxiv.org/pdf/1905.13727.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 14259-14268 (2019)) read and verified. |
+| r381-arxiv-abs | https://arxiv.org/abs/1905.13727; arXiv abstract | supports | arXiv abstract read and verified. |
+| r381-metadata-cr | https://papers.nips.cc/paper/2019/hash/d9fbed9da256e344c1fa46bb46c34c5f-Abstract.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback in Round 381.
+- All pages of Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 14259-14268 (2019) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T074430Z-powersgd-low-rank-gradient-compression-error-feedback
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of PowerSGD Low-Rank Subspace Iteration Gradient
+  Compression with Error Feedback
+started_at: '2026-10-19T07:44:00Z'
+finished_at: '2026-10-19T07:44:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 14259-14268 (2019)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error
+  Feedback as a distinct DRAFT algorithm. All four claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 1c84e4e0ae822a2fc410a62669766cb0bd403cf5
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/PowerSgdLowRankGradientCompressionWithErrorFeedback.yaml
+    sha256: bcda8aeb98a11d96e2a762a010952c454049c8d41bb9cbc94f6abc9af43b07d1
+    role: target
+  - path: research/discovery/20261019T074400Z-powersgd-low-rank-gradient-compression-error-feedback.json
+    sha256: 9e78ccf3960d51100be5cdc399996aa00133424e2949da5a2a3f0bb36363240b
+    role: context
+  - path: research/discovery/powersgd-low-rank-gradient-compression-error-feedback-boundaries.py
+    sha256: 52fa38a8c05cc5613750256292bc7f09ba472ce573bd1914ed871bcd31103b6a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  path: data/curated/PowerSgdLowRankGradientCompressionWithErrorFeedback.yaml
+  label: PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error Feedback
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PowerSgdLowRankGradientCompressionWithErrorFeedback.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/PowerSgdLowRankGradientCompressionWithErrorFeedback.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 powersgd-low-rank-gradient-compression-error-feedback-boundaries.py
+  command: python3 research/discovery/powersgd-low-rank-gradient-compression-error-feedback-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 381 PowerSGD Low-Rank Gradient Compression boundaries verified.'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T074400Z-powersgd-low-rank-gradient-compression-error-feedback.json
+  accessed_at: '2026-10-19T07:44:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:44:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/powersgd-low-rank-gradient-compression-error-feedback-boundaries.py
+  accessed_at: '2026-10-19T07:44:00Z'
+  snapshot_sha256: 52fa38a8c05cc5613750256292bc7f09ba472ce573bd1914ed871bcd31103b6a
+  support: supports
+  summary: 'All constructed boundary assertions in powersgd-low-rank-gradient-compression-error-feedback-boundaries.py
+    passed with exit code 0: [PASS] Round 381 PowerSGD Low-Rank Gradient Compression
+    boundaries verified.'
+- evidence_id: r381-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1905.13727.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:44:00Z'
+  snapshot_sha256: 2b1e6d475c7b25f95b7b98800f20fc398f954b274e7747d4a31bb7bf7edf2cd2
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 32 (NeurIPS
+    2019), pp. 14259-14268 (2019)) read and verified.
+- evidence_id: r381-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1905.13727
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:44:00Z'
+  snapshot_sha256: e12cf42ac62b755e16bc0442b73f1e4339e144b257bd38b2f1b2c0376cca4822
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r381-metadata-cr
+  kind: primary_source
+  reference: https://papers.nips.cc/paper/2019/hash/d9fbed9da256e344c1fa46bb46c34c5f-Abstract.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:44:00Z'
+  snapshot_sha256: 3f09798d21c8acfafec29f9bf577429471305579cf89e6d3a7a1379c5c12badc
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  evidence_ids:
+  - identity
+  - r381-primary-pdf
+  - r381-arxiv-abs
+  - r381-metadata-cr
+  summary: PowerSGD Low-Rank Subspace Iteration Gradient Compression with Error Feedback
+    is a distinct concept.
+  details: Distinct from coordinate-wise sparse or quantized gradient compressors
+    (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression, AIMech:QsgdQuantizedStochasticGradientDescentWithEliasCoding,
+    and AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, which require
+    all_gather or hierarchical re-compression because non-linear sparse/quantized
+    codes are not closed under addition), and from randomized SVD batch matrix sketching
+    (AIMech:RandomizedSingularValueDecompositionViaSubspaceIteration). No pinned AIO
+    class covers PowerSGD or linear all-reduce low-rank gradient compression with
+    error feedback.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  evidence_ids:
+  - mapping
+  - r381-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  evidence_ids:
+  - r381-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in powersgd-low-rank-gradient-compression-error-feedback-boundaries.py
+    passed with exit code 0: [PASS] Round 381 PowerSGD Low-Rank Gradient Compression
+    boundaries verified.'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  evidence_ids:
+  - identity
+  - mapping
+  - r381-primary-pdf
+  - r381-arxiv-abs
+  - r381-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PowerSgdLowRankGradientCompressionWithErrorFeedback
+  in Round 381.
+- All pages of Advances in Neural Information Processing Systems 32 (NeurIPS 2019),
+  pp. 14259-14268 (2019) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

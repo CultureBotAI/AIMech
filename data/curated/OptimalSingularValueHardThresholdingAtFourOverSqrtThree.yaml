@@ -1,0 +1,102 @@
+id: AIMech:OptimalSingularValueHardThresholdingAtFourOverSqrtThree
+name: Optimal Singular Value Hard Thresholding at 4/sqrt(3) for Low-Rank Matrix Denoising
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- Gavish-Donoho 4/sqrt(3) Singular Value Hard Thresholding
+- Optimal Singular Value Hard Thresholding (SVHT)
+- Aspect-Ratio Optimal SVHT Cutoff lambda_*(beta)
+- Marcenko-Pastur Median Adaptive Singular Value Hard Threshold 2.858 y_med
+definition: A low-rank matrix denoising methodology introduced by Gavish and Donoho (2014, IEEE Transactions on Information Theory 60(8):5040-5053, arXiv:1305.5870v3) for recovering an unknown low-rank m x n matrix X of fixed rank r from noisy observations Y = X + sigma Z = sum_{i=1}^m y_i u_i v_i' with i.i.d. zero-mean unit-variance finite-fourth-moment noise entries as m_n / n -> beta in (0, 1]. Applying Singular Value Hard Thresholding (SVHT) hat_X_tau = sum_{i=1}^m y_i 1_{y_i >= tau} u_i v_i' at threshold tau = lambda sqrt(n) sigma, the method uses Benaych-Georges and Nadakuditi's asymptotic singular value limit y(x) = sqrt((x + 1/x)(x + beta/x)) and left/right singular vector inner-product limits (Lemmas 2-3, eqs. 28-30) to derive the exact Asymptotic Mean Square Error (AMSE) M(hat_X_lambda, x) = sum_{i=1}^r M(hat_X_lambda, x_i) with component risk (x + 1/x)(x + beta/x) - (x^2 - 2 beta / x^2) for x >= x_*(lambda) and x^2 for x < x_*(lambda) (Lemma 4, eqs. 32-33). Equating the keeping and killing branches via x_*^4 - (beta + 1) x_*^2 - 3 beta = 0 yields the unique asymptotically admissible and minimax optimal hard threshold coefficient lambda_*(beta) = sqrt(2(beta + 1) + 8 beta / ((beta + 1) + sqrt(beta^2 + 14 beta + 1))) (Eq. 11, reducing to lambda_*(1) = 4 / sqrt(3) ~= 2.3094 for square matrices), which uniformly dominates every other hard threshold lambda != lambda_*(beta) and oracle-rank Truncated SVD hat_X_r (Theorems 1-4) as well as minimax risk over nuclear-norm balls ||x||_1 <= xi with optimal constant sqrt(3) xi (Theorem 5). When sigma is unknown, plugging in the Marcenko-Pastur median noise estimator hat_sigma(Y) = y_{med} / sqrt(n mu_beta) yields the tuning-free data-driven threshold hat_tau_*(beta, Y) = omega(beta) y_{med} (with omega(1) ~= 2.8582 and cubic approximation omega(beta) ~= 0.56 beta^3 - 0.95 beta^2 + 1.82 beta + 1.43) that achieves identical asymptotic optimality without knowing r or sigma (Lemma 1 and Corollaries 1-3).
+identity_notes: Resolved against all 442 pinned AIO concepts and 646 maintained AIMech records. Distinct from AIMech:LossSpecificOptimalEigenvalueShrinkageForSpikedCovarianceMatrices (Donoho, Gavish, & Johnstone 2018), which shrinks eigenvalues eta(lambda_i) of symmetric sample covariance matrices S = (1/n) X'X toward a unit noise bulk floor 1 across 26 covariance pivot-losses rather than hard-thresholding rectangular data singular values y_i to 0 at tau_* = lambda_*(beta) sqrt(n) sigma under Frobenius MSE; distinct from AIMech:SingularValueThresholdingForMatrixCompletion (Cai, Candes, & Shen 2010), which applies iterative soft thresholding (y_i - tau)_+ within Uzawa subgradient iterations for incomplete matrix nuclear-norm minimization; and distinct from AIMech:BaikSilversteinSpikedPopulationCovarianceEigenvalueSeparation (Baik & Silverstein 2006) and AIMech:BaikBenArousPecheLargestEigenvaluePhaseTransition (Baik, Ben Arous, & Peche 2005), which analyze sample covariance eigenvalue limits and fluctuations without singular-vector rotation AMSE trade-offs or matrix denoising estimators.
+definition_evidence:
+- source_id: gd2014-svht-pdf
+  locator: Section I-B to I-D, Equations (2)-(5), pp. 1-3; Section III, Equations (10)-(26), Theorems 1-5, Lemma 1, Corollaries 1-3, and Tables I-IV, pp. 4-8; Section V, Lemmas 2-5 and Proofs of Theorems 1-4, pp. 9-11; Section VI, Eq. (39), p. 11
+  relation: supports
+- source_id: gd2014-svht-abs
+  locator: Abstract
+  relation: supports
+- source_id: gd2014-svht-cr
+  locator: DOI:10.1109/TIT.2014.2323359 article metadata
+  relation: supports
+claims:
+- claim_id: singular-vector-rotation-amse-decomposition-and-indifference-quartic
+  kind: mechanism
+  statement: In the rectangular spiked matrix model Y_n = X_n + Z_n / sqrt(n) with m_n / n -> beta in (0, 1] and rank-r signal singular values x_1, ..., x_r, Section V (Lemmas 2-4, eqs. 28-36, pp. 9-10) applies Benaych-Georges and Nadakuditi's almost-sure singular value limit y_{n,i} -> sqrt((x_i + 1/x_i)(x_i + beta/x_i)) for x_i > beta^{1/4} (eq. 28) and left/right singular vector cosine limits d |<a_{n,i}, u_{n,i}>|^2 -> (x_i^4 - beta)/(x_i^4 + beta x_i^2) and d |<b_{n,i}, v_{n,i}>|^2 -> (x_i^4 - beta)/(x_i^4 + x_i^2) (eqs. 29-30) to prove that for any hard threshold lambda > 1 + sqrt(beta), the asymptotic MSE decouples into M(hat_X_lambda, x) = sum_{i=1}^r M(hat_X_lambda, x_i) with M(hat_X_lambda, x) = (x + 1/x)(x + beta/x) - (x^2 - 2 beta / x^2) when x >= x_*(lambda) and x^2 when x < x_*(lambda), where x_*(lambda) = sqrt((lambda^2 - beta - 1 + sqrt((lambda^2 - beta - 1)^2 - 4 beta)) / 2) (eqs. 18, 33). Proof of Theorem 1 (p. 11) shows that the keeping and killing risk branches intersect at the unique positive root x_* of x_*^4 - (beta + 1) x_*^2 - 3 beta = 0, namely x_*^2 = [(beta + 1) + sqrt(beta^2 + 14 beta + 1)] / 2, which maps via y(x_*) to the unique optimal threshold lambda_*(beta) = sqrt(2(beta + 1) + 8 beta / ((beta + 1) + sqrt(beta^2 + 14 beta + 1))) (eq. 11), reducing at beta = 1 to x_* = sqrt(3) and lambda_*(1) = 4 / sqrt(3) (eq. 10).
+  evidence:
+  - source_id: gd2014-svht-pdf
+    locator: Section III, Equations (10)-(11) and (18), pp. 4-5; Section V, Lemmas 2-5, Equations (28)-(38), and Proofs of Theorems 1-4, pp. 9-11
+    relation: supports
+- claim_id: uniform-admissibility-over-tsvd-and-minimax-guarantees-over-rank-and-nuclear-norm
+  kind: scope
+  statement: Theorems 1 and 2 (pp. 4-5) prove that hat_X_{lambda_*(beta)} is asymptotically unique admissible among all hard thresholds lambda > 1 + sqrt(beta) and uniformly dominates oracle-rank Truncated SVD hat_X_r in AMSE across all signal configurations x in R^r because signal singular values x_i in (0, x_*(lambda_*(beta))) produce empirical singular vectors rotated so severely by noise that including y_{n,i} u_{n,i} v_{n,i}' incurs AMSE up to 5 times larger than setting it to zero (Section IV-A, p. 8; Lemma 5, eq. 38, p. 10). Theorems 3 and 4 (p. 5) prove that the least favorable rank-r signal is fully degenerate at x_*(lambda) (1, ..., 1) and that lambda_*(beta) achieves the minimax AMSE min_{lambda > 1 + sqrt(beta)} max_{x in R^r} M(hat_X_lambda, x) = (r/2)[(beta + 1) + sqrt(beta^2 + 14 beta + 1)] (eq. 19), which for square matrices (beta = 1) equals 3 r (or 3 n r sigma^2 in general noise scaling), strictly improving upon Universal Singular Value Thresholding lambda = 2.02 (4.26 r), oracle TSVD (5 r), and optimally tuned Singular Value Soft Thresholding at s_* = 2 (6 r), while lying within 3/2 of the optimal continuous shrinker eta_{opt}(y) = sqrt((y^2 - 4)_+) (2 r) (Table II, pp. 5-7). Moreover, Theorem 5 (pp. 6-7) proves that lambda_* = 4/sqrt(3) is minimax optimal over nuclear-norm balls ||x||_1 <= xi, achieving min_{lambda > 2} max_{||x||_1 <= xi} M(hat_X_lambda, x) = sqrt(3) xi (Table III, p. 8).
+  evidence:
+  - source_id: gd2014-svht-pdf
+    locator: Section III-A to III-D, Theorems 1-5, Equations (12)-(25), and Tables I-III, pp. 4-8; Section IV-A to IV-B, p. 8-9
+    relation: supports
+  - source_id: gd2014-svht-abs
+    locator: Abstract
+    relation: supports
+- claim_id: marcenko-pastur-median-unknown-noise-adaptation-and-haar-general-white-noise
+  kind: scope
+  statement: "When the noise level sigma in Y = X + sigma Z is unknown, Section III-E (Eq. 26, Lemma 1, Corollaries 1-3, Table IV, pp. 7-8) and Section V (Proof of Lemma 1, p. 11) prove that hat_sigma(Y) = y_{med} / sqrt(n mu_beta) \u2014 where y_{med} is the median empirical singular value of Y and mu_beta is the median of the Marcenko-Pastur law on [(1 - sqrt(beta))^2, (1 + sqrt(beta))^2] \u2014 satisfies hat_sigma(Y_n) / (1/sqrt(n)) -> 1 almost surely, so the data-dependent threshold hat_tau_*(beta, Y) = omega(beta) y_{med} with omega(beta) = lambda_*(beta) / sqrt(mu_beta) (omega(1) ~= 2.8582; cubic approximation 0.56 beta^3 - 0.95 beta^2 + 1.82 beta + 1.43 accurate to <= 0.02 on (0.001, 1], eq. 5) achieves the exact same almost-sure AMSE M(hat_X_{hat_tau_*}, x) = M(hat_X_{lambda_*}, x) and all optimality guarantees of Theorems 1-5. Furthermore, Section VI (eq. 39, p. 11) proves that when Z_n has general non-Gaussian i.i.d. white noise with finite fourth moment and X_n has Haar-distributed left/right singular vector bases U_n, V_n, all asymptotic limits in Lemmas 2-5 and Theorems 1-5 continue to hold."
+  evidence:
+  - source_id: gd2014-svht-pdf
+    locator: Section I-D, Equations (4)-(5), p. 3; Section III-E, Equation (26), Lemma 1, Corollaries 1-3, and Table IV, pp. 7-8; Section V, Proof of Lemma 1, p. 11; Section VI, Equation (39), p. 11
+    relation: supports
+evidence_sources:
+- source_id: gd2014-svht-pdf
+  title: The Optimal Hard Threshold for Singular Values is 4/sqrt(3)
+  authors:
+  - Matan Gavish
+  - David L. Donoho
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1305.5870.pdf
+  persistent_id: https://arxiv.org/abs/1305.5870v3
+  version: arXiv:1305.5870v3 full-text PDF (14 pages, 1692179 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-18T17:46:40Z'
+  sha256: efdf529e9df7c910ae7e3a02dcaa420a8cf0463ae5559ef1d432a0fa43d32f4f
+- source_id: gd2014-svht-abs
+  title: The Optimal Hard Threshold for Singular Values is 4/sqrt(3)
+  authors:
+  - Matan Gavish
+  - David L. Donoho
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1305.5870
+  persistent_id: https://arxiv.org/abs/1305.5870
+  version: arXiv:1305.5870 abstract page (6774 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:46:39Z'
+  sha256: cd92e0db3b8af880a25eaa0956542d2a82f323a5cad216a60660404947ec0afb
+- source_id: gd2014-svht-cr
+  title: The Optimal Hard Threshold for Singular Values is 4/sqrt(3)
+  authors:
+  - Matan Gavish
+  - David L. Donoho
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1109/TIT.2014.2323359
+  persistent_id: https://doi.org/10.1109/TIT.2014.2323359
+  version: IEEE Transactions on Information Theory 60(8):5040-5053 (2014) Crossref metadata (2417 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:46:39Z'
+  sha256: 5e82266f48ecde691aeac4310aedc0a38a1d29d9ca145a064821123737144e8f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Establishes the exact AMSE-optimal singular value hard thresholding rule tau_* = lambda_*(beta) sqrt(n) sigma (and unknown-noise median rule omega(beta) y_{med}) that dominates scree-plot bulk-edge truncation and oracle rank-r Truncated SVD / PCA reconstruction.
+limitations:
+- 'Suboptimality relative to continuous singular value shrinkage and soft thresholding in very low SNR: Because SVHT applies a discontinuous keep-or-kill nonlinearity eta_H(y; tau) = y 1_{y >= tau} without shrinking retained singular values, its worst-case AMSE over rank-r square matrices (3 r) is 50% higher than that of the optimal continuous shrinker eta_{opt}(y) = sqrt((y^2 - 4)_+) (2 r), and in low SNR near x = sqrt(3) or over nuclear-norm balls, optimally tuned soft thresholding at s_* = 2 achieves lower risk ((7 - 8/sqrt(3))r ~= 2.38 r vs 3 r and nuclear-norm slope 1.38 vs sqrt(3) ~= 1.73; Section III-C, pp. 5-6; Table III, p. 8).'
+- 'Fixed low-rank regime r << min(m, n) and i.i.d. white noise: The asymptotic derivation assumes fixed rank r as m_n, n -> infinity with m_n/n -> beta in (0, 1] and i.i.d. zero-mean noise entries with finite fourth moment; when the rank fraction r/n is non-negligible, interactions between signal singular values cause finite-sample deviations from AMSE (Section VII, p. 12).'
+- 'Breakdown of the first-order AMSE formula for thresholds placed at the bulk edge 1 + sqrt(beta): The deterministic AMSE formula in Lemma 4 assumes lambda > 1 + sqrt(beta) so that bulk noise singular values never cross the threshold; when lambda is placed at or within O(n^{-2/3}) of the bulk edge 1 + sqrt(beta), Tracy-Widom fluctuations of y_{n,r+1} inject noisy bulk singular vectors into hat_X_lambda (Section III-A, p. 4; Section VII, p. 12).'
+- 'Primary-source typographical audit of arXiv:1305.5870v3 (DOI:10.1109/TIT.2014.2323359): (1) On p. 3 (Section I-D, Matlab code snippet, lines 5-6), ''y = diag(Y);'' is written instead of ''y = diag(D);'' after ''[U D V] = svd(Y);'', and ''y( y < (omega * median(y) ) = 0;'' has an unmatched opening parenthesis; (2) on p. 4 (Section II-A, first display), ''||hat_X(X/(sqrt(n) sigma)) + Z/sqrt(n)) - X/(sqrt(n) sigma)||_F^2'' has an extra closing parenthesis after the first ''X/(sqrt(n) sigma)''; (3) on p. 7 (Section III-E, display below Eq. 26), the Marcenko-Pastur median integral writes ''sqrt((beta_+ - t)(t - beta_-)) / (2 pi t)'' omitting the factor ''beta'' in the denominator ''2 pi beta t'' (cf. Eq. 31 on p. 9), and the headings of Corollaries 1-3 on p. 7 are spelled ''Correlary 1'', ''Correlary 2'', and ''Correlary 3''; (4) on p. 9 (Section IV-B, paragraph 3, last sentence), ''The two curves intersect at lambda ~= 0.55'' prints ''lambda ~= 0.55'' instead of ''beta ~= 0.55''; and (5) on p. 10 (Proof of Lemma 4, fifth display), ''<a_{i}''_i, u_{n,j} v''_{n,j}>'' prints ''a_{i}''_i'' instead of ''a_i b''_i'' and the next line has a stray multiplication dot after ''lim_{n->infty}''.'
+curation:
+  created_at: '2026-10-19T01:02:00Z'
+  updated_at: '2026-10-19T01:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

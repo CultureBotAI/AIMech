@@ -1,0 +1,102 @@
+id: AIMech:MsdaMultiStepDualAcceleratedDecentralizedOptimization
+name: MSDA and SSDA (Multi-Step and Single-Step Dual Accelerated Decentralized Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Rate-optimal decentralized optimization algorithms for alpha-strongly convex and beta-smooth objectives min_{theta_1=...=theta_n} sum_{i=1}^n f_i(theta_i) over a network with gossip Laplacian W (Scaman, Bach, Bubeck, Lee, & Massoulie 2017, Section 3, Algorithms 1-2): Single-Step Dual Accelerated (SSDA, Algorithm 1) reformulates the consensus problem into the unconstrained dual max_{lambda} -F^*(lambda sqrt(W)) and applies Nesterov''s accelerated gradient descent using local dual conjugate gradients nabla f_i^*(y_{i,t}) gossiped by W; Multi-Step Dual Accelerated (MSDA, Algorithm 2) replaces W with the K-step Chebyshev polynomial gossip operator P_K(W) = I - T_K(c_2(I - c_1 W)) / T_K(c_2) where K = floor(1 / sqrt(gamma(W))) and gamma(W) = lambda_{n-1}(W) / lambda_1(W).'
+identity_notes: Distinct from primal-dual consensus algorithms such as EXTRA (AIMech:ExtraExactFirstOrderDecentralizedConsensusOptimization, Shi et al. 2015) and DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic et al. 2017), which evaluate primal gradients nabla f_i(x_i) without Nesterov dual acceleration or Chebyshev polynomial gossip and have non-accelerated O(kappa_l / gamma) dependence on the condition number kappa_l = beta / alpha and spectral gap gamma(W).
+aliases:
+- MSDA and SSDA
+- Multi-Step Dual Accelerated Decentralized Optimization
+- Single-Step Dual Accelerated Decentralized Optimization
+definition_evidence:
+- source_id: r435-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r435-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r435-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r435-decentralized-and-centralized-lower-bounds-theorems-1-and-2
+  kind: mechanism
+  statement: For black-box distributed optimization with local computation time 1 and per-link communication delay tau, Theorem 1 and Corollary 1 establish a centralized lower bound Omega(sqrt(kappa_g)(1 + Delta tau) ln(1 / varepsilon)) in terms of the global condition number kappa_g = beta_g / alpha_g and network diameter Delta, while Theorem 2 and Corollary 2 construct adversarially split chain/grid graphs to prove a decentralized gossip lower bound Omega(sqrt(kappa_l)(1 + tau / sqrt(gamma)) ln(1 / varepsilon)) in terms of the local condition number kappa_l = beta / alpha and normalized Laplacian eigengap gamma = lambda_{n-1}(W) / lambda_1(W).
+  evidence:
+  - source_id: r435-primary-pdf
+    locator: Section 2 Optimal Convergence Rates (Theorems 1-2, Corollaries 1-2)
+    relation: supports
+- claim_id: r435-chebyshev-gossip-eigengap-boost-and-msda-optimal-time-theorem
+  kind: mechanism
+  statement: Whereas SSDA (Theorem 3) requires O(sqrt(kappa_l / gamma)(1 + tau) ln(1 / varepsilon)) time, MSDA's Chebyshev polynomial operator P_K(W) with c_1 = 2 / (lambda_1(W) + lambda_{n-1}(W)), c_2 = (1 + gamma) / (1 - gamma), and K = floor(1 / sqrt(gamma)) satisfies 1 / sqrt(gamma(P_K(W))) <= 2 (Proposition 1), decoupling computation and communication so MSDA reaches varepsilon-precision in O(sqrt(kappa_l) ln(1 / varepsilon)) local conjugate-gradient steps and O(sqrt(kappa_l / gamma) ln(1 / varepsilon)) gossip steps, matching the optimal decentralized time bound O(sqrt(kappa_l)(1 + tau / sqrt(gamma)) ln(1 / varepsilon)) (Theorem 4).
+  evidence:
+  - source_id: r435-primary-pdf
+    locator: Section 3.2 SSDA (Theorem 3) & Section 3.3 MSDA (Proposition 1, Algorithm 2, Theorem 4)
+    relation: supports
+- claim_id: r435-fenchel-conjugate-oracle-and-spectral-parameter-knowledge-limitation
+  kind: limitation
+  statement: Requires each node i to evaluate the Fenchel conjugate gradient nabla f_i^*(y) = argmax_theta (<y, theta> - f_i(theta)) (an exact local inner minimization at every outer step) and requires prior knowledge of the spectral bounds lambda_1(W) and lambda_{n-1}(W) as well as alpha and beta.
+  evidence:
+  - source_id: r435-primary-pdf
+    locator: Section 3.1 Dual Formulation & Section 3.2-3.3 Algorithms 1-2
+    relation: supports
+- claim_id: r435-decentralized-regression-and-regularized-classification-application
+  kind: application
+  statement: Applied to decentralized l_2-regularized linear regression and logistic classification across grid, cycle, and Erdos-Renyi communication networks.
+  evidence:
+  - source_id: r435-primary-pdf
+    locator: Section 3.3 Practical Remarks & Appendix Proof of Theorem 4
+    relation: supports
+evidence_sources:
+- source_id: r435-primary-pdf
+  title: Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks
+  authors: &id001
+  - Kevin Scaman
+  - Francis Bach
+  - Sebastien Bubeck
+  - Yin Tat Lee
+  - Laurent Massoulie
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1702.08704
+  persistent_id: https://proceedings.mlr.press/v70/scaman17a.html
+  version: Proceedings of the 34th International Conference on Machine Learning (ICML 2017), PMLR 70:3027-3036 (2017) (60053 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:38:00Z'
+  sha256: 42be8a47b215f37933df3f793dca36eaaacf2c593a9ac3735b6515608b29294a
+- source_id: r435-arxiv-abs
+  title: Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1702.08704
+  persistent_id: https://arxiv.org/abs/1702.08704
+  version: arXiv abstract page (16400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:38:00Z'
+  sha256: 2ce8fd75c1921a814f5951fff349d4966323fd232cfe4f2c988253be7fe0050f
+- source_id: r435-metadata-cr
+  title: Optimal Algorithms for Smooth and Strongly Convex Distributed Optimization in Networks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/scaman17a.html
+  persistent_id: https://proceedings.mlr.press/v70/scaman17a.html
+  version: Crossref API work record (450 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:38:00Z'
+  sha256: 0969cdc5476fd15ce7e6bda8078d32e7c5b182d7011861ee1a850a03bc787cd0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: MSDA and SSDA establish the minimax-optimal communication and computation complexity for smooth strongly convex decentralized optimization in networks.
+limitations:
+- Each outer step requires evaluating the exact Fenchel conjugate gradient nabla f_i^*(y_{i,t}) on every node.
+- Requires a static symmetric gossip Laplacian W with known eigengap gamma(W).
+curation:
+  created_at: '2026-10-19T08:38:00Z'
+  updated_at: '2026-10-19T08:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

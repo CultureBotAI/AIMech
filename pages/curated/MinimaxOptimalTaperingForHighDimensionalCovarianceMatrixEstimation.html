@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minimax-Optimal Tapering for High-Dimensional Covariance Matrix Estimation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+    <span>/</span>
+    <strong>Minimax-Optimal Tapering for High-Dimensional Covariance Matrix Estimation</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Minimax-Optimal Tapering for High-Dimensional Covariance Matrix Estimation</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:MinimaxOptimalTaperingForHighDimensionalCovarianceMatrixEstimation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Trapezoidal Tapering Covariance Estimator, Cai-Zhang-Zhou Tapering Estimator, Minimax-Optimal Bandable Covariance Tapering, Block-Sum Tapered Covariance Regularization
+    </div>
+
+  <div class="detail-desc">
+    Minimax-optimal tapering for high-dimensional covariance matrix estimation is a linear location-equivariant covariance regularization methodology that multiplies the sample covariance matrix Sigma^* = (sigma^*_{ij})_{1&lt;=i,j&lt;=p} entrywise by a piecewise-linear trapezoidal tapering mask w_{ij} = k_h^{-1}((k - |i-j|)_+ - (k_h - |i-j|)_+) with even bandwidth k = 2*k_h (1 &lt;= k &lt;= p), leaving entries within bandwidth |i-j| &lt;= k_h unshrunk (w_{ij} = 1), linearly ramping weights down to zero across the transition band k_h &lt; |i-j| &lt; k, and zeroing out entries with |i-j| &gt;= k. By Lemma 1 of Cai, Zhang, &amp; Zhou (2010), the tapered estimator admits the exact algebraic block-sum decomposition Sigma_hat_k = k_h^{-1}(S^{*(k)} - S^{*(k_h)}), where S^{*(m)} = sum_{l=1-m}^p M_l^{*(m)} is the sum of all m x m principal block submatrices along the diagonal, enabling sharp random-matrix operator-norm control over the bandable covariance parameter space F_alpha(M_0, M) = {Sigma : max_j sum_{|i-j|&gt;k} |sigma_{ij}| &lt;= M k^{-alpha} for all k, lambda_max(Sigma) &lt;= M_0} and establishing the minimax squared spectral-norm risk min{n^{-2*alpha/(2*alpha+1)} + (log p)/n, p/n} at bandwidth k = n^{1/(2*alpha+1)} and the minimax normalized squared Frobenius-norm risk min{n^{-(2*alpha+1)/(2*(alpha+1))}, p/n} at the strictly smaller bandwidth k = n^{1/(2*(alpha+1))}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved as a distinct AIMech-native mathematical_method concept from Cai, Zhang, and Zhou (2010, The Annals of Statistics 38(4):2118-2144; arXiv:1010.3866v1, DOI:10.1214/09-AOS752). Distinct from AIMech:HighDimensionalCovarianceRegularizationByHardThresholding (Bickel &amp; Levina 2008b, which applies nonlinear entrywise hard thresholding T_t(M) = (m_{ij} 1{|m_{ij}| &gt;= t}) to permutation-invariant sparse covariance classes U(q, c_0(p), M) without variable ordering), distinct from Bickel &amp; Levina (2008a) rectangular covariance banding (which uses hard indicator weights I{|i-j| &lt;= k} and relies on the matrix l1 bound to obtain the suboptimal operator-norm rate ((log p)/n)^{alpha/(alpha+1)}), distinct from AIMech:LedoitWolfOptimalLinearShrinkageCovarianceEstimator (which shrinks isotropically toward the identity matrix under quadratic Frobenius loss), and distinct from AIMech:ConstrainedL1MinimizationForSparsePrecisionMatrixEstimation and AIMech:HighDimensionalCovarianceEstimationByL1PenalizedLogDeterminantDivergence (which estimate sparse precision matrices without banded coordinate decay).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lemma1-block-sum-decomposition-and-lemma2-operator-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For even tapering bandwidth k = 2*k_h, the trapezoidal weights w_{ij} = k_h^{-1}((k - |i-j|)_+ - (k_h - |i-j|)_+) yield the exact algebraic identity Sigma_hat_k = k_h^{-1}(S^{*(k)} - S^{*(k_h)}), where S^{*(m)} = sum_{l=1-m}^p M_l^{*(m)} sums the m x m diagonal block submatrices M_l^{*(m)} = (sigma^*_{ij} I{l &lt;= i &lt; l+m, l &lt;= j &lt; l+m})_{p x p} (Lemma 1, Eq. 6, p. 5; Proof on p. 23). Consequently, by partitioning S^{(m)} into m sums of mutually orthogonal diagonal blocks, the uncentered tapered sample covariance Sigma_breve satisfies the deterministic operator-norm inequality ||Sigma_breve - E[Sigma_breve]||_2 &lt;= 3 max_{1 &lt;= l &lt;= p-k+1} ||M_l^{(k)} - E[M_l^{(k)}]||_2 (Lemma 2, p. 8; Proof on p. 25, Eqs. 44-45).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-czz2010-tapering-pdf">Optimal rates of convergence for covariance matrix estimation</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations (4)-(6) and Lemma 1, pp. 4-5; Section 3.1, Lemma 2, p. 8; Section 7, Proof of Lemma 1 and Proof of Lemma 2, pp. 23, 25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#operator-norm-minimax-rate-and-row-undersmoothing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Over the sub-Gaussian bandable covariance collection P_alpha(M_0, M, rho) with P{|v^T(X_1 - E X_1)| &gt; t} &lt;= exp(-t^2 rho / 2) for ||v||_2 = 1 (Eq. 7, p. 6), a 1/2-net covering argument on S^{m-1} with cardinality &lt;= 5^m (Lemma 3, Eq. 16, p. 8; Proof on pp. 25-26) bounds the variance term by E||Sigma_breve - E[Sigma_breve]||_2^2 &lt;= C(k + log p)/n (Eq. 13) while the matrix l1 bound controls the squared bias by ||E[Sigma_breve] - Sigma||_2^2 &lt;= ||E[Sigma_breve] - Sigma||_1^2 &lt;= M^2 k^{-2*alpha} (Eq. 14). Setting k = min{n^{1/(2*alpha+1)}, p} — which intentionally undersmooths each row/column relative to its vector l1 rate — achieves the minimax squared operator-norm risk inf_{Sigma_hat} sup_{P_alpha} E||Sigma_hat - Sigma||_2^2 asymp min{n^{-2*alpha/(2*alpha+1)} + (log p)/n, p/n} for p &lt;= exp(gamma n) (Theorems 1-3, Eqs. 1, 8-9, 18-29, pp. 3, 6-14), strictly improving upon the ((log p)/n)^{alpha/(alpha+1)} bound obtained via the matrix l1 norm in Bickel &amp; Levina (2008a) (Section 3.3, pp. 14-15).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-czz2010-tapering-pdf">Optimal rates of convergence for covariance matrix estimation</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Theorem 1 and Equation (1), p. 3; Section 3.1, Theorem 2, Lemmas 2-3, and Equations (8)-(16), pp. 6-9; Section 3.2, Theorem 3, Lemmas 4-7, and Equations (18)-(29), pp. 10-14; Section 3.3, pp. 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#frobenius-and-inverse-covariance-minimax-rates-and-bandwidth-dichotomy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the normalized squared Frobenius norm p^{-1} E||Sigma_hat - Sigma||_F^2, the minimax risk over both P_alpha and the power-law off-diagonal decay subclass P&#39;_alpha (defined by |sigma_{ij}| &lt;= M_1 |i-j|^{-(alpha+1)} for i != j, Eq. 30, p. 15) is min{n^{-(2*alpha+1)/(2*(alpha+1))}, p/n} (Theorem 4, Eq. 36, p. 17), attained on P&#39;_alpha by tapering with bandwidth k = min{n^{1/(2*(alpha+1))}, p} (Eqs. 38-39, p. 18), proving that no single tapering bandwidth k is simultaneously rate-optimal across operator and Frobenius norms (Remark 4, p. 18). Furthermore, over P_alpha(M_0, M, rho, delta) = P_alpha(M_0, M, rho) intersect {Sigma : lambda_min(Sigma) &gt;= delta &gt; 0} (Eq. 41, p. 20), the inverse tapering estimator Sigma_hat_k^{-1} with k = n^{1/(2*alpha+1)} achieves the minimax squared operator-norm risk for precision matrix estimation inf_{Sigma_hat} sup E||Sigma_hat^{-1} - Sigma^{-1}||_2^2 asymp min{n^{-2*alpha/(2*alpha+1)} + (log p)/n, p/n} (Theorem 5, Eq. 42, pp. 20-21).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-czz2010-tapering-pdf">Optimal rates of convergence for covariance matrix estimation</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Theorem 4, Equations (36)-(39), and Remark 4, pp. 17-19; Section 5, Theorem 5 and Equations (41)-(43), pp. 20-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Ordering dependence: Tapering requires a meaningful prior coordinate ordering in which covariance magnitudes |sigma_{ij}| decay as a function of index distance |i - j| (such as time series, spatial grids, or ordered spectroscopic frequencies), and is not invariant to arbitrary coordinate permutations (Section 1, p. 2; Section 2, Eq. 3, p. 4).</li>
+      <li>Non-adaptivity to unknown smoothness alpha: The optimal tapering bandwidths k = n^{1/(2*alpha+1)} (operator norm) and k = n^{1/(2*(alpha+1))} (Frobenius norm) depend explicitly on the unknown decay exponent alpha; achieving adaptive minimax optimality over a collection of classes {P_alpha} without knowing alpha is left as an open problem in Section 6 (p. 22).</li>
+      <li>Loss-function bandwidth incompatibility: By Remark 4 (p. 18), no single tapering bandwidth k can simultaneously achieve the minimax convergence rate under both the spectral (operator) norm and the Frobenius norm.</li>
+      <li>Lack of automatic finite-sample positive definiteness: Although Lemma 1 expresses Sigma_hat_k as a scaled difference k_h^{-1}(S^{*(k)} - S^{*(k_h)}) of two positive semidefinite block-sum matrices, their difference is not guaranteed to be positive definite in small samples until ||Sigma_hat_k - Sigma||_2 &lt; lambda_min(Sigma) (Section 5, p. 20).</li>
+      <li>Primary-source typographical audit of arXiv:1010.3866v1: (1) On p. 13, line 2, the definition of p_1 is printed as p_1 = max{p, e^{n/2}}, whereas p. 10 (line below Eq. 20) and the Le Cam proof require p_1 = min{p, e^{n/2}}; (2) on p. 14, line 26 and p. 15, line 15, the Bickel-Levina (2008a) banding bandwidth is printed as k = ((log p)/n)^{1/(2(alpha+1))} (and the rate on p. 15, line 15 as ((log p)/n)^{-alpha/(alpha+1)}), inverting n/(log p) (corrected on p. 22, line 11 as k asymp (n/log p)^{1/(2*alpha+2)}); (3) on p. 16, Eq. (32), the summand inside F^* is written as B(m, k) whereas the preceding display defines the p x p matrix as B_m; (4) on p. 22, Remark 6 prints &#39;abnding estimators&#39; and &#39;dur to the fact&#39;; and (5) on p. 23, Proof of Lemma 1 (last display), the left-hand side writes k * w_{ij} = (k - |i-j|)_+ - (k_h - |i-j|)_+ instead of k_h * w_{ij}.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Minimax-optimal covariance tapering is a statistical machine learning methodology for high-dimensional covariance and precision matrix estimation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Bandable covariance and inverse covariance estimation via tapering regularizes second-moment matrices used in linear prediction and generalized least squares.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-czz2010-tapering-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">czz2010-tapering-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1010.3866.pdf" target="_blank" rel="noopener">Optimal rates of convergence for covariance matrix estimation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            T. Tony Cai, Cun-Hui Zhang, Harrison H. Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/09-AOS752</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:eab388616ad6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-czz2010-tapering-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">czz2010-tapering-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1010.3866" target="_blank" rel="noopener">Optimal rates of convergence for covariance matrix estimation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            T. Tony Cai, Cun-Hui Zhang, Harrison H. Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1010.3866</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5f276e324e82…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-czz2010-tapering-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">czz2010-tapering-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/09-AOS752" target="_blank" rel="noopener">Optimal rates of convergence for covariance matrix estimation (The Annals of Statistics Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            T. Tony Cai, Cun-Hui Zhang, Harrison H. Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/09-AOS752</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c519319b248b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AMinimaxOptimalTaperingForHighDimensionalCovarianceMatrixEstimation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Minimax-Optimal Tapering for High-Dimensional Covariance Matrix Estimation" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Mathematical Methods</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:MinimaxOptimalTaperingForHighDimensionalCovarianceMatrixEstimation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Minimax-Optimal...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:MachineLearningTask (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-18T22:55:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-18T22:55:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MinimaxOptimalTaperingForHighDimensionalCovarianceMatrixEstimation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MinimaxOptimalTaperingForHighDimensionalCovarianceMatrixEstimation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Minimax-Optimal%20Tapering%20for%20High-Dimensional%20Covariance%20Matrix%20Estimation"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AMinimaxOptimalTaperingForHighDimensionalCovarianceMatrixEstimation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedEx Weight-Sharing Exponentiated Gradient for Federated Hyperparameter Tuning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FedEx Weight-Sharing Exponentiated Gradient for Federated Hyperparameter Tuning</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedEx Weight-Sharing Exponentiated Gradient for Federated Hyperparameter Tuning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedExWeightSharingExponentiatedGradientForFederatedHyperparameterTuning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedEx, FedEx Federated Hyperparameter Tuning, Weight-Sharing Federated Hyperparameter Optimization, Federated Exponentiated Gradient Hyperparameter Tuning
+    </div>
+
+  <div class="detail-desc">
+    A federated hyperparameter optimization algorithm (Khodak, Tu, Li, Li, Balcan, Smith, &amp; Talwalkar, 2021) that decomposes federated learning algorithms Alg_a into a server aggregation subroutine Agg_b and a local training subroutine Loc_c with client hyperparameters c in C, and casts client hyperparameter tuning as a neural-architecture-search weight-sharing stochastic relaxation min_{theta in Delta_k, w in R^d} sum_{i=1}^n |V_i| E_{c ~ D_theta} L_{V_i}(Loc_c(T_i, w)) (Eqs. 6-7) over k candidate configurations {c_1, ..., c_k} sampled from a local epsilon-perturbation ball. At each communication round t, each active client i in {1, ..., B} receives shared weights w_t and categorical distribution theta_t, samples c_{ti} ~ D_{theta_t}, computes w_{ti} &lt;- Loc_{c_{ti}}(T_{ti}, w_t), and returns (w_{ti}, c_{ti}, L_{V_{ti}}(w_{ti})); the server updates w_{t+1} &lt;- Agg_b(w_t, {w_{ti}}) and updates theta_t via exponentiated gradient theta_{t+1} propto theta_t odot exp(-eta_t tilde_nabla) using the unbiased importance-weighted stochastic gradient tilde_nabla_j = (sum_{i=1}^B |V_{ti}| (L_{V_{ti}}(w_{ti}) - lambda_t) 1_{c_{ti}=c_j}) / (theta_t[j] sum_{i=1}^B |V_{ti}|) (Algorithm 2, Appendix C.1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Federated Averaging (AIO:FederatedLearning) and Per-FedAvg (AIMech:PerFedAvgModelAgnosticMetaLearningForPersonalizedFederatedLearning), which use fixed client hyperparameters rather than maintaining and updating a categorical distribution D_theta over local training hyperparameters via weight-sharing exponentiated gradient.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#weight-sharing-stochastic-relaxation-and-unbiased-exponentiated-gradient</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Replacing the personalized tuning objective min_{a=(b,c)} sum_{i=1}^n |V_i| L_{V_i}(Loc_c(T_i, Alg_a({T_j}))) (Eq. 2) with the weight-sharing stochastic relaxation min_{theta in Theta, w in R^d} sum_{i=1}^n |V_i| E_{c ~ D_theta} L_{V_i}(Loc_c(T_i, w)) (Eq. 7) over a categorical distribution D_theta on {c_1, ..., c_k} yields the importance-weighted gradient estimator tilde_nabla_j = (sum_{i=1}^B |V_{ti}| (L_{V_{ti}}(w_{ti}) - lambda_t) 1_{c_{ti}=c_j}) / (theta_t[j] sum_{i=1}^B |V_{ti}|), which is an exact unbiased estimator of nabla_{theta_j} E_{c_{ij} | theta}[L_{V_{ti}}(w_i)] for any baseline lambda_t (Algorithm 2, p. 7; Appendix C.1, p. 16).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r499-primary-pdf">Federated Hyperparameter Tuning: Challenges, Baselines, and Connections to Weight-Sharing</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Eqs. (6)-(7), p. 6; Algorithm 2, p. 7; Appendix C.1, p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#aruba-online-convex-optimization-step-size-regret-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Theorem 4.1 (p. 8; proof in Appendix A, p. 14), for tau tasks each consisting of m b-bounded G-Lipschitz convex losses over a compact convex set W of diameter D, running FedEx (Algorithm 2) with B = 1, discretized step-size grid c_j = D / (G j sqrt(m)) for j = 1, ..., k, k^{3/2} = (D G / b) sqrt(tau / (2 m)), bandit exponentiated gradient step-size eta_t = (1 / (m b)) sqrt((log k) / (k tau)), and server averaging alpha_t = 1/t achieves expected task-averaged regret E[R_bar_tau] &lt;= O_tilde(((m / tau)^{1/3} + V) sqrt(m)) (Eq. 10), adapting to the unknown task-similarity V^2 = min_{w in W} (1/tau) sum_{t=1}^tau ||w - w_t^*||_2^2 without knowing V in advance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r499-primary-pdf">Federated Hyperparameter Tuning: Challenges, Baselines, and Connections to Weight-Sharing</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Eqs. (8)-(10), Theorem 4.1, pp. 7-8; Appendix A, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#local-perturbation-and-wrapper-compatibility-across-fl-methods</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Sampling c_1 ~ Unif(C) and c_2, ..., c_k uniformly from a local epsilon-neighborhood [c_1 +- (b - a) epsilon] (with epsilon = 0.1) stabilizes shared-weight training, and wrapping FedEx inside Successive Halving (SHA) or Random Search (Algorithm 3) tunes both server aggregation hyperparameters b and client SGD hyperparameters c (learning rate, momentum, weight decay, local epochs, batch size, dropout, and FedProx mu) across FedAvg, FedProx, Reptile, SCAFFOLD, FedDyn, FedPA, Ditto, and MAML (Section 3, p. 7; Section 5, Table 1, p. 9; Appendix B, pp. 15-16).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r499-primary-pdf">Federated Hyperparameter Tuning: Challenges, Baselines, and Connections to Weight-Sharing</a></span>
+        <span>· <strong>Locator:</strong> Section 3, p. 7; Section 5, Table 1, p. 9; Appendix B and C.2, pp. 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#server-hyperparameter-wrapper-dependency-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedEx can only directly tune client-side local training hyperparameters c of algorithms that decompose into local fine-tuning Loc_c and server aggregation Agg_b, and must rely on an outer multi-trial wrapper such as Random Search or Successive Halving to tune server-level aggregation hyperparameters b (such as server learning rate and server momentum) as well as FedEx&#39;s own discount hyperparameter.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r499-primary-pdf">Federated Hyperparameter Tuning: Challenges, Baselines, and Connections to Weight-Sharing</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Limitations of FedEx, p. 7; Appendix C.2-C.3, p. 17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Cannot directly tune server-side aggregation hyperparameters b (such as server learning rate or momentum) without an outer multi-trial wrapper like Successive Halving or Random Search.</li>
+      <li>Sampling configurations uniformly across the full hyperparameter space without local epsilon-perturbation can destabilize shared-weight training.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedEx is a federated hyperparameter optimization algorithm designed for local-training-based federated learning algorithms (AIO:FederatedLearning) via weight-sharing and exponentiated gradient updates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r499-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r499-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2106.04502.pdf" target="_blank" rel="noopener">Federated Hyperparameter Tuning: Challenges, Baselines, and Connections to Weight-Sharing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mikhail Khodak, Renbo Tu, Tian Li, Liam Li, Maria-Florina Balcan, Virginia Smith, Ameet Talwalkar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Federated+Hyperparameter+Tuning+Khodak+Balcan+Talwalkar&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:51b9301d1910…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r499-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r499-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2106.04502" target="_blank" rel="noopener">Federated Hyperparameter Tuning: Challenges, Baselines, and Connections to Weight-Sharing (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mikhail Khodak, Renbo Tu, Tian Li, Liam Li, Maria-Florina Balcan, Virginia Smith, Ameet Talwalkar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2106.04502</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6a4a621cfeb7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r499-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r499-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Federated+Hyperparameter+Tuning+Khodak+Balcan+Talwalkar&amp;format=json" target="_blank" rel="noopener">Federated Hyperparameter Tuning: Challenges, Baselines, and Connections to Weight-Sharing (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mikhail Khodak, Renbo Tu, Tian Li, Liam Li, Maria-Florina Balcan, Virginia Smith, Ameet Talwalkar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Federated+Hyperparameter+Tuning+Khodak+Balcan+Talwalkar&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2623254cd061…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFedExWeightSharingExponentiatedGradientForFederatedHyperparameterTuning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FedEx Weight-Sharing Exponentiated Gradient for Federated Hyperparameter Tuning" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FedExWeightSharingExponentiatedGradientForFederatedHyperparameterTuning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FedEx Weight-Sharing...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:42:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:42:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedExWeightSharingExponentiatedGradientForFederatedHyperparameterTuning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedExWeightSharingExponentiatedGradientForFederatedHyperparameterTuning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FedEx%20Weight-Sharing%20Exponentiated%20Gradient%20for%20Federated%20Hyperparameter%20Tuning"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedExWeightSharingExponentiatedGradientForFederatedHyperparameterTuning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

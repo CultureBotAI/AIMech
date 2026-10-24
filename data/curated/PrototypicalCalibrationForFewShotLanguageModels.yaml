@@ -1,0 +1,108 @@
+id: AIMech:PrototypicalCalibrationForFewShotLanguageModels
+name: Prototypical Calibration for Few-Shot Language Models
+concept_kind: algorithm
+review_status: DRAFT
+definition: A decision-boundary calibration algorithm for zero- and few-shot language model classification (PROCA) that models the N-dimensional log-probability output vectors over an unlabeled in-domain estimate set as an N-component Gaussian Mixture Model estimated via Expectation-Maximization, aligns the learned prototypical Gaussian clusters to the N target categories by solving a maximum-weight bipartite matching problem on the cluster mean coordinates, selects the highest-scoring EM run, and classifies test inputs by assigning them to the cluster with maximum Gaussian density while discarding mixture weights.
+identity_notes: Distinct from Contextual Calibration (AIMech:CalibrateBeforeUseContextualCalibration) and Domain-Conditional PMI (AIMech:PMIDCDomainConditionalPointwiseMutualInformation), which apply diagonal scaling or subtract a single content-free/domain-premise baseline probability rather than estimating full class-conditional Gaussian covariances and means over the output distribution of an unlabeled estimate set. Also distinct from Prototypical Networks in metric meta-learning, which compute Euclidean distances to labeled support-set averages in a learned encoder representation space rather than fitting an unsupervised GMM with bipartite matching over frozen language-model log-probability outputs.
+aliases:
+- PROCA
+- Prototypical Calibration
+- GMM-Based Prototypical Decision Boundary Calibration
+definition_evidence:
+- source_id: r736-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r736-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r736-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: proca-gmm-log-probability-cluster-estimation
+  kind: mechanism
+  statement: Given an N-way classification task, PROCA normalizes the language model's label-token logits into an N-dimensional log-probability vector x for each unlabeled example in an estimate set D_esti and estimates N prototypical Gaussian clusters P_G(X | mu_n, Sigma_n) using the Expectation-Maximization algorithm.
+  evidence:
+  - source_id: r736-primary-pdf
+    locator: Section 3.1, pp. 3-4, Equations 1-3
+    relation: supports
+- claim_id: proca-bipartite-matching-and-weights-cutting-inference
+  kind: mechanism
+  statement: PROCA assigns the N estimated clusters to the N target labels by maximizing the Cluster-Label Assignment score CLA(e, k) = sum_{n=1}^N mu_{n, k_n} via the Kuhn-Munkres weighted bipartite matching algorithm, selects the EM run e* that maximizes CLA(e, k*(e)), and classifies each test example by argmax_n P_G(x | mu_n*, Sigma_n*) while discarding the mixture weights alpha_n to remain robust under class imbalance.
+  evidence:
+  - source_id: r736-primary-pdf
+    locator: Section 3.2-3.4, pp. 4-5, Equations 4-7
+    relation: supports
+- claim_id: proca-zero-and-few-shot-text-classification-application
+  kind: application
+  statement: PROCA is applied to zero- and few-shot classification across GPT-2, GPT-Neo, GPT-J, and BLOOM-176B on nine text classification benchmarks (SST-2, SST-5, MR, Subj, AP, AGNews, DBPedia, RTE, and TREC), improving accuracy by an average of 13% over standard argmax decoding and 6% over Contextual Calibration while sharply reducing sensitivity to prompt templates and demonstration permutations.
+  evidence:
+  - source_id: r736-primary-pdf
+    locator: Section 4.1-4.4, pp. 5-8, Table 1 & Figures 4-6
+    relation: supports
+  - source_id: r736-metadata-cr
+    locator: DBLP bibliographic record Zhixiong Han et al.
+    relation: supports
+- claim_id: proca-closed-label-space-limitation
+  kind: limitation
+  statement: PROCA requires a fixed, closed N-class label space to fit an N-component Gaussian Mixture Model and solve the N-by-N bipartite cluster-label assignment, making it inapplicable to open-ended text generation or free-form question answering.
+  evidence:
+  - source_id: r736-primary-pdf
+    locator: Section 6, p. 10
+    relation: supports
+evidence_sources:
+- source_id: r736-primary-pdf
+  title: Prototypical Calibration for Few-shot Learning of Language Models
+  authors: &id001
+  - Zhixiong Han
+  - Yaru Hao
+  - Li Dong
+  - Yutao Sun
+  - Furu Wei
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.10183.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Prototypical+Calibration+for+Few-shot+Learning+of+Language+Models+Han&h=5&format=xml
+  version: The Eleventh International Conference on Learning Representations (ICLR 2023) (2023) (3647166 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:39:00Z'
+  sha256: 4b5fafb787df7fb212c2844029b936818ca4a6ddd3e0054b1331a689d2116db9
+- source_id: r736-arxiv-abs
+  title: Prototypical Calibration for Few-shot Learning of Language Models (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.10183
+  persistent_id: https://arxiv.org/abs/2205.10183
+  version: arXiv abstract page (6148 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:39:00Z'
+  sha256: c96e14c24510b189501fd97dc404a86c75e50af04eafa02e1deb9730b2b55c0a
+- source_id: r736-metadata-cr
+  title: Prototypical Calibration for Few-shot Learning of Language Models (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Prototypical+Calibration+for+Few-shot+Learning+of+Language+Models+Han&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Prototypical+Calibration+for+Few-shot+Learning+of+Language+Models+Han&h=5&format=xml
+  version: Crossref API work record (905 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:39:00Z'
+  sha256: f037da45c8dac4add4aae97401cbe3e3ecf69f1f69287fa9a34b26d67ee89b31
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: PROCA estimates prototypical Gaussian clusters over language-model log-probability outputs via Expectation-Maximization to calibrate few-shot classification decision boundaries.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: PROCA calibrates zero- and few-shot in-context classification predictions of pretrained neural language models.
+limitations:
+- Requires an unlabeled in-domain estimate set (sampled from unlabeled task data or generated by the language model) and forward inference over that set to fit the Gaussian Mixture Model.
+- When the underlying language model's representations fail to separate classes at all on a task (such as smaller GPT-2 models on RTE), GMM clustering cannot recover discriminative boundaries.
+curation:
+  created_at: '2026-10-19T13:39:00Z'
+  updated_at: '2026-10-19T13:39:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,355 @@
+# Scientific author self-review of AdaComp (Adaptive Residual Gradient Compression)
+
+- Review: 20261019T115230Z-adacomp-adaptive-residual-gradient-compression
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:52:00Z
+- Finished UTC: 2026-10-19T11:52:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain AdaComp (Adaptive Residual Gradient Compression) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/AdaCompAdaptiveResidualGradientCompression.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AdaCompAdaptiveResidualGradientCompression
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b40ad8447a1b2deded80b2a982af4027b44ed1ca.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AdaCompAdaptiveResidualGradientCompression | data/curated/AdaCompAdaptiveResidualGradientCompression.yaml | maintained | AdaComp (Adaptive Residual Gradient Compression) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:AdaCompAdaptiveResidualGradientCompression | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:AdaCompAdaptiveResidualGradientCompression | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:AdaCompAdaptiveResidualGradientCompression | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:AdaCompAdaptiveResidualGradientCompression | Validated history sidecar files. |
+| python3 adacomp-adaptive-residual-gradient-compression-boundaries.py | passed | True | AIMech:AdaCompAdaptiveResidualGradientCompression | [PASS] Round 629 AdaComp verified: cons_err=2.78e-17, c_early=13&gt;2=c_late, conv_ratio=40.0x, fc_ratio=200.0x |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:AdaCompAdaptiveResidualGradientCompression.
+
+AdaComp (Adaptive Residual Gradient Compression) is a distinct concept.
+
+Distinct from 1-bit SGD (AIMech:OneBitStochasticGradientDescent, Seide et al. 2014) and TernGrad (AIMech:TernGradTernaryGradients, Wen et al. 2017), which quantize dense gradient vectors without local-bin sparsity selection and either diverge on convolutional layers when combined with FC compression or cap compression at 16x. Distinct from fixed-threshold compression (Strom 2015), fixed-percentage global top-k sorting (Dryden et al. 2016), and Deep Gradient Compression (AIMech:DeepGradientCompression, Lin et al. 2018), which rely on global thresholding or sorting rather than O(N) localized bin sampling with the self-adjusting soft threshold &#124;residue + 2 dW&#124; &gt;= g_max(i).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:AdaCompAdaptiveResidualGradientCompression.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:AdaCompAdaptiveResidualGradientCompression.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in adacomp-adaptive-residual-gradient-compression-boundaries.py passed with exit code 0: [PASS] Round 629 AdaComp verified: cons_err=2.78e-17, c_early=13&gt;2=c_late, conv_ratio=40.0x, fc_ratio=200.0x
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:AdaCompAdaptiveResidualGradientCompression.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T115200Z-adacomp-adaptive-residual-gradient-compression.json | supports | No normalized identity match for AIMech:AdaCompAdaptiveResidualGradientCompression across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/adacomp-adaptive-residual-gradient-compression-boundaries.py | supports | All constructed boundary assertions in adacomp-adaptive-residual-gradient-compression-boundaries.py passed with exit code 0: [PASS] Round 629 AdaComp verified: cons_err=2.78e-17, c_early=13&gt;2=c_late, conv_ratio=40.0x, fc_ratio=200.0x |
+| r629-primary-pdf | https://arxiv.org/pdf/1712.02679.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the Thirty-Second AAAI Conference on Artificial Intelligence (AAAI 2018), pp. 2827-2835 (2018)) read and verified. |
+| r629-arxiv-abs | https://arxiv.org/abs/1712.02679; arXiv abstract | supports | arXiv abstract read and verified. |
+| r629-metadata-cr | https://dblp.org/rec/conf/aaai/ChenCBAZG18; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AdaCompAdaptiveResidualGradientCompression in Round 629.
+- All pages of Proceedings of the Thirty-Second AAAI Conference on Artificial Intelligence (AAAI 2018), pp. 2827-2835 (2018) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T115230Z-adacomp-adaptive-residual-gradient-compression
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of AdaComp (Adaptive Residual Gradient Compression)
+started_at: '2026-10-19T11:52:00Z'
+finished_at: '2026-10-19T11:52:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:AdaCompAdaptiveResidualGradientCompression
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the Thirty-Second AAAI Conference on Artificial Intelligence (AAAI 2018), pp.
+    2827-2835 (2018) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain AdaComp (Adaptive Residual Gradient Compression) as a distinct DRAFT
+  algorithm. All four claims are supported by full-text primary evidence and pure-Python
+  boundary verification.
+source:
+  git_revision: b40ad8447a1b2deded80b2a982af4027b44ed1ca
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/AdaCompAdaptiveResidualGradientCompression.yaml
+    sha256: 8c2455b9c8ca052691f08f17a8f5d94e4b74f49cd230e3c854b22eed38efcff3
+    role: target
+  - path: research/discovery/20261019T115200Z-adacomp-adaptive-residual-gradient-compression.json
+    sha256: 8cf0482084a6caf21b9af9f77933ff360350d03e2ef6d415ea63c0fcfb234b78
+    role: context
+  - path: research/discovery/adacomp-adaptive-residual-gradient-compression-boundaries.py
+    sha256: fb55e0d4e69516cbfeaccfabb22a2f43d07325c545d76c15bee792554cd1a9a7
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AdaCompAdaptiveResidualGradientCompression
+  path: data/curated/AdaCompAdaptiveResidualGradientCompression.yaml
+  label: AdaComp (Adaptive Residual Gradient Compression)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AdaCompAdaptiveResidualGradientCompression.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/AdaCompAdaptiveResidualGradientCompression.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:AdaCompAdaptiveResidualGradientCompression'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 adacomp-adaptive-residual-gradient-compression-boundaries.py
+  command: python3 research/discovery/adacomp-adaptive-residual-gradient-compression-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 629 AdaComp verified: cons_err=2.78e-17, c_early=13>2=c_late,
+    conv_ratio=40.0x, fc_ratio=200.0x'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T115200Z-adacomp-adaptive-residual-gradient-compression.json
+  accessed_at: '2026-10-19T11:52:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:AdaCompAdaptiveResidualGradientCompression
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:52:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/adacomp-adaptive-residual-gradient-compression-boundaries.py
+  accessed_at: '2026-10-19T11:52:00Z'
+  snapshot_sha256: fb55e0d4e69516cbfeaccfabb22a2f43d07325c545d76c15bee792554cd1a9a7
+  support: supports
+  summary: 'All constructed boundary assertions in adacomp-adaptive-residual-gradient-compression-boundaries.py
+    passed with exit code 0: [PASS] Round 629 AdaComp verified: cons_err=2.78e-17,
+    c_early=13>2=c_late, conv_ratio=40.0x, fc_ratio=200.0x'
+- evidence_id: r629-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1712.02679.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:52:00Z'
+  snapshot_sha256: d35279b484d60363c8dd06f26fb9d718d4f78ca0caa2cebc670c68786c89f05f
+  support: supports
+  summary: Full-text PDF (Proceedings of the Thirty-Second AAAI Conference on Artificial
+    Intelligence (AAAI 2018), pp. 2827-2835 (2018)) read and verified.
+- evidence_id: r629-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1712.02679
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:52:00Z'
+  snapshot_sha256: 9803b3d6d0c4aa8cd2e9e351eb5f0f270e50793afcf017d5de13afe70ee6b2f4
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r629-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/aaai/ChenCBAZG18
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:52:00Z'
+  snapshot_sha256: e48915beec8fd34447d96de704da9df9c1c4a90234ba5be70fc1d2421669bc76
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  evidence_ids:
+  - identity
+  - r629-primary-pdf
+  - r629-arxiv-abs
+  - r629-metadata-cr
+  summary: AdaComp (Adaptive Residual Gradient Compression) is a distinct concept.
+  details: Distinct from 1-bit SGD (AIMech:OneBitStochasticGradientDescent, Seide
+    et al. 2014) and TernGrad (AIMech:TernGradTernaryGradients, Wen et al. 2017),
+    which quantize dense gradient vectors without local-bin sparsity selection and
+    either diverge on convolutional layers when combined with FC compression or cap
+    compression at 16x. Distinct from fixed-threshold compression (Strom 2015), fixed-percentage
+    global top-k sorting (Dryden et al. 2016), and Deep Gradient Compression (AIMech:DeepGradientCompression,
+    Lin et al. 2018), which rely on global thresholding or sorting rather than O(N)
+    localized bin sampling with the self-adjusting soft threshold |residue + 2 dW|
+    >= g_max(i).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  evidence_ids:
+  - mapping
+  - r629-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  evidence_ids:
+  - r629-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in adacomp-adaptive-residual-gradient-compression-boundaries.py
+    passed with exit code 0: [PASS] Round 629 AdaComp verified: cons_err=2.78e-17,
+    c_early=13>2=c_late, conv_ratio=40.0x, fc_ratio=200.0x'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:AdaCompAdaptiveResidualGradientCompression
+  evidence_ids:
+  - identity
+  - mapping
+  - r629-primary-pdf
+  - r629-arxiv-abs
+  - r629-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:AdaCompAdaptiveResidualGradientCompression in Round
+  629.
+- All pages of Proceedings of the Thirty-Second AAAI Conference on Artificial Intelligence
+  (AAAI 2018), pp. 2827-2835 (2018) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

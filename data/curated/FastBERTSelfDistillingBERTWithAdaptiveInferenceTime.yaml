@@ -1,0 +1,112 @@
+id: AIMech:FastBERTSelfDistillingBERTWithAdaptiveInferenceTime
+name: 'FastBERT: Self-Distilling BERT with Adaptive Inference Time'
+concept_kind: architecture
+review_status: DRAFT
+definition: A sample-wise adaptive Transformer architecture and three-stage training paradigm that appends a teacher classifier to the final layer L-1 and lightweight student branch classifiers (each comprising a 768->128 projection, 128-dim self-attention, 128->128 dense layer, and N-class softmax) to intermediate layers 0..L-2, fine-tunes the backbone and teacher classifier on task labels with branches disabled, freezes the backbone and teacher to self-distill all L-1 student classifiers by minimizing sum_{i=0}^{L-2} D_KL(p_{s_i}, p_t), and terminates inference for any input sample at layer i when its normalized prediction entropy Uncertainty = (sum_{c=1}^N p_{s_i}(c) log p_{s_i}(c)) / log(1/N) falls below a tunable threshold Speed in [0, 1].
+identity_notes: Introduced by Weijie Liu, Peng Zhou, Zhe Zhao, Zhiruo Wang, Haotang Deng, and Qi Ju (ACL 2020, pp. 6035-6044, arXiv:2004.02178, doi:10.18653/v1/2020.acl-main.537). Distinct from cross-model knowledge distillation methods (DistilBERT Round 803, TinyBERT Round 800, MobileBERT Round 804) that execute a fixed number of layers for every input, and from Patience-Based Early Exit (PABEE, Round 808), which jointly trains linear internal classifiers and exits based on cross-layer prediction agreement patience rather than frozen-backbone branch self-distillation and single-layer normalized entropy thresholding.
+aliases:
+- FastBERT
+- FastBERT Self-Distilling Adaptive-Inference Transformer
+- Self-Distilling BERT with Normalized-Entropy Early Exit
+definition_evidence:
+- source_id: r807-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r807-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r807-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r807-claim-decoupled-branch-self-distillation
+  kind: mechanism
+  statement: To prevent intermediate exit branches from corrupting backbone representations during supervised fine-tuning, FastBERT first fine-tunes the L-layer Transformer backbone and top-layer teacher classifier p_t = Teacher_Classifier(h_{L-1}) (Eq. 3) with all student branches disabled, and then freezes the backbone and teacher classifier while training the L-1 student branch classifiers p_{s_i} = Student_Classifier_i(h_i) (Eq. 4) on labeled or unlabeled data by minimizing the total KL-divergence self-distillation loss Loss(p_{s_0}, ..., p_{s_{L-2}}, p_t) = sum_{i=0}^{L-2} D_KL(p_{s_i}, p_t) (Eqs. 5-6).
+  evidence:
+  - source_id: r807-primary-pdf
+    locator: Section 3.1-3.2.3 (Equations 1-6), Pages 2-4
+    relation: supports
+  - source_id: r807-primary-pdf
+    locator: self_distillation_loss verification in main()
+    relation: supports
+- claim_id: r807-claim-normalized-entropy-uncertainty-and-luha-exit
+  kind: mechanism
+  statement: 'During adaptive inference, FastBERT evaluates the normalized Shannon entropy Uncertainty = (sum_{i=1}^N p_s(i) log p_s(i)) / log(1/N) in [0, 1] (Eq. 7) at each executed layer''s student classifier and halts inference immediately whenever Uncertainty < Speed (Hypothesis 1, LUHA: ''the Lower the Uncertainty, the Higher the Accuracy''), incurring only 46.1M FLOPs per student classifier evaluation compared to 1809.9M FLOPs per Transformer block.'
+  evidence:
+  - source_id: r807-primary-pdf
+    locator: Section 3.3 (Adaptive inference, Equation 7 & Table 1), Page 4
+    relation: supports
+  - source_id: r807-primary-pdf
+    locator: normalized_entropy_uncertainty and sample_adaptive_flops verification in main()
+    relation: supports
+- claim_id: r807-claim-tunable-speedup-across-twelve-datasets
+  kind: application
+  statement: Evaluated across six Chinese datasets (ChnSentiCorp, Book review, Shopping review, LCQMC, Weibo, THUCNews) and six English datasets (AG News, Amazon Full, DBpedia, Yahoo Answers, Yelp Full, Yelp Polarity), FastBERT achieves a continuously tunable 1x to 12x FLOPs speedup over 12-layer BERT by varying Speed in [0.1, 0.8], delivering 2x to 5x speedup without accuracy loss at Speed = 0.1 and outperforming 6-layer, 3-layer, and 1-layer DistilBERT models at matched speedup ratios.
+  evidence:
+  - source_id: r807-primary-pdf
+    locator: Section 4 (Experimental results, Tables 2-3 & Figures 3-7), Pages 5-8
+    relation: supports
+- claim_id: r807-claim-classification-entropy-and-nonlinear-speed-curve-limitation
+  kind: limitation
+  statement: Because FastBERT's Uncertainty criterion (Eq. 7) is defined as Shannon entropy normalized by log(1/N) over N discrete class probabilities, it applies directly only to classification tasks with N >= 2 classes (not continuous regression), and the relationship between the threshold Speed and the realized computational Speedup ratio is non-linear and dataset-dependent.
+  evidence:
+  - source_id: r807-primary-pdf
+    locator: 'Section 3.3 (Equation 7), Figure 3(b)/(e), and Section 6 (Future work: ''linearizing the Speed-Speedup curve''), Pages 4, 6, & 9'
+    relation: supports
+evidence_sources:
+- source_id: r807-primary-pdf
+  title: 'FastBERT: a Self-distilling BERT with Adaptive Inference Time'
+  authors: &id001
+  - Weijie Liu
+  - Peng Zhou
+  - Zhe Zhao
+  - Zhiruo Wang
+  - Haotang Deng
+  - Qi Ju
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.02178.pdf
+  persistent_id: https://arxiv.org/bibtex/2004.02178
+  version: Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL 2020) (2020) (833121 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:50:00Z'
+  sha256: 9e86dbcb4a98cdca5df0bb16bf7319ca534545765a0a335e698a9ba06fd9546d
+- source_id: r807-arxiv-abs
+  title: 'FastBERT: a Self-distilling BERT with Adaptive Inference Time (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.02178
+  persistent_id: https://arxiv.org/abs/2004.02178
+  version: arXiv abstract page (6751 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:50:00Z'
+  sha256: 589beceeeeaf435811040b064841f357971f963e6c6e99f514588e905bde5cd5
+- source_id: r807-metadata-cr
+  title: 'FastBERT: a Self-distilling BERT with Adaptive Inference Time (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.02178
+  persistent_id: https://arxiv.org/bibtex/2004.02178
+  version: Crossref API work record (427 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:50:00Z'
+  sha256: 900374299d441b941621fb0d941d5b904d5c789d33495e7f31133a31171681e8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Distillation
+  relation: narrow_match
+  rationale: FastBERT introduces an in-model branch self-distillation stage that minimizes the sum of KL divergences from the frozen top-layer teacher classifier to L-1 intermediate student branch classifiers.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Augments a multi-layer Transformer neural network with per-layer bottleneck self-attention branch classifiers for sample-wise adaptive early exit.
+limitations:
+- The normalized entropy Uncertainty criterion requires a discrete N-class probability distribution (N >= 2) and does not directly support continuous regression tasks.
+- The mapping from the user-specified threshold Speed in [0, 1] to the actual FLOPs speedup factor is non-linear and varies with dataset complexity.
+curation:
+  created_at: '2026-10-19T14:50:00Z'
+  updated_at: '2026-10-19T14:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

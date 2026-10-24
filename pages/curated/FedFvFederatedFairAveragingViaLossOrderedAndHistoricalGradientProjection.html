@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedFV (Federated Fair Averaging via Loss-Ordered Internal and Historical External Gradient Projection) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>FedFV (Federated Fair Averaging via Loss-Ordered Internal and Historical External Gradient Projection)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedFV (Federated Fair Averaging via Loss-Ordered Internal and Historical External Gradient Projection)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedFV, Federated Fair Averaging, Federated Learning with Fair Averaging
+    </div>
+
+  <div class="detail-desc">
+    A fair federated optimization algorithm (Wang, Fan, Qi, Wen, Wang, &amp; Yu 2021, Section 3, Definitions 1-3, Algorithms 1-3, Theorems 1-4) that mitigates performance unfairness caused by conflicting client gradients (g_i . g_j &lt; 0) with large magnitude disparities by sequentially eliminating internal conflicts among selected clients S_t and external conflicts against unselected clients h not in S_t before server model updates. In round t, after receiving pseudo-gradients g_k^t = theta^t - theta_k^t and local losses l_k^t from k in S_t (|S_t| = m), the server updates its global gradient history GH = [g_1^{t_1}, ..., g_K^{t_K}] and sorts S_t in ascending order of training loss l_{i_1}^t &lt;= ... &lt;= l_{i_m}^t to form the projection target order list PO_t = [g_{i_1}^t, ..., g_{i_m}^t]. In MitigateInternalConflict (Algorithm 2), the top (1 - alpha)m lowest-loss clients k in S_t^alpha iteratively project their gradient g_k^{PC} onto the normal plane of each conflicting target g_{i_j}^t in PO_t (when g_k^{PC} . g_{i_j}^t &lt; 0 and k != i_j) via g_k^{PC} &lt;- g_k^{PC} - ((g_{i_j}^t . g_k^{PC}) / ||g_{i_j}^t||^2) g_{i_j}^t, while the alpha m highest-loss clients retain their original gradients, producing g^t = (1/m) sum_{k=1}^m g_k^{PC}. For t &gt;= tau, MitigateExternalConflict (Algorithm 3) iterates over past rounds t - i (for i = tau, ..., 1), sums historical gradients g_con = sum_{k : t_k = t-i, g^t . g_k^{t_k} &lt; 0} g_k^{t_k}, and when g^t . g_con &lt; 0 projects g^t &lt;- g^t - ((g^t . g_con) / ||g_con||^2) g_con, before rescaling g^t &lt;- (g^t / ||g^t||) ||(1/m) sum_{k in S_t} g_k^t|| and updating theta^{t+1} = theta^t - g^t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedMGDA+ (AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization, Hu et al. 2022), which normalizes local pseudo-gradients to unit L2 norm and solves a box-constrained simplex quadratic program min_{lambda in Delta_m, ||lambda - p||_inf &lt;= eps} ||sum_i lambda_i g_i||^2 without normal-plane gradient projection or historical external-conflict buffers; and distinct from q-FFL (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which reweights client losses by (1/(q+1)) F_k^{q+1}(w) using a Lipschitz upper-bound step size without detecting negative cosine similarities g_i . g_j &lt; 0 or projecting conflicting gradients onto normal hyperplanes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r494-claim-1</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under pairwise cosine bounds eps_1 &lt;= |cos(g_i^{(t_i)}, g_j^{(t_j)})| &lt;= eps_2 (0 &lt; eps_1 &lt;= eps_2 &lt;= 1), iteratively projecting client gradients onto the normal plane of g_k in ascending index order k = 1, ..., m bounds the residual conflict with the projected average g_bar&#39; by |g_k . g_bar&#39;| &lt;= ((m - 1) / m) (max_i ||g_i||)^2 f(m, k, eps_1, eps_2) where f(m, k, eps_1, eps_2) = eps_2^2 (1 - eps_1^2)^{1/2} (1 - (1 - eps_1^2)^{(m-k)/2}) / (1 - (1 - eps_1^2)^{1/2}), which decreases monotonically with k so that placing higher-loss clients later in PO_t guarantees them smaller upper-bounded conflict with g_bar&#39; (Theorems 1-2, Appendix A.1-A.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r494-primary-pdf">Federated Learning with Fair Averaging</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2 &amp; 3.4, pp. 3-4, Theorems 1-2; Appendix A.1-A.2, p. 7, Equations 2-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r494-claim-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To mitigate external conflicts against unselected or dropped-out clients h not in S_t, FedFV maintains a server trace GH of each client&#39;s most recent update g_k^{t_k} and sequentially projects g^t onto the normal plane of the sum g_con of conflicting historical gradients from round t - i in chronological order i = tau, tau - 1, ..., 1 before rescaling ||g^t|| to ||(1/m) sum_{k in S_t} g_k^t|| (Definition 3, Algorithm 3, Algorithm 1 line 10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r494-primary-pdf">Federated Learning with Fair Averaging</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, pp. 3-4, Definition 3, Algorithm 3, Algorithm 1 line 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r494-claim-3</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Setting alpha = 0 (forcing all selected clients, including highest-loss clients, to project their gradients) can increase test accuracy variance when all clients participate (e.g., variance 13.76 on 3-client Fashion-MNIST versus 1.77 at alpha = 2/3), and Theorem 4&#39;s multi-client Pareto stationarity guarantee on L-smooth convex objectives requires cos(g_bar, g_bar&#39;) &gt;= 1/2 and ||g_bar|| &gt;= ||g_bar&#39;|| with step size eta &lt;= 1 / L.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r494-primary-pdf">Federated Learning with Fair Averaging</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, p. 4, Theorems 3-4; Section 5.2, pp. 5-6, Table 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r494-claim-4</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on non-IID shard-partitioned CIFAR-10 (100 clients, 10% participation), MNIST (200 clients), and class-partitioned Fashion-MNIST (3 clients), outperforming FedAvg, q-FedAvg, FedMGDA+, and FedFA in average accuracy, worst-5% accuracy (32.24% vs. 19.84% for FedAvg on CIFAR-10 at alpha = 0.1, tau = 10), and convergence speed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r494-primary-pdf">Federated Learning with Fair Averaging</a></span>
+        <span>· <strong>Locator:</strong> Section 5, pp. 5-6, Tables 2-4, Figure 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires the server to store a history table GH of K full-dimensional client gradients to perform external conflict mitigation (Algorithm 1 line 4 &amp; Algorithm 3).</li>
+      <li>Multi-client Pareto stationarity analysis (Theorem 4) is restricted to differentiable, L-smooth, convex objectives under the condition cos(g_bar, g_bar&#39;) &gt;= 1/2.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedFV is a server-side gradient projection and aggregation algorithm within Federated Learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r494-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r494-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2104.14937.pdf" target="_blank" rel="noopener">Federated Learning with Fair Averaging</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zheng Wang, Xiaoliang Fan, Jianzhong Qi, Chenglu Wen, Cheng Wang, Rongshan Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.ijcai.org/proceedings/2021/223</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fbf79ef7d223…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r494-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r494-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2104.14937" target="_blank" rel="noopener">Federated Learning with Fair Averaging (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zheng Wang, Xiaoliang Fan, Jianzhong Qi, Chenglu Wen, Cheng Wang, Rongshan Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2104.14937</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7ee7635a11cd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r494-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r494-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ijcai.org/proceedings/2021/223" target="_blank" rel="noopener">Federated Learning with Fair Averaging (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zheng Wang, Xiaoliang Fan, Jianzhong Qi, Chenglu Wen, Cheng Wang, Rongshan Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.ijcai.org/proceedings/2021/223</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0e8d9f3bff46…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for FedFV (Federated Fair Averaging via Loss-Ordered Internal and Historical External Gradient Projection)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">FedFV (Federated Fair...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:37:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:37:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=FedFV%20%28Federated%20Fair%20Averaging%20via%20Loss-Ordered%20Internal%20and%20Historical%20External%20Gradient%20Projection%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedFvFederatedFairAveragingViaLossOrderedAndHistoricalGradientProjection"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

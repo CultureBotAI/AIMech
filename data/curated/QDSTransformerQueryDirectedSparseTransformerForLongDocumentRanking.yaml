@@ -1,0 +1,96 @@
+id: AIMech:QDSTransformerQueryDirectedSparseTransformerForLongDocumentRanking
+name: 'QDS-Transformer: Query-Directed Sparse Transformer for Long Document Ranking'
+concept_kind: architecture
+review_status: DRAFT
+definition: A long-document ranking Transformer architecture (Jiang, Xiong, Lee, & Wang, Findings of EMNLP 2020) that replaces the dense n x n self-attention adjacency matrix A = 1 in H_hat^l = A * M * V^T with a Query-Directed Sparse adjacency matrix A_QDS = A_local U A_sent U A_query U A_[CLS] over the concatenated query-document sequence (up to n = 2,048 tokens), combining local sliding-window attention (A_local[i, j] = 1 iff |i - j| <= w/2), hierarchical sentence-boundary attention on prepended start-of-sentence tokens (A_sent[i, j] = 1 iff t_j = [SOS]), query-directed global attention on query tokens (A_query[i, j] = 1 iff t_i in q), and global [CLS] attention, reducing per-layer self-attention complexity from O(n^2 * dim) to O(n * dim * (w + |q| + |s|)).
+identity_notes: Distinct from general-purpose sparse Transformers such as Sparse Transformer (local/strided attention only) and Longformer-QA (which places global attention only on two task tokens without sentence-level [SOS] hierarchy or full query-directed paths), and from passage-splitting rankers such as BERT-MaxP or PARADE. QDS-Transformer encodes the entire long document up to 2,048 tokens in a unified cross-encoder with IR-axiomatic sparse attention compiled via TVM CUDA kernels.
+aliases:
+- Query-Directed Sparse Transformer
+- QDS-Transformer Long Document Ranker
+- Query-Directed Sparse Attention Transformer
+definition_evidence:
+- source_id: r789-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r789-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r789-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: qds-transformer-sparse-adjacency-union-mechanism
+  kind: mechanism
+  statement: QDS-Transformer prepends a special [SOS] token to every sentence in the document and defines sparse self-attention adjacency A_QDS = A_local U A_sent U A_query U A_[CLS] (Eq. 10), where A_local[i, j] = 1 iff |i - j| <= w/2 (Eq. 7, e.g., w = 128), A_sent[i, j] = 1 iff t_j = [SOS] (Eq. 8), and A_query[i, j] = 1 iff t_i in q (Eq. 9), reducing self-attention complexity from O(n^2 * dim) to O(n * dim * (w + |q| + |s|)).
+  evidence:
+  - source_id: r789-primary-pdf
+    locator: Section 4.1-4.3, Equations (7)-(10), p. 4
+    relation: supports
+  - source_id: r789-primary-pdf
+    locator: build_qds_adjacency vs build_local_only_adjacency sparsity and reachability verification
+    relation: supports
+- claim_id: qds-transformer-long-document-ranking-and-ablation-scope
+  kind: scope
+  statement: On TREC 2019 Deep Learning Track document ranking and few-shot TREC benchmarks (Robust04, ClueWeb09-B, ClueWeb12-B13), QDS-Transformer outperforms RoBERTa-MaxP, TKL, Sparse-Transformer, Longformer-QA, and Transformer-XH while achieving over 2x speedup compared to dense 2,048-token RoBERTa when compiled with TVM custom CUDA kernels.
+  evidence:
+  - source_id: r789-primary-pdf
+    locator: Section 6.1-6.3, Tables 2-5, Figure 3, pp. 6-7
+    relation: supports
+- claim_id: qds-transformer-irregular-sparsity-cuda-kernel-limitation
+  kind: limitation
+  statement: Realizing actual wall-clock GPU speedups from A_QDS requires custom Tensor Virtual Machine (TVM) CUDA kernel compilation (as naive masking is slower than dense self-attention), and irregular sentence-boundary skipping patterns in A_sent and A_query achieve lower hardware utilization than purely diagonal local windows while token-wise feed-forward layers O(dim^2 * n) remain unpruned.
+  evidence:
+  - source_id: r789-primary-pdf
+    locator: Section 4.3, pp. 4-5; Section 6.3, Table 5, p. 7
+    relation: supports
+evidence_sources:
+- source_id: r789-primary-pdf
+  title: Long Document Ranking with Query-Directed Sparse Transformer
+  authors: &id001
+  - Jyun-Yu Jiang
+  - Chenyan Xiong
+  - Chia-Jung Lee
+  - Wei Wang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2010.12683.pdf
+  persistent_id: https://arxiv.org/bibtex/2010.12683
+  version: 'Findings of the Association for Computational Linguistics: EMNLP 2020 (2020) (1537165 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T14:32:00Z'
+  sha256: b4c4785bdb9cdadc99c00636ed7a687f9d91beb6a5e2c43fe836ca7a5cc912f7
+- source_id: r789-arxiv-abs
+  title: Long Document Ranking with Query-Directed Sparse Transformer (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.12683
+  persistent_id: https://arxiv.org/abs/2010.12683
+  version: arXiv abstract page (6615 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:32:00Z'
+  sha256: e94fcd4fb163b3f51392321314f320ffaa98cade90f3cdf35dfc4253b45e1405
+- source_id: r789-metadata-cr
+  title: Long Document Ranking with Query-Directed Sparse Transformer (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2010.12683
+  persistent_id: https://arxiv.org/bibtex/2010.12683
+  version: Crossref API work record (408 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:32:00Z'
+  sha256: a06a3c682232cf91e5956c4a7899fb577520108afc0e1669e411aa3e30b913f8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: QDS-Transformer is a sparse-attention Transformer neural network architecture tailored for long document ranking.
+limitations:
+- Requires custom TVM CUDA kernels to avoid naive masking overhead, and O(dim^2 * n) feed-forward layers remain a computational bottleneck even when attention is sparse.
+curation:
+  created_at: '2026-10-19T14:32:00Z'
+  updated_at: '2026-10-19T14:32:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,100 @@
+id: AIMech:FedTheTestTimeHeadEnsembleForPersonalizedFederatedLearning
+name: FedTHE (Test-Time Robust Personalized Federated Learning with Two-Head Ensemble)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A test-time adaptive personalized federated learning framework (Jiang & Lin 2023, Sections 4.1-4.2, Algorithm 1) that equips a shared feature extractor g with both an aggregated global classifier head h_g and a local personalized classifier head h_{p_m}, maintains a local training feature history h_hat_m = beta h_hat_m + (1 - beta) z_bar_m where z_bar_m is the batch average of L2-normalized penultimate features g(x) / ||g(x)||_2, and adapts per-sample ensemble weights (e, 1 - e) in the simplex Delta^1 at test time for each single test input x' by (1) updating a test-sample EMA feature tracker z'_t = alpha z'_{t-1} + (1 - alpha) z_norm(x') to compute cosine similarity lambda_s = cos(z'_t, h_hat_m) clipped to [0, 1] as a feature-space interpolator between global and personalized heads, (2) taking a one-step gradient descent update on the prediction Shannon entropy L_e(Y_hat) = -sum_c y_hat_c log y_hat_c of Y_hat = softmax(e h_g(g(x')) + (1 - e) h_{p_m}(g(x'))) projected onto Delta^1 to obtain entropy-minimized weights (e^*, 1 - e^*), and (3) combining both signals via feature-space temperature scaling Y_hat_final = softmax(e^* h_g(g(x')) / tau_g + (1 - e^*) h_{p_m}(g(x')) / tau_l) with adaptive temperatures tau_g = 1 - lambda_s + epsilon and tau_l = lambda_s + epsilon (Algorithm 1, Lines 12-13).
+identity_notes: Distinct from FedRoD (AIMech:FedRodBridgingGenericAndPersonalizedFederatedLearning, Chen & Chao 2022), which trains dual generic (balanced softmax) and personalized heads but uses fixed static head selection or addition at test time without per-sample entropy minimization or cosine-similarity feature temperature scaling; and distinct from FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), which discards the global head and evaluates only a local personalized head that fails on out-of-client shifted test classes.
+aliases:
+- FedTHE
+- FedTHE+
+- Test-Time Head Ensemble for Personalized Federated Learning
+- Two-Head Ensemble with Test-Time Entropy and Feature Similarity Adaptation
+definition_evidence:
+- source_id: r468-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r468-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r468-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r468-feature-similarity-temperature-scaling-and-entropy-simplex-adaptation-mechanism
+  kind: mechanism
+  statement: Combines test-time prediction entropy minimization min_{(e, 1-e) in Delta^1} H(softmax(e z_g + (1 - e) z_p)) (Algorithm 1, Line 8) with feature-space cosine-similarity temperature scaling tau_g = 1 - lambda_s + epsilon, tau_l = lambda_s + epsilon where lambda_s = clip(cos(z'_t, h_hat_m), 0, 1) measures alignment between the test representation EMA z'_t and the client's local training representation centroid h_hat_m (Algorithm 1, Lines 11-13), upweighting h_{p_m} on in-distribution samples (lambda_s -> 1) and upweighting h_g on out-of-client samples (lambda_s -> 0).
+  evidence:
+  - source_id: r468-primary-pdf
+    locator: Section 4.2 Test-Time Adaptive Head Ensemble for Single Test Sample & Algorithm 1 (Lines 6-14), pp. 5-7
+    relation: supports
+- claim_id: r468-single-sample-batch-free-and-fedthe-plus-finetuning-scope
+  kind: scope
+  statement: Operates on single streaming test samples (batch size 1) by optimizing only two scalar ensemble weights (e, 1 - e) rather than high-dimensional batch normalization parameters, and extends to FedTHE+ by adding one epoch of local fine-tuning of both backbone and local head prior to computing h_hat_m (Section 4.1 & Table 1).
+  evidence:
+  - source_id: r468-primary-pdf
+    locator: Section 4.1 Low-Cost Personalized FL Training, Section 4.2 Why Simple Entropy Minimization Does Not Work Well, & Section 5.2 Table 1, pp. 5-8
+    relation: supports
+- claim_id: r468-overconfident-local-head-on-unseen-classes-limitation
+  kind: limitation
+  statement: Pure test-time entropy minimization on two-head logits can be misled when a client's local personalized head trained on a skewed subset of classes produces overconfident low-entropy wrong predictions on unseen classes, necessitating the feature-space cosine similarity term lambda_s and assuming unimodal class-representation clustering around h_hat_m.
+  evidence:
+  - source_id: r468-primary-pdf
+    locator: Section 4.2 Why Simple Entropy Minimization Does Not Work Well & Feature-Space Adaptation, pp. 5-6, and Appendix D Ablation Study, p. 19
+    relation: supports
+- claim_id: r468-co-occurring-id-and-ood-federated-test-evaluation-application
+  kind: application
+  statement: Applied to personalized federated image classification on CIFAR-10, CIFAR-100, and ImageNet-32 under co-occurring in-distribution label skew, global out-of-client class shift, and Hendrycks CIFAR-10-C/CIFAR-100-C common corruptions.
+  evidence:
+  - source_id: r468-primary-pdf
+    locator: Section 5 Experiments (Tables 1-2, Figures 1-3), pp. 2, 7-9
+    relation: supports
+evidence_sources:
+- source_id: r468-primary-pdf
+  title: Test-Time Robust Personalization for Federated Learning
+  authors: &id001
+  - Liangze Jiang
+  - Tao Lin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2212.01370.pdf
+  persistent_id: https://openreview.net/forum?id=3a1522662c
+  version: Conference Proceedings (2023) (2188 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:11:00Z'
+  sha256: 03916ff69b1304b30ad32a8acc5aa8898506b46a03429db4342288724c7b39ba
+- source_id: r468-arxiv-abs
+  title: Test-Time Robust Personalization for Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2212.01370
+  persistent_id: https://arxiv.org/abs/2212.01370
+  version: arXiv abstract page (1275 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:11:00Z'
+  sha256: aa47fcba6e28b147605f29e951f06f519fa5094529fe07419059370b1c3d085b
+- source_id: r468-metadata-cr
+  title: Test-Time Robust Personalization for Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=3a1522662c
+  persistent_id: https://openreview.net/forum?id=3a1522662c
+  version: Crossref API work record (284 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:11:00Z'
+  sha256: 051ee25674a3fae720a7d3ec2bb88cfb879144c243b56b1e90eaf5f8306337ad
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedTHE is a personalized federated learning algorithm that adapts a global-local two-head ensemble at test time using entropy minimization and feature-space cosine similarity.
+limitations:
+- Requires an extra forward/backward pass through the two scalar ensemble weights (e, 1 - e) for each test input at inference time.
+- Relies on a single unimodal training representation centroid h_hat_m per client to estimate test-sample feature similarity lambda_s.
+curation:
+  created_at: '2026-10-19T09:11:00Z'
+  updated_at: '2026-10-19T09:11:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

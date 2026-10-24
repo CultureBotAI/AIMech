@@ -1,0 +1,98 @@
+id: AIMech:AnitaOptimalLooplessAcceleratedVarianceReducedGradientMethod
+name: ANITA Optimal Loopless Accelerated Variance-Reduced Gradient Method
+concept_kind: algorithm
+review_status: DRAFT
+definition: A loopless (single-loop) accelerated variance-reduced gradient method introduced by Li (2021) for solving general convex (mu = 0) and mu-strongly convex (mu > 0) finite-sum optimization problems min_{x in R^d} f(x) = (1/n) sum_{i=1}^n f_i(x). At each iteration t, ANITA computes the first momentum interpolation x_under_t = theta_t x_t + (1 - theta_t) w_t, samples i in [n] uniformly at random to form the SVRG gradient estimator nabla_tilde_t = nabla f_i(x_under_t) - nabla f_i(w_t) + nabla f(w_t), updates x_{t+1} = (1 / (1 + mu eta_t))(x_t + mu eta_t x_under_t) - (eta_t / alpha_t) nabla_tilde_t and the second interpolation x_bar_{t+1} = theta_t x_{t+1} + (1 - theta_t) w_t, and probabilistically refreshes the snapshot point w_{t+1} = x_bar_{t+1} with probability p_t (or retains w_{t+1} = w_t with probability 1 - p_t) using a dynamic multi-stage probability schedule {p_t}.
+identity_notes: 'Distinct from double-loop accelerated variance-reduced methods such as Katyusha (Allen-Zhu 2017) and Varag (Lan et al. 2019), and distinct from fixed-probability loopless Katyusha (L-Katyusha, Kovalev et al. 2020, which only handles strongly convex objectives mu > 0 with constant p_t = p): ANITA uses a single-loop structure with a dynamic three-stage snapshot probability schedule {p_t} in the general convex regime (mu = 0), achieving the first optimal O(n) stochastic gradient complexity matching the Woodworth-Srebro Omega(n) lower bound when n >= 1/epsilon^2.'
+aliases:
+- ANITA
+- AN optImal loopless acceleraTed vAriance-reduced gradient method
+- Loopless Accelerated Variance-Reduced Gradient Method with Dynamic Snapshot Probability
+definition_evidence:
+- source_id: r570-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r570-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r570-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: anita-dynamic-three-stage-loopless-general-convex-convergence
+  kind: mechanism
+  statement: 'For L-smooth general convex finite-sum objectives (mu = 0), Theorem 1 sets a three-stage target-error-free schedule: Stage 1 (0 <= t <= t_1, where t_1 ~ Geom(1/(n+1)) is the first snapshot update) uses p_t = 1/(n+1), theta_t = 1 - 1/(2 sqrt(n)), eta_t <= 1/(L(1 + 1/(1 - theta_t))), alpha_t = theta_t; Stages 2 and 3 (t > t_1) set p_t = max{4/(t - t_1 + 3 sqrt(n)), 4/(n + 3)}, theta_t = 2/(p_t(t - t_1 + 3 sqrt(n))), eta_t <= 1/(3L), and alpha_t = theta_t, satisfying the recursion (1 - p_t theta_t) eta_t / (p_t theta_t^2) <= eta_{t-1} / (p_{t-1} theta_{t-1}^2) (Eq. 40) and guaranteeing last-iterate convergence E[f(w_t) - f(x*)] <= 32 ||x_0 - x*||^2 / (eta_{t-1} p_{t-1} (t - t_1 + 3 sqrt(n))^2).'
+  evidence:
+  - source_id: r570-primary-pdf
+    locator: Section 4.1, Theorem 1, Corollary 1 & Remark, pp. 7-8; Appendix A.1, Lemmas 5-7 & Equations (40)-(47), pp. 17-21
+    relation: supports
+- claim_id: anita-optimal-general-convex-and-large-scale-gradient-complexity
+  kind: mechanism
+  statement: By Corollary 1 and Table 2, ANITA finds an epsilon-approximate solution E[f(w_T) - f(x*)] <= epsilon in O(n min{1 + log(1/(epsilon sqrt(n))), log sqrt(n)} + sqrt(n L / epsilon)) stochastic gradient computations without requiring epsilon in advance, achieving the exact optimal O(n + sqrt(n L / epsilon)) complexity matching the Woodworth-Srebro lower bound Omega(n + sqrt(n L / epsilon)) for both large-scale problems (n >= 1/epsilon^2, where complexity is O(n)) and small-error regimes (epsilon <= L / (n log^2 sqrt(n))).
+  evidence:
+  - source_id: r570-primary-pdf
+    locator: Section 2, Tables 1-2, pp. 3-5; Section 4.1, Corollary 1, pp. 7-8; Appendix A.1.2, Equations (48)-(54), pp. 21-22
+    relation: supports
+- claim_id: anita-strongly-convex-constant-parameter-optimal-linear-rate
+  kind: scope
+  statement: For L-smooth mu-strongly convex finite-sum objectives (mu > 0), Theorem 2 uses constant parameters p_t = p = 1/n, theta_t = theta = (1/2) min{1, sqrt(mu / (p L))}, eta_t = eta <= 1 / (L theta (1 + 1/(1 - theta))), and alpha_t = 1 + mu eta, proving that the Lyapunov function Phi_t := f(w_t) - f(x*) + ((1 + mu eta) p theta / (2 eta)) ||x_t - x*||^2 contracts as E[Phi_t] <= (1 - 4 p theta / 5)^t Phi_0 and achieves optimal O(max{n, sqrt(n L / mu)} log(1/epsilon)) stochastic gradient complexity (Corollary 2).
+  evidence:
+  - source_id: r570-primary-pdf
+    locator: Section 4.2, Theorem 2 & Corollary 2, pp. 8-9; Appendix A.2, Lemma 8 & Equations (55)-(59), pp. 22-23
+    relation: supports
+- claim_id: anita-intermediate-error-logarithmic-gap-and-full-snapshot-limitation
+  kind: limitation
+  statement: In the intermediate error regime 1/sqrt(n) > epsilon > L / (n log^2 sqrt(n)), ANITA's general convex complexity O(n min{1 + log(1/(epsilon sqrt(n))), log sqrt(n)}) retains a logarithmic factor up to log sqrt(n) above the Omega(n + sqrt(n L / epsilon)) lower bound (Table 2), and every probabilistic snapshot update w_{t+1} = x_bar_{t+1} requires a full gradient evaluation nabla f(w_{t+1}) over all n components.
+  evidence:
+  - source_id: r570-primary-pdf
+    locator: Section 2, Table 2 & Section 2.1, pp. 4-6
+    relation: supports
+evidence_sources:
+- source_id: r570-primary-pdf
+  title: 'ANITA: An Optimal Loopless Accelerated Variance-Reduced Gradient Method'
+  authors: &id001
+  - Zhize Li
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2103.11333.pdf
+  persistent_id: https://api.openalex.org/works/W3137382134
+  version: arXiv preprint arXiv:2103.11333 (2021) (666354 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:53:00Z'
+  sha256: ba0754683d8078d66ed27be5d28759b965f0bbb8643b648fc48f94aafba40d57
+- source_id: r570-arxiv-abs
+  title: 'ANITA: An Optimal Loopless Accelerated Variance-Reduced Gradient Method (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.11333
+  persistent_id: https://arxiv.org/abs/2103.11333
+  version: arXiv abstract page (6980 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:53:00Z'
+  sha256: 0c5f75809218383f2e6ea38bd368bb7417fb6cd7b9a6c7135c0e124fba7075a9
+- source_id: r570-metadata-cr
+  title: 'ANITA: An Optimal Loopless Accelerated Variance-Reduced Gradient Method (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/W3137382134
+  persistent_id: https://api.openalex.org/works/W3137382134
+  version: Crossref API work record (16344 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:53:00Z'
+  sha256: 2e712bb5283601cbbaa31ed2392863303ec376b2e3d054a585113d29a41e6f39
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: ANITA is designed for empirical risk minimization finite-sum problems and benchmarked on convex finite-sum logistic regression (Section 5, Eq. 6).
+limitations:
+- In the intermediate regime 1/sqrt(n) > epsilon > L / (n log^2 sqrt(n)), the general convex gradient complexity includes a logarithmic factor min{1 + log(1/(epsilon sqrt(n))), log sqrt(n)}.
+- Requires a full gradient computation nabla f(w_t) of cost n whenever the Bernoulli coin flip of probability p_t updates the snapshot w_{t+1} = x_bar_{t+1}.
+curation:
+  created_at: '2026-10-19T10:53:00Z'
+  updated_at: '2026-10-19T10:53:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

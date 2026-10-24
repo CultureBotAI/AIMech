@@ -1,0 +1,349 @@
+# Scientific author self-review of Child-Tuning Gradient-Masked Subnetwork Fine-Tuning
+
+- Review: 20261019T131930Z-child-tuning-gradient-mask-subnetwork-fine-tuning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T13:19:00Z
+- Finished UTC: 2026-10-19T13:19:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Child-Tuning Gradient-Masked Subnetwork Fine-Tuning as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/ChildTuningGradientMaskSubnetworkFineTuning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 8dae49e2853bfe24a3dd64482badc5b4d9b571fc.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ChildTuningGradientMaskSubnetworkFineTuning | data/curated/ChildTuningGradientMaskSubnetworkFineTuning.yaml | maintained | Child-Tuning Gradient-Masked Subnetwork Fine-Tuning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ChildTuningGradientMaskSubnetworkFineTuning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:ChildTuningGradientMaskSubnetworkFineTuning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:ChildTuningGradientMaskSubnetworkFineTuning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:ChildTuningGradientMaskSubnetworkFineTuning | Validated history sidecar files. |
+| python3 child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py | passed | True | AIMech:ChildTuningGradientMaskSubnetworkFineTuning | Child-Tuning verification passed. |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:ChildTuningGradientMaskSubnetworkFineTuning.
+
+Child-Tuning Gradient-Masked Subnetwork Fine-Tuning is a distinct concept.
+
+Distinct from model pruning (which removes non-selected parameters during inference, causing severe accuracy collapse when applied to the non-child complement), from Mixout (Lee et al., ICLR 2020, which stochastically swaps parameters with pretrained weights), and from Diff-Pruning or Adapter tuning (which introduce extra trainable masks or bottleneck modules aimed at storage reduction rather than full-network forward pass with backward gradient masking).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:ChildTuningGradientMaskSubnetworkFineTuning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:ChildTuningGradientMaskSubnetworkFineTuning.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py passed with exit code 0: Child-Tuning verification passed.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ChildTuningGradientMaskSubnetworkFineTuning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T131900Z-child-tuning-gradient-mask-subnetwork-fine-tuning.json | supports | No normalized identity match for AIMech:ChildTuningGradientMaskSubnetworkFineTuning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py | supports | All constructed boundary assertions in child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py passed with exit code 0: Child-Tuning verification passed. |
+| r716-primary-pdf | https://arxiv.org/pdf/2109.05687.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP 2021), pp. 9514-9528 (2021)) read and verified. |
+| r716-arxiv-abs | https://arxiv.org/abs/2109.05687; arXiv abstract | supports | arXiv abstract read and verified. |
+| r716-metadata-cr | https://dblp.org/search/publ/api?q=Raise+a+Child+in+Large+Language+Model+Xu&amp;format=xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ChildTuningGradientMaskSubnetworkFineTuning in Round 716.
+- All pages of Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP 2021), pp. 9514-9528 (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T131930Z-child-tuning-gradient-mask-subnetwork-fine-tuning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Child-Tuning Gradient-Masked Subnetwork Fine-Tuning
+started_at: '2026-10-19T13:19:00Z'
+finished_at: '2026-10-19T13:19:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP
+    2021), pp. 9514-9528 (2021) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Child-Tuning Gradient-Masked Subnetwork Fine-Tuning as a distinct
+  DRAFT algorithm. All four claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: 8dae49e2853bfe24a3dd64482badc5b4d9b571fc
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/ChildTuningGradientMaskSubnetworkFineTuning.yaml
+    sha256: 00a8863f4b805120a7090d052ef7daf814ece09d8587ed0d2b8883d3e84d051c
+    role: target
+  - path: research/discovery/20261019T131900Z-child-tuning-gradient-mask-subnetwork-fine-tuning.json
+    sha256: cc54b3113ed45e37e6da116fb4180820171bfb9231ee6e269abd88324a39b58c
+    role: context
+  - path: research/discovery/child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py
+    sha256: b401e6dc452d53dcca166ae26de99e164f633f46551ae7712657fb664496214b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  path: data/curated/ChildTuningGradientMaskSubnetworkFineTuning.yaml
+  label: Child-Tuning Gradient-Masked Subnetwork Fine-Tuning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ChildTuningGradientMaskSubnetworkFineTuning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/ChildTuningGradientMaskSubnetworkFineTuning.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ChildTuningGradientMaskSubnetworkFineTuning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py
+  command: python3 research/discovery/child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Child-Tuning verification passed.
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T131900Z-child-tuning-gradient-mask-subnetwork-fine-tuning.json
+  accessed_at: '2026-10-19T13:19:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T13:19:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py
+  accessed_at: '2026-10-19T13:19:00Z'
+  snapshot_sha256: b401e6dc452d53dcca166ae26de99e164f633f46551ae7712657fb664496214b
+  support: supports
+  summary: 'All constructed boundary assertions in child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py
+    passed with exit code 0: Child-Tuning verification passed.'
+- evidence_id: r716-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2109.05687.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T13:19:00Z'
+  snapshot_sha256: 3ec00234c69c11d936a3c94afc8e7e776b2cba6324c788c9f54cd9f14bf30fa6
+  support: supports
+  summary: Full-text PDF (Proceedings of the 2021 Conference on Empirical Methods
+    in Natural Language Processing (EMNLP 2021), pp. 9514-9528 (2021)) read and verified.
+- evidence_id: r716-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2109.05687
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T13:19:00Z'
+  snapshot_sha256: 42677ebdd6f6b3e41b7e0397cd416013d54613c774309a6d25dca8ffe10e5623
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r716-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=Raise+a+Child+in+Large+Language+Model+Xu&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T13:19:00Z'
+  snapshot_sha256: b6dac6bbbbe2095e3b57f366a53c5bb2cb3fbd9f59193004e9e3512a08bf1f0f
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  evidence_ids:
+  - identity
+  - r716-primary-pdf
+  - r716-arxiv-abs
+  - r716-metadata-cr
+  summary: Child-Tuning Gradient-Masked Subnetwork Fine-Tuning is a distinct concept.
+  details: Distinct from model pruning (which removes non-selected parameters during
+    inference, causing severe accuracy collapse when applied to the non-child complement),
+    from Mixout (Lee et al., ICLR 2020, which stochastically swaps parameters with
+    pretrained weights), and from Diff-Pruning or Adapter tuning (which introduce
+    extra trainable masks or bottleneck modules aimed at storage reduction rather
+    than full-network forward pass with backward gradient masking).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  evidence_ids:
+  - mapping
+  - r716-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  evidence_ids:
+  - r716-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in child-tuning-gradient-mask-subnetwork-fine-tuning-boundaries.py
+    passed with exit code 0: Child-Tuning verification passed.'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ChildTuningGradientMaskSubnetworkFineTuning
+  evidence_ids:
+  - identity
+  - mapping
+  - r716-primary-pdf
+  - r716-arxiv-abs
+  - r716-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ChildTuningGradientMaskSubnetworkFineTuning in Round
+  716.
+- All pages of Proceedings of the 2021 Conference on Empirical Methods in Natural
+  Language Processing (EMNLP 2021), pp. 9514-9528 (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

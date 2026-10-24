@@ -1,0 +1,97 @@
+id: AIMech:TKLTransformerKernelForLongDocuments
+name: 'TKL: Transformer-Kernel Model with Local Self-Attention for Long Document Retrieval'
+concept_kind: architecture
+review_status: DRAFT
+definition: "A long-document neural re-ranking architecture (Hofst\xE4tter, Zamani, Mitra, Craswell, & Hanbury, SIGIR 2020) that contextualizes document token sequences d_{1:m} (up to thousands of tokens) in fixed-size moving windows of width w with overlap o using a multi-layer highway Transformer\u2014reducing self-attention complexity from O(L^2) to O(L * w) and skipping pure-padding windows\u2014computes cosine similarity RBF kernel activations K_{i,j}^k = exp(-(cos(q_i, d_j) - mu_k)^2 / (2 sigma^2)), sums activations within sliding saturation regions K_i^{r,k} = sum_{j=r}^{r+r_size} K_{i,j}^k, applies a learned query-salience conditioned power saturation function K_hat_i^{r,k} = a_i * (K_i^{r,k})^{1/b_i} - c_i, and aggregates the resulting relevance topography s^r via top-local-max_{t,f}(s^r) W_s over the top-t non-overlapping local maxima and their f immediate neighbors."
+identity_notes: Distinct from the short-text TK model (AIMech:TKTransformerKernelModelForReRanking, which applies full self-attention over the first ~200 tokens and uses fixed log saturation over the entire document). TKL introduces overlapping local self-attention windows with minibatch padding-chunk skipping, a learned non-linear power saturation function conditioned on query-term salience e_i and region token count c_len, and two-stage local/global topography pooling via top-local-max_{t,f}.
+aliases:
+- TKL Long-Document Ranking Model
+- Transformer-Kernel for Long Text
+- Local Self-Attention Transformer-Kernel Model
+definition_evidence:
+- source_id: r786-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r786-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r786-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: tkl-windowed-local-attention-and-salience-saturation-mechanism
+  kind: mechanism
+  statement: TKL contextualizes document tokens in overlapping windows of width w and overlap o (concatenating interior slices d_hat_{1:m} = [TF(d_{1:w+o})_{1:w}; TF(d_{w-o:2w+o})_{o:-o}; ...] and skipping pure-padding windows), computes RBF kernel activations K_{i,j}^k, sums them in sliding windows of size r_size, applies the learned power saturation K_hat_i^{r,k} = a_i * (K_i^{r,k})^{1/b_i} - c_i conditioned on query-term salience e_i (initialized with IDF) and region token count c_len, and scores the top-t non-overlapping local maxima and their f neighboring regions via s = top-local-max_{t,f}(s^r) W_s.
+  evidence:
+  - source_id: r786-primary-pdf
+    locator: Section 3, Equations (1)-(7), p. 2
+    relation: supports
+  - source_id: r786-primary-pdf
+    locator: sliding_windows_non_pad, learned_saturation, and top_local_max verification
+    relation: supports
+- claim_id: tkl-long-document-bias-mitigation-scope
+  kind: scope
+  statement: By extending contextualized kernel pooling to 2,000-4,000 document tokens and detecting relevant regions beyond the 500th word, TKL significantly improves nDCG@10 and MRR@10 over TK on TREC 2019 Deep Learning Track document ranking while mitigating the under-retrieval bias against longer relevant documents.
+  evidence:
+  - source_id: r786-primary-pdf
+    locator: Section 1, Figure 1, p. 1; Section 5, Tables 1-2, Figures 2-3, pp. 3-4
+    relation: supports
+- claim_id: tkl-window-boundary-context-limitation
+  kind: limitation
+  statement: Because TKL restricts document self-attention to local sliding windows of width w with overlap o rather than full document-wide attention, long-range contextual dependencies across distant paragraphs cannot interact during token contextualization and are only aggregated at the relevance topography stage.
+  evidence:
+  - source_id: r786-primary-pdf
+    locator: Section 1, p. 1; Section 3, Equation (1), p. 2
+    relation: supports
+evidence_sources:
+- source_id: r786-primary-pdf
+  title: Local Self-Attention over Long Text for Efficient Document Retrieval
+  authors: &id001
+  - "Sebastian Hofst\xE4tter"
+  - Hamed Zamani
+  - Bhaskar Mitra
+  - Nick Craswell
+  - Allan Hanbury
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2005.04908.pdf
+  persistent_id: https://arxiv.org/bibtex/2005.04908
+  version: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2020) (2020) (2494611 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:29:00Z'
+  sha256: e79f78c1a5cf90d2fbc9bac4410a6f5681a28c66989c01cad56fa44d050612c4
+- source_id: r786-arxiv-abs
+  title: Local Self-Attention over Long Text for Efficient Document Retrieval (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.04908
+  persistent_id: https://arxiv.org/abs/2005.04908
+  version: arXiv abstract page (7245 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:29:00Z'
+  sha256: dbc02e6249bbb0bfe923a2571b89fe4c231d109efa238164b7c83c0721f3bcaf
+- source_id: r786-metadata-cr
+  title: Local Self-Attention over Long Text for Efficient Document Retrieval (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2005.04908
+  persistent_id: https://arxiv.org/bibtex/2005.04908
+  version: Crossref API work record (446 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:29:00Z'
+  sha256: 2727573b00c92dcbfa8beb03a7db76f2d79021e268353d00cc433d1e28a688aa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: TKL is a neural document ranking architecture combining windowed local self-attention Transformers with kernel activation and two-stage saturation/top-local-max pooling.
+limitations:
+- Restricting document self-attention to local sliding windows of width w prevents direct token-level contextualization across distant sections of a document.
+curation:
+  created_at: '2026-10-19T14:29:00Z'
+  updated_at: '2026-10-19T14:29:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

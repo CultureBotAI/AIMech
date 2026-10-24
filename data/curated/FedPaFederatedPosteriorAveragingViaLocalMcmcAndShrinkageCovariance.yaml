@@ -1,0 +1,101 @@
+id: AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance
+name: FedPA (Federated Posterior Averaging via Local MCMC and Shrinkage Covariance)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Bayesian posterior-inference federated learning algorithm (Al-Shedivat et al. 2021, Algorithms 1-2) that decomposes the global posterior under a uniform prior into a product of local client posteriors P(theta | D) propto prod_{i=1}^N P(theta | D_i), approximates each client posterior with a Gaussian N(mu_hat_i, Sigma_hat_i) whose mean and Ledoit-Wolf shrinkage covariance Sigma_hat_ell = rho_ell I + (1 - rho_ell) S_hat_ell (rho_ell = 1 / (1 + (ell - 1) rho)) are estimated from ell local stochastic-gradient MCMC (Iterate-Averaged SGD) samples, and transmits only the preconditioned vector update Delta_hat_i = Sigma_hat_i^{-1} (theta^{t-1} - mu_hat_i) computed online in O(ell^2 d) time and O(ell d) memory via rank-1 Sherman-Morrison dynamic programming.
+identity_notes: Distinct from FedAvg and FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam), which correspond to the biased identity-covariance special case Sigma_hat_i = I (rho = 0) and converge to the arithmetic mean of local modes rather than the global posterior mode (sum_i q_i Sigma_i^{-1})^{-1} (sum_i q_i Sigma_i^{-1} mu_i) when client posteriors have heterogeneous anisotropic curvatures, and from FedMA (AIMech:FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching, which uses a Beta-Bernoulli Process for layer-wise neuron permutation matching rather than local MCMC sampling and shrinkage covariance preconditioning).
+aliases:
+- FedPA
+- Federated Posterior Averaging
+- Federated Learning via Posterior Averaging
+definition_evidence:
+- source_id: r412-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r412-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r412-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r412-gaussian-posterior-product-quadratic-objective-and-fedavg-identity-covariance-bias
+  kind: mechanism
+  statement: Propositions 1 and 2 show that under local Laplace/Gaussian posterior approximations N(mu_i, Sigma_i), the global posterior mode mu = (sum_{i=1}^N q_i Sigma_i^{-1})^{-1} (sum_{i=1}^N q_i Sigma_i^{-1} mu_i) minimizes the global quadratic objective Q(theta) = (1/2) theta^T (sum_i q_i Sigma_i^{-1}) theta - (sum_i q_i Sigma_i^{-1} mu_i)^T theta whose stochastic client gradient is Delta_i = Sigma_i^{-1}(theta - mu_i), revealing that FedAvg implicitly sets Sigma_i = I and therefore converges to a biased fixed point whenever client precision matrices Sigma_i^{-1} are heterogeneous and anisotropic.
+  evidence:
+  - source_id: r412-primary-pdf
+    locator: Section 3.2-3.3 (Propositions 1 and 2, Eqs. 3-6, Figure 1)
+    relation: supports
+- claim_id: r412-sherman-morrison-dynamic-programming-for-matrix-free-shrinkage-covariance-inversion
+  kind: mechanism
+  statement: Theorem 3 and Appendix C (Algorithm 2) prove that using the Ledoit-Wolf shrinkage covariance estimator Sigma_hat_ell = rho_ell I + (1 - rho_ell) S_hat_ell with rho_ell = 1 / (1 + (ell - 1) rho) over ell local MCMC epoch means x_1,...,x_ell, the unnormalized matrix tilde_Sigma_t = I + rho (t - 1) S_hat_t satisfies the rank-1 recurrence tilde_Sigma_t = tilde_Sigma_{t-1} + gamma_t u_t u_t^T with u_t = x_t - bar_x_{t-1} and gamma_t = rho (t - 1) / t, enabling exact computation of Delta_hat_ell = Sigma_hat_ell^{-1}(x_0 - bar_x_ell) in O(ell^2 d) time and O(ell d) memory without ever instantiating or communicating a d x d matrix.
+  evidence:
+  - source_id: r412-primary-pdf
+    locator: Section 4.2 Efficient Local Posterior Covariance Estimation (Theorem 3, Eq. 8) & Appendix C (Algorithm 2)
+    relation: supports
+- claim_id: r412-burn-in-epochs-and-local-sample-storage-limitation
+  kind: limitation
+  statement: FedPA requires an initial burn-in phase of communication rounds before activating posterior covariance preconditioning so that local SG-MCMC chains mix near a local mode, and each client must store ell >= 2 d-dimensional epoch-mean vectors during local training to form rank-1 covariance updates.
+  evidence:
+  - source_id: r412-primary-pdf
+    locator: Section 4.1-4.3 (Table 1, Algorithm 1) & Section 5
+    relation: supports
+- claim_id: r412-federated-emnist-cifar100-stackoverflow-and-reddit-benchmarks-application
+  kind: application
+  statement: Evaluated on federated EMNIST-62, CIFAR-100, StackOverflow tag prediction and next-word prediction, and Reddit language modeling, improving convergence speed and final test accuracy over FedAvg and adaptive FedOpt baselines.
+  evidence:
+  - source_id: r412-primary-pdf
+    locator: Section 5 Experiments (Tables 2-3, Figures 2-4)
+    relation: supports
+evidence_sources:
+- source_id: r412-primary-pdf
+  title: 'Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms'
+  authors: &id001
+  - Maruan Al-Shedivat
+  - Jennifer Gillenwater
+  - Eric P. Xing
+  - Afshin Rostamizadeh
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2010.05273
+  persistent_id: https://openreview.net/forum?id=GFsU8a0sGB
+  version: International Conference on Learning Representations (ICLR 2021) (2021) (86495 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:15:00Z'
+  sha256: aa28ea4d73cfa1e41ac3abae6896d1180d82e787ffeab1edda9f909c35a2eda3
+- source_id: r412-arxiv-abs
+  title: 'Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.05273
+  persistent_id: https://arxiv.org/abs/2010.05273
+  version: arXiv abstract page (7463 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:15:00Z'
+  sha256: aee73b9afd8ecb49e24eaefe91cb8900f6ecffae0eec8a380ed42da1547cee3c
+- source_id: r412-metadata-cr
+  title: 'Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=GFsU8a0sGB
+  persistent_id: https://openreview.net/forum?id=GFsU8a0sGB
+  version: Crossref API work record (398 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:15:00Z'
+  sha256: 8f7c4f3ba9dd1f74e560759db001470fe0434eef02838f2aea54b7e0f9396f91
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedPA is a Bayesian posterior-averaging algorithm for Federated Learning.
+limitations:
+- Requires burn-in communication rounds before activating covariance preconditioning.
+- Clients must store ell >= 2 epoch-mean sample vectors during each local round.
+curation:
+  created_at: '2026-10-19T08:15:00Z'
+  updated_at: '2026-10-19T08:15:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

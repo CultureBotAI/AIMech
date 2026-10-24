@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subspace Pursuit for Compressive Sensing Signal Reconstruction · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Subspace Pursuit for Compressive Sensing Signal Reconstruction</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Subspace Pursuit for Compressive Sensing Signal Reconstruction</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SubspacePursuitForCompressiveSensingSignalReconstruction</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Subspace Pursuit, SP Algorithm for Compressive Sensing, Dai-Milenkovic Subspace Pursuit
+    </div>
+
+  <div class="detail-desc">
+    Subspace Pursuit for Compressive Sensing Signal Reconstruction (SP) is an iterative backtracking greedy algorithm introduced by Dai and Milenkovic (2009) for reconstructing K-sparse and compressible signals x in R^N from linear measurements y = Phi x + e in R^m. Unlike CoSaMP (which merges 2K proxy coordinates and prunes without re-projecting), SP initializes the K-element support T^0 = {K indices of largest magnitude of Phi^* y} with orthogonal-projection residue y_r^0 = resid(y, Phi_{T^0}) and at each iteration l &gt;= 1 forms the 2K-element candidate union T_tilde^l = T^{l-1} union {K indices of largest magnitude of Phi^* y_r^{l-1}}, computes the intermediate projection coefficients x_p = Phi_{T_tilde^l}^dagger y, prunes T^l to the K indices of largest magnitude in x_p, and performs a second orthogonal projection y_r^l = y - Phi_{T^l} Phi_{T^l}^dagger y onto the pruned K-dimensional column subspace before checking termination ||y_r^l||_2 &gt;= ||y_r^{l-1}||_2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from CoSaMP (AIMech:CoSaMPCompressiveSamplingMatchingPursuit, which selects 2K atoms per step, operates on 3K supports under delta_{4K}, and omits the post-pruning subspace projection), Orthogonal Matching Pursuit (AIMech:OrthogonalMatchingPursuitTroppGilbertSignalRecovery), and Iterative Hard Thresholding (AIMech:IterativeHardThresholdingForCompressedSensing). Specifically captures the Dai-Milenkovic (2009) Subspace Pursuit algorithm (Algorithm 1), its post-pruning orthogonal residue property Phi_{T^l}^* y_r^l = 0 (Lemma 2), its 3K-RIP geometric contraction under delta_{3K} &lt; 0.205 (Theorems 1-2) and noisy/compressible stability under delta_{3K} &lt; 0.083 (Theorem 9).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because Subspace Pursuit re-projects the measurement vector y onto the pruned K-column subspace span(Phi_{T^{l-1}}) to form y_r^{l-1} = resid(y, Phi_{T^{l-1}}), the correlation vector Phi^* y_r^{l-1} vanishes identically on all currently active indices T^{l-1} (Lemma 2), ensuring that the K newly selected correlation indices are strictly disjoint from T^{l-1} and that the merged support T_tilde^l has exact cardinality 2K, requiring only 3K-restricted isometry constants delta_{3K} rather than 4K-RIP constants.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r316-primary-pdf">Subspace Pursuit for Compressive Sensing Signal Reconstruction</a></span>
+        <span>· <strong>Locator:</strong> Section II.A, Algorithm 1, p. 3; Section III.A, Lemma 2 and Theorem 1, pp. 4-5; Appendix B-C, Proofs of Lemmas 2 and Theorem 1, pp. 12-14</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r316-metadata-cr">Subspace Pursuit for Compressive Sensing Signal Reconstruction (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for IEEE Transactions on Information Theory 55(5):2230-2249</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under the noiseless 3K-RIP condition delta_{3K} &lt; 0.205 (or delta_{3K} &lt; 0.165 for both support-missed error and residue norms), Theorem 1 and Theorem 2 prove the per-step contractions ||x_{T - T^l}||_2 &lt;= c_K ||x_{T - T^{l-1}}||_2 and ||y_r^l||_2 &lt;= c&#39;_K ||y_r^{l-1}||_2 with c_K, c&#39;_K &lt; 1, guaranteeing exact K-sparse recovery in finite iterations &lt;= ceil(log(x_min/||x||_2)/log(c_K)) (Theorem 3); under noisy compressible measurements with delta_{3K} &lt; 0.083, Theorem 9 proves ||x - x_hat||_2 &lt;= C_1 ||x - x_K||_2 + (C_1/sqrt(K)) ||x - x_K||_1 + C_2 ||e||_2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r316-primary-pdf">Subspace Pursuit for Compressive Sensing Signal Reconstruction</a></span>
+        <span>· <strong>Locator:</strong> Section III.A-B, Theorems 1, 2, and 3, pp. 4-6; Section IV, Theorem 9, pp. 8-9; Appendix F, Proof of Theorem 9, pp. 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Unlike CoSaMP, each Subspace Pursuit iteration performs two least-squares pseudoinversions (one on the 2K-column matrix Phi_{T_tilde^l} for pruning and a second on the K-column matrix Phi_{T^l} to orthogonalize the residue y_r^l), and requires the target sparsity K to be known a priori.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r316-primary-pdf">Subspace Pursuit for Compressive Sensing Signal Reconstruction</a></span>
+        <span>· <strong>Locator:</strong> Section II.A-B, Algorithm 1 and Comparison with CoSaMP/ROMP, pp. 3-4; Section III.C, Computational Complexity Theorems 6-8, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires two least-squares projections per iteration (on 2K and K columns) and prior specification of the sparsity parameter K; guarantees depend on the 3K-Restricted Isometry Property of the measurement matrix.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Subspace Pursuit solves sparse linear reconstruction problems via iterative 2K and K least-squares subspace projections.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Subspace Pursuit achieves instance-optimal l2/l1 sparse recovery guarantees comparable to l1-regularized Lasso / Basis Pursuit.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r316-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r316-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0803.0811v3" target="_blank" rel="noopener">Subspace Pursuit for Compressive Sensing Signal Reconstruction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Dai, Olgica Milenkovic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TIT.2009.2016006</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:41bc8e1020c1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r316-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r316-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0803.0811v3" target="_blank" rel="noopener">Subspace Pursuit for Compressive Sensing Signal Reconstruction (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Dai, Olgica Milenkovic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0803.0811v3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4c602a5f8887…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r316-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r316-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1109/TIT.2009.2016006" target="_blank" rel="noopener">Subspace Pursuit for Compressive Sensing Signal Reconstruction (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Dai, Olgica Milenkovic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TIT.2009.2016006</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:32b698f007b5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ASubspacePursuitForCompressiveSensingSignalReconstruction">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Subspace Pursuit for Compressive Sensing Signal Reconstruction" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:SubspacePursuitForCompressiveSensingSignalReconstruction</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Subspace Pursuit for...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:LinearRegression (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:24:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:24:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SubspacePursuitForCompressiveSensingSignalReconstruction.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SubspacePursuitForCompressiveSensingSignalReconstruction.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Subspace%20Pursuit%20for%20Compressive%20Sensing%20Signal%20Reconstruction"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASubspacePursuitForCompressiveSensingSignalReconstruction"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,107 @@
+id: AIMech:Doc2QueryDocumentExpansionByQueryPrediction
+name: Doc2query Neural Document Expansion by Query Prediction
+concept_kind: preprocessing_method
+review_status: DRAFT
+definition: A neural document-expansion preprocessing method for first-stage information retrieval that trains a sequence-to-sequence Transformer model on (query, relevant document) pairs to generate questions a given document could potentially answer, samples N = 10 predicted queries per document via top-k random sampling prior to indexing, and appends the predicted queries directly to the original document text without special markup before building a standard bag-of-words inverted index (such as BM25), simultaneously performing implicit term re-weighting via copied document tokens (increasing the term frequency of salient words) and bridging lexical vocabulary mismatch via newly generated synonym and related-concept tokens while shifting neural inference cost from retrieval time to offline indexing.
+identity_notes: Distinct from query-side generation expansion methods such as GAR (AIMech:GARGenerationAugmentedRetrievalForOpenDomainQA) and HyDE (AIMech:HyDEHypotheticalDocumentEmbeddings), which generate expansion contexts from the input query at retrieval time rather than expanding corpus documents offline prior to inverted-index construction; and distinct from DeepCT (AIMech:DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval), which regresses integer term frequencies for existing document tokens without generating new vocabulary terms not present in the document.
+aliases:
+- Doc2query
+- Document Expansion by Query Prediction
+- Neural Document Expansion by Query Prediction
+definition_evidence:
+- source_id: r773-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r773-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r773-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: doc2query-seq2seq-topk-random-sampling-document-expansion
+  kind: mechanism
+  statement: "Doc2query trains a 6-layer encoder-decoder Transformer (512 hidden units, 8 attention heads, 2048 feed-forward units, BPE-tokenized with documents truncated to 400 tokens and queries to 100 tokens, Section 3 & Appendix A) on (query, relevant document) pairs, predicts 10 queries per document using top-k random sampling\u2014which outperforms beam search across all hypothesis counts and peaks at 10 queries before excess queries dilute the original text (Appendix B, Figure 2)\u2014and appends them to the document without special markup prior to BM25 indexing."
+  evidence:
+  - source_id: r773-primary-pdf
+    locator: Section 3 & Appendices A-B, Figures 1-2, pp. 1-2, 7
+    relation: supports
+  - source_id: r773-primary-pdf
+    locator: main() verification of BM25 document expansion with predicted queries
+    relation: supports
+- claim_id: doc2query-complementary-copied-term-reweighting-and-new-term-expansion
+  kind: mechanism
+  statement: 'Excluding stopwords (51% of predicted query tokens), 69% of Doc2query''s predicted words exist in the source document (copied words that perform implicit term re-weighting by boosting key term frequencies) while 31% are novel words absent from the source document (new words that mitigate vocabulary mismatch via synonyms and related terms): on MS MARCO Dev, expanding with new words alone improves BM25 MRR@10 from 18.4 to 18.8, copied words alone reaches 19.7, and combining both reaches 21.5 MRR@10 and raises Recall@1000 from 85.3 to 89.3 (Section 5, Tables 1-2).'
+  evidence:
+  - source_id: r773-primary-pdf
+    locator: Section 5, Tables 1-2, pp. 3-4
+    relation: supports
+  - source_id: r773-primary-pdf
+    locator: main() verification of orig < copied, orig < new, and full (copied + new) > both
+    relation: supports
+- claim_id: doc2query-msmarco-and-treccar-retrieval-and-reranking-application
+  kind: application
+  statement: Doc2query improves standalone BM25 retrieval effectiveness by ~15% on both TREC-CAR (15.3 to 18.3 MAP) and MS MARCO (18.6 to 21.8 Test MRR@10 at 90ms/query vs. 650ms/query for Single Duet v2), outperforms RM3 query expansion (which degrades MS MARCO Dev MRR@10 to 16.7), and provides orthogonal gains when pipelined with BERT cross-encoder reranking (36.5 MAP on TREC-CAR and 37.5 Dev / 36.8 Test MRR@10 on MS MARCO, Table 1).
+  evidence:
+  - source_id: r773-primary-pdf
+    locator: Sections 4-5, Table 1, pp. 2-4
+    relation: supports
+- claim_id: doc2query-corpus-reindexing-and-overexpansion-noise-limitation
+  kind: limitation
+  statement: Because document expansion modifies corpus representations prior to indexing, any change to the expansion model requires running neural generation across all corpus documents and re-indexing the entire collection (Section 2), and appending too many predicted queries (e.g., 20 queries in Figure 2) introduces noise that reduces the relative contribution of the original document text and degrades MRR@10 (Appendix B).
+  evidence:
+  - source_id: r773-primary-pdf
+    locator: Section 2 & Appendix B, Figure 2, pp. 2, 7
+    relation: supports
+evidence_sources:
+- source_id: r773-primary-pdf
+  title: Document Expansion by Query Prediction
+  authors: &id001
+  - Rodrigo Nogueira
+  - Wei Yang
+  - Jimmy Lin
+  - Kyunghyun Cho
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.08375.pdf
+  persistent_id: https://arxiv.org/bibtex/1904.08375
+  version: arXiv (2019) (251038 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:16:00Z'
+  sha256: ae7ba200f53ac3beb3d9c9c6797226ffd4029b9cb6bd3495e3b65169554c55e5
+- source_id: r773-arxiv-abs
+  title: Document Expansion by Query Prediction (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1904.08375
+  persistent_id: https://arxiv.org/abs/1904.08375
+  version: arXiv abstract page (6729 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:16:00Z'
+  sha256: 6d7b7cdaa93f9f2ca1155b3fbdf723831e319a09317df5e85c000830e972e1fa
+- source_id: r773-metadata-cr
+  title: Document Expansion by Query Prediction (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1904.08375
+  persistent_id: https://arxiv.org/bibtex/1904.08375
+  version: Crossref API work record (388 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:16:00Z'
+  sha256: d547fbca2f6c4f594d5927f02e66484734c88d2546e4ebb2a5f1d2b9c7455ef4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Doc2query trains a 6-layer encoder-decoder sequence-to-sequence Transformer neural network to generate synthetic expansion queries for corpus documents prior to indexing.
+limitations:
+- Modifying the document expansion model requires re-generating queries for every document in the corpus and re-building the inverted index from scratch.
+- Appending more than ~10 predicted queries per document introduces noisy terms that dilute the original document text and reduce retrieval effectiveness.
+curation:
+  created_at: '2026-10-19T14:16:00Z'
+  updated_at: '2026-10-19T14:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

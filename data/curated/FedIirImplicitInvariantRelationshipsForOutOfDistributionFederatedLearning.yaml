@@ -1,0 +1,102 @@
+id: AIMech:FedIirImplicitInvariantRelationshipsForOutOfDistributionFederatedLearning
+name: FedIIR (Out-of-Distribution Generalization of Federated Learning via Implicit Invariant Relationships)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An out-of-distribution (OOD) federated learning algorithm (Guo et al. 2023, Sections 3.1-4.2, Definition 1, Theorems 2-5, Algorithm 1) that learns domain-invariant input-target relationships E[Y^c | Phi(X^c) = z] across heterogeneous clients without sharing raw data, features, or environment identifiers by quantifying inter-client prediction disagreement I(Phi, C) = sup_z sup_{(c, c')} |w_c^*(z) - w_{c'}^*(z)| (Definition 1, Theorem 2), bounding its first-order parameter-space Taylor expansion by the classifier gradient discrepancy ||nabla_omega R_c(theta) - nabla_omega R_{c'}(theta)|| (Section 3.2), and minimizing the regularizer min_f E_{c ~ Q_{par}}[R_c(f) + (gamma / 2) ||nabla_omega R_c(f) - nabla_omega R(f)||^2] where theta = (phi, omega) separates the feature extractor phi from the shallow classifier omega (|omega| << |theta|) and the server tracks the global classifier gradient via an exponential moving average g_tilde_omega^t = upsilon g_tilde_omega^{t-1} + (1 - upsilon) g_bar_omega (Algorithm 1 & Appendix C).
+identity_notes: Distinct from Invariant Risk Minimization (AIMech:InvariantRiskMinimization, Arjovsky et al. 2019), which penalizes per-environment squared gradient norms ||nabla_{w|w=1.0} R^e(w o Phi)||^2 rather than inter-client classifier gradient variance ||nabla_omega R_c(theta) - nabla_omega R(theta)||^2 with server-side EMA tracking; and distinct from FedSR (AIMech:FedSrSimpleAndEffectiveDomainGeneralizationForFederatedLearning, Nguyen et al. 2022), which enforces conditional mutual information and L2-norm representation regularizers rather than classifier-gradient alignment.
+aliases:
+- FedIIR
+- Federated Implicit Invariant Relationships
+- Out-of-Distribution Federated Learning via Inter-Client Classifier Gradient Alignment
+definition_evidence:
+- source_id: r466-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r466-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r466-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r466-prediction-disagreement-taylor-bound-and-classifier-gradient-alignment-mechanism
+  kind: mechanism
+  statement: Bounds pairwise client prediction disagreement after one classifier gradient step by sup_z ||nabla_omega w(z; omega)|| * ||nabla_omega R_c(theta) - nabla_omega R_{c'}(theta)|| via a first-order Taylor expansion (Section 3.2, p. 4) and minimizes E_c[R_c(f) + (gamma / 2) ||nabla_omega R_c(f) - g_tilde_omega^t||^2] using a server-maintained exponential moving average g_tilde_omega^t of shallow classifier gradients (Algorithm 1, p. 5).
+  evidence:
+  - source_id: r466-primary-pdf
+    locator: Section 3.2 Implicitly Learn Invariant Relationships & Section 3.3 Algorithm 1, pp. 4-5, and Appendix C, p. 14
+    relation: supports
+- claim_id: r466-affine-hull-generalization-bound-and-convergence-scope
+  kind: scope
+  statement: Proves that for any non-participating OOD client P_lambda = sum_{c in C_{par}} lambda_c P_c in the affine hull Lambda_nu = {lambda | lambda_c >= -nu, sum_c lambda_c = 1}, the worst-case risk is bounded by R(f) + M_tilde I(Phi, C_{par}) + M_tilde sup_{(c, c')} rho(P_c(X), P_{c'}(X)) with M_tilde = (1 + |C_{par}| nu) M (Theorem 3, p. 6), and establishes linear convergence under the mu-PL condition (Theorem 4) and O(1 / sqrt(T C K)) non-convex stationarity (Theorem 5).
+  evidence:
+  - source_id: r466-primary-pdf
+    locator: Sections 4.1-4.2 Generalization & Convergence Analysis (Theorems 3-5), pp. 5-7, and Appendices D-E, pp. 15-24
+    relation: supports
+- claim_id: r466-hessian-vector-product-and-step-size-scaling-limitation
+  kind: limitation
+  statement: Requires differentiating through the classifier gradient norm ||nabla_omega R_c(theta) - g_tilde_omega^t||^2 (introducing classifier Hessian-vector products H_c(omega)(g_c - g_bar^t) during local backpropagation) and restricts the theoretical local learning rate to eta_l <= 1 / (4 K L sqrt(1 + gamma^2)) under Moral-smoothness (Theorems 4-5, Appendix E.1).
+  evidence:
+  - source_id: r466-primary-pdf
+    locator: Section 4.2 Theorems 4-5, pp. 6-7, and Appendix E.1 Preliminaries, p. 17
+    relation: supports
+- claim_id: r466-federated-domain-generalization-benchmarks-application
+  kind: application
+  statement: Applied to federated domain generalization for unseen non-participating clients on RotatedMNIST, ColoredMNIST, PACS, OfficeHome, and DomainNet under partial client participation.
+  evidence:
+  - source_id: r466-primary-pdf
+    locator: Section 5 Experiments (Tables 1-3, Figures 2-4), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r466-primary-pdf
+  title: Out-of-Distribution Generalization of Federated Learning via Implicit Invariant Relationships
+  authors: &id001
+  - Yaming Guo
+  - Kai Guo
+  - Xiaofeng Cao
+  - Tieru Wu
+  - Yi Chang
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/guo23b/guo23b.pdf
+  persistent_id: https://proceedings.mlr.press/v202/guo23b.html
+  version: Conference Proceedings (2023) (3035 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:09:00Z'
+  sha256: 8af3b6f51367767e4c3cd624789032c48bab7a1413a2b33743d3837b18baa900
+- source_id: r466-arxiv-abs
+  title: Out-of-Distribution Generalization of Federated Learning via Implicit Invariant Relationships (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/guo23b.html
+  persistent_id: https://proceedings.mlr.press/v202/guo23b.html
+  version: arXiv abstract page (1388 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:09:00Z'
+  sha256: 96f5ea5dc929d6b2e12993ec0cee82ed64285cd9d79057ae6c8c1fe5c315e55d
+- source_id: r466-metadata-cr
+  title: Out-of-Distribution Generalization of Federated Learning via Implicit Invariant Relationships (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/guo23b.html
+  persistent_id: https://proceedings.mlr.press/v202/guo23b.html
+  version: Crossref API work record (426 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:09:00Z'
+  sha256: 7435c6ac5a8c8f80590a6033fe94587f5ef38ba820c1985f1f064aec2d5c6940
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedIIR is a federated domain generalization algorithm that enforces implicit invariant relationships via inter-client classifier gradient alignment.
+limitations:
+- Requires second-order backpropagation through the shallow classifier gradient ||nabla_omega R_c(f) - g_tilde_omega^t||^2 during local training.
+- Theoretical step-size bound scales inversely with sqrt(1 + gamma^2) under Moral-smoothness assumptions.
+curation:
+  created_at: '2026-10-19T09:09:00Z'
+  updated_at: '2026-10-19T09:09:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

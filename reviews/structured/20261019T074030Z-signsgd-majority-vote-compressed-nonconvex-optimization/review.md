@@ -1,0 +1,356 @@
+# Scientific author self-review of signSGD and Majority-Vote Compressed Non-Convex Optimization
+
+- Review: 20261019T074030Z-signsgd-majority-vote-compressed-nonconvex-optimization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T07:40:00Z
+- Finished UTC: 2026-10-19T07:40:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain signSGD and Majority-Vote Compressed Non-Convex Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base e0940f6c3b9595ce14a782c118110ec0488c06e4.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization | data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml | maintained | signSGD and Majority-Vote Compressed Non-Convex Optimization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization | Validated history sidecar files. |
+| python3 signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py | passed | True | AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization | [PASS] Round 377 signSGD (Bernstein et al. 2018): phi_sparse=0.0156 vs phi_dense=1.0000, p_single=0.1908 -&gt; p_maj(M=15)=0.0031, asymmetric_sign_bias=-0.3333 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization.
+
+signSGD and Majority-Vote Compressed Non-Convex Optimization is a distinct concept.
+
+Distinct from randomized unbiased multi-level l_2-norm quantization QSGD (Alistarh et al. 2017, Round 378), which preserves unbiasedness E[Q_s(v)] = v via stochastic rounding and transmits &#124;&#124;v&#124;&#124;_2 plus Elias-coded integer levels; from deterministic Rprop (Riedmiller &amp; Braun 1993), which adapts per-coordinate step sizes heuristic-ally across epochs based on consecutive sign agreement without stochastic minibatch convergence guarantees or M-worker majority voting; and from Adam (Kingma &amp; Ba 2015), which divides momentum by the root-mean-square gradient second moment rather than transmitting pure 1-bit signs.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py passed with exit code 0: [PASS] Round 377 signSGD (Bernstein et al. 2018): phi_sparse=0.0156 vs phi_dense=1.0000, p_single=0.1908 -&gt; p_maj(M=15)=0.0031, asymmetric_sign_bias=-0.3333
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T074000Z-signsgd-majority-vote-compressed-nonconvex-optimization.json | supports | No normalized identity match for AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py | supports | All constructed boundary assertions in signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py passed with exit code 0: [PASS] Round 377 signSGD (Bernstein et al. 2018): phi_sparse=0.0156 vs phi_dense=1.0000, p_single=0.1908 -&gt; p_maj(M=15)=0.0031, asymmetric_sign_bias=-0.3333 |
+| r377-primary-pdf | https://ar5iv.labs.arxiv.org/html/1802.04434; Full-text PDF | supports | Full-text PDF (Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:560-569 (arXiv:1802.04434v3) (2018)) read and verified. |
+| r377-arxiv-abs | https://arxiv.org/abs/1802.04434; arXiv abstract | supports | arXiv abstract read and verified. |
+| r377-metadata-cr | https://proceedings.mlr.press/v80/bernstein18a.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization in Round 377.
+- All pages of Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:560-569 (arXiv:1802.04434v3) (2018) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T074030Z-signsgd-majority-vote-compressed-nonconvex-optimization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of signSGD and Majority-Vote Compressed Non-Convex
+  Optimization
+started_at: '2026-10-19T07:40:00Z'
+finished_at: '2026-10-19T07:40:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:560-569
+    (arXiv:1802.04434v3) (2018) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain signSGD and Majority-Vote Compressed Non-Convex Optimization as a
+  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
+source:
+  git_revision: e0940f6c3b9595ce14a782c118110ec0488c06e4
+  state: working_tree
+  inputs:
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml
+    sha256: 5a68f7cb85aa82616a45fccb83e079df42486f75865d05dbc9039c9dad302649
+    role: target
+  - path: research/discovery/20261019T074000Z-signsgd-majority-vote-compressed-nonconvex-optimization.json
+    sha256: c61d4a2cbfc0419c463d278c495587f4972d65610e384fbe54ad4dcf2a641be7
+    role: context
+  - path: research/discovery/signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py
+    sha256: 22b72b38690da1ad897457ed4b557d9ce1863f7397cf42ca4e90335454e27567
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  path: data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml
+  label: signSGD and Majority-Vote Compressed Non-Convex Optimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/SignSgdAndMajorityVoteCompressedNonconvexOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py
+  command: python3 research/discovery/signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 377 signSGD (Bernstein et al. 2018): phi_sparse=0.0156 vs
+    phi_dense=1.0000, p_single=0.1908 -> p_maj(M=15)=0.0031, asymmetric_sign_bias=-0.3333'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T074000Z-signsgd-majority-vote-compressed-nonconvex-optimization.json
+  accessed_at: '2026-10-19T07:40:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T07:40:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py
+  accessed_at: '2026-10-19T07:40:00Z'
+  snapshot_sha256: 22b72b38690da1ad897457ed4b557d9ce1863f7397cf42ca4e90335454e27567
+  support: supports
+  summary: 'All constructed boundary assertions in signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 377 signSGD (Bernstein et al. 2018): phi_sparse=0.0156
+    vs phi_dense=1.0000, p_single=0.1908 -> p_maj(M=15)=0.0031, asymmetric_sign_bias=-0.3333'
+- evidence_id: r377-primary-pdf
+  kind: primary_source
+  reference: https://ar5iv.labs.arxiv.org/html/1802.04434
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T07:40:00Z'
+  snapshot_sha256: 2f74bb4a0c4b59ad424f09ae45ed7d74bc093cd57becf43900440b896140716b
+  support: supports
+  summary: Full-text PDF (Proceedings of the 35th International Conference on Machine
+    Learning (ICML 2018), PMLR 80:560-569 (arXiv:1802.04434v3) (2018)) read and verified.
+- evidence_id: r377-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1802.04434
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T07:40:00Z'
+  snapshot_sha256: 8d6f4a6272910b7bf9f6d92eb74e1670a89b8c7f29bc0491d7a56c90ee8261c3
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r377-metadata-cr
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v80/bernstein18a.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T07:40:00Z'
+  snapshot_sha256: ff7386f4aa10c432427f0248c43a1e0623e0bcb9231653edb915ff73aa503ce5
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  evidence_ids:
+  - identity
+  - r377-primary-pdf
+  - r377-arxiv-abs
+  - r377-metadata-cr
+  summary: signSGD and Majority-Vote Compressed Non-Convex Optimization is a distinct
+    concept.
+  details: Distinct from randomized unbiased multi-level l_2-norm quantization QSGD
+    (Alistarh et al. 2017, Round 378), which preserves unbiasedness E[Q_s(v)] = v
+    via stochastic rounding and transmits ||v||_2 plus Elias-coded integer levels;
+    from deterministic Rprop (Riedmiller & Braun 1993), which adapts per-coordinate
+    step sizes heuristic-ally across epochs based on consecutive sign agreement without
+    stochastic minibatch convergence guarantees or M-worker majority voting; and from
+    Adam (Kingma & Ba 2015), which divides momentum by the root-mean-square gradient
+    second moment rather than transmitting pure 1-bit signs.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  evidence_ids:
+  - mapping
+  - r377-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  evidence_ids:
+  - r377-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in signsgd-majority-vote-compressed-nonconvex-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 377 signSGD (Bernstein et al. 2018): phi_sparse=0.0156
+    vs phi_dense=1.0000, p_single=0.1908 -> p_maj(M=15)=0.0031, asymmetric_sign_bias=-0.3333'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r377-primary-pdf
+  - r377-arxiv-abs
+  - r377-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization
+  in Round 377.
+- All pages of Proceedings of the 35th International Conference on Machine Learning
+  (ICML 2018), PMLR 80:560-569 (arXiv:1802.04434v3) (2018) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

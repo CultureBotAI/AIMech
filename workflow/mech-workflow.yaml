@@ -1,0 +1,87 @@
+schema_version: 1.0.0
+profile_id: aimech-goal-cycle
+profile_version: 1.0.0
+repository_key: aimech
+github_repository: CultureBotAI/AIMech
+parent:
+  id: mech-goal-cycle
+  version: 1.0.0
+  repository: CultureBotAI/culturebotai-claw
+  revision: e795fd87e27bccc527186e565f17a0128dea4a1c
+  sha256: 32d499de747333e42ed45d40940bfa06c60f85710814155e0fad5f7c4d2fee82
+  schema_sha256: 66194b3aba4540e9ee7adf91bc1fd7fb597aede130ef1603031a92002152e1d8
+adaptation_skill: .claude/skills/aimech-evolve-workflow/SKILL.md
+stages:
+- stage: 1
+  key: add_records
+  goal_text: Use the repository-local add/discovery skills to review candidates and add new AI concepts
+    until a repeated, recorded search of the bounded frontier finds no further admissible new records.
+    Preserve unresolved candidates and search limits.
+  skill_paths:
+  - .claude/skills/aimech-evolve-workflow/SKILL.md
+  - .claude/skills/aimech-discover-sources/SKILL.md
+  - .claude/skills/aimech-add-record/SKILL.md
+  applicability: enabled
+- stage: 2
+  key: causal_graphs
+  goal_text: Audit and document whether causal mechanism graphs apply to AIMech's native AI-concept domain
+    and schema, using its local record-review skill and full corpus inventory. Preserve the ontology/causality
+    distinction and report inapplicability with evidence; do not invent biological data or unsupported
+    fields. If a real applicable representation is discovered, report it for review before replacing this
+    applicability objective.
+  skill_paths:
+  - .claude/skills/aimech-evolve-workflow/SKILL.md
+  - .claude/skills/review-yaml-record/SKILL.md
+  applicability: not_applicable
+  applicability_reason: AI-concept records do not currently have a supported biological causal-graph or
+    UniProt protein-example scope. Perform the explicit native-domain applicability audit, retain evidence,
+    and keep the stage closure.
+- stage: 3
+  key: protein_examples
+  goal_text: Audit and document whether biological UniProt protein examples apply to AIMech's native AI-concept
+    domain and schema, using its local record-review skill and full corpus inventory. Preserve the ontology/causality
+    distinction and report inapplicability with evidence; do not invent biological data or unsupported
+    fields. If a real applicable representation is discovered, report it for review before replacing this
+    applicability objective.
+  skill_paths:
+  - .claude/skills/aimech-evolve-workflow/SKILL.md
+  - .claude/skills/review-yaml-record/SKILL.md
+  applicability: not_applicable
+  applicability_reason: AI-concept records do not currently have a supported biological causal-graph or
+    UniProt protein-example scope. Perform the explicit native-domain applicability audit, retain evidence,
+    and keep the stage closure.
+- stage: 4
+  key: record_review
+  goal_text: Use AIMech repository-local record-review and cohort-review skills to review every eligible
+    record in a frozen inventory. Save actual versioned review reports, stable findings, coverage, provenance,
+    input hashes, limitations and dispositions through native persistence plus the parent workflow evidence
+    manifest. Preserve unresolved findings for the next grouped-remediation goal; complete this goal with
+    its own commit sequence.
+  skill_paths:
+  - .claude/skills/aimech-evolve-workflow/SKILL.md
+  - .claude/skills/review-yaml-record/SKILL.md
+  - .claude/skills/review-yaml-category/SKILL.md
+  applicability: enabled
+- stage: 5
+  key: resolve_review_findings
+  goal_text: Consume the current cycle's accepted review outputs and carried-forward findings in AIMech.
+    Group related problems by cause and repair ownership, deduplicate against real GitHub issues, create
+    or reuse issues, implement the accepted fixes through native writers, validate and obtain fresh review.
+    Preserve immutable original reports and save the issue map, finding dispositions, linked new review
+    evidence and unresolved blockers. Finish with the complete commit sequence.
+  skill_paths:
+  - .claude/skills/aimech-evolve-workflow/SKILL.md
+  - .claude/skills/review-open-issues/SKILL.md
+  applicability: enabled
+- stage: 6
+  key: infrastructure
+  goal_text: Freeze AIMech INFRA_TASKS.md at a documented cutoff and turn the bounded intake into a dependency-aware
+    implementation plan. Group related needs into real GitHub issues, implement selected requirements
+    and upgrades, validate outcomes, update issue-linked dispositions and explicitly carry forward blocked
+    or deferred tasks. Save the ledger snapshot, plan, validation and parent evidence manifest; finish
+    the full commit sequence, write the closure receipt and stop; the coordinator alone dispatches the
+    next goal or cycle.
+  skill_paths:
+  - .claude/skills/aimech-evolve-workflow/SKILL.md
+  - .claude/skills/review-open-issues/SKILL.md
+  applicability: enabled

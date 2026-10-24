@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short-Dot Coded Sparse Dot Products for Straggler-Resilient Linear Transforms · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Short-Dot Coded Sparse Dot Products for Straggler-Resilient Linear Transforms</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Short-Dot Coded Sparse Dot Products for Straggler-Resilient Linear Transforms</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ShortDotCodedSparseDotProductsForStragglerResilientLinearTransforms</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Short-Dot, Short-Dot Codes, Short-Dot Coded Linear Transform
+    </div>
+
+  <div class="detail-desc">
+    A straggler-resilient coded parallelization method for computing large linear transforms A x (with A in R^{M x N} and input x in R^N across P &gt; M processors) that appends K - M auxiliary rows Z in R^{(K - M) x N} to A to form A_tilde = [A^T | Z^T]^T in R^{K x N} and multiplies by a P x K super-regular or Vandermonde encoding matrix B to produce F = B A_tilde in R^{P x N}, choosing each column z_j = -(B^{U_j}_{cols M+1:K})^{-1} B^{U_j}_{cols 1:M} A_j to enforce K - M cyclic zeros per column so that every processor&#39;s encoded row f_i^T has sparsity at most s = (N / P)(P - K + M) &lt; N and any K out of P short dot products &lt;f_i^{S_i}, x^{S_i}&gt; suffice to linearly recover A x.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Maximum Distance Separable (MDS) coded matrix-vector multiplication (Lee et al., 2015/2018, which requires K = M processors to finish but forces every processor to store and compute a full N-length dot product) and from Polynomial / MatDot / Entangled Polynomial Codes (AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication, AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication, AIMech:EntangledPolynomialCodesForStragglerResilientDistributedMatrixMultiplication, which encode dense block submatrices of two matrices A and B): Short-Dot (Dutta, Cadambe, &amp; Grover, NeurIPS 2016 / IEEE TIT 2019) jointly encodes M rows into P sparse vectors of length s = (N/P)(P - K + M) by solving for K - M padded rows Z that annihilate cyclic (K - M)-subsets of rows in B A_tilde, trading a slightly higher recovery threshold K &gt;= M for shorter per-worker dot products, reduced worker memory, and reduced input communication.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#short-dot-sparsity-and-k-recovery-construction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given any M x N matrix A and straggler recovery threshold K in {M + 1, ..., P} (when P divides N), appending K - M rows z_j = -(B^{U_j}_{cols M+1:K})^{-1} B^{U_j}_{cols 1:M} A_j for cyclic zero-index sets U_j of size K - M yields a P x N encoded matrix F = B A_tilde in which every row f_i^T has sparsity at most s = (N / P)(P - K + M) and the first M rows of (B^V)^{-1} v_V recover A x from the short dot products v_V of any K-subset V of processors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r543-primary-pdf">&#34;Short-Dot&#34;: Computing Large Linear Transforms Distributedly Using Coded Short Dot Products</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Theorem 1 &amp; Lemmas 1-2 p. 5-6 Eq. 1-2; Algorithm 1 p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#short-dot-near-optimal-sparsity-and-expected-time</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Any P x N linear encoding F whose every K rows span the M rows of a generic M x N matrix A must have average row sparsity s_bar &gt; (N / P)(P - K + M) - (M^2 / P) C(P, K - M + 1) = (N / P)(P - K + M) - o(N / P) for large N (Theorem 3, Eq. 6-7), proving Short-Dot is asymptotically sparsity-optimal; under shifted-exponential worker delays with M = P / log P and K = P - M / 2, Short-Dot achieves scaled expected time E[T_{SD}] / N = O(log(log P) / log P) -&gt; 0 whereas MDS coding, repetition, and uncoded parallelization remain Omega(1) (Theorem 4, Eq. 13-17).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r543-primary-pdf">&#34;Short-Dot&#34;: Computing Large Linear Transforms Distributedly Using Coded Short Dot Products</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Theorem 3 p. 8 Eq. 6-7; Section 4 Theorem 4 p. 10-12 Eq. 13-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#short-dot-offline-encoding-and-real-vandermonde-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Pre-processing matrix A into F requires solving N / P linear systems of size (K - M) x (K - M) (costing O((N / P)(K - M)^3 + 2 P K N) naively or O(N P log^2 P) with Vandermonde fast polynomial interpolation), making Short-Dot suited primarily to settings where A is known offline or reused across many input vectors x.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r543-primary-pdf">&#34;Short-Dot&#34;: Computing Large Linear Transforms Distributedly Using Coded Short Dot Products</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 Encoding Complexity p. 12 Eq. 18-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an offline pre-processing step of complexity O((N / P)(K - M)^3 + 2 P K N) or O(N P log^2 P) to encode the transform matrix A into F, which is only amortized when A is fixed across multiple online inputs x.</li>
+      <li>Tolerates fewer stragglers (P - K) than full-length (P, M)-MDS coding (P - M) because K &gt; M workers must finish to compensate for shortened dot-product length s = (N / P)(P - K + M).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Short-Dot explicitly targets distributed computation of high-dimensional linear projections such as Principal Component Analysis (PCA) and Linear Discriminant Analysis.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r543-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r543-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1704.05181.pdf" target="_blank" rel="noopener">&#34;Short-Dot&#34;: Computing Large Linear Transforms Distributedly Using Coded Short Dot Products</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanghamitra Dutta, Viveck Cadambe, Pulkit Grover
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/DuttaCG19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:57b48179a1ca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r543-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r543-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1704.05181" target="_blank" rel="noopener">&#34;Short-Dot&#34;: Computing Large Linear Transforms Distributedly Using Coded Short Dot Products (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanghamitra Dutta, Viveck Cadambe, Pulkit Grover
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1704.05181</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6d7e6c954845…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r543-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r543-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/tit/DuttaCG19" target="_blank" rel="noopener">&#34;Short-Dot&#34;: Computing Large Linear Transforms Distributedly Using Coded Short Dot Products (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanghamitra Dutta, Viveck Cadambe, Pulkit Grover
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/DuttaCG19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2c93594744ba…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AShortDotCodedSparseDotProductsForStragglerResilientLinearTransforms">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Short-Dot Coded Sparse Dot Products for Straggler-Resilient Linear Transforms" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ShortDotCodedSparseDotProductsForStragglerResilientLinearTransforms</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Short-Dot Coded Sparse...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:PrincipalComponentAnalysis (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:26:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:26:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ShortDotCodedSparseDotProductsForStragglerResilientLinearTransforms.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ShortDotCodedSparseDotProductsForStragglerResilientLinearTransforms.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Short-Dot%20Coded%20Sparse%20Dot%20Products%20for%20Straggler-Resilient%20Linear%20Transforms"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AShortDotCodedSparseDotProductsForStragglerResilientLinearTransforms"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

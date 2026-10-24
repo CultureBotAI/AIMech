@@ -1,0 +1,379 @@
+# Scientific author self-review of Orthogonal Tensor Decomposition and Robust Tensor Power Method for Latent Variable Models
+
+- Review: 20261019T060030Z-orthogonal-tensor-decomposition-robust-tensor-power-method
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T06:00:00Z
+- Finished UTC: 2026-10-19T06:00:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Orthogonal Tensor Decomposition and Robust Tensor Power Method for Latent Variable Models as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 46b76722ade1dcd4d03ad2b10e200f46519c9396.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels | data/curated/OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.yaml | maintained | Orthogonal Tensor Decomposition and Robust Tensor Power Method for Latent Variable Models |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels | Validated history sidecar files. |
+| python3 orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py | passed | True | AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels | {<br>  "quadratic_convergence_step5_err": 2.4830910299570344e-40,<br>  "spurious_eigenvector_stationarity_resid": 2.220446049250313e-16,<br>  "spurious_eigenvector_tangent_hessian": 4.9923,<br>  "escaped_spurious_dist_to_true_basis": 5.2120435077383745e-77,<br>  "perturbation_scale_eps": 0.015,<br>  "robust_power_max_eigenvector_err": 0.00323,<br>  "robust_power_max_eigenvalue_err": 0.00433<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.
+
+Orthogonal Tensor Decomposition and Robust Tensor Power Method for Latent Variable Models is a distinct concept.
+
+Resolved against all 442 pinned AIO concepts and 698 maintained AIMech concepts. Distinct from &#96;AIO:PrincipalComponentAnalysis&#96;, &#96;AIO:Clustering&#96;, and &#96;AIO:MarkovChain&#96;, which do not formulate second-moment whitening to an orthogonally decomposable third-order tensor $M_3(W,W,W) = \sum_{i=1}^k \omega_i^{-1/2} v_i^{\otimes 3}$, unique stable eigenvectors of order-3 tensors (Theorem 4.1), or the Robust Tensor Power Method with quadratic ratio contraction and sequential deflation stability (Theorem 5.1).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py passed with exit code 0: {
+  "quadratic_convergence_step5_err": 2.4830910299570344e-40,
+  "spurious_eigenvector_stationarity_resid": 2.220446049250313e-16,
+  "spurious_eigenvector_tangent_hessian": 4.9923,
+  "escaped_spurious_dist_to_true_basis": 5.2120435077383745e-77,
+  "perturbation_scale_eps": 0.015,
+  "robust_power_max_eigenvector_err": 0.00323,
+  "robust_power_max_eigenvalue_err": 0.00433
+}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T060000Z-orthogonal-tensor-decomposition-robust-tensor-power-method.json | supports | No normalized identity match for AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py | supports | All constructed boundary assertions in orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py passed with exit code 0: {<br>  "quadratic_convergence_step5_err": 2.4830910299570344e-40,<br>  "spurious_eigenvector_stationarity_resid": 2.220446049250313e-16,<br>  "spurious_eigenvector_tangent_hessian": 4.9923,<br>  "escaped_spurious_dist_to_true_basis": 5.2120435077383745e-77,<br>  "perturbation_scale_eps": 0.015,<br>  "robust_power_max_eigenvector_err": 0.00323,<br>  "robust_power_max_eigenvalue_err": 0.00433<br>} |
+| aghkt2014-tensordecomp-pdf | https://arxiv.org/pdf/1210.7559.pdf; Full-text PDF | supports | Full-text PDF (arXiv:1210.7559v4 full-text PDF (60 pages), published in Journal of Machine Learning Research 15:2773-2832 (2014).) read and verified. |
+| aghkt2014-tensordecomp-abs | https://arxiv.org/abs/1210.7559; arXiv abstract | supports | arXiv abstract read and verified. |
+| aghkt2014-tensordecomp-cr | https://jmlr.org/papers/v15/anandkumar14b.html; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels in Round 304.
+- All pages of arXiv:1210.7559v4 full-text PDF (60 pages), published in Journal of Machine Learning Research 15:2773-2832 (2014). were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T060030Z-orthogonal-tensor-decomposition-robust-tensor-power-method
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Orthogonal Tensor Decomposition and Robust
+  Tensor Power Method for Latent Variable Models
+started_at: '2026-10-19T06:00:00Z'
+finished_at: '2026-10-19T06:00:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+    against existing AIMech and AIO records and verified all claims against arXiv:1210.7559v4
+    full-text PDF (60 pages), published in Journal of Machine Learning Research 15:2773-2832
+    (2014). and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Orthogonal Tensor Decomposition and Robust Tensor Power Method for
+  Latent Variable Models as a distinct DRAFT algorithm. All four claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 46b76722ade1dcd4d03ad2b10e200f46519c9396
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.yaml
+    sha256: bda614d7a603e6546ec7e85643f7303428ca479ac07af5bbfb89d7e830603d35
+    role: target
+  - path: research/discovery/20261019T060000Z-orthogonal-tensor-decomposition-robust-tensor-power-method.json
+    sha256: 4340169d860b86c6faa8810aa4ae013dd11533bad8cf283200f4daaeb04f0923
+    role: context
+  - path: research/discovery/orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py
+    sha256: ac68fbcb7b309945df1a2f5da1913b698f695be29b626371c1645c193e94e852
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  path: data/curated/OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.yaml
+  label: Orthogonal Tensor Decomposition and Robust Tensor Power Method for Latent
+    Variable Models
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py
+  command: python3 research/discovery/orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"quadratic_convergence_step5_err\": 2.4830910299570344e-40,\n  \"\
+    spurious_eigenvector_stationarity_resid\": 2.220446049250313e-16,\n  \"spurious_eigenvector_tangent_hessian\"\
+    : 4.9923,\n  \"escaped_spurious_dist_to_true_basis\": 5.2120435077383745e-77,\n\
+    \  \"perturbation_scale_eps\": 0.015,\n  \"robust_power_max_eigenvector_err\"\
+    : 0.00323,\n  \"robust_power_max_eigenvalue_err\": 0.00433\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T060000Z-orthogonal-tensor-decomposition-robust-tensor-power-method.json
+  accessed_at: '2026-10-19T06:00:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T06:00:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py
+  accessed_at: '2026-10-19T06:00:00Z'
+  snapshot_sha256: ac68fbcb7b309945df1a2f5da1913b698f695be29b626371c1645c193e94e852
+  support: supports
+  summary: "All constructed boundary assertions in orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py\
+    \ passed with exit code 0: {\n  \"quadratic_convergence_step5_err\": 2.4830910299570344e-40,\n\
+    \  \"spurious_eigenvector_stationarity_resid\": 2.220446049250313e-16,\n  \"spurious_eigenvector_tangent_hessian\"\
+    : 4.9923,\n  \"escaped_spurious_dist_to_true_basis\": 5.2120435077383745e-77,\n\
+    \  \"perturbation_scale_eps\": 0.015,\n  \"robust_power_max_eigenvector_err\"\
+    : 0.00323,\n  \"robust_power_max_eigenvalue_err\": 0.00433\n}"
+- evidence_id: aghkt2014-tensordecomp-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1210.7559.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T06:00:00Z'
+  snapshot_sha256: 58cdf49097b8570b9944468f31b36dcd46b0b811650f40151d95559134896d70
+  support: supports
+  summary: Full-text PDF (arXiv:1210.7559v4 full-text PDF (60 pages), published in
+    Journal of Machine Learning Research 15:2773-2832 (2014).) read and verified.
+- evidence_id: aghkt2014-tensordecomp-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1210.7559
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T06:00:00Z'
+  snapshot_sha256: 29a5f8a6f613f57175685b78033bf9e2faa997dfd47724f9ff58483c5f2c1d79
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: aghkt2014-tensordecomp-cr
+  kind: primary_source
+  reference: https://jmlr.org/papers/v15/anandkumar14b.html
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T06:00:00Z'
+  snapshot_sha256: 0d3d65b766e3c5cad1f9914f87ba3c15279602d85a5a8c80a6e3bdc96316a3bd
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  evidence_ids:
+  - identity
+  - aghkt2014-tensordecomp-pdf
+  - aghkt2014-tensordecomp-abs
+  - aghkt2014-tensordecomp-cr
+  summary: Orthogonal Tensor Decomposition and Robust Tensor Power Method for Latent
+    Variable Models is a distinct concept.
+  details: Resolved against all 442 pinned AIO concepts and 698 maintained AIMech
+    concepts. Distinct from `AIO:PrincipalComponentAnalysis`, `AIO:Clustering`, and
+    `AIO:MarkovChain`, which do not formulate second-moment whitening to an orthogonally
+    decomposable third-order tensor $M_3(W,W,W) = \sum_{i=1}^k \omega_i^{-1/2} v_i^{\otimes
+    3}$, unique stable eigenvectors of order-3 tensors (Theorem 4.1), or the Robust
+    Tensor Power Method with quadratic ratio contraction and sequential deflation
+    stability (Theorem 5.1).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  evidence_ids:
+  - mapping
+  - aghkt2014-tensordecomp-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  evidence_ids:
+  - aghkt2014-tensordecomp-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: "All constructed boundary assertions in orthogonal-tensor-decomposition-robust-tensor-power-method-boundaries.py\
+    \ passed with exit code 0: {\n  \"quadratic_convergence_step5_err\": 2.4830910299570344e-40,\n\
+    \  \"spurious_eigenvector_stationarity_resid\": 2.220446049250313e-16,\n  \"spurious_eigenvector_tangent_hessian\"\
+    : 4.9923,\n  \"escaped_spurious_dist_to_true_basis\": 5.2120435077383745e-77,\n\
+    \  \"perturbation_scale_eps\": 0.015,\n  \"robust_power_max_eigenvector_err\"\
+    : 0.00323,\n  \"robust_power_max_eigenvalue_err\": 0.00433\n}"
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  evidence_ids:
+  - identity
+  - mapping
+  - aghkt2014-tensordecomp-pdf
+  - aghkt2014-tensordecomp-abs
+  - aghkt2014-tensordecomp-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OrthogonalTensorDecompositionAndRobustTensorPowerMethodForLatentVariableModels
+  in Round 304.
+- All pages of arXiv:1210.7559v4 full-text PDF (60 pages), published in Journal of
+  Machine Learning Research 15:2773-2832 (2014). were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

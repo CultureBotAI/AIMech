@@ -1,0 +1,541 @@
+# Scientific author self-review of Hadamard-differentiable threshold functional false discovery proportion central limit theorems and adaptive fixed-point iteration duality
+
+- Review: 20261017T164700Z-hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-17T16:45:00Z
+- Finished UTC: 2026-10-17T16:47:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Hadamard-differentiable threshold functional false discovery proportion central limit theorems and adaptive fixed-point iteration duality as a distinct DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims and locators across Neuvial (2008 Electronic Journal of Statistics 2:1065-1110) are supported with explicit subcriticality (alpha &lt;= alpha^*), power-reversal (BR08/BKY06 vs BH95), and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 714dde66257f26de8dbfb7c3490b19582f8786e8.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | data/curated/HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.yaml | maintained | Hadamard-differentiable threshold functional false discovery proportion central limit theorems and adaptive fixed-point iteration duality |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | All 442 AIO concept records are valid. |
+| aimech validate-curated | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | All 602 curated concept records are valid. |
+| aimech seed --check | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | All 442 AIO records match the pinned source. |
+| aimech validate-history | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | All history sidecars are valid. |
+| bash scripts/check_vendored_sync.sh | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | Vendored CLAW files are in sync. |
+| aimech check-source | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | Pinned AIO source metadata matches. |
+| git diff --check | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | Exited 0 without output. |
+| Constructed Neuvial 2008 Laplace criticality, Gaussian location FDP variance benchmark, and adaptive fixed-point iteration duality checks | passed | True | AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality | {<br>  "concept_id": "AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality",<br>  "primary_source": "Neuvial (2008), Electronic Journal of Statistics 2:1065-1110 (arXiv:0803.2111v2, DOI:10.1214/08-EJS207)",<br>  "section_4_1_figure_2_laplace_criticality": {<br>    "theta": 2.0,<br>    "pi0": 0.5,<br>    "g_at_0": 4.19452805,<br>    "alpha_star_critical_value": 0.23840584,<br>    "tau_star_at_alpha_0_20_subcritical": 0.0,<br>    "tau_star_at_alpha_0_35_supercritical": 0.16987268<br>  },<br>  "section_4_and_table_1_gaussian_location_benchmark": {<br>    "pi0": 0.6,<br>    "mu": 2.5,<br>    "alpha": 0.1,<br>    "lambda": 0.5,<br>    "kappa_fdr08": 0.07407407,<br>    "procedures": {<br>      "BH95": {<br>        "tau_star": 0.03144323,<br>        "asymptotic_fdr": 0.06,<br>        "asymptotic_fdp_variance": 0.11089207<br>      },<br>      "BR08_lambda": {<br>        "tau_star": 0.01928073,<br>        "asymptotic_fdr": 0.04156844,<br>        "asymptotic_fdp_variance": 0.0925982<br>      },<br>      "BKY06_lambda": {<br>        "u_lambda": 0.27770105,<br>        "tau_star": 0.03671522,<br>        "asymptotic_fdr": 0.0674767,<br>        "asymptotic_fdp_variance": 0.13053507<br>      },<br>      "FDR08": {<br>        "tau_star": 0.05219201,<br>        "asymptotic_fdr": 0.08818369,<br>        "asymptotic_fdp_variance": 0.16057545<br>      },<br>      "Sto02_STS04_lambda": {<br>        "tau_star": 0.0608935,<br>        "asymptotic_fdr": 0.09917884,<br>        "asymptotic_fdp_variance": 0.18099179<br>      },<br>      "BH95o_oracle": {<br>        "tau_star": 0.06155622,<br>        "asymptotic_fdr": 0.1,<br>        "asymptotic_fdp_variance": 0.15245313<br>      }<br>    },<br>    "bky06_power_reversal_when_G_le_sqrt_x": {<br>      "tau_bh95": 0.00277008,<br>      "tau_bky06": 0.00110293,<br>      "bh95_dominates_bky06": true<br>    }<br>  },<br>  "section_5_fixed_point_duality_verification": {<br>    "sto02_to_fdr08_fixed_point": {<br>      "tau_fdr08_exact": 0.052192013,<br>      "iterated_from_t0_0_01": 0.052192013,<br>      "iterated_from_t0_0_50": 0.052192013,<br>      "abs_error": 0.0<br>    },<br>    "bky06_to_br08_fixed_point_at_lambda_alpha_over_1_plus_alpha": {<br>      "lambda_orig": 0.09090909,<br>      "u_lambda_init": 0.02771361,<br>      "tau_bky06_first_stage": 0.04477524,<br>      "tau_br08_exact": 0.0488615394,<br>      "iterated_limit": 0.0488615394,<br>      "abs_error": 0.0<br>    }<br>  },<br>  "all_assertions_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality versus OneAndTwoStageAdaptiveStepUpFDRUnderDependence and AsymptoticallyOptimalRejectionCurveFDRControl
+
+identity: supported. Targets: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.
+
+Retain Hadamard-differentiable threshold functional false discovery proportion central limit theorems and adaptive fixed-point iteration duality as a distinct DRAFT mathematical_method.
+
+HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality defines the cadlag threshold functional T(F) = U(F, A(F)) and its Hadamard derivative T_dot_G, the functional Delta-method CLT for sqrt(m)*(FDP_m - p(tau^*)), the o(m^{-1/2}) perturbation asymptotic equivalence criterion, the explicit Gaussian limit distributions and variances across BH95, BH95o, FDR08(lambda), BR08(lambda), Sto02(lambda)/STS04(lambda), and BKY06(lambda), and the fixed-point iteration duality Theorems 5.2, 5.4, and 5.6.
+
+### Mapping to AIO:DataDredgingBias
+
+grounding: supported. Targets: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.
+
+Related mapping to DataDredgingBias is supported.
+
+Functional Delta-method FDP Central Limit Theorems and adaptive fixed-point iteration duality characterize the asymptotic error rate and fluctuations of false discoveries in simultaneous hypothesis testing, mitigating multiplicity-induced false positives (AIO:DataDredgingBias).
+
+### hadamard-differentiable-threshold-functional-and-fdp-central-limit-theorem
+
+evidence: supported. Targets: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.
+
+Supported by Sections 2.2, 3, and 7.1-7.2 (Theorems 3.2, 7.3, 7.13, Proposition 3.6, Proposition 7.11, Corollary 7.12).
+
+Verified Hadamard derivative formulas, right-crossing-point conditions, and asymptotic FDP variance expressions across one-stage and two-stage threshold functionals.
+
+### bh95-criticality-and-one-stage-adaptive-fdr08-br08-asymptotic-distributions
+
+evidence: supported. Targets: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.
+
+Supported by Section 4.1-4.2 (Figure 2, Theorem 4.2, Corollary 4.3, Proposition 4.6, Theorems 4.7 and 4.10).
+
+Verified Figure 2 Laplace criticality value alpha^* = 1/g(0) = 0.23840584 at theta = 2, pi_0 = 0.5, and exact asymptotic thresholds, pFDRs, and FDP variances for BH95, BH95o, FDR08, and BR08(lambda).
+
+### two-stage-plug-in-sto02-sts04-and-bky06-asymptotic-distributions
+
+evidence: supported. Targets: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.
+
+Supported by Section 4.3 (Theorems 4.12, 4.15, Corollary 4.16, Theorem 4.20) and Section 7.3.2 (Propositions 7.15-7.17).
+
+Verified exact agreement between Theorem 4.15 and Corollary 4.16 variance formulas for Sto02(0.5) (Var = 0.18099179) and the Section 4.3 power reversal G(x) &lt;= sqrt(x) where BH95 dominates BKY06(lambda).
+
+### fixed-point-iteration-duality-between-one-stage-and-two-stage-adaptive-procedures
+
+evidence: supported. Targets: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.
+
+Supported by Section 5 (Condition C.13, Theorems 5.2, 5.4, 5.6, Corollaries 5.3, 5.5, 5.7) and Section 7.4.
+
+Verified monotone bracketing and exact fixed-point convergence of iterated Sto02(t_n) -&gt; tau^*_{FDR08} = 0.052192013 and iterated BKY06(lambda) -&gt; tau^*_{BR08(lambda)} = 0.0488615394 at lambda = alpha/(1 + alpha).
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.yaml: stable ID, name, aliases, mathematical_method kind, definition, definition_evidence, identity_notes, four claims and locators, three primary sources with exact SHA-256 digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation metadata.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261017T164500Z-hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality.json | supports | No normalized identity match for Hadamard-differentiable threshold functional false discovery proportion central limit theorems and adaptive fixed-point iteration duality across 442 pinned AIO records and 601 maintained IDs, names, aliases and scoped synonyms. |
+| mapping | sources/aio/aio.json | supports | Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias provides frequentist multiplicity error-control context via related_match. |
+| calculation | research/discovery/hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality-boundaries.py | supports | Constructed analytical and numerical checks for Section 4.1 Figure 2 Laplace criticality threshold alpha^* = 0.23840584, Section 4 and Table 1 asymptotic thresholds, pFDRs, and FDP variances across all six procedures, and Section 5 Theorems 5.2, 5.4, and 5.6 fixed-point iteration convergence of Sto02 -&gt; FDR08 and BKY06 -&gt; BR08. |
+| neuvial2008-pdf | https://arxiv.org/pdf/0803.2111; Pages 1065-1110, Sections 1-7 (Definitions 2.1-2.2, Condition C.1, Theorems 3.1-3.2, Proposition 3.6, Conditions C.2-C.13, Theorems 4.2, 4.7, 4.10, 4.12, 4.15, Corollary 4.16, Theorem 4.20, Theorems 5.2, 5.4, 5.6, Corollaries 5.3, 5.5, 5.7, Table 1, Propositions 7.2, 7.5, 7.11, 7.15-7.17, Corollary 7.12, Theorems 7.3, 7.13, 7.14) | supports | All 46 pages of the full-text PDF of arXiv:0803.2111v2 read. Checked all definitions, conditions, propositions, theorems, corollaries, tables, and proofs. |
+| neuvial2008-crossref | https://api.crossref.org/works/10.1214/08-EJS207; Electronic Journal of Statistics 2:1065-1110 publication record | supports | Official Electronic Journal of Statistics 2:1065-1110 Crossref record read and verified. |
+| neuvial2008-abs | https://arxiv.org/abs/0803.2111; arXiv:0803.2111v2 abstract and metadata | supports | arXiv:0803.2111v2 abstract and metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Hadamard-differentiable threshold functional false discovery proportion central limit theorems and adaptive fixed-point iteration duality record, yielding 602 native and 442 unchanged generated records.
+- All 46 PDF pages of Neuvial (2008, arXiv:0803.2111v2) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261017T164700Z-hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Hadamard-differentiable threshold functional
+  false discovery proportion central limit theorems and adaptive fixed-point iteration
+  duality
+started_at: '2026-10-17T16:45:00Z'
+finished_at: '2026-10-17T16:47:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from OneAndTwoStageAdaptiveStepUpFDRUnderDependence
+    (Blanchard & Roquain 2008) and AsymptoticallyOptimalRejectionCurveFDRControl (Finner,
+    Dickhaus, & Roters 2009), verified the exact Laplace criticality threshold alpha^*
+    = 0.23840584 in Figure 2, computed the exact asymptotic thresholds, pFDRs, and
+    FDP variances across all six procedures in Section 4, verified the fixed-point
+    iterations Sto02 -> FDR08 and BKY06 -> BR08 in Section 5, and documented three
+    typographical slips in the primary source (pp. 1097, 1101, 1108). This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Hadamard-differentiable threshold functional false discovery proportion
+  central limit theorems and adaptive fixed-point iteration duality as a distinct
+  DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims
+  and locators across Neuvial (2008 Electronic Journal of Statistics 2:1065-1110)
+  are supported with explicit subcriticality (alpha <= alpha^*), power-reversal (BR08/BKY06
+  vs BH95), and primary-source typographical limitations.
+source:
+  git_revision: 714dde66257f26de8dbfb7c3490b19582f8786e8
+  state: working_tree
+  inputs:
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/curated/ArchimedeanCopulaStepUpFDRBounds.yaml
+    sha256: 8a1f1f0ef3c4ec4ac45ede2c42f6ada4aaff38b4a6c59bf4d2fc18265aef96d7
+    role: context
+  - path: data/curated/AsymptoticallyOptimalRejectionCurveFDRControl.yaml
+    sha256: fa6f6a7c44a7f51eaced5de206ddb6679c8bf92489442a4265e6b5c7a6373bf9
+    role: context
+  - path: data/curated/ContinuumMeasureSpaceStepUpFDRControl.yaml
+    sha256: 498a31bc6bb08aee30af0e7c6162801b1333a932df59620b4b1eb56820498444
+    role: context
+  - path: data/curated/ExactStepUpStepDownFDPMomentsAndLFCAnalysis.yaml
+    sha256: d58e0d5d29e1c28fe4115471e06c8d76d0f66c4265c51c4cf4f33134c4091593
+    role: context
+  - path: data/curated/ExchangeableLCPAsymptoticFDRAndIndependenceLimit.yaml
+    sha256: 5a5948219058695b6b9d05e01f7285fa8bbcd1e34f823569989125e9eeeb6f89
+    role: context
+  - path: data/curated/HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.yaml
+    sha256: 6e35c0df6b71a10d35d4bfc2b25558014c91114141256210ef1fa9d1a78424c4
+    role: target
+  - path: data/curated/OneAndTwoStageAdaptiveStepUpFDRUnderDependence.yaml
+    sha256: 651276db83f388cdf782125e0ac769bacdb09ce89e63ebf1e9378b3a0d36d91f
+    role: context
+  - path: data/curated/SelfConsistencyAndDependencyControlFDRFramework.yaml
+    sha256: 03444e07e1d84f9bdc618210e31fc12764d6e8dc40c4311bef2fe5a40c0e7a80
+    role: context
+  - path: data/curated/StepUpDownLeastFavorableConfigurationFDRBounds.yaml
+    sha256: 364829550c002d6abacfff66a6b7f140112c4985d9e1148925c2e81ea34a0342
+    role: context
+  - path: research/discovery/20261017T164500Z-hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality.json
+    sha256: 482b0cb0febec83d3c73a374df8140cce91e6062494d265b575ed3c3f3f7bbe5
+    role: context
+  - path: research/discovery/hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality-boundaries.py
+    sha256: 61f04d706936a8e688debd34c8272be725e0cf3245799f5846cc5dc18b0ed72c
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  path: data/curated/HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.yaml
+  label: Hadamard-differentiable threshold functional false discovery proportion central
+    limit theorems and adaptive fixed-point iteration duality
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: maintain-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO concept records are valid.
+- check_id: maintain-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 602 curated concept records are valid.
+- check_id: maintain-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 442 AIO records match the pinned source.
+- check_id: maintain-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All history sidecars are valid.
+- check_id: required-1
+  name: bash scripts/check_vendored_sync.sh
+  command: bash scripts/check_vendored_sync.sh
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Vendored CLAW files are in sync.
+- check_id: required-2
+  name: aimech check-source
+  command: aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Pinned AIO source metadata matches.
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Neuvial 2008 Laplace criticality, Gaussian location FDP variance
+    benchmark, and adaptive fixed-point iteration duality checks
+  command: python3 research/discovery/hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept_id\": \"AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality\"\
+    ,\n  \"primary_source\": \"Neuvial (2008), Electronic Journal of Statistics 2:1065-1110\
+    \ (arXiv:0803.2111v2, DOI:10.1214/08-EJS207)\",\n  \"section_4_1_figure_2_laplace_criticality\"\
+    : {\n    \"theta\": 2.0,\n    \"pi0\": 0.5,\n    \"g_at_0\": 4.19452805,\n   \
+    \ \"alpha_star_critical_value\": 0.23840584,\n    \"tau_star_at_alpha_0_20_subcritical\"\
+    : 0.0,\n    \"tau_star_at_alpha_0_35_supercritical\": 0.16987268\n  },\n  \"section_4_and_table_1_gaussian_location_benchmark\"\
+    : {\n    \"pi0\": 0.6,\n    \"mu\": 2.5,\n    \"alpha\": 0.1,\n    \"lambda\"\
+    : 0.5,\n    \"kappa_fdr08\": 0.07407407,\n    \"procedures\": {\n      \"BH95\"\
+    : {\n        \"tau_star\": 0.03144323,\n        \"asymptotic_fdr\": 0.06,\n  \
+    \      \"asymptotic_fdp_variance\": 0.11089207\n      },\n      \"BR08_lambda\"\
+    : {\n        \"tau_star\": 0.01928073,\n        \"asymptotic_fdr\": 0.04156844,\n\
+    \        \"asymptotic_fdp_variance\": 0.0925982\n      },\n      \"BKY06_lambda\"\
+    : {\n        \"u_lambda\": 0.27770105,\n        \"tau_star\": 0.03671522,\n  \
+    \      \"asymptotic_fdr\": 0.0674767,\n        \"asymptotic_fdp_variance\": 0.13053507\n\
+    \      },\n      \"FDR08\": {\n        \"tau_star\": 0.05219201,\n        \"asymptotic_fdr\"\
+    : 0.08818369,\n        \"asymptotic_fdp_variance\": 0.16057545\n      },\n   \
+    \   \"Sto02_STS04_lambda\": {\n        \"tau_star\": 0.0608935,\n        \"asymptotic_fdr\"\
+    : 0.09917884,\n        \"asymptotic_fdp_variance\": 0.18099179\n      },\n   \
+    \   \"BH95o_oracle\": {\n        \"tau_star\": 0.06155622,\n        \"asymptotic_fdr\"\
+    : 0.1,\n        \"asymptotic_fdp_variance\": 0.15245313\n      }\n    },\n   \
+    \ \"bky06_power_reversal_when_G_le_sqrt_x\": {\n      \"tau_bh95\": 0.00277008,\n\
+    \      \"tau_bky06\": 0.00110293,\n      \"bh95_dominates_bky06\": true\n    }\n\
+    \  },\n  \"section_5_fixed_point_duality_verification\": {\n    \"sto02_to_fdr08_fixed_point\"\
+    : {\n      \"tau_fdr08_exact\": 0.052192013,\n      \"iterated_from_t0_0_01\"\
+    : 0.052192013,\n      \"iterated_from_t0_0_50\": 0.052192013,\n      \"abs_error\"\
+    : 0.0\n    },\n    \"bky06_to_br08_fixed_point_at_lambda_alpha_over_1_plus_alpha\"\
+    : {\n      \"lambda_orig\": 0.09090909,\n      \"u_lambda_init\": 0.02771361,\n\
+    \      \"tau_bky06_first_stage\": 0.04477524,\n      \"tau_br08_exact\": 0.0488615394,\n\
+    \      \"iterated_limit\": 0.0488615394,\n      \"abs_error\": 0.0\n    }\n  },\n\
+    \  \"all_assertions_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261017T164500Z-hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality.json
+  accessed_at: '2026-10-17T16:45:00Z'
+  support: supports
+  summary: No normalized identity match for Hadamard-differentiable threshold functional
+    false discovery proportion central limit theorems and adaptive fixed-point iteration
+    duality across 442 pinned AIO records and 601 maintained IDs, names, aliases and
+    scoped synonyms.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text fixed-string searches across data, sources, research, history,
+    and reviews including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-17T16:45:00Z'
+  support: supports
+  summary: Inspected DataDredgingBias in the pinned AIO snapshot (2026-07-22). DataDredgingBias
+    provides frequentist multiplicity error-control context via related_match.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/hadamard-differentiable-threshold-fdp-asymptotics-and-fixed-point-duality-boundaries.py
+  accessed_at: '2026-10-17T16:45:00Z'
+  snapshot_sha256: 61f04d706936a8e688debd34c8272be725e0cf3245799f5846cc5dc18b0ed72c
+  support: supports
+  summary: Constructed analytical and numerical checks for Section 4.1 Figure 2 Laplace
+    criticality threshold alpha^* = 0.23840584, Section 4 and Table 1 asymptotic thresholds,
+    pFDRs, and FDP variances across all six procedures, and Section 5 Theorems 5.2,
+    5.4, and 5.6 fixed-point iteration convergence of Sto02 -> FDR08 and BKY06 ->
+    BR08.
+- evidence_id: neuvial2008-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/0803.2111
+  locator: Pages 1065-1110, Sections 1-7 (Definitions 2.1-2.2, Condition C.1, Theorems
+    3.1-3.2, Proposition 3.6, Conditions C.2-C.13, Theorems 4.2, 4.7, 4.10, 4.12,
+    4.15, Corollary 4.16, Theorem 4.20, Theorems 5.2, 5.4, 5.6, Corollaries 5.3, 5.5,
+    5.7, Table 1, Propositions 7.2, 7.5, 7.11, 7.15-7.17, Corollary 7.12, Theorems
+    7.3, 7.13, 7.14)
+  accessed_at: '2026-10-17T16:45:00Z'
+  snapshot_sha256: 2cceab6ae1b177b6f1d8545d7141e999b2f72b1ce1e0d3acc818186d8b597083
+  support: supports
+  summary: All 46 pages of the full-text PDF of arXiv:0803.2111v2 read. Checked all
+    definitions, conditions, propositions, theorems, corollaries, tables, and proofs.
+- evidence_id: neuvial2008-crossref
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/08-EJS207
+  locator: Electronic Journal of Statistics 2:1065-1110 publication record
+  accessed_at: '2026-10-17T16:45:00Z'
+  snapshot_sha256: 7a40c41d638fa35910d669421226664235107cf1305da7563b6d50c7840074d9
+  support: supports
+  summary: Official Electronic Journal of Statistics 2:1065-1110 Crossref record read
+    and verified.
+- evidence_id: neuvial2008-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/0803.2111
+  locator: arXiv:0803.2111v2 abstract and metadata
+  accessed_at: '2026-10-17T16:45:00Z'
+  snapshot_sha256: d2d2a7c0253fe0ebcb0d169776391f1c4e92855ff554e749e838f2c3ad7eb488
+  support: supports
+  summary: arXiv:0803.2111v2 abstract and metadata read and verified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality versus
+    OneAndTwoStageAdaptiveStepUpFDRUnderDependence and AsymptoticallyOptimalRejectionCurveFDRControl
+  outcome: supported
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  evidence_ids:
+  - identity
+  - neuvial2008-pdf
+  - neuvial2008-crossref
+  summary: Retain Hadamard-differentiable threshold functional false discovery proportion
+    central limit theorems and adaptive fixed-point iteration duality as a distinct
+    DRAFT mathematical_method.
+  details: HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality defines
+    the cadlag threshold functional T(F) = U(F, A(F)) and its Hadamard derivative
+    T_dot_G, the functional Delta-method CLT for sqrt(m)*(FDP_m - p(tau^*)), the o(m^{-1/2})
+    perturbation asymptotic equivalence criterion, the explicit Gaussian limit distributions
+    and variances across BH95, BH95o, FDR08(lambda), BR08(lambda), Sto02(lambda)/STS04(lambda),
+    and BKY06(lambda), and the fixed-point iteration duality Theorems 5.2, 5.4, and
+    5.6.
+- assessment_id: mapping
+  area: grounding
+  topic: Mapping to AIO:DataDredgingBias
+  outcome: supported
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  evidence_ids:
+  - mapping
+  - neuvial2008-pdf
+  summary: Related mapping to DataDredgingBias is supported.
+  details: Functional Delta-method FDP Central Limit Theorems and adaptive fixed-point
+    iteration duality characterize the asymptotic error rate and fluctuations of false
+    discoveries in simultaneous hypothesis testing, mitigating multiplicity-induced
+    false positives (AIO:DataDredgingBias).
+- assessment_id: hadamard-differentiable-threshold-functional-and-fdp-central-limit-theorem
+  area: evidence
+  topic: hadamard-differentiable-threshold-functional-and-fdp-central-limit-theorem
+  outcome: supported
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  evidence_ids:
+  - neuvial2008-pdf
+  - neuvial2008-abs
+  - calculation
+  summary: Supported by Sections 2.2, 3, and 7.1-7.2 (Theorems 3.2, 7.3, 7.13, Proposition
+    3.6, Proposition 7.11, Corollary 7.12).
+  details: Verified Hadamard derivative formulas, right-crossing-point conditions,
+    and asymptotic FDP variance expressions across one-stage and two-stage threshold
+    functionals.
+- assessment_id: bh95-criticality-and-one-stage-adaptive-fdr08-br08-asymptotic-distributions
+  area: evidence
+  topic: bh95-criticality-and-one-stage-adaptive-fdr08-br08-asymptotic-distributions
+  outcome: supported
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  evidence_ids:
+  - neuvial2008-pdf
+  - calculation
+  summary: Supported by Section 4.1-4.2 (Figure 2, Theorem 4.2, Corollary 4.3, Proposition
+    4.6, Theorems 4.7 and 4.10).
+  details: Verified Figure 2 Laplace criticality value alpha^* = 1/g(0) = 0.23840584
+    at theta = 2, pi_0 = 0.5, and exact asymptotic thresholds, pFDRs, and FDP variances
+    for BH95, BH95o, FDR08, and BR08(lambda).
+- assessment_id: two-stage-plug-in-sto02-sts04-and-bky06-asymptotic-distributions
+  area: evidence
+  topic: two-stage-plug-in-sto02-sts04-and-bky06-asymptotic-distributions
+  outcome: supported
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  evidence_ids:
+  - neuvial2008-pdf
+  - calculation
+  summary: Supported by Section 4.3 (Theorems 4.12, 4.15, Corollary 4.16, Theorem
+    4.20) and Section 7.3.2 (Propositions 7.15-7.17).
+  details: Verified exact agreement between Theorem 4.15 and Corollary 4.16 variance
+    formulas for Sto02(0.5) (Var = 0.18099179) and the Section 4.3 power reversal
+    G(x) <= sqrt(x) where BH95 dominates BKY06(lambda).
+- assessment_id: fixed-point-iteration-duality-between-one-stage-and-two-stage-adaptive-procedures
+  area: evidence
+  topic: fixed-point-iteration-duality-between-one-stage-and-two-stage-adaptive-procedures
+  outcome: supported
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  evidence_ids:
+  - neuvial2008-pdf
+  - neuvial2008-abs
+  - calculation
+  summary: Supported by Section 5 (Condition C.13, Theorems 5.2, 5.4, 5.6, Corollaries
+    5.3, 5.5, 5.7) and Section 7.4.
+  details: Verified monotone bracketing and exact fixed-point convergence of iterated
+    Sto02(t_n) -> tau^*_{FDR08} = 0.052192013 and iterated BKY06(lambda) -> tau^*_{BR08(lambda)}
+    = 0.0488615394 at lambda = alpha/(1 + alpha).
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality
+  evidence_ids:
+  - identity
+  - mapping
+  - neuvial2008-pdf
+  - neuvial2008-crossref
+  - neuvial2008-abs
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: 'Read every field of HadamardDifferentiableThresholdFDPAsymptoticsAndFixedPointDuality.yaml:
+    stable ID, name, aliases, mathematical_method kind, definition, definition_evidence,
+    identity_notes, four claims and locators, three primary sources with exact SHA-256
+    digests, pinned AIO mapping and rationale, four scoped limitations, and UTC curation
+    metadata.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Hadamard-differentiable threshold functional false discovery proportion
+  central limit theorems and adaptive fixed-point iteration duality record, yielding
+  602 native and 442 unchanged generated records.
+- All 46 PDF pages of Neuvial (2008, arXiv:0803.2111v2) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- multiple-testing
+- false-discovery-proportion
+- hadamard-differentiability
+- fixed-point-duality
+- self-review
+- discovery-ongoing
+```

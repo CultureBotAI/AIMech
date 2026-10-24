@@ -1,0 +1,102 @@
+id: AIMech:ProxSkipAndScaffnewProbabilisticProximalSkippingForAcceleratedLocalGradientDescent
+name: ProxSkip and Scaffnew Probabilistic Proximal Skipping for Accelerated Local Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: A randomized composite first-order optimization algorithm (ProxSkip) and its federated consensus instantiation (Scaffnew) for minimizing f(x) + psi(x) where f is L-smooth and mu-strongly convex and psi is a proper closed convex function with an expensive proximity operator prox_{(gamma/p) psi}. At each step t, the algorithm forms a shifted gradient iterate x_hat_{t+1} = x_t - gamma * (nabla f(x_t) - h_t), draws theta_t ~ Bernoulli(p), evaluates x_{t+1} = prox_{(gamma/p) psi}(x_hat_{t+1} - (gamma/p) h_t) with probability p (and skips the prox via x_{t+1} = x_hat_{t+1} with probability 1 - p), and updates the control variate h_{t+1} = h_t + (p / gamma) * (x_{t+1} - x_hat_{t+1}) so h_t -> nabla f(x_*). Setting gamma = 1/L and p = 1/sqrt(kappa) (kappa = L/mu) achieves O(kappa log(1/eps)) gradient steps and O(sqrt(kappa) log(1/eps)) expected prox/communication evaluations without any data-similarity assumption.
+identity_notes: Distinct from SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning, which uses deterministic K-step local schedules and requires O(kappa log(1/eps)) communication rounds under arbitrary heterogeneity) and from FedProx (AIMech:FedProxProximalFederatedOptimization, which adds a static proximal penalty (mu/2)||w - w^t||^2 without control variates or O(sqrt(kappa)) communication acceleration). Scaffnew is the exact consensus-splitting specialization of ProxSkip where psi is the indicator of x_1 = ... = x_n and prox_{(gamma/p) psi} reduces to exact model averaging across clients.
+aliases:
+- ProxSkip
+- Scaffnew
+- SProxSkip
+- Probabilistic Proximal Skipping
+definition_evidence:
+- source_id: r392-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r392-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r392-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r392-firm-nonexpansiveness-and-lyapunov-contraction
+  kind: mechanism
+  statement: 'Using firm nonexpansiveness of P(x) = prox_{(gamma/p) psi}(x) and Q(x) = x - P(x) (Lemma 3.3: ||P(x) - P(y)||^2 + ||Q(x) - Q(y)||^2 <= ||x - y||^2), Lemmas 3.4-3.5 and Theorem 3.6 prove that the Lyapunov potential Psi_t = ||x_t - x_*||^2 + (gamma^2 / p^2)||h_t - h_*||^2 with h_* = nabla f(x_*) satisfies E[Psi_{t+1}] <= (1 - zeta) Psi_t for any 0 < gamma <= 1/L and 0 < p <= 1, where zeta = min{gamma * mu, p^2}.'
+  evidence:
+  - source_id: r392-primary-pdf
+    locator: Section 3 Lemmas 3.3, 3.4, 3.5, Theorem 3.6, and Corollary 3.7, pp. 6-7
+    relation: supports
+- claim_id: r392-scaffnew-accelerated-communication-complexity
+  kind: mechanism
+  statement: 'When applied to the consensus reformulation min_{x_1,...,x_n} (1/n) sum_{i=1}^n f_i(x_i) + psi(x_1,...,x_n) where psi is the indicator of x_1 = ... = x_n, ProxSkip yields Scaffnew (Algorithm 2): with gamma = 1/L and communication probability p = 1/sqrt(kappa), Corollary 4.2 proves O(kappa log(1/eps)) local gradient steps and O(sqrt(kappa) log(1/eps)) expected communication rounds under arbitrary client heterogeneity, and Theorem 5.7 achieves O(sqrt(kappa / delta) log(1/eps)) decentralized mixing steps over a graph with spectral gap delta.'
+  evidence:
+  - source_id: r392-primary-pdf
+    locator: Section 4 Algorithm 2, Theorem 4.1, Corollary 4.2, and Section 5.4 Algorithm 3 & Theorem 5.7, pp. 7-11
+    relation: supports
+- claim_id: r392-strong-convexity-and-stochastic-neighborhood-limitation
+  kind: limitation
+  statement: The O(sqrt(kappa) log(1/eps)) communication acceleration requires mu-strong convexity of f (mu > 0) and full client participation during the Bernoulli(p) synchronization rounds; under stochastic gradients with expected smoothness constants (A, B, C), SProxSkip (Theorem 5.5) converges to an O((gamma / mu) C) variance neighborhood unless step size gamma is reduced.
+  evidence:
+  - source_id: r392-primary-pdf
+    locator: Section 3 Assumption 3.1, Section 5.3 Assumption 5.3 & Theorem 5.5, pp. 5, 9-10
+    relation: supports
+- claim_id: r392-federated-and-decentralized-regularized-logistic-regression
+  kind: application
+  statement: Applied to federated and decentralized L2-regularized logistic regression on LIBSVM datasets (w8a, mushrooms) and synthetic heterogeneous quadratic problems, empirically confirming the 1/sqrt(kappa) optimal communication probability scaling.
+  evidence:
+  - source_id: r392-primary-pdf
+    locator: Section 6 Experiments, Figures 1-2, pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r392-primary-pdf
+  title: 'ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally!'
+  authors: &id001
+  - Konstantin Mishchenko
+  - Grigory Malinovsky
+  - Sebastian Stich
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/mishchenko22b.html
+  persistent_id: https://doi.org/10.48550/arXiv.2202.09357
+  version: Proceedings of the 39th International Conference on Machine Learning (ICML 2022), PMLR 162:15750-15769 (2022) (78034 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:55:00Z'
+  sha256: 5076874962f851ce9a454370de7a41a377ac4799129d2ede30ebed1dbafd66d6
+- source_id: r392-arxiv-abs
+  title: 'ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2202.09357
+  persistent_id: https://arxiv.org/abs/2202.09357
+  version: arXiv abstract page (7054 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:55:00Z'
+  sha256: c50e2c7e49cd1b826958ba68a3d4a802770e53bbcaf434a5c1a24173da09376c
+- source_id: r392-metadata-cr
+  title: 'ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.2202.09357
+  persistent_id: https://doi.org/10.48550/arXiv.2202.09357
+  version: Crossref API work record (453 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:55:00Z'
+  sha256: 2128baf698992d0326f6325cd07b0ea3a698d33443037c91212398f0413778b5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Scaffnew instantiates ProxSkip on the consensus constraint of federated learning to achieve accelerated O(sqrt(kappa) log(1/eps)) communication rounds via local gradient steps.
+limitations:
+- Accelerated O(sqrt(kappa) log(1/eps)) prox/communication complexity requires mu-strong convexity (mu > 0).
+- Each client i must maintain a local d-dimensional control variate h_{i,t} across communication rounds.
+curation:
+  created_at: '2026-10-19T07:55:00Z'
+  updated_at: '2026-10-19T07:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,109 @@
+id: AIMech:DeepKernelShapingForNormalizerFreeAndSkipFreeDeepNeuralNetworks
+name: Deep Kernel Shaping for Normalizer-Free and Skip-Free Deep Neural Networks
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: A model-class-preserving neural network initialization and activation-function transformation method introduced by Martens et al. (2021) that controls the initialization-time approximate paired-location kernel function (APKF) and Neural Tangent Kernel (NTK) of deep networks via local and extended Q and C maps so that deep networks can be rapidly trained without normalization layers or skip connections. Combining Orthogonal or Gaussian Delta weight initialization, optional Per-Location Normalization (PLN) of inputs, normalized weighted sums sum_i w_i Y_i with sum_i w_i^2 = 1, and a network-level maximal slope function mu(psi) = max_f p_f(psi), Deep Kernel Shaping (DKS) replaces each element-wise activation function phi(u) with a static four-parameter affine-transformed activation phi_hat(u) = gamma (phi(alpha u + beta) + delta) chosen to enforce the four local map conditions Q_f(1) = 1, Q_f'(1) = 1, C_f(0) = 0, and C_f'(1) = mu^{-1}(zeta) for a global slope bound zeta > 1.
+identity_notes: 'Distinct from Edge of Chaos (EOC / dynamical isometry) initialization (Schoenholz et al. 2017; Xiao et al. 2018, which only tunes weight and bias variances to satisfy a single asymptotic condition C''(1) = 1 without enforcing C(0) = 0, Q''(1) = 1, or calibrating C''(1) = mu^{-1}(zeta) to finite network depth and topology), distinct from SELU self-normalizing networks (Klambauer et al. 2017, which use a fixed activation with C''(1) approx 1.0716 that explodes at large depths), and distinct from Fixup / ReZero / NFNets (which rely on residual skip connections with zero-initialized or down-weighted residual branches): DKS enforces four exact local Q/C map conditions for arbitrary smooth activation functions via four static activation transformation parameters (alpha, beta, gamma, delta) calibrated through the inverse maximal slope function mu^{-1}(zeta).'
+aliases:
+- Deep Kernel Shaping
+- DKS
+- Q/C Map Deep Kernel Shaping
+- Maximal Slope Function Activation Transformation for Deep Kernel Shaping
+definition_evidence:
+- source_id: r569-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r569-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r569-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: dks-positive-definite-c-map-identity-deviation-bounds
+  kind: mechanism
+  statement: Under uniform q values (enforced by Per-Location Normalization so that q = 1 at the input and Q_f(1) = 1 across layers), every subnetwork's extended C map C_f(c) is a positive definite function on [-1, 1] with C_f(1) = 1 and C_f^{(i)}(0) >= 0, and by Theorem 13 its uniform deviation from the identity map satisfies (1/4)(1 - C_f'(0)) <= max_{c in [-1,1]} |C_f(c) - c| <= 2(1 - C_f'(0)) and, when C_f(0) = 0, max_{c in [-1,1]} |C_f(c) - c| <= 2(C_f'(1) - 1) and max_{c in [-1,1]} |C_f'(c) - 1| <= 3(C_f'(1) - 1).
+  evidence:
+  - source_id: r569-primary-pdf
+    locator: Section 11, Equation (14), pp. 28-29; Section 13.2, Theorem 13, pp. 37-38; Appendix D.1, pp. 132-133
+    relation: supports
+- claim_id: dks-maximal-slope-function-and-four-parameter-activation-solution
+  kind: mechanism
+  statement: 'To bound C_g''(1) <= zeta across all subnetworks g while preventing individual layers from becoming too affine (Proposition 18: na(phi)^2 = 1 - C_f''(0)/C_f''(1) >= 1 - 1/C_f''(1)), DKS defines the network maximal slope function mu(psi) = max_g p_g(psi) from subnetwork slope polynomials (where composition multiplies polynomials and normalized sums sum_i w_i Y_i with sum_i w_i^2 = 1 form weighted averages sum_i w_i^2 p_{g_i}(psi)), sets psi = mu^{-1}(zeta), and transforms each activation phi(u) into phi_hat(u) = gamma(phi(alpha u + beta) + delta) with delta = -E[phi(alpha x + beta)], gamma = Var[phi(alpha x + beta)]^{-1/2}, and (alpha, beta) solved numerically so E[phi_hat(x) phi_hat''(x) x] = Q_f''(1) = 1 and E[phi_hat''(x)^2] = C_f''(1) = mu^{-1}(zeta).'
+  evidence:
+  - source_id: r569-primary-pdf
+    locator: Section 13.4, Proposition 18, p. 39; Section 17, pp. 48-50; Section 18.4, Equation (16), pp. 52-53; Section 21.3, pp. 63-64
+    relation: supports
+- claim_id: dks-per-layer-ntk-gram-matrix-approximation-bound
+  kind: mechanism
+  statement: For a D-layer feed-forward network in the infinite-width NTK regime, Equation (23) expresses the i-th per-layer Neural Tangent Kernel as Theta_i(x, x') = q_D C_{g_i}(c_0) C_{h_i}'(C_{g_i}(c_0)) where c_0 = x^T x' / d_0, and Theorem 27 proves that under DKS with global slope bound zeta > 1 every layer's NTK satisfies |Theta_i(x, x') - (1/d_0) x^T x'| <= 11(zeta - 1), preventing both collapsing (rank-1) and exploding layer-wise NTK pathologies.
+  evidence:
+  - source_id: r569-primary-pdf
+    locator: Section 24.4, Equation (23), p. 75; Section 24.6, Theorem 27, p. 78; Appendix H.3, p. 143
+    relation: supports
+- claim_id: dks-positively-homogeneous-activation-and-multiplicative-layer-limitations
+  kind: limitation
+  statement: Positively homogeneous activations phi(lambda u) = lambda^k phi(u) such as ReLU yield only three effective continuous degrees of freedom under phi_hat(u) = gamma(phi(alpha u + beta) + delta) and therefore cannot simultaneously enforce Q_f'(1) = 1 alongside the other three local map conditions (Section 18.6); in addition, DKS does not support multiplicative attention layers, Batch Normalization, or inter-step weight sharing in recurrent networks, and requires second-order optimizers such as K-FAC or Shampoo to match standard ResNet training speeds when skip connections are completely removed.
+  evidence:
+  - source_id: r569-primary-pdf
+    locator: Section 18.6, pp. 53-54; Section 21.1, p. 62; Section 30 (Limitations and future directions), pp. 121-123
+    relation: supports
+evidence_sources:
+- source_id: r569-primary-pdf
+  title: Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping
+  authors: &id001
+  - James Martens
+  - Andy Ballard
+  - Guillaume Desjardins
+  - Grzegorz Swirszcz
+  - Valentin Dalibard
+  - Jascha Sohl-Dickstein
+  - Samuel S. Schoenholz
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.01765.pdf
+  persistent_id: https://api.openalex.org/works/W3202557661
+  version: arXiv preprint arXiv:2110.01765 (2021) (14599289 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:52:00Z'
+  sha256: 01080f65b1351c3261e4bd8cd3e9f2ce2d563b2e4dd7fdb643ae6b688c4b7bbb
+- source_id: r569-arxiv-abs
+  title: Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.01765
+  persistent_id: https://arxiv.org/abs/2110.01765
+  version: arXiv abstract page (7610 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:52:00Z'
+  sha256: 2629ee59450b178b1fa922ff9cd7b638f322463c1e931fe4a0e3b4e74869c3e7
+- source_id: r569-metadata-cr
+  title: Rapid training of deep neural networks without skip connections or normalization layers using Deep Kernel Shaping (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/W3202557661
+  persistent_id: https://api.openalex.org/works/W3202557661
+  version: Crossref API work record (19987 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:52:00Z'
+  sha256: 0f0a3e5f363b298ef904df810a7f149b1ec1fbe9cd68861e6b5164c155b82695
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Deep Kernel Shaping is a mathematical initialization and activation-shaping framework for constructing and training deep artificial neural networks.
+- target: AIO:ActivationLayer
+  relation: related_match
+  rationale: DKS enforces local Q/C map conditions by applying static input/output scale and shift transformations phi_hat(u) = gamma(phi(alpha u + beta) + delta) to every nonlinear activation layer.
+limitations:
+- Positively homogeneous activations such as ReLU provide only three effective degrees of freedom under input/output affine transformation and must drop the Q_f'(1) = 1 condition.
+- Does not support multiplicative interactions (such as self-attention), Batch Normalization, or weight sharing across time steps in recurrent networks.
+- Training skip-connection-free networks at standard ResNet speeds on ImageNet requires curvature-aware optimizers such as K-FAC or Shampoo rather than vanilla SGD.
+curation:
+  created_at: '2026-10-19T10:52:00Z'
+  updated_at: '2026-10-19T10:52:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,458 @@
+# Scientific author self-review of Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace Perturbation Bounds
+
+- Review: 20261019T051630Z-procrustean-two-to-infinity-singular-subspace
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T05:16:00Z
+- Finished UTC: 2026-10-19T05:16:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace Perturbation Bounds as a distinct DRAFT mathematical_method with PrincipalComponentAnalysis, Clustering, and DimensionalityReduction mappings. All three claims across Cape, Tang, &amp; Priebe (2019, Annals of Statistics 47(5):2405-2439, arXiv:1705.10735v3) are supported with explicit signal-regime, non-submultiplicativity, and primary-source typographical limitations.
+
+## Scope And Provenance
+
+All fields of the exact maintained ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base dd06ed01fb892c2993315ddf6dca27cdcaa4d196.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds | data/curated/ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.yaml | maintained | Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace Perturbation Bounds |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds | Validated 677 curated concept record(s). |
+| aimech seed --check | passed | True | AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds | Validated history sidecar files. |
+| python3 procrustean-two-to-infinity-singular-subspace-boundaries.py | passed | True | AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds | {<br>  "concept": "AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds",<br>  "source": "Cape, Tang, &amp; Priebe (2019), Annals of Statistics 47(5):2405-2439, arXiv:1705.10735v3",<br>  "results": {<br>    "norm_geometry": {<br>      "counterexample_AB_2_to_inf": 2.0,<br>      "counterexample_A_2inf_times_B_2inf": 1.414214,<br>      "non_submultiplicative_confirmed": true,<br>      "prop65_AB_lhs": 6.182631,<br>      "prop65_AB_rhs": 7.689145,<br>      "prop65_CA_lhs": 7.319066,<br>      "prop65_CA_rhs": 18.548052<br>    },<br>    "procrustean_decomposition_and_thm42": {<br>      "p": 24,<br>      "r": 2,<br>      "degenerate_top_eigenvalues": [<br>        12.0,<br>        12.0<br>      ],<br>      "theorem31_max_abs_err": 1.205632815803881e-15,<br>      "lemma67_half_sin_sq": 0.0001428,<br>      "lemma67_ut_uhat_minus_w_op2": 0.00014281,<br>      "lemma67_sin_sq": 0.00028559,<br>      "unaligned_col1_inf_err": 0.149842,<br>      "procrustes_aligned_2_to_inf_err": 0.011047,<br>      "theorem42_upper_bound": 0.34446<br>    }<br>  },<br>  "all_assertions_passed": true<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.
+
+Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace Perturbation Bounds is a distinct singular-subspace perturbation methodology.
+
+Resolved against all 442 pinned AIO concepts and 676 maintained AIMech concepts. Distinct from &#96;AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation&#96; (Fan, Wang, &amp; Zhong 2018, which bounds individual eigenvector entrywise $\ell_\infty$ perturbations $\&#124;\widetilde{\mathbf{v}}_k - \mathbf{v}_k\&#124;_\infty$ under a strict individual eigengap $\gamma_0 = \min_{i \ne j}&#124;\lambda_i - \lambda_j&#124; &gt; 0$ between each pair of top eigenvalues via Schur-complement Neumann series, failing when top eigenvalues are repeated, whereas Cape, Tang, &amp; Priebe 2019 bound the orthogonal-Procrustes-aligned subspace difference $\&#124;\widehat{\mathbf{U}} - \mathbf{U}\mathbf{W}_U\&#124;_{2\to\infty}$ using only the subspace gap $\sigma_r(\mathbf{X}) - \sigma_{r+1}(\mathbf{X}) &gt; 0$ via the exact 4-term Procrustean decomposition Theorem 3.1), and from &#96;AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices&#96; (Abbe, Fan, Wang, &amp; Zhong 2020, which relies on row-and-column leave-one-out decoupling for symmetric random matrices with independent entries rather than deterministic Procrustean decompositions and asymmetric two-to-infinity operator norm inequalities).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.
+
+Mappings to AIO:PrincipalComponentAnalysis (related_match), AIO:Clustering (related_match), and AIO:DimensionalityReduction (related_match) accurately situate the record within the pinned AIO hierarchy.
+
+Verified exact target existence in data/aio/.
+
+### Claim 1: Proposition 2.1 two-to-infinity norm geometry and Proposition 6.5 asymmetric product inequalities
+
+evidence: supported. Targets: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.
+
+Claim 1 is directly supported by Sections 2.1-2.2 and Section 6.1 of arXiv:1705.10735v3.
+
+Verified coherence relation to 0.0 error, non-submultiplicativity counterexample (2.0 &gt; 1.4142), and Proposition 6.5 asymmetric bounds in pure Python.
+
+### Claim 2: Lemma 6.7 Procrustes canonical-angle sandwich and Theorem 3.1 exact four-term Procrustean decomposition
+
+evidence: supported. Targets: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.
+
+Claim 2 is directly supported by Sections 2.3, 3, and 6.2-6.3 of arXiv:1705.10735v3.
+
+Verified Theorem 3.1 4-term identity to 1.21e-15 and Lemma 6.7 sandwich inequality in pure Python.
+
+### Claim 3: Theorems 1.1 and 4.1-4.4 planted clustering, spiked PCA, and multi-layer network recovery
+
+evidence: supported. Targets: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.
+
+Claim 3 is directly supported by Sections 1.4, 4, and 6.6-6.10 of arXiv:1705.10735v3.
+
+Verified 13.6x error reduction of Procrustes-aligned subspace (0.0110 vs. unaligned 0.1498) under degenerate top eigenvalues lambda_1 = lambda_2 = 12.0 in pure Python.
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.
+
+The full record is consistent; retain DRAFT.
+
+Read every field of ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.yaml and verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T051600Z-procrustean-two-to-infinity-singular-subspace.json | supports | No normalized identity match for Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace Perturbation Bounds across 442 pinned AIO records and 676 maintained IDs, names, and aliases. |
+| mapping | sources/aio/aio.json | supports | Inspected PrincipalComponentAnalysis, Clustering, and DimensionalityReduction in the pinned AIO snapshot (2026-07-22). Provides accurate related_match context. |
+| calculation | research/discovery/procrustean-two-to-infinity-singular-subspace-boundaries.py | supports | Verified in pure Python across three constructed experiments: (1) Proposition 2.1's identity &#124;&#124;U&#124;&#124;_{2-&gt;inf} = sqrt(r/p) sqrt(mu(U)) holds to 0.0 error, the 2x2 counterexample A = [[1,1],[0,0]], B = [[1,0],[1,0]] exhibits non-submultiplicativity &#124;&#124;A B&#124;&#124;_{2-&gt;inf} = 2.0 &gt; 1.414214 = &#124;&#124;A&#124;&#124;_{2-&gt;inf} &#124;&#124;B&#124;&#124;_{2-&gt;inf}, and Proposition 6.5's asymmetric product inequalities &#124;&#124;A B&#124;&#124;_{2-&gt;inf} = 6.1826 &lt;= 7.6891 and &#124;&#124;C A&#124;&#124;_{2-&gt;inf} = 7.3191 &lt;= 18.5481 hold strictly; (2) for Theorem 3.1's exact four-term Procrustean decomposition under degenerate top eigenvalues lambda_1 = lambda_2 = 12.0 (p = 16, r = 2), the four-term identity matches U_hat - U W_U to 1.21e-15 and Lemma 6.7's canonical-angle sandwich 0.5 &#124;&#124;sin Theta&#124;&#124;_2^2 = 0.0001428 &lt;= &#124;&#124;U^T U_hat - W_U&#124;&#124;_2 = 0.00014281 &lt;= 0.00028559 holds; and (3) under repeated eigenvalues lambda_1 = lambda_2 = 12.0 (p = 24, r = 2), unaligned individual eigenvectors suffer O(1) rotation error (0.149842), whereas the Procrustes-aligned subspace error &#124;&#124;U_hat - U W_U&#124;&#124;_{2-&gt;inf} = 0.011047 is 13.6x smaller and satisfies Theorem 4.2's bound (0.34446). |
+| ctp2019-twoinf-pdf | https://export.arxiv.org/pdf/1705.10735.pdf; Pages 1-36, Sections 1-6 | supports | All 36 pages of Cape, Tang, &amp; Priebe (2019, arXiv:1705.10735v3) read and verified. |
+| ctp2019-twoinf-abs | https://arxiv.org/abs/1705.10735; arXiv:1705.10735 abstract | supports | arXiv abstract and submission metadata read and verified. |
+| ctp2019-twoinf-cr | https://api.crossref.org/works/10.1214/18-AOS1752; DOI:10.1214/18-AOS1752 Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace Perturbation Bounds record, yielding 677 native and 442 unchanged generated records.
+- All 36 PDF pages of arXiv:1705.10735v3 were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T051630Z-procrustean-two-to-infinity-singular-subspace
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Procrustean Matrix Decomposition and Two-to-Infinity
+  Norm Singular Subspace Perturbation Bounds
+started_at: '2026-10-19T05:16:00Z'
+finished_at: '2026-10-19T05:16:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness from LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation,
+    EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices,
+    DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging, and AIO:PrincipalComponentAnalysis,
+    verified Proposition 2.1, Proposition 6.5 asymmetric product bounds, Lemma 6.7
+    Procrustes canonical-angle sandwich, and Theorem 3.1 exact 4-term Procrustean
+    decomposition in pure Python, and identified four primary-source typographical
+    issues in Cape, Tang, & Priebe (2019, arXiv:1705.10735v3). This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular
+  Subspace Perturbation Bounds as a distinct DRAFT mathematical_method with PrincipalComponentAnalysis,
+  Clustering, and DimensionalityReduction mappings. All three claims across Cape,
+  Tang, & Priebe (2019, Annals of Statistics 47(5):2405-2439, arXiv:1705.10735v3)
+  are supported with explicit signal-regime, non-submultiplicativity, and primary-source
+  typographical limitations.
+source:
+  git_revision: dd06ed01fb892c2993315ddf6dca27cdcaa4d196
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml
+    sha256: a577f0291232a421b674a94f363cc24638cd152fb5b36a949449a8ee9ade2a28
+    role: context
+  - path: data/curated/EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices.yaml
+    sha256: eea6851b0ec0f20df877037fcbe101895685bc7e4e0c392b67842b928b319d36
+    role: context
+  - path: data/curated/LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation.yaml
+    sha256: 4d2fc0396e5479ba85d026993a438cac47b6c9a0be2673c72481a56e9bb2be79
+    role: context
+  - path: data/curated/ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.yaml
+    sha256: 2781c424a5c463428c499f292d7894c3547af0f07770a0c79211e181126ce4c6
+    role: target
+  - path: research/discovery/20261019T051600Z-procrustean-two-to-infinity-singular-subspace.json
+    sha256: 0a2f92d2bc04cc0712e18fe236b50f968d68e32df3495ccfe0ee3f2efb7ce956
+    role: context
+  - path: research/discovery/procrustean-two-to-infinity-singular-subspace-boundaries.py
+    sha256: 1250eb34ab16e21c4a4cd7957b9c9138eed8a6c50700e55445219272de3c986f
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  path: data/curated/ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.yaml
+  label: Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace
+    Perturbation Bounds
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+    record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 677 curated concept record(s).
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 procrustean-two-to-infinity-singular-subspace-boundaries.py
+  command: python3 research/discovery/procrustean-two-to-infinity-singular-subspace-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept\": \"AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds\"\
+    ,\n  \"source\": \"Cape, Tang, & Priebe (2019), Annals of Statistics 47(5):2405-2439,\
+    \ arXiv:1705.10735v3\",\n  \"results\": {\n    \"norm_geometry\": {\n      \"\
+    counterexample_AB_2_to_inf\": 2.0,\n      \"counterexample_A_2inf_times_B_2inf\"\
+    : 1.414214,\n      \"non_submultiplicative_confirmed\": true,\n      \"prop65_AB_lhs\"\
+    : 6.182631,\n      \"prop65_AB_rhs\": 7.689145,\n      \"prop65_CA_lhs\": 7.319066,\n\
+    \      \"prop65_CA_rhs\": 18.548052\n    },\n    \"procrustean_decomposition_and_thm42\"\
+    : {\n      \"p\": 24,\n      \"r\": 2,\n      \"degenerate_top_eigenvalues\":\
+    \ [\n        12.0,\n        12.0\n      ],\n      \"theorem31_max_abs_err\": 1.205632815803881e-15,\n\
+    \      \"lemma67_half_sin_sq\": 0.0001428,\n      \"lemma67_ut_uhat_minus_w_op2\"\
+    : 0.00014281,\n      \"lemma67_sin_sq\": 0.00028559,\n      \"unaligned_col1_inf_err\"\
+    : 0.149842,\n      \"procrustes_aligned_2_to_inf_err\": 0.011047,\n      \"theorem42_upper_bound\"\
+    : 0.34446\n    }\n  },\n  \"all_assertions_passed\": true\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T051600Z-procrustean-two-to-infinity-singular-subspace.json
+  accessed_at: '2026-10-19T05:16:00Z'
+  support: supports
+  summary: No normalized identity match for Procrustean Matrix Decomposition and Two-to-Infinity
+    Norm Singular Subspace Perturbation Bounds across 442 pinned AIO records and 676
+    maintained IDs, names, and aliases.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized; full-text
+    fixed-string searches across data, sources, research, history, and reviews.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T05:16:00Z'
+  support: supports
+  summary: Inspected PrincipalComponentAnalysis, Clustering, and DimensionalityReduction
+    in the pinned AIO snapshot (2026-07-22). Provides accurate related_match context.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/procrustean-two-to-infinity-singular-subspace-boundaries.py
+  accessed_at: '2026-10-19T05:16:00Z'
+  snapshot_sha256: 1250eb34ab16e21c4a4cd7957b9c9138eed8a6c50700e55445219272de3c986f
+  support: supports
+  summary: 'Verified in pure Python across three constructed experiments: (1) Proposition
+    2.1''s identity ||U||_{2->inf} = sqrt(r/p) sqrt(mu(U)) holds to 0.0 error, the
+    2x2 counterexample A = [[1,1],[0,0]], B = [[1,0],[1,0]] exhibits non-submultiplicativity
+    ||A B||_{2->inf} = 2.0 > 1.414214 = ||A||_{2->inf} ||B||_{2->inf}, and Proposition
+    6.5''s asymmetric product inequalities ||A B||_{2->inf} = 6.1826 <= 7.6891 and
+    ||C A||_{2->inf} = 7.3191 <= 18.5481 hold strictly; (2) for Theorem 3.1''s exact
+    four-term Procrustean decomposition under degenerate top eigenvalues lambda_1
+    = lambda_2 = 12.0 (p = 16, r = 2), the four-term identity matches U_hat - U W_U
+    to 1.21e-15 and Lemma 6.7''s canonical-angle sandwich 0.5 ||sin Theta||_2^2 =
+    0.0001428 <= ||U^T U_hat - W_U||_2 = 0.00014281 <= 0.00028559 holds; and (3) under
+    repeated eigenvalues lambda_1 = lambda_2 = 12.0 (p = 24, r = 2), unaligned individual
+    eigenvectors suffer O(1) rotation error (0.149842), whereas the Procrustes-aligned
+    subspace error ||U_hat - U W_U||_{2->inf} = 0.011047 is 13.6x smaller and satisfies
+    Theorem 4.2''s bound (0.34446).'
+- evidence_id: ctp2019-twoinf-pdf
+  kind: primary_source
+  reference: https://export.arxiv.org/pdf/1705.10735.pdf
+  locator: Pages 1-36, Sections 1-6
+  accessed_at: '2026-10-19T05:16:00Z'
+  snapshot_sha256: a487607a7f35359c0b2cdd2732fde52a4e1d671d4efcec91c18f5cc02c7b96d2
+  support: supports
+  summary: All 36 pages of Cape, Tang, & Priebe (2019, arXiv:1705.10735v3) read and
+    verified.
+- evidence_id: ctp2019-twoinf-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1705.10735
+  locator: arXiv:1705.10735 abstract
+  accessed_at: '2026-10-19T05:16:00Z'
+  snapshot_sha256: 6f148ed1354ba92ee6917c1347743c33b58e542d67f5450d0cf723b335035ea1
+  support: supports
+  summary: arXiv abstract and submission metadata read and verified.
+- evidence_id: ctp2019-twoinf-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/18-AOS1752
+  locator: DOI:10.1214/18-AOS1752 Crossref metadata
+  accessed_at: '2026-10-19T05:16:00Z'
+  snapshot_sha256: d8f5afc4d4f63877b2352db58e13471ccda4fa7ed3b64c6216351cda4f119849
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  evidence_ids:
+  - identity
+  - ctp2019-twoinf-pdf
+  - ctp2019-twoinf-abs
+  - ctp2019-twoinf-cr
+  summary: Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular Subspace
+    Perturbation Bounds is a distinct singular-subspace perturbation methodology.
+  details: Resolved against all 442 pinned AIO concepts and 676 maintained AIMech
+    concepts. Distinct from `AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation`
+    (Fan, Wang, & Zhong 2018, which bounds individual eigenvector entrywise $\ell_\infty$
+    perturbations $\|\widetilde{\mathbf{v}}_k - \mathbf{v}_k\|_\infty$ under a strict
+    individual eigengap $\gamma_0 = \min_{i \ne j}|\lambda_i - \lambda_j| > 0$ between
+    each pair of top eigenvalues via Schur-complement Neumann series, failing when
+    top eigenvalues are repeated, whereas Cape, Tang, & Priebe 2019 bound the orthogonal-Procrustes-aligned
+    subspace difference $\|\widehat{\mathbf{U}} - \mathbf{U}\mathbf{W}_U\|_{2\to\infty}$
+    using only the subspace gap $\sigma_r(\mathbf{X}) - \sigma_{r+1}(\mathbf{X}) >
+    0$ via the exact 4-term Procrustean decomposition Theorem 3.1), and from `AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices`
+    (Abbe, Fan, Wang, & Zhong 2020, which relies on row-and-column leave-one-out decoupling
+    for symmetric random matrices with independent entries rather than deterministic
+    Procrustean decompositions and asymmetric two-to-infinity operator norm inequalities).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  evidence_ids:
+  - mapping
+  - ctp2019-twoinf-pdf
+  summary: Mappings to AIO:PrincipalComponentAnalysis (related_match), AIO:Clustering
+    (related_match), and AIO:DimensionalityReduction (related_match) accurately situate
+    the record within the pinned AIO hierarchy.
+  details: Verified exact target existence in data/aio/.
+- assessment_id: claim-1-verification
+  area: evidence
+  topic: 'Claim 1: Proposition 2.1 two-to-infinity norm geometry and Proposition 6.5
+    asymmetric product inequalities'
+  outcome: supported
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  evidence_ids:
+  - ctp2019-twoinf-pdf
+  - calculation
+  summary: Claim 1 is directly supported by Sections 2.1-2.2 and Section 6.1 of arXiv:1705.10735v3.
+  details: Verified coherence relation to 0.0 error, non-submultiplicativity counterexample
+    (2.0 > 1.4142), and Proposition 6.5 asymmetric bounds in pure Python.
+- assessment_id: claim-2-verification
+  area: evidence
+  topic: 'Claim 2: Lemma 6.7 Procrustes canonical-angle sandwich and Theorem 3.1 exact
+    four-term Procrustean decomposition'
+  outcome: supported
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  evidence_ids:
+  - ctp2019-twoinf-pdf
+  - calculation
+  summary: Claim 2 is directly supported by Sections 2.3, 3, and 6.2-6.3 of arXiv:1705.10735v3.
+  details: Verified Theorem 3.1 4-term identity to 1.21e-15 and Lemma 6.7 sandwich
+    inequality in pure Python.
+- assessment_id: claim-3-verification
+  area: evidence
+  topic: 'Claim 3: Theorems 1.1 and 4.1-4.4 planted clustering, spiked PCA, and multi-layer
+    network recovery'
+  outcome: supported
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  evidence_ids:
+  - ctp2019-twoinf-pdf
+  - calculation
+  summary: Claim 3 is directly supported by Sections 1.4, 4, and 6.6-6.10 of arXiv:1705.10735v3.
+  details: Verified 13.6x error reduction of Procrustes-aligned subspace (0.0110 vs.
+    unaligned 0.1498) under degenerate top eigenvalues lambda_1 = lambda_2 = 12.0
+    in pure Python.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds
+  evidence_ids:
+  - identity
+  - mapping
+  - ctp2019-twoinf-pdf
+  - ctp2019-twoinf-abs
+  - ctp2019-twoinf-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Read every field of ProcrusteanMatrixDecompositionAndTwoToInfinityNormSingularSubspacePerturbationBounds.yaml
+    and verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT Procrustean Matrix Decomposition and Two-to-Infinity Norm Singular
+  Subspace Perturbation Bounds record, yielding 677 native and 442 unchanged generated
+  records.
+- All 36 PDF pages of arXiv:1705.10735v3 were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- two-to-infinity-norm
+- procrustes-analysis
+- singular-subspace-perturbation
+- spiked-pca
+- spectral-clustering
+- self-review
+- discovery-ongoing
+```

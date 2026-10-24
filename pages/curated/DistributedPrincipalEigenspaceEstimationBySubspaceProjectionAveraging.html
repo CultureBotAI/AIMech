@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributed Principal Eigenspace Estimation by Subspace Projection Averaging · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Distributed Principal Eigenspace Estimation by Subspace Projection Averaging</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Distributed Principal Eigenspace Estimation by Subspace Projection Averaging</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Distributed PCA by Subspace Projection Averaging, Fan-Wang-Wang-Zhu Distributed Principal Eigenspace Estimator, One-Shot Distributed Principal Eigenspace Estimation, Least-Squares Subspace Consensus Distributed PCA, High-Order Davis-Kahan Distributed Eigenspace Perturbation
+    </div>
+
+  <div class="detail-desc">
+    A one-shot divide-and-conquer distributed principal component analysis algorithm and second-order subspace perturbation theory (introduced by Jianqing Fan, Dong Wang, Kaizheng Wang, and Ziwei Zhu in 2019). When $N = m n$ independent $d$-dimensional observations are partitioned across $m$ machines of local sample size $n$, each machine $\ell \in [m]$ computes the top-$K$ orthonormal eigenvector matrix $\widehat{\mathbf{V}}_K^{(\ell)} \in \mathcal{O}_{d \times K}$ of its local sample covariance matrix $\widehat{\boldsymbol{\Sigma}}^{(\ell)}$ and transmits $\widehat{\mathbf{V}}_K^{(\ell)}$ to a central server with $O(m K d)$ communication cost; the central server forms the averaged projection matrix $\widetilde{\boldsymbol{\Sigma}} = m^{-1}\sum_{\ell=1}^m \widehat{\mathbf{V}}_K^{(\ell)}\widehat{\mathbf{V}}_K^{(\ell)T}$ and outputs its top-$K$ eigenvectors $\widetilde{\mathbf{V}}_K \in \mathcal{O}_{d \times K}$ (Algorithm 1, Equations 3.1–3.2), which solves the least-squares subspace consensus problem $\arg\min_{\mathbf{U} \in \mathcal{O}_{d \times K}}\sum_{\ell=1}^m \rho^2(\mathbf{U}, \widehat{\mathbf{V}}_K^{(\ell)})$ where $\rho(\mathbf{U}, \mathbf{V}) = \|\mathbf{U}\mathbf{U}^T - \mathbf{V}\mathbf{V}^T\|_F$ (Lemmas 5 and 6). Using a bias–variance subspace decomposition $\rho(\widetilde{\mathbf{V}}_K, \mathbf{V}_K) \le \rho(\widetilde{\mathbf{V}}_K, \mathbf{V}_K^*) + \rho(\mathbf{V}_K^*, \mathbf{V}_K)$ where $\mathbf{V}_K^*$ is the top-$K$ eigenspace of $\boldsymbol{\Sigma}^* = \mathbb{E}[\widehat{\mathbf{V}}_K^{(\ell)}\widehat{\mathbf{V}}_K^{(\ell)T}]$ (Lemma 1), the framework proves that (1) the variance term scales as $O(\kappa\sqrt{K r / N})$ in sub-exponential $\psi_1$-norm where $r = \operatorname{Tr}(\boldsymbol{\Sigma})/\lambda_1$ is the effective rank and $\kappa = \lambda_1/\Delta$ (Theorem 1); (2) under reflection-symmetric innovation distributions $\mathbf{Z} = \boldsymbol{\Lambda}^{-1/2}\mathbf{V}^T\mathbf{X} \stackrel{d}{=} (\mathbf{I}_d - 2\mathbf{e}_j\mathbf{e}_j^T)\mathbf{Z}$ (including Gaussian and elliptical distributions), $\mathbf{V}^T\boldsymbol{\Sigma}^*\mathbf{V}$ is diagonal so the bias $\rho(\mathbf{V}_K^*, \mathbf{V}_K) = 0$ vanishes identically (Definition 4.1, Theorem 2); and (3) for general asymmetric sub-Gaussian distributions, a deterministic first-order projection expansion $\widehat{\mathbf{U}}\widehat{\mathbf{U}}^T - \mathbf{U}\mathbf{U}^T \approx f(\mathbf{E}\mathbf{U})\mathbf{U}^T + \mathbf{U}f(\mathbf{E}\mathbf{U})^T$ with quadratic residual $\le 24\sqrt{K}\varepsilon^2$ (Lemma 2) cancels the first-order zero-mean noise in expectation to yield $\rho(\mathbf{V}_K^*, \mathbf{V}_K) \lesssim \kappa^2\sqrt{K}r/n$ (Theorem 3), matching the centralized full-sample PCA rate $O(\kappa\sqrt{K r / N})$ whenever $m \lesssim n / (\kappa^2 r)$ (Theorem 4).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO concepts and 675 maintained AIMech concepts. Distinct from `AIMech:EntrywiseFirstOrderEigenvectorApproximationAndLeaveOneOutPerturbationAnalysisForLowExpectedRankRandomMatrices` (Abbe, Fan, Wang, &amp; Zhong 2020, which analyzes entrywise $\ell_\infty$ eigenvector perturbations of a single random matrix via leave-one-out row decoupling rather than distributed subspace projection averaging $\widetilde{\boldsymbol{\Sigma}} = m^{-1}\sum_{\ell=1}^m \widehat{\mathbf{V}}_K^{(\ell)}\widehat{\mathbf{V}}_K^{(\ell)T}$ across $m$ machines), from `AIMech:LInfinityEigenvectorPerturbationBoundAndRobustFactorCovarianceEstimation` (Fan, Wang, &amp; Zhong 2018, which bounds $\ell_\infty$ eigenvector perturbations and estimates heavy-tailed factor covariances on a single machine), and from `AIMech:PrincipalOrthogonalComplementThresholdingForApproximateFactorCovarianceEstimation` (Fan, Liao, &amp; Mincheva 2013, which thresholds centralized PCA residuals).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-subspace-projection-averaging-consensus-and-variance-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given $m$ local top-$K$ eigenvector matrices $\widehat{\mathbf{V}}_K^{(\ell)} \in \mathcal{O}_{d \times K}$ ($\ell=1,\dots,m$), Lemma 6 proves that the top-$K$ eigenvector matrix $\widetilde{\mathbf{V}}_K$ of the averaged projection matrix $\widetilde{\boldsymbol{\Sigma}} = m^{-1}\sum_{\ell=1}^m \widehat{\mathbf{V}}_K^{(\ell)}\widehat{\mathbf{V}}_K^{(\ell)T}$ minimizes $\sum_{\ell=1}^m \rho^2(\mathbf{U}, \widehat{\mathbf{V}}_K^{(\ell)}) = 2mK - 2m\operatorname{Tr}(\mathbf{U}^T\widetilde{\boldsymbol{\Sigma}}\mathbf{U})$ over $\mathbf{U} \in \mathcal{O}_{d \times K}$, and under sub-Gaussian observations with effective rank $r = \operatorname{Tr}(\boldsymbol{\Sigma})/\lambda_1$ and $\kappa = \lambda_1/\Delta$ ($\Delta = \lambda_K - \lambda_{K+1}$), Theorem 1 proves that the sample variance component relative to the population mean projection eigenspace $\mathbf{V}_K^*$ of $\boldsymbol{\Sigma}^* = \mathbb{E}[\widehat{\mathbf{V}}_K^{(\ell)}\widehat{\mathbf{V}}_K^{(\ell)T}]$ satisfies $\|\rho(\widetilde{\mathbf{V}}_K, \mathbf{V}_K^*)\|_{\psi_1} \le C_1\kappa\sqrt{K r / N}$ where $N = mn$ (Sections 3 and 4.1, Lemmas 1, 5, 6, and Theorem 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fwwz2019-distpca-pdf">Distributed Estimation of Principal Eigenspaces</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Algorithm 1, pp. 7-8), Section 4.1 (Lemma 1, Theorem 1, pp. 9-10), Section 8.2 (Lemmas 5-6, pp. 40-41)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-symmetric-innovation-exact-unbiasedness-and-asymmetric-bias-rate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the standardized innovation $\mathbf{Z} = \boldsymbol{\Lambda}^{-1/2}\mathbf{V}^T\mathbf{X}$ satisfies reflection symmetry $\mathbf{Z} \stackrel{d}{=} (\mathbf{I}_d - 2\mathbf{e}_j\mathbf{e}_j^T)\mathbf{Z}$ for all $j \in [d]$ (Definition 4.1), Theorem 2 proves that $\mathbf{V}^T\boldsymbol{\Sigma}^*\mathbf{V}$ is diagonal so $\rho(\mathbf{V}_K^*, \mathbf{V}_K) = 0$ whenever $\|\boldsymbol{\Sigma}^* - \mathbf{V}_K\mathbf{V}_K^T\|_2 &lt; 1/2$; for general asymmetric sub-Gaussian distributions, Lemma 2 establishes the deterministic linear projection expansion $\|\widehat{\mathbf{U}}\widehat{\mathbf{U}}^T - \mathbf{U}\mathbf{U}^T - (f(\mathbf{E}\mathbf{U})\mathbf{U}^T + \mathbf{U}f(\mathbf{E}\mathbf{U})^T)\|_F \le 24\sqrt{K}(\|\mathbf{E}\|_2/\Delta)^2$ where $f(\mathbf{A}) = \sum_{j=K+1}^d \mathbf{u}_j\mathbf{u}_j^T\mathbf{A}(\boldsymbol{\Lambda}_1 - \lambda_j\mathbf{I}_K)^{-1}$, whose linear term has zero expectation under $\mathbb{E}\mathbf{E} = \mathbf{0}$, proving $\rho(\mathbf{V}_K^*, \mathbf{V}_K) \le C_2\kappa^2\sqrt{K}r/n$ (Theorem 3) and $\|\rho(\widetilde{\mathbf{V}}_K, \mathbf{V}_K)\|_{\psi_1} \lesssim \sqrt{K}(\kappa\sqrt{r/N} + \kappa^2 r/n)$ (Theorem 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fwwz2019-distpca-pdf">Distributed Estimation of Principal Eigenspaces</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Definition 4.1, Lemma 2, Theorems 2-4, pp. 11-15), Section 8.1 (Lemma 4, pp. 26-30), Section 8.2.5 (Lemma 8, pp. 42-43)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-phase-transition-impossibility-and-heterogeneous-factor-extensions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In a spiked covariance model $\boldsymbol{\Sigma} = \lambda\mathbf{v}_1\mathbf{v}_1^T + \mathbf{I}_d$, Theorem 5 proves a sharp phase transition: if the local sample size falls below the Baik–Ben Arous–Péché threshold $n \le (d-1)/(3\lambda)$, then $\mathbb{P}(\widetilde{\mathbf{V}}_1 \perp \mathbf{V}_1) \ge 1 - d^{-1}$ regardless of how large the number of machines $m$ is; above the threshold, Theorems 6 and 7 extend distributed subspace projection averaging to heterogeneous local covariances $\boldsymbol{\Sigma}^{(\ell)}$ sharing a common top-$K$ eigenspace and to high-dimensional approximate factor models $\mathbf{X}_i^{(\ell)} = \mathbf{B}\mathbf{f}_i^{(\ell)} + \mathbf{u}_i^{(\ell)}$ achieving rate $O((\sqrt{1/N} + 1/n)(1 + \sqrt{d}/\psi_K) + \sqrt{d}/(\sqrt{N}\psi_K^2))$ (Sections 4.2 and 5, Theorems 5, 6, and 7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fwwz2019-distpca-pdf">Distributed Estimation of Principal Eigenspaces</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Theorem 5, pp. 14-15), Section 5 (Theorems 6-7, pp. 15-19), Section 8.1 (pp. 31-40)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>For general asymmetric sub-Gaussian distributions, matching the centralized full-sample PCA rate O(kappa * sqrt(K * r / N)) requires the machine-count scaling constraint m &lt;= O(n / (kappa^2 * r)) so that the O(kappa^2 * sqrt(K) * r / n) second-order bias does not dominate the O(kappa * sqrt(K * r / N)) variance (Theorem 4); if the data are partitioned into too many small local shards (n &lt;= (d-1)/(3*lambda)), Theorem 5 shows that local sample eigenvectors become asymptotically orthogonal to the true spike and one-shot projection averaging fails regardless of m.</li>
+      <li>Because Algorithm 1 averages projection matrices V_hat_K^{(ell)} V_hat_K^{(ell)T} rather than raw sample covariance matrices, it requires a positive eigengap Delta = lambda_K - lambda_{K+1} &gt; 0 separating the K-th and (K+1)-th population eigenvalues on each local machine; if lambda_K = lambda_{K+1}, the K-dimensional principal subspace is not uniquely defined.</li>
+      <li>Primary-source typographical audit of Fan, Wang, Wang, &amp; Zhu (2019, arXiv:1702.06488v4) uncovered five groups of minor notation and typographical errors that are corrected in this record: (1) Section 1 p. 4 line 5 writes &#39;V_tilde_K = (v_tilde_1^{(ell)}, ..., v_tilde_K^{(ell)})&#39; with a stray machine superscript &#39;(ell)&#39; on the central aggregated eigenvectors; (2) Section 2 p. 5 line 9 writes &#39;be the effected rank of Sigma&#39; (&#39;effected&#39; instead of &#39;effective&#39;) and line 13 spells &#39;top K engenspace Col(V_hat_K)&#39; (&#39;engenspace&#39; instead of &#39;eigenspace&#39;); (3) Section 3 p. 7 line 2 writes &#39;We specify the distributed in Algorithm 1&#39; (missing &#39;estimator&#39; or &#39;procedure&#39;) and p. 8 line 11 writes &#39;Then the central server collect all the eigenvalues&#39; (&#39;collect&#39; instead of &#39;collects&#39;); (4) Section 4.1 p. 9 line 17 writes &#39;so does rho(V_tilde_K, V_K^*)&#39; and p. 10 line 9 writes &#39;{V_hat_K^{(ell)} V_hat_K^{(ell)T}}_{ell=1}^K&#39; with upper index &#39;K&#39; instead of the number of machines &#39;m&#39;; and (5) Section 4.2 p. 13 line 9 writes &#39;controls it tail&#39; (&#39;it&#39; instead of &#39;its&#39;), Section 6.1 p. 21 line 12 writes &#39;is proportion to&#39; (&#39;proportion&#39; instead of &#39;proportional&#39;), and Section 8.2.2 Lemma 6 p. 41 line 2 spells &#39;eigen-deconposition&#39;.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Distributed Principal Eigenspace Estimation is a specialized divide-and-conquer formulation of Principal Component Analysis across partitioned datasets.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Distributed estimation of top-K principal subspaces is a linear dimensionality-reduction methodology.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-fwwz2019-distpca-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fwwz2019-distpca-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://export.arxiv.org/pdf/1702.06488.pdf" target="_blank" rel="noopener">Distributed Estimation of Principal Eigenspaces</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Dong Wang, Kaizheng Wang, Ziwei Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/18-AOS1713</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a34a3508fab2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-fwwz2019-distpca-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fwwz2019-distpca-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1702.06488" target="_blank" rel="noopener">Distributed Estimation of Principal Eigenspaces (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Dong Wang, Kaizheng Wang, Ziwei Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1702.06488</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a9fd7f373a2c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-fwwz2019-distpca-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fwwz2019-distpca-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1214/18-AOS1713" target="_blank" rel="noopener">Distributed Estimation of Principal Eigenspaces (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianqing Fan, Dong Wang, Kaizheng Wang, Ziwei Zhu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1214/18-AOS1713</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:13f5c61a7ac1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ADistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Distributed Principal Eigenspace Estimation by Subspace Projection Averaging" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Distributed Principal...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:PrincipalComponentAnalysis (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T05:14:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T05:14:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Distributed%20Principal%20Eigenspace%20Estimation%20by%20Subspace%20Projection%20Averaging"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ADistributedPrincipalEigenspaceEstimationBySubspaceProjectionAveraging"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

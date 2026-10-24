@@ -1,0 +1,378 @@
+# Scientific author self-review of Krum and Multi-Krum Byzantine-Tolerant Gradient Descent
+
+- Review: 20261019T080230Z-krum-and-multi-krum-byzantine-tolerant-gd
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T08:02:00Z
+- Finished UTC: 2026-10-19T08:02:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Krum and Multi-Krum Byzantine-Tolerant Gradient Descent as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 299a044b2edd5c466a1dc9b2d12e05b8f3682162.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent | data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml | maintained | Krum and Multi-Krum Byzantine-Tolerant Gradient Descent |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent | Validated history sidecar files. |
+| python3 krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py | passed | True | AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent | {<br>  "concept": "AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent",<br>  "n_workers": 11,<br>  "f_byzantine": 3,<br>  "eta_n_f": 8.3666,<br>  "sin_alpha_bound": 0.740959,<br>  "linear_avg_inner_product": -6.511023,<br>  "krum_inner_product": 2.568342,<br>  "multi_krum_inner_product": 2.568335,<br>  "l2_error_linear_avg": 5.67427,<br>  "l2_error_krum": 0.106571,<br>  "l2_error_multi_krum": 0.064729,<br>  "status": "VERIFIED"<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent.
+
+Krum and Multi-Krum Byzantine-Tolerant Gradient Descent is a distinct concept.
+
+Distinct from Coordinate-wise Median and Coordinate-wise Trimmed Mean (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning, which aggregate each coordinate independently in O(n d) time rather than selecting whole gradient vectors via joint d-dimensional Euclidean neighborhood distances in O(n^2 (d + log n)) time) and from RFA Smoothed Weiszfeld Geometric Median (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian, which computes an iterative smoothed l_2 geometric median across all vectors up to f &lt; n/2 rather than selecting among submitted worker vectors for 2f + 2 &lt; n).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py passed with exit code 0: {
+  "concept": "AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent",
+  "n_workers": 11,
+  "f_byzantine": 3,
+  "eta_n_f": 8.3666,
+  "sin_alpha_bound": 0.740959,
+  "linear_avg_inner_product": -6.511023,
+  "krum_inner_product": 2.568342,
+  "multi_krum_inner_product": 2.568335,
+  "l2_error_linear_avg": 5.67427,
+  "l2_error_krum": 0.106571,
+  "l2_error_multi_krum": 0.064729,
+  "status": "VERIFIED"
+}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T080200Z-krum-and-multi-krum-byzantine-tolerant-gd.json | supports | No normalized identity match for AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py | supports | All constructed boundary assertions in krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py passed with exit code 0: {<br>  "concept": "AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent",<br>  "n_workers": 11,<br>  "f_byzantine": 3,<br>  "eta_n_f": 8.3666,<br>  "sin_alpha_bound": 0.740959,<br>  "linear_avg_inner_product": -6.511023,<br>  "krum_inner_product": 2.568342,<br>  "multi_krum_inner_product": 2.568335,<br>  "l2_error_linear_avg": 5.67427,<br>  "l2_error_krum": 0.106571,<br>  "l2_error_multi_krum": 0.064729,<br>  "status": "VERIFIED"<br>} |
+| r399-primary-pdf | https://proceedings.neurips.cc/paper/2017/hash/f4b9ec30ad9f68f89b29639786cb62ef-Abstract.html; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 30 (NeurIPS 2017), pp. 119-129 (2017)) read and verified. |
+| r399-arxiv-abs | https://arxiv.org/abs/1703.02757; arXiv abstract | supports | arXiv abstract read and verified. |
+| r399-metadata-cr | https://doi.org/10.48550/arXiv.1703.02757; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent in Round 399.
+- All pages of Advances in Neural Information Processing Systems 30 (NeurIPS 2017), pp. 119-129 (2017) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T080230Z-krum-and-multi-krum-byzantine-tolerant-gd
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Krum and Multi-Krum Byzantine-Tolerant Gradient
+  Descent
+started_at: '2026-10-19T08:02:00Z'
+finished_at: '2026-10-19T08:02:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 30 (NeurIPS 2017), pp. 119-129 (2017)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Krum and Multi-Krum Byzantine-Tolerant Gradient Descent as a distinct
+  DRAFT algorithm. All four claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: 299a044b2edd5c466a1dc9b2d12e05b8f3682162
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml
+    sha256: baeeffcdc17de3b2266f1354faa4f35f3fa9f19e30af83270a6e904f5c6c382d
+    role: target
+  - path: research/discovery/20261019T080200Z-krum-and-multi-krum-byzantine-tolerant-gd.json
+    sha256: 3d477abdcc755c0c002ccb2bf5628e30ab448b1c8807aa6bfe00120b728da567
+    role: context
+  - path: research/discovery/krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py
+    sha256: efd9bd5c4a322fea318e9bf90c76ce11edabebab47f74fdd0ba6ec7d68f1d44f
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  path: data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml
+  label: Krum and Multi-Krum Byzantine-Tolerant Gradient Descent
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py
+  command: python3 research/discovery/krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"concept\": \"AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent\"\
+    ,\n  \"n_workers\": 11,\n  \"f_byzantine\": 3,\n  \"eta_n_f\": 8.3666,\n  \"sin_alpha_bound\"\
+    : 0.740959,\n  \"linear_avg_inner_product\": -6.511023,\n  \"krum_inner_product\"\
+    : 2.568342,\n  \"multi_krum_inner_product\": 2.568335,\n  \"l2_error_linear_avg\"\
+    : 5.67427,\n  \"l2_error_krum\": 0.106571,\n  \"l2_error_multi_krum\": 0.064729,\n\
+    \  \"status\": \"VERIFIED\"\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T080200Z-krum-and-multi-krum-byzantine-tolerant-gd.json
+  accessed_at: '2026-10-19T08:02:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T08:02:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py
+  accessed_at: '2026-10-19T08:02:00Z'
+  snapshot_sha256: efd9bd5c4a322fea318e9bf90c76ce11edabebab47f74fdd0ba6ec7d68f1d44f
+  support: supports
+  summary: "All constructed boundary assertions in krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py\
+    \ passed with exit code 0: {\n  \"concept\": \"AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent\"\
+    ,\n  \"n_workers\": 11,\n  \"f_byzantine\": 3,\n  \"eta_n_f\": 8.3666,\n  \"sin_alpha_bound\"\
+    : 0.740959,\n  \"linear_avg_inner_product\": -6.511023,\n  \"krum_inner_product\"\
+    : 2.568342,\n  \"multi_krum_inner_product\": 2.568335,\n  \"l2_error_linear_avg\"\
+    : 5.67427,\n  \"l2_error_krum\": 0.106571,\n  \"l2_error_multi_krum\": 0.064729,\n\
+    \  \"status\": \"VERIFIED\"\n}"
+- evidence_id: r399-primary-pdf
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2017/hash/f4b9ec30ad9f68f89b29639786cb62ef-Abstract.html
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T08:02:00Z'
+  snapshot_sha256: 80f2f4aa9cfc691f1084680e1e6868db2009c40efdea47e3100d4f6b9bc44fc5
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 30 (NeurIPS
+    2017), pp. 119-129 (2017)) read and verified.
+- evidence_id: r399-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1703.02757
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T08:02:00Z'
+  snapshot_sha256: 4e5f47badf42c82f5788c3c53486a311892ddc894d3775a27bfde582fdd74262
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r399-metadata-cr
+  kind: primary_source
+  reference: https://doi.org/10.48550/arXiv.1703.02757
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T08:02:00Z'
+  snapshot_sha256: aae2304f650f553e74b523027ae4a1f913b971b1cd4c5ff3d5a48c21828faf54
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  evidence_ids:
+  - identity
+  - r399-primary-pdf
+  - r399-arxiv-abs
+  - r399-metadata-cr
+  summary: Krum and Multi-Krum Byzantine-Tolerant Gradient Descent is a distinct concept.
+  details: Distinct from Coordinate-wise Median and Coordinate-wise Trimmed Mean (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning,
+    which aggregate each coordinate independently in O(n d) time rather than selecting
+    whole gradient vectors via joint d-dimensional Euclidean neighborhood distances
+    in O(n^2 (d + log n)) time) and from RFA Smoothed Weiszfeld Geometric Median (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian,
+    which computes an iterative smoothed l_2 geometric median across all vectors up
+    to f < n/2 rather than selecting among submitted worker vectors for 2f + 2 < n).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  evidence_ids:
+  - mapping
+  - r399-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  evidence_ids:
+  - r399-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: "All constructed boundary assertions in krum-and-multi-krum-byzantine-tolerant-gd-boundaries.py\
+    \ passed with exit code 0: {\n  \"concept\": \"AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent\"\
+    ,\n  \"n_workers\": 11,\n  \"f_byzantine\": 3,\n  \"eta_n_f\": 8.3666,\n  \"sin_alpha_bound\"\
+    : 0.740959,\n  \"linear_avg_inner_product\": -6.511023,\n  \"krum_inner_product\"\
+    : 2.568342,\n  \"multi_krum_inner_product\": 2.568335,\n  \"l2_error_linear_avg\"\
+    : 5.67427,\n  \"l2_error_krum\": 0.106571,\n  \"l2_error_multi_krum\": 0.064729,\n\
+    \  \"status\": \"VERIFIED\"\n}"
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent
+  evidence_ids:
+  - identity
+  - mapping
+  - r399-primary-pdf
+  - r399-arxiv-abs
+  - r399-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent in
+  Round 399.
+- All pages of Advances in Neural Information Processing Systems 30 (NeurIPS 2017),
+  pp. 119-129 (2017) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

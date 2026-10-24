@@ -1,0 +1,96 @@
+id: AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding
+name: Subsampled Randomized Hadamard Transform Subspace Embedding
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: 'Subsampled Randomized Hadamard Transform Subspace Embedding is a structured fast oblivious dimension-reduction operator Phi = sqrt(n / l) R H D in R^{l x n} (for n = 2^q) analyzed via matrix Chernoff bounds by Tropp (2011) that embeds any fixed k-dimensional subspace of R^n spanned by an n x k orthonormal basis matrix V (V^T V = I_k) into R^l in O(n k log l) arithmetic operations instead of the O(n l k) cost of dense Gaussian projections. Here D in R^{n x n} is a diagonal Rademacher sign matrix with i.i.d. +-1 diagonal entries, H in R^{n x n} is the normalized Walsh-Hadamard matrix with entries +-1/sqrt(n), and R in R^{l x n} uniformly samples l rows without replacement. The proof decouples into two stages: (1) Lemma 3.3 uses availability of convex Lipschitz concentration for Rademacher series (Lemma 2.1) to prove that W = H D V equalizes row norms (leverage scores) across all n rows so that max_{j=1..n} ||e_j^T (H D V)||_2 <= sqrt(k / n) + sqrt(8 log(beta n) / n) with probability at least 1 - 1/beta, and (2) Lemma 3.4 applies the matrix Chernoff bound for sampling without replacement (Lemma 2.2) to the rank-1 decomposition X = sum_{j in T} x_j x_j^T of R W to guarantee that l = Omega((k + log n) log k) sampled rows preserve all k singular values of Phi V within [sqrt(1 - delta), sqrt(1 + delta)] (Theorem 3.1).'
+identity_notes: "Distinct from classical Principal Component Analysis (`AIO:PrincipalComponentAnalysis`), data-dependent Nystr\xF6m column sampling (`AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling`), and deterministic streaming Frequent-Directions sketching (`AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching`). Specifically captures the structured operator Phi = sqrt(n/l) R H D and Tropp's (2011) two-lemma decoupling: Lemma 3.3 Rademacher-Hadamard row-norm flattening via convex concentration and Lemma 3.4 / Theorem 3.1 matrix Chernoff singular-value preservation for row sampling without replacement at optimal dimension l = O((k + log n) log k)."
+aliases:
+- SRHT Oblivious Subspace Embedding
+- Subsampled Randomized Walsh-Hadamard Transform (SRHT)
+- Tropp Matrix-Chernoff SRHT Subspace Embedding
+definition_evidence:
+- source_id: r329-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r329-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r329-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: For any n x k matrix V with orthonormal columns (V^T V = I_k), Lemma 3.3 proves by applying Rademacher convex Lipschitz concentration (Lemma 2.1) to the Euclidean norm f(epsilon) = ||e_j^T H diag(epsilon) V||_2 (which has mean <= sqrt(k/n) and Lipschitz constant <= 1/sqrt(n)) that the randomized Walsh-Hadamard transform W = H D V flattens all n row norms simultaneously to satisfy max_{j=1..n} ||e_j^T (H D V)||_2 <= sqrt(k/n) + sqrt(8 log(beta n) / n) with probability at least 1 - 1/beta.
+  evidence:
+  - source_id: r329-primary-pdf
+    locator: Section 2.1, Lemma 2.1, p. 3; Section 3.1, Lemma 3.3 and Proof, pp. 5-6
+    relation: supports
+  - source_id: r329-metadata-cr
+    locator: Crossref metadata for Advances in Adaptive Data Analysis 3(1-2):115-126
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: Combining Lemma 3.3 with the matrix Chernoff bound for uniform row sampling without replacement (Lemma 2.2 / Corollary 2.3 and Lemma 3.4), Theorems 1.1 and 3.1 establish that for embedding dimension l >= 4 [sqrt(k) + sqrt(8 log(beta n))]^2 log(beta k) = Omega((k + log n) log k), the SRHT matrix Phi = sqrt(n/l) R H D preserves all k singular values of Phi V within [1/sqrt(2), sqrt(3/2)] (or more generally [sqrt(1 - delta), sqrt(1 + delta)]) with failure probability at most O(1/beta).
+  evidence:
+  - source_id: r329-primary-pdf
+    locator: Section 1, Theorem 1.1, p. 2; Section 3.1-3.2, Theorem 3.1, Lemma 3.4, and Proof of Theorem 3.1, pp. 5-7
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Section 3.3 demonstrates via a block-Hadamard adversarial basis V that the logarithmic factor k log k in the embedding dimension l cannot be eliminated because uniform row sampling must solve a k-bin coupon collector problem to preserve rank(Phi V) = k, while the additive log(n) log(k) term is required to prevent maximal row-norm spikes.
+  evidence:
+  - source_id: r329-primary-pdf
+    locator: Section 3.3, Optimality of Theorem 3.1, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r329-primary-pdf
+  title: Improved Analysis of the Subsampled Randomized Hadamard Transform
+  authors: &id001
+  - Joel A. Tropp
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1011.1595v4
+  persistent_id: https://api.crossref.org/works/10.1142/S1793536911000787
+  version: Advances in Adaptive Data Analysis 3(1-2):115-126 (2011) (163187 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:50:00Z'
+  sha256: f725c62c085e8c631a6526bfd3ac2297fbf8a10b390194ef7f3a7fee181ad2ce
+- source_id: r329-arxiv-abs
+  title: Improved Analysis of the Subsampled Randomized Hadamard Transform (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1011.1595v4
+  persistent_id: https://arxiv.org/abs/1011.1595v4
+  version: arXiv abstract page (5604 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:50:00Z'
+  sha256: d87116c589994951547a7d5b0c3ff78460d21369a10a0724e0464b39379bdc51
+- source_id: r329-metadata-cr
+  title: Improved Analysis of the Subsampled Randomized Hadamard Transform (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1142/S1793536911000787
+  persistent_id: https://api.crossref.org/works/10.1142/S1793536911000787
+  version: Crossref API work record (1722 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:50:00Z'
+  sha256: 4da27fea894982312768d66f086dd1a52ea8da6e162bd8c64feaeb7a70e95468
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: narrow_match
+  rationale: Provides a structured O(n k log l) oblivious randomized linear dimensionality reduction operator.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Used as a fast randomized preconditioner and sketching operator for overdetermined least-squares linear regression.
+limitations:
+- Requires padding the ambient dimension n to a power of 2 for the Walsh-Hadamard transform and incurs an unavoidable O((k + log n) log k) logarithmic oversampling factor relative to dense Gaussian embeddings.
+curation:
+  created_at: '2026-10-19T06:50:00Z'
+  updated_at: '2026-10-19T06:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

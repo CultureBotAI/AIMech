@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rank Centrality Iterative Random-Walk Spectral Ranking from Pairwise Comparisons · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Rank Centrality Iterative Random-Walk Spectral Ranking from Pairwise Comparisons</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Rank Centrality Iterative Random-Walk Spectral Ranking from Pairwise Comparisons</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Rank Centrality Algorithm, Negahban-Oh-Shah Spectral Ranking from Pairwise Comparisons, Reversible Random-Walk BTL Rank Aggregation
+    </div>
+
+  <div class="detail-desc">
+    An iterative spectral rank-aggregation algorithm (introduced by Sahand Negahban, Sewoong Oh, and Devavrat Shah in 2017) that estimates latent preference scores $w_1,\dots,w_n &gt; 0$ under the Bradley–Terry–Luce (BTL) / Multinomial Logit (MNL) pairwise comparison model from $k$ comparisons per edge on a comparison graph $G = ([n], E)$. Given empirical win fractions $a_{ij} = \frac{1}{k}\sum_{l=1}^k Y_{ij}^l$ and normalized pairwise ratios $A_{ij} = a_{ij}/(a_{ij}+a_{ji})$ (or Beta$(\varepsilon,\varepsilon)$-regularized ratios $(a_{ij}+\varepsilon)/(a_{ij}+a_{ji}+2\varepsilon)$, Equation 5), Rank Centrality constructs the random-walk transition matrix $P_{ij} = \frac{1}{d_{\max}}A_{ij}$ for $(i,j)\in E$, $i\ne j$, and $P_{ii} = 1 - \frac{1}{d_{\max}}\sum_{l\ne i}A_{il}$ (Equation 1), where $d_{\max}$ is the maximum vertex degree, and computes its unique stationary distribution $\pi^T = \pi^T P$ via power iteration $p_{t+1}^T = p_t^T P$ (Equation 2). Scaling every off-diagonal transition by the uniform global maximum degree $1/d_{\max}$ (rather than local vertex degree $1/d_i$ as in Dwork et al.&#39;s MC3) ensures that the population transition matrix $\tilde{P}_{ij} = \frac{1}{d_{\max}}\frac{w_j}{w_i+w_j}$ satisfies detailed balance $\tilde{\pi}(i)\tilde{P}_{ij} = \tilde{\pi}(j)\tilde{P}_{ji}$ with exact stationary distribution $\tilde{\pi}(i) = w_i / \sum_l w_l$ on any connected graph $G$. Using a self-adjoint $L^2(\tilde{\pi})$ perturbation inequality (Lemma 2, Equation 11), matrix Bernstein concentration $\|P - \tilde{P}\|_2 \le C\sqrt{\log n / (k d_{\max})}$ (Lemma 3), and a Dirichlet-form Markov chain comparison theorem relating $1 - \lambda_{\max}(\tilde{P}) \ge \frac{d_{\min}}{b^2 d_{\max}}\xi$ to the random-walk Laplacian spectral gap $\xi = 1 - \lambda_{\max}(D^{-1}B)$ (Lemmas 4 and 6, Equations 26–27), Theorem 1 proves $\frac{\|\pi - \tilde{\pi}\|_2}{\|\tilde{\pi}\|_2} \le \frac{C b^{5/2}\kappa}{\xi}\sqrt{\frac{\log n}{k d_{\max}}}$, matching the minimax Fano lower bound of Theorem 3 up to logarithmic factors on Erdős–Rényi graphs (Theorem 2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Resolved against all 442 pinned AIO concepts and 682 maintained AIMech concepts. Distinct from `AIMech:TopKRankingSpectralAndRegularizedMLEByLeaveOneOutAnalysis` (Chen, Fan, Ma, &amp; Wang 2019, which introduces leave-one-out entrywise $\ell_\infty$ perturbation analysis for top-$K$ identification on Erdős–Rényi graphs, whereas Negahban, Oh, &amp; Shah 2017 formulate the Rank Centrality random-walk algorithm, the Beta$(\varepsilon,\varepsilon)$-regularized transition matrix, the general-graph $L^2(\tilde{\pi})$ Dirichlet-form spectral gap comparison Theorem 1 / Lemma 6, the weighted pairwise ranking loss $D_w(\sigma)$ bound Lemma 1, and the simplex packing minimax lower bound Theorem 3).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-uniform-dmax-scaling-reversibility-and-self-adjoint-contraction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Scaling off-diagonal comparison ratios by the global maximum degree $1/d_{\max}$ in $P_{ij} = \frac{1}{d_{\max}}A_{ij}$ (Equation 1) makes the population BTL chain $\tilde{P}$ reversible with respect to $\tilde{\pi}_i = w_i / \sum_l w_l$ ($\tilde{\pi}_i\tilde{P}_{ij} = \tilde{\pi}_j\tilde{P}_{ji}$) and self-adjoint in $L^2(\tilde{\pi})$ on any connected graph $G$, whereas degree-normalized chains ($P_{ij}^{\text{(MC3)}} = A_{ij}/d_i$) and unnormalized Borda Count remain asymptotically biased as $k \to \infty$ on non-regular graphs; Lemma 2 proves geometric contraction $\frac{\|p_t - \tilde{\pi}\|_2}{\|\tilde{\pi}\|_2} \le \rho^t\frac{\|p_0 - \tilde{\pi}\|_2}{\|\tilde{\pi}\|_2}\sqrt{\frac{\tilde{\pi}_{\max}}{\tilde{\pi}_{\min}}} + \frac{1}{1-\rho}\|\Delta\|_2\sqrt{\frac{\tilde{\pi}_{\max}}{\tilde{\pi}_{\min}}}$ (Sections 2.2, 3.3, and 4.1, Equations 1–2 and 11, Lemma 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nos2017-rankcent-pdf">Rank Centrality: Ranking from Pairwise Comparisons</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 (Eqs. 1-2, pp. 9-10), Section 3.3 (pp. 14-16), Section 4.1 (Lemma 2, pp. 24-26)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-dirichlet-form-laplacian-spectral-gap-comparison-and-general-graph-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By comparing the Dirichlet forms $\mathcal{E}^{\tilde{P}}(\phi,\phi)$ and $\mathcal{F}^{\tilde{P}}(\phi,\phi)$ of $(\tilde{P},\tilde{\pi})$ with those of the simple random walk $Q = D^{-1}B$ with stationary distribution $\mu(i) = d_i/\sum_l d_l$ and spectral gap $\xi = 1 - \lambda_{\max}(D^{-1}B)$, Lemma 6 proves $\frac{1 - \lambda_{\max}(\tilde{P})}{1 - \lambda_{\max}(Q)} \ge \frac{\alpha}{\beta} \ge \frac{d_{\min}}{b^2 d_{\max}}$ (Equations 26–27), which combined with matrix Bernstein concentration $\|P - \tilde{P}\|_2 \le C\sqrt{\log n/(k d_{\max})}$ (Lemma 3) yields Theorem 1: $\frac{\|\pi - \tilde{\pi}\|_2}{\|\tilde{\pi}\|_2} \le \frac{C b^{5/2}\kappa}{\xi}\sqrt{\frac{\log n}{k d_{\max}}}$ and Lemma 1&#39;s weighted ranking error bound $D_w(\sigma) \le \frac{\|w - \pi\|_2}{\|w\|_2}$ (Sections 3.1, 3.3, and 4.1.2–4.1.4, Theorem 1, Lemmas 1, 3, 4, and 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nos2017-rankcent-pdf">Rank Centrality: Ranking from Pairwise Comparisons</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1 &amp; 3.3 (Theorem 1, Lemma 1, pp. 11-13), Sections 4.1.2-4.1.4 (Lemmas 3, 4, 6, pp. 27-32)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#claim-erdos-renyi-minimax-optimality-and-simplex-fano-lower-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When $G \sim G(n, d/n)$ is an Erdős–Rényi graph with $d \ge 10 C^2\log n$ and $k d \ge 128 C^2 b^5\log n$, Lemma 7 proves $\xi \ge 1/2$ and Theorem 2 establishes $\frac{\|\pi - \tilde{\pi}\|_2}{\|\tilde{\pi}\|_2} \le 8 C b^{5/2}\sqrt{\frac{\log n}{k d}}$, while Theorem 3 constructs an $e^{n/128}$-packing of the bounded-dynamic-range simplex $\mathcal{S}_b$ (Lemma 8) and applies Fano&#39;s inequality to prove the minimax lower bound $\inf_{\mathcal{A}}\sup_{\tilde{\pi}\in\mathcal{S}_b}\frac{\mathbb{E}[\|\pi^{\mathcal{A}} - \tilde{\pi}\|_2]}{\|\tilde{\pi}\|_2} \ge \frac{b-1}{240\sqrt{10}(b+1)}\frac{1}{\sqrt{kd}}$ (Sections 3.2, 3.4, 4.2, and 4.3, Theorems 2–3, Lemmas 7–8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nos2017-rankcent-pdf">Rank Centrality: Ranking from Pairwise Comparisons</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2 &amp; 3.4 (Theorems 2-3, pp. 12, 18-19), Sections 4.2-4.3 (Lemmas 7-8, pp. 32-36)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Unregularized Rank Centrality (epsilon = 0) can overfit when a node participates in very few comparisons and wins all of them (producing a sink or near-sink in the Markov chain, as illustrated by drivers with 1 race in Table 1 for the NASCAR 2002 dataset), requiring Beta(epsilon, epsilon) Laplace smoothing (Equation 5) on sparse irregular graphs.</li>
+      <li>Theorem 1&#39;s upper bound scales as b^{5/2} where b = max_{i,j} w_i / w_j is the dynamic range of BTL weights; when b grows rapidly with n, the reversible chain&#39;s spectral gap 1 - lambda_max(P_tilde) &gt;= (d_min / (b^2 d_max)) xi can become small.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Rank Centrality defines item scores as the stationary distribution of a reversible random-walk Markov chain over the comparison graph.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Estimates parameters of the Bradley-Terry-Luce / Multinomial Logit model and is compared directly against pairwise logistic regression MLE (Section 3.5, Theorem 4).
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RankingBias.html" style="font-weight: 600;"><code>AIO:RankingBias</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Ranking Bias</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Eliminates the non-vanishing degree-heterogeneity ranking bias of Borda Count and MC1-MC4 random walks on irregular comparison graphs.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-nos2017-rankcent-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nos2017-rankcent-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1209.1688.pdf" target="_blank" rel="noopener">Rank Centrality: Ranking from Pairwise Comparisons</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sahand Negahban, Sewoong Oh, Devavrat Shah
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1287/opre.2016.1534</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:293d685db80c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-nos2017-rankcent-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nos2017-rankcent-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1209.1688" target="_blank" rel="noopener">Rank Centrality: Ranking from Pairwise Comparisons (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sahand Negahban, Sewoong Oh, Devavrat Shah
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1209.1688</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:85e87b652d86…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-nos2017-rankcent-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nos2017-rankcent-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1287/opre.2016.1534" target="_blank" rel="noopener">Rank Centrality: Ranking from Pairwise Comparisons (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sahand Negahban, Sewoong Oh, Devavrat Shah
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1287/opre.2016.1534</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:032494b93711…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ARankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Rank Centrality Iterative Random-Walk Spectral Ranking from Pairwise Comparisons" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Rank Centrality...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:MarkovChain (3)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T05:28:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T05:28:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Rank%20Centrality%20Iterative%20Random-Walk%20Spectral%20Ranking%20from%20Pairwise%20Comparisons"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ARankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

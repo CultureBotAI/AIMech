@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singular Value Thresholding Algorithm for Matrix Completion · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Singular Value Thresholding Algorithm for Matrix Completion</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Singular Value Thresholding Algorithm for Matrix Completion</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Singular Value Thresholding, SVT Algorithm for Matrix Completion, Uzawa Singular Value Soft-Thresholding, Cai-Candes-Shen SVT Algorithm
+    </div>
+
+  <div class="detail-desc">
+    Singular Value Thresholding Algorithm for Matrix Completion (SVT) is a first-order primal-dual Uzawa/linearized-Bregman optimization method introduced by Cai, Candes, and Shen (2010) for large-scale low-rank matrix completion from a sampled entry subset Omega subset {1,...,n_1} x {1,...,n_2}. Rather than solving the unregularized nuclear-norm program directly via interior-point semidefinite programming, SVT solves the Moreau-Yosida regularized problem min_X tau ||X||_* + (1/2) ||X||_F^2 subject to P_Omega(X) = P_Omega(M) by alternating a singular value shrinkage step X^k = D_tau(Y^{k-1}) and a sparse dual ascent step Y^k = Y^{k-1} + delta_k P_Omega(M - X^k), where D_tau(Y) = U diag(max(sigma_i - tau, 0)) V^* is the closed-form proximal operator of tau ||.||_* (Theorem 2.1). Because Y^k is supported exclusively on Omega and only singular values exceeding tau are needed, SVT maintains both sparse dual matrices and low-rank primal iterates throughout execution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from exact nuclear-norm theoretical duality certificates (AIMech:ExactMatrixCompletionViaConvexOptimizationNuclearNorm), Grassmannian manifold alternating minimization OptSpace (AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion), and Hard-Thresholded AltMinComplete (AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion). Specifically captures the Cai-Candes-Shen (2010) SVT algorithm (Equations 1.4-1.5 and Algorithm 1), the nuclear-norm proximal shrinkage theorem D_tau(Y) = argmin_X {(1/2)||X - Y||_F^2 + tau ||X||_*} (Theorem 2.1), the equivalence between the regularized objective min tau ||X||_* + (1/2)||X||_F^2 and the nuclear-norm solution as tau -&gt; infinity (Theorem 3.1), and global convergence under 0 &lt; inf delta_k &lt;= sup delta_k &lt; 2 (Theorem 4.1).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any matrix Y = U Sigma V^* and threshold tau &gt;= 0, Theorem 2.1 proves that the singular value soft-thresholding operator D_tau(Y) = U D_tau(Sigma) V^* with D_tau(Sigma) = diag(max(sigma_i - tau, 0)) is the unique global minimizer of the proximal nuclear-norm functional (1/2)||X - Y||_F^2 + tau ||X||_* because Y - D_tau(Y) = tau(U_0 V_0^* + W) with U_0^* W = 0, W V_0 = 0, and ||W||_2 &lt;= 1 lies in the subdifferential tau * partial ||D_tau(Y)||_*.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r317-primary-pdf">A Singular Value Thresholding Algorithm for Matrix Completion</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Definitions and Theorem 2.1, Equations 2.1-2.6, pp. 4-5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r317-metadata-cr">A Singular Value Thresholding Algorithm for Matrix Completion (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for SIAM Journal on Optimization 20(4):1956-1982</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 3.1 proves that the unique solution Z_tau of the strongly convex surrogate min_X {tau ||X||_* + (1/2)||X||_F^2 : P_Omega(X) = P_Omega(M)} converges as tau -&gt; infinity to the minimum-Frobenius-norm solution X_hat of the pure nuclear-norm problem min_X {||X||_* : P_Omega(X) = P_Omega(M)} (and coincides with X_hat for finite tau &gt; tau_0 when Omega is finite), while Theorem 4.1 establishes that the Uzawa iterates X^k = D_tau(Y^{k-1}), Y^k = Y^{k-1} + delta_k P_Omega(M - X^k) converge globally to Z_tau whenever the step sizes satisfy 0 &lt; inf_k delta_k &lt;= sup_k delta_k &lt; 2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r317-primary-pdf">A Singular Value Thresholding Algorithm for Matrix Completion</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Theorem 3.1 and Lemma 3.2, pp. 7-9; Section 4.1, Lemma 4.2 and Theorem 4.1, pp. 9-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Selecting a large threshold tau is required so that the regularized optimum Z_tau closely approximates the pure nuclear-norm minimizer and keeps intermediate iterates low rank, but large tau slows down asymptotic convergence; conversely, step sizes delta_k violating the theoretical stability condition delta_k &lt; 2 (outside the empirical undersampled scaling delta = 1.2 * n_1 n_2 / |Omega|) can cause the dual updates to diverge.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r317-primary-pdf">A Singular Value Thresholding Algorithm for Matrix Completion</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, Parameter selection discussion, p. 3; Section 5.1, Step size and threshold trade-offs, pp. 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Faces a trade-off in choosing the regularization threshold tau: large tau guarantees low-rank intermediate iterates and small bias relative to pure nuclear-norm minimization but increases the number of first-order iterations required for high-precision convergence.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SVT recovers low-rank matrix structure via iterative singular value soft-thresholding.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Each SVT iteration computes truncated singular vectors exceeding threshold tau.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r317-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r317-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0810.3286v1" target="_blank" rel="noopener">A Singular Value Thresholding Algorithm for Matrix Completion</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jian-Feng Cai, Emmanuel J. Candes, Zuowei Shen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/080738970</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5f7f969ec4ca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r317-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r317-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0810.3286v1" target="_blank" rel="noopener">A Singular Value Thresholding Algorithm for Matrix Completion (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jian-Feng Cai, Emmanuel J. Candes, Zuowei Shen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0810.3286v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8261ef4b72cb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r317-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r317-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1137/080738970" target="_blank" rel="noopener">A Singular Value Thresholding Algorithm for Matrix Completion (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jian-Feng Cai, Emmanuel J. Candes, Zuowei Shen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/080738970</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8923fa446e33…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ASingularValueThresholdingAlgorithmForMatrixCompletion">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Singular Value Thresholding Algorithm for Matrix Completion" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Singular Value...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:DimensionalityReduction (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:26:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:26:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Singular%20Value%20Thresholding%20Algorithm%20for%20Matrix%20Completion"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASingularValueThresholdingAlgorithmForMatrixCompletion"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

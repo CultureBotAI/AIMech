@@ -1,0 +1,104 @@
+id: AIMech:AdaCgdAndAda3PcAdaptiveThreePointCompressionForDistributedOptimization
+name: AdaCGD and Ada3PC Adaptive Three-Point Compression for Distributed Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: "An adaptive communication compression framework and family of distributed optimization methods introduced by Makarenko, Gasanov, Islamov, Sadiev, and Richt\xE1rik (2022) that dynamically select the compression operator or compression level at every iteration and worker. Given a bank of m Three Point Compressors (3PC) {C_{h,y}^j}_{j=1}^m with parameters {(A_j, B_j)}_{j=1}^m and arbitrary user-specified trigger predicates {P_j(h, y, x)}_{j=1}^{m-1}, the Adaptive Three Point Compressor (Ada3PC, Definition 3) selects C_{h,y}^{ad}(x) = C_{h,y}^j(x) for the first index j where P_j(h, y, x) holds (or C_{h,y}^m(x) otherwise), and Adaptive Compressed Gradient Descent (AdaCGD, Definition 4) instantiates Ada3PC with m sorted EF21 contractive compressors (alpha_1 <= ... <= alpha_m) and lazy relative-variation predicates ||x - C_{h,y}^{EF,j}(x)||^2 <= zeta ||x - y||^2 to adaptively adjust the transmitted message size."
+identity_notes: "Distinct from fixed-parameter Three Point Compressors (3PC, Richt\xE1rik et al. 2022, which use a single static 3PC operator or a single binary lazy-aggregation threshold) and distinct from heuristic adaptive gradient compression schemes lacking error-feedback convergence guarantees: Ada3PC proves closure of the 3PC class under arbitrary data-dependent switching among m distinct 3PC compressors with worst-case constants A_min = min_j A_j and B_max = max_j B_j (Lemma 2), and further extends 3PC to convex objectives (Theorem 5) and bidirectional server-and-worker 3PC compression (3PC-BD, Algorithm 2, Theorem 6)."
+aliases:
+- Ada3PC
+- AdaCGD
+- 3PC-BD
+- Adaptive Three Point Compressor
+- Adaptive Compressed Gradient Descent
+definition_evidence:
+- source_id: r568-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r568-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r568-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: ada3pc-closure-under-arbitrary-predicate-switching
+  kind: mechanism
+  statement: Given m Three Point Compressors {C_{h,y}^j}_{j=1}^m satisfying E[||C_{h,y}^j(x) - x||^2] <= (1 - A_j)||h - y||^2 + B_j||x - y||^2 with A_j in (0, 1] and B_j >= 0, Lemma 2 proves that the adaptive selector C_{h,y}^{ad}(x) (Definition 3) is itself a valid Three Point Compressor for any choice of switching predicates {P_j(h, y, x)}_{j=1}^{m-1}, with parameters A_min = min_{j in [m]} A_j and B_max = max_{j in [m]} B_j.
+  evidence:
+  - source_id: r568-primary-pdf
+    locator: Section 4, Definition 3 & Lemma 2, p. 5; Appendix B.2, Proof of Lemma 2, p. 16
+    relation: supports
+- claim_id: adacgd-multi-level-ef21-lazy-variation-trigger-design
+  kind: mechanism
+  statement: AdaCGD (Definition 4) orders m contractive compressors {C_j}_{j=1}^m by increasing contractivity 0 < alpha_1 <= alpha_2 <= ... <= alpha_m <= 1, wraps each into an EF21 compressor C_{h,y}^{EF,j}(x) = h + C_j(x - h), first tests the zero-communication skip condition ||x - h||^2 <= zeta ||x - y||^2, and otherwise selects the most aggressive (smallest j) compressor satisfying ||x - C_{h,y}^{EF,j}(x)||^2 <= zeta ||x - y||^2 (defaulting to C_{h,y}^{EF,m}(x) if none satisfies the threshold), which by Corollary 1 is a 3PC compressor with A_min = 1 - sqrt(1 - alpha_1) and B_max = max(zeta, (1 - alpha_1)/(1 - sqrt(1 - alpha_1))).
+  evidence:
+  - source_id: r568-primary-pdf
+    locator: Section 4, Definition 4 & Corollary 1, pp. 5-6
+    relation: supports
+- claim_id: three-pc-convex-and-bidirectional-nonconvex-convergence-theorems
+  kind: scope
+  statement: Theorem 5 establishes the first general convex convergence rate E[f(x^T) - f(x*)] = O(1/T) for 3PC methods under L_i-smooth convex functions with step size gamma in (0, 1/(L + L_max sqrt(B/A))), while Algorithm 2 (3PC-BD) applies 3PC compressors C^w on workers (A_w, B_w) and C^M on the master broadcast (A_M, B_M), achieving O(1/T) nonconvex stationarity E[||nabla f(hat{x}^T)||^2] = O(1/T) under Theorem 6.
+  evidence:
+  - source_id: r568-primary-pdf
+    locator: Section 5.1, Theorem 5, p. 7; Section 5.2, Algorithm 2 (3PC-BD) & Theorem 6, pp. 8-9
+    relation: supports
+- claim_id: adacgd-trial-compression-overhead-and-worst-case-step-size-limitation
+  kind: limitation
+  statement: Evaluating the AdaCGD trigger condition ||x - C_{h,y}^{EF,j}(x)||^2 <= zeta ||x - y||^2 requires computing candidate compressed vectors across up to m compression levels locally on each worker (though for Top-k families a single coordinate-magnitude sort suffices for all k_1 < ... < k_m), and the theoretical step-size bound in Lemma 2 depends on the worst-case constants A_min = min_j A_j and B_max = max_j B_j across the compressor bank.
+  evidence:
+  - source_id: r568-primary-pdf
+    locator: Section 4, Lemma 2, Corollary 1 & discussion of Top-k / Sparsified-k implementation, pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r568-primary-pdf
+  title: Adaptive Compression for Communication-Efficient Distributed Training
+  authors: &id001
+  - Maksim Makarenko
+  - Elnur Gasanov
+  - Rustem Islamov
+  - Abdurakhmon Sadiev
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2211.00188.pdf
+  persistent_id: https://api.openalex.org/works/W4308015852
+  version: arXiv preprint arXiv:2211.00188 (Transactions on Machine Learning Research 2023) (2022) (1040744 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:51:00Z'
+  sha256: 5adbb553c5bbdb789accc0f7c3d5a18ba069f676fd432d853943a502026545d5
+- source_id: r568-arxiv-abs
+  title: Adaptive Compression for Communication-Efficient Distributed Training (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2211.00188
+  persistent_id: https://arxiv.org/abs/2211.00188
+  version: arXiv abstract page (6893 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:51:00Z'
+  sha256: 5986f6b1517a14e1b30340c0fee9d6e06c3200a48f31d85f422b840ed607314e
+- source_id: r568-metadata-cr
+  title: Adaptive Compression for Communication-Efficient Distributed Training (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/W4308015852
+  persistent_id: https://api.openalex.org/works/W4308015852
+  version: Crossref API work record (17327 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:51:00Z'
+  sha256: db15676a049349f713825a1d5cff6bb7c53f6724361dc46b25af294d20e84ff5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Ada3PC, AdaCGD, and 3PC-BD provide adaptive uplink and bidirectional gradient compression for distributed and federated optimization.
+limitations:
+- Theoretical step-size and complexity bounds via Lemma 2 depend on the worst-case constants A_min = min_j A_j and B_max = max_j B_j of the compressor bank.
+- Evaluating the adaptive predicate P_j(h, y, x) across m general compressors can incur up to m local compression evaluations per step unless the bank shares a common sorting/quantization structure such as Top-k.
+curation:
+  created_at: '2026-10-19T10:51:00Z'
+  updated_at: '2026-10-19T10:51:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

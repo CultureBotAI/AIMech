@@ -1,0 +1,101 @@
+id: AIMech:FedSamAndFedAsamSharpnessAwareMinimizationAndStochasticWeightAveragingForFederatedLearning
+name: FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic Weight Averaging for Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A sharpness-aware federated optimization framework (Caldarola, Caputo, & Ciccone 2022, Sections 3-4, Equations 1-5, Algorithm 1) that mitigates sharp-landscape misalignment across statistically heterogeneous clients by replacing local client SGD with Sharpness-Aware Minimization (FedSAM, perturbing local weights by epsilon^hat_k(w) = rho * grad L_k(w) / ||grad L_k(w)||_2, Equation 3) or Adaptive Sharpness-Aware Minimization (FedASAM, using scale-invariant normalization operator T_w^i = diag(|w|) so epsilon^tilde_k(w) = rho * T_w^2 grad L_k(w) / ||T_w grad L_k(w)||_2, Equation 5), combined on the server side with cyclic-learning-rate Stochastic Weight Averaging (SWA, w_SWA <- (w_SWA * n_models + w^{t+1}) / (n_models + 1) every c rounds starting at fraction s of total rounds, Algorithm 1).
+identity_notes: Distinct from centralized SAM (AIMech:SharpnessAwareMinimization, Foret et al. 2021) and centralized SWA (AIMech:StochasticWeightAveraging, Izmailov et al. 2018), which operate on a single centralized model without cross-client parameter averaging or heterogeneous client drift; and distinct from FedSpeed (AIMech:FedSpeedProxCorrectionAndGradientPerturbationForFederatedLearning, Sun et al. 2023), which combines a local proximal regularizer and prox-correction momentum variable g^hat_i^t with unnormalized extra-gradient perturbation rather than scale-invariant ASAM and server-side cyclic SWA.
+aliases:
+- FedSAM
+- FedASAM
+- Federated Sharpness-Aware Minimization
+- Federated Adaptive Sharpness-Aware Minimization
+definition_evidence:
+- source_id: r454-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r454-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r454-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r454-local-sam-and-scale-invariant-asam-perturbation-mechanism
+  kind: mechanism
+  statement: Drives each participating client k toward wider, lower-curvature basins (measured by reduced maximum Hessian eigenvalue lambda_max and trace Tr(H)) by evaluating local gradients at the adversarially perturbed point w + epsilon^hat_k(w) under Euclidean ball radius rho (FedSAM, Equation 3) or parameter-scale-normalized radius ||T_w^{-1} epsilon||_2 <= rho (FedASAM, Equations 4-5), reducing the loss barrier when heterogeneous client models are averaged on the server.
+  evidence:
+  - source_id: r454-primary-pdf
+    locator: Section 3.3 Loss Surfaces & Section 4.1 SAM and ASAM on the Client Side (Equations 2-5, Table 1, Figures 1-3), pp. 4-7
+    relation: supports
+- claim_id: r454-server-side-cyclic-swa-aggregation-scope
+  kind: scope
+  statement: Integrates server-side Stochastic Weight Averaging (SWA) after an initial warmup fraction s of total communication rounds by cycling the server-broadcast learning rate between alpha_1 and alpha_2 over cycle length c and updating the running average w_SWA <- (w_SWA * n_models + w^{t+1}) / (n_models + 1) at the minimum of each cycle without increasing client-server communication cost.
+  evidence:
+  - source_id: r454-primary-pdf
+    locator: Section 4.2 SWA on the Server Side & Algorithm 1, pp. 7-8
+    relation: supports
+- claim_id: r454-two-forward-backward-passes-per-local-step-limitation
+  kind: limitation
+  statement: Doubles the local per-minibatch backpropagation cost on participating clients because each local step requires one gradient evaluation to compute the ascent perturbation epsilon^hat_k(w) and a second gradient evaluation at w + epsilon^hat_k(w).
+  evidence:
+  - source_id: r454-primary-pdf
+    locator: Section 4.1 Equation 3 & Algorithm 1 Client Update, pp. 6-8
+    relation: supports
+- claim_id: r454-heterogeneous-federated-vision-generalization-application
+  kind: application
+  statement: Applied to heterogeneous cross-device federated vision benchmarks including CIFAR-10, CIFAR-100, Federated Extended MNIST (FEMNIST), and Landmarks-User-160k using GroupNorm-equipped ResNet and MobileNetV2 architectures.
+  evidence:
+  - source_id: r454-primary-pdf
+    locator: Section 5 Experiments (Tables 1-4, Figures 3-5), pp. 8-14
+    relation: supports
+evidence_sources:
+- source_id: r454-primary-pdf
+  title: Improving Generalization in Federated Learning by Seeking Flat Minima
+  authors: &id001
+  - Debora Caldarola
+  - Barbara Caputo
+  - Marco Ciccone
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/2203.11834
+  persistent_id: https://doi.org/10.1007/978-3-031-20050-2_38
+  version: Computer Vision - ECCV 2022, Lecture Notes in Computer Science, vol. 13683, pp. 654-672 (2022) (102710 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:57:00Z'
+  sha256: 729ea4595a15ef5b2e8ae670c457b5203824f8e94f9031fd86c61c627c7ae649
+- source_id: r454-arxiv-abs
+  title: Improving Generalization in Federated Learning by Seeking Flat Minima (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2203.11834
+  persistent_id: https://arxiv.org/abs/2203.11834
+  version: arXiv abstract page (14467 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:57:00Z'
+  sha256: cdc3282809a337833ba83da96ceca58c6a6260fc5c138e464f4169aa2e76dfe7
+- source_id: r454-metadata-cr
+  title: Improving Generalization in Federated Learning by Seeking Flat Minima (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1007/978-3-031-20050-2_38
+  persistent_id: https://doi.org/10.1007/978-3-031-20050-2_38
+  version: Crossref API work record (513 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:57:00Z'
+  sha256: f1e4e31eab3d19f7bd2c5108c51f2e8b09c6d8c06d8df1e21fa4dbf084ee5fd1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedSAM and FedASAM are federated learning optimization methods that combine client-side sharpness-aware minimization with server-side stochastic weight averaging.
+limitations:
+- Requires two forward-backward gradient evaluations per local minibatch step on each active client, doubling local compute cost.
+- Does not eliminate client drift when local objectives have disjoint optima without additional drift-correction or control variates.
+curation:
+  created_at: '2026-10-19T08:57:00Z'
+  updated_at: '2026-10-19T08:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

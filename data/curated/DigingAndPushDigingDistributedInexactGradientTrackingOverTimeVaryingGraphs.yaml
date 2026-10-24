@@ -1,0 +1,100 @@
+id: AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs
+name: DIGing and Push-DIGing (Distributed Inexact Gradient Tracking Over Time-Varying Graphs)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A pair of geometrically convergent distributed gradient tracking algorithms over time-varying graphs (Nedic, Olshevsky, & Shi 2017, Sections 2 and 4, Algorithms 1-2): (1) Distributed Inexact Gradient Tracking (DIGing, Algorithm 1), which updates x(k+1) = W(k) x(k) - alpha y(k) and y(k+1) = W(k) y(k) + nabla f(x(k+1)) - nabla f(x(k)) with y(0) = nabla f(x(0)) over B-connected sequences of doubly stochastic matrices W(k); and (2) Push-DIGing (Algorithm 2), which achieves geometric convergence over time-varying B-strongly-connected directed graphs using column-stochastic matrices C(k) via u(k+1) = C(k)(u(k) - alpha y(k)), v(k+1) = C(k) v(k), x(k+1) = V(k+1)^{-1} u(k+1), and y(k+1) = C(k) y(k) + nabla f(x(k+1)) - nabla f(x(k)).'
+identity_notes: Distinct from DSGT and GSGT (AIMech:DsgtAndGsgtDistributedStochasticGradientTracking, Pu & Nedic 2021), which analyze noisy stochastic gradients G(x_k, xi_k) over static expectation-doubly-stochastic graphs, and from Stochastic Gradient Push (AIMech:StochasticGradientPushAndOverlapSgpForDistributedDeepLearning, Assran et al. 2019), which omits the gradient tracker y(k) and achieves sublinear O(1 / sqrt(n K)) convergence rather than global R-linear geometric convergence O(lambda^k) over time-varying directed graphs.
+aliases:
+- DIGing and Push-DIGing
+- Distributed Inexact Gradient Tracking
+- Push-DIGing
+definition_evidence:
+- source_id: r431-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r431-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r431-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r431-small-gain-cyclic-loop-and-explicit-geometric-convergence-rate
+  kind: mechanism
+  statement: By modeling the four error sequences (||x - x^*||, ||y - bar_y||, ||bar_y||, ||x(k) - x(k-1)||) in exponentially weighted l_infty^{lambda} norms and bounding their B-step consensus contraction factor delta in [0, 1) (Lemma 3.3), the small-gain theorem (Theorem 3.5) proves that whenever the cyclic product gamma_1 gamma_2 gamma_3 gamma_4 < 1 holds, DIGing converges globally at the explicit R-linear rate O(lambda^k) with lambda = (1 - alpha bar_mu / 1.5)^{1/(2B)}, achieving polynomial complexity O(n^{4.5} bar_kappa^{1.5} ln(1 / varepsilon)) under lazy Metropolis weights (Theorem 3.7, Theorem 3.14, Corollaries 3.15-3.16).
+  evidence:
+  - source_id: r431-primary-pdf
+    locator: Section 3 Small-Gain Convergence Analysis (Lemmas 3.3-3.13, Theorem 3.7, Theorem 3.14, Corollaries 3.15-3.16)
+    relation: supports
+- claim_id: r431-push-diging-row-stochastic-similarity-transformation-on-digraphs
+  kind: mechanism
+  statement: In Push-DIGing (Algorithm 2), scaling the column-stochastic matrix C(k) by the diagonal PushSum weight matrix V(k) = diag(v(k)) defines the similarity-transformed matrix tilde_R(k) = V(k+1)^{-1} C(k) V(k) which is strictly row-stochastic (tilde_R(k) 1 = 1, Eq. 4.4), converting the de-biased iterate evolution into x(k+1) = tilde_R(k)(x(k) - alpha V(k)^{-1} y(k)) (Eq. 4.6a) while C(k) preserves 1^T y(k) = 1^T nabla f(x(k)), establishing global R-linear convergence O((lambda_P)^k) over time-varying B-strongly-connected directed graphs (Theorem 4.13).
+  evidence:
+  - source_id: r431-primary-pdf
+    locator: Section 4 Push-DIGing for Time-Varying Directed Graphs (Algorithm 2, Equations 4.1-4.8, Lemmas 4.1-4.12, Theorem 4.13)
+    relation: supports
+- claim_id: r431-exact-gradient-and-bounded-intercommunication-interval-limitation
+  kind: limitation
+  statement: Guarantees exact geometric convergence only for deterministic (noiseless) local gradients under bounded B-connected communication intervals and uniform positive lower bounds tau > 0 on nonzero mixing weights.
+  evidence:
+  - source_id: r431-primary-pdf
+    locator: Section 2.2 Assumptions 1-4 & Section 4.2 Assumptions 2'-3'
+    relation: supports
+- claim_id: r431-time-varying-wireless-sensor-network-huber-and-logistic-estimation-application
+  kind: application
+  statement: Applied to distributed Huber loss minimization and regularized logistic regression over time-varying undirected and directed multi-agent graphs.
+  evidence:
+  - source_id: r431-primary-pdf
+    locator: Section 5 Numerical Experiments (Figures 1-4), pp. 2627-2630
+    relation: supports
+evidence_sources:
+- source_id: r431-primary-pdf
+  title: Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs
+  authors: &id001
+  - Angelia Nedic
+  - Alex Olshevsky
+  - Wei Shi
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1607.03218
+  persistent_id: https://doi.org/10.1137/16M1084316
+  version: SIAM Journal on Optimization 27(4):2597-2633 (2017) (126343 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:34:00Z'
+  sha256: 5b4d942cb48752bbb8b0d71bcb8f3ac6a4df5116874f3574c798297a2566ec9a
+- source_id: r431-arxiv-abs
+  title: Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1607.03218
+  persistent_id: https://arxiv.org/abs/1607.03218
+  version: arXiv abstract page (14924 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:34:00Z'
+  sha256: 4d61bf09bd7efd31c145f4cf59f2826333ee7dc17c84b71298e1f503ff7eeb4e
+- source_id: r431-metadata-cr
+  title: Achieving Geometric Convergence for Distributed Optimization Over Time-Varying Graphs (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1137/16M1084316
+  persistent_id: https://doi.org/10.1137/16M1084316
+  version: Crossref API work record (361 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:34:00Z'
+  sha256: fdc60b7c9b28d0814c9a65738ea600dcc73e5fd4ec4e318bb5cd30b9cb3e13fb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: DIGing and Push-DIGing are foundational decentralized gradient-tracking optimization algorithms over time-varying undirected and directed networks.
+limitations:
+- Requires exchanging two d-dimensional vectors (iterate and gradient tracker) per communication step.
+- In Push-DIGing, each agent must know its instantaneous out-degree to construct column-stochastic weights.
+curation:
+  created_at: '2026-10-19T08:34:00Z'
+  updated_at: '2026-10-19T08:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

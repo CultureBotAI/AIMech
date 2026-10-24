@@ -1,0 +1,102 @@
+id: AIMech:D2VarianceReducedDecentralizedTrainingOverHeterogeneousData
+name: D2 (Decentralized Training over Decentralized Heterogeneous Data)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A heterogeneity-invariant decentralized stochastic optimization algorithm (Tang et al. 2018, Section 4, Algorithm 1, Equation 3) over a symmetric doubly stochastic mixing matrix W that eliminates the inter-worker data-heterogeneity variance zeta^2 of standard Decentralized Parallel SGD (D-PSGD) by replacing the single-step gossip update X_{t+1} = (X_t - gamma G(X_t; xi_t)) W with the two-step gradient-difference recurrence X_{t+1} = (2 X_t - X_{t-1} - gamma G(X_t; xi_t) + gamma G(X_{t-1}; xi_{t-1})) W initialized via X_1 = (X_0 - gamma G(X_0; xi_0)) W.
+identity_notes: Distinct from centralized federated control-variate methods such as SCAFFOLD (AIMech:ScaffoldStochasticControlledAveragingForFederatedLearning) and FedDyn (AIMech:FedDynDynamicRegularizationForFederatedLearning), which require a central server to aggregate control variates or model states, and from compressed decentralized methods DCD-PSGD/ECD-PSGD (AIMech:DcdPsgdAndEcdPsgdCompressedDecentralizedParallelStochasticGradientDescent) and Choco-SGD (AIMech:ChocoSgdAndChocoGossipDecentralizedCompressedOptimization), whose convergence bounds depend on the inter-worker gradient dissimilarity zeta^2.
+aliases:
+- D2
+- D^2 Decentralized Training over Decentralized Data
+- Heterogeneity-Invariant Two-Step Decentralized Parallel SGD
+definition_evidence:
+- source_id: r427-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r427-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r427-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r427-exact-inter-worker-heterogeneity-cancellation-and-nonconvex-rate
+  kind: mechanism
+  statement: Whereas D-PSGD suffers a stationary drift proportional to outer gradient variance zeta^2 = (1/n) sum_{i=1}^n ||nabla f_i(x) - nabla f(x)||^2, D2's gradient difference G(X_t; xi_t) - G(X_{t-1}; xi_{t-1}) cancels the heterogeneous mean nabla f_i(x^*) at a stationary point X^* = [x^*, ..., x^*] (leaving only intra-worker sampling variance 2 n sigma^2) while preserving the global mean update X_bar_{t+1} = X_bar_t - gamma G_bar_t (Eq. 4), achieving the smooth non-convex convergence rate O(sigma / sqrt(n T)) completely independent of ongoing inter-worker variance zeta^2 (Section 5, Theorem 2, Corollary 3).
+  evidence:
+  - source_id: r427-primary-pdf
+    locator: Section 4-5 Theoretical Analysis (Equation 4, Theorem 2, Corollary 3, Table 1) & Supplemental Material (Lemmas 4-8, Proof of Theorem 2)
+    relation: supports
+- claim_id: r427-mixing-matrix-eigenvalue-stability-threshold-minus-one-third
+  kind: mechanism
+  statement: Decomposing W = P Lambda P^T shows that each non-consensus eigenmode y_t^{(i)} (i >= 2) evolves according to the second-order characteristic polynomial r^2 - 2 lambda_i r + lambda_i = 0 with roots u_i, v_i = lambda_i +/- sqrt(lambda_i^2 - lambda_i) (Supplemental Lemma 6-7), which decay geometrically if and only if -1/3 < lambda_n(W) <= lambda_2(W) < 1; when lambda_n(W) <= -1/3, |v_n| >= 1 and the non-consensus mode diverges (Supplemental Material, lines 882-883).
+  evidence:
+  - source_id: r427-primary-pdf
+    locator: Section 5 Assumption 1 & Supplemental Material (Lemmas 6-7, Equations 11-15)
+    relation: supports
+- claim_id: r427-indefinite-mixing-matrix-shift-and-two-step-memory-limitation
+  kind: limitation
+  statement: Requires the smallest eigenvalue of the mixing matrix W to satisfy lambda_n(W) > -1/3 (requiring a lazy self-weight shift (W + alpha I)/(1 + alpha) on bipartite graphs where lambda_n(W) = -1) and requires storing both the previous iterate X_{t-1} and previous stochastic gradient G(X_{t-1}; xi_{t-1}).
+  evidence:
+  - source_id: r427-primary-pdf
+    locator: Section 4-5 Algorithm 1, Assumption 1 & Supplemental Material Lemma 7
+    relation: supports
+- claim_id: r427-non-iid-lenet-and-resnet-cifar10-decentralized-training-application
+  kind: application
+  statement: Applied to decentralized ring-topology training of LeNet and ResNet-20 on pathologically label-partitioned CIFAR-10 and MNIST where each worker holds only 1 or 2 classes, converging cleanly where D-PSGD diverges or stalls.
+  evidence:
+  - source_id: r427-primary-pdf
+    locator: Section 6 Experiments (Figures 1-4), pp. 4853-4855
+    relation: supports
+evidence_sources:
+- source_id: r427-primary-pdf
+  title: 'D2: Decentralized Training over Decentralized Data'
+  authors: &id001
+  - Hanlin Tang
+  - Xiangru Lian
+  - Ming Yan
+  - Ce Zhang
+  - Ji Liu
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1803.07068
+  persistent_id: https://proceedings.mlr.press/v80/tang18a.html
+  version: Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:4848-4856 (2018) (51956 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:30:00Z'
+  sha256: ba11822adfba1f866a84032451a66e4cccd3ee8ca9b9ed437013e79c0abef8d6
+- source_id: r427-arxiv-abs
+  title: 'D2: Decentralized Training over Decentralized Data (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1803.07068
+  persistent_id: https://arxiv.org/abs/1803.07068
+  version: arXiv abstract page (7455 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:30:00Z'
+  sha256: 767ffb922d94ad074e8466346ddb4ec277181d91f19bae8a245f8bc74d7ccd9b
+- source_id: r427-metadata-cr
+  title: 'D2: Decentralized Training over Decentralized Data (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/tang18a.html
+  persistent_id: https://proceedings.mlr.press/v80/tang18a.html
+  version: Crossref API work record (389 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:30:00Z'
+  sha256: 8f5934152e18d3298352aa89475808752cf8e44fedf0d9a6ad7189bbe2835df3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: D2 is a decentralized stochastic optimization algorithm designed for training over non-IID heterogeneous local datasets.
+limitations:
+- Unstable if the gossip mixing matrix W has an eigenvalue lambda_n(W) <= -1/3.
+- Doubles the intra-worker stochastic gradient variance term from sigma^2 to 2 sigma^2 due to differencing G(X_t; xi_t) - G(X_{t-1}; xi_{t-1}).
+curation:
+  created_at: '2026-10-19T08:30:00Z'
+  updated_at: '2026-10-19T08:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

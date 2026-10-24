@@ -1,0 +1,106 @@
+id: AIMech:COCODRDenseRetrievalDistributionallyRobustContrastiveLearning
+name: COCO-DR Contrastive and Distributionally Robust Zero-Shot Dense Retrieval
+concept_kind: algorithm
+review_status: DRAFT
+definition: A two-stage zero-shot dense retrieval training algorithm that mitigates document-side and query-side distribution shifts between a labeled source retrieval dataset and unlabeled target corpora by (1) performing Continuous Contrastive pretraining (COCO) on the target corpora using disjoint same-document span pairs (s_{i,1}, s_{i,2}) and masked language modeling to align and uniformly distribute target document representations, and (2) fine-tuning on source retrieval labels via Implicit Distributionally Robust Optimization (iDRO) L_iDRO(theta) = sum_{i=1}^K alpha_i omega_i l_i(theta) over K k-means source query clusters, where alpha_i proportional to [l_i(theta)]^beta up-weights harder clusters and omega_i^{t*} = omega_i^{(t-1)} exp((1/tau) sum_{j=1}^K r_{ij}) / Z dynamically reweights clusters via a KL-regularized first-order Taylor expansion using cross-cluster loss-and-gradient similarity r_{ij} = [l_i(theta) l_j(theta)]^beta (grad_theta l_i(theta))^T grad_theta l_j(theta).
+identity_notes: Distinct from coCondenser (Gao & Callan, ACL 2022, AIMech:CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining), which pre-trains on the source corpus (e.g., MS MARCO) and fine-tunes with uniform Empirical Risk Minimization without target-corpus adaptation or iDRO query-cluster reweighting; distinct from GPL (Wang et al., NAACL 2022, AIMech:GPLGenerativePseudoLabelingForDenseRetrieval), which generates synthetic queries and cross-encoder pseudo-labels to train a separate model per target task rather than a single unified zero-shot model; and distinct from GroupDRO (Sagawa et al., ICLR 2020, AIMech:GroupDistributionallyRobustOptimization), which weights groups solely by loss magnitude without the cross-cluster gradient dot-product similarity r_{ij}.
+aliases:
+- COCO-DR
+- COntinuous COntrastive and Implicit Distributionally Robust Dense Retrieval
+- COCO-DR Zero-Shot Dense Retrieval
+- Continuous Contrastive Pretraining with Implicit DRO (COCO + iDRO)
+definition_evidence:
+- source_id: r755-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r755-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r755-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r755-claim-distribution-shift-correlation-and-coco
+  kind: mechanism
+  statement: Because MS MARCO and BEIR tasks exhibit only 32.4% average query-intent similarity and 34.6% average document weighted Jaccard lexical similarity J(S, T) = sum_k min(S_k, T_k) / sum_k max(S_k, T_k), standard dense retrievers degrade severely under domain shift; COCO initializes from Condenser and continuously pre-trains on target corpora with sequence contrastive loss L_co = sum_{i=1}^n -log(exp(<g(s_{i,1}), g(s_{i,2})>) / sum_{j=1,2} sum_{s^- in B} exp(<g(s_{i,j}), g(s^-)>)) plus MLM to simultaneously improve target representation alignment l_align and hypersphere uniformity l_uniform.
+  evidence:
+  - source_id: r755-primary-pdf
+    locator: Section 3.2, Section 4.1, Section 5.4, & Appendix C-D and H, Equations 4, 13, 24-25, Figures 2 and 5, Table 6, pp. 3-4, 8-9, 16, 18
+    relation: supports
+- claim_id: r755-claim-idro-gradient-similarity-kkt-update
+  kind: mechanism
+  statement: During ANCE-style fine-tuning on MS MARCO, iDRO clusters source queries via k-means (K = 50) at each negative-refresh episode and solves min_{omega^{(t)}} l_g + tau D_KL(omega^{(t)} || omega^{(t-1)}) subject to sum_i omega_i^{(t)} = 1 over the first-order total cluster loss change l_g approx -eta sum_{i,j} alpha_i alpha_j omega_i^t (grad_theta l_i)^T grad_theta l_j, yielding the closed-form KKT update omega_i^{t*} = omega_i^{(t-1)} exp((1/tau) sum_{j=1}^K r_{ij}) / Z with r_{ij} = [l_i(theta) l_j(theta)]^beta (grad_theta l_i(theta))^T grad_theta l_j(theta) (beta = 0.25) that prioritizes clusters sharing aligned gradients.
+  evidence:
+  - source_id: r755-primary-pdf
+    locator: Section 4.2, Section 5.1, & Appendix E-F, Equations 5-12 and 14-23, Table 7, pp. 4-6, 17
+    relation: supports
+- claim_id: r755-claim-beir-zero-shot-application
+  kind: application
+  statement: Using a single unified dual-encoder across 18 BEIR zero-shot retrieval benchmarks, COCO-DR_Base (110M parameters) achieves 0.462 average nDCG@10 (outperforming BM25 at 0.428, ANCE at 0.389, ColBERT at 0.431, per-task GPL at 0.459, and 4.8B-parameter GTR_XXL at 0.458), while COCO-DR_Large (335M parameters) reaches 0.484 average nDCG@10 across all 18 tasks and 0.541 on the 11-task CPT subset, surpassing the 175B-parameter GPT-3 CPT_XL model (0.528) with 0.17% of its parameters.
+  evidence:
+  - source_id: r755-primary-pdf
+    locator: Abstract, Section 1, & Section 5.2-5.4, Figure 1, Tables 1-3, pp. 1-2, 6-8
+    relation: supports
+- claim_id: r755-claim-hyperparameter-fragmentation-and-theory-limitation
+  kind: limitation
+  statement: Setting the iDRO cluster count K too large (e.g., K >= 150-200) creates fragmented source query clusters that are distant from target BEIR tasks and degrades average nDCG@10, while extreme temperature values tau either collapse weights to uniform (large tau) or over-concentrate on a few clusters (small tau); moreover, COCO-DR requires access to the target document corpora for 200K steps (~1.5-3 days on 8 A100 GPUs) of continuous contrastive pre-training prior to fine-tuning.
+  evidence:
+  - source_id: r755-primary-pdf
+    locator: Section 5.1, Section 5.3 (Figure 3), & Limitations, pp. 6-7, 9
+    relation: supports
+evidence_sources:
+- source_id: r755-primary-pdf
+  title: 'COCO-DR: Combating Distribution Shifts in Zero-Shot Dense Retrieval with Contrastive and Distributionally Robust Learning'
+  authors: &id001
+  - Yue Yu
+  - Chenyan Xiong
+  - Si Sun
+  - Chao Zhang
+  - Arnold Overwijk
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2210.15212.pdf
+  persistent_id: https://arxiv.org/bibtex/2210.15212
+  version: Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022), pp. 1462-1479 (2022) (828583 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:58:00Z'
+  sha256: 1343e4dc99eef4931b56f02fd3be5dad6621fe287cfe55c4ca382dfca04bc9b1
+- source_id: r755-arxiv-abs
+  title: 'COCO-DR: Combating Distribution Shifts in Zero-Shot Dense Retrieval with Contrastive and Distributionally Robust Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2210.15212
+  persistent_id: https://arxiv.org/abs/2210.15212
+  version: arXiv abstract page (6685 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:58:00Z'
+  sha256: 263f6d44686a6a3d9f25362319916d7f9fec74d32fb4da2f227192e9a4d32c07
+- source_id: r755-metadata-cr
+  title: 'COCO-DR: Combating Distribution Shifts in Zero-Shot Dense Retrieval with Contrastive and Distributionally Robust Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2210.15212
+  persistent_id: https://arxiv.org/bibtex/2210.15212
+  version: Crossref API work record (475 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:58:00Z'
+  sha256: 270f788b3e3a5255ce2ad52baef997c656ea18c02824c9a978e27d17277c5e9a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: COCO-DR partitions source training queries into K clusters via k-means over dot-product embeddings to define implicit groups for distributionally robust reweighting.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: COCO-DR adapts and fine-tunes dual-tower BERT neural network encoders for zero-shot dense retrieval across heterogeneous domains.
+limitations:
+- Requires access to the target domain document corpora before deployment and ~1.5-3 days of continuous contrastive pre-training on 8 A100 GPUs in addition to 1.5-3 days of iDRO fine-tuning.
+- Sensitive to overly large k-means cluster counts (K >= 150) or extreme KL regularization temperatures tau in iDRO, and lacks a formal theoretical generalization bound connecting rare source-query cluster robustness to out-of-domain retrieval accuracy.
+curation:
+  created_at: '2026-10-19T13:58:00Z'
+  updated_at: '2026-10-19T13:58:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

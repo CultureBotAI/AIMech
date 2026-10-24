@@ -1,0 +1,103 @@
+id: AIMech:FedReconFederatedReconstructionForPartiallyLocalFederatedLearning
+name: FedRecon (Federated Reconstruction for Partially Local Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A stateless partially local federated learning framework (Singhal, Sidahmed, Garrett, Wu, Rush, & Prakash 2021, Sections 3-4, Equations 1-2, Algorithm 1, Proposition 4.1) that partitions model parameters into shared global parameters g in G and private local parameters l_i in L without requiring clients to persist local state across rounds: in each round t, each selected client i in S^{(t)} splits its local dataset D_i into a reconstruction support set R_i and an update query set U_i, initializes local parameters l_i^{(t,0)} fresh, performs k_r gradient descent steps on R_i with frozen g^{(t)} to reconstruct l_i^{(t)} = R(D_i, g^{(t)}, L_i) = argmin_{l_i in L} L_i(g^{(t)}, l_i) (Equation 1), performs k_u gradient descent steps on U_i with frozen reconstructed l_i^{(t)} to update g_i^{(t)}, discards l_i^{(t)}, and returns only the global parameter update Delta_i^{(t)} = g^{(t)} - g_i^{(t)} to the server (Algorithm 1).'
+identity_notes: Distinct from stateful partially local methods such as FedPer (AIMech:FedPerFederatedLearningWithPersonalizationLayers, Arivazhagan et al. 2019), FedRep (AIMech:FedRepExploitingSharedRepresentationsForPersonalizedFederatedLearning, Collins et al. 2021), and LG-FedAvg (AIMech:LgFedAvgLocalGlobalRepresentationsFederatedLearning, Liang et al. 2020), all of which require clients to persistently store their private parameters across communication rounds and cannot directly evaluate on unseen stateless cross-device clients without a reconstruction step; FedRecon discards local parameters after every round and reconstructs them on the fly via support/query splitting, naturally generalizing to unseen clients at inference time via ReconEval.
+aliases:
+- FedRecon
+- Federated Reconstruction
+- Stateless Partially Local Federated Learning via Reconstruction
+definition_evidence:
+- source_id: r481-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r481-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r481-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r481-stateless-on-the-fly-reconstruction-and-reconevaluation-mechanism
+  kind: mechanism
+  statement: Instead of maintaining persistent client state l_i across rounds, FedRecon reconstructs l_i^{(t)} from scratch on each active client's reconstruction split R_i via k_r gradient steps with frozen global parameters g^{(t)} before updating g_i^{(t)} on update split U_i and discarding l_i^{(t)}; at inference time (ReconEval), any unseen client reconstructs its personal parameters l_i from R_i in k_r steps and evaluates on U_i (Singhal et al. 2021, Section 3, Algorithm 1, pp. 3-4).
+  evidence:
+  - source_id: r481-primary-pdf
+    locator: Section 3 (Equations 1-2, Algorithm 1), pp. 3-4
+    relation: supports
+- claim_id: r481-first-order-maml-equivalence-and-bilevel-convergence-scope
+  kind: scope
+  statement: Proposition 4.1 proves that for one reconstruction step (k_r = 1 on R_i with step size alpha_r) and one global update step (k_u = 1 on U_i), FedRecon optimizes the bi-level meta-learning objective min_g (1/|C|) sum_i F_i(g) = L_i(g, l_i - alpha_r nabla_l L_i(g, l_i)) using the first-order MAML gradient nabla_g L_{U_i}(g, l_i^{(t)}) (omitting the expensive second-order Hessian cross-term alpha_r nabla_g nabla_l L_i) and converges to an O(alpha_r)-stationary point at rate O(1/sqrt(T) + alpha_r) in smooth non-convex settings (Singhal et al. 2021, Section 4 & Appendix C).
+  evidence:
+  - source_id: r481-primary-pdf
+    locator: Section 4 (Proposition 4.1), pp. 5-6, and Appendix C (Proposition C.4), pp. 14-16
+    relation: supports
+- claim_id: r481-federated-matrix-factorization-and-next-word-prediction-application
+  kind: application
+  statement: Applied to federated collaborative filtering via matrix factorization on MovieLens-1M (where user embeddings U_i are reconstructed locally and item embeddings V are aggregated globally) and personalized next-word prediction on StackOverflow with user-specific vocabulary bias/head layers (Singhal et al. 2021, Section 5, Figures 2-4, Tables 1-2).
+  evidence:
+  - source_id: r481-primary-pdf
+    locator: Section 5.1-5.2 (Figures 2-4, Tables 1-2), pp. 6-9
+    relation: supports
+- claim_id: r481-support-split-requirement-for-reconstruction-limitation
+  kind: limitation
+  statement: Requires every participating and evaluated client to hold a labeled support subset R_i with enough local examples to reconstruct l_i^{(t)} in k_r steps without overfitting before global updates or inference can be performed (Singhal et al. 2021, Section 3 & Section 5.1, pp. 4 & 7).
+  evidence:
+  - source_id: r481-primary-pdf
+    locator: Section 3 (Dataset Splitting), p. 4, and Section 5.1, p. 7
+    relation: supports
+evidence_sources:
+- source_id: r481-primary-pdf
+  title: 'Federated Reconstruction: Partially Local Federated Learning'
+  authors: &id001
+  - Karan Singhal
+  - Hakim Sidahmed
+  - Zachary Garrett
+  - Shanshan Wu
+  - Keith Rush
+  - Sushant Prakash
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.03448.pdf
+  persistent_id: https://arxiv.org/abs/2102.03448
+  version: NeurIPS 2021 (2021) (1540 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:24:00Z'
+  sha256: ebc1ae9b3dba9ff049e1a053e3affcb430dffec16ea3928208d6a479bbb741e0
+- source_id: r481-arxiv-abs
+  title: 'Federated Reconstruction: Partially Local Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.03448
+  persistent_id: https://arxiv.org/abs/2102.03448
+  version: arXiv abstract page (667 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:24:00Z'
+  sha256: 2450f6b72c011e96b0bb2fa8ec1ad115c6c7f3356e0fed057dba49ceba4ec77b
+- source_id: r481-metadata-cr
+  title: 'Federated Reconstruction: Partially Local Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.03448
+  persistent_id: https://arxiv.org/abs/2102.03448
+  version: Crossref API work record (338 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:24:00Z'
+  sha256: fc08ed8b13dbbd9b00c07fde4814ae03ee58a12ac4ff68eb95d02330e0d33d80
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedRecon is a stateless partially local federated learning algorithm within the broader FederatedLearning category.
+limitations:
+- Requires splitting each client's local dataset D_i into separate reconstruction (R_i) and update (U_i) subsets, reducing the sample size available for each phase.
+- Performs k_r reconstruction gradient steps in every round from scratch, adding local compute overhead compared to stateful partially local methods.
+curation:
+  created_at: '2026-10-19T09:24:00Z'
+  updated_at: '2026-10-19T09:24:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

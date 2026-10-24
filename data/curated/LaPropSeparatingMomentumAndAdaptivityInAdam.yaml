@@ -1,0 +1,107 @@
+id: AIMech:LaPropSeparatingMomentumAndAdaptivityInAdam
+name: LaProp (Decoupled Momentum and Adaptivity Optimizer)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive first-order stochastic optimization algorithm that decouples parameter-space momentum from root-mean-square gradient adaptivity by normalizing the current gradient by its bias-corrected second-moment estimate prior to accumulating momentum. Given momentum parameter mu in [0, 1), adaptivity parameter nu in [0, 1), and bias correction factors c_m = 1 - mu^t and c_n = 1 - nu^t, LaProp updates n_t = nu n_{t-1} + (1 - nu) g_t^2, m_t = mu m_{t-1} + (1 - mu) g_t / (sqrt(n_t / c_n) + eps), and theta_{t+1} = theta_t - lambda_t m_t / c_m, bersama with decoupled-weight-decay (LaPropW), monotonic-second-moment (AmsProp), and variance-centered (Centered LaProp) extensions.
+identity_notes: 'Distinct from Adam (Kingma and Ba 2015) and ADOPT (AIMech:AdoptModifiedAdamOptimalConvergenceAnyBeta2): in the generalized adaptive update theta_{t+1} = theta_t - lambda_t G_t nabla l(theta_t) + mu_t K_t (theta_t - theta_{t-1}) (Eq. 2), Adam induces K_t = H_t^{-1} H_{t-1} (reweighting past parameter momentum by the current preconditioner and diverging when nu -> 0 with mu > 0), whereas LaProp sets K_t = I by normalizing g_t with contemporaneous bias-corrected sqrt(n_t / c_n) + eps before momentum accumulation (unlike ADOPT, which uses the lagged un-bias-corrected v_{t-1}). Originally circulated as ''LaProp: a Better Way to Combine Momentum with Adaptive Gradient'' (v1) and revised as ''LaProp: Separating Momentum and Adaptivity in Adam'' (v3).'
+aliases:
+- LaProp Optimizer
+- LaProp Separating Momentum and Adaptivity in Adam
+- LaPropW and AmsProp and Centered LaProp
+definition_evidence:
+- source_id: r605-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r605-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r605-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: parameter-space-momentum-decoupling-and-signed-gradient-interpolation
+  kind: mechanism
+  statement: In the generalized adaptive framework theta_{t+1} = theta_t - lambda_t G_t nabla l(theta_t) + mu_t K_t (theta_t - theta_{t-1}) (Eq. 2, p. 3), Adam has K_t = H_t^{-1} H_{t-1} (Eq. 6), which causes accumulated parameter-space momentum to vanish when a single exploding gradient enlarges H_t and yields infinite update variance Var[lim_{nu->0} m_t / sqrt(n_t)] = infty when nu -> 0 and mu > 0 (Eq. 8, p. 4); LaProp sets K_t = I (Eq. 7) and smoothly interpolates to Signed Stochastic Gradient with Momentum theta_{t+1} = theta_t - (1 - mu) lambda_t sgn(nabla l(theta_t)) + mu (theta_t - theta_{t-1}) as nu -> 0 (Section 3, Table 1, p. 4-5).
+  evidence:
+  - source_id: r605-primary-pdf
+    locator: Section 2.2-3.2, Eqs. 2-8 and Table 1, p. 3-5
+    relation: supports
+- claim_id: unconditional-update-bound-proposition-1-versus-adam-proposition-2
+  kind: mechanism
+  statement: Proposition 1 (Section 4, p. 6; Appendix A.1, Eqs. 10-12, p. 14) proves that the bias-corrected LaProp update magnitude is unconditionally bounded above by |m_t / c_m(t)| <= 1 / sqrt(1 - nu) for all mu, nu in [0, 1) independently of mu, whereas Proposition 2 (p. 6; Appendix A.2, Eqs. 13-15, p. 14) shows that Adam's update bound |(m_t / c_m(t)) / sqrt(n_t / c_n(t))| <= 1 / (sqrt(1 - nu)(1 - gamma)) with gamma = mu / sqrt(nu) holds only in the restricted regime mu < sqrt(nu).
+  evidence:
+  - source_id: r605-primary-pdf
+    locator: Section 4, Propositions 1-2, p. 6; Appendix A.1-A.2, Eqs. 10-15, p. 14
+    relation: supports
+- claim_id: convex-regret-bound-without-mu-sqrt-nu-coupling-theorem-1
+  kind: scope
+  statement: Under convex objectives with bounded gradients ||nabla l_t(theta)||_infty <= G_infty, bounded iterate diameter ||theta_{t1} - theta_{t2}||_infty <= D, decaying stepsizes lambda_t = lambda / sqrt(t), and s_{t+1} / lambda_{t+1} >= s_t / lambda_t where s_t = sqrt(n_t / c_n), Theorem 1 (Section 4, Eq. 9, p. 6; Appendix A.3, Eqs. 16-26, p. 15-17) proves O(sqrt(T)) regret for LaProp across all mu, nu in [0, 1), replacing Adam/AMSGrad's coupled factor 1 / ((1 - mu)(1 - mu/sqrt(nu))) with 1 / ((1 - mu)(1 - nu)).
+  evidence:
+  - source_id: r605-primary-pdf
+    locator: Section 4, Theorem 1 and Eq. 9, p. 6-7; Appendix A.3, Eqs. 16-26, p. 15-17
+    relation: supports
+- claim_id: noisy-rosenbrock-extreme-depth-mlp-transformer-and-atari-benchmarks
+  kind: application
+  statement: LaProp converges across the full adaptivity range nu in [0, 1) on high-noise Rosenbrock optimization and VGG-19 neural style transfer where Adam and AMSGrad diverge at small nu, trains 500-layer and 1000-layer ReLU networks on MNIST, accelerates IWSLT14 De-En and Wikipedia RoBERTa transformer training, and achieves higher Rainbow DQN rewards across 20 Atari-2600 games.
+  evidence:
+  - source_id: r605-primary-pdf
+    locator: Section 5.1-5.5, Figures 2-6, p. 7-10; Appendix C, Figures 7-15, p. 20-27
+    relation: supports
+- claim_id: non-decreasing-preconditioner-ratio-assumption-and-centered-instability
+  kind: limitation
+  statement: Theorem 1's regret guarantee still relies on the monotonicity assumption s_{t+1,i} / lambda_{t+1} >= s_{t,i} / lambda_t (unless enforced via the AmsProp maximum operation in Algorithm 3, which empirically degrades early-stage speed), and the Centered LaProp extension (Algorithm 4, Appendix B.5, p. 19) is unstable during initial steps t < t_init and diverges under a constant non-zero gradient.
+  evidence:
+  - source_id: r605-primary-pdf
+    locator: Section 4, p. 7; Appendix A.3, p. 17; Appendix B.4-B.5, Algorithms 3-4, p. 18-19
+    relation: supports
+evidence_sources:
+- source_id: r605-primary-pdf
+  title: 'LaProp: Separating Momentum and Adaptivity in Adam'
+  authors: &id001
+  - Liu Ziyin
+  - Zhikang T. Wang
+  - Masahito Ueda
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.04839
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2002-04839
+  version: arXiv:2002.04839 (2020) (2503965 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:28:00Z'
+  sha256: 8e5ee53e142cfb4f8fe40111d3fa45035f814a9a2d80de7e665d507625e0d721
+- source_id: r605-arxiv-abs
+  title: 'LaProp: Separating Momentum and Adaptivity in Adam (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.04839
+  persistent_id: https://arxiv.org/abs/2002.04839
+  version: arXiv abstract page (6532 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:28:00Z'
+  sha256: 9a269ee73f515c6ac39c8b84858b22204ead2aa5ba7e8ac5005ec8ed460dc29d
+- source_id: r605-metadata-cr
+  title: 'LaProp: Separating Momentum and Adaptivity in Adam (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2002-04839
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2002-04839
+  version: Crossref API work record (468 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:28:00Z'
+  sha256: 00faf5dbe1310b1489e4a8aeba6ae09e2f37d8c731ef1b8fab0a2e937add43a4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LaProp is an adaptive stochastic gradient method for training deep artificial neural networks, transformers, and reinforcement learning agents.
+limitations:
+- Theoretical convex regret guarantees in Theorem 1 require the non-decreasing preconditioner-to-stepsize ratio assumption s_{t+1,i}/lambda_{t+1} >= s_{t,i}/lambda_t unless paired with AmsProp's running maximum.
+- The Centered LaProp variant (Algorithm 4) can diverge when gradients are constant and requires an uncentered warmup phase t < t_init to avoid early-iteration instability.
+curation:
+  created_at: '2026-10-19T11:28:00Z'
+  updated_at: '2026-10-19T11:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

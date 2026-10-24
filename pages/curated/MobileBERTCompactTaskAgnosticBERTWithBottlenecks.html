@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures and Progressive Knowledge Transfer · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/architecture.html">Architectures</a>
+    <span>/</span>
+    <strong>MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures and Progressive Knowledge Transfer</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures and Progressive Knowledge Transfer</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:MobileBERTCompactTaskAgnosticBERTWithBottlenecks</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MobileBERT, MobileBERT Bottleneck Transformer Architecture, Inverted-Bottleneck Progressive Knowledge Transfer for MobileBERT
+    </div>
+
+  <div class="detail-desc">
+    A deep-and-thin task-agnostic 24-layer Transformer architecture and progressive distillation framework that compresses BERT width rather than depth by equipping both an Inverted-Bottleneck teacher (IB-BERT_LARGE, inter-block hidden dimension 512 and intra-block dimension 1024) and a bottlenecked student (MobileBERT, inter-block dimension 512 and intra-block dimension 128) with shared-dimension linear input/output projections, stacking 4 feed-forward networks per Multi-Head Attention block to restore the 1:2 MHA-to-FFN parameter ratio, compressing token embeddings to 128 dimensions with a kernel-3 1D convolution, replacing LayerNorm and GELU with elementwise affine NoNorm(h) = gamma o h + beta and ReLU, and transferring layer-wise feature maps and attention distributions bottom-to-top across L stages via Progressive Knowledge Transfer (PKT) followed by Pre-training Distillation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Zhiqing Sun, Hongkun Yu, Xiaodan Song, Renjie Liu, Yiming Yang, and Denny Zhou (ACL 2020, pp. 2158-2170, arXiv:2004.02984, doi:10.18653/v1/2020.acl-main.195). Distinct from shallow-and-wide BERT distillation methods such as DistilBERT (Round 803), BERT-PKD (Round 802), TinyBERT (Round 800), and MiniLM (Round 801): MobileBERT preserves the full 24-layer depth of BERT_LARGE to avoid the capacity loss of depth reduction and narrows intra-block hidden dimensions via matched inter-block linear bottlenecks (d_inter = 512) so that Feature Map Transfer (Eq. 2) and Attention Transfer (Eq. 3) require no auxiliary projection matrices.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r804-claim-bottleneck-and-stacked-ffn-architecture</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MobileBERT pairs a 24-layer Inverted-Bottleneck teacher (IB-BERT_LARGE with inter-block hidden size 512 and intra-block hidden size 1024) with a 24-layer bottlenecked student (inter-block hidden size 512 and intra-block hidden size 128 with 512-dimensional residual connections), and replaces the single FFN in each block with 4 stacked FFNs (128 input/output, 512 intermediate) to restore the 1:2 Multi-Head Attention-to-FFN parameter ratio distorted by the bottleneck projections.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r804-primary-pdf">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 (Bottleneck and Inverted-Bottleneck) &amp; Section 2.2 (Stacked Feed-Forward Networks), Figure 1 &amp; Table 1, Pages 2-3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r804-primary-pdf">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a></span>
+        <span>· <strong>Locator:</strong> MHA-to-FFN parameter ratio verification (2:1 with 1 FFN vs 1:2 with 4 stacked FFNs) in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r804-claim-progressive-knowledge-transfer-equations</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because joint multi-layer transfer across 24 layers can destabilize student optimization, MobileBERT trains the student via L-stage bottom-to-top Progressive Knowledge Transfer (PKT), where stage l freezes lower layers 1..l-1 and minimizes a linear combination of Feature Map Transfer L_FMT^l = (1/(T*N)) sum_{t=1}^T sum_{n=1}^N (H_{t,l,n}^{tr} - H_{t,l,n}^{st})^2 (Eq. 2) and Attention Transfer L_AT^l = (1/(T*A)) sum_{t=1}^T sum_{a=1}^A D_KL(a_{t,l,a}^{tr} || a_{t,l,a}^{st}) (Eq. 3), followed by Pre-training Distillation L_PD = alpha * L_MLM + (1 - alpha) * L_KD + L_NSP (Eq. 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r804-primary-pdf">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4 (Training Objectives) &amp; Section 2.5 (Training Strategies), Equations 2-4 &amp; Figure 2, Pages 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r804-primary-pdf">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a></span>
+        <span>· <strong>Locator:</strong> feature_map_transfer_loss, attention_transfer_loss, and L_PD verification in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r804-claim-operational-optimizations-and-benchmark-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Replacing LayerNorm with the elementwise affine operation NoNorm(h) = gamma o h + beta (Eq. 1), GELU with ReLU, and 768-d embeddings with 128-d embeddings expanded by a kernel-3 1D convolution yields a 25.3M-parameter MobileBERT that is 4.3x smaller and 5.5x faster than BERT_BASE (62 ms vs. 342 ms latency on a Pixel 4 phone), achieving 77.7 GLUE test score (0.6 below BERT_BASE) and 90.0 / 79.2 dev F1 on SQuAD v1.1 / v2.0 (+1.5 / +2.1 F1 over BERT_BASE).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r804-primary-pdf">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 (Operational Optimizations, Eq. 1) &amp; Section 3 (Experiments, Tables 2-4), Pages 3-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r804-claim-custom-ib-teacher-pretraining-cost</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MobileBERT cannot directly distill intermediate layer feature maps and 4-head attention maps from an off-the-shelf standard BERT_LARGE checkpoint; it requires first pre-training a custom 24-layer Inverted-Bottleneck teacher (IB-BERT_LARGE) from scratch whose inter-block dimension (512) and head count (4) match the student, followed by 24 sequential layer-wise PKT stages.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r804-primary-pdf">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Section 2.5 (Progressive Knowledge Transfer), and Section 3.1 (Implementation Details), Pages 2-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires pre-training a custom 24-layer Inverted-Bottleneck teacher (IB-BERT_LARGE) with matched inter-block dimension (512) and attention head count (4) before student distillation.</li>
+      <li>Progressive Knowledge Transfer requires L=24 sequential layer-by-layer training stages prior to Pre-training Distillation.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Distillation.html" style="font-weight: 600;"><code>AIO:Distillation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Distillation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MobileBERT introduces L-stage bottom-to-top Progressive Knowledge Transfer (PKT) combining Feature Map Transfer (FMT), Attention Transfer (AT), and Pre-training Distillation (PD) from an Inverted-Bottleneck teacher.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MobileBERT is a deep-and-thin 24-layer bottleneck Transformer neural network architecture with 4 stacked FFNs per Multi-Head Attention block and operational NoNorm layers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r804-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r804-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.02984.pdf" target="_blank" rel="noopener">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhiqing Sun, Hongkun Yu, Xiaodan Song, Renjie Liu, Yiming Yang, Denny Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.02984</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5206d731107a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r804-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r804-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2004.02984" target="_blank" rel="noopener">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhiqing Sun, Hongkun Yu, Xiaodan Song, Renjie Liu, Yiming Yang, Denny Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2004.02984</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b5bd64da56b6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r804-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r804-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2004.02984" target="_blank" rel="noopener">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhiqing Sun, Hongkun Yu, Xiaodan Song, Renjie Liu, Yiming Yang, Denny Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2004.02984</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1ce81e974047…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AMobileBERTCompactTaskAgnosticBERTWithBottlenecks">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures and Progressive Knowledge Transfer" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Architectures</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:MobileBERTCompactTaskAgnosticBERTWithBottlenecks</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">MobileBERT: Compact...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:Distillation (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:47:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:47:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MobileBERTCompactTaskAgnosticBERTWithBottlenecks.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MobileBERTCompactTaskAgnosticBERTWithBottlenecks.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=MobileBERT%3A%20Compact%20Task-Agnostic%20BERT%20with%20Bottleneck%20Structures%20and%20Progressive%20Knowledge%20Transfer"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AMobileBERTCompactTaskAgnosticBERTWithBottlenecks"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

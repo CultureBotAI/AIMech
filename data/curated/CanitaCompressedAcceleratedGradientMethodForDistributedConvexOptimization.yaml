@@ -1,0 +1,102 @@
+id: AIMech:CanitaCompressedAcceleratedGradientMethodForDistributedConvexOptimization
+name: CANITA Compressed Accelerated Gradient Method for Distributed Convex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A compressed Nesterov-style accelerated gradient algorithm for distributed smooth convex optimization across n machines (Algorithm 1) that couples three momentum-coupled iterate sequences (x^t, y^t, z^t) with a randomized loopless control-variate reference point w^t (updated to z^t with probability p_t) and worker-side DIANA-style gradient shifts h_i^{t+1} = h_i^t + alpha_t Q_i^t(nabla f_i(w^t) - h_i^t) under randomized unbiased (omega)-compressors, achieving the accelerated O(sqrt((1 + omega) L / eps) + omega * (L / (n * eps))^{1/3} + (omega * L / (n * eps))^{1/2}) communication complexity in general smooth convex regimes without strong convexity.
+identity_notes: Distinct from non-accelerated DIANA (Mishchenko et al., 2019; O((1 + omega/n) L / eps) in general convex settings), ADIANA (Li et al., ICML 2020; requires strong convexity mu > 0), and uncompressed ANITA (Li, 2021). CANITA (Li & Richtarik, NeurIPS 2021, arXiv:2107.09461) is the first distributed method with communication compression to achieve the accelerated O(sqrt(L/eps)) leading term on general smooth convex objectives.
+aliases:
+- CANITA
+- Compressed Accelerated Gradient Method CANITA
+- CANITA Distributed Convex Optimization Algorithm
+definition_evidence:
+- source_id: r560-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r560-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r560-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: canita-dual-compressed-difference-estimator-with-probabilistic-anchor-mechanism
+  kind: mechanism
+  statement: At each communication round t, CANITA forms the extrapolated query point y^t = theta_t x^t + (1 - theta_t) w^t, each worker i transmits two compressed gradient differences Q_i^t(nabla f_i(y^t) - h_i^t) and Q_i^t(nabla f_i(w^t) - h_i^t) to form the global gradient estimator g^t = h^t + (1/n) sum_i Q_i^t(nabla f_i(y^t) - h_i^t) and shift update h_i^{t+1} = h_i^t + alpha_t Q_i^t(nabla f_i(w^t) - h_i^t), updates x^{t+1} = x^t - (eta_t/theta_t) g^t and z^t = theta_t x^{t+1} + (1 - theta_t) w^t, and resets w^{t+1} = z^t with probability p_t (or keeps w^t with probability 1 - p_t).
+  evidence:
+  - source_id: r560-primary-pdf
+    locator: Section 4 Algorithm 1 & Equations (3)-(4) p. 5
+    relation: supports
+- claim_id: canita-accelerated-general-convex-communication-complexity-scope
+  kind: scope
+  statement: Under L-average smoothness (Assumption 1) and unbiased omega-compression (Definition 1) with theta_t = 3(1+b)/(t + 9(1+b+omega)), p_t = 1/(1+b), alpha_t = 1/(1+omega), and b = min{omega, sqrt(omega(1+omega)^2 / n)} (Theorem 2 & Corollary 1), CANITA achieves an eps-suboptimal solution f(z^T) - f(x^*) <= eps in O(sqrt((1+omega) L / eps) + omega * (L / (n * eps))^{1/3} + (omega * L / (n * eps))^{1/2}) communication rounds, achieving strictly O(sqrt(L/eps)) round complexity when n >= omega^3.
+  evidence:
+  - source_id: r560-primary-pdf
+    locator: Section 5 Theorem 1, Theorem 2 & Corollary 1 pp. 6-7
+    relation: supports
+  - source_id: r560-arxiv-abs
+    locator: Abstract
+    relation: supports
+- claim_id: canita-unbiased-compressor-and-double-message-per-round-limitation
+  kind: limitation
+  statement: CANITA's convergence analysis requires randomized unbiased compression operators satisfying E[Q(x)] = x and E[||Q(x) - x||^2] <= omega ||x||^2 (excluding contractive biased compressors such as Top-k without error feedback) and transmits two compressed vectors per worker per round (for y^t and w^t).
+  evidence:
+  - source_id: r560-primary-pdf
+    locator: Section 3 Definition 1 p. 4 & Algorithm 1 Line 5 p. 5
+    relation: supports
+- claim_id: canita-distributed-convex-logistic-and-linear-regression-application
+  kind: application
+  statement: Applied to distributed regularized logistic regression and unregularized convex learning across multiple worker nodes using randomized sparsification (Rand-k) and quantization (QSGD).
+  evidence:
+  - source_id: r560-primary-pdf
+    locator: Section 3 Examples 1-2 p. 4 & Section 6 p. 9
+    relation: supports
+evidence_sources:
+- source_id: r560-primary-pdf
+  title: 'CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression'
+  authors: &id001
+  - Zhize Li
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2107.09461.pdf
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2107.09461
+  version: Advances in Neural Information Processing Systems (NeurIPS 2021, Vol. 34, pp. 13770-13781) (2021) (4004063 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:43:00Z'
+  sha256: e0711a16e7e76a4fdc4c86299c6242588e1d2e573cdbe0d2abed702e08d854fc
+- source_id: r560-arxiv-abs
+  title: 'CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2107.09461
+  persistent_id: https://arxiv.org/abs/2107.09461
+  version: arXiv abstract page (7523 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:43:00Z'
+  sha256: 7d1dfa5d56b858d506a998f94c9b419898f3dd7e4f8637be2a7507d43340cd4e
+- source_id: r560-metadata-cr
+  title: 'CANITA: Faster Rates for Distributed Convex Optimization with Communication Compression (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2107.09461
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.2107.09461
+  version: Crossref API work record (20468 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:43:00Z'
+  sha256: 21114949f2e54d21c0f0e13d726f4a81e29e51c2eb61b36318ca8a528b378b4c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: CANITA is a communication-compressed accelerated distributed convex optimization algorithm applicable to multi-worker and federated training.
+limitations:
+- Requires unbiased omega-compression operators (excluding contractive biased compressors without error feedback).
+- Transmits two compressed gradient differences per worker in each communication round.
+curation:
+  created_at: '2026-10-19T10:43:00Z'
+  updated_at: '2026-10-19T10:43:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

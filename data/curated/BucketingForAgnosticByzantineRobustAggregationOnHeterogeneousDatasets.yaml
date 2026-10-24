@@ -1,0 +1,100 @@
+id: AIMech:BucketingForAgnosticByzantineRobustAggregationOnHeterogeneousDatasets
+name: s-Bucketing for Agnostic Byzantine-Robust Aggregation on Heterogeneous Datasets
+concept_kind: algorithm
+review_status: DRAFT
+definition: A randomized pre-aggregation meta-algorithm proposed by Karimireddy, He, and Jaggi (ICLR 2022) that adapts classical IID Byzantine-robust aggregators (such as Krum, Coordinate-Wise Median, and Geometric Median / RFA) to heterogeneous non-IID datasets by randomly permuting the n worker momentum vectors in each round into ceil(n/s) buckets of size at most s, averaging the vectors within each bucket to reduce inter-client pairwise variance by a factor of 1/s, and feeding the bucket averages into the base robust aggregator to satisfy the variance-agnostic (delta_{max}, c)-ARAGG condition E||hat{x} - bar{x}||^2 <= c delta rho^2.
+identity_notes: Distinct from DETOX (AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation, which assigns redundant data partitions to fixed worker groups in an IID cloud setting and takes within-group majority/mean over identical gradients) and from unbucketed Krum (AIMech:KrumAndMultiKrumByzantineResilientGradientAggregation), Coordinate-Wise Median (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustGradientAggregation), and RFA (AIMech:RobustFederatedAggregationViaSmoothedWeiszfeldGeometricMedian), which fail on imbalanced non-IID data even with delta = 0 Byzantine workers or under the Mimic attack (Section 3.1-3.2). Bucketing (Karimireddy, He, & Jaggi, ICLR 2022 / arXiv:2006.09365, Algorithms 1-2, Lemma 1, Definition A, Theorems I-IV, pp. 4-8) randomly reshuffles the n worker momentum vectors m_i^t = beta m_i^{t-1} + (1 - beta) g_i(x^{t-1}) via a fresh random permutation pi of [n] at every step, computes bucket averages y_i = (1/s) sum_{k=(i-1)s+1}^{min(n, i s)} m_{pi(k)}^t for i = 1, ..., ceil(n/s), and outputs hat{m} = AGGR(y_1, ..., y_{ceil(n/s)}) with bucket size s = floor(delta_{max} / delta).
+aliases:
+- s-Bucketing for Byzantine-Robust Aggregation
+- ARAGG Bucketing
+- Agnostic Robust Aggregation via Bucketing
+definition_evidence:
+- source_id: r538-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r538-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r538-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: bucketing-random-permutation-bucket-averaging-and-variance-reduction-lemma
+  kind: mechanism
+  statement: Given n independent worker vectors {x_1, ..., x_n} with good subset G of size |G| >= n(1 - delta) and pairwise variance E||x_i - x_j||^2 <= rho^2, Algorithm 1 draws a uniform random permutation pi of [n], averages consecutive blocks of s vectors into y_i = (1/s) sum_{k=(i-1)s+1}^{min(n, is)} x_{pi(k)}, and passes {y_1, ..., y_{ceil(n/s)}} to AGGR; Lemma 1 proves that at least ceil(n/s)(1 - delta s) good buckets satisfy E[y_i] = E[bar{x}] and reduced pairwise variance E||y_i - y_j||^2 <= rho^2 / s.
+  evidence:
+  - source_id: r538-primary-pdf
+    locator: Section 4.1, Algorithm 1 & Lemma 1, p. 5; Appendix C.1, pp. 19-20
+    relation: supports
+- claim_id: bucketing-aragg-composition-and-non-iid-lower-bound-theorems
+  kind: scope
+  statement: Theorem I proves that choosing s = floor(delta_{max} / delta) turns Krum (delta_{max} < 1/4), Geometric Median / RFA (delta_{max} < 1/2), and Coordinate-Wise Median (delta_{max} < 1/2) into variance-agnostic (delta_{max}, c)-ARAGG aggregators with optimal error O(delta rho^2) (or O(d delta rho^2) for CM); combining ARAGG with worker momentum (Algorithm 2) achieves O(c delta zeta^2 + sigma sqrt(L F^0 (c delta + 1/n)/T) + L F^0 / T) (Theorem II), matching the information-theoretic non-IID lower bound Omega(delta zeta^2) (Theorem III) and achieving exact convergence to 0 under overparameterized strong growth B^2 < 1/(60 c delta) (Theorem IV).
+  evidence:
+  - source_id: r538-primary-pdf
+    locator: Section 4.2, Definition A & Theorem I, pp. 5-6; Section 5.2-5.4, Theorems II-IV, pp. 7-8
+    relation: supports
+- claim_id: bucketing-byzantine-fraction-amplification-and-irreducible-heterogeneity-radius-limitation
+  kind: limitation
+  statement: s-Bucketing amplifies the worst-case fraction of contaminated buckets by up to a factor of s (from delta to s delta <= delta_{max}), limiting the maximum bucket size to floor(delta_{max} / delta), and without overparameterization any Byzantine-robust algorithm suffers an irreducible stationarity error Omega(delta zeta^2) under non-IID heterogeneity zeta^2 > 0 (Theorem III).
+  evidence:
+  - source_id: r538-primary-pdf
+    locator: Section 4.1, Remark 2, p. 5; Section 5.3, Theorem III & Remark 5, p. 7; Appendix D, pp. 23-24
+    relation: supports
+- claim_id: bucketing-non-iid-federated-defense-against-mimic-alie-and-ipm-attacks-application
+  kind: application
+  statement: Applied to Byzantine-robust federated learning on non-IID and long-tailed partitions of MNIST against the Mimic attack (which copies a fixed honest worker along the top Oja streaming eigenvector to induce class-imbalance bias), ALIE, Inner Product Manipulation (IPM), bit-flipping, and label-flipping attacks.
+  evidence:
+  - source_id: r538-primary-pdf
+    locator: Section 3.2, Table 2, p. 4; Section 6, Tables 3-4 & Figures 1-2, pp. 8-9; Appendix B, pp. 18-19
+    relation: supports
+evidence_sources:
+- source_id: r538-primary-pdf
+  title: Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing
+  authors: &id001
+  - Sai Praneeth Karimireddy
+  - Lie He
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2006.09365.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/KarimireddyHJ22.xml
+  version: International Conference on Learning Representations (ICLR 2022) (2022) (990965 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:21:00Z'
+  sha256: 61bfe28ed666bf82bcc6b14b9edc78ce70f4d04e2cea498f0118f77704e21193
+- source_id: r538-arxiv-abs
+  title: Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.09365
+  persistent_id: https://arxiv.org/abs/2006.09365
+  version: arXiv abstract page (6912 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:21:00Z'
+  sha256: 6b25d8a9e01df1b55584a8fee6046ec9f8194bca6dce3bd4823aed9fd46ecbe6
+- source_id: r538-metadata-cr
+  title: Byzantine-Robust Learning on Heterogeneous Datasets via Bucketing (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/KarimireddyHJ22.xml
+  persistent_id: https://dblp.org/rec/conf/iclr/KarimireddyHJ22.xml
+  version: Crossref API work record (456 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:21:00Z'
+  sha256: 096ac30157c453cc71c6decf933b017f3cbe82fc6142c42a4b6e95d263a60865
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: AIO:FederatedLearning is the broad decentralized learning paradigm within which s-Bucketing adapts Byzantine-robust aggregators to heterogeneous client datasets.
+limitations:
+- Each Byzantine worker can corrupt an entire bucket of size s, increasing the effective corrupted fraction from delta to s delta and requiring delta <= delta_{max} / s.
+- Under arbitrary non-IID gradient dissimilarity zeta^2 > 0 without overparameterization, no algorithm can converge closer than Omega(delta zeta^2) to a stationary point (Theorem III).
+curation:
+  created_at: '2026-10-19T10:21:00Z'
+  updated_at: '2026-10-19T10:21:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

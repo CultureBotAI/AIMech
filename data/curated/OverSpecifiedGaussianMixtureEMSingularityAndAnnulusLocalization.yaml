@@ -1,0 +1,111 @@
+id: AIMech:OverSpecifiedGaussianMixtureEMSingularityAndAnnulusLocalization
+name: Over-Specified Gaussian Mixture EM Singularity Dichotomy and Annulus-Based Epoch Localization
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A non-asymptotic statistical and algorithmic theory (introduced by Raaz Dwivedi, Nhat Ho, Koulik Khamaru, Martin J. Wainwright, Michael I. Jordan, and Bin Yu in 2020) characterizing the phase transition of Expectation-Maximization (EM) when fitting over-specified two-component location Gaussian mixtures $\\pi\\phi(x;\\theta,\\sigma^2 I_d) + (1-\\pi)\\phi(x;-\\theta,\\sigma^2 I_d)$ (and over-specified mixtures of linear regressions) to homogeneous data $X\\sim\\mathcal{N}(0,\\sigma^2 I_d)$ ($\\theta^* = 0$). At $\\theta^* = 0$, the Fisher information matrix is $\\mathcal{I}^\\pi(0) = (1 - 4\\pi(1-\\pi))I_d = \\rho^2 I_d$ where $\\rho = |1 - 2\\pi|$ (Equation 84): (1) in the *unbalanced* case ($\\pi \\ne 1/2$, $\\rho > 0$), $\\mathcal{I}^\\pi(0) \\succ 0$, the population EM operator $M(\\theta) = \\mathbb{E}[(2w_\\theta^\\pi(X)-1)X]$ is globally strictly contractive $\\|M(\\theta)\\|_2 \\le (1 - \\rho^2/2)\\|\\theta\\|_2$ (Theorem 1a, Equation 10a), and sample EM converges in $O(\\log(n/d)/\\rho^2)$ steps to parametric $O((d/n)^{1/2})$ error (Theorem 1b, Equation 10b); (2) in the *balanced* case ($\\pi = 1/2$, $\\rho = 0$), $\\mathcal{I}^{1/2}(0) = 0$ is singular (quartic population log-likelihood $\\mathcal{L}^{1/2}(\\theta)\\approx -c\\|\\theta\\|_2^4$), population EM exhibits state-dependent sub-geometric contraction $\\frac{1}{1+2\\|\\theta\\|_2^2/\\sigma^2} \\le \\frac{\\|M(\\theta)\\|_2}{\\|\\theta\\|_2} \\le 1 - p + \\frac{p}{1+\\|\\theta\\|_2^2/(2\\sigma^2)}$ requiring $\\Theta(\\epsilon^{-2}\\log(1/\\epsilon))$ steps (Theorem 2, Equations 13\u201315), and an *annulus-based epoch localization* argument over shells $(d/n)^{\\alpha_{\\ell+1}} \\le \\|\\theta^t\\|_2 \\le (d/n)^{\\alpha_\\ell}$ with exponent recursion $\\alpha_{\\ell+1} = \\frac{1}{3}\\alpha_\\ell + \\frac{1}{6} \\to \\alpha^* = 1/4$ (Equations 22\u201325) proves that sample EM reaches the sharp singular rate $O((d/n)^{1/4-\\alpha})$ in $O((n/d)^{1/2-2\\alpha}\\log(n/d))$ steps (Theorem 3, Equation 16) with matching $\\Omega(n^{-1/4})$ fixed-point lower bound (Theorem 4, Equation 17)."
+identity_notes: Resolved against all 442 pinned AIO concepts and 696 maintained AIMech concepts. Distinct from `AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM` (Balakrishnan, Wainwright, & Yu 2017), which requires well-separated components ($\|\theta^*\|_2/\sigma > \eta$) and $\lambda$-strong concavity of $Q(\cdot\mid\theta^*)$ and whose one-shot framework yields only the loose $(d/n)^{1/6}$ bound (Equation 21) in the singular balanced over-specified regime.
+aliases:
+- Singular Over-Specified Gaussian Mixture EM Convergence Dichotomy
+- Annulus-Based Epoch Localization for Singular EM
+- Dwivedi-Ho-Khamaru-Wainwright-Jordan-Yu Over-Specified EM Analysis
+definition_evidence:
+- source_id: dhkwjy2020-singularem-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: dhkwjy2020-singularem-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: dhkwjy2020-singularem-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-unbalanced-global-contraction-versus-balanced-fisher-singularity
+  kind: mechanism
+  statement: "For the two-component symmetric location model $\\pi\\mathcal{N}(\\theta,\\sigma^2 I_d) + (1-\\pi)\\mathcal{N}(-\\theta,\\sigma^2 I_d)$ fit to $\\mathcal{N}(0,\\sigma^2 I_d)$ data, the Fisher information matrix at $\\theta^* = 0$ is $\\mathcal{I}^\\pi(0) = (1 - 4\\pi(1-\\pi))I_d = \\rho^2 I_d$ ($\\rho = |1-2\\pi|$, Equation 84): when $\\pi \\ne 1/2$, population EM satisfies $\\|M(\\theta)\\|_2 \\le (1 - \\rho^2/2)\\|\\theta\\|_2$ for all $\\theta\\in\\mathbb{R}^d$ and sample EM achieves $\\|\\theta^t\\|_2 \\le \\|\\theta^0\\|_2(1-\\rho^2/2)^t + \\frac{c'(\\|\\theta^0\\|_2\\sigma^2 + \\rho\\sigma)}{\\rho^2}\\sqrt{\\frac{d+\\log(1/\\delta)}{n}}$ (Theorem 1), whereas when $\\pi = 1/2$, $\\mathcal{I}^{1/2}(0) = 0$ and population EM contracts only as $\\frac{\\|M(\\theta)\\|_2}{\\|\\theta\\|_2} \\asymp 1 - \\frac{\\|\\theta\\|_2^2}{\\sigma^2}$ near $\\theta^* = 0$ (Theorem 2, Equations 13\u201314)."
+  evidence:
+  - source_id: dhkwjy2020-singularem-pdf
+    locator: Section 3.1-3.2.1, Theorems 1 & 2, pp. 12-16; Appendix D, Equation 84, pp. 55-57
+    relation: supports
+  - source_id: dhkwjy2020-singularem-abs
+    locator: Abstract
+    relation: supports
+- claim_id: claim-annulus-based-localization-over-epochs-and-exponent-recursion
+  kind: mechanism
+  statement: Because a one-shot application of uniform concentration $\sup_{\|\theta\|_2\le r}\|M_n(\theta) - M(\theta)\|_2 \lesssim r\sqrt{d/n}$ (Lemma 1, Equation 20) with worst-case contraction $1 - \epsilon^2$ yields only the suboptimal rate $\epsilon = O((d/n)^{1/6})$ (Equation 21), partitioning iterations into epochs localized to annuli $(d/n)^{\alpha_{\ell+1}} \le \|\theta^t\|_2 \le (d/n)^{\alpha_\ell}$ (Equation 22) uses the outer radius $(d/n)^{\alpha_\ell}$ to bound empirical perturbation by $(d/n)^{\alpha_\ell + 1/2}$ and the inner radius $(d/n)^{\alpha_{\ell+1}}$ to bound population contraction by $1 - c(d/n)^{2\alpha_{\ell+1}}$, yielding the exponent recursion $\alpha_{\ell+1} = \frac{1}{3}\alpha_\ell + \frac{1}{6}$ ($\alpha_0 = 0$, Equation 23) that converges geometrically to $\alpha^* = 1/4$ (Theorem 3, Equation 16).
+  evidence:
+  - source_id: dhkwjy2020-singularem-pdf
+    locator: Section 3.2.2, Theorem 3, pp. 16-17; Section 4.1-4.3, Lemma 1 & Equations 18-25, pp. 18-24; Appendix A.3, pp. 36-41
+    relation: supports
+  - source_id: dhkwjy2020-singularem-cr
+    locator: Crossref metadata and published abstract for Ann. Statist. 48(6):3161-3182
+    relation: supports
+- claim_id: claim-sample-em-fixed-point-n-minus-one-quarter-lower-bound-and-regression-extension
+  kind: scope
+  statement: In the univariate balanced fit ($d = 1, \pi = 1/2$), any non-zero sample EM fixed point $\widehat{\theta}_n = \frac{1}{n}\sum_{i=1}^n X_i\tanh(\widehat{\theta}_n X_i/\sigma^2)$ (Equation 54) exists whenever $\frac{1}{n}\sum_{i=1}^n (X_i/\sigma)^2 > 1$ (Equation 59) and satisfies $|\widehat{\theta}_n|^2 \ge \frac{3\sigma^2(\frac{1}{n}\sum Y_i^2 - 1)}{\frac{1}{n}\sum Y_i^4}$ (Equation 56), implying $\mathbb{P}[|\widehat{\theta}_n| \ge c n^{-1/4}] \ge c'$ (Theorem 4, Equation 17); furthermore, the same $(d/n)^{1/4}$ statistical rate and $O((n/d)^{1/2})$ iteration complexity hold for over-specified balanced mixtures of linear regressions (Section 5.2, Appendix E, Lemma 7 & Corollary 2).
+  evidence:
+  - source_id: dhkwjy2020-singularem-pdf
+    locator: Section 3.2.2, Theorem 4, p. 17; Appendix A.4, Equations 54-60, pp. 41-43; Section 5.2 & Appendix E, pp. 25, 57-60
+    relation: supports
+- claim_id: claim-limitation-unconstrained-means-and-unknown-variance-further-slowdown
+  kind: limitation
+  statement: The fast $(d/n)^{1/2}$ convergence of the unbalanced fit ($\pi \ne 1/2$) relies on both fixed unequal weights and the symmetric location constraint $\theta_2 = -\theta_1$; when location parameters $(\theta_1,\theta_2)$ are estimated freely or when scale/variance parameters $\sigma^2$ are also unknown, EM reverts to slow $n^{-1/4}$ (or even slower higher-order singular) convergence rates.
+  evidence:
+  - source_id: dhkwjy2020-singularem-pdf
+    locator: Section 5.3-5.4, Figures 7-9, pp. 25-29; Appendix C.2, Lemma 6 & Corollary 1, pp. 52-55
+    relation: supports
+evidence_sources:
+- source_id: dhkwjy2020-singularem-pdf
+  title: Singularity, Misspecification, and the Convergence Rate of EM
+  authors: &id001
+  - Raaz Dwivedi
+  - Nhat Ho
+  - Koulik Khamaru
+  - Martin J. Wainwright
+  - Michael I. Jordan
+  - Bin Yu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1810.00828.pdf
+  persistent_id: https://doi.org/10.1214/19-AOS1924
+  version: arXiv:1810.00828v2 full-text PDF (63 pages), published in The Annals of Statistics 48(6):3161-3182 (2020). (1971805 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:56:00Z'
+  sha256: 6b7d3ccc7fb18ded66279dfaaf35b5606f2c964dd7f9d014b4fe610f941aa393
+- source_id: dhkwjy2020-singularem-abs
+  title: Singularity, Misspecification, and the Convergence Rate of EM (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1810.00828
+  persistent_id: https://arxiv.org/abs/1810.00828
+  version: arXiv abstract page (7079 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:56:00Z'
+  sha256: 193aac9e2137e6dcdab21a403bbcfcfc6776625844869ebb5984acc5ddb9ee9d
+- source_id: dhkwjy2020-singularem-cr
+  title: Singularity, Misspecification, and the Convergence Rate of EM (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/19-AOS1924
+  persistent_id: https://doi.org/10.1214/19-AOS1924
+  version: Crossref API work record (4411 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:56:00Z'
+  sha256: 550f837ed2c7533d3f1a0951b09ab32abc9d8179e5f3b5e0dd479bc9415666d6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Characterizes the algorithmic and statistical convergence rates of EM clustering under over-specified mixture component counts.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Proves matching $(d/n)^{1/4}$ convergence rates for over-specified mixtures of linear regressions via annulus-based localization.
+limitations:
+- The fast $O((d/n)^{1/2})$ unbalanced rate holds only under constrained antipodal means $\pm\theta$ and known variance $\sigma^2$ (or initial weights $\pi^0$ bounded sufficiently away from $1/2$ satisfying $\pi^0 + \|\theta^0\|_2/(1-2\bar{\pi})^2 \le \bar{\pi} < 1/2$); unconstrained over-specified mixtures and unknown-variance fits suffer singular $O(n^{-1/4})$ or slower convergence.
+curation:
+  created_at: '2026-10-19T05:56:00Z'
+  updated_at: '2026-10-19T05:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

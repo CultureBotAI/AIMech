@@ -1,0 +1,102 @@
+id: AIMech:LocoPropLayerwiseLocalLossBackpropagationOptimization
+name: LocoProp Layerwise Local Loss Backpropagation Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'LocoProp (Local Loss Optimization) is a layerwise neural network optimization framework that enhances each standard backpropagation pass by decomposing an M-layer network into M decoupled, parallel convex layerwise optimization subproblems solved with first-order updates: W_m^{new} = argmin_{W_tilde} { D(W_tilde y_hat_{m-1}, a_m) + R(W_tilde, W_m) }. After a single forward-backward pass fixes layer inputs y_hat_{m-1} and pre-activation gradients grad_{a_hat_m} L(y, y_hat), LocoProp-S sets pre-activation gradient-descent targets a_m = a_hat_m - gamma grad_{a_hat_m} L(y, y_hat) with squared loss 1/2 ||W_tilde y_hat_{m-1} - a_m||^2, while LocoProp-M sets post-activation mirror-descent targets y_m = y_hat_m - gamma grad_{a_hat_m} L(y, y_hat) and minimizes the convex Bregman matching loss D_{F_m}(y_m, f_m(W_tilde y_hat_{m-1})) induced by the convex integral function F_m of the layer''s non-decreasing transfer function f_m = grad F_m plus proximal regularizer 1/(2 eta) ||W_tilde - W_m||_F^2. In both variants, T = 1 local iteration recovers exact backpropagation with effective learning rate eta_e = eta * gamma, while T > 1 local iterations approximate implicit/second-order preconditioned updates without forming matrix inverses.'
+identity_notes: Distinct from Kronecker-factored second-order optimizers (AIMech:KFAC, AIMech:Shampoo), which explicitly store O(sum_i d_i^2) covariance matrices and compute O(sum_i d_i^3) matrix inverses or inverse p-th roots; and distinct from First-Order-On-Features (AIMech:FoofFirstOrderOnFeaturesNeuronGradientDescentOptimization), which explicitly maintains and inverts an exponentially averaged input activation covariance matrix (A_l + lambda I)^{-1} rather than running T iterative first-order steps on a layerwise Bregman matching loss.
+aliases:
+- LocoProp
+- LocoProp-S
+- LocoProp-M
+- Local Loss Optimization BackProp Enhancement
+definition_evidence:
+- source_id: r649-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r649-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r649-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r649-locoprop-s-implicit-gradient-and-kfac-recovery
+  kind: mechanism
+  statement: In LocoProp-S, minimizing the local squared loss 1/2 ||W_tilde y_hat_{m-1} - a_m||^2 + 1/(2 eta) ||W_tilde - W_m||^2 with gradient-descent target a_m = a_hat_m - gamma grad_{a_hat_m} L(y, y_hat) recovers exact BackProp with effective step size eta_e = eta * gamma after a single fixed-point iteration, converges in closed form to the implicit gradient update W_m^{new} = W_m - eta_e grad_{W_m} L(y, y_hat)(I + eta y_hat_{m-1} y_hat_{m-1}^T)^{-1} (Eq. 4), and recovers the full K-FAC update when the target uses the pre-activation Fisher inverse F_m^{-1} (Proposition 1 & Appendix D, Eq. 15).
+  evidence:
+  - source_id: r649-primary-pdf
+    locator: Section 2.1, Eqs. 3-4 & Proposition 1, pp. 3-4; Appendix D, Eqs. 12-15, p. 13
+    relation: supports
+- claim_id: r649-locoprop-m-convex-bregman-matching-loss-sylvester
+  kind: mechanism
+  statement: In LocoProp-M, replacing the local squared loss with the Bregman matching loss D_{F_m}(y_m, f_m(W_tilde y_hat_{m-1})) induced by the convex integral F_m of an elementwise non-decreasing transfer function f_m = grad F_m and mirror-descent target y_m = y_hat_m - gamma grad_{a_hat_m} L(y, y_hat) yields a layerwise problem that is convex in W_m (Proposition 2), recovers BackProp at T = 1 iteration, and satisfies a linearized Sylvester equation whose vectorized update delta_m = -eta_e C_m^{-1}(I kron H_{F_m}^{-1}) vec(grad_{W_m} L) with C_m = I kron H_{F_m}^{-1} + eta y_hat_{m-1} y_hat_{m-1}^T kron I preconditions by both input activations and activation-Hessian curvature H_{F_m} = grad^2 F_m (Proposition 3, Eqs. 8-11).
+  evidence:
+  - source_id: r649-primary-pdf
+    locator: Section 2.2.1-2.2.3, Eqs. 5-8 & Propositions 2-4, pp. 4-6; Appendix B, Eqs. 9-11, pp. 11-12
+    relation: supports
+- claim_id: r649-deep-autoencoder-complexity-and-walltime-application
+  kind: application
+  statement: LocoProp requires O(prod_i d_i) + O(b sum_i d_i) memory and O(b T prod_i d_i) compute for batch size b and T local iterations (avoiding the O(sum_i d_i^2) memory and O(sum_i d_i^3) matrix-inversion cost of K-FAC and Shampoo), and with T = 10 RMSProp local iterations significantly accelerates training-loss convergence and reduces wall-clock time on standard (2.72M), deep (6.72M), and wide (26M) deep autoencoder benchmarks on MNIST, Fashion-MNIST, and CURVES.
+  evidence:
+  - source_id: r649-primary-pdf
+    locator: Section 3.1-3.5, Table 1 & Figures 3-5, pp. 6-8
+    relation: supports
+- claim_id: r649-non-strictly-increasing-relu-and-overfitting-limitations
+  kind: limitation
+  statement: For non-decreasing but not strictly increasing transfer functions such as ReLU, the integral function F is not strictly convex and induces matching losses with flat zero regions where D_F(a_hat, a) = 0 for all a_hat, a <= 0 (so LocoProp-M eventually converges to a similar solution as tuned RMSProp on MNIST-ReLU), and rapid training-loss minimization on deep autoencoders exhibits test-loss overfitting under fixed default weight decay.
+  evidence:
+  - source_id: r649-primary-pdf
+    locator: Section 2.2.2, Figure 2, p. 5; Appendix A, Table 2, p. 11; Appendix G & I, Figures 6 & 8, pp. 15-17
+    relation: supports
+evidence_sources:
+- source_id: r649-primary-pdf
+  title: 'LocoProp: Enhancing BackProp via Local Loss Optimization'
+  authors: &id001
+  - Ehsan Amid
+  - Rohan Anil
+  - Manfred K. Warmuth
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.06199.pdf
+  persistent_id: https://dblp.org/rec/conf/aistats/AmidAW22
+  version: Proceedings of the 25th International Conference on Artificial Intelligence and Statistics (AISTATS 2022), PMLR 151:9626-9642 (2022) (1301547 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:12:00Z'
+  sha256: fffe174c3877f7b4518b3b3adf5e1327ec52525dfab06bc25c03a6c1c03e61a1
+- source_id: r649-arxiv-abs
+  title: 'LocoProp: Enhancing BackProp via Local Loss Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.06199
+  persistent_id: https://arxiv.org/abs/2106.06199
+  version: arXiv abstract page (6502 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:12:00Z'
+  sha256: 6fb352df139bc9ced3fa56985e8e0dab856f96527aa1fa9859b00e3aea8cdba3
+- source_id: r649-metadata-cr
+  title: 'LocoProp: Enhancing BackProp via Local Loss Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/aistats/AmidAW22
+  persistent_id: https://dblp.org/rec/conf/aistats/AmidAW22
+  version: Crossref API work record (1730 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:12:00Z'
+  sha256: a6378b2a640bff05bb15443b8098a0ead7829ce8a808d1c89ec008b158911b86
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LocoProp is a layerwise local-loss training algorithm for multilayer feedforward neural networks and deep autoencoders.
+limitations:
+- Non-strictly increasing activations such as ReLU and step functions do not induce strictly convex integral functions, producing flat regions in the Bregman matching loss where D_F(a_hat, a) = 0 does not imply a_hat = a (Section 2.2.2, p. 5).
+- On MNIST with ReLU activations, LocoProp-M improves initial convergence but converges to a final training loss similar to tuned RMSProp, trailing Shampoo (Appendix G, Figure 6a, pp. 15-16).
+- Aggressive training-loss minimization with LocoProp and second-order methods on deep autoencoders leads to test-loss overfitting when weight decay is not separately tuned (Appendix G & I, pp. 16-17).
+curation:
+  created_at: '2026-10-19T12:12:00Z'
+  updated_at: '2026-10-19T12:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

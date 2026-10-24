@@ -1,0 +1,102 @@
+id: AIMech:AdianaAcceleratedDistributedNesterovGradientDescentWithCompression
+name: ADIANA Accelerated Distributed Nesterov Gradient Descent with Compression
+concept_kind: algorithm
+review_status: DRAFT
+definition: An accelerated distributed optimization algorithm with unbiased communication compression (ADIANA, together with its single-node counterpart ACGD) for minimizing f(x) = (1/n) sum_{i=1}^n f_i(x) that couples three iterate sequences via x^k = theta_1 * z^k + theta_2 * w^k + (1 - theta_1 - theta_2) * y^k, where w^k is a loopless probabilistic reference point updated via w^{k+1} = y^k with probability p and w^k with probability 1 - p, and each worker i applies two independent omega-unbiased compressors C_i^k(nabla f_i(x^k) - h_i^k) and C_tilde_i^k(nabla f_i(w^k) - h_i^k) to form the global gradient estimator g^k = h^k + (1/n) sum_{i=1}^n C_i^k(nabla f_i(x^k) - h_i^k), update local shifts h_i^{k+1} = h_i^k + alpha * C_tilde_i^k(nabla f_i(w^k) - h_i^k) with alpha = 1 / (omega + 1), and perform Nesterov gradient and mirror steps y^{k+1} = x^k - eta * g^k and z^{k+1} = beta * z^k + (1 - beta) * x^k - (gamma / eta) * (x^k - y^{k+1}), achieving accelerated O((omega + sqrt(L / mu) + sqrt((omega/n + sqrt(omega/n)) * omega * L / mu)) log(1/eps)) communication rounds on L-smooth mu-strongly convex problems.
+identity_notes: Distinct from non-accelerated DIANA (AIMech:DianaDistributedLearningWithCompressedGradientDifferences, which scales linearly with condition number kappa = L/mu rather than sqrt(L/mu) and updates shifts h_i^k at the current iterate x^k rather than a loopless reference w^k), from Katyusha (AIMech:KatyushaDirectNegativeMomentumAccelerationForStochasticVarianceReducedOptimization, which accelerates centralized finite-sum SVRG without communication compression), and from Linear Coupling AGM (AIMech:LinearCouplingOfGradientAndMirrorDescentForFirstOrderOptimization, which operates on uncompressed oracles). No pinned AIO class covers ADIANA or Nesterov-accelerated compressed distributed optimization.
+aliases:
+- ADIANA
+- ACGD
+- Accelerated Distributed Nesterov Gradient Descent with Compression
+- Accelerated Compressed Gradient Descent
+definition_evidence:
+- source_id: r390-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r390-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r390-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r390-single-node-acgd-sqrt-kappa-and-sqrt-eps-rates
+  kind: mechanism
+  statement: Theorem 2 proves that coupling Nesterov momentum x^k = theta_k y^k + (1 - theta_k) z^k with an omega-unbiased compressor C(nabla f(x^k)) in ACGD (Algorithm 1) reduces single-node compressed gradient descent complexity from O((1 + omega) * (L/mu) log(1/eps)) to O((1 + omega) * sqrt(L/mu) log(1/eps)) for mu-strongly convex objectives, and Theorem 3 proves an O((1 + omega) * sqrt(L/eps)) rate for general smooth convex objectives.
+  evidence:
+  - source_id: r390-primary-pdf
+    locator: Section 3 Algorithm 1, Theorem 2, and Theorem 3, pp. 4-5
+    relation: supports
+- claim_id: r390-distributed-adiana-accelerated-complexity-and-free-compression-regime
+  kind: mechanism
+  statement: "By decoupling gradient difference compression at x^k from shift-memory updates at the loopless reference w^k (Lemmas 2-3: E_k||g^k - nabla f(x^k)||^2 <= (2*omega/n)*(2*L*D_f(x^k, w^k) + H^k) and E_k[H^{k+1}] <= (1 - alpha) H^k), Theorem 4 proves that ADIANA (Algorithm 2) converges in O((omega + sqrt(L/mu) + sqrt((omega/n + sqrt(omega/n)) * omega * L / mu)) log(1/eps)) communication rounds\u2014matching uncompressed Nesterov accelerated gradient descent O(sqrt(L/mu) log(1/eps)) whenever the compression variance satisfies omega <= O(min{n^{1/3}, sqrt(L/mu)})."
+  evidence:
+  - source_id: r390-primary-pdf
+    locator: Section 4 Algorithm 2, Theorem 4, Table 1, and Section 5 Lemmas 2-5, pp. 2, 5-8
+    relation: supports
+- claim_id: r390-dual-compression-and-convexity-requirement-limitation
+  kind: limitation
+  statement: ADIANA requires each worker i to evaluate two gradients (nabla f_i(x^k) and nabla f_i(w^k)) and transmit two compressed difference vectors (m_i^k and c_i^k) per iteration, and its Nesterov three-sequence coupling relies on convexity (mu >= 0) and exact/full-batch local gradients.
+  evidence:
+  - source_id: r390-primary-pdf
+    locator: Section 4 Algorithm 2 Steps 4-6 and Theorem 4 assumptions, pp. 6-7
+    relation: supports
+- claim_id: r390-ill-conditioned-distributed-regularized-classification-application
+  kind: application
+  statement: Applied to ill-conditioned distributed L2-regularized logistic regression on LIBSVM benchmarks (a9a, w8a, mushrooms, phishing) with natural dithering and random sparsification compressors, achieving orders-of-magnitude faster convergence than DIANA, QSGD, TernGrad, and EF-SGD.
+  evidence:
+  - source_id: r390-primary-pdf
+    locator: Section 6 Experiments, Figures 1-2, pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r390-primary-pdf
+  title: Acceleration for Compressed Gradient Descent in Distributed and Federated Optimization
+  authors: &id001
+  - Zhize Li
+  - Dmitry Kovalev
+  - Xun Qian
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.11364.pdf
+  persistent_id: https://proceedings.mlr.press/v119/li20g.html
+  version: Proceedings of the 37th International Conference on Machine Learning (ICML 2020), PMLR 119:5895-5904 (2020) (67497 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:53:00Z'
+  sha256: 18197542a429e157fb179d96e94590d17f9365bff5279779f1a54e8a87137d5f
+- source_id: r390-arxiv-abs
+  title: Acceleration for Compressed Gradient Descent in Distributed and Federated Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.11364
+  persistent_id: https://arxiv.org/abs/2002.11364
+  version: arXiv abstract page (7093 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:53:00Z'
+  sha256: af572cd0ed4abdd9e1d23d96dcc279b9e3dffb34c5611a5af545095ea0c65778
+- source_id: r390-metadata-cr
+  title: Acceleration for Compressed Gradient Descent in Distributed and Federated Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v119/li20g.html
+  persistent_id: https://proceedings.mlr.press/v119/li20g.html
+  version: Crossref API work record (421 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:53:00Z'
+  sha256: cff199e08c7ca2d07b20d19fa12a146651a0ddc996c3e66a9702c074da98375f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: ADIANA performs Nesterov-accelerated distributed optimization with compressed gradient differences across networked worker nodes.
+limitations:
+- Requires two gradient evaluations and two compressed vector transmissions per worker at each iteration.
+- Restricted to convex and mu-strongly convex objectives with unbiased compression operators.
+curation:
+  created_at: '2026-10-19T07:53:00Z'
+  updated_at: '2026-10-19T07:53:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,97 @@
+id: AIMech:SieveStreamingAndSieveStreamingPlusPlusForSubmodularMaximization
+name: Sieve-Streaming and Sieve-Streaming++ for Single-Pass Monotone Submodular Maximization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Sieve-Streaming and Sieve-Streaming++ for Single-Pass Monotone Submodular Maximization are single-pass streaming data summarization algorithms introduced by Badanidiyuru, Mirzasoleiman, Karbasi, and Krause (2014) and tightened to optimal O(k / varepsilon) memory by Kazemi, Mitrovic, Zadimoghaddam, Lattanzi, and Karbasi (2019) for maximizing a non-negative monotone submodular function f : 2^V -> R_{>=0} subject to a cardinality constraint |S| <= k over a stream V. Because the offline optimum OPT = max_{|S|<=k} f(S) is unknown a priori, Sieve-Streaming tracks the running maximum singleton value Delta = max_{e seen} f({e}), maintains geometric threshold guesses tau in {(1 + varepsilon)^i} covering the active OPT range, and inserts an incoming stream element e into candidate set S_tau whenever |S_tau| < k and its marginal gain satisfies f({e} | S_tau) >= tau (achieving the tight single-pass streaming approximation ratio 1/2 - varepsilon in O(k log(k) / varepsilon) memory). Sieve-Streaming++ (Algorithm 1, Theorem 1) observes that the best current sieve value LB = max_tau f(S_tau) provides a monotonically improving lower bound on OPT, allowing the algorithm to dynamically discard all sieves with tau < tau_min = max(LB, Delta) / (2k) and bounding the cardinality of every surviving sieve with tau >= LB / (2k) by |S_tau| <= min(k, LB / tau), which forms a geometric series summing to the asymptotically optimal memory footprint O(k / varepsilon) while preserving O(log(k) / varepsilon) queries per element and the tight (1/2 - varepsilon) approximation.'
+identity_notes: Distinct from Stochastic-Greedy Linear-Time Monotone Submodular Maximization (`AIMech:StochasticGreedyLinearTimeMonotoneSubmodularMaximization`), which requires random-access memory to the entire ground set V across k sequential passes to achieve (1 - 1/e - varepsilon), whereas Sieve-Streaming and Sieve-Streaming++ process an arbitrarily long stream V in a single pass with O(k / varepsilon) memory independent of n = |V| and achieve the tight 1/2 - varepsilon single-pass streaming ratio.
+aliases:
+- Sieve-Streaming and Sieve-Streaming++
+- Badanidiyuru-Mirzasoleiman-Karbasi-Krause Sieve-Streaming
+- Kazemi-Mitrovic-Zadimoghaddam-Lattanzi-Karbasi Sieve-Streaming++
+definition_evidence:
+- source_id: r350-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r350-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r350-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r350-claim-half-minus-epsilon-threshold-sieve-guarantee
+  kind: mechanism
+  statement: 'For the active threshold tau in {(1 + varepsilon)^i} satisfying (1 - varepsilon) OPT / (2k) <= tau < OPT / (2k), admitting stream elements with marginal gain f({e} | S_tau) >= tau while |S_tau| < k guarantees f(S_tau) >= (1/2 - varepsilon) OPT in both terminal cases: if |S_tau| = k, telescoping marginal gains gives f(S_tau) >= k * tau >= (1/2 - varepsilon) OPT; if |S_tau| < k, every unpicked element e in S^* \ S_tau had marginal gain f({e} | S_tau) < tau < OPT / (2k), so submodularity yields OPT - f(S_tau) <= sum_{e in S^* \ S_tau} f({e} | S_tau) < OPT / 2.'
+  evidence:
+  - source_id: r350-primary-pdf
+    locator: Section 3.1, Theorem 1 and Proof of Approximation Guarantee, pp. 5-6
+    relation: supports
+- claim_id: r350-claim-dynamic-lower-bound-geometric-memory-compression
+  kind: mechanism
+  statement: By maintaining LB = max_tau f(S_tau) >= max_tau (|S_tau| * tau) and pruning all thresholds tau < tau_min = max(LB, Delta) / (2k), Sieve-Streaming++ bounds the size of every active sieve S_tau by k for tau in [LB/(2k), LB/k] (at most ceil(log(2)/varepsilon) thresholds) and by |S_tau| <= LB / tau <= k / (1 + varepsilon)^i for tau = (LB / k)(1 + varepsilon)^i >= LB / k, reducing total memory from O(k log(k) / varepsilon) in Sieve-Streaming to the optimal O(k / varepsilon) while making O(log(k) / varepsilon) oracle queries per stream element.
+  evidence:
+  - source_id: r350-primary-pdf
+    locator: Section 3.1, Table 1, Algorithm 1, and Proof of Theorem 1 (Memory complexity), pp. 5-6
+    relation: supports
+- claim_id: r350-claim-batch-sieve-streaming-low-adaptivity-and-communication
+  kind: mechanism
+  statement: Buffering B stream elements and applying geometric batch Threshold-Sampling (Batch-Sieve-Streaming++, Algorithms 2-3) achieves a (1/2 - 3 varepsilon / 2) approximation using O(B + k / varepsilon) memory in O(N log(B) log(k) / (B varepsilon)) expected adaptive rounds (Theorem 2), and in the multi-source streaming setting incurs O(k log(OPT / Delta_0) / varepsilon^2) total communication cost independent of the stream length N and buffer size B (Theorem 3).
+  evidence:
+  - source_id: r350-primary-pdf
+    locator: Section 3.2, Algorithms 2-3, Theorem 2, and Lemma 1, pp. 7-10; Section 4, Theorem 3, pp. 11-12
+    relation: supports
+evidence_sources:
+- source_id: r350-primary-pdf
+  title: 'Submodular Streaming in All Its Glory: Tight Approximation, Minimum Memory and Low Adaptive Complexity'
+  authors: &id001
+  - Ehsan Kazemi
+  - Marko Mitrovic
+  - Morteza Zadimoghaddam
+  - Silvio Lattanzi
+  - Amin Karbasi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1905.00948.pdf
+  persistent_id: https://api.crossref.org/works/10.1145/2623330.2623637
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:3311-3320 (2019) (2185602 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:13:00Z'
+  sha256: a8e0ab818c5ac3b146f2bd2a05595f7a1a0b2617352d5ed382e99d556e95f4e3
+- source_id: r350-arxiv-abs
+  title: 'Submodular Streaming in All Its Glory: Tight Approximation, Minimum Memory and Low Adaptive Complexity (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.00948
+  persistent_id: https://arxiv.org/abs/1905.00948
+  version: arXiv abstract page (7504 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:13:00Z'
+  sha256: 456d5bfb8140ddb87522cd7858e2d5ab46cc3a42b4e9c894882159f423b8f643
+- source_id: r350-metadata-cr
+  title: 'Submodular Streaming in All Its Glory: Tight Approximation, Minimum Memory and Low Adaptive Complexity (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1145/2623330.2623637
+  persistent_id: https://api.crossref.org/works/10.1145/2623330.2623637
+  version: Crossref API work record (3657 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:13:00Z'
+  sha256: 6bcbd814fb390ba0425bed738665b7fc680bd5ef30ca7aa8853f5b09d3b18450
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: Used for single-pass streaming exemplar clustering, log-determinant diversity summarization, and keyword coverage.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Selects compact size-k summaries from high-volume data streams in a single pass.
+limitations:
+- Any single-pass streaming algorithm using o(n / k) memory that evaluates the submodular oracle only on feasible sets of size at most k cannot exceed a 1/2 approximation ratio in adversarial stream order (Norouzi-Fard et al. 2018), and both Sieve-Streaming and Sieve-Streaming++ require monotonicity and non-negativity of f.
+curation:
+  created_at: '2026-10-19T07:13:00Z'
+  updated_at: '2026-10-19T07:13:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

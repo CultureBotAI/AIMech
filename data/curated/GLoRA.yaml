@@ -1,0 +1,102 @@
+id: AIMech:GLoRA
+name: Generalized LoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A unified parameter-efficient fine-tuning framework that adapts each pretrained linear layer f(x) = W_0 x + b_0 using five configurable support tensors (A, B, C, D, E) spanning weight scaling, weight shifting, layer-wise prompt tuning, and bias scaling and shifting, selects optimal per-layer tensor structures from a weight-entangled supernet via evolutionary search, and structurally re-parameterizes all learned tensors into a single unified weight matrix W_uni and bias vector b_uni for zero-overhead inference.
+identity_notes: Distinct from standard LoRA (AIMech:LoRA, which tunes only an additive low-rank weight residual B without weight scaling A, layer-wise prompt vector C, or bias scale/shift tensors D and E), from DoRA (AIMech:DoraWeightDecomposedLowRankAdaptation, which normalizes column-wise weight directions and learns a magnitude vector rather than searching heterogeneous support tensor types {LoRA, vector, scalar, none} in a multi-path supernet), and from DyLoRA (AIMech:DyLoRADynamicSearchFreeLowRankAdaptation, which orders ranks within a single LoRA pair via nested dropout rather than searching across five distinct support tensor roles). Formulated by Chavan et al. (arXiv:2306.07967).
+aliases:
+- GLoRA
+- One-for-All Generalized Low-Rank Adaptation
+- GLoRA Structural Re-Parameterization Supernet PEFT
+definition_evidence:
+- source_id: r683-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r683-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r683-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: glora-five-support-tensor-unified-formulation
+  kind: mechanism
+  statement: GLoRA formulates the adapted linear transformation of frozen weights W_0 in R^{d_2 x d_1} and bias b_0 in R^{d_2 x 1} as f(x) = (W_0 + W_0 A + B) x + C W_0 + D b_0 + E + b_0, where each layer's trainable support tensors are independently chosen from discrete search spaces A, B in {LoRA, vector, scalar, none}, C in {LoRA, vector, none}, and D, E in {vector, scalar, none} (432 configurations per linear layer) using weight-entangled sub-tensor indexing across a multi-path supernet.
+  evidence:
+  - source_id: r683-primary-pdf
+    locator: Section 2.2 A Unified Formulation of One-for-All, Eq. 10-11 & Appendix E, p. 4, 15
+    relation: supports
+- claim_id: glora-structural-reparameterization-zero-inference-cost
+  kind: mechanism
+  statement: Because GLoRA eliminates non-linear activations between adjacent support tensor operations, all trained support tensors are absorbed post-training into a single unified weight matrix W_uni = W_0 + W_0 A + B and unified bias vector b_uni = C W_0 + D b_0 + E + b_0 so that inference executes f(x) = W_uni x + b_uni with zero additional parameters or FLOPs.
+  evidence:
+  - source_id: r683-primary-pdf
+    locator: Section 2.3 Structural Re-parameterization Design, Eq. 12-14 & Table 4, p. 5, 8
+    relation: supports
+- claim_id: glora-vision-and-llm-transfer-application
+  kind: application
+  statement: GLoRA is applied to parameter-efficient transfer learning, few-shot recognition, and out-of-domain generalization on ViT-B and Swin-B across VTAB-1K and ImageNet variants as well as instruction tuning of LLaMA-1-7B and LLaMA-2-7B on the Open LLM Leaderboard, outperforming LoRA, VPT, Adapter, and NOAH while maintaining identical inference throughput to the unadapted backbone.
+  evidence:
+  - source_id: r683-primary-pdf
+    locator: Section 3 Experiments, Tables 1-4 and Figures 2-3, p. 5-8
+    relation: supports
+- claim_id: glora-supernet-training-and-evolutionary-search-overhead
+  kind: limitation
+  statement: Training the multi-path weight-entangled supernet followed by evolutionary subnet search on a validation set requires substantially more training epochs (e.g., 5x the training epochs of single-configuration LoRA) and additional validation evaluations before the final re-parameterized model is deployed.
+  evidence:
+  - source_id: r683-primary-pdf
+    locator: Section 2.4, Appendix A, Appendix B, and Appendix D, p. 5, 14-15
+    relation: supports
+evidence_sources:
+- source_id: r683-primary-pdf
+  title: 'One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning'
+  authors: &id001
+  - Arnav Chavan
+  - Zhuang Liu
+  - Deepak Gupta
+  - Eric Xing
+  - Zhiqiang Shen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2306.07967
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2306-07967.xml
+  version: arXiv (2023) (916953 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:46:00Z'
+  sha256: 0a1f68436ceaf07ce248850976da2c514edc731ad66fbd7ece17622a8946c6fc
+- source_id: r683-arxiv-abs
+  title: 'One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2306.07967
+  persistent_id: https://arxiv.org/abs/2306.07967
+  version: arXiv abstract page (6864 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:46:00Z'
+  sha256: c3658c5861776d4e35542f4a52fc1bdfc465aa7a5e4fdfeeffd7f4f6594f6de7
+- source_id: r683-metadata-cr
+  title: 'One-for-All: Generalized LoRA for Parameter-Efficient Fine-tuning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-2306-07967.xml
+  persistent_id: https://dblp.org/rec/journals/corr/abs-2306-07967.xml
+  version: Crossref API work record (494 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:46:00Z'
+  sha256: 0c1c3be4ae275c234997b7050f6ef05308781e3c84d044a54213cb76ed633bb3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Generalized LoRA adapts pretrained vision and language neural networks via structurally re-parameterized support tensors.
+limitations:
+- Requires multi-epoch supernet training (typically 5x the training epochs of standard LoRA) followed by an evolutionary search phase over validation data to identify the optimal per-layer subnet.
+- Restricted to purely linear support tensor transformations without intermediate non-linear bottleneck activations so that structural re-parameterization into W_uni and b_uni remains exact.
+curation:
+  created_at: '2026-10-19T12:46:00Z'
+  updated_at: '2026-10-19T12:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

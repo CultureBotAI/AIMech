@@ -1,0 +1,98 @@
+id: AIMech:AdaptFormer
+name: AdaptFormer
+concept_kind: architecture
+review_status: DRAFT
+definition: A parameter-efficient Vision Transformer adaptation architecture that replaces each encoder block's feed-forward network (MLP) with a dual-branch AdaptMLP module consisting of the frozen pre-trained MLP in the left branch and a lightweight trainable down-ReLU-up bottleneck in the right branch connected in parallel via a scaling factor s (default s = 0.10). Given post-attention tokens x'_l in R^{N x d}, the right branch computes adapted features x_tilde_l = ReLU(LN(x'_l) * W_down) * W_up with W_down in R^{d x d_hat}, W_up in R^{d_hat x d} (d_hat << d), and fuses them with the frozen MLP branch via residual connection x_l = MLP(LN(x'_l)) + s * x_tilde_l + x'_l, introducing 2*d*d_hat + d_hat + d trainable parameters per layer while keeping all pre-trained weights frozen.
+identity_notes: Distinct from sequential bottleneck adapters (AIMech:BottleneckAdapter; Houlsby et al., 2019), which insert adapters sequentially after MHSA and/or MLP sub-layers, and from Visual Prompt Tuning (AIMech:VisualPromptTuning), which prepends learnable tokens into the attention sequence (and suffers optimization instability when token counts scale up on video tasks or under hierarchical shifted-window attention in Swin Transformers). Also distinct from SSF (AIMech:SSFScaleAndShiftFeatures), which applies channel-wise linear scale/shift modulation rather than a parallel nonlinear ReLU bottleneck.
+aliases:
+- AdaptMLP
+- AdaptFormer-Swin
+- AdaptFormer Parallel Vision Transformer Adapter
+- Parallel MLP Bottleneck Vision Transformer Adaptation
+definition_evidence:
+- source_id: r696-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r696-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r696-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: adaptformer-parallel-relu-bottleneck-and-zero-up-initialization
+  kind: mechanism
+  statement: AdaptFormer's AdaptMLP module computes x_tilde_l = ReLU(LN(x'_l) * W_down) * W_up in parallel with the frozen MLP block via x_l = MLP(LN(x'_l)) + s * x_tilde_l + x'_l (Equations 3-4), adding 2*d*d_hat + d_hat + d parameters per layer, and initializes W_down with Kaiming Normal/Uniform while zero-initializing W_up and all adapter biases so the adapted block exactly matches the pre-trained identity function at the start of fine-tuning (Algorithm 1).
+  evidence:
+  - source_id: r696-primary-pdf
+    locator: Section 3.2-3.3, Equations 3-4, pp. 4-5; Section 4.1, p. 6; Appendix A.8, Algorithm 1, p. 21
+    relation: supports
+- claim_id: adaptformer-image-and-video-recognition-scalability
+  kind: application
+  statement: "With d_hat = 64 (1.26M trainable parameters, 1.46% of ViT-Base), AdaptFormer-64 achieves 59.02% Top-1 accuracy on Something-Something v2 and 55.69% on HMDB51 with self-supervised VideoMAE pre-training\u2014outperforming 100% full fine-tuning (53.97% and 46.41%) by +5.05% and +9.28% and VPT (43.73% and 52.67%) by +15.29% and +3.02%\u2014while parallel insertion outperforms sequential insertion (59.02% vs. 58.17%) and top-layer placement (layers 7-12: 57.99%) outperforms bottom-layer placement (layers 1-6: 50.48%)."
+  evidence:
+  - source_id: r696-primary-pdf
+    locator: Section 4.2 & 4.5, Tables 1 & 3, pp. 6-9; Figure 6, p. 9
+    relation: supports
+- claim_id: adaptformer-scaling-factor-and-in-domain-subset-limitation
+  kind: limitation
+  statement: AdaptFormer requires a small scaling factor s < 1 (optimal s = 0.10) on vision tasks because large scaling factors (such as s = 4 used in NLP) cause unstable fine-tuning, and when fine-tuning on ImageNet-1K using ImageNet-21K pre-trained weights (where the target dataset is a subset of the pre-training dataset), increasing the middle dimension from d_hat = 1 (82.33%) to d_hat = 64 (81.86%) degrades accuracy due to over-perturbing the pre-trained model.
+  evidence:
+  - source_id: r696-primary-pdf
+    locator: Section 4.5, Table 3c, pp. 8-9; Appendix A.4, Table 9, pp. 19-20
+    relation: supports
+evidence_sources:
+- source_id: r696-primary-pdf
+  title: 'AdaptFormer: Adapting Vision Transformers for Scalable Visual Recognition'
+  authors: &id001
+  - Shoufa Chen
+  - Chongjian Ge
+  - Zhan Tong
+  - Jiangliu Wang
+  - Yibing Song
+  - Jue Wang
+  - Ping Luo
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.13535.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=AdaptFormer+Adapting+Vision+Transformers+Chen&format=xml
+  version: Advances in Neural Information Processing Systems (NeurIPS 2022) (2022) (964387 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:59:00Z'
+  sha256: 262e20ceba2c2098a5bf3fd1e5537b1d80e3415d722cba12e2f52a46cd937250
+- source_id: r696-arxiv-abs
+  title: 'AdaptFormer: Adapting Vision Transformers for Scalable Visual Recognition (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.13535
+  persistent_id: https://arxiv.org/abs/2205.13535
+  version: arXiv abstract page (7151 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:59:00Z'
+  sha256: 7067757111536e6035382d525a7026e98c75db2c9e89beba0e9a0d822c40beae
+- source_id: r696-metadata-cr
+  title: 'AdaptFormer: Adapting Vision Transformers for Scalable Visual Recognition (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=AdaptFormer+Adapting+Vision+Transformers+Chen&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=AdaptFormer+Adapting+Vision+Transformers+Chen&format=xml
+  version: Crossref API work record (939 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:59:00Z'
+  sha256: 7199c1ca4f0facc58215b82dfc9e635fdb44707bcd47c1caf973ee0327826d6d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdaptFormer is a parallel bottleneck neural network adaptation architecture for Vision Transformers across image and video recognition.
+limitations:
+- Requires a small scaling factor s < 1 (default s = 0.10) for vision tasks to avoid training instability, and has only been validated on image/video classification rather than dense prediction tasks such as object detection or semantic segmentation (Section 4.5, p. 9; Section 5, p. 10).
+- When the downstream dataset is a subset of the upstream pre-training dataset (e.g., ImageNet-1K from ImageNet-21K), larger bottleneck dimensions (d_hat = 64 vs. d_hat = 1) degrade accuracy by 0.47% (Appendix A.4, Table 9).
+curation:
+  created_at: '2026-10-19T12:59:00Z'
+  updated_at: '2026-10-19T12:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

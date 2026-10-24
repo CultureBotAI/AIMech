@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Lacoste-Julien and Jaggi Global Linear Convergence of Frank-Wolfe Variants, Away-Steps Frank-Wolfe (AFW) and Pairwise Frank-Wolfe (PFW), Pyramidal Width Affine-Invariant Polytope Conditioning for Conditional Gradient
+    </div>
+
+  <div class="detail-desc">
+    Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes is a projection-free conditional gradient framework and affine-invariant geometric convergence theory introduced by Lacoste-Julien and Jaggi (2015) for minimizing a mu-strongly convex, L-smooth function f over a compact polytope M = conv(A) subseteq R^d. Whereas classical Frank-Wolfe (conditional gradient) zig-zags when the constrained optimum x^* lies on a boundary face of M (suffering an unavoidable Omega(1 / t^{1+epsilon}) sublinear rate), Away-Steps Frank-Wolfe (AFW, Algorithm 1) and Pairwise Frank-Wolfe (PFW, Algorithm 2) maintain an explicit active atom set S^{(t)} subseteq A with strict convex weights alpha_v^{(t)} &gt; 0 for x^{(t)} = sum_{v in S^{(t)}} alpha_v^{(t)} v and query both the standard FW atom s_t = argmin_{v in A} &lt;grad f(x^{(t)}), v&gt; and the worst active away atom v_t = argmax_{v in S^{(t)}} &lt;grad f(x^{(t)}), v&gt;. AFW chooses the larger of the FW gap &lt;grad f(x^{(t)}), x^{(t)} - s_t&gt; and the away gap &lt;grad f(x^{(t)}), v_t - x^{(t)}&gt; (with maximum step gamma_max = alpha_{v_t}^{(t)} / (1 - alpha_{v_t}^{(t)})), while PFW moves weight directly along d_t^{PFW} = s_t - v_t (with gamma_max = alpha_{v_t}^{(t)}). By establishing the Geometric Strong Convexity bound h_t &lt;= &lt;grad f(x^{(t)}), v_t - s_t&gt;^2 / (2 mu_f^G) in terms of the polytope&#39;s Pyramidal Width delta = PWidth(A) &gt; 0 (Theorem 3, Lemma 4, and Theorem 6) and bounding the number of non-halving &#39;drop steps&#39; (which remove an atom from S^{(t)}) by at most half the total steps, Theorem 1 and Theorem 8 prove that both AFW and PFW achieve global linear convergence h_t = f(x^{(t)}) - f(x^*) &lt;= h_0 (1 - rho)^t regardless of whether x^* lies in the interior or on a low-dimensional boundary face of M.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Frank-Wolfe / Conditional Gradient, which moves only toward vertices s_t in A and stagnates at O(1/t) when the optimum lies on a facet, and from projected gradient methods such as Catalyst or Soft-Impute, which require Euclidean or Bregman projections onto M at every step rather than linear minimization oracle (LMO) calls. Specifically captures the active-set Away-Steps (Algorithm 1) and Pairwise (Algorithm 2) conditional gradient updates, the drop-step amortisation bound, the Pyramidal Width PWidth(A) and Geometric Strong Convexity mu_f^G = mu * delta^2 (Theorem 6), and the exact simplex/cube pyramidal widths (Section 3.1 and Lemma 4).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any finite atom set A subseteq R^d, the Pyramidal Width PWidth(A) &gt; 0 is strictly positive and lower-bounded by the minimal width over all subsets of atoms (Theorem 3); for the unit d-dimensional probability simplex conv(e_1, ..., e_d), PWidth(A) = 2 / sqrt(d) if d is even and 2 / sqrt(d - 1/d) if d is odd (Section 3.1), while for the unit hypercube [0, 1]^d, PWidth({0, 1}^d) = 1 / sqrt(d) and eccentricity(M) = d (Lemma 4); furthermore, any mu-strongly convex function f satisfies the Geometric Strong Convexity inequality mu_f^A &gt;= mu * (PWidth(A))^2 (Theorem 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r342-primary-pdf">On the Global Linear Convergence of Frank-Wolfe Optimization Variants</a></span>
+        <span>· <strong>Locator:</strong> Section 3-3.1, Equations 7-13, Theorem 3, Lemma 4, and Theorem 6, pp. 4-6; Appendix B.1, Proof of Lemma 4, p. 11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r342-arxiv-abs">On the Global Linear Convergence of Frank-Wolfe Optimization Variants (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: Global linear convergence rate characterized via the affine-invariant curvature and pyramidal width of the polytope</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At every non-drop step of Away-Steps Frank-Wolfe (Algorithm 1), the objective suboptimality h_t = f(x^{(t)}) - f(x^*) decreases geometrically by at least h_{t+1} &lt;= (1 - rho_f^{AFW}) h_t where rho_f^{AFW} = mu_f^A / (4 C_f^A) &lt;= 1/2 (or h_{t+1} &lt;= h_t / 2 when gamma_t = gamma_max &gt; gamma_t^B), and since each drop step removes an active atom from S^{(t)} while at most one atom can be added per step, the number of good steps after t iterations is at least k(t) &gt;= t / 2, yielding the global linear convergence bound h_t &lt;= h_0 (1 - rho_f^{AFW})^{max(0, floor((t - |S^{(0)}| + 1)/2))} (Theorem 1 and Theorem 8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r342-primary-pdf">On the Global Linear Convergence of Frank-Wolfe Optimization Variants</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Theorem 1, p. 4; Appendix D, Theorem 8 and Proof of Linear Convergence (Equations 24-31), pp. 14-16</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r342-metadata-cr">On the Global Linear Convergence of Frank-Wolfe Optimization Variants (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Abstract: Global linear convergence for Away-Steps, Pairwise, and Fully-Corrective Frank-Wolfe variants without strict complementarity</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Standard Frank-Wolfe without away or pairwise steps zig-zags across active boundary faces whenever x^* lies on the boundary of a polytope M, exhibiting sublinear O(1/t) convergence on strongly convex objectives where Away-Steps and Pairwise Frank-Wolfe converge linearly via drop steps.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r342-primary-pdf">On the Global Linear Convergence of Frank-Wolfe Optimization Variants</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Introduction and Figure 1 (Zig-Zagging of Standard FW vs Away/Pairwise FW), pp. 1-2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires explicitly maintaining the active convex combination weights alpha_v^{(t)} over S^{(t)} subseteq A (unlike memoryless standard Frank-Wolfe), and for pairwise Frank-Wolfe the worst-case bound on consecutive swap/drop steps can depend on the combinatorial vertex count |A|!.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LassoRegression.html" style="font-weight: 600;"><code>AIO:LassoRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Lasso Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Solves l_1-ball constrained regression and sparse convex optimization over polytopes with active-set atom pruning.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Achieves global linear convergence on strongly convex quadratic least-squares objectives over polytope domains.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LogisticRegression.html" style="font-weight: 600;"><code>AIO:LogisticRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Logistic Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Applies to polytope-constrained strongly convex empirical risk minimization and structural classification.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r342-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r342-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1511.05932.pdf" target="_blank" rel="noopener">On the Global Linear Convergence of Frank-Wolfe Optimization Variants</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Simon Lacoste-Julien, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2015/hash/c058f544c737782deacefa532d9add4c-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5aa82a6944a9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r342-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r342-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1511.05932" target="_blank" rel="noopener">On the Global Linear Convergence of Frank-Wolfe Optimization Variants (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Simon Lacoste-Julien, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1511.05932</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0246ec326319…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r342-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r342-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper/2015/hash/c058f544c737782deacefa532d9add4c-Abstract.html" target="_blank" rel="noopener">On the Global Linear Convergence of Frank-Wolfe Optimization Variants (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Simon Lacoste-Julien, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2015/hash/c058f544c737782deacefa532d9add4c-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7b4bc4bd3cf9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AAwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Away-Step and Pairwise Frank-Wolfe Linear Convergence on Polytopes" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:AwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Away-Step and Pairwise...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:LassoRegression (3)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:04:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:04:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Away-Step%20and%20Pairwise%20Frank-Wolfe%20Linear%20Convergence%20on%20Polytopes"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AAwayStepAndPairwiseFrankWolfeLinearConvergenceOnPolytopes"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

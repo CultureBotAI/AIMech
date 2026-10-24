@@ -42,6 +42,9 @@ KIND_LABELS = {
     "coordination_mechanism": "Coordination Mechanisms",
     "computational_paradigm": "Computational Paradigms",
     "preprocessing_method": "Preprocessing Methods",
+    "task": "Tasks",
+    "bias": "Biases",
+    "risk": "Risks",
 }
 
 KIND_BLURBS = {
@@ -56,6 +59,9 @@ KIND_BLURBS = {
     "coordination_mechanism": "Source-defined computational designs that coordinate activity through specified information or state changes.",
     "computational_paradigm": "Source-defined approaches to organizing computational problem solving through shared design principles.",
     "preprocessing_method": "Feature engineering, data augmentation, and tokenization procedures.",
+    "task": "Formalized problem settings, learning objectives, and benchmark task definitions.",
+    "bias": "Systematic distortions in data collection, representation, evaluation, or model predictions.",
+    "risk": "Failure modes, privacy vulnerabilities, and operational hazards in AI systems.",
 }
 
 BRANCH_LABELS = {

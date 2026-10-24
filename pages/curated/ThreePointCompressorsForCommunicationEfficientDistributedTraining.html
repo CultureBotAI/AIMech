@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3PC Three Point Compressors for Communication-Efficient Distributed Training · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>3PC Three Point Compressors for Communication-Efficient Distributed Training</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">3PC Three Point Compressors for Communication-Efficient Distributed Training</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ThreePointCompressorsForCommunicationEfficientDistributedTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> 3PC, Three Point Compressors, CLAG Compressed Lazy Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A unified class of parameterized compression mechanisms C_{h,y}: R^d -&gt; R^d (Three Point Compressors, 3PC) conditioned on two state vectors h, y in R^d that satisfy E[||C_{h,y}(x) - x||^2] &lt;= (1 - A)||h - y||^2 + B||x - y||^2 for constants A in (0, 1] and B &gt;= 0, together with the 3PC distributed gradient descent algorithm (x^(t+1) = x^t - gamma * g^t, g_i^(t+1) = C_{g_i^t, grad f_i(x^t)}(grad f_i(x^(t+1)))) that unifies and hybridizes contractive error feedback (EF21), Lazily Aggregated Gradients (LAG), Compressed Lazy Aggregation (CLAG), and probabilistic shifting (3PCv1-3PCv5).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Peter Richtarik, Igor Sokolov, Ilyas Fatkhullin, Elnur Gasanov, Zhize Li, and Eduard Gorbunov (ICML 2022, PMLR Vol. 162, pp. 18596-18648; arXiv:2202.00998). Distinct from EF21 (Richtarik, Sokolov, &amp; Fatkhullin, NeurIPS 2021; Round 380), which is a single special case of 3PC without lazy trigger thresholds; and distinct from standalone Lazily Aggregated Gradient (LAG, Chen et al., NeurIPS 2018), which uses a multi-step weighted history condition without contractive compression or the single-step 3PC Lyapunov inequality.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#threepc-three-point-contraction-and-clag-hybridization-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given an alpha-contractive compressor C, 3PC instantiates EF21 via C_{h,y}^EF21(x) = h + C(x - h) with A = 1 - sqrt(1 - alpha) and B = (1 - alpha) / (1 - sqrt(1 - alpha)), instantiates single-step LAG via C_{h,y}^LAG(x) = x if ||x - h||^2 &gt; zeta * ||x - y||^2 else h with A = 1 and B = zeta, and combines them into CLAG (Algorithm 4) via C_{h,y}^CLAG(x) = h + C(x - h) if ||x - h||^2 &gt; zeta * ||x - y||^2 else h satisfying Definition 4.1 with A = 1 - sqrt(1 - alpha) and B = max{(1 - alpha)/(1 - sqrt(1 - alpha)), zeta}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r559-primary-pdf">3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3 Equations (6)-(13), Table 1, &amp; Appendix C Lemmas C.3, C.5, and C.8, pp. 4-6, 17-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#threepc-nonconvex-o-1-over-t-and-pl-linear-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any 3PC compressor with parameters (A, B) applied to L_--smooth global and L_+-average-smooth local objectives with step size 0 &lt; gamma &lt;= 1 / (L_- + L_+ * sqrt(2*B/A)), Lemma 5.4 establishes the Distortion Lyapunov recursion E[G^(t+1)] &lt;= (1 - A) E[G^t] + B * L_+^2 * E[||x^(t+1) - x^t||^2], Theorem 5.5 proves O(1/T) nonconvex stationarity without bounded gradient similarity, and Theorem 5.6 proves linear convergence under the Polyak-Lojasiewicz condition.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r559-primary-pdf">3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Assumptions 5.1-5.3, Lemma 5.4, Theorem 5.5, &amp; Theorem 5.6, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#threepc-worst-case-trigger-and-stochastic-minibatch-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The deterministic worst-case iteration bound for LAG and CLAG depends on B = max{(1 - alpha)/(1 - sqrt(1 - alpha)), zeta}, which does not strictly improve the worst-case bound of EF21 when all workers trigger communication simultaneously, and stochastic extensions require either growing minibatches or PAGE/SPIDER variance reduction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r559-primary-pdf">3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.3 Remarks &amp; Appendix G Stochastic Extensions, pp. 5-6, 37-45</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#threepc-clag-nonconvex-logistic-regression-and-resnet18-cifar10-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed nonconvex logistic regression across LIBSVM datasets (phishing, w8a, a9a, mushrooms) and distributed training of ResNet-18 on CIFAR-10, where CLAG and 3PCv1-3PCv5 reduce total communicated bits compared to standalone EF21 and LAG.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r559-primary-pdf">3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Experiments &amp; Appendix B Additional Experiments, pp. 8-9, 13-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires each worker to store previous gradient and iterate states to evaluate the three-point operator.</li>
+      <li>Lazy upload skipping gains depend on inter-worker smoothness heterogeneity and the trigger parameter zeta.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning covers distributed model training across networked nodes, whereas 3PC is a parameterized three-point compression and lazy-aggregation framework for communication-efficient distributed optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r559-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r559-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2202.00998.pdf" target="_blank" rel="noopener">3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peter Richtarik, Igor Sokolov, Ilyas Fatkhullin, Elnur Gasanov, Zhize Li, Eduard Gorbunov
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openalex.org/W4221138265</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7e70b8c4886b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r559-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r559-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2202.00998" target="_blank" rel="noopener">3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peter Richtarik, Igor Sokolov, Ilyas Fatkhullin, Elnur Gasanov, Zhize Li, Eduard Gorbunov
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2202.00998</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b83055098acc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r559-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r559-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openalex.org/W4221138265" target="_blank" rel="noopener">3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peter Richtarik, Igor Sokolov, Ilyas Fatkhullin, Elnur Gasanov, Zhize Li, Eduard Gorbunov
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openalex.org/W4221138265</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f61882478147…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AThreePointCompressorsForCommunicationEfficientDistributedTraining">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for 3PC Three Point Compressors for Communication-Efficient Distributed Training" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ThreePointCompressorsForCommunicationEfficientDistributedTraining</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">3PC Three Point...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:42:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:42:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ThreePointCompressorsForCommunicationEfficientDistributedTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ThreePointCompressorsForCommunicationEfficientDistributedTraining.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=3PC%20Three%20Point%20Compressors%20for%20Communication-Efficient%20Distributed%20Training"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AThreePointCompressorsForCommunicationEfficientDistributedTraining"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

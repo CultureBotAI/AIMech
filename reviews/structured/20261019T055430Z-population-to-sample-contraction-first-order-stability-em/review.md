@@ -1,0 +1,377 @@
+# Scientific author self-review of Population-to-Sample Contraction, First-Order Stability (FOS), and Gradient Stability (GS) Framework for the EM Algorithm
+
+- Review: 20261019T055430Z-population-to-sample-contraction-first-order-stability-em
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T05:54:00Z
+- Finished UTC: 2026-10-19T05:54:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Population-to-Sample Contraction, First-Order Stability (FOS), and Gradient Stability (GS) Framework for the EM Algorithm as a distinct DRAFT mathematical_method. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/PopulationToSampleContractionAndFirstOrderStabilityEM.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 23693bfa6f1b2ac5375b60dca6e7444435fb9c3a.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM | data/curated/PopulationToSampleContractionAndFirstOrderStabilityEM.yaml | maintained | Population-to-Sample Contraction, First-Order Stability (FOS), and Gradient Stability (GS) Framework for the EM Algorithm |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM | Validated history sidecar files. |
+| python3 population-to-sample-contraction-first-order-stability-em-boundaries.py | passed | True | AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM | {<br>  "snr": 2.5,<br>  "basin_radius": 0.625,<br>  "init_dist": 0.5895,<br>  "empirical_fos_contraction_gamma": 0.02089,<br>  "sample_em_opt_error": 0.0,<br>  "sample_grad_em_opt_error": 2.2215299868541707e-16,<br>  "sample_em_stat_error": 0.05975,<br>  "missing_covariate_kappa_moderate_snr": 0.57653,<br>  "missing_covariate_kappa_excessive_snr": 2.03<br>} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM.
+
+Population-to-Sample Contraction, First-Order Stability (FOS), and Gradient Stability (GS) Framework for the EM Algorithm is a distinct concept.
+
+Resolved against all 442 pinned AIO concepts and 695 maintained AIMech concepts. Distinct from &#96;AIO:Clustering&#96; and &#96;AIO:LinearRegression&#96;, which define general task/model classes without the population-to-sample EM operator decomposition, First-Order Stability $\mathrm{FOS}(\gamma)$, Gradient Stability $\mathrm{GS}(\gamma)$, or non-asymptotic sample-based contraction bounds.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in population-to-sample-contraction-first-order-stability-em-boundaries.py passed with exit code 0: {
+  "snr": 2.5,
+  "basin_radius": 0.625,
+  "init_dist": 0.5895,
+  "empirical_fos_contraction_gamma": 0.02089,
+  "sample_em_opt_error": 0.0,
+  "sample_grad_em_opt_error": 2.2215299868541707e-16,
+  "sample_em_stat_error": 0.05975,
+  "missing_covariate_kappa_moderate_snr": 0.57653,
+  "missing_covariate_kappa_excessive_snr": 2.03
+}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T055400Z-population-to-sample-contraction-first-order-stability-em.json | supports | No normalized identity match for AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/population-to-sample-contraction-first-order-stability-em-boundaries.py | supports | All constructed boundary assertions in population-to-sample-contraction-first-order-stability-em-boundaries.py passed with exit code 0: {<br>  "snr": 2.5,<br>  "basin_radius": 0.625,<br>  "init_dist": 0.5895,<br>  "empirical_fos_contraction_gamma": 0.02089,<br>  "sample_em_opt_error": 0.0,<br>  "sample_grad_em_opt_error": 2.2215299868541707e-16,<br>  "sample_em_stat_error": 0.05975,<br>  "missing_covariate_kappa_moderate_snr": 0.57653,<br>  "missing_covariate_kappa_excessive_snr": 2.03<br>} |
+| bwy2017-emguarantees-pdf | https://arxiv.org/pdf/1408.2156.pdf; Full-text PDF | supports | Full-text PDF (arXiv:1408.2156v1 full-text PDF (54 pages), published in The Annals of Statistics 45(1):77-120 (2017).) read and verified. |
+| bwy2017-emguarantees-abs | https://arxiv.org/abs/1408.2156; arXiv abstract | supports | arXiv abstract read and verified. |
+| bwy2017-emguarantees-cr | https://api.crossref.org/works/10.1214/16-AOS1435; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM in Round 301.
+- All pages of arXiv:1408.2156v1 full-text PDF (54 pages), published in The Annals of Statistics 45(1):77-120 (2017). were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T055430Z-population-to-sample-contraction-first-order-stability-em
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Population-to-Sample Contraction, First-Order
+  Stability (FOS), and Gradient Stability (GS) Framework for the EM Algorithm
+started_at: '2026-10-19T05:54:00Z'
+finished_at: '2026-10-19T05:54:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+    against existing AIMech and AIO records and verified all claims against arXiv:1408.2156v1
+    full-text PDF (54 pages), published in The Annals of Statistics 45(1):77-120 (2017).
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Population-to-Sample Contraction, First-Order Stability (FOS), and
+  Gradient Stability (GS) Framework for the EM Algorithm as a distinct DRAFT mathematical_method.
+  All four claims are supported by full-text primary evidence and pure-Python boundary
+  verification.
+source:
+  git_revision: 23693bfa6f1b2ac5375b60dca6e7444435fb9c3a
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/curated/PopulationToSampleContractionAndFirstOrderStabilityEM.yaml
+    sha256: e5df4b8d83cdfff48ad91c4292a05bd683d4e7be750440a93b1d2ab289980181
+    role: target
+  - path: research/discovery/20261019T055400Z-population-to-sample-contraction-first-order-stability-em.json
+    sha256: 91b4a1568ab408488cbbc5dbb56f6eff3147b76914aa22e1fc2beed134c869e3
+    role: context
+  - path: research/discovery/population-to-sample-contraction-first-order-stability-em-boundaries.py
+    sha256: c0edd4ff906f4412cc8f9fb68fd86f8bd68caa37126621d8b296df4587e2bf57
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  path: data/curated/PopulationToSampleContractionAndFirstOrderStabilityEM.yaml
+  label: Population-to-Sample Contraction, First-Order Stability (FOS), and Gradient
+    Stability (GS) Framework for the EM Algorithm
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PopulationToSampleContractionAndFirstOrderStabilityEM.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/PopulationToSampleContractionAndFirstOrderStabilityEM.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 population-to-sample-contraction-first-order-stability-em-boundaries.py
+  command: python3 research/discovery/population-to-sample-contraction-first-order-stability-em-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"snr\": 2.5,\n  \"basin_radius\": 0.625,\n  \"init_dist\": 0.5895,\n\
+    \  \"empirical_fos_contraction_gamma\": 0.02089,\n  \"sample_em_opt_error\": 0.0,\n\
+    \  \"sample_grad_em_opt_error\": 2.2215299868541707e-16,\n  \"sample_em_stat_error\"\
+    : 0.05975,\n  \"missing_covariate_kappa_moderate_snr\": 0.57653,\n  \"missing_covariate_kappa_excessive_snr\"\
+    : 2.03\n}"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T055400Z-population-to-sample-contraction-first-order-stability-em.json
+  accessed_at: '2026-10-19T05:54:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T05:54:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/population-to-sample-contraction-first-order-stability-em-boundaries.py
+  accessed_at: '2026-10-19T05:54:00Z'
+  snapshot_sha256: c0edd4ff906f4412cc8f9fb68fd86f8bd68caa37126621d8b296df4587e2bf57
+  support: supports
+  summary: "All constructed boundary assertions in population-to-sample-contraction-first-order-stability-em-boundaries.py\
+    \ passed with exit code 0: {\n  \"snr\": 2.5,\n  \"basin_radius\": 0.625,\n  \"\
+    init_dist\": 0.5895,\n  \"empirical_fos_contraction_gamma\": 0.02089,\n  \"sample_em_opt_error\"\
+    : 0.0,\n  \"sample_grad_em_opt_error\": 2.2215299868541707e-16,\n  \"sample_em_stat_error\"\
+    : 0.05975,\n  \"missing_covariate_kappa_moderate_snr\": 0.57653,\n  \"missing_covariate_kappa_excessive_snr\"\
+    : 2.03\n}"
+- evidence_id: bwy2017-emguarantees-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1408.2156.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T05:54:00Z'
+  snapshot_sha256: bb862ee791f942e45531b0ffd34857da964adde73ec9617d2bc03ea75b4dc37b
+  support: supports
+  summary: Full-text PDF (arXiv:1408.2156v1 full-text PDF (54 pages), published in
+    The Annals of Statistics 45(1):77-120 (2017).) read and verified.
+- evidence_id: bwy2017-emguarantees-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1408.2156
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T05:54:00Z'
+  snapshot_sha256: 4fd7583b07aaca16342a42245f41634fd20cf7177bb2b04e1091a5fc42ab13a4
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: bwy2017-emguarantees-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1214/16-AOS1435
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T05:54:00Z'
+  snapshot_sha256: c330e97d787fc9ffbdcc8ccc3dd5b5aab086a4b6218edac777e6a1190658ccbc
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  evidence_ids:
+  - identity
+  - bwy2017-emguarantees-pdf
+  - bwy2017-emguarantees-abs
+  - bwy2017-emguarantees-cr
+  summary: Population-to-Sample Contraction, First-Order Stability (FOS), and Gradient
+    Stability (GS) Framework for the EM Algorithm is a distinct concept.
+  details: Resolved against all 442 pinned AIO concepts and 695 maintained AIMech
+    concepts. Distinct from `AIO:Clustering` and `AIO:LinearRegression`, which define
+    general task/model classes without the population-to-sample EM operator decomposition,
+    First-Order Stability $\mathrm{FOS}(\gamma)$, Gradient Stability $\mathrm{GS}(\gamma)$,
+    or non-asymptotic sample-based contraction bounds.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  evidence_ids:
+  - mapping
+  - bwy2017-emguarantees-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  evidence_ids:
+  - bwy2017-emguarantees-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: "All constructed boundary assertions in population-to-sample-contraction-first-order-stability-em-boundaries.py\
+    \ passed with exit code 0: {\n  \"snr\": 2.5,\n  \"basin_radius\": 0.625,\n  \"\
+    init_dist\": 0.5895,\n  \"empirical_fos_contraction_gamma\": 0.02089,\n  \"sample_em_opt_error\"\
+    : 0.0,\n  \"sample_grad_em_opt_error\": 2.2215299868541707e-16,\n  \"sample_em_stat_error\"\
+    : 0.05975,\n  \"missing_covariate_kappa_moderate_snr\": 0.57653,\n  \"missing_covariate_kappa_excessive_snr\"\
+    : 2.03\n}"
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  evidence_ids:
+  - identity
+  - mapping
+  - bwy2017-emguarantees-pdf
+  - bwy2017-emguarantees-abs
+  - bwy2017-emguarantees-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PopulationToSampleContractionAndFirstOrderStabilityEM
+  in Round 301.
+- All pages of arXiv:1408.2156v1 full-text PDF (54 pages), published in The Annals
+  of Statistics 45(1):77-120 (2017). were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

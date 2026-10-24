@@ -1,0 +1,100 @@
+id: AIMech:PowerOfChoiceBiasedLossClientSelectionForFederatedLearning
+name: 'Power-of-Choice (Biased Loss-Based Client Selection Strategies for Federated Learning: pow-d, cpow-d, and rpow-d)'
+concept_kind: algorithm
+review_status: DRAFT
+definition: A biased client-selection framework and theoretical convergence analysis for partial-participation federated learning (Cho, Wang, & Joshi 2022, Sections 3-4, Definitions 3.1-3.2, Equations 4-8, Theorem 3.1, Theorem A.1, Appendix F Algorithms 1-2) that characterizes any client selection policy pi mapping the global model w to an active cohort S(pi, w) of size m = max(C K, 1) via the local-global objective gap Gamma = F^* - sum_{k=1}^K p_k F_k^* >= 0 (Definition 3.1, Equation 4) and the selection skew rho(S(pi, w), w') = E_{S(pi,w)}[(1/m) sum_{k in S(pi,w)} (F_k(w') - F_k^*)] / (F(w') - sum_{k=1}^K p_k F_k^*) with extremal bounds rho_bar = min_{w,w'} rho(S(pi, w), w') and rho_tilde = max_w rho(S(pi, w), w^*) (Definition 3.2, Equations 5-6). Under L-smooth, mu-strongly convex objectives, Theorem 3.1 proves that biasing selection toward higher-loss clients (rho_bar > 1) accelerates the O(1 / (T rho_bar)) vanishing error term by a factor of rho_bar while introducing a bounded solution bias Q(rho_bar, rho_tilde) = (8 L Gamma / (3 mu)) (rho_tilde / rho_bar - 1) (Equation 7). To span this speed-bias trade-off efficiently, Power-of-Choice (pi_{pow-d}) first samples a candidate set A of d clients (m <= d <= K) without replacement in proportion to dataset sizes p_k, evaluates or estimates their local losses F_k(w_bar^{(t)}), and selects the m clients in A with the largest local losses, with resource-saving variants pi_{cpow-d} (mini-batch loss estimation, Algorithm 1) and pi_{rpow-d} (cached cumulative local training loss piggybacked on model uploads without extra communication, Algorithm 2).
+identity_notes: Distinct from unbiased partial-participation FedAvg (McMahan et al. 2017; Li et al. 2020), which corresponds to the d = m special case (rho_bar = rho_tilde = 1, zero selection bias but no O(1/rho_bar) convergence acceleration); and distinct from q-Fair Federated Learning (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which reweights the global objective to sum_k (p_k/(q+1)) F_k(w)^{q+1} under unbiased client sampling rather than altering the client selection policy via power-of-d highest-loss candidate filtering.
+aliases:
+- Power-of-Choice Client Selection
+- pow-d, cpow-d, and rpow-d Federated Client Selection
+- Biased Client Selection with Selection Skew in Federated Learning
+definition_evidence:
+- source_id: r491-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r491-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r491-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r491-claim-1
+  kind: mechanism
+  statement: Theorem 3.1 (Equation 7) and Theorem A.1 (Equation 8) prove that for L-smooth, mu-strongly convex local objectives with local-global objective gap Gamma = F^* - sum_{k=1}^K p_k F_k^* and selection skew bounds rho_bar <= rho_tilde (Definitions 3.1-3.2, Equations 4-6), FedAvg with decaying step size eta_t = 1 / (mu(t + gamma)) satisfies E[F(w_bar^{(T)})] - F^* <= (1 / (T + gamma)) [4 L (32 tau^2 G^2 + sigma^2/m) / (3 mu^2 rho_bar) + 8 L^2 Gamma / mu^2 + L gamma ||w_bar^{(0)} - w^*||^2 / 2] + (8 L Gamma / (3 mu)) (rho_tilde / rho_bar - 1), accelerating transient convergence by rho_bar.
+  evidence:
+  - source_id: r491-primary-pdf
+    locator: Section 3, pp. 4-5, Definitions 3.1-3.2, Equations 4-7, Theorem 3.1; Appendix A, p. 12, Theorem A.1
+    relation: supports
+- claim_id: r491-claim-2
+  kind: mechanism
+  statement: Power-of-Choice (pi_{pow-d}) samples d candidate clients (m <= d <= K) without replacement with probabilities p_k and selects the m clients with highest local loss F_k(w_bar^{(t)}), while pi_{cpow-d} estimates losses on a random mini-batch of size b (Algorithm 1) and pi_{rpow-d} eliminates selection communication overhead by ranking candidates using their latest piggybacked local training loss (1 / (tau b)) sum_{l=t-tau+1}^t sum_{xi in xi_k^{(l)}} f(w_k^{(l)}, xi) (Algorithm 2).
+  evidence:
+  - source_id: r491-primary-pdf
+    locator: Section 4, pp. 5-6; Appendix F, p. 20, Algorithms 1-2
+    relation: supports
+- claim_id: r491-claim-3
+  kind: limitation
+  statement: Increasing the candidate set size d increases the selection skew rho_bar and initial convergence speed but can also increase the ratio rho_tilde / rho_bar and the non-vanishing solution bias Q(rho_bar, rho_tilde) = (8 L Gamma / (3 mu))(rho_tilde / rho_bar - 1) under severe data heterogeneity (small Dirichlet alpha), where a moderate d outperforms choosing d = K.
+  evidence:
+  - source_id: r491-primary-pdf
+    locator: Sections 3.2, 4, & 5, pp. 5-7, Figures 2 & 4(b)
+    relation: supports
+- claim_id: r491-claim-4
+  kind: application
+  statement: Applied to strongly convex quadratic optimization, logistic regression on Synthetic(1,1), and DNN training on non-IID Dirichlet-partitioned Fashion-MNIST, achieving up to 3x faster convergence and 10% higher test accuracy than unbiased random selection pi_rand and outperforming Active Federated Learning (pi_afl).
+  evidence:
+  - source_id: r491-primary-pdf
+    locator: Section 5, pp. 6-8, Table 1, Figures 2-5
+    relation: supports
+evidence_sources:
+- source_id: r491-primary-pdf
+  title: 'Client Selection in Federated Learning: Convergence Analysis and Power-of-Choice Selection Strategies'
+  authors: &id001
+  - Yae Jee Cho
+  - Jianyu Wang
+  - Gauri Joshi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2010.01243.pdf
+  persistent_id: https://arxiv.org/abs/2010.01243
+  version: Conference Proceedings (2022) (2610450 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:34:00Z'
+  sha256: 14e159d59131ac75230587db8988d654fbc19bc731b02ed3183478673c8658f1
+- source_id: r491-arxiv-abs
+  title: 'Client Selection in Federated Learning: Convergence Analysis and Power-of-Choice Selection Strategies (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.01243
+  persistent_id: https://arxiv.org/abs/2010.01243
+  version: arXiv abstract page (1504 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:34:00Z'
+  sha256: fa81bf02e970218c05a57f9629f2523d332df2244ec5ed6692fcb41cda989ebf
+- source_id: r491-metadata-cr
+  title: 'Client Selection in Federated Learning: Convergence Analysis and Power-of-Choice Selection Strategies (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2010.01243
+  persistent_id: https://arxiv.org/abs/2010.01243
+  version: Crossref API work record (479 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:34:00Z'
+  sha256: bcfc8ebc5e464af5048f194ab38788adcd4876f4d7857cd4c6cceb869dfd99b4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: Power-of-Choice is a biased loss-based client selection algorithm within the broader FederatedLearning category.
+limitations:
+- Excessively large candidate pool sizes d under high data heterogeneity (large Gamma) can increase the asymptotic solution bias Q(rho_bar, rho_tilde) = (8 L Gamma / (3 mu))(rho_tilde / rho_bar - 1).
+- Base pow-d requires sending the current global model to d >= m candidate clients to evaluate local losses before selecting m active trainers unless approximated via cpow-d or rpow-d.
+curation:
+  created_at: '2026-10-19T09:34:00Z'
+  updated_at: '2026-10-19T09:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

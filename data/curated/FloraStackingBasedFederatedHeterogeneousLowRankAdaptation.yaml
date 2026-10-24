@@ -1,0 +1,105 @@
+id: AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation
+name: 'FLoRA: Stacking-Based Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations'
+concept_kind: algorithm
+review_status: DRAFT
+definition: A noise-free, rank-heterogeneous federated parameter-efficient fine-tuning algorithm (FLoRA; Wang, Shen, He, Sun, Wang, Lyu, and Li, NeurIPS 2024) that enables K distributed clients with heterogeneous LoRA ranks {r_k}_{k=0}^K to collaboratively fine-tune a pre-trained model W in R^{m x n}. In each communication round, client k initializes and trains local low-rank adapter matrices A_k in R^{r_k x n} and B_k in R^{m x r_k}; instead of independently averaging A_k and B_k (which introduces cross-client error sum_{i != j} p_i p_j B_i A_j and squared diagonal weights p_k^2, Eq. 6), the server constructs global stacked adapters by vertically concatenating scaled A_k blocks A = p_0 A_0 (+) p_1 A_1 (+) ... (+) p_K A_K in R^{(sum_{k=0}^K r_k) x n} and horizontally concatenating B_k blocks B = B_0 (+) B_1 (+) ... (+) B_K in R^{m x (sum_{k=0}^K r_k)} (Eqs. 9-12) (optionally permuting rank-1 sub-modules at random for cross-client privacy), satisfying the exact identity B A = sum_{k=0}^K p_k B_k A_k before redistributing (B, A) to update local base models W <- W + B A.
+identity_notes: Distinct from FFA-LoRA (AIMech:FfaLoraFederatedFreezeALowRankAdaptation; Sun et al., ICLR 2024), which eliminates aggregation cross-terms by freezing a homogeneous random projection matrix A_0 across all clients rather than training both A_k and B_k with heterogeneous client ranks r_k and stacking them on the server. Distinct from FedIT (Zhang et al., 2023) and zero-padded heterogeneous LoRA (HetLoRA; Cho et al., 2023), which average A_k and B_k separately and suffer from cross-client product noise (sum_k p_k B_k)(sum_k p_k A_k) != sum_k p_k B_k A_k. Also distinct from centralized memory-efficient low-rank gradient projection (Flora; Hao et al., 2024), which resamples random projection matrices on a single machine rather than stacking multi-client heterogeneous LoRA adapters in federated learning.
+aliases:
+- FLoRA
+- Stacking-Based Federated Heterogeneous LoRA
+- FLoRA Federated Fine-Tuning with Heterogeneous Low-Rank Adaptations
+definition_evidence:
+- source_id: r511-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r511-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r511-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: flora-block-matrix-stacking-exact-aggregation-and-rank1-permutation-mechanism
+  kind: mechanism
+  statement: Given K + 1 participating clients with arbitrary local LoRA ranks r_k and sample-proportion weights p_k = |D_k| / sum_{j=0}^K |D_j| applied to A_k only, FLoRA vertically stacks A = p_0 A_0 (+) ... (+) p_K A_K in R^{(sum_k r_k) x n} and horizontally stacks B = B_0 (+) ... (+) B_K in R^{m x (sum_k r_k)} (Eqs. 9-12, pp. 4-6), guaranteeing the exact noise-free outer-product decomposition B A = sum_{k=0}^K p_k B_k A_k (Eq. 10) while allowing the server to decompose (B, A) into sum_k r_k rank-1 sub-modules and randomly permute their order so clients cannot identify individual peers' adapters (Section 5, p. 9).
+  evidence:
+  - source_id: r511-primary-pdf
+    locator: Section 3.1-3.2, Eqs. (7)-(12), Figures 2-3, pp. 4-6; Section 5 The Privacy Preservation of FLoRA, p. 9
+    relation: supports
+- claim_id: flora-non-iid-strongly-convex-convergence-rate-scope
+  kind: scope
+  statement: Under Assumptions 1-5 (L-smoothness, mu-strong convexity, bounded stochastic gradient variance sigma_k^2 and second moment G^2, and unbiased LoRA local update steps B_k^{(t+1)} A_k^{(t+1)} - B_k^{(t)} A_k^{(t)} = eta^{(t)} nabla F_k(W_k^{(t)} | xi_k^{(t)})), Theorem 1 (Appendix B, Eqs. 13-14, p. 14) proves that FLoRA with step size alpha_k / r_k = 2 / (mu (gamma + t)), kappa = L / mu, and gamma = max{8 kappa, E} bounds the expected fine-tuning optimality gap by delta^{(T)} = E[F(w^{(T-1)} + B^{(T)} A^{(T)})] - F* <= (2 kappa / (gamma + T))(M / mu + 2 L ||W^{(1)} - W*||^2) = O(1 / T) where M = sum_{k=1}^K p_k^2 sigma_k^2 + 6 L Gamma + 8 (E - 1)^2 G^2.
+  evidence:
+  - source_id: r511-primary-pdf
+    locator: Appendix B Convergence Analysis, Assumptions 1-5, Theorem 1, Eqs. (13)-(14), pp. 13-14
+    relation: supports
+- claim_id: flora-downlink-stacked-rank-communication-and-reinitialization-limitation
+  kind: limitation
+  statement: Because the server broadcasts the stacked matrices A in R^{(sum_k r_k) x n} and B in R^{m x (sum_k r_k)} whose inner dimension equals the sum of all participating clients' ranks sum_{k=0}^K r_k, FLoRA increases per-round downlink communication relative to FedIT (e.g., 0.215 vs 0.177 of full fine-tuning over 3 rounds in Figure 6, p. 9) and requires clients to merge B A into W and re-initialize fresh local LoRA adapters each round (Section 3.2, pp. 5-6; Section 5, pp. 8-9; Appendix C, p. 14).
+  evidence:
+  - source_id: r511-primary-pdf
+    locator: Section 3.2 Local Fine-tuning & Update Local Models, pp. 5-6; Section 5 Figure 6, pp. 8-9; Appendix C Limitation, p. 14
+    relation: supports
+- claim_id: flora-heterogeneous-rank-federated-llm-instruction-tuning-application
+  kind: application
+  statement: Applied to homogeneous and rank-heterogeneous (r_k in {4, 8, 16, 32, 64} and dynamic AdaLoRA) federated instruction tuning of TinyLlama-1.1B, LLaMA-7B, and Llama2-7B on Dolly-15K, Alpaca, Wizard, and ShareGPT evaluated on MMLU and MT-bench.
+  evidence:
+  - source_id: r511-primary-pdf
+    locator: Section 4 Experiments, Table 1, Figures 4-5, pp. 6-8; Appendix A.3 Tables 3-4, p. 13
+    relation: supports
+evidence_sources:
+- source_id: r511-primary-pdf
+  title: 'FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations'
+  authors: &id001
+  - Ziyao Wang
+  - Zheyu Shen
+  - Yexiao He
+  - Guoheng Sun
+  - Hongyi Wang
+  - Lingjuan Lyu
+  - Ang Li
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2409.05976.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/WangSHS0LL24
+  version: Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) (2525998 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:54:00Z'
+  sha256: bf2a952105e6c9db9fdc487ce89cc502296982189afce8cff4cfed861c0e29f3
+- source_id: r511-arxiv-abs
+  title: 'FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2409.05976
+  persistent_id: https://arxiv.org/abs/2409.05976
+  version: arXiv abstract page (6844 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:54:00Z'
+  sha256: 9d56705d958ed6a1ac21014a66b8d4c2d127a71b5e16fc721c355eb768fd9002
+- source_id: r511-metadata-cr
+  title: 'FLoRA: Federated Fine-Tuning Large Language Models with Heterogeneous Low-Rank Adaptations (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/WangSHS0LL24
+  persistent_id: https://dblp.org/rec/conf/nips/WangSHS0LL24
+  version: Crossref API work record (2220 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:54:00Z'
+  sha256: b108b3ff0768ad67acf7ba7881b84ff4fed8b4051c84f2438dae6b4a985b9ca2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FLoRA is a federated fine-tuning algorithm that aggregates heterogeneous client LoRA adapters via noise-free matrix stacking.
+limitations:
+- Downlink communication per round scales with the sum of participating clients' LoRA ranks sum_{k=0}^K r_k rather than a single average rank (Section 3.2, p. 6; Appendix C, p. 14).
+- Merging the stacked global update B A into the base weight matrix W at each round requires re-initializing local LoRA adapters before the next round of local training (Section 3.2, p. 5).
+- Empirical performance is sensitive to the dataset- and model-dependent choice of the scaling factor p_k (Section 4.2, Figure 5, p. 8).
+curation:
+  created_at: '2026-10-19T09:54:00Z'
+  updated_at: '2026-10-19T09:54:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

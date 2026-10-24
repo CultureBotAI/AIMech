@@ -35,7 +35,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Evaluation Methods</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">3 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">5 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Empirical protocols and test methodologies for measuring AI system performance.</p>
 </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="facet-actions">
         <div class="filter-count">
-          Showing <span id="matchCount">3</span> of <span id="totalCount">3</span>
+          Showing <span id="matchCount">5</span> of <span id="totalCount">5</span>
         </div>
         <button type="button" id="resetFilters" class="btn">Clear</button>
       </div>
@@ -71,39 +71,43 @@
       <div class="facet-list">
         <a class="facet-link " href="../kinds/algorithm.html">
           <span>Algorithms</span>
-          <small>567</small>
+          <small>1047</small>
+        </a>
+        <a class="facet-link " href="../kinds/mathematical_method.html">
+          <span>Mathematical Methods</span>
+          <small>175</small>
+        </a>
+        <a class="facet-link " href="../kinds/architecture.html">
+          <span>Architectures</span>
+          <small>121</small>
         </a>
         <a class="facet-link " href="../kinds/model_family.html">
           <span>Model Families</span>
           <small>91</small>
         </a>
-        <a class="facet-link " href="../kinds/architecture.html">
-          <span>Architectures</span>
-          <small>71</small>
-        </a>
-        <a class="facet-link " href="../kinds/mathematical_method.html">
-          <span>Mathematical Methods</span>
-          <small>52</small>
-        </a>
         <a class="facet-link " href="../kinds/layer.html">
           <span>Layers &amp; Modules</span>
-          <small>18</small>
+          <small>20</small>
+        </a>
+        <a class="facet-link " href="../kinds/learning_paradigm.html">
+          <span>Learning Paradigms</span>
+          <small>13</small>
+        </a>
+        <a class="facet-link " href="../kinds/preprocessing_method.html">
+          <span>Preprocessing Methods</span>
+          <small>7</small>
+        </a>
+        <a class="facet-link active" href="../kinds/evaluation_method.html">
+          <span>Evaluation Methods</span>
+          <small>5</small>
         </a>
         <a class="facet-link " href="../kinds/evaluation_criterion.html">
           <span>Evaluation Criteria</span>
           <small>5</small>
         </a>
-        <a class="facet-link " href="../kinds/learning_paradigm.html">
-          <span>Learning Paradigms</span>
-          <small>4</small>
-        </a>
-        <a class="facet-link " href="../kinds/preprocessing_method.html">
-          <span>Preprocessing Methods</span>
-          <small>4</small>
-        </a>
-        <a class="facet-link active" href="../kinds/evaluation_method.html">
-          <span>Evaluation Methods</span>
-          <small>3</small>
+        <a class="facet-link " href="../kinds/bias.html">
+          <span>Biases</span>
+          <small>1</small>
         </a>
         <a class="facet-link " href="../kinds/coordination_mechanism.html">
           <span>Coordination Mechanisms</span>
@@ -163,6 +167,36 @@
       <tr data-origin="curated"
           data-kind="evaluation_method"
           data-branch=""
+          data-name="domain conditional pointwise mutual information (pmi_dc) scoring"
+          data-id="aimech:pmidcdomainconditionalpointwisemutualinformation"
+          data-claims="4"
+          data-sources="3"
+          data-search="domain conditional pointwise mutual information (pmi_dc) scoring pmidcdomainconditionalpointwisemutualinformation aimech:pmidcdomainconditionalpointwisemutualinformation evaluation methods evaluation_method a zero-shot and few-shot multiple-choice scoring method for generative language models that compensates for surface form competition—the rationing of finite probability mass across distinct strings representing the same concept—by selecting the candidate hypothesis y_i that maximizes domain conditional pointwise mutual information: arg max_i pmi_dc(x, y_i, domain) = arg max_i log [p(y_i | x) / p(y_i | x_domain)], where p(y_i | x_domain) is the a priori probability of hypothesis y_i within the task domain estimated by conditioning on a short task-specific domain premise string x_domain (typically the trailing cue of the prompt template x, such as &#39;because&#39; or &#39;the answer is:&#39;). distinct from standard direct probability arg max_i p(y_i | x) and length-normalized average log-likelihood avg = (1/l_i) sum_j log p(y_i^j | x, y_i^{&lt;j}), which do not factor out surface-form rarity, and from contextual calibration (zhao et al., icml 2021, aimech:calibratebeforeusecontextualcalibration), which fits an affine matrix over a fixed closed label set using multiple content-free inputs rather than computing the symmetric log-probability difference log p(y_i | x) - log p(y_i | x_domain) for arbitrary open-set per-question answer options. domain conditional pointwise mutual information pmi_dc domain conditional pmi scoring surface form competition pmi_dc scoring because generative lms allocate probability mass across all valid surface paraphrases of a concept (e.g., &#39;bathtub&#39; vs. &#39;whirlpool bath&#39;, or &#39;it was 3 am&#39; vs. &#39;it was 3:30am&#39;), direct scoring p(y_i | x) penalizes rare surface forms; by bayes&#39; rule symmetry arg max_i [p(y_i | x, domain) / p(y_i | domain)] = arg max_i p(x | y_i, domain), pmi_dc simulates scoring-by-premise without requiring the question and options to be manually inverted. on &#39;copa flipped&#39;—where cause and effect clauses are swapped with inverted connectives (&#39;because&#39; &lt;-&gt; &#39;so&#39;) so that the lm scores a single fixed premise continuation given each candidate option as context—surface form competition is completely removed, causing uncalibrated lm and avg scoring to jump to the exact same accuracy as pmi_dc across all 8 gpt-2 and gpt-3 model scales. across 16 splits of 13 open-set and closed-set multiple-choice benchmarks (copa, storycloze, hellaswag, race-m/h, arc-e/c, openbookqa, commonsenseqa, boolq, rte, cb, sst-2, sst-5, ag&#39;s news, trec) and 8 model sizes (gpt-2 125m-1.6b and gpt-3 2.7b-175b), pmi_dc wins or ties on 62.5% to 86.7% of datasets per model scale (outperforming lm, avg, and contextual calibration by &gt;40 percentage points in win rate). pmi_dc underperforms avg on hellaswag (where adversarial machine-generated distractors test internal continuation coherence rather than premise-hypothesis mutual information) and underperforms direct lm scoring on arc easy (which favors a priori likely stock textbook phrases), and pmi_dc still scores each option y_i independently rather than jointly reasoning over the entire set of candidate options (e.g., failing on meta-options like &#39;all of the above&#39;). surface form competition: why the highest probability answer isn&#39;t always right surface form competition: why the highest probability answer isn&#39;t always right (arxiv abstract) surface form competition: why the highest probability answer isn&#39;t always right (crossref metadata) ari holtzman peter west vered shwartz yejin choi luke zettlemoyer ari holtzman peter west vered shwartz yejin choi luke zettlemoyer ari holtzman peter west vered shwartz yejin choi luke zettlemoyer">
+        <td>
+          <a href="../curated/PMIDCDomainConditionalPointwiseMutualInformation.html" style="font-weight: 600; font-size: 1rem;">Domain Conditional Pointwise Mutual Information (PMI_DC) Scoring</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Domain Conditional Pointwise Mutual Information, PMI_DC…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A zero-shot and few-shot multiple-choice scoring method for generative language models that compensates for surface form competition—the rat…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/evaluation_method.html" style="font-size: 0.85rem;">Evaluation Methods</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PMIDCDomainConditionalPointwiseMutualInformation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="evaluation_method"
+          data-branch=""
           data-name="maxcfu"
           data-id="aimech:maxcfu"
           data-claims="2"
@@ -188,6 +222,36 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="evaluation_method"
+          data-branch=""
+          data-name="prior-expansion marginal likelihood score prior-data conflict check"
+          data-id="aimech:priorexpansionmarginallikelihoodscorepriordataconflictcheck"
+          data-claims="4"
+          data-sources="3"
+          data-search="prior-expansion marginal likelihood score prior-data conflict check priorexpansionmarginallikelihoodscorepriordataconflictcheck aimech:priorexpansionmarginallikelihoodscorepriordataconflictcheck evaluation methods evaluation_method a bayesian model criticism and prior-data conflict evaluation method that embeds a working prior p_0(theta) into a continuous expansion family p(theta | gamma) indexed by a hyperparameter gamma (with p(theta | gamma_0) = p_0(theta)) and evaluates the score of the log marginal likelihood s_gamma(y) = d/dgamma log p(y | gamma)|_{gamma_0} as a posterior expectation of the prior score, computing a prior-predictive tail probability on the variance-standardized score statistic to detect conflict between prior assumptions and observed data. no aio class represents bayesian prior-data conflict diagnostics; machinelearningtask (aio:machinelearningtask) is the closest broad match covering model criticism and diagnostic evaluation tasks. prior-expansion score conflict check marginal likelihood score prior-data conflict diagnostic prior expansion score statistic for prior-data conflict for a smooth prior expansion p(theta | gamma) reducing to p_0(theta) at gamma = gamma_0, the gradient of the log marginal likelihood s_gamma(y) = grad_gamma log p(y | gamma)|_{gamma_0} equals the posterior expectation e[grad_gamma log p(theta | gamma)|_{gamma_0} | y, gamma_0], allowing the test statistic to be computed from baseline posterior mcmc samples without refitting expanded models. standardizing the score vector by its prior predictive covariance v_gamma = cov_{y ~ p(y|gamma_0)}(s_gamma(y)) yields the quadratic discrepancy statistic q(y) = s_gamma(y)^t v_gamma^{-1} s_gamma(y) and prior-predictive p-value p_s(y_obs) = p(q(y) &gt;= q(y_obs)), which recovers the evans-moshonov minimal sufficient statistic check in exponential families and connects locally to relative belief ratios. the prior-expansion score diagnostic is applied to detect componentwise prior-data conflict in bayesian regression, generalized linear models, and hierarchical random-effects models using location, scale, and heavy-tailed student-t prior expansions. because s_gamma(y) is a local first-order derivative evaluated at gamma = gamma_0, its sensitivity depends on the chosen parametric expansion family p(theta | gamma), and calibrating p_s(y_obs) requires simulating from the prior predictive distribution p(y | gamma_0) when analytical moments are unavailable. using prior expansions for prior-data conflict checking using prior expansions for prior-data conflict checking (arxiv abstract) using prior expansions for prior-data conflict checking (crossref metadata) david j. nott micheal seah luai al-labadi michael evans hui khoon ng berthold-georg englert david j. nott micheal seah luai al-labadi michael evans hui khoon ng berthold-georg englert david j. nott micheal seah luai al-labadi michael evans hui khoon ng berthold-georg englert">
+        <td>
+          <a href="../curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.html" style="font-weight: 600; font-size: 1rem;">Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Prior-Expansion Score Conflict Check, Marginal Likelihood Score Prior-Data Conflict Diagnostic…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A Bayesian model criticism and prior-data conflict evaluation method that embeds a working prior p_0(theta) into a continuous expansion fami…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/evaluation_method.html" style="font-size: 0.85rem;">Evaluation Methods</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
@@ -228,7 +292,7 @@
 <script src="../record-browser.js"></script>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-16 (<code>5033b9689595</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

@@ -1,0 +1,97 @@
+id: AIMech:SubspacePursuitForCompressiveSensingSignalReconstruction
+name: Subspace Pursuit for Compressive Sensing Signal Reconstruction
+concept_kind: algorithm
+review_status: DRAFT
+definition: Subspace Pursuit for Compressive Sensing Signal Reconstruction (SP) is an iterative backtracking greedy algorithm introduced by Dai and Milenkovic (2009) for reconstructing K-sparse and compressible signals x in R^N from linear measurements y = Phi x + e in R^m. Unlike CoSaMP (which merges 2K proxy coordinates and prunes without re-projecting), SP initializes the K-element support T^0 = {K indices of largest magnitude of Phi^* y} with orthogonal-projection residue y_r^0 = resid(y, Phi_{T^0}) and at each iteration l >= 1 forms the 2K-element candidate union T_tilde^l = T^{l-1} union {K indices of largest magnitude of Phi^* y_r^{l-1}}, computes the intermediate projection coefficients x_p = Phi_{T_tilde^l}^dagger y, prunes T^l to the K indices of largest magnitude in x_p, and performs a second orthogonal projection y_r^l = y - Phi_{T^l} Phi_{T^l}^dagger y onto the pruned K-dimensional column subspace before checking termination ||y_r^l||_2 >= ||y_r^{l-1}||_2.
+identity_notes: Distinct from CoSaMP (AIMech:CoSaMPCompressiveSamplingMatchingPursuit, which selects 2K atoms per step, operates on 3K supports under delta_{4K}, and omits the post-pruning subspace projection), Orthogonal Matching Pursuit (AIMech:OrthogonalMatchingPursuitTroppGilbertSignalRecovery), and Iterative Hard Thresholding (AIMech:IterativeHardThresholdingForCompressedSensing). Specifically captures the Dai-Milenkovic (2009) Subspace Pursuit algorithm (Algorithm 1), its post-pruning orthogonal residue property Phi_{T^l}^* y_r^l = 0 (Lemma 2), its 3K-RIP geometric contraction under delta_{3K} < 0.205 (Theorems 1-2) and noisy/compressible stability under delta_{3K} < 0.083 (Theorem 9).
+aliases:
+- Subspace Pursuit
+- SP Algorithm for Compressive Sensing
+- Dai-Milenkovic Subspace Pursuit
+definition_evidence:
+- source_id: r316-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r316-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r316-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: Because Subspace Pursuit re-projects the measurement vector y onto the pruned K-column subspace span(Phi_{T^{l-1}}) to form y_r^{l-1} = resid(y, Phi_{T^{l-1}}), the correlation vector Phi^* y_r^{l-1} vanishes identically on all currently active indices T^{l-1} (Lemma 2), ensuring that the K newly selected correlation indices are strictly disjoint from T^{l-1} and that the merged support T_tilde^l has exact cardinality 2K, requiring only 3K-restricted isometry constants delta_{3K} rather than 4K-RIP constants.
+  evidence:
+  - source_id: r316-primary-pdf
+    locator: Section II.A, Algorithm 1, p. 3; Section III.A, Lemma 2 and Theorem 1, pp. 4-5; Appendix B-C, Proofs of Lemmas 2 and Theorem 1, pp. 12-14
+    relation: supports
+  - source_id: r316-metadata-cr
+    locator: Bibliographic metadata for IEEE Transactions on Information Theory 55(5):2230-2249
+    relation: supports
+- claim_id: claim-02
+  kind: scope
+  statement: Under the noiseless 3K-RIP condition delta_{3K} < 0.205 (or delta_{3K} < 0.165 for both support-missed error and residue norms), Theorem 1 and Theorem 2 prove the per-step contractions ||x_{T - T^l}||_2 <= c_K ||x_{T - T^{l-1}}||_2 and ||y_r^l||_2 <= c'_K ||y_r^{l-1}||_2 with c_K, c'_K < 1, guaranteeing exact K-sparse recovery in finite iterations <= ceil(log(x_min/||x||_2)/log(c_K)) (Theorem 3); under noisy compressible measurements with delta_{3K} < 0.083, Theorem 9 proves ||x - x_hat||_2 <= C_1 ||x - x_K||_2 + (C_1/sqrt(K)) ||x - x_K||_1 + C_2 ||e||_2.
+  evidence:
+  - source_id: r316-primary-pdf
+    locator: Section III.A-B, Theorems 1, 2, and 3, pp. 4-6; Section IV, Theorem 9, pp. 8-9; Appendix F, Proof of Theorem 9, pp. 15-17
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Unlike CoSaMP, each Subspace Pursuit iteration performs two least-squares pseudoinversions (one on the 2K-column matrix Phi_{T_tilde^l} for pruning and a second on the K-column matrix Phi_{T^l} to orthogonalize the residue y_r^l), and requires the target sparsity K to be known a priori.
+  evidence:
+  - source_id: r316-primary-pdf
+    locator: Section II.A-B, Algorithm 1 and Comparison with CoSaMP/ROMP, pp. 3-4; Section III.C, Computational Complexity Theorems 6-8, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r316-primary-pdf
+  title: Subspace Pursuit for Compressive Sensing Signal Reconstruction
+  authors: &id001
+  - Wei Dai
+  - Olgica Milenkovic
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0803.0811v3
+  persistent_id: https://doi.org/10.1109/TIT.2009.2016006
+  version: IEEE Transactions on Information Theory, 55(5):2230-2249 (2009) (490677 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:24:00Z'
+  sha256: 41bc8e1020c12d96da657e4f3b5773209e284c8bf4e440e37452b568252ccc7f
+- source_id: r316-arxiv-abs
+  title: Subspace Pursuit for Compressive Sensing Signal Reconstruction (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0803.0811v3
+  persistent_id: https://arxiv.org/abs/0803.0811v3
+  version: arXiv abstract page (6077 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:24:00Z'
+  sha256: 4c602a5f8887610bfb388121af0b45da5e4eb130e036c8b92c7705b091454b6d
+- source_id: r316-metadata-cr
+  title: Subspace Pursuit for Compressive Sensing Signal Reconstruction (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1109/TIT.2009.2016006
+  persistent_id: https://doi.org/10.1109/TIT.2009.2016006
+  version: Crossref API work record (1743 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:24:00Z'
+  sha256: 32b698f007b541df1a270d96536ac098f4a61a17cd005e9285cdb1740e1a4acf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Subspace Pursuit solves sparse linear reconstruction problems via iterative 2K and K least-squares subspace projections.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Subspace Pursuit achieves instance-optimal l2/l1 sparse recovery guarantees comparable to l1-regularized Lasso / Basis Pursuit.
+limitations:
+- Requires two least-squares projections per iteration (on 2K and K columns) and prior specification of the sparsity parameter K; guarantees depend on the 3K-Restricted Isometry Property of the measurement matrix.
+curation:
+  created_at: '2026-10-19T06:24:00Z'
+  updated_at: '2026-10-19T06:24:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

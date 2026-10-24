@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RandGreeDi and NMRandGreeDi Randomized Distributed Submodular Maximization under Hereditary Constraints · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>RandGreeDi and NMRandGreeDi Randomized Distributed Submodular Maximization under Hereditary Constraints</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RandGreeDi and NMRandGreeDi Randomized Distributed Submodular Maximization under Hereditary Constraints</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RandGreeDiRandomizedDistributedSubmodularMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RandGreeDi Algorithm, NMRandGreeDi Non-Monotone Randomized Distributed Greedy Algorithm, Randomized GreeDi via Lovasz Extension Decomposition
+    </div>
+
+  <div class="detail-desc">
+    RandGreeDi and NMRandGreeDi are two-round randomized distributed MapReduce algorithms introduced by Barbosa, Ene, Nguyen, and Ward (2015) for maximizing monotone and non-monotone non-negative submodular functions f : 2^V -&gt; R_{&gt;=0} subject to any hereditary constraint family I subseteq 2^V (including cardinality, matroid, knapsack, and p-system constraints). In Round 1, each element e in V is assigned independently and uniformly at random to one of m machines (forming V_i ~ V(1/m)), and each machine i runs the standard greedy algorithm Greedy(V_i) to produce S_i (or two sequential disjoint greedy runs S_i^1 = Greedy(V_i) and S_i^2 = Greedy(V_i \ S_i^1) in NMRandGreeDi); in Round 2, a single reducer collects S = union_i S_i (or union_i (S_i^1 union S_i^2)), runs a beta-approximation algorithm Alg(S) to obtain T, and returns the best solution among T and all Round 1 machine solutions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:GreeDiTwoStageDistributedSubmodularMaximization (Round 359), which analyzes arbitrary deterministic partitions (yielding worst-case 1/Theta(min(sqrt(k), m)) approximation) and metric-space Lipschitz/density conditions rather than proving worst-case constant-factor alpha*beta/(alpha+beta) and alpha*beta/(alpha+2*beta) approximations for all hereditary constraints and non-monotone objectives via the Lovasz extension decomposition f^-(1_OPT - p) + f^-(p) &gt;= f(OPT). Also distinct from AIMech:AmortizedFilteringForLogarithmicAdaptivitySubmodularMaximization (Round 360), which targets O(log n) adaptive query rounds in the centralized parallel oracle model.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r361-claim-lovasz-extension-decomposition-and-monotone-hereditary-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any hereditary constraint I subseteq 2^V and monotone submodular function f where Greedy is an alpha-approximation and Alg is a beta-approximation, defining p_e = Pr_{A~V(1/m)}[e in Greedy(A union {e})] for e in OPT and 0 otherwise, greedy stability (Lemma 2: Greedy(V_i) = Greedy(V_i union O_i) for O_i = {e in OPT : e notin Greedy(V_i union {e})}) and Lovasz extension convexity/homogeneity (Lemma 1) imply E[f(S_i)] &gt;= alpha * f^-(1_OPT - p) (Lemma 3) and E[f(Alg(S))] &gt;= beta * f^-(p) (Lemma 4); combining these via f^-(p) + f^-(1_OPT - p) &gt;= f^-(1_OPT) = f(OPT) proves that RandGreeDi achieves an expected (alpha*beta)/(alpha + beta) approximation (Theorem 5), and alpha/2 when Alg = Greedy (Corollary 6: (1 - 1/e)/2 for cardinality, 1/4 for matroid, ~0.17 for knapsack, and 1/(2(p+1)) for p-systems, Table 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r361-primary-pdf">The Power of Randomization: Distributed Submodular Maximization on Massive Datasets</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2-1.3, Table 1 and Lemma 1, pp. 3-5; Section 2, Algorithm 1 and Lemma 2, pp. 5-6; Section 3, Algorithm 2, Lemmas 3-4, Theorem 5, and Corollary 6, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r361-claim-nonmonotone-nmrandgreedi-hereditary-approximation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For non-negative non-monotone submodular maximization subject to a hereditary constraint I where Greedy satisfies the greedy property (GP) f(Greedy(V)) &gt;= alpha * f(Greedy(V) union S) for all S in I, running two disjoint greedy passes S_i^1 = Greedy(V_i) and S_i^2 = Greedy(V_i \ S_i^1) on each machine i satisfies f(S_i^1) + f(S_i^2) &gt;= alpha * f(O_i) and E[max{f(S_i^1), f(S_i^2)}] &gt;= (alpha/2) * f^-(1_OPT - p) (Lemma 7), while the second-round reducer satisfies E[f(Alg(S))] &gt;= beta * f^-(p) (Lemma 8), yielding an expected (alpha*beta)/(alpha + 2*beta) approximation for NMRandGreeDi (Theorem 9) and alpha/(4 + 2*alpha) when Alg combines two Greedy passes with Buchbinder et al.&#39;s 1/2-approximate Double Greedy algorithm (Corollary 10: ~0.12 for cardinality, 1/10 for matroid, and 1/(2 + 4(p+1)) for p-systems, Table 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r361-primary-pdf">The Power of Randomization: Distributed Submodular Maximization on Massive Datasets</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, Table 1, p. 4; Section 4, Lemmas 7-8, Theorem 9, and Corollary 10, pp. 8-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r361-claim-tight-deterministic-greedi-analysis-and-lower-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Regardless of how elements are partitioned across m machines, the union E = union_{j in M} E_j of machine-level greedy solutions under cardinality constraint k contains a k-element subset OPT_tilde subseteq E satisfying f(OPT) &lt;= 2*sqrt(k)*f(OPT_tilde) (Theorem 11, Lemmas 12-13), proving that deterministic GreeDi achieves a worst-case ((1 - 1/e)/(2*sqrt(k))) approximation (and 1/Theta(min{sqrt(k), m}), Corollary 14); this bound is tight up to constants via an explicit Max k-Coverage family on m = ell^2 + 1 machines with k = ell + ell^2 where deterministic GreeDi achieves at most (2*ell^2)/(ell^2 + ell^3) = 2/(1 + ell) approx 1/sqrt(k) of OPT (Appendix B).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r361-primary-pdf">The Power of Randomization: Distributed Submodular Maximization on Massive Datasets</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, Footnote 1, p. 2; Appendix A, Theorem 11, Lemmas 12-13, and Corollary 14, pp. 16-18; Appendix B, pp. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Achieves half the centralized greedy approximation ratio ((1 - 1/e)/2 approx 0.316 for monotone cardinality constraints) in two MapReduce rounds, and still executes sequential Greedy on each machine&#39;s partition V_i and on the central reducer pool of size up to m*k (Section 3, pp. 6-8).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Directly accelerates distributed exemplar-based k-medoid clustering and matroid coverage on massive datasets.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selects representative and diverse subsets from massive collections under hereditary constraints.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r361-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r361-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1502.02606.pdf" target="_blank" rel="noopener">The Power of Randomization: Distributed Submodular Maximization on Massive Datasets</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rafael da Ponte Barbosa, Alina Ene, Huy L. Nguyen, Justin Ward
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v37/barbosa15.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:66a2959ea76e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r361-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r361-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1502.02606" target="_blank" rel="noopener">The Power of Randomization: Distributed Submodular Maximization on Massive Datasets (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rafael da Ponte Barbosa, Alina Ene, Huy L. Nguyen, Justin Ward
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1502.02606</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1b76eddf63d0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r361-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r361-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v37/barbosa15.html" target="_blank" rel="noopener">The Power of Randomization: Distributed Submodular Maximization on Massive Datasets (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rafael da Ponte Barbosa, Alina Ene, Huy L. Nguyen, Justin Ward
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v37/barbosa15.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:56c4896ce730…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ARandGreeDiRandomizedDistributedSubmodularMaximization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for RandGreeDi and NMRandGreeDi Randomized Distributed Submodular Maximization under Hereditary Constraints" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:RandGreeDiRandomizedDistributedSubmodularMaximization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">RandGreeDi and...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:Clustering (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T07:24:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T07:24:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RandGreeDiRandomizedDistributedSubmodularMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RandGreeDiRandomizedDistributedSubmodularMaximization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=RandGreeDi%20and%20NMRandGreeDi%20Randomized%20Distributed%20Submodular%20Maximization%20under%20Hereditary%20Constraints"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ARandGreeDiRandomizedDistributedSubmodularMaximization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

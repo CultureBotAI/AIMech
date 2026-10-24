@@ -1,0 +1,107 @@
+id: AIMech:SquareRootLassoPivotalConicSparseRegression
+name: Square-Root LASSO Pivotal Second-Order Cone Sparse Regression
+review_status: DRAFT
+concept_kind: algorithm
+aliases:
+- Square-Root Lasso
+- Sqrt-LASSO Pivotal Sparse Recovery
+- Belloni-Chernozhukov-Wang Second-Order Cone L1-Penalized Root-MSE Estimator
+- Self-Normalized Score Pivotal L1-Regularized Regression
+definition: Square-Root LASSO Pivotal Second-Order Cone Sparse Regression is a high-dimensional sparse linear regression estimator introduced by Belloni, Chernozhukov, and Wang (2011, Biometrika 98(4):791-806, DOI:10.1093/biomet/asr043, arXiv:1009.5689v5) for the model $y_i = x_i'\beta_0 + \sigma\epsilon_i$ ($i=1,\dots,n$, $\mathbb{E}_{F_0}(\epsilon_i)=0$, $\mathbb{E}_{F_0}(\epsilon_i^2)=1$, unknown noise scale $\sigma > 0$, support $T = \operatorname{supp}(\beta_0)$ of size $s < n$, and normalized covariates $\mathbb{E}_n(x_j^2) = 1$) that minimizes the square-root of the empirical mean-squared error plus an $\ell_1$ penalty, $\widehat{\beta} \in \arg\min_{\beta \in \mathbb{R}^p} \{\widehat{Q}(\beta)\}^{1/2} + \frac{\lambda}{n}\|\beta\|_1$ where $\widehat{Q}(\beta) = \frac{1}{n}\sum_{i=1}^n (y_i - x_i'\beta)^2$ (Eq. 8). Because the criterion gradient at $\beta_0$ is the self-normalized score $\tilde{S} = \nabla \widehat{Q}^{1/2}(\beta_0) = \frac{\mathbb{E}_n(x\epsilon)}{\{\mathbb{E}_n(\epsilon^2)\}^{1/2}}$ which is invariant to $(\beta_0, \sigma)$, setting the pivotal penalty $\lambda = c\Lambda(1 - \alpha) = c n^{1/2}\Phi^{-1}(1 - \alpha/(2p)) \le c\{2n\log(2p/\alpha)\}^{1/2}$ ($c > 1$) dominates $\Lambda = n\|\tilde{S}\|_\infty$ without knowing or pre-estimating $\sigma$, achieves the near-oracle prediction and $\ell_2$ convergence rate $\|\widehat{\beta} - \beta_0\|_{2,n} \lesssim \sigma\{s\log(2p/\alpha)/n\}^{1/2}$ across Gaussian and non-Gaussian errors (Theorem 1, Corollaries 1-4), and admits an exact second-order cone programming (SOCP) primal-dual formulation and closed-form coordinatewise update (Theorem 2, Eqs. 19-20, Appendix B.3).
+identity_notes: Distinct from standard LASSO (`AIO:LassoRegression`), whose score $S = \nabla \widehat{Q}(\beta_0) = 2\sigma\mathbb{E}_n(x\epsilon)$ scales with the unknown noise standard deviation $\sigma$ and therefore requires an oracle $\sigma$, conservative pilot estimates, or cross-validation to set $\lambda = \sigma c 2 n^{1/2}\Phi^{-1}(1 - \alpha/(2p))$. Also distinct from Adaptive LASSO (`AIMech:AdaptiveLassoOracleWeightedL1PenalizedEstimation`), which reweights $\ell_1$ penalties using a root-$n$-consistent initial estimator in fixed or low dimensions, and from tangent-cone projected LASSO high-SNR risk analysis (`AIMech:WorstCaseProximalDenoisingNMSEAndSubdifferentialMeanSquaredDistance`). Belloni, Chernozhukov, & Wang (2011) replace $\widehat{Q}(\beta)$ with $\{\widehat{Q}(\beta)\}^{1/2}$ to make the score self-normalized and pivotal with respect to $\sigma$, prove finite-sample and moderate-deviation non-Gaussian near-oracle bounds under restricted eigenvalues, and establish strong conic duality over the second-order (ice-cream) cone $Q^{n+1}$.
+definition_evidence:
+- source_id: bcw2011-sqrt-lasso-pdf
+  locator: Section 1, pp. 1-3, Eqs. (1)-(10); Section 2, pp. 3-6, Eqs. (11)-(16), Lemmas 1-2; Section 3, pp. 7-9, Eq. (17), Theorem 1, Corollaries 1-3; Section 4, pp. 9-10, Eqs. (19)-(20), Theorem 2; Appendix A, p. 19, Lemma 3, Corollary 4; Appendix B.3, pp. 21-23
+  relation: supports
+- source_id: bcw2011-sqrt-lasso-abs
+  locator: arXiv:1009.5689 abstract
+  relation: supports
+- source_id: bcw2011-sqrt-lasso-crossref
+  locator: DOI:10.1093/biomet/asr043 Crossref metadata
+  relation: supports
+claims:
+- claim_id: self-normalized-pivotal-score-and-gaussian-and-moderate-deviation-penalty-domination
+  kind: mechanism
+  statement: At the true parameter $\beta_0$, the gradient of $\widehat{Q}^{1/2}(\beta) = \{\frac{1}{n}\sum_{i=1}^n (y_i - x_i'\beta)^2\}^{1/2}$ is the self-normalized score $\tilde{S} = \nabla \widehat{Q}^{1/2}(\beta_0) = \frac{\nabla \widehat{Q}(\beta_0)}{2\{\widehat{Q}(\beta_0)\}^{1/2}} = \frac{\mathbb{E}_n(x\epsilon)}{\{\mathbb{E}_n(\epsilon^2)\}^{1/2}}$, whose scaled supremum $\Lambda = n\|\tilde{S}\|_\infty$ is completely independent of $(\beta_0, \sigma)$ (Section 2.1, p. 3). For $c > 1$ and confidence level $1 - \alpha$, setting $\lambda$ via the exact conditional quantile $\lambda = c\Lambda_F(1 - \alpha \mid X)$, the semi-exact family maximum $\lambda = c\max_{F \in \mathcal{F}} \Lambda_F(1 - \alpha \mid X)$, or the closed-form asymptotic option $\lambda = c\Lambda(1 - \alpha) = c n^{1/2}\Phi^{-1}(1 - \alpha/(2p)) \le c\{2n\log(2p/\alpha)\}^{1/2}$ (Eqs. 12-15) guarantees the regularization event $\lambda \ge c\Lambda$ with probability at least $1 - \alpha$ (exact) or $1 - \alpha\tau = 1 - \alpha(1 + o(1))$ under Gaussian errors $F_0 = \Phi$ with $\Lambda_\Phi(1 - \alpha \mid X) \le \nu\Lambda(1 - \alpha)$ where $\nu = \frac{\{1 + 2/\log(2p/\alpha)\}^{1/2}}{1 - 2\{\log(2/\alpha)/n\}^{1/2}}$ (Lemma 1, p. 5), and with probability $1 - \alpha - o(\alpha)$ for non-Gaussian errors with finite $q$-th moments ($q > 2$ under Slastnikov moderate deviations, Lemma 2, p. 6; or $q > 4$ under Jing-Shao-Wang self-normalized moderate deviations, Lemma 3, p. 19).
+  evidence:
+  - source_id: bcw2011-sqrt-lasso-pdf
+    locator: Section 2, pp. 3-6, Equations (11)-(16), Lemmas 1-2; Appendix 2, pp. 14-17; Appendix A, p. 19, Equation (36), Lemma 3; Appendices D-F, pp. 25-30
+    relation: supports
+  - source_id: bcw2011-sqrt-lasso-abs
+    locator: Abstract
+    relation: supports
+- claim_id: restricted-eigenvalue-cone-membership-and-non-asymptotic-near-oracle-error-bounds
+  kind: mechanism
+  statement: 'On the regularization event $\lambda \ge c\Lambda$ ($c > 1$), convexity of $\widehat{Q}^{1/2}$ and optimality of $\widehat{\beta}$ force the estimation error $\widehat{\delta} = \widehat{\beta} - \beta_0$ into the restricted cone $\Delta_{\bar{c}} = \{\delta \in \mathbb{R}^p : \|\delta_{T^c}\|_1 \le \bar{c}\|\delta_T\|_1,\, \delta \ne 0\}$ with $\bar{c} = \frac{c+1}{c-1}$ (Appendix 1, Step 1, Eqs. 21-25, p. 13). Under the restricted eigenvalues $\kappa_{\bar{c}} = \min_{\delta \in \Delta_{\bar{c}}} \frac{s^{1/2}\|\delta\|_{2,n}}{\|\delta_T\|_1}$ and $\tilde{\kappa}_{\bar{c}} = \min_{\delta \in \Delta_{\bar{c}}} \frac{\|\delta\|_{2,n}}{\|\delta\|_2}$ (Eq. 17, p. 7) and the growth condition $\lambda s^{1/2} \le n\kappa_{\bar{c}}\rho$ for some $\rho < 1$, the quadratic-root factorization $\widehat{Q}(\widehat{\beta}) - \widehat{Q}(\beta_0) = [\{\widehat{Q}(\widehat{\beta})\}^{1/2} + \{\widehat{Q}(\beta_0)\}^{1/2}][\{\widehat{Q}(\widehat{\beta})\}^{1/2} - \{\widehat{Q}(\beta_0)\}^{1/2}]$ yields the deterministic finite-sample bound $\tilde{\kappa}_{\bar{c}}\|\widehat{\beta} - \beta_0\|_2 \le \|\widehat{\beta} - \beta_0\|_{2,n} \le A_n \sigma\{\mathbb{E}_n(\epsilon^2)\}^{1/2} \frac{\lambda s^{1/2}}{n}$ where $A_n = \frac{2(1 + 1/c)}{\kappa_{\bar{c}}(1 - \rho^2)}$ (Theorem 1, p. 8; Appendix 1, Step 2, Eqs. 26-31, pp. 13-14), achieving the near-oracle rate $\sigma\{2s\log(2p/\alpha)/n\}^{1/2}$ without knowledge of $\sigma$ (Corollaries 1-4, pp. 8-9, 19).'
+  evidence:
+  - source_id: bcw2011-sqrt-lasso-pdf
+    locator: Section 3, pp. 7-9, Equation (17), Theorem 1, Corollaries 1-3; Appendix 1, pp. 13-14, Equations (21)-(31); Appendix A, p. 19, Corollary 4
+    relation: supports
+- claim_id: second-order-cone-primal-dual-equivalence-and-closed-form-coordinatewise-minimization
+  kind: mechanism
+  statement: 'The Square-Root LASSO problem (8) is equivalent to the primal second-order cone program $\min_{t,v,\beta^+,\beta^-} \frac{t}{n^{1/2}} + \frac{\lambda}{n}\sum_{j=1}^p (\beta_j^+ + \beta_j^-)$ subject to $v = Y - X\beta^+ + X\beta^-$, $(v, t) \in Q^{n+1} = \{(v, t) \in \mathbb{R}^n \times \mathbb{R} : t \ge \|v\|_2\}$, and $\beta^+, \beta^- \in \mathbb{R}_+^p$ (Eq. 19), which admits with zero duality gap the strongly dual problem $\max_{a \in \mathbb{R}^n} \frac{1}{n}\sum_{i=1}^n y_i a_i$ subject to $|\frac{1}{n}\sum_{i=1}^n x_{ij} a_i| \le \frac{\lambda}{n}$ ($j=1,\dots,p$) and $\|a\|_2 \le n^{1/2}$ (Eq. 20), where whenever $Y \ne X\widehat{\beta}$ the optimal dual vector is the normalized residual $\widehat{a} = n^{1/2}\widehat{v}/\|\widehat{v}\|_2 = (Y - X\widehat{\beta})/\{\widehat{Q}(\widehat{\beta})\}^{1/2}$ (Theorem 2, pp. 9-10; Proof of Theorem 2, p. 14). Moreover, single-coordinate minimization over $\beta_j$ given $\beta_{-j}$ admits an exact closed-form threshold and shrinkage update setting $\beta_j = 0$ iff $|\mathbb{E}_n\{x_j(y - x''\beta_{-j})\}| \le (\lambda/n)\gamma_j\{\widehat{Q}(\beta_{-j})\}^{1/2}$ (Appendix B.3, pp. 21-23).'
+  evidence:
+  - source_id: bcw2011-sqrt-lasso-pdf
+    locator: Section 4, pp. 9-10, Equations (19)-(20), Theorem 2; Appendix 1, p. 14, Proof of Theorem 2; Appendix B, pp. 20-23, Table 1, Equation (37)
+    relation: supports
+evidence_sources:
+- source_id: bcw2011-sqrt-lasso-pdf
+  title: 'Square-root lasso: pivotal recovery of sparse signals via conic programming'
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  - Lie Wang
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/1009.5689.pdf
+  persistent_id: https://doi.org/10.1093/biomet/asr043
+  version: arXiv:1009.5689v5 full-text PDF (35 pages, 440910 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T02:35:00Z'
+  sha256: b86004a8edc4cd2ab18a001fc39e1fb947b004a8dbf2309cecb1e0b53e484c10
+- source_id: bcw2011-sqrt-lasso-abs
+  title: 'Square-Root Lasso: Pivotal Recovery of Sparse Signals via Conic Programming'
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  - Lie Wang
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1009.5689
+  persistent_id: https://arxiv.org/abs/1009.5689
+  version: arXiv:1009.5689 abstract page (6457 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T02:35:00Z'
+  sha256: de8ea376abefbde3ec34c97622053d1a71b1b5baf58686281df047c9ffc5a3ea
+- source_id: bcw2011-sqrt-lasso-crossref
+  title: 'Square-root lasso: pivotal recovery of sparse signals via conic programming'
+  authors:
+  - A. Belloni
+  - V. Chernozhukov
+  - L. Wang
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1093/biomet/asr043
+  persistent_id: https://doi.org/10.1093/biomet/asr043
+  version: Biometrika 98(4):791-806 (2011) Crossref metadata (1867 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T02:35:00Z'
+  sha256: 95e3377fdb0fb1fe17dae8e68db9a67c388b44b3bf1de4f9a8f1910e39d69640
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: broad_match
+  rationale: Square-Root LASSO is a pivotal conic-programming modification of LASSO regression that replaces the squared-error loss Q_hat(beta) with Q_hat(beta)^{1/2} so the penalty parameter lambda is independent of the noise standard deviation sigma.
+- target: AIO:LinearRegression
+  relation: broad_match
+  rationale: Estimates high-dimensional sparse linear regression models y_i = x_i' beta_0 + sigma epsilon_i when p >> n.
+limitations:
+- Theorem 1 requires the additional sparsity-penalty growth restriction $\lambda s^{1/2} \le n\kappa_{\bar{c}}\rho$ ($\rho < 1$) to absorb the quadratic term $(\lambda s^{1/2} / (n\kappa_{\bar{c}}))^2\|\widehat{\delta}\|_{2,n}^2$ arising from expanding $\{\widehat{Q}(\widehat{\beta})\}^{1/2}$ around $\{\widehat{Q}(\beta_0)\}^{1/2}$, and induces a slightly larger finite-sample shrinkage bias than infeasible oracle-$\sigma$ LASSO because $\widehat{Q}(\widehat{\beta})^{1/2}/\sigma$ exceeds 1 (typically 1.18-1.22 in Section 5, pp. 11-12), motivating post-Square-Root-LASSO ordinary least squares refitting.
+- Non-Gaussian asymptotic validity of the closed-form Gaussian quantile penalty $\lambda = c n^{1/2}\Phi^{-1}(1 - \alpha/(2p))$ requires bounded $q$-th moments ($q > 2$ in Condition M or $q > 4$ in Condition SN) and polynomial restrictions on $p$ relative to $n$ ($p \le \alpha n^{\eta(q-2)/2}/2$ in Condition R or $\log(p/\alpha)\alpha^{-2/q}n^{-1/2}\log^{1/2}(n \vee p/\alpha) = o(1)$ in Condition SN), and assumes homoscedastic i.i.d. errors $\mathbb{E}(\epsilon_i^2) = 1$.
+- 'Primary-source typographical audit of `arXiv:1009.5689v5`: (1) Equation (10) (p. 2) prints $\|\widehat{\beta} - \beta\|_2$ instead of $\|\widehat{\beta} - \beta_0\|_2$; (2) Section 2.2 (p. 5, lines 30-31), Section 2.2 Lemma 2 (p. 6), and Section 3.2 Corollary 3 (p. 9) cite ''(36)'' when referring to the non-normal penalty options in Equation (15); (3) Equation (19) (p. 9) writes $\sum_{i=1}^p (\beta_j^+ + \beta_j^-)$ with summation index $i$ and summand index $j$; (4) Section 5 (p. 10, lines 36-37, 42; p. 12, lines 4, 15, 21) repeatedly cites ''Figure 5'' in place of ''Figure 1''; (5) Appendix B.3 (p. 23, lines 14, 16, 28, 31) prints a leading minus sign $-\mathbb{E}_n\{x_j(y - x''\beta_{-j})\}/\mathbb{E}_n(x_j^2)$ instead of $+\mathbb{E}_n\{x_j(y - x''\beta_{-j})\}/\mathbb{E}_n(x_j^2)$ in the componentwise update formulas for both LASSO and Square-Root LASSO (and an unmatched closing bracket `]` in the numerator of the first Square-Root LASSO display on line 28); and (6) Appendix C.2 (p. 24, line 19) writes ''Figures 3 and 3 illustrates the theoretical results indicated obtained in the paepr''.'
+curation:
+  created_at: '2026-10-19T02:35:00Z'
+  updated_at: '2026-10-19T02:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

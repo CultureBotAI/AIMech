@@ -1,0 +1,101 @@
+id: AIMech:AdapterFusion
+name: AdapterFusion
+concept_kind: architecture
+review_status: DRAFT
+definition: A two-stage multi-task transfer learning architecture and algorithm that first extracts task-specific knowledge into N bottleneck adapters {Phi_1, ..., Phi_N} while keeping the pretrained Transformer backbone Theta fixed, and second composes those frozen adapters for a target task m by learning layer-wise Query, Key, and Value matrices (Q_l, K_l, V_l) that compute contextual attention weights s_{l,t} = softmax(h_{l,t}^T Q_l dot z_{l,t,n}^T K_l) between the feed-forward sub-layer representation h_{l,t} and each adapter output z_{l,t,n} to form o_{l,t} = sum_{n=1}^N s_{l,t,n} (z_{l,t,n}^T V_l).
+identity_notes: Distinct from sequential fine-tuning (which overwrites model parameters and suffers catastrophic forgetting), from joint multi-task adapter training (MT-A, which requires simultaneous access to all datasets and suffers inter-task gradient interference), and from LoRA composition methods such as LoraHub (AIMech:LoraHub) and MoLE (AIMech:MoLEMixtureOfLoRAExperts). Formulated by Pfeiffer, Kamath, Ruckle, Cho, and Gurevych (EACL 2021, pp. 487-503, arXiv:2005.00247).
+aliases:
+- AdapterFusion Non-Destructive Task Composition
+- Two-Stage Adapter Knowledge Extraction and Composition
+- Contextual Attention Adapter Mixer
+definition_evidence:
+- source_id: r690-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r690-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r690-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: adapterfusion-two-stage-non-destructive-learning-algorithm
+  kind: mechanism
+  statement: AdapterFusion separates transfer learning into Stage 1 (Knowledge Extraction), which trains task-specific adapter parameters Phi_n = argmin_Phi L_n(D_n; Theta_0, Phi) independently for each task n in {1, ..., N}, and Stage 2 (Knowledge Composition), which freezes both Theta_0 and {Phi_1, ..., Phi_N} while optimizing target-task fusion parameters Psi_m = argmin_Psi L_m(D_m; Theta_0, Phi_1, ..., Phi_N, Psi), guaranteeing zero catastrophic forgetting of source-task representations.
+  evidence:
+  - source_id: r690-primary-pdf
+    locator: Section 2.2.1 & Section 3.1 Learning algorithm, p. 3-4
+    relation: supports
+- claim_id: adapterfusion-query-key-value-contextual-mixer-mechanism
+  kind: mechanism
+  statement: At each Transformer layer l and token step t, AdapterFusion projects the feed-forward sub-layer output h_{l,t} as the query h_{l,t}^T Q_l and each adapter's output z_{l,t,n} as both key z_{l,t,n}^T K_l and value z'_{l,t,n} = z_{l,t,n}^T V_l (with V_l initialized near the identity diag(1) + N(0, 10^-6) and l2-regularized), computing o_{l,t} = s_{l,t}^T [z'_{l,t,1}, ..., z'_{l,t,N}] where s_{l,t} = softmax(h_{l,t}^T Q_l dot z_{l,t,n}^T K_l).
+  evidence:
+  - source_id: r690-primary-pdf
+    locator: Section 3.2 Components & Section 4.1 Experimental Setup, Figure 2, p. 4-5
+    relation: supports
+- claim_id: adapterfusion-nlu-transfer-application
+  kind: application
+  statement: AdapterFusion is evaluated across 16 NLU datasets spanning commonsense reasoning, sentiment analysis, natural language inference, sentence relatedness, argument mining, and reading comprehension on BERT-base and RoBERTa-base, outperforming full fine-tuning, Single-Task Adapters (ST-A), and Multi-Task Adapters (MT-A), with gains of +6.5% on RTE and +5.64% on MRPC by dynamically attending to high-resource MNLI and QQP adapters.
+  evidence:
+  - source_id: r690-primary-pdf
+    locator: Section 5-6, Tables 1-2 & Figures 3-4, p. 5-8
+    relation: supports
+- claim_id: adapterfusion-linear-adapter-pool-scaling-limitation
+  kind: limitation
+  statement: Because AdapterFusion evaluates all N task adapters in parallel at every layer before applying the fusion attention mixer, both training and inference computational cost scale linearly with the number of composed tasks N unless inactive adapters are pruned post-training.
+  evidence:
+  - source_id: r690-primary-pdf
+    locator: Section 7 Contemporary Work & Section 8.2 Outlook, p. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r690-primary-pdf
+  title: 'AdapterFusion: Non-Destructive Task Composition for Transfer Learning'
+  authors: &id001
+  - Jonas Pfeiffer
+  - Aishwarya Kamath
+  - Andreas Ruckle
+  - Kyunghyun Cho
+  - Iryna Gurevych
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2005.00247.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=2005.00247&format=xml
+  version: Proceedings of the 16th Conference of the European Chapter of the Association for Computational Linguistics (EACL 2021) (2021) (1623006 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:53:00Z'
+  sha256: bf3db697845f9e8f2c9b83f386d9f74eeab08bcfa81c153acc1b50468b8d9cca
+- source_id: r690-arxiv-abs
+  title: 'AdapterFusion: Non-Destructive Task Composition for Transfer Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2005.00247
+  persistent_id: https://arxiv.org/abs/2005.00247
+  version: arXiv abstract page (7023 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:53:00Z'
+  sha256: 9168694a07731d0ef95a6c563f8d527ab9679d70937d5f1c6669fce5b50e1644
+- source_id: r690-metadata-cr
+  title: 'AdapterFusion: Non-Destructive Task Composition for Transfer Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=2005.00247&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=2005.00247&format=xml
+  version: Crossref API work record (725 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:53:00Z'
+  sha256: 49019c80d1488a8891ff7ae494d926be81e3d1d6309026662962114063609f83
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: AdapterFusion is a modular neural network composition layer that combines multiple task-specific bottleneck adapter sub-networks via contextual attention.
+limitations:
+- Evaluating N parallel task adapters at every Transformer layer increases forward and backward computational cost linearly with N unless inactive adapters are pruned.
+curation:
+  created_at: '2026-10-19T12:53:00Z'
+  updated_at: '2026-10-19T12:53:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

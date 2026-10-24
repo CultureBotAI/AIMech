@@ -1,0 +1,110 @@
+id: AIMech:DistilBERTKnowledgeDistillationDuringPretraining
+name: 'DistilBERT: Knowledge Distillation During Pre-training'
+concept_kind: learning_paradigm
+review_status: DRAFT
+definition: 'A task-agnostic Transformer knowledge distillation paradigm that compresses a pre-trained bidirectional encoder during the pre-training phase by initializing a student of identical hidden width and half the layer count from every other teacher layer, removing token-type embeddings and the output pooler, and optimizing a linear combination of three objectives over large-batch dynamic-masked pre-training corpora: temperature-scaled soft-target distillation cross-entropy L_ce = sum_i t_i * log(s_i) with p_i = exp(z_i/T)/sum_j exp(z_j/T), masked language modeling loss L_mlm, and hidden-state direction-alignment cosine embedding loss L_cos.'
+identity_notes: Introduced by Sanh, Debut, Chaumond, and Wolf (NeurIPS 2019 Workshop on Energy Efficient Machine Learning and Cognitive Computing, EMC^2, arXiv:1910.01108). Distinct from task-specific fine-tuning distillation methods such as BERT-PKD (Round 802, which distills normalized intermediate patience representations during downstream fine-tuning), from TinyBERT (Round 800, which enforces MSE on layer-wise attention matrices and projected hidden states across both pre-training and data-augmented fine-tuning), and from MiniLM (Round 801, which transfers only the last layer's query-key attention and value-relation distributions without intermediate layer initialization or cosine hidden-state loss). DistilBERT retains identical hidden dimension d between teacher and student so that every other teacher layer directly initializes a corresponding student layer without linear projection matrices.
+aliases:
+- DistilBERT
+- DistilBERT Triple-Loss Pre-training Distillation
+- Triple-Loss Pre-training Transformer Distillation
+definition_evidence:
+- source_id: r803-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r803-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r803-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r803-claim-triple-loss-formulation
+  kind: mechanism
+  statement: DistilBERT trains the student language model during pre-training using a triple loss that linearly combines soft-target distillation loss L_ce = sum_i t_i * log(s_i) over temperature-scaled vocabulary probabilities p_i = exp(z_i/T) / sum_j exp(z_j/T), the standard masked language modeling cross-entropy L_mlm, and a cosine embedding loss L_cos that aligns the directions of the student and teacher hidden state vectors.
+  evidence:
+  - source_id: r803-primary-pdf
+    locator: Section 2 (Knowledge distillation) & Section 3 (Student initialization), Pages 2-3, plus Table 4 ablation, Page 4
+    relation: supports
+  - source_id: r803-primary-pdf
+    locator: distillation_ce and cosine_embedding_loss verification in main()
+    relation: supports
+- claim_id: r803-claim-architecture-and-alternating-init
+  kind: mechanism
+  statement: Because reducing the last dimension of Transformer tensors has a smaller impact on modern linear-algebra computation efficiency than reducing the number of layers, DistilBERT preserves the teacher's hidden dimension while halving the number of layers, removes token-type embeddings and the pooler, and initializes the 6-layer student by taking one layer out of every two from the 12-layer teacher.
+  evidence:
+  - source_id: r803-primary-pdf
+    locator: 'Section 3 (DistilBERT: a distilled version of BERT), Page 2, and Table 4 ablation (-3.69 GLUE macro-score without teacher initialization), Page 4'
+    relation: supports
+  - source_id: r803-primary-pdf
+    locator: Parameter accounting for 12-layer BERT-base (109.5M) vs 6-layer DistilBERT (66.4M, ~40% reduction) in main()
+    relation: supports
+- claim_id: r803-claim-glue-and-squad-efficiency
+  kind: application
+  statement: Pre-trained with dynamic masking and large batches (up to 4000 examples per batch) on English Wikipedia and Toronto BookCorpus, DistilBERT reduces BERT-base parameter count by 40% (66M vs. 110M) and speeds up CPU inference by 60% (and mobile on-device inference by 71%) while retaining 97% of BERT-base performance on the GLUE benchmark (77.0 vs. 79.5 macro-score) and achieving 85.8 F1 on SQuAD v1.1 (86.9 F1 when combined with task-specific fine-tuning distillation from a BERT-base teacher).
+  evidence:
+  - source_id: r803-primary-pdf
+    locator: Section 4 (Experiments), Tables 1-3, Pages 2-4
+    relation: supports
+- claim_id: r803-claim-fixed-width-and-token-type-limitation
+  kind: limitation
+  statement: Because DistilBERT relies on direct layer-taking initialization from the teacher and removes token-type (segment) embeddings, the student must maintain the exact same hidden dimension as the teacher (preventing arbitrary hidden-width reduction without projection layers) and cannot use explicit segment-ID embeddings to distinguish sentence pairs.
+  evidence:
+  - source_id: r803-primary-pdf
+    locator: Section 3 (Student architecture & initialization), Page 2
+    relation: supports
+evidence_sources:
+- source_id: r803-primary-pdf
+  title: 'DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter'
+  authors: &id001
+  - Victor Sanh
+  - Lysandre Debut
+  - Julien Chaumond
+  - Thomas Wolf
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1910.01108.pdf
+  persistent_id: https://arxiv.org/bibtex/1910.01108
+  version: 5th Workshop on Energy Efficient Machine Learning and Cognitive Computing - NeurIPS 2019 (EMC^2) (2019) (436085 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:46:00Z'
+  sha256: a70c78e2b4db85bfee7696e19829571a3b05f69c616db5c039f6f4eb33b1a0b6
+- source_id: r803-arxiv-abs
+  title: 'DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.01108
+  persistent_id: https://arxiv.org/abs/1910.01108
+  version: arXiv abstract page (7069 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:46:00Z'
+  sha256: 852ff426b23b078db704234c4154ce61366cbad2441867e63f07ca3a18e523b8
+- source_id: r803-metadata-cr
+  title: 'DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1910.01108
+  persistent_id: https://arxiv.org/bibtex/1910.01108
+  version: Crossref API work record (426 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:46:00Z'
+  sha256: 14afae240e588141e6227d5f8a051c188f698de6c5cb156f6e668f185d9fbb5c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Distillation
+  relation: narrow_match
+  rationale: DistilBERT is a specialized pre-training knowledge distillation paradigm for Transformer language models combining soft-target output distillation with masked language modeling and cosine hidden-state direction alignment.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Applies architectural streamlining and triple-loss pre-training distillation to deep bidirectional Transformer neural networks.
+limitations:
+- Direct initialization from alternating teacher layers requires the student to keep the exact same hidden dimension and attention head geometry as the teacher.
+- Removing token-type (segment) embeddings eliminates explicit segment-ID conditioning for multi-segment inputs.
+curation:
+  created_at: '2026-10-19T14:46:00Z'
+  updated_at: '2026-10-19T14:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

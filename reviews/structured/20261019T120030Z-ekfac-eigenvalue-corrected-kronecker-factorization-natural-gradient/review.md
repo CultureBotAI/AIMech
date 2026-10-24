@@ -1,0 +1,352 @@
+# Scientific author self-review of EKFAC (Eigenvalue-Corrected Kronecker Factorization)
+
+- Review: 20261019T120030Z-ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T12:00:00Z
+- Finished UTC: 2026-10-19T12:00:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain EKFAC (Eigenvalue-Corrected Kronecker Factorization) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base bc6eb989322033783673e5256432c8ca88ec8828.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient | data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml | maintained | EKFAC (Eigenvalue-Corrected Kronecker Factorization) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient | Validated history sidecar files. |
+| python3 ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py | passed | True | AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient | [PASS] Round 637 EKFAC verified: &#124;&#124;G-G_EKFAC&#124;&#124;_F=3.7313 &lt; &#124;&#124;G-G_KFAC&#124;&#124;_F=3.7479, lemma1_err=8.88e-16, kron_vec_err=0.00e+00 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.
+
+EKFAC (Eigenvalue-Corrected Kronecker Factorization) is a distinct concept.
+
+Distinct from K-FAC (AIMech:KFacKroneckerFactoredApproximateCurvature), which approximates each layer's Fisher block as G_KFAC = A (x) B = (U_A (x) U_B)(S_A (x) S_B)(U_A (x) U_B)^T with eigenvalues restricted to the Kronecker product S_A (x) S_B; EKFAC keeps the Kronecker-Factored Eigenbasis U_A (x) U_B but replaces S_A (x) S_B with the unconstrained diagonal second-moment matrix S* in KFE coordinates, provably achieving &#124;&#124;G - G_EKFAC&#124;&#124;_F &lt;= &#124;&#124;G - G_KFAC&#124;&#124;_F and enabling cheap per-iteration updates of S* without recomputing the eigendecomposition.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-5 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.
+
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py passed with exit code 0: [PASS] Round 637 EKFAC verified: &#124;&#124;G-G_EKFAC&#124;&#124;_F=3.7313 &lt; &#124;&#124;G-G_KFAC&#124;&#124;_F=3.7479, lemma1_err=8.88e-16, kron_vec_err=0.00e+00
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T120000Z-ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient.json | supports | No normalized identity match for AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py | supports | All constructed boundary assertions in ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py passed with exit code 0: [PASS] Round 637 EKFAC verified: &#124;&#124;G-G_EKFAC&#124;&#124;_F=3.7313 &lt; &#124;&#124;G-G_KFAC&#124;&#124;_F=3.7479, lemma1_err=8.88e-16, kron_vec_err=0.00e+00 |
+| r637-primary-pdf | https://arxiv.org/pdf/1806.03884.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 31 (NeurIPS 2018) (2018)) read and verified. |
+| r637-arxiv-abs | https://arxiv.org/abs/1806.03884; arXiv abstract | supports | arXiv abstract read and verified. |
+| r637-metadata-cr | https://dblp.org/rec/conf/nips/GeorgeLBBV18; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient in Round 637.
+- All pages of Advances in Neural Information Processing Systems 31 (NeurIPS 2018) (2018) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T120030Z-ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of EKFAC (Eigenvalue-Corrected Kronecker Factorization)
+started_at: '2026-10-19T12:00:00Z'
+finished_at: '2026-10-19T12:00:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 31 (NeurIPS 2018) (2018) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain EKFAC (Eigenvalue-Corrected Kronecker Factorization) as a distinct
+  DRAFT algorithm. All five claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: bc6eb989322033783673e5256432c8ca88ec8828
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml
+    sha256: b90e95717a383f8b16c9a443b1114d03f1df75990fc1bdfa4a75203c43542ef5
+    role: target
+  - path: research/discovery/20261019T120000Z-ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient.json
+    sha256: 6b29b3e66bbb11d22006dec6534e8d7ea3a9a90ea93b78d9feda118a3bf1233b
+    role: context
+  - path: research/discovery/ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py
+    sha256: ba9ad34af24cad67701fe33326acd8f605ae32c67ed5f2892d2fbe7283de692d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  path: data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml
+  label: EKFAC (Eigenvalue-Corrected Kronecker Factorization)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py
+  command: python3 research/discovery/ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 637 EKFAC verified: ||G-G_EKFAC||_F=3.7313 < ||G-G_KFAC||_F=3.7479,
+    lemma1_err=8.88e-16, kron_vec_err=0.00e+00'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T120000Z-ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient.json
+  accessed_at: '2026-10-19T12:00:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T12:00:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py
+  accessed_at: '2026-10-19T12:00:00Z'
+  snapshot_sha256: ba9ad34af24cad67701fe33326acd8f605ae32c67ed5f2892d2fbe7283de692d
+  support: supports
+  summary: 'All constructed boundary assertions in ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py
+    passed with exit code 0: [PASS] Round 637 EKFAC verified: ||G-G_EKFAC||_F=3.7313
+    < ||G-G_KFAC||_F=3.7479, lemma1_err=8.88e-16, kron_vec_err=0.00e+00'
+- evidence_id: r637-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1806.03884.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T12:00:00Z'
+  snapshot_sha256: 758ac97bf82c26396fa116bc4ccca2febca5b79352cf1f6a918828854fa008e6
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 31 (NeurIPS
+    2018) (2018)) read and verified.
+- evidence_id: r637-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1806.03884
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T12:00:00Z'
+  snapshot_sha256: 6ddb00bfd7cb26bd140b25b1229b4400bc41e4402804db71f1337cd10249051b
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r637-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/nips/GeorgeLBBV18
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T12:00:00Z'
+  snapshot_sha256: 7da35c4782cfcc6792b182971d59e64ebd356d40a374bcf3a529b943c2bcf60e
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  evidence_ids:
+  - identity
+  - r637-primary-pdf
+  - r637-arxiv-abs
+  - r637-metadata-cr
+  summary: EKFAC (Eigenvalue-Corrected Kronecker Factorization) is a distinct concept.
+  details: Distinct from K-FAC (AIMech:KFacKroneckerFactoredApproximateCurvature),
+    which approximates each layer's Fisher block as G_KFAC = A (x) B = (U_A (x) U_B)(S_A
+    (x) S_B)(U_A (x) U_B)^T with eigenvalues restricted to the Kronecker product S_A
+    (x) S_B; EKFAC keeps the Kronecker-Factored Eigenbasis U_A (x) U_B but replaces
+    S_A (x) S_B with the unconstrained diagonal second-moment matrix S* in KFE coordinates,
+    provably achieving ||G - G_EKFAC||_F <= ||G - G_KFAC||_F and enabling cheap per-iteration
+    updates of S* without recomputing the eigendecomposition.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  evidence_ids:
+  - mapping
+  - r637-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  evidence_ids:
+  - r637-primary-pdf
+  - calculation
+  summary: All five claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in ekfac-eigenvalue-corrected-kronecker-factorization-natural-gradient-boundaries.py
+    passed with exit code 0: [PASS] Round 637 EKFAC verified: ||G-G_EKFAC||_F=3.7313
+    < ||G-G_KFAC||_F=3.7479, lemma1_err=8.88e-16, kron_vec_err=0.00e+00'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  evidence_ids:
+  - identity
+  - mapping
+  - r637-primary-pdf
+  - r637-arxiv-abs
+  - r637-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+  in Round 637.
+- All pages of Advances in Neural Information Processing Systems 31 (NeurIPS 2018)
+  (2018) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

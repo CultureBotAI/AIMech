@@ -1,0 +1,94 @@
+id: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+name: DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation
+concept_kind: algorithm
+review_status: DRAFT
+definition: A two-stage Byzantine-resilient distributed gradient aggregation framework that partitions p compute nodes into hat_p = p/r node groups of small odd redundancy size r to evaluate the same sub-batch gradients and applies within-group majority voting z_{t,j} = maj({hat_g_{t,i} | i in A_j}) in a filtering stage that exponentially reduces the effective number of Byzantine votes hat_q, followed by a median-of-means-style hierarchical aggregation stage (HIER-AGGR) that partitions the hat_p group votes into k vote groups, aggregates each vote group via a primary operator A_0 (such as the mean), and aggregates the k group outputs via a base robust aggregator A_1.
+identity_notes: Distinct from DRACO (which requires r = 2s + 1 linear redundancy in the number of Byzantine nodes s to achieve exact zero-error gradient recovery without a second-stage statistical robust aggregator) and from standalone robust aggregators (Krum, Multi-Krum, Bulyan, Coordinate-Wise Median, Geometric Median) applied directly to all p ungrouped compute nodes. Specifically denotes the DETOX and HIER-AGGR algorithms of Rajput, Wang, Charles, & Papailiopoulos (NeurIPS 2019, Algorithms 1-2, Theorems 1 & 3, Corollary 2, Lemma 4).
+aliases:
+- DETOX
+- DETOX Hierarchical Robust Aggregation
+- DETOX HIER-AGGR
+definition_evidence:
+- source_id: r525-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r525-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r525-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r525-exponential-byzantine-vote-reduction-via-group-majority
+  kind: mechanism
+  statement: In Stage 1 (Algorithm 1 Lines 1-7), DETOX randomly partitions p compute nodes into hat_p = p/r groups {A_j} of odd size r, assigns each node i in A_j the same subsample S_{t,j} of size rb/p, and computes the group majority vote z_{t,j} = maj({hat_g_{t,i} | i in A_j}); Lemma 4 (for r = 3) proves E[hat_q] <= q*epsilon*(4 - 2*epsilon)/3, Theorem 1 (for odd r > 3) proves E[hat_q] <= 2q(40*epsilon*(1 - epsilon))^{(r-1)/2} / r, and Corollary 2 proves that for r >= 3 + 2 log_2(q), hat_q <= 1 + 2 log(1/delta) with probability at least 1 - delta.
+  evidence:
+  - source_id: r525-primary-pdf
+    locator: Section 3 Algorithm 1, Theorem 1, Corollary 2, pp. 4-5; Appendix A.1-A.3 Lemmas 4-5, pp. 13-15
+    relation: supports
+- claim_id: r525-hierarchical-median-of-means-inexact-oracle-bound
+  kind: scope
+  statement: In Stage 2 (Algorithm 2 HIER-AGGR and Section 4 Theorem 3), partitioning the hat_p filtered votes into k vote groups {Z_j}, averaging each group via z_hat_j = A_0(Z_j), and applying A_1 (Geometric Median with k = 128 ln(1/delta), Coordinate-Wise Median with k = 128 ln(d/delta), or 1/4-Trimmed Mean with k = 128 ln(d/delta)) yields a Delta-inexact gradient oracle ||G_hat - G||_2 <= O(sigma * sqrt(ln(d/delta) / b)) that is independent of p and epsilon while reducing server aggregation runtime from O(p^2 d) to O(p d + k^2 d).
+  evidence:
+  - source_id: r525-primary-pdf
+    locator: Section 3 Algorithm 2 and Section 4 Theorem 3, pp. 5-6; Appendix A.4 Lemma 6, pp. 15-17
+    relation: supports
+- claim_id: r525-server-data-partitioning-non-privacy-limitation
+  kind: limitation
+  statement: Because DETOX requires the parameter server to assign identical data sub-batches S_{t,j} to all r compute nodes within each node group A_j so honest nodes produce identical gradients for majority voting, it assumes centralized data ownership and is not directly privacy-preserving for decentralized private client datasets.
+  evidence:
+  - source_id: r525-primary-pdf
+    locator: Section 2, p. 4; Section 6 Conclusion, p. 11
+    relation: supports
+evidence_sources:
+- source_id: r525-primary-pdf
+  title: 'DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation'
+  authors: &id001
+  - Shashank Rajput
+  - Hongyi Wang
+  - Zachary Charles
+  - Dimitris Papailiopoulos
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1907.12205.pdf
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205
+  version: Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 10320-10330 (2019) (8122043 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:08:00Z'
+  sha256: 50ea3aead7ef122a34208337fe0733a601fc562ad16f9894146a037b7be61bf3
+- source_id: r525-arxiv-abs
+  title: 'DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1907.12205
+  persistent_id: https://arxiv.org/abs/1907.12205
+  version: arXiv abstract page (7296 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:08:00Z'
+  sha256: 880b195f682683033be9c5c4be38bb2fdc502d6a859dd6a5add2ad7aca3e1341
+- source_id: r525-metadata-cr
+  title: 'DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205
+  persistent_id: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205
+  version: Crossref API work record (18974 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:08:00Z'
+  sha256: ca0be844a152171c440b20e1b1ec7ae1da3e45f621f5187b2adee968cba5fb75
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: DETOX is a Byzantine-robust gradient aggregation framework for parameter-server distributed optimization closely related to federated learning.
+limitations:
+- Requires r-fold redundant gradient evaluation across node groups of odd size r.
+- Requires the parameter server to own and assign shared data sub-batches S_{t,j} to each group A_j, precluding direct application to private unshared client data without modification.
+curation:
+  created_at: '2026-10-19T10:08:00Z'
+  updated_at: '2026-10-19T10:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

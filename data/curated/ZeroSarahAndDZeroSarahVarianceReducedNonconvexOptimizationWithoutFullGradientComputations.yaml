@@ -1,0 +1,101 @@
+id: AIMech:ZeroSarahAndDZeroSarahVarianceReducedNonconvexOptimizationWithoutFullGradientComputations
+name: ZeroSARAH and D-ZeroSARAH Variance-Reduced Nonconvex Optimization without Full Gradient Computations
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A family of single-loop variance-reduced stochastic optimization algorithms for nonconvex finite-sum minimization f(x) = (1/n) sum_{i=1}^n f_i(x) (ZeroSARAH) and partial-participation distributed finite-sum minimization (D-ZeroSARAH) introduced by Li, Hanzely, and Richt\xE1rik (2021). ZeroSARAH maintains a historical gradient table {y_i^{k-1}}_{i=1}^n initialized to zero (requiring zero full gradient computations throughout training), samples a mini-batch I_b^k subseteq [n] of size b_k, updates the gradient estimator via v^k = (1/b_k) sum_{i in I_b^k} (nabla f_i(x^k) - nabla f_i(x^{k-1})) + (1 - lambda_k) v^{k-1} + lambda_k ((1/b_k) sum_{i in I_b^k} (nabla f_i(x^{k-1}) - y_i^{k-1}) + (1/n) sum_{j=1}^n y_j^{k-1}), steps x^{k+1} = x^k - eta_k v^k, and refreshes y_i^k = nabla f_i(x^k) for i in I_b^k while keeping y_i^k = y_i^{k-1} for i not in I_b^k."
+identity_notes: 'Distinct from classical SARAH, SPIDER, SpiderBoost, and PAGE (which require an initial full gradient computation nabla f(x^0) and/or periodic full-batch checkpoints of cost O(n) every epoch or with probability p_k), and distinct from SAGA (which achieves O(n^{2/3}/epsilon^2) nonconvex gradient complexity rather than O(sqrt(n)/epsilon^2)): ZeroSARAH combines SARAH''s recursive difference update with a SAGA-style historical table correction weighted by lambda_k = b_k / (2n) so that E_k[v^k - nabla f(x^k)] = (1 - lambda_k)(v^{k-1} - nabla f(x^{k-1})), never computing any full gradient across all iterations.'
+aliases:
+- ZeroSARAH
+- D-ZeroSARAH
+- Distributed ZeroSARAH
+- Variance-Reduced Nonconvex Optimization with Zero Full Gradient Computation
+definition_evidence:
+- source_id: r566-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r566-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r566-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: zerosarah-recursive-table-corrected-estimator-and-bias-decay
+  kind: mechanism
+  statement: ZeroSARAH initializes x^{-1} = x^0, v^{-1} = 0, and y_1^{-1} = ... = y_n^{-1} = 0 without evaluating nabla f(x^0), and at iteration k >= 0 samples a mini-batch I_b^k of size b_k to form v^k = (1/b_k) sum_{i in I_b^k}(nabla f_i(x^k) - nabla f_i(x^{k-1})) + (1 - lambda_k) v^{k-1} + lambda_k ((1/b_k) sum_{i in I_b^k}(nabla f_i(x^{k-1}) - y_i^{k-1}) + (1/n) sum_{j=1}^n y_j^{k-1}); by Lemma 1, the conditional expectation of the estimation error satisfies E_k[v^k - nabla f(x^k)] = (1 - lambda_k)(v^{k-1} - nabla f(x^{k-1})).
+  evidence:
+  - source_id: r566-primary-pdf
+    locator: Section 4, Algorithm 2, Equation (5), p. 5; Appendix B.1, Lemma 1 & Equation (11), p. 13
+    relation: supports
+- claim_id: zerosarah-optimal-nonconvex-complexity-with-zero-full-gradients
+  kind: mechanism
+  statement: Under L-smoothness (Assumption 1), setting b_k = sqrt(n), lambda_0 = 1, lambda_k = b_k / (2n) for k >= 1, and step size eta_k = 1 / ((1 + sqrt(8)) L) yields M_{k+1} = 2 / (lambda_{k+1} b_{k+1}) + 8 lambda_{k+1} n^2 / b_{k+1}^3 = 8 and guarantees E[||nabla f(hat{x}^K)||^2] <= epsilon^2 in O(sqrt(n) (L Delta_0 + G_0) / epsilon^2) stochastic gradient computations with zero full gradient evaluations, recovering best-known O(n + sqrt(n) L Delta_0 / epsilon^2) complexity when initialized with y_i^{-1} = nabla f_i(x^0) (Theorem 1, Corollaries 1-2).
+  evidence:
+  - source_id: r566-primary-pdf
+    locator: Section 4.1, Theorem 1, Corollary 1, Corollary 2 & Remark, pp. 5-6; Appendix B.1, Lemma 2, pp. 13-15
+    relation: supports
+- claim_id: d-zerosarah-distributed-partial-participation-nonconvex-optimization
+  kind: application
+  statement: 'D-ZeroSARAH (Algorithm 3) extends ZeroSARAH to distributed optimization f(x) = (1/m) sum_{i=1}^m f_i(x) where each client i in [m] holds s local functions f_{i,j}: in each round k, a subset I_{b_1}^k subseteq [m] of b_1 clients is sampled and each active client samples a local mini-batch I_{i,b_2}^k subseteq [s] of size b_2, achieving E[||nabla f(hat{x}^K)||^2] <= epsilon^2 without ever requiring full client participation or full local dataset gradient evaluation (Theorem 2, Corollaries 3-4).'
+  evidence:
+  - source_id: r566-primary-pdf
+    locator: Section 5, Algorithm 3 (D-ZeroSARAH), Theorem 2 & Corollaries 3-4, pp. 6-8
+    relation: supports
+- claim_id: zerosarah-historical-gradient-table-memory-limitation
+  kind: limitation
+  statement: Maintaining the historical gradient table {y_i^{k-1}}_{i=1}^n requires O(n d) memory in general (reduced to O(n) scalar storage for generalized linear models where nabla f_i(x) scales a fixed feature vector a_i), and the zero-full-gradient complexity bound depends on the initial average squared component gradient norm G_0 = (1/n) sum_{i=1}^n ||nabla f_i(x^0)||^2 when y_i^{-1} is initialized to zero.
+  evidence:
+  - source_id: r566-primary-pdf
+    locator: Section 4, footnote/discussion on table storage & Corollary 2, pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r566-primary-pdf
+  title: 'ZeroSARAH: Efficient Nonconvex Finite-Sum Optimization with Zero Full Gradient Computation'
+  authors: &id001
+  - Zhize Li
+  - "Slavom\xEDr Hanzely"
+  - "Peter Richt\xE1rik"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2103.01447.pdf
+  persistent_id: https://api.openalex.org/works/W3135176055
+  version: arXiv preprint arXiv:2103.01447 (2021) (1176131 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:49:00Z'
+  sha256: 3385bfc630e0bca5f418be769aa262974da18b18c380297fefe5c92d8847eab2
+- source_id: r566-arxiv-abs
+  title: 'ZeroSARAH: Efficient Nonconvex Finite-Sum Optimization with Zero Full Gradient Computation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.01447
+  persistent_id: https://arxiv.org/abs/2103.01447
+  version: arXiv abstract page (7508 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:49:00Z'
+  sha256: 98c65f118e7276c717ac7ad60957dad9208e7f2e0255e77c29f60d671d9c7f5d
+- source_id: r566-metadata-cr
+  title: 'ZeroSARAH: Efficient Nonconvex Finite-Sum Optimization with Zero Full Gradient Computation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.openalex.org/works/W3135176055
+  persistent_id: https://api.openalex.org/works/W3135176055
+  version: Crossref API work record (15662 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:49:00Z'
+  sha256: a81243e29e4d9938559e27b52579a026137755141ce76ec8925817131bea4a8a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: D-ZeroSARAH (Algorithm 3) extends ZeroSARAH to distributed/federated nonconvex optimization across m clients with partial client participation without ever evaluating gradients across all clients or all local data samples simultaneously.
+limitations:
+- Requires storing historical component gradients {y_i^{k-1}}_{i=1}^n (O(nd) memory in general, or O(n) scalars for linear predictors).
+- When initialized with y_i^{-1} = 0 to avoid any initial full gradient pass, the stochastic gradient complexity includes an additive O(sqrt(n) G_0 / epsilon^2) term proportional to G_0 = (1/n) sum_{i=1}^n ||nabla f_i(x^0)||^2.
+curation:
+  created_at: '2026-10-19T10:49:00Z'
+  updated_at: '2026-10-19T10:49:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

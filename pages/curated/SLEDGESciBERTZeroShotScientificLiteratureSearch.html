@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SLEDGE (SciBERT Zero-Shot Domain-Transfer Scientific Literature Search) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/architecture.html">Architectures</a>
+    <span>/</span>
+    <strong>SLEDGE (SciBERT Zero-Shot Domain-Transfer Scientific Literature Search)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SLEDGE (SciBERT Zero-Shot Domain-Transfer Scientific Literature Search)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:SLEDGESciBERTZeroShotScientificLiteratureSearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SLEDGE, SLEDGE Scientific Knowledge Search, SLEDGE Zero-Shot SciBERT Scientific Literature Reranking Pipeline
+    </div>
+
+  <div class="detail-desc">
+    A two-stage zero-shot domain-transfer scientific literature retrieval and neural re-ranking methodology (MacAvaney, Cohan, &amp; Goharian, EMNLP 2020) that combines first-stage BM25 candidate generation over concatenated scientific article title, abstract, full-text paragraphs, and headings (with optional publication-date filtering and high-k_1 term-saturation tuning k_1 = 3.9, b = 0.55) with a second-stage SciBERT cross-encoder re-ranker trained in a zero-shot transfer regime on general-domain MS MARCO passage ranking pairs (or the MedSyn-filtered 78,895-query Med-MSMARCO medical subset in the fully automatic setting) to score natural-language topic questions against article titles and abstracts.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from general-domain BERT passage rerankers (Nogueira &amp; Cho, 2019) and from CEDR (AIMech:CEDRContextualizedEmbeddingsForDocumentRanking). SLEDGE bridges emerging scientific domains lacking in-domain relevance judgments by pairing a scientific pre-trained language model (SciBERT) with out-of-domain relevance supervision transferred from MS MARCO (or lexicon-filtered Med-MSMARCO via the MedSyn layperson medical lexicon) and asymmetric field routing (searching full text with keyword queries or natural-language questions in Stage 1 while re-ranking title+abstract with natural-language questions in Stage 2).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sledge-two-stage-asymmetric-field-and-scibert-transfer</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SLEDGE indexes concatenated scientific article titles, abstracts, full-text paragraphs, and headings (preferring cleaner PubMed XML over PDF text) to retrieve the top 500 candidates using BM25 (tuned via grid search to k_1 = 3.9, b = 0.55 with a &gt;= Jan 1, 2020 date filter in run1), and re-ranks candidates using a Vanilla SciBERT cross-encoder trained on MS MARCO via pairwise cross-entropy L(q, d^+, d^-) = -log(R(q, d^+)) - log(1 - R(q, d^-)) (Equation 1) by scoring the topic&#39;s natural-language question field against each candidate&#39;s title and abstract.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r799-primary-pdf">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 (First-Stage Retrieval &amp; Neural Re-Ranking) &amp; Section 5.1, pp. 2-4, Equation (1)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r799-primary-pdf">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search</a></span>
+        <span>· <strong>Locator:</strong> bm25_score and pairwise_cross_entropy_loss verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sledge-med-msmarco-lexicon-filtered-zero-shot-transfer</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the fully automatic zero-shot setting without human judgments or hyperparameter tuning (run2), SLEDGE mitigates domain shift by filtering the 808,531 MS MARCO training queries with the MedSyn medical terminology lexicon (excluding ambiguous common words such as gas, card, bing, died, map, and fall) to construct Med-MSMARCO (78,895 queries, 9.7% of MS MARCO) for training the SciBERT re-ranker.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r799-primary-pdf">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2 (Ranking without hyperparameter tuning &amp; Footnote 5), p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r799-primary-pdf">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search</a></span>
+        <span>· <strong>Locator:</strong> filter_med_msmarco_queries verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#sledge-trec-covid-leaderboard-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On Round 1 of the TREC-COVID shared task (51,045 CORD-19 articles, 56 participating teams), SLEDGE run1 tops the manual-run leaderboard with 0.6844 nDCG@10 and 0.6533 P@5 (fully relevant) (and reaches 0.7733 nDCG@10 when using the question field in both stages, Table 3), while automatic SLEDGE run2 achieves 0.6032 nDCG@10 and 0.5667 P@5 (fully relevant, Tables 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r799-primary-pdf">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.3 (Tables 1-3), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sledge-incidental-mention-and-term-count-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Failure analysis on queries such as Query 23 (coronavirus hypertension) shows that Vanilla SciBERT can rank documents with incidental single mentions of a query term above documents with frequent term repetition that BM25 ranks highly, and applying a hard publication-date filter improves top-rank precision but caps total system recall by discarding pre-2020 coronavirus literature (Section 5.3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r799-primary-pdf">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search</a></span>
+        <span>· <strong>Locator:</strong> Section 5.3 (Topic fields and date filtering &amp; Failure cases), pp. 6-7, Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Vanilla SciBERT re-ranking over title+abstract can over-score incidental single mentions of query terms compared to count-based models, and hard publication-date filtering caps recall of pre-2020 relevant articles.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SLEDGE is a two-stage hybrid lexical and SciBERT neural network re-ranking architecture for zero-shot scientific literature retrieval.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r799-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r799-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2005.02365.pdf" target="_blank" rel="noopener">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sean MacAvaney, Arman Cohan, Nazli Goharian
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2005.02365</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cebc7ef139ef…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r799-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r799-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2005.02365" target="_blank" rel="noopener">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sean MacAvaney, Arman Cohan, Nazli Goharian
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2005.02365</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:54f5861f8980…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r799-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r799-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2005.02365" target="_blank" rel="noopener">SLEDGE: A Simple Yet Effective Baseline for COVID-19 Scientific Knowledge Search (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sean MacAvaney, Arman Cohan, Nazli Goharian
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2005.02365</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:42f45bdd94a3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ASLEDGESciBERTZeroShotScientificLiteratureSearch">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for SLEDGE (SciBERT Zero-Shot Domain-Transfer Scientific Literature Search)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Architectures</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:SLEDGESciBERTZeroShotScientificLiteratureSearch</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">SLEDGE (SciBERT...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:42:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:42:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SLEDGESciBERTZeroShotScientificLiteratureSearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SLEDGESciBERTZeroShotScientificLiteratureSearch.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=SLEDGE%20%28SciBERT%20Zero-Shot%20Domain-Transfer%20Scientific%20Literature%20Search%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASLEDGESciBERTZeroShotScientificLiteratureSearch"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

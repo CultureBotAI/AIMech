@@ -35,7 +35,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Preprocessing Methods</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">4 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">7 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Feature engineering, data augmentation, and tokenization procedures.</p>
 </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="facet-actions">
         <div class="filter-count">
-          Showing <span id="matchCount">4</span> of <span id="totalCount">4</span>
+          Showing <span id="matchCount">7</span> of <span id="totalCount">7</span>
         </div>
         <button type="button" id="resetFilters" class="btn">Clear</button>
       </div>
@@ -71,39 +71,43 @@
       <div class="facet-list">
         <a class="facet-link " href="../kinds/algorithm.html">
           <span>Algorithms</span>
-          <small>567</small>
+          <small>1047</small>
+        </a>
+        <a class="facet-link " href="../kinds/mathematical_method.html">
+          <span>Mathematical Methods</span>
+          <small>175</small>
+        </a>
+        <a class="facet-link " href="../kinds/architecture.html">
+          <span>Architectures</span>
+          <small>121</small>
         </a>
         <a class="facet-link " href="../kinds/model_family.html">
           <span>Model Families</span>
           <small>91</small>
         </a>
-        <a class="facet-link " href="../kinds/architecture.html">
-          <span>Architectures</span>
-          <small>71</small>
-        </a>
-        <a class="facet-link " href="../kinds/mathematical_method.html">
-          <span>Mathematical Methods</span>
-          <small>52</small>
-        </a>
         <a class="facet-link " href="../kinds/layer.html">
           <span>Layers &amp; Modules</span>
-          <small>18</small>
+          <small>20</small>
+        </a>
+        <a class="facet-link " href="../kinds/learning_paradigm.html">
+          <span>Learning Paradigms</span>
+          <small>13</small>
+        </a>
+        <a class="facet-link active" href="../kinds/preprocessing_method.html">
+          <span>Preprocessing Methods</span>
+          <small>7</small>
+        </a>
+        <a class="facet-link " href="../kinds/evaluation_method.html">
+          <span>Evaluation Methods</span>
+          <small>5</small>
         </a>
         <a class="facet-link " href="../kinds/evaluation_criterion.html">
           <span>Evaluation Criteria</span>
           <small>5</small>
         </a>
-        <a class="facet-link " href="../kinds/learning_paradigm.html">
-          <span>Learning Paradigms</span>
-          <small>4</small>
-        </a>
-        <a class="facet-link active" href="../kinds/preprocessing_method.html">
-          <span>Preprocessing Methods</span>
-          <small>4</small>
-        </a>
-        <a class="facet-link " href="../kinds/evaluation_method.html">
-          <span>Evaluation Methods</span>
-          <small>3</small>
+        <a class="facet-link " href="../kinds/bias.html">
+          <span>Biases</span>
+          <small>1</small>
         </a>
         <a class="facet-link " href="../kinds/coordination_mechanism.html">
           <span>Coordination Mechanisms</span>
@@ -156,6 +160,96 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="preprocessing_method"
+          data-branch=""
+          data-name="doc2query neural document expansion by query prediction"
+          data-id="aimech:doc2querydocumentexpansionbyqueryprediction"
+          data-claims="4"
+          data-sources="3"
+          data-search="doc2query neural document expansion by query prediction doc2querydocumentexpansionbyqueryprediction aimech:doc2querydocumentexpansionbyqueryprediction preprocessing methods preprocessing_method a neural document-expansion preprocessing method for first-stage information retrieval that trains a sequence-to-sequence transformer model on (query, relevant document) pairs to generate questions a given document could potentially answer, samples n = 10 predicted queries per document via top-k random sampling prior to indexing, and appends the predicted queries directly to the original document text without special markup before building a standard bag-of-words inverted index (such as bm25), simultaneously performing implicit term re-weighting via copied document tokens (increasing the term frequency of salient words) and bridging lexical vocabulary mismatch via newly generated synonym and related-concept tokens while shifting neural inference cost from retrieval time to offline indexing. distinct from query-side generation expansion methods such as gar (aimech:gargenerationaugmentedretrievalforopendomainqa) and hyde (aimech:hydehypotheticaldocumentembeddings), which generate expansion contexts from the input query at retrieval time rather than expanding corpus documents offline prior to inverted-index construction; and distinct from deepct (aimech:deepctcontextawaretermimportanceestimationforfirststageretrieval), which regresses integer term frequencies for existing document tokens without generating new vocabulary terms not present in the document. doc2query document expansion by query prediction neural document expansion by query prediction doc2query trains a 6-layer encoder-decoder transformer (512 hidden units, 8 attention heads, 2048 feed-forward units, bpe-tokenized with documents truncated to 400 tokens and queries to 100 tokens, section 3 &amp; appendix a) on (query, relevant document) pairs, predicts 10 queries per document using top-k random sampling—which outperforms beam search across all hypothesis counts and peaks at 10 queries before excess queries dilute the original text (appendix b, figure 2)—and appends them to the document without special markup prior to bm25 indexing. excluding stopwords (51% of predicted query tokens), 69% of doc2query&#39;s predicted words exist in the source document (copied words that perform implicit term re-weighting by boosting key term frequencies) while 31% are novel words absent from the source document (new words that mitigate vocabulary mismatch via synonyms and related terms): on ms marco dev, expanding with new words alone improves bm25 mrr@10 from 18.4 to 18.8, copied words alone reaches 19.7, and combining both reaches 21.5 mrr@10 and raises recall@1000 from 85.3 to 89.3 (section 5, tables 1-2). doc2query improves standalone bm25 retrieval effectiveness by ~15% on both trec-car (15.3 to 18.3 map) and ms marco (18.6 to 21.8 test mrr@10 at 90ms/query vs. 650ms/query for single duet v2), outperforms rm3 query expansion (which degrades ms marco dev mrr@10 to 16.7), and provides orthogonal gains when pipelined with bert cross-encoder reranking (36.5 map on trec-car and 37.5 dev / 36.8 test mrr@10 on ms marco, table 1). because document expansion modifies corpus representations prior to indexing, any change to the expansion model requires running neural generation across all corpus documents and re-indexing the entire collection (section 2), and appending too many predicted queries (e.g., 20 queries in figure 2) introduces noise that reduces the relative contribution of the original document text and degrades mrr@10 (appendix b). document expansion by query prediction document expansion by query prediction (arxiv abstract) document expansion by query prediction (crossref metadata) rodrigo nogueira wei yang jimmy lin kyunghyun cho rodrigo nogueira wei yang jimmy lin kyunghyun cho rodrigo nogueira wei yang jimmy lin kyunghyun cho">
+        <td>
+          <a href="../curated/Doc2QueryDocumentExpansionByQueryPrediction.html" style="font-weight: 600; font-size: 1rem;">Doc2query Neural Document Expansion by Query Prediction</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Doc2query, Document Expansion by Query Prediction…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A neural document-expansion preprocessing method for first-stage information retrieval that trains a sequence-to-sequence Transformer model…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/preprocessing_method.html" style="font-size: 0.85rem;">Preprocessing Methods</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:Doc2QueryDocumentExpansionByQueryPrediction</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="preprocessing_method"
+          data-branch=""
+          data-name="moocdb four-mode learner interaction schema and multi-layer privacy partitioning"
+          data-id="aimech:moocdbfourmodelearnerinteractionschemaandmultilayerprivacypartitioning"
+          data-claims="4"
+          data-sources="3"
+          data-search="moocdb four-mode learner interaction schema and multi-layer privacy partitioning moocdbfourmodelearnerinteractionschemaandmultilayerprivacypartitioning aimech:moocdbfourmodelearnerinteractionschemaandmultilayerprivacypartitioning preprocessing methods preprocessing_method a cross-platform data standardization, feature-engineering, and privacy-partitioning preprocessing method for massive open online course (mooc) behavioral telemetry that transforms heterogeneous raw logs into four relational interaction mode sub-schemas — observing (many-to-many url-to-uri resource browsing events), submitting (tree-structured problem hierarchies, multi-attempt submissions, and decoupled multi-grader [0,1]-normalized assessments), collaborating (self-referential forum/wiki interaction trees), and feedback (resource-linked survey responses) — while decomposing learner identifiers across a three-layer hierarchy (global_user_id -&gt; course_user_id -&gt; four mode-specific user ids) that defines six access-control data partitions. no aio class represents moocdb&#39;s four-mode behavioral telemetry relational schema or three-layer privacy partitioning; datapreparation (aio:datapreparation) is the closest broad match covering structured preparation, normalization, and anonymization of raw interaction logs for machine learning. moocdb standardized relational learner telemetry schema moocdb four-mode behavioral interaction and three-layer user anonymization framework moocdb normalizes learner interactions across coursera and edx into four lossless transactional sub-schemas (section 4.1-4.4, figures 3-8, 17): (1) observing mode, which decouples webpage container urls (`urls`) from embedded resource uris (`resources`) via a many-to-many `resources_urls` join table; (2) submitting mode, which encodes arbitrary module-problem-subproblem hierarchies as trees via `(problem_id, problem_parent_id, order_id)` (figure 4) and decouples `submissions` from multi-grader [0, 1]-normalized `assessments` (figure 5); (3) collaborating mode, which stores forum threads, votes, and wiki edits as per-student transactions with self-referential `collaboration_parent_id` links (figures 6-7); and (4) feedback mode (`surveys`, `questions`, `answers`, `feedbacks`, figure 8). to control cross-course and intra-course linkability without mutating interaction tables, moocdb separates `user_pii` (`global_user_id`) from `global_user_table` (`global_user_id` -&gt; per-course `course_user_id`) and `course_user_table` (`course_user_id` -&gt; four distinct mode identifiers `observing_user_id`, `submitting_user_id`, `collaborating_user_id`, `feedback_user_id`, figures 9-10), inducing six access-control partitions (multi-course, single-course, and table/mode-level, each with or without the `collaborations` table, figure 11). applied to mitx 6.002x (154,763 registrants, 132,286,335 observed events in 6,120 mb and 6,313,050 submissions in 341 mb), moocdb reduces storage by over 10x relative to a 70 gb name-value transcription and accelerates behavioral queries by ~10x, powering the mooc en images 3-axis analytics framework (time x student cohorts x space, figures 13-14) and standardized exports for bayesian knowledge tracing (bkt) and item response theory (irt). even when `user_pii` and `course_user_table` are withheld (partition 4, mode table access), releasing the `collaborations` table alongside `observed_events` permits re-identification of forum-posting learners via timestamp correlation between forum post timestamps and forum-visit events in `observed_events`; similarly, multi-course access without `collaborations` (partition 3) remains vulnerable to profile-intersection de-identification when learners publicly disclose course combinations and grades (example 5.1, pp. 14-17). moocdb: developing standards and systems to support mooc data science moocdb: developing standards and systems to support mooc data science (arxiv abstract) moocdb: developing standards and systems to support mooc data science (crossref metadata) kalyan veeramachaneni sherif halawa franck dernoncourt una-may o&#39;reilly colin taylor chuong b. do kalyan veeramachaneni sherif halawa franck dernoncourt una-may o&#39;reilly colin taylor chuong b. do kalyan veeramachaneni sherif halawa franck dernoncourt una-may o&#39;reilly colin taylor chuong b. do">
+        <td>
+          <a href="../curated/MOOCdbFourModeLearnerInteractionSchemaAndMultiLayerPrivacyPartitioning.html" style="font-weight: 600; font-size: 1rem;">MOOCdb Four-Mode Learner Interaction Schema and Multi-Layer Privacy Partitioning</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> MOOCdb Standardized Relational Learner Telemetry Schema, MOOCdb Four-Mode Behavioral Interaction and Three-Layer User Anonymization Framework            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A cross-platform data standardization, feature-engineering, and privacy-partitioning preprocessing method for Massive Open Online Course (MO…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/preprocessing_method.html" style="font-size: 0.85rem;">Preprocessing Methods</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MOOCdbFourModeLearnerInteractionSchemaAndMultiLayerPrivacyPartitioning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="preprocessing_method"
+          data-branch=""
+          data-name="projection-cost preserving sketches for k-means clustering and constrained low-rank approximation"
+          data-id="aimech:projectioncostpreservingsketchesforkmeansandconstrainedlowrankapproximation"
+          data-claims="3"
+          data-sources="3"
+          data-search="projection-cost preserving sketches for k-means clustering and constrained low-rank approximation projectioncostpreservingsketchesforkmeansandconstrainedlowrankapproximation aimech:projectioncostpreservingsketchesforkmeansandconstrainedlowrankapproximation preprocessing methods preprocessing_method a rank-k projection-cost preserving sketch (pcps) is a linear dimensionality-reduction sketch a_tilde in r^{n x d&#39;} (with d&#39; &lt;&lt; d) of a data matrix a in r^{n x d}, introduced by cohen, elder, musco, musco, and persu (2015), such that for all rank-k orthogonal projection matrices p in r^{n x n} simultaneously, there exists a fixed non-negative constant c &gt;= 0 independent of p satisfying (1 - epsilon)*||a - pa||_f^2 &lt;= ||a_tilde - p*a_tilde||_f^2 + c &lt;= (1 + epsilon)*||a - pa||_f^2 (definition 1, two-sided error) or ||a - pa||_f^2 &lt;= ||a_tilde - p*a_tilde||_f^2 + c &lt;= (1 + epsilon)*||a - pa||_f^2 (definition 2, one-sided error). because k-means clustering is equivalent to minimizing ||a - x_c x_c^t a||_f^2 over rank-k cluster indicator projection matrices p = x_c x_c^t, any gamma-approximate solution p_tilde on a_tilde yields a (1 + epsilon)*gamma-approximate solution for a across k-means clustering and general constrained rank-k approximation problems. distinct from aimech:frequentdirectionsdeterministicmatrixsketching (round 363), which compresses n rows into ell rows in r^{ell x d} to approximate the row space a^t a in row-update streams, whereas a projection-cost preserving sketch reduces column dimension from d to d&#39; = o(k/epsilon) or o(k/epsilon^2) in r^{n x d&#39;} so that left rank-k projections p in r^{n x n} (such as k-means cluster indicator projections x_c x_c^t) preserve ||(i - p)a||_f^2 up to a p-independent shift c. also distinct from aimech:kmeansplusplusseeding (round 194), which seeds k-means cluster centers in the ambient dimension d rather than reducing feature dimension d&#39; prior to clustering. projection-cost preserving sketch (pcps) rank-k projection-cost preserving dimensionality reduction cohen-elder-musco-musco-persu k-means dimensionality reduction writing c = a a^t, c_tilde = a_tilde a_tilde^t = c + e, and y = i - p for any rank-k orthogonal projection p, a_tilde is a one-sided pcps with error epsilon if e &lt;= 0 and sum_{i=1}^k |lambda_i(e)| &lt;= epsilon*||a_{r\k}||_f^2 (lemma 5), and a two-sided pcps if e = e_1 + e_2 + e_3 + e_4 with -epsilon_1 c &lt;= e_1 &lt;= epsilon_1 c, sum_{i=1}^k |lambda_i(e_2)| &lt;= epsilon_2*||a_{r\k}||_f^2, tr(e_2) &lt;= epsilon_2&#39;*||a_{r\k}||_f^2, tr(e_3^t c^+ e_3) &lt;= epsilon_3^2*||a_{r\k}||_f^2, and tr(e_4 c^+ e_4^t) &lt;= epsilon_4^2*||a_{r\k}||_f^2 (lemma 6); consequently, projecting a onto its top m = ceil(k/epsilon) exact or (1 + epsilon&#39;)-approximate right singular vectors yields a one-sided pcps in dimension d&#39; = ceil(k/epsilon) (theorems 7-8, and theorem 9 for general low-rank approximations), which is optimal by a matching simplex-plus-gaussian-cloud lower bound showing d&#39; &gt;= ceil(k/epsilon) is necessary for svd reduction (theorem 21, appendix a). decomposing a = w_1 b + w_2 b via b_1 = z^t and b_2 = (sqrt(k)/||a_{r\k}||_f)*(a - a z z^t) with 1 &lt;= ||b b^t||_2 &lt;= 2 and tr(b b^t) &lt;= 3k reduces two-sided pcps construction to spectral norm approximation ||b r r^t b^t - b b^t||_2 &lt; epsilon and trace preservation tr(b_2 r r^t b_2^t) - tr(b_2 b_2^t) &lt;= epsilon*k (lemma 10, lemma 11); this establishes (1 + epsilon) pcps guarantees for oblivious random projections (theorem 12: d&#39; = o(k/epsilon^2) dense jl, o(k^2/epsilon^2) countsketch, or o_tilde(k/epsilon^2) osnap), non-oblivious random projection az onto the row span of ra with d&#39; = o(k/epsilon) (theorem 16, lemmas 17-18), randomized leverage-plus-residual column sampling with d&#39; = o(k log(k/delta)/epsilon^2) in o(nnz(a) log(d/delta) + k d log(d/delta)) time (lemma 13, theorem 14), and deterministic bss column selection with d&#39; = o(k/epsilon^2) (theorem 15). for k-means clustering specifically, splitting a = p^* a + (i - p^*)a = b + b_bar where p^* is the optimal k-cluster projection matrix and b has only k distinct rows (the optimal cluster centroids), multiplying by a johnson-lindenstrauss matrix r^t with only d&#39; = o(log(k/delta)/epsilon^2) columns—independent of n and d and sublinear in k—simultaneously preserves all pairwise centroid distances (hence ||b - p_tilde b||_f &lt;= (1 + epsilon)*||b r^t - p_tilde b r^t||_f) and the frobenius norms ||b_bar r^t||_f &lt;= (1 + epsilon)*||b_bar||_f and ||(a - p^* a)r^t||_f &lt;= (1 + epsilon)*||a - p^* a||_f, proving via the triangle inequality (3 + 6*epsilon)*sqrt(gamma) that any gamma-approximate k-means clustering p_tilde of a_tilde = a r^t achieves ||a - p_tilde a||_f^2 &lt;= (9 + epsilon)*gamma*||a - p^* a||_f^2 (theorem 19). dimensionality reduction for k-means clustering and low rank approximation dimensionality reduction for k-means clustering and low rank approximation (arxiv abstract) dimensionality reduction for k-means clustering and low rank approximation (crossref metadata) michael b. cohen sam elder cameron musco christopher musco madalina persu michael b. cohen sam elder cameron musco christopher musco madalina persu michael b. cohen sam elder cameron musco christopher musco madalina persu">
+        <td>
+          <a href="../curated/ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation.html" style="font-weight: 600; font-size: 1rem;">Projection-Cost Preserving Sketches for k-Means Clustering and Constrained Low-Rank Approximation</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Projection-Cost Preserving Sketch (PCPS), Rank-k Projection-Cost Preserving Dimensionality Reduction…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A Rank-k Projection-Cost Preserving Sketch (PCPS) is a linear dimensionality-reduction sketch A_tilde in R^{n x d&#39;} (with d&#39; &lt;&lt; d) of a data…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/preprocessing_method.html" style="font-size: 0.85rem;">Preprocessing Methods</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ProjectionCostPreservingSketchesForKMeansAndConstrainedLowRankApproximation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
@@ -254,7 +348,7 @@
 <script src="../record-browser.js"></script>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-16 (<code>5033b9689595</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

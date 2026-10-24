@@ -1,0 +1,101 @@
+id: AIMech:WARPWordLevelAdversarialReProgramming
+name: WARP (Word-level Adversarial ReProgramming)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient transfer learning method for frozen masked language models that inserts K special prompt tokens [P_1], ..., [P_K] and a [MASK] token before, between, and after input text segments according to a template T_{Theta^P}(x), removes the full vocabulary decoder projection from the masked language modeling head f(.), and optimizes only the continuous prompt embeddings Theta^P in R^{K x E} and class verbalizer embeddings Theta^V in R^{|C| x E} in word-embedding space R^E via stochastic gradient descent on the cross-entropy loss of P_Theta(y | x) = exp(Theta^V_y f(T_{Theta^P}(x))) / sum_{i in C} exp(Theta^V_i f(T_{Theta^P}(x))).
+identity_notes: 'Introduced by Karen Hambardzumyan, Hrant Khachatrian, and Jonathan May (ACL/IJCNLP 2021, Volume 1: Long Papers, pp. 4921-4933, arXiv:2101.00121). Inspired by image-level Adversarial Reprogramming (Elsayed et al., ICLR 2019). Distinct from discrete prompt search such as AutoPrompt (Shin et al., EMNLP 2020), which restricts triggers and verbalizers to discrete vocabulary tokens, and distinct from generative Prompt Tuning (Lester et al., EMNLP 2021; AIMech:PromptTuning), which prepends prefix prompts to sequence-to-sequence models without jointly optimizing continuous MLM verbalizer vectors Theta^V at a template [MASK] position.'
+aliases:
+- WARP
+- WARP_init
+- Word-level Adversarial ReProgramming
+- Word-Level Adversarial Reprogramming for Masked Language Models
+definition_evidence:
+- source_id: r709-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r709-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r709-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: warp-continuous-prompt-and-verbalizer-mlm-reprogramming-mechanism
+  kind: mechanism
+  statement: Given a frozen masked language model with word embedding dimension E and pre-decoder MLM head representation f(.) in R^E at the inserted [MASK] position, WARP leaves all Transformer layers and original input token embeddings untouched while optimizing only K continuous prompt vectors Theta^P = ([P_1], ..., [P_K]) in R^{K x E} and C = |C| continuous class verbalizer vectors Theta^V = ([V_1], ..., [V_C]) in R^{C x E} to maximize log P_Theta(y | x) = log(exp(Theta^V_y f(T_{Theta^P}(x))) / sum_{i in C} exp(Theta^V_i f(T_{Theta^P}(x)))).
+  evidence:
+  - source_id: r709-primary-pdf
+    locator: Section 3 WARP, Figure 3 & equations, pp. 3-4; Section 3.1 Method, p. 4
+    relation: supports
+- claim_id: warp-multi-task-serving-storage-and-batched-inference-scope
+  kind: scope
+  statement: To serve N classification tasks with at most C classes each using a frozen language model of M parameters and word embedding dimension E, WARP stores exactly M + N E (C + K) parameters (Table 4; requiring <25K trainable parameters per task for RoBERTa-large with E = 1024, K = 20, and only 1,024 trainable parameters per model for ALBERT-xxlarge-v2 with E = 128, K + C = 8) and enables mixed-task minibatch inference in a single shared forward pass by concatenating task verbalizer matrices into a single linear layer with at most N C output neurons.
+  evidence:
+  - source_id: r709-primary-pdf
+    locator: Section 4.2 Table 2, p. 6; Section 5.1 & 5.4, pp. 6-7; Section 6.3 Real-world applications, Table 4, pp. 8-9
+    relation: supports
+- claim_id: warp-glue-leaderboard-and-fewglue-32shot-application
+  kind: application
+  statement: On the GLUE evaluation server with frozen RoBERTa-large, WARP (<25K trainable parameters per task) achieves an 81.6 test score, outperforming BERT Adapters (80.2 with 1.2M trainable parameters), BERT_large (80.5 with 355M), TinyBERT_6 (78.1 with 67M), and ELECTRA_small (77.4 with 14M), while on SST-2 dev a single prompt token (WARP_1) reaches 93.8% accuracy (vs. 91.2% for AutoPrompt), and in 32-shot SuperGLUE with ALBERT-xxlarge-v2, manually initialized WARP_init achieves 70.2 F1 / 82.4% accuracy on CB and 69.1% on RTE, outperforming 175B-parameter GPT-3 (52.0 / 75.6% on CB and 69.0% on RTE).
+  evidence:
+  - source_id: r709-primary-pdf
+    locator: Section 4.2 Results, Tables 1-2, pp. 5-6; Section 5.4 Results, Table 3, p. 7; Section 6.2 Comparison with AutoPrompt, Figure 4, p. 8
+    relation: supports
+- claim_id: warp-cola-reformulation-and-unlabeled-distillation-gap-limitation
+  kind: limitation
+  statement: WARP exhibits weaker performance on linguistic acceptability tasks that are difficult to reformulate as Cloze completions (53.9 Matthews correlation on CoLA test vs. 67.8 for fully fine-tuned RoBERTa in Table 1, with learned prompt vectors remaining near their [MASK] initialization), and in 32-shot SuperGLUE trails semi-supervised iPET (82.4% vs. 88.8% on CB test) which fine-tunes all 255M parameters and distills over 20,000 unlabeled examples.
+  evidence:
+  - source_id: r709-primary-pdf
+    locator: Section 4.2 Results, Table 1, p. 5; Section 5.4 Results, Table 3, p. 7; Section 6.1 Interpreting tokens learned by WARP, p. 7; Appendix B Table 6, pp. 12-13
+    relation: supports
+evidence_sources:
+- source_id: r709-primary-pdf
+  title: 'WARP: Word-level Adversarial ReProgramming'
+  authors: &id001
+  - Karen Hambardzumyan
+  - Hrant Khachatrian
+  - Jonathan May
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2101.00121.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=WARP+Word-level+Adversarial+ReProgramming&format=xml
+  version: 'Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (ACL/IJCNLP 2021), Volume 1: Long Papers, pp. 4921-4933 (2021) (1663933 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:12:00Z'
+  sha256: 3834b52fcfb11552cf703c3ca518ab5e82edcddb51bb81df2733ca3a54d9281b
+- source_id: r709-arxiv-abs
+  title: 'WARP: Word-level Adversarial ReProgramming (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2101.00121
+  persistent_id: https://arxiv.org/abs/2101.00121
+  version: arXiv abstract page (6497 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:12:00Z'
+  sha256: b668e72b0bc6d26b0d8b9d0559196c6248777405c9e565982de73ec66983b8b0
+- source_id: r709-metadata-cr
+  title: 'WARP: Word-level Adversarial ReProgramming (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=WARP+Word-level+Adversarial+ReProgramming&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=WARP+Word-level+Adversarial+ReProgramming&format=xml
+  version: Crossref API work record (846 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:12:00Z'
+  sha256: 3d36f760a49cccd3e661ca8aa659449d5f7da6a06610bc1e57bdcacdbca9a1fa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: WARP reprograms a frozen pretrained masked language model neural network by optimizing continuous input-level prompt embeddings and output verbalizer vectors.
+limitations:
+- Underperforms full fine-tuning on grammatical acceptability tasks such as CoLA (53.9 vs. 67.8 test Matthews correlation) that do not naturally map to Cloze-style masked token prediction.
+- Optimized continuous prompt embeddings rarely correspond to interpretable natural-language words in vocabulary space.
+curation:
+  created_at: '2026-10-19T13:12:00Z'
+  updated_at: '2026-10-19T13:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,100 @@
+id: AIMech:PermKPermutationCompressorsForDistributedNonconvexOptimization
+name: PermK Permutation Compressors for Distributed Nonconvex Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A family of correlated n-node unbiased random sparsification operators C = (C_1, ..., C_n) (PermK) that jointly generate a random permutation pi of coordinates (when d >= n, with d = q*n and k = q) or nodes (when n >= d, with n = q*d and k = 1) so that each worker i transmits a disjoint block of coordinates scaled by d/k, satisfying the negative-correlation AB-inequality E[||(1/n) sum_{i=1}^n C_i(x_i) - (1/n) sum_{i=1}^n x_i||^2] <= A * (1/n) sum_{i=1}^n ||x_i||^2 - B * ||(1/n) sum_{i=1}^n x_i||^2 with A = B = 1 (when d >= n) or A = B = (d - 1) / (n - 1) (when n >= d).
+identity_notes: Introduced by Rafal Szlendak, Alexander Tyurin, and Peter Richtarik (ICLR 2022; arXiv:2110.03300). Distinct from independent RandK sparsification, where each node independently samples k coordinates yielding B = 0 and A = (d - k) / (n * k) without inter-node variance cancellation; and distinct from MARINA (Gorbunov et al., ICML 2021; Round 391), which provides the variance-reduced distributed framework analyzed under independent compressors whereas PermK introduces the AB-assumption and negatively correlated permutation compressors that strictly improve MARINA's theoretical complexity.
+aliases:
+- PermK
+- PermK Permutation Compressor
+- Permutation Compressors for Distributed Nonconvex Optimization
+definition_evidence:
+- source_id: r558-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r558-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r558-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: permk-coupled-permutation-sparsification-and-exact-input-variance-mechanism
+  kind: mechanism
+  statement: When d = q*n, PermK samples a uniform random permutation pi of {1, ..., d} and assigns worker i the coordinate block {pi_{q(i-1)+1}, ..., pi_{q*i}} scaled by n, achieving exact variance E[||(1/n) sum_{i=1}^n C_i(x_i) - x_bar||^2] = (1/n) sum_{i=1}^n ||x_i||^2 - ||x_bar||^2 = IV_1({x_i}) (Theorem 1, A = B = 1); when n = q*d, PermK partitions the n workers into d groups of size q via a random permutation of {1, ..., n} so each worker transmits 1 coordinate scaled by d, achieving exact variance ((d - 1) / (n - 1)) * IV_1({x_i}) (Theorem 3, A = B = (d - 1) / (n - 1)).
+  evidence:
+  - source_id: r558-primary-pdf
+    locator: Section 2 Proposition 1, Section 4 Definitions 1-2 & Theorems 1 and 3, pp. 3, 5-6
+    relation: supports
+- claim_id: permk-marina-hessian-variance-acceleration-scope
+  kind: scope
+  statement: Under the AB-assumption and the Hessian-variance quantity L_+-^2 = sup_{x != y} ((1/n) sum_i ||grad f_i(x) - grad f_i(y)||^2 - ||grad f(x) - grad f(y)||^2) / ||x - y||^2 <= L_+^2 - L_-^2 (Definition 3), Theorem 5 and Corollaries 1-2 prove that MARINA with PermK achieves step size gamma <= 1 / (L_- + sqrt(((1 - p)/p) * ((A - B) * L_+^2 + B * L_+-^2))), improving communication and oracle complexity over independent RandK by up to sqrt(n) when d >= n and sqrt(d) when n >= d.
+  evidence:
+  - source_id: r558-primary-pdf
+    locator: Section 5 Definition 3, Section 6 Theorem 5, Corollaries 1-2, & Table 2, pp. 6-8
+    relation: supports
+- claim_id: permk-shared-prng-seed-and-divisibility-handling-limitation
+  kind: limitation
+  statement: Implementing PermK without central coordination overhead requires all workers to share a synchronized pseudo-random permutation seed across rounds, and when n does not divide d (or d does not divide n), residual coordinates must be handled via block-diagonal concatenation or RandR padding (Appendix F).
+  evidence:
+  - source_id: r558-primary-pdf
+    locator: Section 4.1-4.2 & Appendix F Generalizations when n does not divide d, pp. 5-6, 26-29
+    relation: supports
+- claim_id: permk-marina-nonconvex-quadratic-and-autoencoder-training-application
+  kind: application
+  statement: Applied within MARINA to distributed nonconvex logistic regression with nonconvex regularizer on w8a and mushRoom datasets, homogeneous/heterogeneous quadratic optimization with controlled Hessian variance, and autoencoder training on MNIST.
+  evidence:
+  - source_id: r558-primary-pdf
+    locator: Section 7 Experiments, Figures 1-2, pp. 8-9
+    relation: supports
+evidence_sources:
+- source_id: r558-primary-pdf
+  title: Permutation Compressors for Provably Faster Distributed Nonconvex Optimization
+  authors: &id001
+  - Rafal Szlendak
+  - Alexander Tyurin
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.03300.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/SzlendakTR22
+  version: 10th International Conference on Learning Representations (ICLR 2022) (2022) (1407040 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:41:00Z'
+  sha256: 4eb11ed8f52eccc2298a0f1b614a832491dbe4fdfdf91841c530bbd93b128519
+- source_id: r558-arxiv-abs
+  title: Permutation Compressors for Provably Faster Distributed Nonconvex Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.03300
+  persistent_id: https://arxiv.org/abs/2110.03300
+  version: arXiv abstract page (7256 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:41:00Z'
+  sha256: e9fb9d6021dacad993f75665c6e91dfdce93642c017db476575501ca0f065ee2
+- source_id: r558-metadata-cr
+  title: Permutation Compressors for Provably Faster Distributed Nonconvex Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/SzlendakTR22
+  persistent_id: https://dblp.org/rec/conf/iclr/SzlendakTR22
+  version: Crossref API work record (468 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:41:00Z'
+  sha256: b35ad7e4ebb022e2bae0dfa494d16ad67a2e9b798fec18169dda83530d1ea043
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers distributed model optimization with communication constraints, whereas PermK is a correlated permutation-based coordinate sparsification operator family for distributed nonconvex optimization.
+limitations:
+- Requires synchronized pseudo-random permutation generation across participating workers.
+- Requires full worker participation in the permutation partition at each compressed communication round.
+curation:
+  created_at: '2026-10-19T10:41:00Z'
+  updated_at: '2026-10-19T10:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

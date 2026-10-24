@@ -1,0 +1,102 @@
+id: AIMech:DoubleSqueezeDoublePassErrorCompensatedCompression
+name: DoubleSqueeze (Double-Pass Error-Compensated Gradient Compression)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A bidirectional communication-compressed parallel stochastic gradient descent algorithm (Tang et al. 2019, Algorithm 1) that applies error-compensated compression C(.) in both the worker-to-server push pass (v_t^{(i)} = C(g_t^{(i)} + gamma delta_{t-1}^{(i)}), delta_t^{(i)} = g_t^{(i)} + gamma delta_{t-1}^{(i)} - v_t^{(i)}) and the server-to-worker broadcast pass (v_t = C((1/n) sum_{i=1}^n v_t^{(i)} + gamma epsilon_{t-1}), epsilon_t = (1/n) sum_{i=1}^n v_t^{(i)} + gamma epsilon_{t-1} - v_t) before updating x_{t+1} = x_t - eta v_t.
+identity_notes: "Distinct from unidirectional error-feedback compression methods such as Sparsified SGD with Error Memory (AIMech:SparsifiedSgdWithErrorMemoryForKContractiveGradientCompression, Stich, Cordonnier, & Jaggi 2018) and EF21 (AIMech:Ef21MarkovCompressorErrorFeedbackForHeterogeneousNonconvexOptimization, Richt\xE1rik, Sokolov, & Fatkhullin 2021), which compress only worker-to-server uploads and require uncompressed server-to-worker broadcasts or all-to-all aggregation."
+aliases:
+- DoubleSqueeze
+- Double-Pass Error-Compensated Compression for Parallel SGD
+- Bidirectional Error-Compensated Distributed Stochastic Gradient Descent
+definition_evidence:
+- source_id: r416-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r416-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r416-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r416-virtual-iterate-bidirectional-error-telescoping-and-nonconvex-rate
+  kind: mechanism
+  statement: Defining the virtual sequence x_tilde_t = x_t - eta gamma (epsilon_{t-1} + (1/n) sum_{i=1}^n delta_{t-1}^{(i)}) yields the exact recurrence x_tilde_{t+1} = x_tilde_t - eta g_bar_t + eta (1 - gamma) (epsilon_t + delta_bar_t) (Supplementary Lemma 1), so setting gamma = 1 exactly cancels both worker-side and server-side compression errors in the virtual iterate and achieves the smooth non-convex convergence rate O(sigma / sqrt(n T) + xi^{2/3} / T^{2/3} + 1 / T) matching uncompressed parallel SGD's dominant O(1/sqrt(n T)) term (Theorem 1, Corollary 2).
+  evidence:
+  - source_id: r416-primary-pdf
+    locator: Section 4 Theoretical Analysis (Theorem 1, Corollary 2) & Supplementary Material (Lemma 1, Proof of Theorem 1)
+    relation: supports
+- claim_id: r416-asymmetric-worker-vs-server-compression-noise-sensitivity
+  kind: mechanism
+  statement: Under bounded compression error E||C(u) - u|| <= xi / 2, the combined double-pass error satisfies xi^2 = O(xi_s^2 + xi_w^2 / n), showing that worker-side compression errors delta_t^{(i)} enjoy a 1/n averaging variance reduction across n workers whereas server-side broadcast compression error epsilon_t does not.
+  evidence:
+  - source_id: r416-primary-pdf
+    locator: Section 3-4 Discussion of Asymmetric Compression & Supplementary Material (Remark on Worker vs. Server Error)
+    relation: supports
+- claim_id: r416-parameter-server-topology-and-bounded-error-memory-limitation
+  kind: limitation
+  statement: Requires a centralized parameter-server aggregation step to maintain the server error memory epsilon_t in R^d and assumes either bounded absolute compression error or contractive relative compression error to keep ||epsilon_t|| and ||delta_t^{(i)}|| bounded.
+  evidence:
+  - source_id: r416-primary-pdf
+    locator: Section 4 Assumption 1 & Algorithm 1
+    relation: supports
+- claim_id: r416-distributed-resnet-and-cifar10-imagenet-training-application
+  kind: application
+  statement: Applied to distributed parameter-server training of ResNet-18 and ResNet-50 on CIFAR-10 and ImageNet with 1-bit quantization and Top-k sparsification in both communication directions.
+  evidence:
+  - source_id: r416-primary-pdf
+    locator: Section 5 Experiments (Figures 2-5), pp. 6160-6163
+    relation: supports
+evidence_sources:
+- source_id: r416-primary-pdf
+  title: 'DoubleSqueeze: Parallel Stochastic Gradient Descent with Double-pass Error-Compensated Compression'
+  authors: &id001
+  - Hanlin Tang
+  - Chen Yu
+  - Xiangru Lian
+  - Tong Zhang
+  - Ji Liu
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1905.05957
+  persistent_id: https://proceedings.mlr.press/v97/tang19d.html
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:6155-6165 (2019) (66176 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:19:00Z'
+  sha256: 0fd02ea54eb091a9164812a19b0ee1e5126f71627a42fc936f3b5dd140f43d4d
+- source_id: r416-arxiv-abs
+  title: 'DoubleSqueeze: Parallel Stochastic Gradient Descent with Double-pass Error-Compensated Compression (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1905.05957
+  persistent_id: https://arxiv.org/abs/1905.05957
+  version: arXiv abstract page (7648 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:19:00Z'
+  sha256: 4d667ee9e61dcce1bd4c129cab0d068736d634556e8d1372f3f4229990de351e
+- source_id: r416-metadata-cr
+  title: 'DoubleSqueeze: Parallel Stochastic Gradient Descent with Double-pass Error-Compensated Compression (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/tang19d.html
+  persistent_id: https://proceedings.mlr.press/v97/tang19d.html
+  version: Crossref API work record (438 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:19:00Z'
+  sha256: ed3add6e9df9fd51d74ac737e37da0f981591492fadcf4d68020a5fbf8dd7d7b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: DoubleSqueeze is a bidirectional error-compensated communication compression algorithm for distributed and federated parameter-server optimization.
+limitations:
+- Server-side compression noise is not reduced by the number of workers n, unlike worker-side compression noise.
+- Requires maintaining O(d) error-compensation buffers on every worker and on the central parameter server.
+curation:
+  created_at: '2026-10-19T08:19:00Z'
+  updated_at: '2026-10-19T08:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

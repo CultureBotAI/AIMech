@@ -1,0 +1,206 @@
+id: AIMech:ContinuumMeasureSpaceStepUpFDRControl
+name: Measure-theoretic step-up false discovery rate control over a continuum of null hypotheses
+aliases:
+- Blanchard-Delattre-Roquain Continuum Step-Up FDR Control
+- Weakly PRDS Continuum Multiple Testing Framework
+- Continuous-Index Measure-Space Step-Up Procedure
+concept_kind: mathematical_method
+definition: 'A measure-theoretic multiple hypothesis testing framework developed by Gilles Blanchard,
+  Sylvain Delattre, and Etienne Roquain (2014, Bernoulli 20(1):304-333, arXiv:1110.3599v3, DOI:10.3150/12-BEJ488)
+  that extends step-up False Discovery Rate control to an arbitrary (possibly uncountably infinite) measurable
+  index space of hypotheses (H, frak_H, Lambda) with finite positive measure Lambda(H) < infty: given
+  a measurable p-value process (p_h(X))_{h in H} and threshold collection Delta(h, r) = alpha pi(h) beta(r),
+  the continuum step-up procedure rejects R_{SU}(X) = L_Delta(r_hat(X)) where L_Delta(r) = {h in H : p_h(X)
+  <= Delta(h, r)} and r_hat(X) = max{r in [0, Lambda(H)] : Lambda(L_Delta(r)) >= r} (satisfying the exact
+  fixed-point volume identity Lambda(L_Delta(r_hat(X))) = r_hat(X) when Delta is left-continuous in r),
+  and controls FDR(R_{SU}) = E[(Lambda(R_{SU} cap H_0) / Lambda(R_{SU})) 1{Lambda(R_{SU}) > 0}] <= alpha
+  int_{H_0} pi d_Lambda either (1) under linear shape beta(r) = r when the p-value process is weakly Positive
+  Regression Dependent on a Subset (weakly PRDS on H_0, meaning all finite marginals (p_h)_{h in F} are
+  PRDS on F cap H_0; Definition 2.4 and Theorem 4.1) via Glivenko-Cantelli empirical measure approximations
+  Lambda_n -> Lambda (Section 5.1, Lemmas 5.1-5.3), or (2) under arbitrary dependence with prior-integrated
+  shape beta_nu(r) = int_0^r u d_nu(u).'
+identity_notes: 'Distinct from all 442 pinned AIO concepts and all 595 previously curated AIMech concepts.
+  While AIMech:SelfConsistencyAndDependencyControlFDRFramework (Blanchard & Roquain 2008, Electronic Journal
+  of Statistics 2:963-992) formulates Self-Consistency and Dependency Control on countable hypothesis
+  spaces H (and only remarks that definitions can be stated on continuous spaces), Blanchard, Delattre,
+  & Roquain (2014, Bernoulli 20(1):304-333, arXiv:1110.3599v3, DOI:10.3150/12-BEJ488) establish the rigorous
+  measure-theoretic foundations for uncountable hypothesis spaces (H, frak_H, Lambda): joint measurability
+  of the continuum step-up volume r_hat(X) = max{r in [0, Lambda(H)] : Lambda(L_Delta(r)) >= r} (Lemma
+  3.1), equivalence of four formulations of weak PRDS on infinite index sets via Strassen''s theorem and
+  the Portmanteau theorem (Definitions 2.3-2.4, Proposition 2.2), proof of continuum step-up FDR control
+  via Glivenko-Cantelli empirical measure discretization Lambda_n -> Lambda (Theorem 4.1, Lemmas 5.1-5.3),
+  and exact finite-dimensional computational reductions for continuous c.d.f. testing gamma(u) = sum_{j=0}^m
+  (t_j(u) - X_{(j)})_+ wedge (X_{(j+1)} - X_{(j)}) (Corollary 4.4, Remark 4.6) and Poisson process intensity
+  testing with data-dependent interval-length weights (Corollary 4.5, Remark 4.6).'
+definition_evidence:
+- source_id: blanchard-delattre-roquain2014-ar5iv
+  locator: Section 2, lines 122–212, Definitions 2.1–2.4 and Proposition 2.2; Section 3, lines 213–269,
+    Definitions 3.1–3.2 and Lemma 3.1; Section 4.1, lines 270–298, Theorem 4.1
+  relation: supports
+- source_id: blanchard-delattre-roquain2014-crossref
+  locator: Bernoulli 20(1):304–333 (2014) bibliographic metadata record
+  relation: supports
+- source_id: blanchard-delattre-roquain2014-abs
+  locator: Abstract (step-up procedures over a continuum of null hypotheses under weak PRDS via measurable
+    selection and Glivenko-Cantelli theorem)
+  relation: supports
+claims:
+- claim_id: equivalence-of-infinite-dimensional-weak-prds-characterizations
+  kind: mechanism
+  statement: 'For an infinite family of p-value processes p = (p_h(X))_{h in H} indexed by a measurable
+    space (H, frak_H), Proposition 2.2 proves via Strassen''s monotone coupling theorem and the Portmanteau
+    theorem that when singletons belong to frak_H, four definitions of positive regression dependence
+    on H_0 are equivalent: (1) strong PRDS on [0, 1]^H (Definition 2.3: u -> P(p in D | p_{h_0} = u) is
+    non-decreasing for every non-decreasing measurable set D subset [0, 1]^H and h_0 in H_0), (2) cumulative
+    Conditioning u -> P(p in D | p_{h_0} <= u) is non-decreasing for every non-decreasing measurable D
+    subset [0, 1]^H, (3) finite-dimensional weak PRDS on H_0 (Definition 2.4: for every finite subset
+    F subset H, the marginal vector (p_h(X))_{h in F} is PRDS on F cap H_0), and (4) finite-marginal cumulative
+    conditioning u -> P((p_h)_{h in F} in D | p_{h_0} <= u) is non-decreasing for all finite F subset
+    H and non-decreasing D subset [0, 1]^F.'
+  evidence:
+  - source_id: blanchard-delattre-roquain2014-ar5iv
+    locator: Section 2.3, lines 155–212, Definitions 2.1–2.4 and Proposition 2.2; Appendix A, lines 442–572,
+      Lemmas A.1–A.4
+    relation: supports
+  - source_id: blanchard-delattre-roquain2014-abs
+    locator: Abstract (infinite family of p-values is weakly PRDS if any finite subfamily is PRDS)
+    relation: supports
+- claim_id: continuum-step-up-fixed-point-and-glivenko-cantelli-fdr-proof
+  kind: mechanism
+  statement: 'For any finite positive measure space (H, frak_H, Lambda) and threshold collection Delta(h,
+    r) = alpha pi(h) beta(r) that is left-continuous and non-decreasing in r, Lemma 3.1 and Equation (8)
+    prove that the continuum step-up critical volume r_hat(X) = max{r in [0, Lambda(H)] : Lambda(L_Delta(r))
+    >= r} is well-defined, measurable, and satisfies the exact fixed-point identity Lambda(L_Delta(r_hat(X)))
+    = r_hat(X); furthermore, Section 5.1 (Lemmas 5.1-5.3) and Theorem 4.1 prove by drawing i.i.d. locations
+    h_1, ..., h_n ~ Lambda / Lambda(H) and applying the Glivenko-Cantelli uniform convergence sup_{r in
+    [0, Lambda(H)]} |Lambda_n(L_Delta(r)) - Lambda(L_Delta(r))| -> 0 almost surely that the finite discrete
+    step-up procedures on (H, frak_H, Lambda_n) converge to the continuum step-up procedure along a subsequence
+    and transfer finite-dimensional PRDS FDR control to the continuum limit: FDR(R_{SU}) <= alpha int_{H_0}
+    pi d_Lambda.'
+  evidence:
+  - source_id: blanchard-delattre-roquain2014-ar5iv
+    locator: Section 3.3, lines 244–269, Definition 3.2, Lemma 3.1, and Equation (8); Section 4.1, lines
+      270–298, Theorem 4.1; Section 5.1, lines 349–419, Lemmas 5.1–5.3
+    relation: supports
+- claim_id: exact-lebesgue-step-up-formula-for-continuous-cdf-testing
+  kind: mechanism
+  statement: 'In the non-parametric one-sided continuous c.d.f. testing problem H_{0,t}: F(t) <= F_0(t)
+    for all t in (0, 1) from i.i.d. observations X_1, ..., X_m (reduced to F_0(t) = t on [0, 1]), Proposition
+    4.2 proves that the binomial tail p-value process p_t(X) = sum_{j = m F_hat_m(t)}^m comb(m, j) t^j
+    (1 - t)^{m - j} is weakly PRDS on H_0 (yielding FDR(R_{SU}) <= alpha Leb(H_0) by Corollary 4.4), and
+    Remark 4.6 proves that because m F_hat_m(t) = j is constant on each order-statistic interval [X_{(j)},
+    X_{(j+1)}) and t -> P(Binomial(m, t) >= j) has unique inverse t_j(u), the Lebesgue measure of {t in
+    (0, 1) : p_t(X) <= u} reduces to the finite sum gamma(u) = sum_{j=0}^m min(max(t_j(u) - X_{(j)}, 0),
+    X_{(j+1)} - X_{(j)}), so the continuum step-up critical value r_hat(X) = max{r in [0, 1] : gamma(alpha
+    r) >= r} and rejection set R_{SU}(X) = bigcup_{j=1}^m [X_{(j)}, min(t_j(alpha r_hat(X)), X_{(j+1)}))
+    are computed exactly without discretizing (0, 1).'
+  evidence:
+  - source_id: blanchard-delattre-roquain2014-ar5iv
+    locator: Section 4.2.1, lines 302–316, Proposition 4.2 and Corollary 4.4; Section 4.2.2, lines 330–338,
+      Remark 4.6; Section 5.3, lines 429–441
+    relation: supports
+- claim_id: data-dependent-interval-length-weighted-step-up-for-poisson-processes
+  kind: mechanism
+  statement: 'For testing the integrated intensity H_{0,t}: forall s in [0, t], E[N_s] <= Lambda_0(s)
+    of a Poisson process N on [0, 1] with arrival times 0 = X_{(0)} < X_{(1)} < ... < X_{(N)} < X_{(N+1)}
+    = 1 (reduced to homogeneous intensity lambda_0 s), Proposition 4.3 and Corollary 4.5 prove that the
+    Poisson tail p-value process p_t(X) = P(Poisson(lambda_0 t) >= N_t | X) is weakly PRDS on H_0 and
+    controls continuum FDR at level alpha Leb(H_0), and Remark 4.6 proves that under the interval-localized
+    threshold collection Delta(t, r) = alpha r 1{forall s in [X_{(j)}, X_{(j+1)}), p_s(X) <= alpha r},
+    the continuum step-up procedure reduces exactly to a finite weighted step-up procedure over the N
+    + 1 inter-arrival intervals with left-endpoint p-values q_j(X) = p_{X_{(j)}}(X) and data-dependent
+    interval-length weights w_l = X_{(sigma(l)+1)} - X_{(sigma(l))}: r_hat(X) = max{sum_{l=0}^k w_l :
+    q_{sigma(k)}(X) <= alpha sum_{l=0}^k w_l}.'
+  evidence:
+  - source_id: blanchard-delattre-roquain2014-ar5iv
+    locator: Section 4.2.2, lines 317–348, Proposition 4.3, Corollary 4.5, and Remark 4.6; Appendix B,
+      lines 573–729, Lemmas B.1–B.4
+    relation: supports
+evidence_sources:
+- source_id: blanchard-delattre-roquain2014-ar5iv
+  title: Testing over a continuum of null hypotheses with False Discovery Rate control
+  authors:
+  - Gilles Blanchard
+  - Sylvain Delattre
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1110.3599
+  persistent_id: https://doi.org/10.3150/12-BEJ488
+  version: arXiv:1110.3599v3 (published in Bernoulli, Vol. 20, No. 1, pp. 304–333, February 2014). Complete
+    full-text ar5iv HTML conversion read across Sections 1–5 and Appendices A–B (763 lines, 115,148 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-17T15:50:00Z'
+  sha256: 0c5b44767d9b127b3025caf9e8635a00e8fbb3f7c30b03b14c76c32c484b86b4
+- source_id: blanchard-delattre-roquain2014-crossref
+  title: Testing over a continuum of null hypotheses with False Discovery Rate control (Bernoulli Record)
+  authors:
+  - Gilles Blanchard
+  - Sylvain Delattre
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.3150/12-BEJ488
+  persistent_id: https://doi.org/10.3150/12-BEJ488
+  version: Bernoulli, Vol. 20, No. 1, pp. 304–333, 2014 Crossref bibliographic metadata record (8,625
+    bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:50:00Z'
+  sha256: 2909e735cb9f3519c4d2adc54538488b059d49ec2f5d2bf4ebe0a28ce31b8c51
+- source_id: blanchard-delattre-roquain2014-abs
+  title: Testing over a continuum of null hypotheses with False Discovery Rate control (arXiv:1110.3599
+    Abstract)
+  authors:
+  - Gilles Blanchard
+  - Sylvain Delattre
+  - Etienne Roquain
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1110.3599
+  persistent_id: https://doi.org/10.48550/arXiv.1110.3599
+  version: arXiv:1110.3599v3 abstract and Bernoulli 20 (2014) 304–333 DOI metadata record (6,982 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T15:50:00Z'
+  sha256: 7e9bacb4fb6ccd032391dead7b496d0e653a42ea748dc2dd3e90d2107ecd15d8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: Measure-theoretic step-up procedures over a continuum of null hypotheses bound the expected
+    Lebesgue/measure proportion of false discoveries across uncountably infinite hypothesis spaces, preventing
+    multiplicity-induced false positives (AIO:DataDredgingBias) in continuous spatial or temporal testing
+    problems.
+limitations:
+- On an uncountably infinite index space (H, frak_H, Lambda) where singletons have zero measure Lambda({h})
+  = 0, a collection of non-empty finite-measure p-values cannot be mutually independent while maintaining
+  joint measurability of the sample paths h -> p_h(X); consequently, continuum step-up FDR control with
+  linear shape beta(r) = r relies fundamentally on positive spatial/temporal dependence (weak PRDS on
+  H_0, Theorem 4.1) rather than independence (Section 1 and Section 3.1).
+- 'In the Poisson process intensity testing problem on [0, 1] (Section 4.2.2, Proposition 4.3, and Corollary
+  4.5), weak PRDS of the Poisson tail p-value process p_t(X) = P(Poisson(Lambda_0(t)) >= N_t | X) holds
+  for the cumulative prefix null hypotheses H_{0,t}: forall s in [0, t], E[N_s] <= Lambda_0(s) (which
+  are nested so H_0 is a prefix interval [0, t_0]), rather than for arbitrary non-nested local intensity
+  hypotheses lambda(t) <= lambda_0(t) (Section 4.2.2 and Appendix B).'
+- 'When the p-value process (p_h(X))_{h in H} does not admit a piecewise-monotone partition between order
+  statistics as in Remark 4.6, computing the exact continuum step-up rejection volume r_hat(X) = max{r
+  in [0, Lambda(H)] : Lambda(L_Delta(r)) >= r} requires numerical integration or Monte Carlo discretization
+  Lambda_n of the measure space (H, frak_H, Lambda), introducing finite-grid approximation error O(n^{-1/2})
+  (Section 5.1, Lemmas 5.1-5.3).'
+- All 763 lines of Blanchard, Delattre, & Roquain (2014, Bernoulli 20(1):304-333, arXiv:1110.3599v3, DOI:10.3150/12-BEJ488)
+  were read. Constructed numerical checks in research/discovery/continuum-measure-space-step-up-fdr-control-boundaries.py
+  verify (1) Section 3.3 & Section 5.1 continuum step-up fixed-point identity Lambda(L_Delta(r_hat)) =
+  r_hat = 0.5 and Glivenko-Cantelli grid convergence across n in {20, 50, 100, 500, 1000} (max n |r_hat_n
+  - r_hat| = 0.0), (2) Section 4.2.1 Corollary 4.4 and Remark 4.6 exact closed-form Lebesgue measure formula
+  gamma(u) = sum_{j=0}^m (t_j(u) - X_{(j)})_+ wedge (X_{(j+1)} - X_{(j)}) for one-sided c.d.f. testing
+  at m = 8, alpha = 0.1 (continuum fixed point r_hat = 0.647923, gamma(alpha * r_hat) = 0.647923, matching
+  20,000-point Riemann quadrature 0.64795 with fixed-point residual 0.0), and (3) Section 4.2.2 Corollary
+  4.5 and Remark 4.6 exact data-dependent interval-length weighted step-up reduction for Poisson process
+  intensity testing with N = 12 arrivals and lambda_0 = 5.0 (r_hat(X) = 0.95 at index k_hat = 10 with
+  q_{sigma(k_hat)} = 0.026499 <= alpha * r_hat = 0.0475).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T15:50:00Z'
+  updated_at: '2026-10-17T15:50:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

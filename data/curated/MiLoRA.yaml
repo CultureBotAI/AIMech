@@ -1,0 +1,106 @@
+id: AIMech:MiLoRA
+name: MiLoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient low-rank adaptation algorithm that decomposes each pre-trained weight matrix via SVD into a frozen principal matrix W_p spanning the largest m - r singular values and a trainable minor matrix W_m = B_m A_m initialized from the smallest r singular values and vectors B_m = U_m sqrt(Sigma_m), A_m = sqrt(Sigma_m) V_m^T.
+identity_notes: Directly complementary to AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation (PiSSA, which initializes the trainable adapter from the top-r principal singular components and freezes the minor residual) and distinct from AIMech:LowRankAdaptation (which initializes A randomly and B to zero in an unguided subspace). MiLoRA (Minor singular component based Low-Rank Adaptation; Hanqing Wang, Yixia Li, Shuo Wang, Guanhua Chen, & Yun Chen, NAACL 2025, arXiv:2406.09044) partitions the SVD W = U Sigma V^T = sum_{i=1}^{m-r} sigma_i u_i v_i^T + sum_{i=m-r+1}^m sigma_i u_i v_i^T = W_p + W_m (Equations 3-5). By freezing W_p and initializing B_m = U_m sqrt(Sigma_m) and A_m = sqrt(Sigma_m) V_m^T, MiLoRA (1) satisfies W = W_p + B_m A_m exactly at initialization without setting B_m = 0 or tuning a separate alpha/r scaling factor, and (2) initializes the trainable adapter in a subspace orthogonal to the principal knowledge subspace (U_p^T B_m = 0, A_m V_p = 0), adapting long-tail/noisy singular directions to the downstream task while minimizing catastrophic forgetting of pre-trained world knowledge.
+aliases:
+- Minor Singular Component Based Low-Rank Adaptation
+- Minor Singular Component LoRA
+- Minor-Spectrum SVD Low-Rank Adaptation
+definition_evidence:
+- source_id: r675-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r675-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r675-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: milora-minor-singular-subspace-initialization-and-principal-orthogonality
+  kind: mechanism
+  statement: Splitting W = U_p Sigma_p V_p^T + U_m Sigma_m V_m^T into the top-(m-r) principal components W_p (frozen) and bottom-r minor components W_m initialized as B_m = U_m sqrt(Sigma_m) and A_m = sqrt(Sigma_m) V_m^T preserves W = W_p + B_m A_m exactly at step 0 while initializing the adapter in a subspace strictly orthogonal to U_p and V_p without requiring an alpha/r scaling hyperparameter.
+  evidence:
+  - source_id: r675-primary-pdf
+    locator: Section 3 (Methodology, Equations 3-5 & Figure 1), pp. 2-3
+    relation: supports
+- claim_id: milora-reduced-principal-feature-amplification-and-lower-forgetting-loss
+  kind: mechanism
+  statement: Subspace similarity and projection analyses on LLaMA2-7B show that MiLoRA updates concentrate in the bottom singular vector subspace of W with a much smaller principal-feature projection ||U^T W V||_F than PiSSA (1.86 vs. 17.57) and achieve lower pre-trained distribution forgetting cross-entropy on WikiText-103 (2.54 vs. 3.24 for LoRA and 6.07 for PiSSA).
+  evidence:
+  - source_id: r675-primary-pdf
+    locator: Section 5.3-5.4 (Tables 7-8, Figure 2) & Appendix B.2 (Table 14), pp. 7-8, 14
+    relation: supports
+- claim_id: milora-application-commonsense-math-instruction-and-multimodal-finetuning
+  kind: application
+  statement: Across 18 benchmarks on LLaMA2-7B, LLaMA3-8B, Qwen2.5-7B, and LLaVA1.5-7B, MiLoRA outperforms both LoRA and PiSSA on commonsense reasoning (+1.6/+5.4 on LLaMA2-7B, +1.1/+6.5 on LLaMA3-8B), math reasoning (+2.0/+3.7 EM on GSM8K/MATH), instruction following (+2.9/+2.7 on AlpacaEval 2.0/FollowBench/IFEval), and visual instruction tuning (+1.4/+4.4 on 7 VQA benchmarks) with zero inference overhead.
+  evidence:
+  - source_id: r675-primary-pdf
+    locator: Section 4.1-4.2 (Tables 1-4), Section 5.1 (Table 5) & Appendix B.1 (Table 13), pp. 4-6, 13-14
+    relation: supports
+- claim_id: milora-limitation-soft-orthogonality-and-small-lr-large-batch-regime
+  kind: limitation
+  statement: Because MiLoRA enforces orthogonality between W_m and W_p only at initialization rather than via hard projection constraints during training, and because minor singular values are small in magnitude, MiLoRA underperforms PiSSA when trained for 1 epoch under a small learning rate (2e-5) and large batch size (128) regime (22.6 vs. 29.4 average on GSM8K/MATH).
+  evidence:
+  - source_id: r675-primary-pdf
+    locator: Section 3 (p. 3) & Section 5.5 (Comparison Between MiLoRA and PiSSA, Table 9, p. 8)
+    relation: supports
+evidence_sources:
+- source_id: r675-primary-pdf
+  title: 'MiLoRA: Harnessing Minor Singular Components for Parameter-Efficient LLM Finetuning'
+  authors: &id001
+  - Hanqing Wang
+  - Yixia Li
+  - Shuo Wang
+  - Guanhua Chen
+  - Yun Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2406.09044.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=MiLoRA+Harnessing+Minor+Singular+Components&format=xml
+  version: Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics (NAACL 2025) (2025) (543205 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:38:00Z'
+  sha256: 82f52cb6080e232fbefa636c5a0a92f2ee8ed90d0686cafe1974eeb6b78a0190
+- source_id: r675-arxiv-abs
+  title: 'MiLoRA: Harnessing Minor Singular Components for Parameter-Efficient LLM Finetuning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2406.09044
+  persistent_id: https://arxiv.org/abs/2406.09044
+  version: arXiv abstract page (6573 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:38:00Z'
+  sha256: 31219bdbdda35dd2cc186d674f4cb389c56f9d0a5f7738500e0e30aed6f3940d
+- source_id: r675-metadata-cr
+  title: 'MiLoRA: Harnessing Minor Singular Components for Parameter-Efficient LLM Finetuning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=MiLoRA+Harnessing+Minor+Singular+Components&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=MiLoRA+Harnessing+Minor+Singular+Components&format=xml
+  version: Crossref API work record (931 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:38:00Z'
+  sha256: bd20e09a33528015067f025a32bfa995c030042646d6de1d2d167b50372a986b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MiLoRA adapts linear projection matrices in pre-trained transformer neural networks by fine-tuning their minor SVD components.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: MiLoRA relies on singular value decomposition to separate principal singular components from minor singular components of weight matrices.
+limitations:
+- Guides optimization toward the minor singular subspace only through initialization rather than enforcing strict orthogonality constraints throughout fine-tuning.
+- Requires an appropriate PEFT learning rate (e.g., 3e-4); under small-learning-rate (2e-5) single-epoch schedules tailored for full fine-tuning or PiSSA, the small initial singular values of W_m slow adaptation.
+- Requires a one-time per-layer SVD factorization of pre-trained weight matrices before fine-tuning.
+curation:
+  created_at: '2026-10-19T12:38:00Z'
+  updated_at: '2026-10-19T12:38:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

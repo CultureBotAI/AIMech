@@ -1,0 +1,244 @@
+id: AIMech:ModelFreeRegressionFunctionalsReweightingDiagnosticAndXYBootstrapLimit
+name: Model-free regression functionals, regressor-reweighting well-specification diagnostic, and M-of-N
+  XY-bootstrap sandwich limit
+concept_kind: mathematical_method
+aliases:
+- Models as Approximations II model-free theory of parametric regression (Buja, Brown, Kuchibhotla, Berk,
+  George, & Zhao 2019)
+- Regressor-only Gaussian reweighting diagnostic trace and bootstrap tilt test for well-specification
+- Partial influence function IF(x_vec) = E_P[IF(Y, X_vec) | X_vec = x_vec] and Pythagorean CLT variance
+  decomposition
+definition: A general model-free theory and diagnostic framework for parametric and penalized regression
+  estimators viewed as statistical functionals theta(P) of the joint response-regressor distribution P
+  = P_{Y|X_vec} (x) P_{X_vec} on arbitrary measurable spaces (Buja, Brown, Kuchibhotla, Berk, George,
+  & Zhao 2019). Encompassing optimization functionals theta(P) = argmin_theta E_P[L(theta; Y, X_vec)]
+  (including maximum likelihood KL-divergence functionals, proper scoring rule Bregman-divergence functionals
+  such as the Basu-Harris-Hjort-Jones density power divergence S_alpha with Fisher consistency and redescending
+  influence functions for alpha > 0, and penalized functionals) and estimating-equation (EE) functionals
+  solving E_P[psi(theta; Y, X_vec)] = 0 (Section 2, Equations 1-7, Appendix A.2), the framework defines
+  theta(.) to be well-specified for P_{Y|X_vec} iff theta(P_{Y|X_vec} (x) P_{X_vec}) = theta(P_{Y|X_vec}
+  (x) P'_{X_vec}) for all acceptable regressor distributions P_{X_vec}, P'_{X_vec} (Section 3.1, Propositions
+  3.3.1-3.3.3). Because regressor-only reweighting P^w(dy, dx_vec) = w(x_vec) P(dy, dx_vec) with E_P[w(X_vec)]
+  = 1 preserves P^w_{Y|X_vec} = P_{Y|X_vec} (Lemma 4.1), any well-specified functional satisfies theta(P^w)
+  = theta(P) (Proposition 4.1), motivating the one-parameter Gaussian reweighting diagnostic trace xi
+  |-> theta_hat_xi = theta(w_hat_xi(Z) P_hat) across interior deciles xi_(1) < ... < xi_(K) of a reweighting
+  variable Z = f(X_vec) and the two-point bootstrap tilt test statistic d = theta_hat_{xi_(K)} - theta_hat_{xi_(1)}
+  (Sections 4-5, Equations 8-9). Conditioning on the empirical regressor distribution P_hat_{X_vec} defines
+  the conditional parameter theta(X) = theta(P_{Y|X_vec} (x) P_hat_{X_vec}) and decomposes the Total Estimation
+  Offset theta_hat - theta(P) into the Noise Estimation Offset theta_hat - theta(X) and Approximation
+  Estimation Offset theta(X) - theta(P) (Section 6, Propositions 6.4-6.5), governed by the full influence
+  function IF(Y, X_vec) and partial influence function IF(x_vec) = E_P[IF(Y, X_vec) | X_vec = x_vec] (Equations
+  10-11, Lemma 6.6), which vanishes iff theta(.) is well-specified (Proposition 6.6) and yields the orthogonal
+  Pythagorean CLT variance split V_P[IF(Y, X_vec)] = E_P[V_P[IF(Y, X_vec) | X_vec]] + V_P[IF(X_vec)] (Section
+  7, Corollary 7.1) and the exact M-of-N XY-bootstrap sandwich limit M^{1/2}(theta^*_M - theta_hat_N)
+  ->^D N(0, AV[P_hat_N; theta(.)]) as M -> infty for fixed N (Section 8, Proposition 8.1, Corollary 8.1).
+identity_notes: 'Distinct from AIMech:ModelRobustNonlinearityConsistentSandwichAndRAVSpecificationTest
+  (Buja, Berk, Brown, George, Pitkin, Traskin, Zhao, & Zhang 2019, Part I, Statistical Science 34(4):523-544,
+  arXiv:1404.1578v4, DOI:10.1214/18-STS693), which is restricted to ordinary least squares linear regression,
+  adjusted-regressor slope identities, and the Ratio of Asymptotic Variances (RAV_j) test. Buja, Brown,
+  Kuchibhotla, Berk, George, & Zhao (2019, Part II, Statistical Science 34(4):545-565, arXiv:1612.03257v2,
+  DOI:10.1214/18-STS694) generalize the model-free theory to arbitrary optimization, proper scoring rule
+  (Bregman / Basu-Harris-Hjort-Jones density power divergence), penalized, and estimating-equation regression
+  functionals on general measurable spaces: proving pointwise characterization of well-specification (Propositions
+  3.3.1-3.3.3), regressor-only reweighting invariance (Lemma 4.1, Proposition 4.1) and the Gaussian decile
+  reweighting diagnostic trace and tilt test d = theta_hat_{xi_(K)} - theta_hat_{xi_(1)} (Sections 4-5),
+  the partial influence function characterization IF(x_vec) = E_P[IF(Y, X_vec) | X_vec = x_vec] = 0 of
+  well-specification (Lemma 6.6, Proposition 6.6) and Pythagorean CLT decomposition (Corollary 7.1), and
+  the general Fréchet-differentiable functional M-of-N XY-bootstrap limit (Proposition 8.1, Corollary
+  8.1).'
+definition_evidence:
+- source_id: buja2019p2-pdf
+  locator: Sections 1-9, Pages 1-29, Equations (1)-(12), Propositions 3.3.1-3.3.3, Lemma 4.1, Proposition
+    4.1, Propositions 6.4-6.6, Lemma 6.6, Corollary 7.1, Proposition 8.1, Corollary 8.1; Appendix A.1-A.5,
+    Pages 30-35
+  relation: supports
+- source_id: buja2019p2-crossref
+  locator: Statistical Science 34(4):545-565 (2019) Crossref bibliographic metadata and abstract
+  relation: supports
+- source_id: buja2019p2-abs
+  locator: arXiv:1612.03257v2 abstract and metadata
+  relation: supports
+claims:
+- claim_id: proper-scoring-and-estimating-equation-regression-functionals-and-well-specification
+  kind: mechanism
+  statement: Given a joint response-regressor distribution P_{Y, X_vec} = P_{Y|X_vec} (x) P_{X_vec} on
+    measurable spaces X, Y (Section 2.1, Equation 1), regression functionals are defined via optimization
+    theta(P) = argmin_{theta in Theta} E_P[L(theta; Y, X_vec)] (Section 2.2, Equation 2)—including maximum-likelihood
+    functionals minimizing KL divergence with L(theta; y, x_vec) = -log q(y|x_vec; theta) (Equation 3),
+    proper scoring (PS) functionals minimizing Bregman divergences D(P, Q) = E_P[S(Y, Q)] - H(P) such
+    as the Basu-Harris-Hjort-Jones (BHHJ) density power divergence family S_alpha(y, Q) = -q^alpha(y)/alpha
+    + int q^{1+alpha} dmu / (1+alpha) for alpha != 0, -1 that satisfy Fisher consistency theta(Q_{Y|X_vec;
+    theta_0} (x) P_{X_vec}) = theta_0 and exhibit redescending influence functions for alpha > 0 (Equation
+    4, Appendix A.2, pages 31-33), and penalized functionals L_tilde = L + lambda R (Equation 5)—or via
+    estimating equations E_P[psi(theta; Y, X_vec)] = 0 (Equation 6). Section 3 (pages 7-11, Propositions
+    3.3.1-3.3.3, Appendix A.4, pages 34-35) defines theta(.) to be well-specified for P_{Y|X_vec} iff
+    theta(P_{Y|X_vec} (x) P_{X_vec}) = theta(P_{Y|X_vec} (x) P'_{X_vec}) for all acceptable regressor
+    distributions P_{X_vec}, P'_{X_vec}, and proves for EE functionals (Proposition 3.3.3) that theta(.)
+    is well-specified with value theta_0 iff E_P[psi(theta_0; Y, X_vec) | X_vec = x_vec] = 0 for all x_vec
+    in X.
+  evidence:
+  - source_id: buja2019p2-pdf
+    locator: Sections 2-3, Pages 4-11, Equations (1)-(7), Propositions 3.3.1-3.3.3; Appendix A.1-A.2 &
+      A.4, Pages 30-35
+    relation: supports
+  - source_id: buja2019p2-crossref
+    locator: Statistical Science 34(4):545-565 abstract
+    relation: supports
+- claim_id: regressor-only-reweighting-invariance-and-gaussian-decile-tilt-diagnostic
+  kind: mechanism
+  statement: Reweighting the joint distribution strictly by the regressors P^w_{Y, X_vec}(dy, dx_vec)
+    = w(x_vec) P_{Y, X_vec}(dy, dx_vec) with w(x_vec) > 0 and E_P[w(X_vec)] = 1 preserves the conditional
+    distribution P^w_{Y|X_vec} = P_{Y|X_vec} while changing the marginal regressor distribution to P^w_{X_vec}(dx_vec)
+    = w(x_vec) P_{X_vec}(dx_vec) (Section 4.1, page 12, Lemma 4.1, Equation 8), so any functional theta(.)
+    well-specified for P_{Y|X_vec} satisfies theta(P^w_{Y, X_vec}) = theta(P_{Y, X_vec}) (Proposition
+    4.1). Sections 4.2-4.5 and Section 5 (pages 12-19, Equation 9) construct a one-parameter family of
+    Gaussian reweighting kernels w_hat_xi(z_i) propto exp(-(z_i - xi)^2 / (2 gamma^2)) normalized to 1/N
+    sum_{i=1}^N w_i = 1 with bandwidth gamma = alpha sigma_hat(Z) along a univariate reweighting feature
+    Z = f(X_vec) evaluated at interior sample deciles xi_(1) < ... < xi_(K) (K = 9), plotting the empirical
+    parameter trace xi |-> theta_hat_xi = theta(w_hat_xi(Z) P_hat) against bootstrap spaghetti bands and
+    testing well-specification via the two-point tilt test statistic d = theta_hat_{xi_(K)} - theta_hat_{xi_(1)}.
+  evidence:
+  - source_id: buja2019p2-pdf
+    locator: Sections 4-5, Pages 11-19, Equations (8)-(9), Lemma 4.1, Proposition 4.1
+    relation: supports
+  - source_id: buja2019p2-abs
+    locator: arXiv:1612.03257v2 abstract
+    relation: supports
+- claim_id: canonical-estimation-offset-partial-influence-function-and-pythagorean-clt
+  kind: mechanism
+  statement: Conditioning on the empirical regressor distribution P_hat_{X_vec} = 1/N sum_{i=1}^N delta_{X_vec_i}
+    defines the conditional parameter theta(X) = theta(P_{Y|X_vec} (x) P_hat_{X_vec}) and decomposes the
+    Total Estimation Offset theta_hat - theta(P) = [theta_hat - theta(X)] + [theta(X) - theta(P)] into
+    the Noise Estimation Offset (which vanishes identically when Y = f(X_vec) is deterministic, Proposition
+    6.5) and the Approximation Estimation Offset (which vanishes for all acceptable X iff theta(.) is
+    well-specified, Proposition 6.4 and Corollary 6.4, pages 20-22). Defining the full influence function
+    IF(y, x_vec) (Equation 10) and the partial influence function with respect to P_{X_vec}, IF(x_vec)
+    = d/dt|_{t=0} theta(P_{Y|X_vec} (x) ((1-t)P_{X_vec} + t delta_{x_vec})) = E_P[IF(Y, X_vec) | X_vec
+    = x_vec] (Equation 11, Lemma 6.6, page 22), Proposition 6.6 (proved in Appendix A.3, pages 33-34)
+    proves that theta(.) is well-specified for P_{Y|X_vec} iff IF(x_vec) = 0 for all x_vec, and Section
+    7.1 (pages 23-24, Corollary 7.1) establishes the asymptotically orthogonal CLT decomposition N^{1/2}(theta_hat
+    - theta(X)) = N^{-1/2} sum_{i=1}^N (IF(Y_i, X_vec_i) - IF(X_vec_i)) + o_P(1) and N^{1/2}(theta(X)
+    - theta(P)) = N^{-1/2} sum_{i=1}^N IF(X_vec_i) + o_P(1) with Pythagorean asymptotic covariance split
+    V_P[IF(Y, X_vec)] = E_P[V_P[IF(Y, X_vec) | X_vec]] + V_P[E_P[IF(Y, X_vec) | X_vec]].
+  evidence:
+  - source_id: buja2019p2-pdf
+    locator: Sections 6-7, Pages 20-25, Equations (10)-(12), Propositions 6.4-6.6, Corollary 6.4, Lemma
+      6.6, Corollary 7.1; Appendix A.3, Pages 33-34
+    relation: supports
+- claim_id: frechet-differentiable-functional-m-of-n-xy-bootstrap-sandwich-limit
+  kind: mechanism
+  statement: Section 8 (pages 25-26, Proposition 8.1 and Corollary 8.1, proved in Appendix A.5, page 35)
+    proves that for any regression functional theta(.) that is continuously Fréchet differentiable at
+    a fixed empirical distribution P_hat_N with influence function IF_{P_hat_N}(y, x_vec) and non-singular
+    empirical sandwich covariance matrix AV[P_hat_N; theta(.)] = V_{P_hat_N}[IF_{P_hat_N}(Y, X_vec)],
+    drawing M bootstrap observations (Y^*_j, X_vec^*_j)_{j=1}^M i.i.d. from P_hat_N yields the M-of-N
+    XY-bootstrap estimator theta^*_M = theta(P^*_M) satisfying M^{1/2}(theta^*_M - theta_hat_N) ->^D N(0,
+    AV[P_hat_N; theta(.)]) as M -> infty for fixed N, so that the empirical Huber sandwich covariance
+    estimator Lambda_hat^{-1} V_{P_hat_N}[psi(theta_hat_N; Y, X_vec)] (Lambda_hat')^{-1} is the exact
+    infinite-M limit of M-of-N XY-bootstrap variance estimation.
+  evidence:
+  - source_id: buja2019p2-pdf
+    locator: Section 8, Pages 25-26, Proposition 8.1, Corollary 8.1; Appendix A.5, Page 35
+    relation: supports
+  - source_id: buja2019p2-crossref
+    locator: Statistical Science 34(4):545-565 abstract
+    relation: supports
+evidence_sources:
+- source_id: buja2019p2-pdf
+  title: 'Models as Approximations II: A Model-Free Theory of Parametric Regression'
+  authors:
+  - Andreas Buja
+  - Lawrence Brown
+  - Arun Kumar Kuchibhotla
+  - Richard Berk
+  - Edward George
+  - Linda Zhao
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1612.03257
+  persistent_id: https://doi.org/10.1214/18-STS694
+  version: arXiv:1612.03257v2 (6 Jul 2019; published in Statistical Science, Vol. 34, No. 4, pp. 545-565,
+    2019). Complete 36-page full-text PDF (936127 bytes) read across Sections 1-9 and Appendix A.1-A.5.
+  access_level: full_text
+  accessed_at: '2026-10-17T18:05:00Z'
+  sha256: 72a14bd879fea7af300f738eac9ee12150971e696fe7a54091308e8a10fd7309
+- source_id: buja2019p2-crossref
+  title: 'Models as Approximations II: A Model-Free Theory of Parametric Regression (Statistical Science
+    Crossref Record)'
+  authors:
+  - Andreas Buja
+  - Lawrence Brown
+  - Arun Kumar Kuchibhotla
+  - Richard Berk
+  - Edward George
+  - Linda Zhao
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1214/18-STS694
+  persistent_id: https://doi.org/10.1214/18-STS694
+  version: Statistical Science 34(4):545-565 Crossref bibliographic metadata record (3917 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T18:05:00Z'
+  sha256: ee7d6d0599045cf704dfc2cda4f820eab301cebbd13e4b3248070627648dad9b
+- source_id: buja2019p2-abs
+  title: 'Models as Approximations II: A Model-Free Theory of Parametric Regression (arXiv:1612.03257
+    Abstract)'
+  authors:
+  - Andreas Buja
+  - Lawrence Brown
+  - Arun Kumar Kuchibhotla
+  - Richard Berk
+  - Edward George
+  - Linda Zhao
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1612.03257
+  persistent_id: https://doi.org/10.48550/arXiv.1612.03257
+  version: arXiv:1612.03257v2 abstract and metadata record (6983 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-17T18:05:00Z'
+  sha256: c949deb1ad28bbdd850cb940ddf6db17d1202c48149c6dcd48db708f6eef93dd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Formulates general optimization, proper scoring rule, and estimating-equation regression
+    functionals extending model-free linear regression (AIO:LinearRegression).
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: Characterizes well-specification of canonical-link generalized linear model and logistic
+    regression functionals and diagnoses link misspecification via regressor-only Gaussian reweighting
+    (AIO:LogisticRegression).
+limitations:
+- Invariance of a regression functional across a chosen one-parameter reweighting family w_xi(Z) for a
+  specific reweighting feature Z = f(X_vec) is necessary but not sufficient for global well-specification
+  across all acceptable regressor distributions P'_{X_vec}, because misspecification orthogonal to Z or
+  cancelling across the chosen weights may remain undetected (Section 4.3, pages 13-14).
+- Aggressive reweighting in the tails of the regressor distribution reduces the effective sample size
+  and inflates the variance of theta_hat_xi, which is why the diagnostic restricts reweighting centers
+  xi_(1) < ... < xi_(K) to interior deciles and pairs the trace with bootstrap spaghetti bands (Sections
+  4.2-4.5, pages 12-15).
+- 'Six minor typographical notes in arXiv:1612.03257v2 were identified and verified during full-text inspection:
+  (1) Section 1 (page 4, line 23) prints ''boostrap estimators'' for ''bootstrap estimators''; (2) the
+  Section 2.2 heading (page 6) prints ''EE Funtionals'' for ''EE Functionals''; (3) Section 6.2 (page
+  21, second display box) prints ''E_P[psi(theta Y, X_vec)] = 0'' missing the semicolon after theta; (4)
+  Section 7.1 (page 24, line 11) prints ''IF(Y, X_vec) - E_P[IF(Y, |X_vec)'' missing the second X_vec
+  and closing bracket; (5) Section 8.1 Footnote 10 (page 25) prints ''at M grows'' for ''as M grows'';
+  and (6) Appendix A.3 (page 34, line 5) prints ''is a shown in Proposition 6.6'' and Appendix A.4 heading
+  prints ''Proof of Lemma 3.3.3'' when proving Proposition 3.3.3.'
+- All 36 pages of the full-text PDF of Buja, Brown, Kuchibhotla, Berk, George, & Zhao (2019, Statistical
+  Science 34(4):545-565, arXiv:1612.03257v2, DOI:10.1214/18-STS694) were read. Constructed numerical checks
+  in research/discovery/model-free-regression-functionals-reweighting-diagnostic-boundaries.py verify
+  (1) BHHJ density power divergence Fisher consistency and redescending influence functions (Section 2.2,
+  Appendix A.2), (2) Lemma 4.1 and Proposition 4.1 regressor-reweighting invariance under well-specification
+  vs. nonzero tilt statistic d under quadratic misspecification, (3) Propositions 6.4-6.6 and Corollary
+  7.1 canonical Estimation Offset decomposition, noiseless Noise-EO vanishing, and exact L^2(P) orthogonality
+  of Noise IF and Approximation IF, and (4) Proposition 8.1 / Corollary 8.1 convergence of M-of-N XY-bootstrap
+  variance to the empirical sandwich covariance AV[P_hat_N; theta(.)].
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T18:05:00Z'
+  updated_at: '2026-10-17T18:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

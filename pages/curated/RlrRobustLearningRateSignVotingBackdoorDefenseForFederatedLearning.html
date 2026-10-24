@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Robust Learning Rate for Federated Learning, RLR Federated Backdoor Defense, FedAvg with Robust Learning Rate
+    </div>
+
+  <div class="detail-desc">
+    A server-side federated learning backdoor defense that adjusts the server&#39;s learning rate vector eta_theta in {+eta, -eta}^d coordinate-wise at each communication round t according to the supermajority sign consensus of participating client updates Delta_t^k = w_t^k - w_t, setting eta_{theta, i} = +eta if |sum_{k in S_t} sgn(Delta_{t,i}^k)| &gt;= theta and eta_{theta, i} = -eta otherwise, and updating the global model via element-wise product w_{t+1} = w_t + eta_theta odot g({Delta_t}) so that coordinates lacking honest sign consensus move in the loss-maximizing direction.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Ozdayi, Kantarcioglu, and Gel (AAAI 2021, Vol. 35, No. 10, pp. 9268-9276, DOI:10.1609/aaai.v35i10.17118, arXiv:2007.03767). Distinct from SignSGD with majority vote (AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, Bernstein et al. 2018), which discards update magnitudes and updates by eta * sgn(sum_k sgn(Delta_t^k)), whereas RLR preserves the full-precision aggregated update magnitude (e.g., FedAvg or coordinate-wise median) and flips the sign of the server learning rate to -eta on any coordinate where the absolute sum of update signs falls below threshold theta. Also distinct from FoolsGold (AIMech:FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning), which assigns scalar per-client learning rates alpha_k based on historical cosine similarity rather than per-dimension sign-voting learning rates.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c1-mechanism-coordinate-sign-vote-learning-rate-inversion</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given client updates {Delta_t^k}_{k in S_t} at round t and a server learning threshold hyperparameter theta, RLR sets the i-th coordinate server learning rate to eta_{theta, i} = +eta if |sum_{k in S_t} sgn(Delta_{t,i}^k)| &gt;= theta and eta_{theta, i} = -eta otherwise (Eq. 5), equivalently multiplying the aggregated update by the diagonal unitary operator (2 I_t - I) with ||2 I_t - I||_2 = 1 so that coordinates below the sign-consensus threshold ascend rather than descend the empirical loss surface (Eqs. 6, 8-9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r529-primary-pdf">Defending against Backdoors in Federated Learning with Robust Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Equations (5)-(6) and Appendix D.1 Equations (8)-(9), pp. 3, 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#c2-scope-nonconvex-convergence-under-population-weighted-symmetry</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-Lipschitz smooth local objectives with bounded stochastic gradient variance sigma^2, population-weighted symmetric unimodal gradient noise (Eq. 7), universal update norm bound M, and sign-inversion probability Pr(1 - I_{|sum sgn(Delta_{t,i}^k)| &gt;= theta} | F_t) &lt;= p_0 &lt; 0.25, Theorem 1 proves that RLR satisfies (1/T) sum_{t=0}^{T-1} E[||nabla f(w_hat_t)||^2] &lt;= 2(f(w_hat_0) - f^*)/(eta T) + L^2 M^2 + L eta sigma^2 / n.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r529-primary-pdf">Defending against Backdoors in Federated Learning with Robust Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Theorem 1 and Appendix D.2 Equations (10)-(21), pp. 3-4, 13-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c3-application-trojan-and-distributed-backdoor-defense</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Combined with FedAvg, coordinate-wise median, or weight-clipping and Gaussian noise, RLR reduces trojan backdoor accuracy from 99-100% to 0-3.4% on i.i.d. Fashion-MNIST and non-i.i.d. Federated EMNIST and defends CIFAR-10 against partitioned Distributed Backdoor Attacks (DBA) where FoolsGold, Comed, and SignSGD fail.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r529-primary-pdf">Defending against Backdoors in Federated Learning with Robust Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Tables 1-2, and Figures 2-5, pp. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c4-limitation-threshold-selection-and-convergence-slowdown</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applying RLR from the beginning of training slows convergence and slightly reduces clean validation accuracy on non-i.i.d. client distributions where honest updates naturally disagree in sign, requiring careful tuning of theta in [K*F + 1, K - K*F] or delayed activation near convergence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r529-primary-pdf">Defending against Backdoors in Federated Learning with Robust Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Removing Backdoor During Training), Section 6, and Appendix A &amp; C.1 Figure 6, pp. 5, 7, 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires the number of corrupt agents in each round to be strictly smaller than the server sign-voting threshold theta.</li>
+      <li>Sign disagreement caused by severe non-i.i.d. data heterogeneity can trigger learning-rate sign flips on benign coordinates, slowing convergence and slightly reducing clean validation accuracy.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RLR is a server-side coordinate sign-voting learning-rate defense against backdoor model poisoning in federated learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r529-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r529-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2007.03767.pdf" target="_blank" rel="noopener">Defending against Backdoors in Federated Learning with Robust Learning Rate</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mustafa Safa Ozdayi, Murat Kantarcioglu, Yulia R. Gel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/aaai/OzdayiKG21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:651d4101c1b3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r529-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r529-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.03767" target="_blank" rel="noopener">Defending against Backdoors in Federated Learning with Robust Learning Rate (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mustafa Safa Ozdayi, Murat Kantarcioglu, Yulia R. Gel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.03767</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e4c723d41cc4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r529-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r529-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/aaai/OzdayiKG21" target="_blank" rel="noopener">Defending against Backdoors in Federated Learning with Robust Learning Rate (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mustafa Safa Ozdayi, Murat Kantarcioglu, Yulia R. Gel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/aaai/OzdayiKG21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:63e62cbed269…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ARlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">RLR Robust Learning...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:12:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:12:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=RLR%20Robust%20Learning%20Rate%20Sign-Voting%20Backdoor%20Defense%20for%20Federated%20Learning"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ARlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

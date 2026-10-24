@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frequent-Directions Deterministic Streaming Matrix Sketching · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Frequent-Directions Deterministic Streaming Matrix Sketching</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Frequent-Directions Deterministic Streaming Matrix Sketching</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Frequent-Directions Matrix Sketching, Liberty Deterministic Covariance Matrix Sketching, Spectral Misra-Gries / Space-Saving Matrix Sketch
+    </div>
+
+  <div class="detail-desc">
+    Frequent-Directions Deterministic Streaming Matrix Sketching is a deterministic one-pass row-streaming matrix sketching algorithm introduced by Liberty (2013) that maintains an l x m sketch matrix B of an n x m input matrix A by generalizing the Misra-Gries / Space-Saving frequent-items counter decrement rule to singular values and right singular vectors. In the basic algorithm (Algorithm 1), each streaming row a_i in R^m is inserted into an all-zero row of B in R^{l x m}; whenever B has no zero rows, the algorithm computes the SVD B = U Sigma V^T, sets delta_i = sigma_l^2, shrinks all l squared singular values uniformly via bar{Sigma} = sqrt(Sigma^2 - I_l delta_i), and updates B &lt;- bar{Sigma} V^T so that the last row of B is guaranteed to be zero. In the amortized fast variant (Algorithm 2), B is zeroed out in its bottom l/2 rows by shrinking at threshold delta_i = sigma_{l/2}^2 only once every l/2 row insertions, reducing the total runtime from O(n m l^2) to O(n m l) at space O(m l). Claims 1 and 2 and Theorems 4.1 and 4.2 prove that for every unit vector x in R^m (||x||_2 = 1), 0 &lt;= ||A x||_2^2 - ||B x||_2^2 &lt;= 2 (||A||_F^2 - ||B||_F^2) / l &lt;= 2 ||A||_F^2 / l (with factor 1 for Algorithm 1 and factor 2 for Algorithm 2), guaranteeing A^T A &gt;= B^T B and ||A^T A - B^T B||_2 &lt;= epsilon ||A||_F^2 for l = ceil(2 / epsilon).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from batch Principal Component Analysis (`AIO:PrincipalComponentAnalysis`), which requires storing A or A^T A in O(n m) or O(m^2) memory, and from randomized oblivious subspace embeddings (`AIMech:SubsampledRandomizedHadamardTransformSubspaceEmbedding`) or randomized column sampling (`AIMech:NystromGramMatrixLowRankApproximationWithDiagonalSampling`). Specifically captures Liberty&#39;s (2013) deterministic SVD singular-value shrinkage rule bar{Sigma} = sqrt(Sigma^2 - I_l delta_i) (Algorithms 1 and 2), its exact reduction to the Misra-Gries / Space-Saving heavy-hitters counter algorithm on orthogonal basis streams (Section 3, Theorem 3.1), and the deterministic Loewner positive semidefinite covariance bound 0 &lt;= A^T A - B^T B &lt;= (2 / l)(||A||_F^2 - ||B||_F^2) I_m (Claims 1-2, Theorems 4.1-4.2).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#claim-01</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each step i of Frequent-Directions (Algorithm 1), shrinking the squared singular values of the l x m sketch by delta_i = sigma_l^2 via bar{Sigma} = sqrt(Sigma^2 - I_l delta_i) zeroes out the l-th row and satisfies ||C_i||_F^2 - ||B_i||_F^2 = l delta_i, which telescopes over all n streaming rows to give the exact identity sum_{i=1}^n delta_i = (||A||_F^2 - ||B||_F^2) / l &lt;= ||A||_F^2 / l (Claim 1), while for every unit vector x in R^m, Claim 2 proves 0 &lt;= ||A x||_2^2 - ||B x||_2^2 &lt;= sum_{i=1}^n delta_i, implying both A^T A &gt;= B^T B and ||A^T A - B^T B||_2 &lt;= (||A||_F^2 - ||B||_F^2) / l (Theorem 4.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r330-primary-pdf">Simple and Deterministic Matrix Sketching</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Algorithm 1, Claims 1 and 2, and Theorem 4.1, p. 583</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r330-metadata-cr">Simple and Deterministic Matrix Sketching (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Crossref metadata for KDD 2013 pp. 581-588</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#claim-02</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By doubling the sketch capacity and shrinking by delta_i = sigma_{l/2}^2 only when all l/2 zero rows are filled (Algorithm 2), Theorem 4.2 proves that the SVD cost O(m l^2) is amortized over l/2 row insertions to achieve total streaming runtime O(n m l) = O(n m / epsilon) for l = ceil(2 / epsilon) while preserving the deterministic guarantee ||A^T A - B^T B||_2 &lt;= 2 (||A||_F^2 - ||B||_F^2) / l &lt;= epsilon ||A||_F^2; moreover, when input rows are indicator vectors e_{j_i}, Frequent-Directions reduces exactly to the Misra-Gries / Space-Saving item frequency estimation algorithm (Section 3, Theorem 3.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r330-primary-pdf">Simple and Deterministic Matrix Sketching</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Theorem 3.1, p. 582; Section 4.1-4.2, Algorithm 2 and Theorem 4.2, pp. 583-584</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#claim-03</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Frequent-Directions does not preserve input sparsity (the sketch B = bar{Sigma} V^T is dense even when the streaming rows a_i are sparse, requiring O(n m l) time rather than input-sparsity time), and its worst-case spectral error bound scales with ||A||_F^2 / l rather than the tail residual ||A - A_k||_F^2 / (l - k) in the original Liberty (2013) analysis when the spectrum of A is completely flat.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r330-primary-pdf">Simple and Deterministic Matrix Sketching</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Tightness remark on ||A||_F^2 - ||B||_F^2, p. 583; Section 5.2, Comparison with sparse hashing and random projection on sparse inputs, p. 586</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Produces a dense l x m sketch matrix B even when the input matrix A is sparse, and requires an O(m l^2) SVD computation every l/2 streaming rows.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Compresses an n x m streaming data matrix into an l x m deterministic row sketch B approximating A^T A.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Maintains a streaming SVD sketch whose right singular vectors approximate the dominant principal components of A.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r330-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r330-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1206.0594v4" target="_blank" rel="noopener">Simple and Deterministic Matrix Sketching</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edo Liberty
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1145/2487575.2487623</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:11d3293e2dd5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r330-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r330-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1206.0594v4" target="_blank" rel="noopener">Simple and Deterministic Matrix Sketching (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edo Liberty
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1206.0594v4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b5a8ffc45ea2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r330-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r330-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1145/2487575.2487623" target="_blank" rel="noopener">Simple and Deterministic Matrix Sketching (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edo Liberty
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1145/2487575.2487623</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e243a474b5c3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AFrequentDirectionsDeterministicStreamingMatrixSketching">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Frequent-Directions Deterministic Streaming Matrix Sketching" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:FrequentDirectionsDeterministicStreamingMatrixSketching</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Frequent-Directions...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">3 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:DimensionalityReduction (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T06:52:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T06:52:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FrequentDirectionsDeterministicStreamingMatrixSketching.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FrequentDirectionsDeterministicStreamingMatrixSketching.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Frequent-Directions%20Deterministic%20Streaming%20Matrix%20Sketching"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFrequentDirectionsDeterministicStreamingMatrixSketching"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

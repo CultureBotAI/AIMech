@@ -1,0 +1,92 @@
+id: AIMech:AdaptiveLassoAndMedianOfRatiosConsistentInvalidInstrumentSelectionInLinearInstrumentalVariablesModels
+name: Adaptive Lasso and Median-of-Ratios Consistent Invalid Instrument Selection in Linear Instrumental Variables Models
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: "A two-step consistent invalid-instrument selection and structural parameter estimation method (introduced by Frank Windmeijer, Helmut Farbmacher, Neil Davies, and George Davey Smith in 2019) for linear instrumental variables models $y = d\\beta + Z\\alpha + u$, $d = Z\\gamma + v$ with $s < L/2$ invalid instruments ($\\alpha_1 \\ne 0$, $\\alpha_2 = 0$). Standard unweighted $\\ell_1$-penalized IV (sisVIVE, Kang et al. 2016) minimizes $\\frac{1}{2n}\\|P_Z(y - d\\beta - Z\\alpha)\\|_2^2 + \\lambda_n\\|\\alpha\\|_1 = \\frac{1}{2n}\\|\\widehat{M}_{\\widehat{d}}y - \\widehat{M}_{\\widehat{d}}Z\\alpha\\|_2^2 + \\lambda_n\\|\\alpha\\|_1$. Proposition 1 proves that the projected instrument design matrix $C = \\text{plim}\\,n^{-1}Z'\\widehat{M}_{\\widehat{d}}Z = Q - Q\\gamma(\\gamma'Q\\gamma)^{-1}\\gamma'Q$ has rank $L - 1$ with regression block $C_{21}C_{11}^{-1} = (I_{L-s} - \\frac{\\widetilde{Q}_{22}\\gamma_2\\gamma_2'}{\\gamma_2'\\widetilde{Q}_{22}\\gamma_2})Q_{21}Q_{11}^{-1} - \\frac{\\widetilde{Q}_{22}\\gamma_2\\gamma_1'}{\\gamma_2'\\widetilde{Q}_{22}\\gamma_2}$ where $\\widetilde{Q}_{22} = Q_{22} - Q_{21}Q_{11}^{-1}Q_{12}$ (Equation 18). Proposition 2 establishes the exact structural identity $\\gamma_2'C_{21}C_{11}^{-1} = -\\gamma_1'$, which implies that for orthogonal instruments ($Q = I_L$), the Lasso irrepresentable condition $\\|C_{21}C_{11}^{-1}\\text{sign}(\\alpha_1)\\|_\\infty < 1$ reduces to $\\|\\gamma_2\\|_\\infty |\\gamma_1'\\text{sign}(\\alpha_1)| < \\|\\gamma_2\\|_2^2$ and necessarily fails whenever invalid instruments have relatively large first-stage strengths $\\gamma_1$ (Equations 19\u201322). Theorem 1 proves that under the plurality/majority rule $s < L/2$, the Median-of-Ratios estimator $\\widehat{\\beta}_m = \\text{median}(\\{\\widehat{\\Gamma}_j / \\widehat{\\gamma}_j\\}_{j=1}^L)$ from the OLS reduced-form ratios $\\pi_j = \\Gamma_j / \\gamma_j = \\beta + \\alpha_j / \\gamma_j$ is $\\sqrt{n}$-consistent with $\\sqrt{n}(\\widehat{\\beta}_m - \\beta) \\xrightarrow{d} \\mathcal{N}(0, \\sigma_{m(l)}^2)$ where $l$ is the median order-statistic index. Plugging the initial consistent invalidness estimate $\\widehat{\\alpha}_m = \\widehat{\\Gamma} - \\widehat{\\gamma}\\widehat{\\beta}_m$ into the Adaptive Lasso objective $\\widehat{\\alpha}_{\\text{ad}}^n = \\arg\\min_\\alpha \\frac{1}{2}\\|\\widehat{M}_{\\widehat{d}}y - \\widehat{M}_{\\widehat{d}}Z\\alpha\\|_2^2 + \\lambda_n\\sum_{j=1}^L \\frac{|\\alpha_j|}{|\\widehat{\\alpha}_{m,j}|^\\nu}$ (Theorem 2) achieves selection consistency $\\mathbb{P}(\\text{supp}(\\widehat{\\alpha}_{\\text{ad}}^n) = \\text{supp}(\\alpha)) \\to 1$ and oracle asymptotic normality $\\sqrt{n}(\\widehat{\\beta}_{\\text{post}} - \\beta) \\xrightarrow{d} \\mathcal{N}(0, \\sigma_u^2 / (\\gamma_2'\\widetilde{Q}_{22}\\gamma_2))$ without any irrepresentable restriction on $C$."
+identity_notes: "Resolved against all 442 pinned AIO concepts and 677 maintained AIMech concepts. Distinct from `AIMech:SomeInvalidSomeValidInstrumentalVariableLassoEstimation` (Kang, Zhang, Cai, & Small 2016, which formulates the unweighted $\\ell_1$-penalized sisVIVE estimator whose sign and support recovery require the restricted isometry / irrepresentable condition on $P_{\\widehat{d}^\\perp}P_Z$, failing when invalid instruments are strong as proved in Windmeijer et al. 2019 Propositions 1\u20132) and from `AIMech:SearchingAndSamplingUniformConfidenceIntervalsForInvalidInstruments` (Guo 2023, which constructs uniform post-selection confidence intervals by searching and Perturbed-Bootstrap sampling over hard voting matrices rather than proving the exact rank-$(L-1)$ Schur complement irrepresentable failure identity $\\gamma_2'C_{21}C_{11}^{-1} = -\\gamma_1'$ and consistent Median-of-Ratios Adaptive Lasso oracle selection)."
+aliases:
+- Windmeijer Median-of-Ratios Adaptive Lasso Invalid IV Selection
+- Adaptive Lasso for Instrumental Variables with Invalid Instruments
+- Median-of-Ratios Initial Estimator and Adaptive sisVIVE
+- Consistent Invalid Instrument Selection via Median Estimator and Adaptive Lasso
+definition_evidence:
+- source_id: windmeijer2019-ivlasso-pmc
+  locator: Sections 2-4, Propositions 1-2, Theorems 1-2, Equations (9)-(25)
+  relation: supports
+- source_id: windmeijer2019-ivlasso-cr
+  locator: DOI:10.1080/01621459.2018.1498346 bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-schur-complement-irrepresentable-condition-failure
+  kind: mechanism
+  statement: "For the projected instrument covariance $C = Q - Q\\gamma(\\gamma'Q\\gamma)^{-1}\\gamma'Q$ partitioned into $s$ invalid instruments ($Z_1$) and $L-s$ valid instruments ($Z_2$), Proposition 1 proves $C_{21}C_{11}^{-1} = (I_{L-s} - \\frac{\\widetilde{Q}_{22}\\gamma_2\\gamma_2'}{\\gamma_2'\\widetilde{Q}_{22}\\gamma_2})Q_{21}Q_{11}^{-1} - \\frac{\\widetilde{Q}_{22}\\gamma_2\\gamma_1'}{\\gamma_2'\\widetilde{Q}_{22}\\gamma_2}$ with Schur complement $\\widetilde{Q}_{22} = Q_{22} - Q_{21}Q_{11}^{-1}Q_{12}$ (Equation 18), and Proposition 2 proves $\\gamma_2'C_{21}C_{11}^{-1} = -\\gamma_1'$, so for standardized orthogonal instruments ($Q = I_L$) the Lasso irrepresentable condition $\\|C_{21}C_{11}^{-1}\\text{sign}(\\alpha_1)\\|_\\infty < 1$ simplifies to $|\\gamma_1'\\text{sign}(\\alpha_1)| < \\|\\gamma_2\\|_2^2 / \\|\\gamma_2\\|_\\infty$ and fails whenever the invalid instruments have strong first-stage effects $\\gamma_1$ (Section 3.2, Propositions 1\u20132, Equations 18\u201322)."
+  evidence:
+  - source_id: windmeijer2019-ivlasso-pmc
+    locator: Section 3.2, Propositions 1-2, Equations (18)-(22), Appendix A.1
+    relation: supports
+- claim_id: claim-median-of-ratios-root-n-consistency-under-majority-rule
+  kind: mechanism
+  statement: "Under the majority validity rule $s < L/2$ with $\\gamma_j \\ne 0$ for all $j \\in \\{1,\\dots,L\\}$, Theorem 1 proves that the Median-of-Ratios estimator $\\widehat{\\beta}_m = \\text{median}(\\{\\widehat{\\pi}_j\\}_{j=1}^L)$ where $\\widehat{\\pi}_j = \\widehat{\\Gamma}_j / \\widehat{\\gamma}_j$ is the ratio of the $j$-th OLS reduced-form coefficient to the $j$-th OLS first-stage coefficient is $\\sqrt{n}$-consistent for $\\beta$ and converges in distribution to the normal order-statistic limit $\\sqrt{n}(\\widehat{\\beta}_m - \\beta) \\xrightarrow{d} q_{[l],L-s}$ (Section 4.1, Theorem 1, Equations 23\u201324, Appendix A.2)."
+  evidence:
+  - source_id: windmeijer2019-ivlasso-pmc
+    locator: Section 4.1, Theorem 1, Equations (23)-(24), Appendix A.2
+    relation: supports
+- claim_id: claim-adaptive-lasso-oracle-instrument-selection-and-post-lasso-2sls
+  kind: mechanism
+  statement: Using $\widehat{\alpha}_m = \widehat{\Gamma} - \widehat{\gamma}\widehat{\beta}_m$ as the $\sqrt{n}$-consistent initial estimator in the Adaptive Lasso objective $\widehat{\alpha}_{\text{ad}}^n = \arg\min_\alpha \frac{1}{2}\|\widehat{M}_{\widehat{d}}y - \widehat{M}_{\widehat{d}}Z\alpha\|_2^2 + \lambda_n^a\sum_{j=1}^L |\alpha_j| / |\widehat{\alpha}_{m,j}|^\nu$ with $\lambda_n^a / \sqrt{n} \to 0$ and $\lambda_n^a n^{(\nu-1)/2} \to \infty$ for $\nu > 0$, Theorem 2 proves $\mathbb{P}(\text{supp}(\widehat{\alpha}_{\text{ad}}^n) = \{1,\dots,s\}) \to 1$ without any irrepresentable condition on $C$, and the resulting post-Adaptive-Lasso two-stage least squares estimator $\widehat{\beta}_{\text{post}}$ achieves the oracle asymptotic distribution $\sqrt{n}(\widehat{\beta}_{\text{post}} - \beta) \xrightarrow{d} \mathcal{N}(0, \sigma_u^2 / (\gamma_2'\widetilde{Q}_{22}\gamma_2))$ (Section 4.2, Theorem 2, Equation 25).
+  evidence:
+  - source_id: windmeijer2019-ivlasso-pmc
+    locator: Section 4.2, Theorem 2, Equation (25)
+    relation: supports
+evidence_sources:
+- source_id: windmeijer2019-ivlasso-pmc
+  title: On the Use of the Lasso for Instrumental Variables Estimation with Some Invalid Instruments
+  authors:
+  - Frank Windmeijer
+  - Helmut Farbmacher
+  - Neil Davies
+  - George Davey Smith
+  source_type: primary_paper
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6817329/
+  persistent_id: https://doi.org/10.1080/01621459.2018.1498346
+  version: PubMed Central PMC6817329 author manuscript full text (105151 bytes), published in Journal of the American Statistical Association 114(527):1339-1350 (2019).
+  access_level: full_text
+  accessed_at: '2026-10-19T05:18:00Z'
+  sha256: 8c1b19afb93d12553e2f043a796d5c38ae2256fc1607b320ac18daa9a77e3f78
+- source_id: windmeijer2019-ivlasso-cr
+  title: On the Use of the Lasso for Instrumental Variables Estimation with Some Invalid Instruments (Crossref metadata)
+  authors:
+  - Frank Windmeijer
+  - Helmut Farbmacher
+  - Neil Davies
+  - George Davey Smith
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1080/01621459.2018.1498346
+  persistent_id: https://doi.org/10.1080/01621459.2018.1498346
+  version: Crossref API work record for DOI:10.1080/01621459.2018.1498346 (2498 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T05:18:00Z'
+  sha256: 503a24d9215f2dac7a043efff11d245fb01cb15422463b4bef43b06ca286aa8a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: narrow_match
+  rationale: The estimator specializes Adaptive L1-penalized Lasso regression to consistent invalid-instrument selection using initial Median-of-Ratios inverse weights.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Formulated for structural parameter estimation and reduced-form regressions in linear instrumental variables models.
+- target: AIO:RegressionAnalysis
+  relation: broad_match
+  rationale: Provides a consistent econometric and Mendelian randomization regression methodology under invalid instruments.
+limitations:
+- Consistency of the initial Median-of-Ratios estimator beta_hat_m (Theorem 1) requires the strict majority rule s < L/2 (more than 50% of candidate instruments must be valid); when s >= L/2 and only a plurality of instruments are valid, beta_hat_m is asymptotically biased unless replaced by a mode-based or voting-based initial estimator.
+- Theorem 1 and Theorem 2 are fixed-L asymptotic results assuming individually strong instruments (gamma_j != 0 fixed as n -> infty); when invalid instruments are locally invalid (alpha_j = O(1/sqrt(n))) or first-stage effects gamma_j are weak, consistent model selection fails and post-Adaptive-Lasso 2SLS confidence intervals can under-cover.
+curation:
+  created_at: '2026-10-19T05:18:00Z'
+  updated_at: '2026-10-19T05:18:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,101 @@
+id: AIMech:FedAuxCertaintyWeightedUnsupervisedAuxiliaryEnsembleDistillationForFederatedLearning
+name: FedAUX (Certainty-Weighted Unsupervised Auxiliary Ensemble Distillation for Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'An unlabeled-auxiliary-data federated learning and ensemble distillation framework (Sattler, Korjakow, Rischke, & Samek 2021, Sections 3.2-3.5, Equations 1-10, Algorithm 1, Theorems 1-2) that leverages an unlabeled auxiliary dataset D_aux = D_train U D_distill U D^- in two stages: (1) self-supervised contrastive feature extractor pretraining of h_0 on D_train to initialize client feature extractors in a common representation basin, and (2) certainty-weighted server ensemble distillation on D_distill where each client i solves a strongly convex L2-regularized logistic regression problem J(w, h_0, D_i, D^-) = (1/(|D_i| + |D^-|)) sum_{x in D_i U D^-} log(1 + exp(-t_x <w, h_tilde_0(x)>)) + (lambda/2) ||w||_2^2 separating its private data D_i (t_x = +1) from negative auxiliary data D^- (t_x = -1) (Equation 4), perturbs w_i^* with calibrated Gaussian noise N(0, sigma^2 I) for (epsilon, delta)-differential privacy (Equations 5 & 10, Theorem 2), and weights each client''s teacher logits f_i(x) on x in D_distill by its certainty score s_i(x) = (1 + exp(-<w_i^* + rho, h_tilde_0(x)>))^{-1} + xi via A_s(x) = softmax(sum_{i in S_t} s_i(x) f_i(x) / sum_{i in S_t} s_i(x)) (Equations 3 & 6).'
+identity_notes: Distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which averages client teacher logits with uniform weights A_mean(x) = softmax((1/|S_t|) sum_{i in S_t} f_i(x)) (Equation 2) and degrades under extreme non-IID domain/label skew where most clients are out-of-distribution on x; and distinct from FedMD (AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation, Li & Wang 2019), which requires a labeled public dataset for transfer pretraining and uses unweighted logit averaging without differentially private out-of-distribution certainty scoring.
+aliases:
+- FedAUX
+- Federated Auxiliary Data Distillation
+- Certainty-Weighted Federated Ensemble Distillation with Unlabeled Auxiliary Data
+definition_evidence:
+- source_id: r484-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r484-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r484-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r484-certainty-weighted-ensemble-distillation-mechanism
+  kind: mechanism
+  statement: Instead of weighting all active client teachers equally on unlabeled distillation sample x in D_distill, FedAUX trains a one-vs-auxiliary logistic certainty scorer w_i^* on normalized frozen-extractor features h_tilde_0(x) separating private client samples D_i from negative auxiliary samples D^- (Equation 4), evaluates certainty s_i(x) = (1 + exp(-<w_i^* + rho, h_tilde_0(x)>))^{-1} + xi (Equation 6), and distills the certainty-weighted soft label A_s(x) = softmax(sum_{i in S_t} s_i(x) f_i(x) / sum_{i in S_t} s_i(x)) into the server prototype model (Sattler et al. 2021, Section 3.4, Equations 3-6, Algorithm 1, p. 4).
+  evidence:
+  - source_id: r484-primary-pdf
+    locator: Section 3.4 (Equations 3-6, Algorithm 1), p. 4
+    relation: supports
+- claim_id: r484-l2-sensitivity-and-differentially-private-scoring-scope
+  kind: scope
+  statement: Theorem 1 proves that the L2 sensitivity of the lambda-regularized logistic certainty classifier w_i^* over unit-norm features ||h_tilde_0(x)||_2 <= 1 is bounded by 2 / (lambda (|D_i| + |D^-|)) (Equation 8), and Theorem 2 establishes that adding Gaussian noise rho ~ N(0, sigma^2 I) with variance sigma^2 >= 8 ln(1.25 / delta) / (epsilon^2 lambda^2 (|D_i| + |D^-|)^2) (Equation 10) guarantees (epsilon, delta)-differential privacy for the published certainty scoring mechanism (Sattler et al. 2021, Section 3.5 & Appendix J, Theorems 1-2, pp. 5 & 18-21).
+  evidence:
+  - source_id: r484-primary-pdf
+    locator: Section 3.5 (Theorems 1-2, Equations 8-10), p. 5, and Appendix J, pp. 18-21
+    relation: supports
+- claim_id: r484-heterogeneous-vision-and-chest-xray-federated-distillation-application
+  kind: application
+  statement: Applied to homogeneous and heterogeneous neural network ensembles under severe Dirichlet label skew on CIFAR-10, STL-10, Office-Home domain shift, and ChestX-ray14 medical imaging benchmarks using unlabeled ImageNet / CIFAR-100 auxiliary data (Sattler et al. 2021, Section 4, Tables 1-6, Figures 2-6).
+  evidence:
+  - source_id: r484-primary-pdf
+    locator: Section 4 (Experimental Evaluation, Tables 1-6, Figures 2-6), pp. 6-10
+    relation: supports
+- claim_id: r484-unlabeled-auxiliary-dataset-availability-limitation
+  kind: limitation
+  statement: Requires the server and clients to have access to an unlabeled auxiliary dataset D_aux whose input modality is compatible with the target task for contrastive pretraining, negative scoring, and ensemble distillation (Sattler et al. 2021, Section 3.1-3.4, pp. 3-4).
+  evidence:
+  - source_id: r484-primary-pdf
+    locator: Section 3.1-3.4, pp. 3-4
+    relation: supports
+evidence_sources:
+- source_id: r484-primary-pdf
+  title: 'FEDAUX: Leveraging Unlabeled Auxiliary Data in Federated Learning'
+  authors: &id001
+  - Felix Sattler
+  - Tim Korjakow
+  - Roman Rischke
+  - Wojciech Samek
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.02514.pdf
+  persistent_id: https://arxiv.org/abs/2102.02514
+  version: IEEE Transactions on Neural Networks and Learning Systems (TNNLS) (2021) (405 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:27:00Z'
+  sha256: 14647016792f049b1add04e34951c3f41445d91fa0d07fb43f5df85b36331c02
+- source_id: r484-arxiv-abs
+  title: 'FEDAUX: Leveraging Unlabeled Auxiliary Data in Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.02514
+  persistent_id: https://arxiv.org/abs/2102.02514
+  version: arXiv abstract page (726 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:27:00Z'
+  sha256: 25edafcd23589c58912d704f0fa8ba99d1b0f63fd714039eb6ef359728beaed7
+- source_id: r484-metadata-cr
+  title: 'FEDAUX: Leveraging Unlabeled Auxiliary Data in Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.02514
+  persistent_id: https://arxiv.org/abs/2102.02514
+  version: Crossref API work record (970 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:27:00Z'
+  sha256: 9b80834b04d3d04155dd1f45195ccf0beccb9b199edc75690c8b0d1be77ba335
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedAUX is an unlabeled-auxiliary-data certainty-weighted ensemble distillation algorithm within the broader FederatedLearning category.
+limitations:
+- Requires an unlabeled auxiliary dataset for contrastive pretraining and ensemble distillation.
+- Strong differential privacy budgets (small epsilon) on small local datasets |D_i| require larger regularization lambda or higher Gaussian noise variance sigma^2, attenuating certainty-score discrimination.
+curation:
+  created_at: '2026-10-19T09:27:00Z'
+  updated_at: '2026-10-19T09:27:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

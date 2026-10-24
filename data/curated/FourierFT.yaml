@@ -1,0 +1,107 @@
+id: AIMech:FourierFT
+name: FourierFT
+concept_kind: algorithm
+review_status: DRAFT
+definition: A spectral parameter-efficient fine-tuning algorithm that parameterizes the spatial weight update matrix of a frozen pretrained layer as the real part of the two-dimensional inverse discrete Fourier transform of a sparse frequency-domain matrix populated by a small trainable vector of n spectral coefficients.
+identity_notes: Distinct from AIMech:LowRankAdaptation (LoRA) and AIMech:VeRA, which parameterize weight updates directly in the spatial domain via low-rank matrix products and therefore require at least O(d_1 + d_2) parameters or high rank to represent complex spatial patterns. FourierFT (Ziqi Gao, Qichao Wang, Aochuan Chen, Zijing Liu, Bingzhe Wu, Liang Chen, and Jia Li, ICML 2024, PMLR v235, arXiv:2405.03003) represents the weight update Delta_W in R^{d_1 x d_2} in the orthogonal 2D Fourier basis. A fixed entry index table E in {0, ..., d_1-1} x {0, ..., d_2-1} of length n << d_1 d_2 is sampled once (uniformly or with a central-frequency radial Gaussian bias), a trainable coefficient vector c in R^n is scattered into a sparse spectral matrix S = ToMatrix(c) in R^{d_1 x d_2} at locations E, and the spatial weight update is reconstructed via the 2D inverse discrete Fourier transform Delta_W = alpha * Re(F^{-1}(ToMatrix(c))). Because every spectral coefficient modulates a global 2D complex sinusoid across all d_1 x d_2 spatial entries, FourierFT decouples parameter count n from layer dimensions (d_1, d_2) and can generate full-rank spatial updates when the sampled frequencies span rows and columns.
+aliases:
+- Discrete Fourier Transform Fine-Tuning
+- Fourier Fine-Tuning
+- FourierFT Parameter-Efficient Fine-Tuning
+definition_evidence:
+- source_id: r663-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r663-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r663-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fourierft-sparse-spectral-to-spatial-idft-parameterization
+  kind: mechanism
+  statement: FourierFT defines a layer's weight update as Delta_W = alpha * Re(F^{-1}(ToMatrix(c))), where c in R^n is a trainable spectral vector scattered onto n pre-selected frequency coordinates (u_k, v_k) of a d_1 x d_2 spectral grid and F^{-1} is the 2D inverse discrete Fourier transform, decoupling the trainable parameter count n from the layer dimensions d_1 and d_2.
+  evidence:
+  - source_id: r663-primary-pdf
+    locator: Section 3.1 (Forward and Backward Pass of FourierFT), pp. 3-4, Equations (3)-(5)
+    relation: supports
+- claim_id: fourierft-direct-basis-evaluation-and-frequency-bias-sampling
+  kind: mechanism
+  statement: Rather than executing a full O(d_1 d_2 log(d_1 d_2)) 2D FFT when n is small, FourierFT evaluates the inverse transform directly over the n active frequencies using precomputed complex exponential basis matrices, and optionally samples frequency coordinates with a radial Gaussian bias toward low- or mid-frequency bands.
+  evidence:
+  - source_id: r663-primary-pdf
+    locator: Section 3.2 (Entry Sampling Strategies) & Algorithm 1, p. 4
+    relation: supports
+- claim_id: fourierft-application-extreme-compression-nlp-and-vision-peft
+  kind: application
+  statement: Across GLUE natural language understanding, instruction tuning on LLaMA-2, and ViT image classification benchmarks, FourierFT matches or exceeds LoRA accuracy while using up to an order of magnitude fewer trainable parameters (for example, n = 1000 spectral coefficients per layer versus rank-8 LoRA on RoBERTa-large).
+  evidence:
+  - source_id: r663-primary-pdf
+    locator: Section 4 (Experiments), Tables 1-4, pp. 5-8
+    relation: supports
+- claim_id: fourierft-limitation-dense-delta-w-materialization-during-training
+  kind: limitation
+  statement: Because the inverse discrete Fourier transform produces a dense spatial matrix Delta_W in R^{d_1 x d_2} rather than a low-rank factored intermediate representation, FourierFT must either materialize Delta_W in memory during each forward/backward pass or compute O(n d_1 d_2) basis projections, incurring higher per-layer FLOPs than rank-1 LoRA when n is large.
+  evidence:
+  - source_id: r663-primary-pdf
+    locator: Section 3.1 & Appendix (Complexity Analysis and Memory Discussion), pp. 4, 13-14
+    relation: supports
+evidence_sources:
+- source_id: r663-primary-pdf
+  title: Parameter-Efficient Fine-Tuning with Discrete Fourier Transform
+  authors: &id001
+  - Ziqi Gao
+  - Qichao Wang
+  - Aochuan Chen
+  - Zijing Liu
+  - Bingzhe Wu
+  - Liang Chen
+  - Jia Li
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2405.03003
+  persistent_id: https://dblp.org/rec/conf/icml/GaoWC0WCL24.xml
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR 235 (2024) (12824077 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:26:00Z'
+  sha256: 751a4d4b1e34c28ca4c0e944eeb72e0f005dfc751b42d3f1cbdc41f423a1067a
+- source_id: r663-arxiv-abs
+  title: Parameter-Efficient Fine-Tuning with Discrete Fourier Transform (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2405.03003
+  persistent_id: https://arxiv.org/abs/2405.03003
+  version: arXiv abstract page (6580 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:26:00Z'
+  sha256: 43b22a73641ca09fd17571efb60b1688b0881c6a793e3b54de5fbd60cd9331a6
+- source_id: r663-metadata-cr
+  title: Parameter-Efficient Fine-Tuning with Discrete Fourier Transform (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/GaoWC0WCL24.xml
+  persistent_id: https://dblp.org/rec/conf/icml/GaoWC0WCL24.xml
+  version: Crossref API work record (940 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:26:00Z'
+  sha256: 47dfe2854075ac199ea5a36c1230fa41f6f220d99f9036da19338d37a3a1529b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: FourierFT adapts linear layers of deep artificial neural networks by learning sparse spectral coefficients in the 2D discrete Fourier domain.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: FourierFT learns a sparse set of n frequency-domain coefficients whose inverse 2D discrete Fourier transform reconstructs the spatial weight update.
+limitations:
+- Reconstructing the spatial weight update from n spectral coefficients produces a dense d_1 x d_2 matrix during training rather than a low-rank intermediate vector projection, increasing per-layer compute if n is large.
+- Because the n frequency coordinates are sampled randomly before training and held fixed, task-relevant spectral energy that falls outside the sampled frequency support cannot be represented.
+curation:
+  created_at: '2026-10-19T12:26:00Z'
+  updated_at: '2026-10-19T12:26:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

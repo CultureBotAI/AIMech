@@ -1,0 +1,94 @@
+id: AIMech:ZenoSuspicionBasedFaultTolerantDistributedStochasticGradientDescent
+name: Zeno Suspicion-Based Fault-Tolerant Distributed Stochastic Gradient Descent
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-tolerant synchronous distributed stochastic gradient descent algorithm in which the parameter server samples a small validation mini-batch f_r(x) = (1/n_r) sum_{i=1}^{n_r} f(x; z_i) at each iteration, computes a regularized stochastic descendant score Score_{gamma, rho}(u, x) = f_r(x) - f_r(x - gamma * u) - rho * ||u||^2 for each of the m worker gradient candidates {tilde_v_i}, sorts candidates in descending score order, and averages the top m - b candidates (with m > b >= q) to update the global model.
+identity_notes: Distinct from majority-based geometric or coordinate-wise robust aggregation rules that require q < m/2 without a server validation loss check (Krum, Bulyan, Trimmed-Mean, Coordinate-Wise Median), and distinct from FLTrust (which computes a server reference gradient on a root dataset and ReLU-clips cosine similarities rather than evaluating loss descent f_r(x) - f_r(x - gamma u) - rho ||u||^2). Specifically denotes the Zeno algorithm of Xie, Koyejo, & Gupta (ICML 2019, PMLR 97:6893-6901, Definitions 2-3, Algorithm 1, Lemma 1, Theorem 1).
+aliases:
+- Zeno
+- Zeno Distributed SGD
+- Zeno Suspicion-Based Aggregation
+- Stochastic Descendant Score Aggregation
+definition_evidence:
+- source_id: r523-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r523-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r523-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r523-stochastic-descendant-score-and-top-subset-averaging
+  kind: mechanism
+  statement: 'Using a validation mini-batch f_r(x) = (1/n_r) sum_{i=1}^{n_r} f(x; z_i) sampled after receiving worker candidate updates {tilde_v_i : i in [m]}, Zeno evaluates Score_{gamma, rho}(tilde_v_i, x) = f_r(x) - f_r(x - gamma * tilde_v_i) - rho * ||tilde_v_i||^2 (Definition 2) to reward loss decrease while penalizing update magnitude, sorts candidates as Score(tilde_v_{(1)}) >= ... >= Score(tilde_v_{(m)}), and outputs Zeno_b({tilde_v_i}) = (1/(m - b)) sum_{i=1}^{m-b} tilde_v_{(i)} (Definition 3).'
+  evidence:
+  - source_id: r523-primary-pdf
+    locator: Section 3, Definitions 2-3 and Algorithm 1, p. 3
+    relation: supports
+- claim_id: r523-dishonest-majority-nonconvex-convergence-guarantee
+  kind: scope
+  statement: By Lemma 1, the i-th highest candidate score dominates the i-th highest honest worker score Score_{gamma, rho}(tilde_v_{(i)}, x) >= Score_{gamma, rho}(v_{(i)}, x) for all i in [m - q]; consequently, for any number of Byzantine workers q < m (including a dishonest majority q >= m/2) with m > b >= q, Theorem 1 and Corollaries 1-2 prove O(1/sqrt(T)) convergence to a stationary point of smooth non-convex objectives under both i.i.d. and disjoint non-i.i.d. worker data.
+  evidence:
+  - source_id: r523-primary-pdf
+    locator: Section 4, Lemma 1, Theorem 1, and Corollaries 1-2, p. 4; Appendix A, pp. 10-15
+    relation: supports
+- claim_id: r523-server-validation-batch-and-forward-pass-overhead
+  kind: limitation
+  statement: Zeno requires the central server to hold a trusted validation dataset from the target learning distribution and to evaluate the validation loss f_r(x - gamma * tilde_v_i) across all m candidate updates at every iteration.
+  evidence:
+  - source_id: r523-primary-pdf
+    locator: Section 3.1-3.2 and Section 4.1 Assumption 1, pp. 3-4
+    relation: supports
+evidence_sources:
+- source_id: r523-primary-pdf
+  title: 'Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance'
+  authors: &id001
+  - Cong Xie
+  - Oluwasanmi Koyejo
+  - Indranil Gupta
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1805.10032.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/XieKG19.json
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:6893-6901 (2019) (623490 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:06:00Z'
+  sha256: addb078699e5dfcab2a2c3865bea1a3e2269ede14cba3687b76b5cbc63cd3263
+- source_id: r523-arxiv-abs
+  title: 'Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1805.10032
+  persistent_id: https://arxiv.org/abs/1805.10032
+  version: arXiv abstract page (6621 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:06:00Z'
+  sha256: 8b179e9bd6aa5305faf209d3944555e3da7ef6991c7dd46c7d241c2cf89348ae
+- source_id: r523-metadata-cr
+  title: 'Zeno: Distributed Stochastic Gradient Descent with Suspicion-based Fault-tolerance (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/XieKG19.json
+  persistent_id: https://dblp.org/rec/conf/icml/XieKG19.json
+  version: Crossref API work record (1147 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:06:00Z'
+  sha256: 800e006e941ba02148a6c18101b0920f627c18bb338c82b2a910e2a48c829d31
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: Zeno is a Byzantine-robust gradient aggregation rule for distributed and federated stochastic gradient descent.
+limitations:
+- Requires a clean validation dataset at the parameter server drawn from an unbiased target distribution.
+- Incurs m validation mini-batch forward evaluations f_r(x - gamma * tilde_v_i) on the server at every synchronous SGD step.
+curation:
+  created_at: '2026-10-19T10:06:00Z'
+  updated_at: '2026-10-19T10:06:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

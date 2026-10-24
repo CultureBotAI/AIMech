@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DoReFa-Net (Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>DoReFa-Net (Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DoReFa-Net (Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DoReFa-Net, DoReFa-Net Low-Bitwidth Gradient Quantization, Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients
+    </div>
+
+  <div class="detail-desc">
+    DoReFa-Net (Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients) is a low-bitwidth neural network training and inference framework that executes both forward and backward passes via bitwise AND and popcount convolution kernels (Eq. 3) by deterministically quantizing weights to k_w bits via tanh-normalized uniform quantization f_omega^k(r_i) = 2 * quantize_k(tanh(r_i) / (2 * max(|tanh(r_i)|)) + 0.5) - 1 (or layer-mean scaling E(|r_i|) * sign(r_i) for 1-bit weights), deterministically quantizing [0, 1]-bounded activations to k_a bits via f_alpha^k(r) = quantize_k(r), and stochastically quantizing backpropagated activation gradients dr to k_g bits via per-instance max-abs scaling and additive uniform noise N(k) = sigma / (2^k - 1) with sigma ~ Uniform(-0.5, 0.5).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from PACT (AIMech:PACTParameterizedClippingActivationForQuantizedNeuralNetworks) which learns a parameterized activation clipping bound alpha with full-precision gradients rather than fixed [0, 1] clipping with stochastic low-bitwidth gradient quantization, and distinct from TTQ (AIMech:TTQTrainedTernaryQuantization) which learns asymmetric ternary weight scales {-W_l^n, 0, +W_l^p}.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dorefa-net-bitwise-dot-product-and-tanh-weight-activation-quantization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DoReFa-Net decomposes fixed-point dot products between M-bit and K-bit vectors into bitwise AND and bitcount operations sum_{m=0}^{M-1} sum_{k=0}^{K-1} 2^{m+k} bitcount[and(c_m(x), c_k(y))] (Eq. 3), deterministically quantizes k-bit weights via f_omega^k(r_i) = 2 * quantize_k(tanh(r_i) / (2 * max(|tanh(r_i)|)) + 0.5) - 1 (Eq. 9; or sign(r_i) * E(|r_i|) for k = 1, Eq. 7), and quantizes [0, 1]-clipped activations via f_alpha^k(r) = quantize_k(r) (Eq. 11) with Straight-Through Estimator backpropagation (Eqs. 5-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r822-primary-pdf">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.3.2, Equations 1-11, pp. 2-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r822-primary-pdf">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients</a></span>
+        <span>· <strong>Locator:</strong> bitwise_dot_uint2 and dorefa_weight_quantize</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dorefa-net-stochastic-unbiased-gradient-quantization-and-maxpool-fusion</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because backpropagated activation gradients dr are unbounded and span a wide dynamic range, DoReFa-Net maps dr into [0, 1] per sample via max_0(|dr|), injects uniform dithering noise N(k) = sigma / (2^k - 1) with sigma ~ Uniform(-0.5, 0.5) to yield unbiased k-bit stochastic gradients f_gamma^k(dr) = 2 * max_0(|dr|) * [quantize_k(dr / (2 * max_0(|dr|)) + 0.5 + N(k)) - 0.5] (Eqs. 12-14), and commutes activation quantization past max-pooling via quantize_k(max(a, b)) = max(quantize_k(a), quantize_k(b)) (Eq. 15).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r822-primary-pdf">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3.3-2.5, Equations 12-15 and Algorithm 1, pp. 4-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r822-primary-pdf">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients</a></span>
+        <span>· <strong>Locator:</strong> dorefa_grad_quantize and main</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#dorefa-net-1bit-weight-2bit-activation-6bit-gradient-imagenet-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On SVHN, CIFAR-10, and ImageNet (AlexNet), DoReFa-Net trains convolutional networks with 1-bit weights, 2-bit activations, and 6-bit stochastic gradients (or 8-bit gradients with &lt;4-bit weights/activations) while maintaining competitive classification accuracy and enabling bitwise acceleration on CPU, FPGA, and ASIC platforms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r822-primary-pdf">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Experiment Results), Tables 1-3 and Figures 2-4, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#dorefa-net-first-last-layer-full-precision-and-sub-4bit-gradient-collapse</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DoReFa-Net keeps the first convolutional layer and final classification layer unquantized because quantizing them significantly degrades accuracy (Section 2.6), and quantizing backpropagated gradients below 4 bits (e.g., 2-bit gradients) causes substantial accuracy degradation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r822-primary-pdf">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients</a></span>
+        <span>· <strong>Locator:</strong> Section 2.6 (First and the Last Layer, p. 5) and Section 3.1 (Table 1, p. 7)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires leaving the first convolutional layer and the final classification layer in higher precision to avoid substantial accuracy drops.</li>
+      <li>Backpropagated gradient quantization below 4 bits causes significant accuracy degradation even with stochastic dithering.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DoReFa-Net is a low-bitwidth quantization method for training and inference of deep convolutional neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r822-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r822-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1606.06160" target="_blank" rel="noopener">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shuchang Zhou, Yuxin Wu, Zekun Ni, Xinyu Zhou, He Wen, Yuheng Zou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1606.06160</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e38d5092f8fa…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r822-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r822-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1606.06160" target="_blank" rel="noopener">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shuchang Zhou, Yuxin Wu, Zekun Ni, Xinyu Zhou, He Wen, Yuheng Zou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1606.06160</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e5447e03e437…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r822-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r822-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1606.06160" target="_blank" rel="noopener">DoReFa-Net: Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shuchang Zhou, Yuxin Wu, Zekun Ni, Xinyu Zhou, He Wen, Yuheng Zou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1606.06160</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f1bc6f277d99…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ADoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for DoReFa-Net (Training Low Bitwidth Convolutional Neural Networks with Low Bitwidth Gradients)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:DoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">DoReFa-Net (Training...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T15:05:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T15:05:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=DoReFa-Net%20%28Training%20Low%20Bitwidth%20Convolutional%20Neural%20Networks%20with%20Low%20Bitwidth%20Gradients%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ADoReFaNetTrainingLowBitwidthConvolutionalNeuralNetworksWithLowBitwidthGradients"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

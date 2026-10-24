@@ -1,0 +1,104 @@
+id: AIMech:SoftImputeIterativeSoftThresholdedSVDForLargeMatrixCompletion
+name: Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion
+concept_kind: algorithm
+review_status: DRAFT
+definition: Soft-Impute Iterative Soft-Thresholded SVD for Large Matrix Completion is a convex spectral-regularization and majorization-minimization (EM-style) algorithm introduced by Mazumder, Hastie, and Tibshirani (2010) for solving the nuclear-norm regularized least-squares matrix completion problem min_{Z in R^{m x n}} f_lambda(Z) = (1/2) ||P_Omega(X) - P_Omega(Z)||_F^2 + lambda ||Z||_* across a warm-started path of regularization parameters lambda_1 > lambda_2 > ... > lambda_K. At each iteration, Algorithm 1 forms the surrogate completed matrix W^{old} = P_Omega(X) + P_Omega^perp(Z^{old}) by filling in missing entries with the current low-rank estimate Z^{old} and updates Z^{new} = S_lambda(W^{old}) = U D_lambda V^T via the singular value soft-thresholding operator D_lambda = diag(max(d_i - lambda, 0)) (Lemma 1). To scale to Netflix-sized matrices without destroying sparsity, Section 3.1 exploits the exact sparse-plus-low-rank decomposition W^{old} = [P_Omega(X) - P_Omega(Z^{old})] + Z^{old}, where the first term has |Omega| << m n nonzeros and the second term has low rank r << min(m, n), allowing Lanczos/PROPACK matrix-vector products in O(|Omega| r + (m + n) r^2) time per SVD step. Lemmas 2-5 and Theorem 1 prove that the Soft-Thresholded SVD operator S_lambda is non-expansive in Frobenius norm (||S_lambda(W_1) - S_lambda(W_2)||_F <= ||W_1 - W_2||_F), generates monotonically decreasing objectives f_lambda(Z^{k+1}) <= f_lambda(Z^k) - (1/2)||P_Omega(Z^{k+1} - Z^k)||_F^2, satisfies ||Z^{k+1} - Z^k||_F -> 0, and converges from any starting point to a global minimizer Z_lambda^* of f_lambda(Z).
+identity_notes: Distinct from Singular Value Thresholding Algorithm for Matrix Completion (`AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion`), which solves the equality-constrained Uzawa dual subgradient iteration Y^k = Y^{k-1} + delta_k P_Omega(X - Z^k) on sparse dual matrices rather than the unconstrained majorization-minimization update Z^{k+1} = S_lambda(P_Omega(X) + P_Omega^perp(Z^k)) with sparse-plus-low-rank Lanczos decomposition and warm-started regularization paths. Also distinct from AltMinSense and AltMinComplete Alternating Minimization for Low-Rank Matrix Sensing and Completion (`AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion`), which performs non-convex fixed-rank alternating least squares without nuclear-norm soft-thresholding.
+aliases:
+- Soft-Impute Nuclear-Norm Regularized Matrix Completion (Mazumder-Hastie-Tibshirani)
+- Iterative Soft-Thresholded SVD EM/MM Algorithm for Incomplete Matrices
+- Sparse-Plus-Low-Rank Decomposition Soft-Impute Path
+definition_evidence:
+- source_id: r339-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r339-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r339-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: 'For any matrix W = U D V^T in R^{m x n} and regularization parameter lambda >= 0, the unique global minimizer of (1/2)||W - Z||_F^2 + lambda ||Z||_* is given by the soft-thresholded SVD operator S_lambda(W) = U D_lambda V^T with D_lambda = diag(max(d_i - lambda, 0)) (Lemma 1), and by the von Neumann trace inequality tr(A^T B) <= sum_i sigma_i(A) sigma_i(B) (Lemma 6), S_lambda is globally non-expansive in Frobenius norm: ||S_lambda(W_1) - S_lambda(W_2)||_F^2 <= ||W_1 - W_2||_F^2 for all W_1, W_2 (Lemma 3).'
+  evidence:
+  - source_id: r339-primary-pdf
+    locator: Section 2, Lemma 1, p. 2290; Section 4, Lemma 3, p. 2296; Appendix A.2, Proof of Lemma 3 and Lemma 6 (Equations 16-22), pp. 2313-2317
+    relation: supports
+  - source_id: r339-arxiv-abs
+    locator: 'Abstract: Soft-thresholded SVD iteratively replaces missing elements with current low-rank guesses and solves nuclear-norm regularized least squares'
+    relation: supports
+- claim_id: claim-02
+  kind: mechanism
+  statement: Each Soft-Impute update Z^{k+1} = S_lambda(P_Omega(X) + P_Omega^perp(Z^k)) minimizes the quadratic majorizer Q_lambda(Z | Z^k) = (1/2)||P_Omega(X) + P_Omega^perp(Z^k) - Z||_F^2 + lambda ||Z||_*, satisfies the monotonic descent bound f_lambda(Z^k) - f_lambda(Z^{k+1}) >= (1/2)||P_Omega(Z^k - Z^{k+1})||_F^2 (Lemma 2 and Proof of Lemma 4), satisfies the non-increasing step-difference property ||Z^{k+1} - Z^k||_F <= ||Z^k - Z^{k-1}||_F with ||Z^{k+1} - Z^k||_F -> 0 (Lemma 4), and converges to a global solution Z_lambda^* of min_Z f_lambda(Z) (Theorem 1).
+  evidence:
+  - source_id: r339-primary-pdf
+    locator: Section 4, Lemmas 2, 4, 5 and Theorem 1 (Equations 12-15), pp. 2295-2298; Appendix A.1 and A.3-A.5, pp. 2313, 2317-2319
+    relation: supports
+  - source_id: r339-metadata-cr
+    locator: Bibliographic record for Mazumder, Hastie, & Tibshirani (JMLR 2010, Vol. 11, pp. 2287-2322)
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Because nuclear-norm penalization shrinks all positive singular values by the same additive amount lambda (soft-thresholding d_i -> max(d_i - lambda, 0)), large signal singular values suffer shrinkage bias on noisy matrices, motivating post-processing unshrunk least-squares refitting on the active singular vectors or non-convex hard-thresholding.
+  evidence:
+  - source_id: r339-primary-pdf
+    locator: Section 5, Post-Processing of Selectors and Comparison with Hard-Thresholding (Equations 23-24), pp. 2298-2301
+    relation: supports
+evidence_sources:
+- source_id: r339-primary-pdf
+  title: Spectral Regularization Algorithms for Learning Large Incomplete Matrices
+  authors: &id001
+  - Rahul Mazumder
+  - Trevor Hastie
+  - Robert Tibshirani
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume11/mazumder10a/mazumder10a.pdf
+  persistent_id: https://www.jmlr.org/papers/v11/mazumder10a.html
+  version: Journal of Machine Learning Research (JMLR) 11:2287-2322 (2010) (569199 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:01:00Z'
+  sha256: 86e08b09025411e0e287c5699812caa3158e2f8901bc1d2f036584061a2816dd
+- source_id: r339-arxiv-abs
+  title: Spectral Regularization Algorithms for Learning Large Incomplete Matrices (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/v11/mazumder10a.html
+  persistent_id: https://www.jmlr.org/papers/v11/mazumder10a.html
+  version: arXiv abstract page (6308 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:01:00Z'
+  sha256: 80ff9857985e8cbc302210ae7e48c4014d9cf3bc1a0528c717091c6d9a77eb50
+- source_id: r339-metadata-cr
+  title: Spectral Regularization Algorithms for Learning Large Incomplete Matrices (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/v11/mazumder10a.html
+  persistent_id: https://www.jmlr.org/papers/v11/mazumder10a.html
+  version: Crossref API work record (1434 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:01:00Z'
+  sha256: 1be02ecfc9130d3061b837f470ace9db60a0cf634e79fabd935bed4096d43d8c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Computes iterative soft-thresholded singular value decompositions via sparse-plus-low-rank Lanczos iterations.
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: Applies the spectral l_1 penalty (nuclear norm) on singular values as the matrix analogue of Lasso soft-thresholding.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Recovers low-rank latent factor representations from partially observed high-dimensional matrices.
+limitations:
+- Uniform singular-value shrinkage max(d_i - lambda, 0) biases large singular values downward, and the first-order EM/MM convergence rate is sublinear O(1/k) without Nesterov momentum or post-processing refits.
+curation:
+  created_at: '2026-10-19T07:01:00Z'
+  updated_at: '2026-10-19T07:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

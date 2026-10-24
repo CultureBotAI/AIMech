@@ -1,0 +1,366 @@
+# Scientific author self-review of OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann Manifold Matrix Completion)
+
+- Review: 20261019T061030Z-optspace-degree-trimming-grassmann-manifold-matrix-completion
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T06:10:00Z
+- Finished UTC: 2026-10-19T06:10:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann Manifold Matrix Completion) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b04ad9570a5ef025fc8c1fa28769c52fde052017.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion | data/curated/OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.yaml | maintained | OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann Manifold Matrix Completion) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion | Validated history sidecar files. |
+| python3 optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py | passed | True | AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion | {"concept": "OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion", "grassmann_cleaning_final_rmse": 3.32849996320979e-16, "grassmann_cleaning_init_loss": 5.198566, "hub_weight_trimmed": 0.0, "hub_weight_untrimmed": 0.731639, "nonhub_alignment_trimmed": 0.81227, "nonhub_alignment_untrimmed": 0.763826, "remark_6_1_distances": [1.570796, 1.414214, 1.0], "status": "VERIFIED"} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.
+
+OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann Manifold Matrix Completion) is a distinct concept.
+
+Resolved against all 442 pinned AIO concepts and 703 maintained AIMech concepts. Distinct from &#96;AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima&#96; (which uses Euclidean Burer-Monteiro $U U^\top$ regularization without degree trimming or Grassmann manifold variable projection $F(X,Y) = \min_S \frac{1}{2}\&#124;\mathcal{P}_E(M - X S Y^\top)\&#124;_F^2$) and &#96;AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion&#96;.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py passed with exit code 0: {"concept": "OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion", "grassmann_cleaning_final_rmse": 3.32849996320979e-16, "grassmann_cleaning_init_loss": 5.198566, "hub_weight_trimmed": 0.0, "hub_weight_untrimmed": 0.731639, "nonhub_alignment_trimmed": 0.81227, "nonhub_alignment_untrimmed": 0.763826, "remark_6_1_distances": [1.570796, 1.414214, 1.0], "status": "VERIFIED"}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T061000Z-optspace-degree-trimming-grassmann-manifold-matrix-completion.json | supports | No normalized identity match for AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py | supports | All constructed boundary assertions in optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py passed with exit code 0: {"concept": "OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion", "grassmann_cleaning_final_rmse": 3.32849996320979e-16, "grassmann_cleaning_init_loss": 5.198566, "hub_weight_trimmed": 0.0, "hub_weight_untrimmed": 0.731639, "nonhub_alignment_trimmed": 0.81227, "nonhub_alignment_untrimmed": 0.763826, "remark_6_1_distances": [1.570796, 1.414214, 1.0], "status": "VERIFIED"} |
+| kmo2010-optspace-pdf | https://arxiv.org/pdf/0901.3150.pdf; Full-text PDF | supports | Full-text PDF (arXiv:0901.3150v4 full-text PDF (30 pages), published in IEEE Transactions on Information Theory 56(6):2980-2998 (2010).) read and verified. |
+| kmo2010-optspace-abs | https://arxiv.org/abs/0901.3150; arXiv abstract | supports | arXiv abstract read and verified. |
+| kmo2010-optspace-cr | https://api.crossref.org/works/10.1109/TIT.2010.2046205; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion in Round 309.
+- All pages of arXiv:0901.3150v4 full-text PDF (30 pages), published in IEEE Transactions on Information Theory 56(6):2980-2998 (2010). were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T061030Z-optspace-degree-trimming-grassmann-manifold-matrix-completion
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of OptSpace (Degree Trimming, Rank-r Spectral
+  Projection, and Grassmann Manifold Matrix Completion)
+started_at: '2026-10-19T06:10:00Z'
+finished_at: '2026-10-19T06:10:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+    against existing AIMech and AIO records and verified all claims against arXiv:0901.3150v4
+    full-text PDF (30 pages), published in IEEE Transactions on Information Theory
+    56(6):2980-2998 (2010). and pure-Python boundary checks. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann
+  Manifold Matrix Completion) as a distinct DRAFT algorithm. All four claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: b04ad9570a5ef025fc8c1fa28769c52fde052017
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.yaml
+    sha256: c5bd5df2ab8e1fbdb96b836c7d8ca2f4de9f6f0a56c38d6f50cebae17176396a
+    role: target
+  - path: research/discovery/20261019T061000Z-optspace-degree-trimming-grassmann-manifold-matrix-completion.json
+    sha256: 528c75ab209c136b5be1818260861d161960a081d4afaf0cf6f70e7e40efc7e0
+    role: context
+  - path: research/discovery/optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py
+    sha256: 8bcc6a08c9188fd3ebd7da2b6bb06ef4d901ceb085e0df9bb8063f4357c9bf72
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  path: data/curated/OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.yaml
+  label: OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann Manifold
+    Matrix Completion)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py
+  command: python3 research/discovery/optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"concept": "OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion",
+    "grassmann_cleaning_final_rmse": 3.32849996320979e-16, "grassmann_cleaning_init_loss":
+    5.198566, "hub_weight_trimmed": 0.0, "hub_weight_untrimmed": 0.731639, "nonhub_alignment_trimmed":
+    0.81227, "nonhub_alignment_untrimmed": 0.763826, "remark_6_1_distances": [1.570796,
+    1.414214, 1.0], "status": "VERIFIED"}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T061000Z-optspace-degree-trimming-grassmann-manifold-matrix-completion.json
+  accessed_at: '2026-10-19T06:10:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T06:10:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py
+  accessed_at: '2026-10-19T06:10:00Z'
+  snapshot_sha256: 8bcc6a08c9188fd3ebd7da2b6bb06ef4d901ceb085e0df9bb8063f4357c9bf72
+  support: supports
+  summary: 'All constructed boundary assertions in optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py
+    passed with exit code 0: {"concept": "OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion",
+    "grassmann_cleaning_final_rmse": 3.32849996320979e-16, "grassmann_cleaning_init_loss":
+    5.198566, "hub_weight_trimmed": 0.0, "hub_weight_untrimmed": 0.731639, "nonhub_alignment_trimmed":
+    0.81227, "nonhub_alignment_untrimmed": 0.763826, "remark_6_1_distances": [1.570796,
+    1.414214, 1.0], "status": "VERIFIED"}'
+- evidence_id: kmo2010-optspace-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/0901.3150.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T06:10:00Z'
+  snapshot_sha256: 510ccc8e443526f383255899559f24ea99cf493ab874e135a3b74b2fbe480e2b
+  support: supports
+  summary: Full-text PDF (arXiv:0901.3150v4 full-text PDF (30 pages), published in
+    IEEE Transactions on Information Theory 56(6):2980-2998 (2010).) read and verified.
+- evidence_id: kmo2010-optspace-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/0901.3150
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T06:10:00Z'
+  snapshot_sha256: 7cefe11e02327fac4178ccbefc33e003748e437c7be01110db28fb6857949931
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: kmo2010-optspace-cr
+  kind: primary_source
+  reference: https://api.crossref.org/works/10.1109/TIT.2010.2046205
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T06:10:00Z'
+  snapshot_sha256: 7c5ef2e990a21682375d5b0b0a25fd9fde3e1a94175b87bb3f606af14e03535f
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  evidence_ids:
+  - identity
+  - kmo2010-optspace-pdf
+  - kmo2010-optspace-abs
+  - kmo2010-optspace-cr
+  summary: OptSpace (Degree Trimming, Rank-r Spectral Projection, and Grassmann Manifold
+    Matrix Completion) is a distinct concept.
+  details: Resolved against all 442 pinned AIO concepts and 703 maintained AIMech
+    concepts. Distinct from `AIMech:NonconvexMatrixCompletionLandscapeWithoutSpuriousLocalMinima`
+    (which uses Euclidean Burer-Monteiro $U U^\top$ regularization without degree
+    trimming or Grassmann manifold variable projection $F(X,Y) = \min_S \frac{1}{2}\|\mathcal{P}_E(M
+    - X S Y^\top)\|_F^2$) and `AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion`.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  evidence_ids:
+  - mapping
+  - kmo2010-optspace-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  evidence_ids:
+  - kmo2010-optspace-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in optspace-degree-trimming-grassmann-manifold-matrix-completion-boundaries.py
+    passed with exit code 0: {"concept": "OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion",
+    "grassmann_cleaning_final_rmse": 3.32849996320979e-16, "grassmann_cleaning_init_loss":
+    5.198566, "hub_weight_trimmed": 0.0, "hub_weight_untrimmed": 0.731639, "nonhub_alignment_trimmed":
+    0.81227, "nonhub_alignment_untrimmed": 0.763826, "remark_6_1_distances": [1.570796,
+    1.414214, 1.0], "status": "VERIFIED"}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  evidence_ids:
+  - identity
+  - mapping
+  - kmo2010-optspace-pdf
+  - kmo2010-optspace-abs
+  - kmo2010-optspace-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion
+  in Round 309.
+- All pages of arXiv:0901.3150v4 full-text PDF (30 pages), published in IEEE Transactions
+  on Information Theory 56(6):2980-2998 (2010). were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

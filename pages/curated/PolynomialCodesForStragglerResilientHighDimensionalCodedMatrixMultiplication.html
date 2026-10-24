@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polynomial Codes for Straggler-Resilient High-Dimensional Coded Matrix Multiplication · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Polynomial Codes for Straggler-Resilient High-Dimensional Coded Matrix Multiplication</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Polynomial Codes for Straggler-Resilient High-Dimensional Coded Matrix Multiplication</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Polynomial Codes, (alpha, beta)-Polynomial Code, (1, m)-Polynomial Code for Coded Matrix Multiplication
+    </div>
+
+  <div class="detail-desc">
+    An algebraic coded distributed computation method proposed by Yu, Maddah-Ali, and Avestimehr (NeurIPS 2017) for computing high-dimensional matrix products C = A^T B across N workers—where each worker stores a 1/m fraction of A and a 1/n fraction of B—by partitioning A into m column blocks [A_0, ..., A_{m-1}] and B into n column blocks [B_0, ..., B_{n-1}], encoding worker i&#39;s stored submatrices as tilde{A}_i = sum_{j=0}^{m-1} A_j x_i^j and tilde{B}_i = sum_{k=0}^{n-1} B_k x_i^{k m} at distinct evaluation points x_i, and recovering all mn block products A_j^T B_k from any K* = mn responding workers via degree-(mn - 1) polynomial interpolation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Lagrange Coded Computing (AIMech:LagrangeCodedComputingForResilientSecureAndPrivateDistributedLearning, which encodes a dataset of K separate inputs via Lagrange interpolation polynomials to evaluate a single multivariate polynomial f(X_i) on each batch), from Gradient Coding (AIMech:GradientCodingForStragglerResilientDistributedOptimization, which encodes partial loss gradients over replicated data blocks), and from MatDot and PolyDot Codes (AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication, which split A into column blocks and B into row blocks to compute inner-product sums sum_i A_i B_i with recovery threshold 2m - 1 at higher worker-to-master communication cost). Polynomial Codes (Yu, Maddah-Ali, &amp; Avestimehr, NeurIPS 2017, pp. 4403-4413 / arXiv:1705.10464, Section II-IV, Definition 2, Equations 14-18, Theorems 1-5) achieve the information-theoretically minimum recovery threshold K_{poly} = mn = Theta(1) independent of N under minimum worker-to-master communication load L* = r t log_2 q (Theorems 1-3), and extend via the (alpha, beta) = (1, 1) code (Equations 31-33, Theorem 4) to distributed convolution c = a * b with recovery threshold K_{conv-poly} = m + n - 1.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#polynomial-codes-outer-product-block-encoding-and-vandermonde-interpolation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given A = [A_0, ..., A_{m-1}] and B = [B_0, ..., B_{n-1}], the (1, m)-Polynomial Code assigns each worker i in {0, ..., N-1} a distinct scalar x_i in F_q and encoded submatrices tilde{A}_i = sum_{j=0}^{m-1} A_j x_i^j and tilde{B}_i = sum_{k=0}^{n-1} B_k x_i^{km} (Equation 17); worker i returns tilde{C}_i = tilde{A}_i^T tilde{B}_i = sum_{j=0}^{m-1} sum_{k=0}^{n-1} A_j^T B_k x_i^{j + km} (Equation 18), enabling the master to recover all mn block products A_j^T B_k by interpolating a degree-(mn - 1) polynomial from any mn workers in time O(rt log^2(mn) log log(mn)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r540-primary-pdf">Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section III-A &amp; III-B, Definition 2 and Equations (10)-(18), pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#polynomial-codes-optimal-recovery-threshold-latency-communication-and-convolution-theorems</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorems 1-3 and Corollary 1 prove that Polynomial Codes achieve the cut-set optimal recovery threshold K* = mn (strictly improving over 1D-MDS K = N - N/n + m and Product Codes K = 2(m-1)sqrt(N) - (m-1)^2 + 1), minimum computation latency T_{poly}, minimum communication load L* = rt log_2 q, and Reed-Solomon error correction of up to floor((N - mn)/2) Byzantine module errors; Theorems 4-5 prove that the (1, 1)-Polynomial Code achieves recovery threshold K_{conv-poly} = m + n - 1 (within a factor of 2 of optimal) for distributed convolution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r540-primary-pdf">Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section I, Equations (1)-(3), pp. 2-3; Section II-B, Theorem 1 &amp; Remark 6, pp. 4-5; Section III-C &amp; III-D, Theorems 2-3, p. 7; Section IV, Theorems 4-5, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#polynomial-codes-real-valued-vandermonde-conditioning-and-quadratic-threshold-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When each worker stores 1/m of both A and B (m = n), Polynomial Codes require K* = m^2 responding workers because they partition A and B into outer-product column blocks, and real-valued Vandermonde interpolation suffers numerical ill-conditioning for large mn unless inputs are quantized and embedded into a finite field F_q.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r540-primary-pdf">Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section III-B, Remark 7, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#polynomial-codes-straggler-resilient-cluster-matrix-multiplication-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to straggler-resilient distributed large-matrix multiplication and FFT-based Reed-Solomon decoding on MPI/AWS EC2 clusters, reducing tail computation latency by 37% compared to uncoded execution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r540-primary-pdf">Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication</a></span>
+        <span>· <strong>Locator:</strong> Section V, Figure 5, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because Polynomial Codes partition A and B to recover all mn outer-product blocks A_j^T B_k, their recovery threshold scales as m^2 when m = n, whereas inner-product MatDot codes reduce the recovery threshold to 2m - 1 at the cost of higher communication.</li>
+      <li>Over real or floating-point numbers, high-degree Vandermonde interpolation matrices become exponentially ill-conditioned as mn grows unless finite-field quantization is applied.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LinearRegression.html" style="font-weight: 600;"><code>AIO:LinearRegression</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Linear Regression</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:LinearRegression and large-scale linear model training rely on distributed high-dimensional matrix multiplication accelerated by Polynomial Codes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r540-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r540-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1705.10464.pdf" target="_blank" rel="noopener">Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qian Yu, Mohammad Ali Maddah-Ali, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/YuMA17.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a29f9a31e95e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r540-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r540-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1705.10464" target="_blank" rel="noopener">Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qian Yu, Mohammad Ali Maddah-Ali, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1705.10464</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8ea1a6d3fdb1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r540-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r540-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/YuMA17.xml" target="_blank" rel="noopener">Polynomial Codes: an Optimal Design for High-Dimensional Coded Matrix Multiplication (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Qian Yu, Mohammad Ali Maddah-Ali, A. Salman Avestimehr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/YuMA17.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b3a0eb0e8e80…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3APolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Polynomial Codes for Straggler-Resilient High-Dimensional Coded Matrix Multiplication" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Polynomial Codes for...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:LinearRegression (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:23:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:23:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Polynomial%20Codes%20for%20Straggler-Resilient%20High-Dimensional%20Coded%20Matrix%20Multiplication"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3APolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

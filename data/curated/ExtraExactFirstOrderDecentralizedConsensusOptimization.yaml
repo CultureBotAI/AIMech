@@ -1,0 +1,104 @@
+id: AIMech:ExtraExactFirstOrderDecentralizedConsensusOptimization
+name: EXTRA (Exact First-Order Algorithm for Decentralized Consensus Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An exact first-order decentralized consensus optimization algorithm for minimizing bar_f(x) = (1/n) sum_{i=1}^n f_i(x) over an undirected connected network (Shi, Ling, Wu, & Yin 2015, Section 2, Algorithm 1, Equations 6-7 and 11), which initializes x^1 = W x^0 - alpha nabla f(x^0) and updates for k >= 0 via the two-step recursion x^{k+2} = (I + W) x^{k+1} - tilde_W x^k - alpha [nabla f(x^{k+1}) - nabla f(x^k)] (equivalently x^{k+1} = tilde_W x^k - alpha nabla f(x^k) + sum_{t=0}^k (W - tilde_W) x^t) using a constant step size alpha > 0 and two symmetric mixing matrices W and tilde_W = (I + W)/2 satisfying (I + W)/2 >= tilde_W >= W and tilde_W > 0.
+identity_notes: Distinct from Exact Diffusion (AIMech:ExactDiffusionForDistributedOptimizationAndLearning, Yuan et al. 2019), which applies an adapt-then-combine step psi_i^k = w_i^{k-1} - mu_i nabla J_i(w_i^{k-1}) so that both mixing and gradient differences are premultiplied by A_bar = (I + A)/2 with double the stability range, and from DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, & Shi 2017), which communicates an auxiliary gradient tracker y^k at every iteration rather than maintaining single-vector primal consensus differences.
+aliases:
+- EXTRA Decentralized Consensus Optimization
+- Exact First-Order Algorithm for Decentralized Consensus Optimization
+- EXTRA Two-Mixing-Matrix Decentralized Gradient Method
+definition_evidence:
+- source_id: r434-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r434-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r434-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r434-primal-dual-optimality-and-ergodic-sublinear-convergence-theorem
+  kind: mechanism
+  statement: By introducing U = (tilde_W - W)^{1/2} and auxiliary dual variables q^k = sum_{t=0}^k U x^t so that x^{k+1} = tilde_W x^k - alpha nabla f(x^k) - U q^k and q^{k+1} = q^k + U x^{k+1} (Eq. 14), Lemma 3 proves that (x^*, q^*) satisfies U x^* = 0 and U q^* + alpha nabla f(x^*) = 0 if and only if x_1^* = ... = x_n^* minimizes bar_f(x); for any fixed step size 0 < alpha < 2 lambda_min(tilde_W) / L_f, the G-norm Lyapunov sequence ||z^{k+1} - z^*||_G^2 <= ||z^k - z^*||_G^2 - zeta ||z^k - z^{k+1}||_G^2 with zeta = 1 - alpha L_f / (2 lambda_min(tilde_W)) > 0 guarantees O(1/k) ergodic and o(1/k) running-best convergence of both consensus and optimality residuals for general convex smooth objectives (Theorems 5 and 7).
+  evidence:
+  - source_id: r434-primary-pdf
+    locator: Section 2.4 Optimality Conditions (Lemma 3) & Section 3.1 Convergence Analysis (Theorems 5 and 7)
+    relation: supports
+- claim_id: r434-q-linear-convergence-under-restricted-strong-convexity
+  kind: mechanism
+  statement: When the average objective bar_f(x) is restricted strongly convex with respect to x^* (Assumption 3 / Proposition 8, requiring strong convexity only of the mean function bar_f rather than every individual f_i), EXTRA with step size 0 < alpha < 2 mu_g lambda_min(tilde_W) / L_f^2 achieves global Q-linear convergence ||z^{k+1} - z^*||_G^2 <= (1 + delta)^{-1} ||z^k - z^*||_G^2 to the exact consensual optimum (Theorem 9).
+  evidence:
+  - source_id: r434-primary-pdf
+    locator: Section 3.2 Linear Convergence (Assumption 3, Proposition 8, Theorem 9), pp. 956-958
+    relation: supports
+- claim_id: r434-static-symmetric-mixing-matrix-and-exact-gradient-limitation
+  kind: limitation
+  statement: Requires static symmetric mixing matrices W and tilde_W satisfying (I + W)/2 >= tilde_W >= W and tilde_W > 0 over an undirected graph, and its exact convergence guarantees apply to deterministic local gradients.
+  evidence:
+  - source_id: r434-primary-pdf
+    locator: Section 2.3 Assumption 1 & Section 5 Conclusions
+    relation: supports
+- claim_id: r434-decentralized-least-squares-and-huber-logistic-regression-application
+  kind: application
+  statement: Applied to decentralized least-squares estimation, decentralized Huber loss minimization, and l_2-regularized logistic regression over wireless sensor networks.
+  evidence:
+  - source_id: r434-primary-pdf
+    locator: Section 4 Numerical Experiments (Sections 4.1-4.3, Figures 1-4), pp. 960-964
+    relation: supports
+evidence_sources:
+- source_id: r434-primary-pdf
+  title: 'EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization'
+  authors: &id001
+  - Wei Shi
+  - Qing Ling
+  - Gang Wu
+  - Wotao Yin
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1404.6264
+  persistent_id: https://doi.org/10.1137/14096668X
+  version: SIAM Journal on Optimization 25(2):944-966 (2015) (79419 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:37:00Z'
+  sha256: f83679ab732d6e9c49fed2e75efb6546dd9ab7c62c197ff28f6a4f5e05356697
+- source_id: r434-arxiv-abs
+  title: 'EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1404.6264
+  persistent_id: https://arxiv.org/abs/1404.6264
+  version: arXiv abstract page (16400 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:37:00Z'
+  sha256: 2ce8fd75c1921a814f5951fff349d4966323fd232cfe4f2c988253be7fe0050f
+- source_id: r434-metadata-cr
+  title: 'EXTRA: An Exact First-Order Algorithm for Decentralized Consensus Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1137/14096668X
+  persistent_id: https://doi.org/10.1137/14096668X
+  version: Crossref API work record (355 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:37:00Z'
+  sha256: 88e4be1c29e22733dbb62679fc614dfd63b56cea0a2a22a67bdbaa63f4a21c55
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: EXTRA is a foundational exact first-order decentralized consensus optimization algorithm that eliminates fixed-stepsize DGD bias via two mixing matrices.
+- target: AIO:LogisticRegression
+  relation: related_match
+  rationale: EXTRA is evaluated on decentralized l2-regularized logistic regression.
+limitations:
+- Requires symmetric mixing matrices W and tilde_W over a static undirected network.
+- Step-size stability bound depends on the minimum eigenvalue lambda_min(tilde_W) and global smoothness constant L_f.
+curation:
+  created_at: '2026-10-19T08:37:00Z'
+  updated_at: '2026-10-19T08:37:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

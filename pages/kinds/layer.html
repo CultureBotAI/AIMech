@@ -35,7 +35,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Layers &amp; Modules</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">18 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">20 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined neural network components that transform representations between stages.</p>
 </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="facet-actions">
         <div class="filter-count">
-          Showing <span id="matchCount">18</span> of <span id="totalCount">18</span>
+          Showing <span id="matchCount">20</span> of <span id="totalCount">20</span>
         </div>
         <button type="button" id="resetFilters" class="btn">Clear</button>
       </div>
@@ -71,39 +71,43 @@
       <div class="facet-list">
         <a class="facet-link " href="../kinds/algorithm.html">
           <span>Algorithms</span>
-          <small>567</small>
+          <small>1047</small>
+        </a>
+        <a class="facet-link " href="../kinds/mathematical_method.html">
+          <span>Mathematical Methods</span>
+          <small>175</small>
+        </a>
+        <a class="facet-link " href="../kinds/architecture.html">
+          <span>Architectures</span>
+          <small>121</small>
         </a>
         <a class="facet-link " href="../kinds/model_family.html">
           <span>Model Families</span>
           <small>91</small>
         </a>
-        <a class="facet-link " href="../kinds/architecture.html">
-          <span>Architectures</span>
-          <small>71</small>
-        </a>
-        <a class="facet-link " href="../kinds/mathematical_method.html">
-          <span>Mathematical Methods</span>
-          <small>52</small>
-        </a>
         <a class="facet-link active" href="../kinds/layer.html">
           <span>Layers &amp; Modules</span>
-          <small>18</small>
+          <small>20</small>
+        </a>
+        <a class="facet-link " href="../kinds/learning_paradigm.html">
+          <span>Learning Paradigms</span>
+          <small>13</small>
+        </a>
+        <a class="facet-link " href="../kinds/preprocessing_method.html">
+          <span>Preprocessing Methods</span>
+          <small>7</small>
+        </a>
+        <a class="facet-link " href="../kinds/evaluation_method.html">
+          <span>Evaluation Methods</span>
+          <small>5</small>
         </a>
         <a class="facet-link " href="../kinds/evaluation_criterion.html">
           <span>Evaluation Criteria</span>
           <small>5</small>
         </a>
-        <a class="facet-link " href="../kinds/learning_paradigm.html">
-          <span>Learning Paradigms</span>
-          <small>4</small>
-        </a>
-        <a class="facet-link " href="../kinds/preprocessing_method.html">
-          <span>Preprocessing Methods</span>
-          <small>4</small>
-        </a>
-        <a class="facet-link " href="../kinds/evaluation_method.html">
-          <span>Evaluation Methods</span>
-          <small>3</small>
+        <a class="facet-link " href="../kinds/bias.html">
+          <span>Biases</span>
+          <small>1</small>
         </a>
         <a class="facet-link " href="../kinds/coordination_mechanism.html">
           <span>Coordination Mechanisms</span>
@@ -483,6 +487,36 @@
       <tr data-origin="curated"
           data-kind="layer"
           data-branch=""
+          data-name="lightweight and dynamic convolutions (lightconv and dynamicconv)"
+          data-id="aimech:paylessattentionwithlightweightanddynamicconvolutions"
+          data-claims="4"
+          data-sources="3"
+          data-search="lightweight and dynamic convolutions (lightconv and dynamicconv) paylessattentionwithlightweightanddynamicconvolutions aimech:paylessattentionwithlightweightanddynamicconvolutions layers &amp; modules layer lightweight convolution (lightconv) and dynamic convolution (dynamicconv) are linear-time o(n k d) sequence modeling primitives that replace quadratic o(n^2 d) content-based self-attention: lightconv applies a depthwise separable 1d convolution (preceded by a d -&gt; 2d linear projection and gated linear unit) whose kernel weights w in r^{h x k} are tied across every group of d/h contiguous channels, normalized across the temporal dimension k via softmax(w)_{h,j} = exp(w_{h,j}) / sum_{j&#39;=1}^k exp(w_{h,j&#39;}), and regularized with dropconnect; dynamicconv extends lightconv by predicting time-step-dependent convolution kernels f(x_i) = w^q x_i in r^{h x k} as a learned linear function of the current time-step input x_i alone. distinct from standard 1d or depthwise separable convolutions (kaiser et al., 2018), which neither tie weights across d/h channel groups nor apply temporal softmax normalization or per-timestep kernel prediction, and distinct from lite transformer (aimech:litetransformerwithlongshortrangeattention), which combines a self-attention global branch and a convolution local branch in parallel rather than replacing self-attention across all encoder and decoder layers. lightconv and dynamicconv pay less attention with lightweight and dynamic convolutions softmax-normalized lightweight and dynamic sequence convolutions lightconv ties depthwise convolution parameters across every group of d/h contiguous channels—reducing kernel parameters from d^2 * k (standard convolution) and d * k (depthwise convolution) to h * k (e.g., from 7,340,032 to 112 parameters for d = 1024, k = 7, h = 16)—and normalizes weights across the temporal window k via softmax(w)_{h,j} = exp(w_{h,j}) / sum_{j&#39;=1}^k exp(w_{h,j&#39;}) so that lightconv(x, w_{ceil(ch/d),:}, i, c) = depthwiseconv(x, softmax(w_{ceil(ch/d),:}), i, c). dynamicconv predicts a separate h x k convolution kernel at each time step i solely from the current token representation x_i via a learned linear module f(x_i)_{h,j} = sum_{c=1}^d w^q_{h,j,c} x_{i,c} and computes dynamicconv(x, i, c) = lightconv(x, f(x_i)_{h,:}, i, c), achieving position-varying context weights with o(n) complexity in sequence length n. without using self-attention in either encoder or decoder, dynamicconv achieves 29.7 bleu on wmt&#39;14 en-de (+0.4 bleu over transformer-big), 43.2 bleu on wmt&#39;14 en-fr, +0.8 bleu on iwslt&#39;14 de-en, 20% faster inference throughput than self-attention, 26.67 test perplexity on billion word language modeling, and higher rouge on cnn-dailymail summarization. removing temporal softmax normalization (or replacing it with unnormalized, l1-normalized, squared, or abs weights) causes dynamicconv training to diverge (table 3 and appendix a table 6), and each layer&#39;s receptive field is bounded by its fixed kernel width k rather than attending globally in a single hop. pay less attention with lightweight and dynamic convolutions pay less attention with lightweight and dynamic convolutions (arxiv abstract) pay less attention with lightweight and dynamic convolutions (crossref metadata) felix wu angela fan alexei baevski yann n. dauphin michael auli felix wu angela fan alexei baevski yann n. dauphin michael auli felix wu angela fan alexei baevski yann n. dauphin michael auli">
+        <td>
+          <a href="../curated/PayLessAttentionWithLightweightAndDynamicConvolutions.html" style="font-weight: 600; font-size: 1rem;">Lightweight and Dynamic Convolutions (LightConv and DynamicConv)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LightConv and DynamicConv, Pay Less Attention with Lightweight and Dynamic Convolutions…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            Lightweight Convolution (LightConv) and Dynamic Convolution (DynamicConv) are linear-time O(n k d) sequence modeling primitives that replace…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/layer.html" style="font-size: 0.85rem;">Layers &amp; Modules</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PayLessAttentionWithLightweightAndDynamicConvolutions</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="layer"
+          data-branch=""
           data-name="linear state-space layer"
           data-id="aimech:linearstatespacelayer"
           data-claims="1"
@@ -538,6 +572,36 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="layer"
+          data-branch=""
+          data-name="projected attention layers"
+          data-id="aimech:palsprojectedattentionlayers"
+          data-claims="4"
+          data-sources="3"
+          data-search="projected attention layers palsprojectedattentionlayers aimech:palsprojectedattentionlayers layers &amp; modules layer a task-specific parallel multi-head attention adaptation layer for multi-task transformer models that transforms each layer&#39;s hidden states via h^{l+1} = ln(h^l + sa(h^l) + ts(h^l)) with ts(h^l) = v^d g^l(v^e h^l), where task-specific encoder v^e in r^{d_s x d_m} and decoder v^d in r^{d_m x d_s} (d_s &lt; d_m) are shared across all transformer layers for a given task while g^l(.) applies layer-specific low-dimensional multi-head self-attention in r^{d_s} (omitting the final output matrix w^o), trained jointly with annealed task-sampling exponent alpha(e) = 1 - 0.8 (e-1)/(e-1). introduced by asa cooper stickland and iain murray (icml 2019, pmlr 97:5986-5995, arxiv:1902.02671) as projected attention layers (pals). distinct from houlsby bottleneck adapters and adapterfusion (aimech:adapterfusion), which insert serial feed-forward down/up-projection modules within each layer; from adaptformer (aimech:adaptformer), which places parallel bottleneck mlp branches alongside ffn sublayers in vision transformers; and from hyperformer (aimech:hyperformersharedhypernetworkadapter), which generates serial adapter weights via a shared task-conditioned hypernetwork. pals bert and pals projected attention layer parallel projected multi-head attention adapter pals augment each l-layer bert block in parallel as h^{l+1} = ln(h^l + sa(h^l) + v^d g^l(v^e h^l)), sharing task-specific encoder v^e in r^{d_s x d_m} and decoder v^d in r^{d_m x d_s} across all 12 layers while omitting the multi-head output matrix w^o inside g^l, so that each task requires 2 d_m d_s + 12 x 3 d_s^2 parameters (1.81m parameters per task at d_m=768, d_s=204 vs. d_s=84 when v^e and v^d are not shared across layers). to balance large and small datasets during multi-task training without late-stage task interference, pals sample a batch from task i with probability p_i propto n_i^alpha where the exponent alpha(e) = 1 - 0.8 (e - 1)/(e - 1) anneals linearly from 1.0 (dataset-proportional sampling) at epoch 1 to 0.2 at final epoch e. on eight glue benchmark tasks with bert-base, pals (d_s=204) require only 1.13x total parameters (~7x fewer parameters than eight separately fine-tuned bert-base models) while achieving a higher mean glue test score (80.4 vs. 79.6) and improving rte test accuracy from 66.4% to 76.0%. because pals insert task-specific branches at every layer of bert-base and jointly fine-tune the shared backbone across all tasks simultaneously, they require simultaneous access to all tasks at training time and cannot share forward-pass layer activations across tasks on the same input text unless pals are restricted to the top layers. bert and pals: projected attention layers for efficient adaptation in multi-task learning bert and pals: projected attention layers for efficient adaptation in multi-task learning (arxiv abstract) bert and pals: projected attention layers for efficient adaptation in multi-task learning (crossref metadata) asa cooper stickland iain murray asa cooper stickland iain murray asa cooper stickland iain murray">
+        <td>
+          <a href="../curated/PALsProjectedAttentionLayers.html" style="font-weight: 600; font-size: 1rem;">Projected Attention Layers</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> PALs, BERT and PALs…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A task-specific parallel multi-head attention adaptation layer for multi-task Transformer models that transforms each layer&#39;s hidden states…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/layer.html" style="font-size: 0.85rem;">Layers &amp; Modules</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PALsProjectedAttentionLayers</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
@@ -664,7 +728,7 @@
 <script src="../record-browser.js"></script>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-16 (<code>5033b9689595</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

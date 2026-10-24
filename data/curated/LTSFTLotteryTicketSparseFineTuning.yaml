@@ -1,0 +1,108 @@
+id: AIMech:LTSFTLotteryTicketSparseFineTuning
+name: Lottery Ticket Sparse Fine-Tuning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A modular two-phase sparse fine-tuning algorithm for pretrained language models inspired by the Lottery Ticket Hypothesis that first performs full fine-tuning from pretrained parameters theta^(0) on task or language data to obtain theta^(1) and selects a binary mask mu over the K parameters with greatest absolute deviation |theta_i^(1) - theta_i^(0)|, then resets the model to its original pretrained initialization theta^(0) (without zeroing unselected weights) and re-trains only the masked parameters via masked gradients mu odot nabla_theta L to produce a sparse difference vector phi = theta^(2) - theta^(0) that can be composed additively across languages and tasks as F(.; theta^(0) + phi_T + phi_L) without modifying model architecture or increasing inference cost.
+identity_notes: Introduced by Alan Ansell, Edoardo Maria Ponti, Anna Korhonen, and Ivan Vulic (ACL 2022, pp. 1778-1796, arXiv:2110.07560) as Lottery Ticket Sparse Fine-Tuning (LT-SFT). Distinct from DiffPruning (AIMech:DiffPruning), which learns continuous L0-relaxed binary masks end-to-end in a single training phase; from FISH Mask (AIMech:FISHMask), which selects sparse masks before training using empirical Fisher information without Phase-1 magnitude-change selection and rewinding; and from MAD-X / AdapterFusion (AIMech:AdapterFusion), which insert serial bottleneck adapter layers that increase inference latency.
+aliases:
+- LT-SFT
+- Composable Lottery-Ticket Sparse Fine-Tuning
+- Composable Sparse Fine-Tuning for Cross-Lingual Transfer
+definition_evidence:
+- source_id: r710-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r710-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r710-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: ltsft-two-phase-rewinding-and-sparse-difference-vector
+  kind: mechanism
+  statement: In Phase 1, LT-SFT fully fine-tunes pretrained parameters theta^(0) on dataset D (optionally with L1 regularization J(theta) = (lambda/N) sum_i |theta_i - theta_i^(0)|) to obtain theta^(1) and sets a binary mask mu_i = 1 for the top-K parameters ranked by |theta_i^(1) - theta_i^(0)|; in Phase 2, it resets parameters to theta^(0) without zeroing frozen weights and applies masked gradient updates mu odot nabla_theta L(F(.; theta), D) to obtain theta^(2) and sparse difference vector phi = theta^(2) - theta^(0).
+  evidence:
+  - source_id: r710-primary-pdf
+    locator: Section 3.1 & Algorithm 1, pp. 3-4, 15
+    relation: supports
+- claim_id: ltsft-zero-shot-cross-lingual-functional-composition
+  kind: mechanism
+  statement: For zero-shot cross-lingual transfer from source language s to target language l on task t, LT-SFT learns language SFTs phi_L^(s) and phi_L^(l) via masked language modeling on theta^(0), learns task SFT phi_T^(t) = theta' - (theta^(0) + phi_L^(s)) by running LT-SFT atop source-adapted parameters theta^(0) + phi_L^(s) and subtracting phi_L^(s), and composes them at inference as F_{t,l} = F(.; theta^(0) + phi_T^(t) + phi_L^(l)) with zero additional parameters or latency.
+  evidence:
+  - source_id: r710-primary-pdf
+    locator: Section 3.1-3.2 & Algorithm 1, pp. 4, 15
+    relation: supports
+- claim_id: ltsft-multilingual-pos-dp-ner-nli-and-xquad-transfer
+  kind: application
+  statement: Evaluated across 35 typologically diverse languages on Universal Dependencies POS tagging and dependency parsing, MasakhaNER, and AmericasNLI, LT-SFT outperforms MAD-X across all four tasks (+2.5 POS accuracy, +2.5/+3.7 DP UAS/LAS, +1.8 NER F1, and +1.9 NLI accuracy), and with multi-source training on XLM-R Base surpasses full fine-tuning of XLM-R Large on XQuAD.
+  evidence:
+  - source_id: r710-primary-pdf
+    locator: Section 5, Tables 2-4, pp. 6-8
+    relation: supports
+  - source_id: r710-metadata-cr
+    locator: ACL 2022 bibliographic record
+    relation: supports
+- claim_id: ltsft-two-phase-training-and-density-interference-limitation
+  kind: limitation
+  statement: LT-SFT requires two sequential training phases (a full fine-tuning pass followed by a sparse fine-tuning pass), decoupling input and output embeddings while freezing output embeddings and layer normalization during language adaptation, and degrades markedly when mask density exceeds approximately 30% due to parameter overlap and interference.
+  evidence:
+  - source_id: r710-primary-pdf
+    locator: Section 4.2 & Section 5.2, Figure 3, pp. 5, 8-9
+    relation: supports
+evidence_sources:
+- source_id: r710-primary-pdf
+  title: Composable Sparse Fine-Tuning for Cross-Lingual Transfer
+  authors: &id001
+  - Alan Ansell
+  - Edoardo Maria Ponti
+  - Anna Korhonen
+  - Ivan Vulic
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.07560.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Composable+Sparse+Fine-Tuning+for+Cross-Lingual+Transfer&h=5&format=xml
+  version: 'Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pp. 1778-1796 (2022) (2778404 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:13:00Z'
+  sha256: e3bcda384cf1086397459274278581c57109edc45ed2c332658c0e497d98d26b
+- source_id: r710-arxiv-abs
+  title: Composable Sparse Fine-Tuning for Cross-Lingual Transfer (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.07560
+  persistent_id: https://arxiv.org/abs/2110.07560
+  version: arXiv abstract page (7228 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:13:00Z'
+  sha256: 21d33b154193e77bf816753ee3fa81ebf067ba57469fd08dcf445b36c6feed72
+- source_id: r710-metadata-cr
+  title: Composable Sparse Fine-Tuning for Cross-Lingual Transfer (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Composable+Sparse+Fine-Tuning+for+Cross-Lingual+Transfer&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Composable+Sparse+Fine-Tuning+for+Cross-Lingual+Transfer&h=5&format=xml
+  version: Crossref API work record (885 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:13:00Z'
+  sha256: b73031bc723ed5086a550a0ec21e2c3ccc5a88c095e6914622fe0ffbec5357fa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: narrow_match
+  rationale: LT-SFT is a sparse parameter-adaptation algorithm that learns and composes sparse difference vectors over a fixed pretrained model.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LT-SFT adapts pretrained Transformer neural networks across languages and downstream tasks without altering their neural architecture.
+limitations:
+- Requires two training phases (Phase 1 full fine-tuning to identify the top-K mask mu followed by Phase 2 masked re-training from theta^(0)), increasing training compute compared to single-phase fine-tuning.
+- During language MLM adaptation, input and output embedding matrices must be decoupled with the output matrix and layer-normalization parameters held fixed, or else most top-K changes concentrate in the output embeddings and harm downstream transfer.
+- Cross-lingual composition performance degrades significantly when SFT mask density exceeds ~30% due to parameter overlap and interference between language and task difference vectors.
+curation:
+  created_at: '2026-10-19T13:13:00Z'
+  updated_at: '2026-10-19T13:13:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

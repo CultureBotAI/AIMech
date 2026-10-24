@@ -1,0 +1,107 @@
+id: AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam
+name: FedOpt Adaptive Server Optimization (FedAdagrad, FedYogi, and FedAdam)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A general client-server federated optimization framework (FedOpt) and its adaptive server-side instantiations (FedAdagrad, FedYogi, and FedAdam) in which sampled clients i in S_t execute K steps of a stateless local optimizer ClientOpt (such as SGD with client learning rate eta_l) to compute model deltas Delta_i^t = x_{i,K}^t - x_t, and the server treats the negative average update -Delta_t = -(1/|S_t|) sum_{i in S_t} Delta_i^t as a pseudo-gradient fed into an adaptive per-coordinate server optimizer ServerOpt with server learning rate eta and adaptivity parameter tau > 0: updating momentum m_t = beta_1 m_{t-1} + (1 - beta_1) Delta_t, second-moment preconditioner v_t = v_{t-1} + Delta_t^2 (FedAdagrad), v_t = v_{t-1} - (1 - beta_2) Delta_t^2 sign(v_{t-1} - Delta_t^2) (FedYogi), or v_t = beta_2 v_{t-1} + (1 - beta_2) Delta_t^2 (FedAdam), and global iterate x_{t+1} = x_t + eta * m_t / (sqrt(v_t) + tau).'
+identity_notes: Distinct from standard Federated Averaging (AIMech:FederatedAveragingClientServerOptimization, which corresponds to the special case where ServerOpt is SGD with unit learning rate eta = 1 and no server-side momentum or second-moment preconditioning) and from Centralized Yogi/Adam/Adagrad (which maintain optimizer state at every stochastic step rather than decoupling stateless local ClientOpt trajectories from stateful server-level pseudo-gradient preconditioning).
+aliases:
+- FedOpt
+- FedAdagrad
+- FedYogi
+- FedAdam
+- Adaptive Federated Optimization
+definition_evidence:
+- source_id: r393-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r393-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r393-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r393-client-server-decoupling-and-zero-client-state-overhead
+  kind: mechanism
+  statement: By confining first- and second-moment accumulators (m_t, v_t in R^d) exclusively to the central server in Algorithm 2 while running stateless local SGD on sampled clients, FedAdagrad, FedYogi, and FedAdam incur zero extra client-to-server communication bandwidth and avoid stale client-side preconditioner states in cross-device settings where clients participate rarely.
+  evidence:
+  - source_id: r393-primary-pdf
+    locator: Section 2 General Framework & Section 3 Adaptive Federated Optimization (Algorithm 2), pp. 3-5
+    relation: supports
+- claim_id: r393-nonconvex-convergence-rate-and-local-step-condition
+  kind: mechanism
+  statement: Under L-smoothness, G-bounded gradients, local variance sigma_l^2, and inter-client gradient dissimilarity sigma_g^2 with effective variance sigma^2 = sigma_l^2 + 6 K sigma_g^2, Theorems 1-2 and Corollaries 1-2 prove that choosing client learning rate eta_l = Theta(1 / (K L sqrt(T))), server learning rate eta = Theta(sqrt(K m)), and tau = G / L achieves min_{0 <= t < T} E||nabla f(x_t)||^2 = O(1 / sqrt(m K T)) linear speedup in sampled clients m and local steps K whenever K = O(T sigma_l^2 / sigma_g^2).
+  evidence:
+  - source_id: r393-primary-pdf
+    locator: Section 3.1 Convergence Analysis (Assumptions 1-3, Theorems 1-2, Corollaries 1-2), pp. 5-7
+    relation: supports
+- claim_id: r393-client-drift-inverse-local-learning-rate-limitation
+  kind: limitation
+  statement: Because local client updates drift under non-i.i.d. data (sigma_g^2 > 0), Theorem 3 shows that even on simple 1D quadratic client objectives, fixed client learning rates converge to a biased point whose offset scales with K * eta_l, requiring eta_l to scale inversely with K * sqrt(T) and joint tuning with the server adaptivity parameter tau.
+  evidence:
+  - source_id: r393-primary-pdf
+    locator: Section 3.1 Theorem 2, Corollary 2, and Appendix B.1 Theorem 3, pp. 6-7, 15
+    relation: supports
+- claim_id: r393-cross-device-benchmark-suite-application
+  kind: application
+  statement: "Evaluated across five realistic cross-device federated benchmarks\u2014CIFAR-10, CIFAR-100, EMNIST-62, Shakespeare next-character RNN, and StackOverflow tag-prediction logistic regression and next-word NWP RNN\u2014demonstrating that FedYogi and FedAdam significantly outperform FedAvg on heavy-tailed text vocabulary tasks and show wider learning-rate stability plateaus."
+  evidence:
+  - source_id: r393-primary-pdf
+    locator: Section 4 Experiments and Section 5 Results (Figures 1-3, Table 2), pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r393-primary-pdf
+  title: Adaptive Federated Optimization
+  authors: &id001
+  - Sashank J. Reddi
+  - Zachary Charles
+  - Manzil Zaheer
+  - Zachary Garrett
+  - Keith Rush
+  - Jakub Konecny
+  - Sanjiv Kumar
+  - H. Brendan McMahan
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=LkFG3lB13U5
+  persistent_id: https://doi.org/10.48550/arXiv.2003.00295
+  version: International Conference on Learning Representations (ICLR 2021) (2021) (102398 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T07:56:00Z'
+  sha256: e955bf32183d2f62ebfcc395b636f98fbe3b201b5a8eb7de27488700858185ae
+- source_id: r393-arxiv-abs
+  title: Adaptive Federated Optimization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2003.00295
+  persistent_id: https://arxiv.org/abs/2003.00295
+  version: arXiv abstract page (7448 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:56:00Z'
+  sha256: 3907f0649b5f4e3f63b44b29f488e2bd1547e80ab6339b0fcd55c010554088f7
+- source_id: r393-metadata-cr
+  title: Adaptive Federated Optimization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.48550/arXiv.2003.00295
+  persistent_id: https://doi.org/10.48550/arXiv.2003.00295
+  version: Crossref API work record (422 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T07:56:00Z'
+  sha256: fee30dfcfca44a79af84df0569faf357ed17d3da98eb681a7b18eb2a318d50d3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: narrow_match
+  rationale: FedOpt (FedAdagrad, FedYogi, FedAdam) is a specific adaptive server-side optimization methodology within FederatedLearning.
+limitations:
+- Requires decaying or O(1 / (K L sqrt(T))) client learning rates to prevent asymptotic client drift under non-i.i.d. heterogeneity.
+- Introduces server learning rate eta and adaptivity parameter tau that must be selected alongside client learning rate eta_l.
+curation:
+  created_at: '2026-10-19T07:56:00Z'
+  updated_at: '2026-10-19T07:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

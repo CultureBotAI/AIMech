@@ -1,0 +1,103 @@
+id: AIMech:FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation
+name: 'FedKD: Communication-Efficient Federated Learning via Knowledge Distillation'
+concept_kind: algorithm
+review_status: DRAFT
+definition: "A communication-efficient federated learning algorithm (FedKD; Wu, Wu, Lyu, Huang, and Xie, Nature Communications 2022) in which each client i maintains a large local private teacher (mentor) model T_i with parameters Theta_i^t and a smaller shared student (mentee) model S with parameters Theta^s that are trained reciprocally on private local data via task-loss-gated adaptive mutual distillation\u2014combining cross-entropy task losses L_{t,i}^t and L_{s,i}^t with soft-label KL losses L_{t,i}^d = KL(y_i^s, y_i^t) / (L_{t,i}^t + L_{s,i}^t), L_{s,i}^d = KL(y_i^t, y_i^s) / (L_{t,i}^t + L_{s,i}^t) and hidden-state/attention alignment loss L_{t,i}^h = L_{s,i}^h = (MSE(H_i^t, W_i^h H^s) + MSE(A_i^t, A^s)) / (L_{t,i}^t + L_{s,i}^t)\u2014while communicating only the student gradients g_i = dL_{s,i} / dTheta^s compressed by dynamic truncated SVD g_i approx U_i Sigma_i V_i under a linearly increasing singular-value energy threshold T(t) = T_start + (T_end - T_start) t."
+identity_notes: Distinct from proxy-dataset federated ensemble distillation methods such as FedMD (AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation; Li & Wang, 2019) and FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning; Lin et al., NeurIPS 2020), which require a shared or unlabeled public dataset to exchange or ensemble logits; FedKD requires no shared dataset and instead exchanges SVD-factorized gradients of a compact local student model that mutually distills with each client's private large teacher model. Distinct from FedGKT (AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning; He et al., 2020), which offloads a large classifier to the server and exchanges intermediate feature maps and logits.
+aliases:
+- FedKD
+- Adaptive Mutual Distillation with Dynamic SVD Gradient Compression Federated Learning
+- Communication-Efficient Federated Learning via Knowledge Distillation
+definition_evidence:
+- source_id: r504-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r504-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r504-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedkd-adaptive-mutual-distillation-and-hidden-alignment-mechanism
+  kind: mechanism
+  statement: On each client i, FedKD trains the local teacher T_i and shared student S simultaneously using unified losses L_{t,i} = L_{t,i}^d + L_{t,i}^h + L_{t,i}^t and L_{s,i} = L_{s,i}^d + L_{s,i}^h + L_{s,i}^t, where both the mutual soft-label KL divergence terms KL(y_i^s, y_i^t), KL(y_i^t, y_i^s) and the hidden-state and self-attention MSE alignment term MSE(H_i^t, W_i^h H^s) + MSE(A_i^t, A^s) are scaled by 1 / (L_{t,i}^t + L_{s,i}^t) so that distillation weight is suppressed when task cross-entropy losses are large and amplified as predictions become accurate.
+  evidence:
+  - source_id: r504-primary-pdf
+    locator: Section 3.2 Federated Knowledge Distillation, Eqs. (1)-(7), p. 4; Appendix A.3 Algorithm 1 lines 25-31, p. 12
+    relation: supports
+- claim_id: fedkd-dynamic-svd-gradient-approximation-and-complexity-scope
+  kind: scope
+  statement: Before uploading or broadcasting student gradients g_i in R^{P x Q} (with P >= Q), FedKD factorizes g_i approx U_i Sigma_i V_i retaining the smallest number K of singular values satisfying (sum_{m=1}^K sigma_m^2) / (sum_{m=1}^Q sigma_m^2) > T(t) with linear energy schedule T(t) = T_start + (T_end - T_start) t for t in [0, 1]; whenever P K + K^2 + K Q < P Q, communication cost scales as O(R |Theta^s| / rho) with compression ratio rho = P Q / (P K + K^2 + K Q) > 1 and |Theta^s| << |Theta^t|, while total client/server computation scales as O(R D |Theta^t| + R D |Theta^s| + R P Q^2).
+  evidence:
+  - source_id: r504-primary-pdf
+    locator: Section 3.3 Dynamic Gradients Approximation, Eqs. (8)-(9), and Section 3.4 Complexity Analysis, p. 5
+    relation: supports
+- claim_id: fedkd-local-teacher-compute-and-energy-threshold-sensitivity-limitation
+  kind: limitation
+  statement: Each client must locally store and backpropagate through both the full-size teacher model T_i and the student model S plus compute per-round SVD factorizations (incurring O(R D |Theta^t| + R D |Theta^s| + R P Q^2) local compute), and setting the starting SVD energy threshold T_start < 0.95 causes a sharp drop in downstream model accuracy due to excessive early gradient truncation (Section 3.4, p. 5; Section 4.5, Fig. 5, p. 8).
+  evidence:
+  - source_id: r504-primary-pdf
+    locator: Section 3.4 Complexity Analysis, p. 5; Section 4.5 Impact of Energy Threshold, Fig. 5, p. 8
+    relation: supports
+- claim_id: fedkd-pretrained-language-model-news-and-biomedical-nlp-application
+  kind: application
+  statement: Applied to federated fine-tuning and distillation of pre-trained Transformer language models (12-layer UniLM local teachers with 2-layer and 4-layer student submodels) for personalized news recommendation (MIND) and adverse drug reaction tweet classification (SMM4H).
+  evidence:
+  - source_id: r504-primary-pdf
+    locator: Section 4 Experiments, Tables 1-3, Figs. 2-7, pp. 5-8
+    relation: supports
+evidence_sources:
+- source_id: r504-primary-pdf
+  title: 'FedKD: Communication Efficient Federated Learning via Knowledge Distillation'
+  authors: &id001
+  - Chuhan Wu
+  - Fangzhao Wu
+  - Lingjuan Lyu
+  - Yongfeng Huang
+  - Xing Xie
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2108.13323.pdf
+  persistent_id: https://doi.org/10.1038/s41467-022-29763-x
+  version: Nature Communications 13, 2032 (2022) (2022) (545449 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:47:00Z'
+  sha256: 7dc0558dda597bc95d656d2183f9ed5952ecd82ee0a1cc7533651c1757f26813
+- source_id: r504-arxiv-abs
+  title: 'FedKD: Communication Efficient Federated Learning via Knowledge Distillation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2108.13323
+  persistent_id: https://arxiv.org/abs/2108.13323
+  version: arXiv abstract page (7584 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:47:00Z'
+  sha256: a163eed9cca846f5e1a976fdcd8c1c2cadab7040870d2f08a619ba7189047891
+- source_id: r504-metadata-cr
+  title: 'FedKD: Communication Efficient Federated Learning via Knowledge Distillation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1038/s41467-022-29763-x
+  persistent_id: https://doi.org/10.1038/s41467-022-29763-x
+  version: Crossref API work record (8728 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:47:00Z'
+  sha256: c287d5419aa5967ec8b21bbba67b096e30d33072b089792aa82c5cbde0b12f6f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedKD is a communication-efficient federated learning algorithm combining mutual knowledge distillation with dynamic SVD gradient compression.
+limitations:
+- Requires each client device to have sufficient memory and compute to train the large local teacher model T_i alongside the shared student model S (O(R D |Theta^t| + R D |Theta^s| + R P Q^2) computational complexity, Section 3.4, p. 5).
+- SVD gradient compression only reduces communication when the retained rank K satisfies P K + K^2 + K Q < P Q, and late-stage gradients have flatter singular spectra requiring larger K to meet Tend (Section 3.3, p. 5; Section 4.6, Fig. 7, p. 8).
+- Setting the initial energy threshold T_start below 0.95 degrades model accuracy due to overly coarse early gradient approximations (Section 4.5, Fig. 5a, p. 8).
+curation:
+  created_at: '2026-10-19T09:47:00Z'
+  updated_at: '2026-10-19T09:47:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

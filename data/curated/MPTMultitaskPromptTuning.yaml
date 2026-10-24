@@ -1,0 +1,104 @@
+id: AIMech:MPTMultitaskPromptTuning
+name: MPT (Multitask Prompt Tuning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient multitask prompt transfer methodology for frozen pre-trained language models that decomposes each task's soft prompt matrix into the Hadamard product of a single task-shared prompt matrix P^* and a rank-one task-specific matrix W_k = u_k (x) v_k^T, learns this decomposition during source training via logit and hidden-state knowledge distillation from independently trained teacher prompts, and adapts P^* to downstream target tasks via two-speed low-rank multiplicative updates.
+identity_notes: Introduced by Zhen Wang, Rameswar Panda, Leonid Karlinsky, Rogerio Feris, Huan Sun, and Yoon Kim (ICLR 2023, arXiv:2303.02861). Distinct from SPoT (Vu et al., ACL 2022; AIMech Round 698), which trains a single unfactorized prompt on a source mixture or retrieves top-k source prompts by cosine similarity without multiplicative rank-one prompt decomposition or knowledge distillation from per-task teacher prompts. Both single-target adaptation (MPT, tuning (l x d) + (l + d) parameters per task) and multitask target group adaptation (MPT*, sharing P^* across tau target tasks for (l x d)/tau + (l + d) parameters per task) are covered within this record.
+aliases:
+- Multitask Prompt Tuning
+- MPT Prompt Decomposition and Distillation
+- MPT* Multitask Target Prompt Tuning
+definition_evidence:
+- source_id: r702-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r702-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r702-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: mpt-hadamard-rank-one-prompt-decomposition-mechanism
+  kind: mechanism
+  statement: 'MPT decomposes the soft prompt P_hat_k in R^{l x d} for task k into the Hadamard product of a slow task-shared prompt matrix P^* in R^{l x d} and a fast rank-one task-specific matrix W_k = u_k (x) v_k^T formed by outer product of vectors u_k in R^l and v_k in R^d: P_hat_k = P^* o (u_k (x) v_k^T) (Eq. 2), requiring only (l x d) + (l + d) = 77.6K tunable parameters per single target task (0.035% of T5-Base''s 220M parameters, collapsible into an l x d matrix after training) and (l x d)/tau + (l + d) = 10.5K parameters per task for multitask target adaptation across tau = 8 GLUE tasks.'
+  evidence:
+  - source_id: r702-primary-pdf
+    locator: Section 3.1 Prompt decomposition, Eq. 2 & Figure 3, p. 4; Section 3.2 Parameter-efficiency, p. 5; Section 4.2 Table 1, p. 6
+    relation: supports
+- claim_id: mpt-logit-and-hidden-state-prompt-distillation-mechanism
+  kind: mechanism
+  statement: To prevent the shared component P^* from overfitting to large source datasets during stochastic multitask training, MPT trains student prompts P_hat_k = P^* o (u_k (x) v_k^T) against separately trained per-task teacher prompts P_k^(teacher) by minimizing L_Total = L_PLM + lambda (L_Logits + L_Hidden) (Eq. 5), combining temperature-scaled output probability KL divergence L_Logits (Eq. 3) and encoder/decoder intermediate hidden state mean squared error L_Hidden = sum (H_{k,i} - H_{k,i}^(teacher))^2 (Eq. 4).
+  evidence:
+  - source_id: r702-primary-pdf
+    locator: Section 3.1 Prompt distillation, Eqs. 3-5, p. 4; Section 3.2 Source Training and Target Adaptation, p. 5; Section 4.3 Ablation Studies, Table 6, pp. 8-9
+    relation: supports
+- claim_id: mpt-nlu-and-nlg-benchmarks-application
+  kind: application
+  statement: Evaluated on 23 NLP datasets across GLUE (85.6 average with 77.6K params and 85.8 for MPT* with 10.5K params on T5-Base, outperforming 220M full finetuning at 84.9), SuperGLUE (74.1 single-task and 76.1 multitask, +16.3% over vanilla Prompt Tuning), MRQA, Others (WinoGrande, Yelp-2, SciTail, PAWS), 4/16/32-shot adaptation, and NLU-to-NLG transfer on E2E and WebNLG.
+  evidence:
+  - source_id: r702-primary-pdf
+    locator: Section 4.1-4.2, Tables 1-5 & Figure 4, pp. 5-8
+    relation: supports
+- claim_id: mpt-mrqa-gap-and-long-prompt-overfitting-limitation
+  kind: limitation
+  statement: 'MPT requires a two-step source pretraining pipeline (training separate teacher prompts for every source task before joint multitask distillation), still trails full model finetuning and 1.9M-parameter Adapters on extractive reading comprehension (MRQA: 72.2 vs. 74.7), and suffers a 1.8% SuperGLUE accuracy drop when prompt length l is increased from 300 to 400 due to overfitting.'
+  evidence:
+  - source_id: r702-primary-pdf
+    locator: Section 3.2 Source Training and Target Adaptation, p. 5; Section 4.2 Results and Analysis, Table 2, pp. 6-7; Section 4.3 Prompt length, Figure 5, p. 9
+    relation: supports
+evidence_sources:
+- source_id: r702-primary-pdf
+  title: Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning
+  authors: &id001
+  - Zhen Wang
+  - Rameswar Panda
+  - Leonid Karlinsky
+  - Rogerio Feris
+  - Huan Sun
+  - Yoon Kim
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2303.02861.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Multitask+Prompt+Tuning+Enables+Parameter-Efficient+Transfer+Learning&format=xml
+  version: International Conference on Learning Representations (ICLR 2023) (2023) (1377257 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:05:00Z'
+  sha256: a7e832564edd21ba5f0c5870224122ba1e0d1e6d963895c4111cd61580c4655b
+- source_id: r702-arxiv-abs
+  title: Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2303.02861
+  persistent_id: https://arxiv.org/abs/2303.02861
+  version: arXiv abstract page (6093 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:05:00Z'
+  sha256: 9198d0496877ad68cedee9e462bb8a3d0353c3dbb38bd73646c33f4edda4cc24
+- source_id: r702-metadata-cr
+  title: Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Multitask+Prompt+Tuning+Enables+Parameter-Efficient+Transfer+Learning&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Multitask+Prompt+Tuning+Enables+Parameter-Efficient+Transfer+Learning&format=xml
+  version: Crossref API work record (940 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:05:00Z'
+  sha256: 9c040a78ddb5b6cfad8d78d615ee0f10495b7580ad4c38da8bfaf7b7aa0fc75b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: MPT adapts frozen pre-trained Transformer language models across multiple tasks by decomposing and distilling continuous soft prompt matrices.
+limitations:
+- Source training requires first training individual teacher soft prompts on every source dataset before running joint multitask knowledge distillation.
+- On complex question answering benchmarks (MRQA), a noticeable accuracy gap remains between 77.6K-parameter MPT (72.2 F1) and 220M-parameter full finetuning (74.7 F1).
+- Increasing the prompt length l beyond 300 tokens (e.g., to l = 400) degrades downstream SuperGLUE accuracy by 1.8% due to overfitting, and freezing either P^* or (u_t, v_t) during target adaptation substantially degrades accuracy (to 71.3% or 62.5%).
+curation:
+  created_at: '2026-10-19T13:05:00Z'
+  updated_at: '2026-10-19T13:05:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

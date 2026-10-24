@@ -1,0 +1,93 @@
+id: AIMech:AdEMAMixAdaptiveEMAMixtureOptimization
+name: AdEMAMix (Adaptive EMA Mixture Optimizer)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An AdamW-based adaptive optimization algorithm (Algorithm 1) that replaces the single first-moment exponential moving average with a linear combination of a bias-corrected fast-changing EMA m_hat_1^(t) = m_1^(t) / (1 - beta_1^t) (typically beta_1 = 0.9, half-life t_half approx 6 steps) and an uncorrected slow-changing EMA m_2^(t) = beta_3^(t) m_2^(t-1) + (1 - beta_3^(t)) g^(t) (typically beta_3 = 0.9999, half-life t_half approx 6930 steps), updating parameters via theta^(t) = theta^(t-1) - eta^(t) [(m_hat_1^(t) + alpha^(t) m_2^(t)) / (sqrt(nu_hat^(t)) + epsilon) + lambda theta^(t-1)] with warmup schedulers f_alpha and f_{beta_3} that increase alpha^(t) and the EMA half-life t_half(beta_3^(t)) = ln(0.5)/ln(beta_3^(t)) - 1 linearly over T_{alpha,beta_3} steps.
+identity_notes: Distinct from standard AdamW in that a single EMA cannot simultaneously assign high weight to recent gradients and non-negligible weight to gradients thousands of steps old; AdEMAMix maintains two separate first-moment buffers m_1 and m_2 (or sets beta_1 = 0 so m_hat_1^(t) = g^(t) without extra memory) and schedules beta_3^(t) = exp(ln(beta_start) ln(beta_3) / ((1 - t/T) ln(beta_3) + (t/T) ln(beta_start))). Distinct from nested-EMA methods (DEMA, AdMeta) which attenuate rather than preserve very old gradients.
+aliases:
+- AdEMAMix Optimizer
+- Adaptive Exponential Moving Average Mixture Optimizer
+- Dual-EMA AdamW (AdEMAMix)
+definition_evidence:
+- source_id: r597-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r597-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r597-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r597-fast-slow-ema-mixture-and-linear-halflife-scheduler
+  kind: mechanism
+  statement: Because an EMA with parameter beta has cumulative half-weight horizon t_half(beta) = ln(0.5)/ln(beta) - 1 (approx 6 steps for beta = 0.9 vs 6930 steps for beta = 0.9999), AdEMAMix combines a fast EMA m_hat_1^(t) with a slow EMA alpha^(t) m_2^(t) and schedules beta_3^(t) = f^{-1}((1 - mu) f(beta_start) + mu f(beta_3)) (Eq. f_{beta_3}, Appendix A.1) so that t_half increases linearly with mu = t / T_{beta_3}, preventing early training divergence while damped orthogonal updates accelerate progress along narrow nonconvex valleys (Figures 2, 13-14, 18, 27).
+  evidence:
+  - source_id: r597-primary-pdf
+    locator: Figure 2, p. 3; Section 3, Equations (AdEMAMix), (f_alpha), (f_{beta_3}) & Algorithm 1, pp. 4-6; Appendix A.1, p. 18; Appendix C.1.4-C.1.9, pp. 29-37
+    relation: supports
+- claim_id: c-r597-llm-token-efficiency-and-reduced-batch-forgetting
+  kind: application
+  statement: "On RedPajama Transformer language models (110M, 330M, 1.3B parameters), Mamba (168M on FineWeb), and ImageNet-21k ViTs (24M, 86M), AdEMAMix consistently outperforms tuned AdamW \u2014 matching a 1.3B AdamW model trained on 197B tokens using only 101B tokens (a 49% token reduction) \u2014 and exhibits significantly slower forgetting of held-out injected training batches over tens of thousands of steps (Figures 1, 3-4, 6, 9-10)."
+  evidence:
+  - source_id: r597-primary-pdf
+    locator: Figure 1, p. 2; Figures 3-6 & Section 4.1-4.3, pp. 5-10; Appendix C.1.1-C.1.2, Table 7 & Figures 8-10, pp. 25-27
+    relation: supports
+- claim_id: c-r597-memory-overhead-short-horizon-and-distribution-shift-limitations
+  kind: limitation
+  statement: When beta_1 != 0, AdEMAMix allocates a third parameter-sized optimizer buffer m_2 (33% more optimizer state memory than AdamW unless beta_1 = 0 is used at the cost of noisier loss spikes), and retaining very old gradients is less effective in short-horizon or high-epoch overfitting regimes (such as 320-epoch ImageNet-1k ViT) or under sudden distribution shifts.
+  evidence:
+  - source_id: r597-primary-pdf
+    locator: Section 3, Computational overheads & Limitations, pp. 6-7; Section 4.3, Figure 6c, p. 10; Appendix C.1.5 & C.1.7, pp. 31, 34
+    relation: supports
+evidence_sources:
+- source_id: r597-primary-pdf
+  title: 'The AdEMAMix Optimizer: Better, Faster, Older'
+  authors: &id001
+  - Matteo Pagliardini
+  - Pierre Ablin
+  - David Grangier
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2409.03137.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/PagliardiniAG25
+  version: 13th International Conference on Learning Representations (ICLR 2025) (2025) (2901267 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:20:00Z'
+  sha256: f3502dffb8758859fc17f2bdaa113852a0c68c2a9a54c0c83fbe5fc572ce184e
+- source_id: r597-arxiv-abs
+  title: 'The AdEMAMix Optimizer: Better, Faster, Older (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2409.03137
+  persistent_id: https://arxiv.org/abs/2409.03137
+  version: arXiv abstract page (6523 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:20:00Z'
+  sha256: 6d191babee12f40a07ab1be50f3b822340c1723a6229b7e839906771f6518256
+- source_id: r597-metadata-cr
+  title: 'The AdEMAMix Optimizer: Better, Faster, Older (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/PagliardiniAG25
+  persistent_id: https://dblp.org/rec/conf/iclr/PagliardiniAG25
+  version: Crossref API work record (1661 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:20:00Z'
+  sha256: f4d5fa655e429d10a4b5b726773c7ffb8b0fcb50c458f6e2cdd0c0b9bf90bd1b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: AdEMAMix is a dual-EMA adaptive optimizer designed for training Transformer, Mamba, and Vision Transformer artificial neural networks.
+limitations:
+- Requires an additional parameter-sized momentum buffer m_2 when beta_1 != 0, increasing optimizer state memory over AdamW unless beta_1 is set to 0.
+- Retaining gradient information over thousands of steps can hinder rapid adaptation under sudden distribution shifts or provide limited benefit in short-iteration, multi-epoch overfitting regimes.
+curation:
+  created_at: '2026-10-19T11:20:00Z'
+  updated_at: '2026-10-19T11:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

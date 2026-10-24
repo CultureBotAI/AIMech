@@ -1,0 +1,229 @@
+id: AIMech:OLSPostLassoAndFitnessThresholdedPostModelSelectionEstimation
+name: OLS post-Lasso and fitness-thresholded post-model selection estimation
+aliases:
+- Gauss-Lasso and OLS Post-Fit Lasso High-Dimensional Sparse Regression
+- OLS Post-Model Selection with Sublinear Restricted Sparse Eigenvalue Sparsity Bounds
+- Data-Driven Fitness-Thresholded Lasso (fit-Lasso) and Post-Selection Least Squares
+concept_kind: mathematical_method
+definition: 'OLS post-Lasso and fitness-thresholded post-model selection estimation are a nonasymptotic
+  two-step high-dimensional nonparametric regression methodology introduced by Belloni and Chernozhukov
+  (2013, Bernoulli 19(2):521-547, arXiv:1001.0188v5, DOI:10.3150/11-BEJ410) that applies ordinary least
+  squares (OLS) to the covariate support T_hat(t) := support(beta_hat(t)) selected by a first-step L1-penalized
+  Lasso estimator beta_hat in argmin_beta {Q_hat(beta) + (lambda/n)||beta||_1} with data-driven noise-gradient
+  quantile penalty lambda = c'' sigma_hat Lambda(1 - alpha | X) (Equation 2.12). Benchmarking against
+  the oracle risk minimization program min_{0<=k<=p^n} (c_k^2 + sigma^2 k / n) with oracle target beta_0,
+  support T (|T| = s), and approximation error c_s^2 = E_n[(f_. - x_.'' beta_0)^2] (Equations 2.2-2.4),
+  Section 3.3 combines empirical presparsity (Lemma 2) with the sublinearity of restricted sparse eigenvalues
+  phi(ceil(ell k)) <= ceil(ell) phi(k) (Lemma 3) to prove the sharp false-positive sparsity bound m_hat
+  := |T_hat \ T| <= s [min_{m in M} phi(m ^ n)] L_n = O_P(s) (Theorem 3). For any generic first-step selector
+  T_hat, Theorem 4 proves via Samorodnitsky-Talagrand empirical process control (Lemmas 4-5) that the
+  post-selection OLS estimator beta_tilde in argmin_{beta_{T_hat^c}=0} Q_hat(beta) satisfies ||f_tilde
+  - f||_{P_n,2} <= K_varepsilon sigma sqrt((m_hat log p + (m_hat + s) log(e mu(m_hat))) / n) + 3 c_s +
+  sqrt((B_n)_+ ^ (C_n)_+) where B_n := Q_hat(beta_hat) - Q_hat(beta_0) and C_n := Q_hat(beta_{0 T_hat})
+  - Q_hat(beta_0), establishing that OLS post-Lasso (t = 0) and OLS post-fit Lasso (with data-driven goodness-of-fit
+  threshold t_gamma := max{t >= 0 : Q_hat(beta_tilde^t) - Q_hat(beta_hat) <= gamma}, gamma <= 0, Equations
+  2.9 and 2.14) achieve the near-oracle rate O_P(sigma sqrt(s log p / n) + c_s) even when model selection
+  misses true components (T not subseteq T_hat) and achieve strictly faster rates than Lasso (down to
+  the exact oracle rate O_P(sigma sqrt(s/n) + c_s)) when T subseteq T_hat and m_hat = o_P(s) (Theorems
+  5-6, Corollaries 2-3).'
+identity_notes: Evaluated against all 442 pinned AIO records and 615 maintained curated concepts in AIMech.
+  Distinct from AIMech:DoubleDebiasedMachineLearningWithNeymanOrthogonalityAndCrossFitting (Chernozhukov
+  et al. 2018) and AIMech:DebiasedLassoWithNodewisePrecisionMatrixRelaxation (van de Geer et al. 2014),
+  which construct Neyman-orthogonal scores or one-step nodewise-precision-debiased estimators for asymptotically
+  normal confidence intervals of low-dimensional target parameters, whereas the present concept analyzes
+  unpenalized second-step OLS refitting on the support T_hat(t) selected by Lasso, thresholded Lasso (t-Lasso),
+  or data-driven fitness-thresholded Lasso (fit-Lasso) for full nonparametric regression function estimation
+  under the min{(B_n)_+, (C_n)_+} empirical-fit trade-off (Theorem 4) and sublinear restricted sparse
+  eigenvalue sparsity bounds (Lemma 3, Theorem 3). Distinct from AIMech:SimultaneousNormalEquationPostSelectionConfidenceRegions
+  (Kuchibhotla et al. 2020) and AIMech:UniformInSubmodelDeterministicLinearRegressionAndFunctionalDependenceBounds
+  (Kuchibhotla et al. 2021), which provide uniform-over-all-submodels deterministic inequalities and post-selection
+  confidence regions rather than two-step Lasso/fit-Lasso selection and OLS refitting.
+definition_evidence:
+- source_id: belloni2013-post-lasso-pdf
+  locator: Sections 1-5, Pages 1-20, Theorems 1-7, Corollaries 1-3, Lemmas 1-5, Appendix A, Pages 21-26
+  relation: supports
+- source_id: belloni2013-post-lasso-abs
+  locator: arXiv:1001.0188v5 abstract
+  relation: supports
+- source_id: belloni2013-post-lasso-cr
+  locator: DOI:10.3150/11-BEJ410 Crossref record and abstract
+  relation: supports
+claims:
+- claim_id: oracle-risk-minimization-data-driven-penalty-and-kkt-lower-bound
+  kind: mechanism
+  statement: Sections 2.1, 2.4, 3.1-3.2 and Appendix A.1 (pp. 4-8, 10-13, and 21-22, Theorems 1-2, Corollary
+    1, Remark 3.1, Equations 2.1-2.12, 3.1, and A.1) formulate the nonparametric oracle risk minimization
+    program min_{0<=k<=p^n} (c_k^2 + sigma^2 k / n) where c_k^2 := min_{||beta||_0<=k} E_n[(f_. - x_.'
+    beta)^2] (Equations 2.2-2.4), proving by optimality of beta_0 that the approximation residual r_.
+    = f_. - x_.' beta_0 satisfies E_n[x_{.j} r_.] = 0 for j in T and |E_n[x_{.j} r_.]| <= min{sigma/sqrt(n),
+    c_s} for j in T^c (Proof of Theorem 2 Step 2, p. 22); under the data-driven penalty lambda = c' sigma_hat
+    Lambda(1 - alpha | X) dominating the score cn||S||_infty = cn||2 E_n[x_. epsilon_.]||_infty (Equations
+    2.11-2.12) and restricted eigenvalue RE(c_bar), Theorem 1 proves ||beta_hat - beta_0||_{2,n} <= (1
+    + 1/c) lambda sqrt(s) / (n kappa(c_bar)) + 2 c_s while Remark 3.1 and Equation (A.1) prove from the
+    Lasso KKT conditions on T_hat that ||f_hat - f||_{P_n,2} >= (1 - 1/c) lambda sqrt(|T_hat|) / (2 n
+    sqrt(phi(m_hat))), so Lasso cannot converge faster than sigma sqrt(s log p / n) whenever |T_hat| >=_P
+    s (Corollary 1).
+  evidence:
+  - source_id: belloni2013-post-lasso-pdf
+    locator: Sections 2.1, 2.4, 3.1-3.2 and Appendix A.1, Pages 4-8, 10-13, and 21-22, Theorems 1-2, Corollary
+      1, Remark 3.1, Equations (2.1)-(2.12), (3.1), and (A.1)
+    relation: supports
+  - source_id: belloni2013-post-lasso-abs
+    locator: arXiv:1001.0188v5 abstract
+    relation: supports
+- claim_id: sublinear-restricted-sparse-eigenvalues-and-sharp-lasso-sparsity-bound
+  kind: mechanism
+  statement: 'Section 3.3 and Appendix A.1 (pp. 13-14 and 22-23, Lemmas 2-3, Theorem 3, Equations 3.3-3.4
+    and A.2) bound the number of false-positive covariates m_hat := |T_hat \ T| selected by Lasso: Lemma
+    2 proves the empirical presparsity inequality sqrt(m_hat) <= sqrt(s) sqrt(phi(m_hat)) 2 c_bar / kappa(c_bar)
+    + 3(c_bar + 1) sqrt(phi(m_hat)) n c_s / lambda (or m_hat <= s phi(m_hat) L_n where L_n = [2 c_bar
+    / kappa(c_bar) + 3(c_bar + 1) n c_s / (lambda sqrt(s))]^2, Equation A.2), and combining this with
+    the sublinearity property phi(ceil(ell k)) <= ceil(ell) phi(k) for any integer k >= 0 and ell >= 1
+    (Lemma 3) and ceil(k) < 2k proves Theorem 3 that m_hat <= s [min_{m in M} phi(m ^ n)] L_n where M
+    = {m in N : m > s phi(m ^ n) 2 L_n}, guaranteeing m_hat = O_P(s) even when the full-sample maximum
+    eigenvalue phi(n) diverges.'
+  evidence:
+  - source_id: belloni2013-post-lasso-pdf
+    locator: Section 3.3 and Appendix A.1, Pages 13-14 and 22-23, Lemmas 2-3, Theorem 3, Equations (3.3)-(3.4)
+      and (A.2)
+    relation: supports
+  - source_id: belloni2013-post-lasso-cr
+    locator: DOI:10.3150/11-BEJ410 abstract
+    relation: supports
+- claim_id: generic-post-model-selection-min-fit-loss-bound-and-ols-post-lasso-rates
+  kind: mechanism
+  statement: Sections 4 and 5.1 and Appendices A.2-A.3 (pp. 14-17 and 23-26, Theorems 4-5, Corollary 2,
+    Lemmas 4-5, Remark 5.1, Equations 4.1, 5.1, and A.3-A.8) establish for any first-step model selector
+    beta_hat with support T_hat (m_hat = |T_hat \ T|) that the post-selection OLS estimator beta_tilde
+    in argmin_{beta_{T_hat^c}=0} Q_hat(beta) satisfies Q_hat(beta_tilde) - Q_hat(beta_0) <= B_n ^ C_n
+    where B_n := Q_hat(beta_hat) - Q_hat(beta_0) and C_n := Q_hat(beta_{0 T_hat}) - Q_hat(beta_0) (which
+    vanishes identically whenever T subseteq T_hat); combined with the Samorodnitsky-Talagrand uniform
+    empirical process maximal inequality over F_m (Lemmas 4-5, Equations A.3-A.6), Theorem 4 proves ||f_tilde
+    - f||_{P_n,2} <= K_varepsilon sigma sqrt((m_hat log p + (m_hat + s) log(e mu(m_hat))) / n) + 3 c_s
+    + sqrt((B_n)_+ ^ (C_n)_+), and using Lasso optimality B_n <= (lambda/n)(||delta_hat_T||_1 - ||delta_hat_{T^c}||_1)
+    <= (lambda sqrt(s) / (n kappa(1))) ||delta_hat||_{2,n} (Equations A.7-A.8), Theorem 5 and Corollary
+    2 prove that OLS post-Lasso achieves the near-oracle rate O_P(sigma sqrt(s log p / n) + c_s) even
+    when T not subseteq T_hat and strictly improves to O_P(sigma sqrt(o(s) log p / n) + sigma sqrt(s/n)
+    + c_s) when m_hat = o_P(s) and T subseteq T_hat wp -> 1 (or the exact oracle rate O_P(sigma sqrt(s/n)
+    + c_s) when T = T_hat wp -> 1).
+  evidence:
+  - source_id: belloni2013-post-lasso-pdf
+    locator: Sections 4 and 5.1 and Appendices A.2-A.3, Pages 14-17 and 23-26, Theorems 4-5, Corollary
+      2, Lemmas 4-5, Remark 5.1, Equations (4.1), (5.1), and (A.3)-(A.8)
+    relation: supports
+  - source_id: belloni2013-post-lasso-abs
+    locator: arXiv:1001.0188v5 abstract
+    relation: supports
+- claim_id: fitness-thresholded-lasso-binary-search-and-post-thresholded-lasso-tradeoff
+  kind: scope
+  statement: 'Sections 2.3, 2.5, and 5.2-5.3 (pp. 7-9 and 17-20, Theorems 6-7, Corollary 3, Remarks 5.2-5.3,
+    Equations 2.8-2.10, 2.13-2.14, and 5.2-5.4) introduce the data-driven fitness-based threshold t_gamma
+    := max{t >= 0 : Q_hat(beta_tilde^t) - Q_hat(beta_hat) <= gamma} for gamma <= 0 (specifically gamma
+    = (Q_hat(beta_tilde^0) - Q_hat(beta_hat)) / 2 < 0, Equation 2.14), which is computable exactly by
+    binary search over sort{|beta_hat_j| : j in T_hat} in at most ceil(log_2 |T_hat|) OLS solves (p. 9)
+    and guarantees that OLS post-fit Lasso obeys Theorem 5''s rate bound with m_hat replaced by the strictly
+    smaller or equal false-positive count m_tilde := |T_tilde(t_gamma) \ T| <= m_hat (Theorem 6, Equation
+    5.2), outperforming OLS post-Lasso whenever m_tilde = o_P(m_hat) and T subseteq T_tilde wp -> 1 (Remark
+    5.2); by contrast, traditional hard thresholding at level t (OLS post-t Lasso, Theorem 7) incurs an
+    explicit goodness-of-fit loss gamma_t := ||beta_hat_t - beta_hat||_{2,n} <= t sqrt(phi(m_t) m_t) whenever
+    T not subseteq T_tilde(t), requiring t = O(sigma sqrt(log p / n)) (e.g., t = c_tilde lambda / n) to
+    preserve the near-oracle rate (Equation 5.4).'
+  evidence:
+  - source_id: belloni2013-post-lasso-pdf
+    locator: Sections 2.3, 2.5, and 5.2-5.3, Pages 7-9 and 17-20, Theorems 6-7, Corollary 3, Remarks 5.2-5.3,
+      Equations (2.8)-(2.10), (2.13)-(2.14), and (5.2)-(5.4)
+    relation: supports
+  - source_id: belloni2013-post-lasso-cr
+    locator: DOI:10.3150/11-BEJ410 abstract
+    relation: supports
+evidence_sources:
+- source_id: belloni2013-post-lasso-pdf
+  title: Least squares after model selection in high-dimensional sparse models
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1001.0188
+  persistent_id: https://doi.org/10.3150/11-BEJ410
+  version: Bernoulli 19(2):521-547 (2013) / arXiv:1001.0188v5. Complete 27-page full-text PDF (392949
+    bytes) read across Sections 1-5 and Appendix A.
+  access_level: full_text
+  accessed_at: '2026-10-18T12:24:00Z'
+  sha256: 3b8ed91d939c20efa9687f9b19920916bea42140615c0560210189bbd7ba1bc5
+- source_id: belloni2013-post-lasso-abs
+  title: Least squares after model selection in high-dimensional sparse models (arXiv:1001.0188 Abstract)
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1001.0188
+  persistent_id: https://doi.org/10.48550/arXiv.1001.0188
+  version: arXiv:1001.0188v5 abstract and metadata record (7632 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T12:24:00Z'
+  sha256: 08b82138c5355b576d24d246d847536b2e0acbaf1f1f71260ad20737b5d734bd
+- source_id: belloni2013-post-lasso-cr
+  title: Least squares after model selection in high-dimensional sparse models (Crossref Metadata)
+  authors:
+  - Alexandre Belloni
+  - Victor Chernozhukov
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.3150/11-BEJ410
+  persistent_id: https://doi.org/10.3150/11-BEJ410
+  version: Bernoulli 19(2):521-547 (2013) Crossref bibliographic record (3891 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T12:24:00Z'
+  sha256: 06847f0cbd5e7336f6500836ca980f09699345040de808efa62af02b3a614b19
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LassoRegression
+  relation: related_match
+  rationale: AIO:LassoRegression represents L1-penalized least squares broadly, whereas AIMech:OLSPostLassoAndFitnessThresholdedPostModelSelectionEstimation
+    uses Lasso, thresholded Lasso, or data-driven fitness-thresholded Lasso as a first-step model selector
+    followed by unpenalized second-step OLS refitting under restricted sparse eigenvalue sparsity bounds.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: AIO:LinearRegression represents linear regression broadly, whereas AIMech:OLSPostLassoAndFitnessThresholdedPostModelSelectionEstimation
+    formulates two-step post-model selection least squares on data-dependent supports T_hat(t) in high-dimensional
+    sparse nonparametric regression.
+limitations:
+- 'Homoscedastic Gaussian Error Assumption (Condition M) and Restricted Eigenvalue / Restricted Sparse
+  Eigenvalue Conditions: The nonasymptotic finite-sample bounds in Theorems 1-7 assume fixed (or conditioned)
+  covariates with i.i.d. Gaussian errors epsilon_i ~ N(0, sigma^2) (Condition M, Equation 2.1), restricted
+  eigenvalue kappa(c_bar) > 0 (Condition RE(c_bar)), and restricted sparse eigenvalue kappa_tilde(m_hat)
+  > 0 (Condition RSE(m_hat)).'
+- 'Sensitivity of Traditional Hard Thresholding (OLS Post-t Lasso) to Imperfect Support Selection: Unlike
+  OLS post-Lasso and OLS post-fit Lasso, traditional hard thresholding at level t (Theorem 7) can suffer
+  degraded convergence rates or inconsistency when true oracle coefficients are not well-separated from
+  zero and t is chosen larger than O(sigma sqrt(log p / n)), incurring the extra fit loss gamma_t = ||beta_hat_t
+  - beta_hat||_{2,n} <= t sqrt(phi(m_t) m_t) whenever T not subseteq T_tilde(t).'
+- 'Primary-Source Typographical Notes in Belloni & Chernozhukov (2013, arXiv:1001.0188v5): Verified five
+  self-correcting typographical slips in the primary manuscript: (1) Section 2.3 (p. 7, paragraph below
+  Equation 2.10) prints ''thresholded Lassol'' instead of ''thresholded Lasso,''; (2) Lemma 1 (p. 10,
+  first display) prints ''||delta||'' in the denominators of the quadratic forms delta'' E[x_tilde x_tilde'']
+  delta instead of ''||delta||^2'' (cf. Condition RSE(m) on p. 9); (3) Theorem 4 (p. 15, display 2, bound
+  on C_n) prints ''k_hat'' inside log(s choose k_hat) + k_hat log(e mu(0)) without defining k_hat in the
+  theorem statement (by Lemma 4(2) just below on p. 15, k_hat := |T \ T_hat| is the number of missed oracle
+  components); (4) Remark 5.3 (p. 20, paragraph 2, line 6) refers to ''Lasso''s rate of convergence given
+  in Lemma 1'' where it means ''Corollary 1'' (p. 12); and (5) Proof of Theorem 1 (p. 21, display 2) drops
+  the factor ''c_bar'' before ''||delta_T||_1'' in the middle inequality of the chain for ||delta_{T^c}||_1
+  > 2 c_bar ||delta_T||_1, while the final inequality ''<= (1/2) ||delta_{T^c}||_1 + (c/(c-1))(n/lambda)
+  c_s^2'' holds directly from c_bar ||delta_T||_1 < (1/2) ||delta_{T^c}||_1.'
+- All 27 pages of the full-text PDF of Belloni & Chernozhukov (2013, Bernoulli 19(2):521-547, arXiv:1001.0188v5)
+  were read. Constructed numerical checks in research/discovery/ols-post-lasso-and-fitness-thresholded-model-selection-boundaries.py
+  verify (1) Section 2.1 oracle risk minimization and Proof of Theorem 2 Step 2 residual correlation bounds,
+  (2) Remark 3.1 / Equation (A.1) Lasso KKT prediction-error lower bound and Lemma 3 restricted sparse
+  eigenvalue sublinearity, (3) Theorems 4-5 post-selection fit inequality Q_hat(beta_tilde) - Q_hat(beta_0)
+  <= B_n ^ C_n and Equation (A.7) Lasso optimality bound, and (4) Equations (2.9) and (2.14) fitness-thresholded
+  Lasso binary search, exact oracle support recovery, Monte Carlo risk ordering, and Theorem 7 thresholding
+  loss bound gamma_t <= t sqrt(phi(m_t) m_t).
+review_status: DRAFT
+curation:
+  created_at: '2026-10-18T19:36:00Z'
+  updated_at: '2026-10-18T19:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 3
+  agent_tool: Antigravity

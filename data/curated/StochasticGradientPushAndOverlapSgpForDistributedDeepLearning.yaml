@@ -1,0 +1,101 @@
+id: AIMech:StochasticGradientPushAndOverlapSgpForDistributedDeepLearning
+name: Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed Deep Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An asymmetric push-only decentralized stochastic optimization algorithm over time-varying B-strongly-connected column-stochastic mixing matrices P^{(k)} (1^T P^{(k)} = 1^T, Assran et al. 2019, Section 2, Algorithm 1) in which each worker i maintains a biased parameter vector x_i^{(k)}, a scalar PushSum weight w_i^{(k)} initialized at w_i^{(0)} = 1, and a de-biased model z_i^{(k)} = x_i^{(k)} / w_i^{(k)} at which stochastic gradients nabla F_i(z_i^{(k)}; xi_i^{(k)}) are evaluated before pushing p_{j,i}^{(k)}(x_i^{(k)} - gamma nabla F_i(z_i^{(k)}; xi_i^{(k)})) and p_{j,i}^{(k)} w_i^{(k)} to out-neighbors j, together with its tau-step communication-overlapped variant tau-Overlap SGP (tau-OSGP) that hides communication latency over up to tau gradient steps.
+identity_notes: Distinct from Push-DIGing (AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs, Nedic, Olshevsky, & Shi 2017), which tracks exact gradient differences via an additional d-dimensional state vector y_i(k) for strongly convex objectives, whereas SGP and tau-OSGP transmit only a single scalar PushSum weight w_i^{(k)} alongside x_i^{(k)} and establish smooth non-convex O(1 / sqrt(n K)) linear speedup and exact log_2(n)-step consensus over time-varying directed exponential graphs.
+aliases:
+- Stochastic Gradient Push
+- SGP and Overlap SGP
+- SGP and tau-OSGP
+definition_evidence:
+- source_id: r430-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r430-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r430-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r430-pushsum-debiased-nonconvex-linear-speedup-and-delay-augmentation
+  kind: mechanism
+  statement: Because P^{(k)} is column-stochastic (1^T P^{(k)} = 1^T), SGP preserves the exact global sum invariants sum_{i=1}^n w_i^{(k)} = n and bar_x^{(k+1)} = bar_x^{(k)} - (gamma / n) sum_{i=1}^n nabla F_i(z_i^{(k)}; xi_i^{(k)}), while the PushSum ratio z_i^{(k)} = x_i^{(k)} / w_i^{(k)} contracts to the node-wide mean bar_x^{(k)} at geometric rate q = C (1 - c)^{1/(B+1)} < 1 (Lemma 3); for tau-OSGP, augmenting the graph with n tau virtual delay nodes yields an n(tau + 1) x n(tau + 1) column-stochastic matrix hat_P^{(k)} (Appendix E), proving that both SGP and tau-OSGP achieve O(1 / sqrt(n K)) smooth non-convex convergence and O(n / K) consensus error (Theorems 1-2).
+  evidence:
+  - source_id: r430-primary-pdf
+    locator: Section 3 Theoretical Guarantees (Theorems 1-2, Corollary 1) & Appendices B-E (Lemma 3, Virtual Delay Node Augmentation)
+    relation: supports
+- claim_id: r430-directed-time-varying-exponential-graph-exact-log2n-consensus
+  kind: mechanism
+  statement: On the time-varying 1-peer directed exponential graph where node i sends only to out-neighbor (i + 2^{k mod log_2(n)}) mod n with weight 1/2 and retains self-weight 1/2, each node communicates with only a single peer per iteration while the product P^{(log_2(n)-1)} ... P^{(0)} equals the exact uniform averaging matrix (1/n) 1 1^T in log_2(n) steps whenever n is a power of 2 (Appendix A, Proposition 1).
+  evidence:
+  - source_id: r430-primary-pdf
+    locator: Section 2 & Appendix A Directed Exponential Graph (Proposition 1)
+    relation: supports
+- claim_id: r430-packet-loss-sensitivity-and-heterogeneity-drift-limitation
+  kind: limitation
+  statement: Requires reliable delivery of directed messages so that column-stochastic conservation 1^T P^{(k)} = 1^T is maintained, and because SGP does not track gradient differences, its non-convex bound includes an O(n / K) transient term that depends on inter-worker gradient dissimilarity sigma_2^2.
+  evidence:
+  - source_id: r430-primary-pdf
+    locator: Section 3 Assumptions 1-4 & Theorem 1
+    relation: supports
+- claim_id: r430-imagenet-resnet50-32-node-256-gpu-training-application
+  kind: application
+  statement: Applied to distributed training of ResNet-50 on ImageNet across 32 nodes (256 GPUs) over 1-peer time-varying directed exponential graphs, matching AllReduce validation accuracy (76.2%) while completing training 1.6x faster on 10 Gbps Ethernet.
+  evidence:
+  - source_id: r430-primary-pdf
+    locator: Section 4 Experiments (Figures 1-5, Table 1), pp. 348-351
+    relation: supports
+evidence_sources:
+- source_id: r430-primary-pdf
+  title: Stochastic Gradient Push for Distributed Deep Learning
+  authors: &id001
+  - Mahmoud Assran
+  - Nicolas Loizou
+  - Nicolas Ballas
+  - Michael Rabbat
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1811.10792
+  persistent_id: https://proceedings.mlr.press/v97/assran19a.html
+  version: Proceedings of the 36th International Conference on Machine Learning (ICML 2019), PMLR 97:344-353 (2019) (90655 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:33:00Z'
+  sha256: 5c5f4ef332a6db00c1a417a77aaf1a4ed0b0cca3c188d5fcc50d16ce6e421041
+- source_id: r430-arxiv-abs
+  title: Stochastic Gradient Push for Distributed Deep Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1811.10792
+  persistent_id: https://arxiv.org/abs/1811.10792
+  version: arXiv abstract page (14924 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:33:00Z'
+  sha256: 4d61bf09bd7efd31c145f4cf59f2826333ee7dc17c84b71298e1f503ff7eeb4e
+- source_id: r430-metadata-cr
+  title: Stochastic Gradient Push for Distributed Deep Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/assran19a.html
+  persistent_id: https://proceedings.mlr.press/v97/assran19a.html
+  version: Crossref API work record (396 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:33:00Z'
+  sha256: 5fa02623dcf2332eee2007eab3832d681f1478e873884dad5f6abbe49b499211
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: Stochastic Gradient Push and Overlap SGP are decentralized push-sum optimization algorithms for distributed and federated deep learning over directed graphs.
+limitations:
+- Each worker must know its out-degree at step k to form column-stochastic out-weights summing to 1.
+- Large overlap delays tau in tau-OSGP enlarge the effective B-connectivity horizon to (tau + 1) B + tau, slowing consensus contraction.
+curation:
+  created_at: '2026-10-19T08:33:00Z'
+  updated_at: '2026-10-19T08:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

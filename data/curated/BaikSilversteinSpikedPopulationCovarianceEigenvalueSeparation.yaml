@@ -1,0 +1,98 @@
+id: AIMech:BaikSilversteinSpikedPopulationCovarianceEigenvalueSeparation
+name: Baik-Silverstein Eigenvalue Separation for High-Dimensional Spiked Population Covariance Matrices
+review_status: DRAFT
+concept_kind: mathematical_method
+aliases:
+- Baik-Silverstein Spiked Population Covariance Eigenvalue Limit Theorem
+- Non-Gaussian Spiked Sample Covariance Outlier Eigenvalue Separation
+- Baik-Silverstein Supercritical and Subcritical Spiked Eigenvalue Mapping
+- Silverstein-Choi Companion Stieltjes Transform Spiked Eigenvalue Analysis
+definition: Baik-Silverstein Eigenvalue Separation for High-Dimensional Spiked Population Covariance Matrices is a random-matrix spectral analysis methodology introduced by Baik and Silverstein (2006) that characterizes the exact almost-sure limits of extreme sample eigenvalues for general non-Gaussian real or complex spiked population covariance models B_p = (1/n) T_p^{1/2} Z_p Z_p' T_p^{1/2} as p, n -> infinity with p/n -> c > 0. Assuming independent and identically distributed standardized entries Z_{ij} with E[Z_{11}] = 0, E[|Z_{11}|^2] = 1, and E[|Z_{11}|^4] < infinity, and a population covariance matrix T_p having p - r unit eigenvalues and r = k_1 + ... + k_M fixed non-unit spike eigenvalues alpha_1 > ... > alpha_M > 0, the method analyzes the critical points of the finite-rank perturbed Silverstein-Choi companion inverse Stieltjes transform z_p(m) via Rouche's theorem and the Bai-Silverstein (1999) exact eigenvalue separation theorem. It proves that population spikes pull sample
+  eigenvalues outside the Marcenko-Pastur bulk support [(1 - sqrt(c))^2, (1 + sqrt(c))^2] to the shifted asymptotic location psi(alpha_j) = alpha_j + c * alpha_j / (alpha_j - 1) with multiplicity k_j if and only if |alpha_j - 1| > sqrt(c) when 0 < c < 1, or alpha_j > 1 + sqrt(c) when c >= 1, while subcritical spikes collapse almost surely to the bulk edges.
+identity_notes: Resolved as a distinct AIMech-native mathematical_method concept from Baik & Silverstein (2006, Journal of Multivariate Analysis 97(6):1382-1408; arXiv:math/0408165v1, DOI:10.1016/j.jmva.2005.08.003). Distinct from AIMech:MarcenkoPasturConvexOptimizationSpectrumEstimation (El Karoui 2008, Ann. Statist. 36(6):2757-2790), which estimates the global limiting spectral distribution H via convex optimization of the unperturbed Silverstein-Choi equation without isolating finite-rank outlier spikes, from AIMech:SparsePrincipalComponentsAnalysisViaCoordinateVarianceSelectionAndThresholding (Johnstone & Lu 2009, JASA 104(486):682-693), which proves l2 eigenvector consistency of coordinate-variance selection and wavelet thresholding under sparsity, and from AIMech:DiagonalThresholdingAndSemidefiniteRelaxationSupportRecoveryForSparsePCA (Amini & Wainwright 2009, Ann. Statist. 37(5B):2877-2921), which analyzes signed support recovery via diagonal thresholding and semidefinite relaxation.
+definition_evidence:
+- source_id: bs2006-spiked-pdf
+  locator: Section 1.1, Equations (1.5)-(1.20) and Theorems 1.1-1.3, pp. 3-5; Section 2, Proposition 2.1, pp. 8-11; Sections 3-4, Equations (3.1)-(4.24), Lemmas 3.1-3.4, and Propositions 3.5-3.6, pp. 11-22
+  relation: supports
+- source_id: bs2006-spiked-abs
+  locator: Abstract
+  relation: supports
+- source_id: bs2006-spiked-cr
+  locator: DOI:10.1016/j.jmva.2005.08.003 article metadata
+  relation: supports
+claims:
+- claim_id: companion-stieltjes-rouche-critical-point-perturbation
+  kind: mechanism
+  statement: For the companion sample covariance matrix underline(B)_n = (1/n) Z_p' T_p Z_p, Section 3 (Equations 3.1-3.26, Lemmas 3.1-3.4, pp. 11-14) writes the finite-rank perturbed Silverstein-Choi inverse Stieltjes transform z_p(m) = -1/m + c_p/(1 + m) + (1/n) [sum_{j=1}^M k_j alpha_j / (1 + alpha_j m) - r / (1 + m)] (with c_p = (p - r)/n -> c) and factors its derivative as z_p'(m) = [f(m) + (1/n) g(m)] / [m^2 (1 + m)^2 prod_{l=1}^M (1 + alpha_l m)^2] (eqs. 3.3-3.5). Applying Rouche's theorem perturbation lemmas (Lemmas 3.2-3.4), near each spike pole m = -1/alpha_j the local ratio G_j(-1/alpha_j) = -g(-1/alpha_j) / f_j(-1/alpha_j) = k_j (alpha_j - 1)^2 / [(alpha_j - 1)^2 - c_p] is strictly positive if and only if |alpha_j - 1| > sqrt(c_p), splitting the double root of f(m) at m = -1/alpha_j into two real critical points m_{j,+/-}^{(n)} = -1/alpha_j +- (1/(alpha_j sqrt(n))) sqrt(G_j(-1/alpha_j)) + O(1/n) where z_p'(m) > 0 on the intervals between poles and critical points, thereby generating
+    an excluded spectral interval around z_p(-1/alpha_j) -> alpha_j + c alpha_j / (alpha_j - 1) into which exactly k_j sample eigenvalues separate by Proposition 2.1 (Bai-Silverstein 1999).
+  evidence:
+  - source_id: bs2006-spiked-pdf
+    locator: Section 2, Proposition 2.1, pp. 8-11; Section 3, Equations (3.1)-(3.26) and Lemmas 3.1-3.4, pp. 11-14
+    relation: supports
+- claim_id: almost-sure-outlier-separation-and-subcritical-collapse-across-aspect-ratios
+  kind: scope
+  statement: 'Under fourth-moment standardization E[Z_{11}] = 0, E[|Z_{11}|^2] = 1, and E[|Z_{11}|^4] < infinity, Theorem 1.1 (0 < c < 1, pp. 3-4) proves that if M_0 population spikes satisfy alpha_j > 1 + sqrt(c) and M - M_1 spikes satisfy alpha_j < 1 - sqrt(c), then almost surely as n -> infinity with p/n -> c: (i) for 1 <= j <= M_0 and 1 <= i <= k_j, the top outlier sample eigenvalues satisfy s_{k_1 + ... + k_{j-1} + i}^{(p)} -> alpha_j + c alpha_j / (alpha_j - 1) > (1 + sqrt(c))^2 (eq. 1.10); (ii) the upper and lower bulk-edge sample eigenvalues satisfy s_{k_1 + ... + k_{M_0} + 1}^{(p)} -> (1 + sqrt(c))^2 (eq. 1.11) and s_{p - r + k_1 + ... + k_{M_1}}^{(p)} -> (1 - sqrt(c))^2 (eq. 1.12); and (iii) for M_1 + 1 <= j <= M and 1 <= i <= k_j, the bottom outlier sample eigenvalues satisfy s_{p - r + k_1 + ... + k_{j-1} + i}^{(p)} -> alpha_j + c alpha_j / (alpha_j - 1) < (1 - sqrt(c))^2 (eq. 1.13). When c > 1 (Theorem 1.2, pp. 4-5) or c = 1 (Theorem 1.3, p. 5), only supercritical upper spikes
+    alpha_j > 1 + sqrt(c) separate above (1 + sqrt(c))^2 (eq. 1.17), while small population eigenvalues alpha_j < 1 have no asymptotic outlier effect outside the bulk, with s_n^{(p)} -> (1 - sqrt(c))^2 and s_{n+1}^{(p)} = ... = s_p^{(p)} = 0 for c > 1 (eqs. 1.19-1.20).'
+  evidence:
+  - source_id: bs2006-spiked-pdf
+    locator: Section 1.1, Theorems 1.1-1.3 and Equations (1.10)-(1.20), pp. 3-5; Sections 3.1-3.2 and 4, Propositions 3.5-3.6, pp. 14-22
+    relation: supports
+  - source_id: bs2006-spiked-abs
+    locator: Abstract
+    relation: supports
+evidence_sources:
+- source_id: bs2006-spiked-pdf
+  title: Eigenvalues of large sample covariance matrices of spiked population models
+  authors:
+  - Jinho Baik
+  - Jack W. Silverstein
+  source_type: primary_paper
+  url: https://export.arxiv.org/pdf/math/0408165.pdf
+  persistent_id: https://arxiv.org/abs/math/0408165v1
+  version: arXiv:math/0408165v1 full-text PDF (24 pages, 293564 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-18T17:22:00Z'
+  sha256: 1eb7d0eb27408acdc9178873a9c47c6a446ffe341f69477ea51c0474d9e2c960
+- source_id: bs2006-spiked-abs
+  title: Eigenvalues of large sample covariance matrices of spiked population models
+  authors:
+  - Jinho Baik
+  - Jack W. Silverstein
+  source_type: primary_paper
+  url: https://export.arxiv.org/abs/math/0408165
+  persistent_id: https://arxiv.org/abs/math/0408165
+  version: arXiv:math/0408165 abstract page (5366 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:22:00Z'
+  sha256: 6a6cc776bed2cf882834344652cb4c4be7724b309380488a6e93e90d3d0f08d7
+- source_id: bs2006-spiked-cr
+  title: Eigenvalues of large sample covariance matrices of spiked population models
+  authors:
+  - Jinho Baik
+  - Jack W. Silverstein
+  source_type: primary_paper
+  url: https://api.crossref.org/works/10.1016/j.jmva.2005.08.003
+  persistent_id: https://doi.org/10.1016/j.jmva.2005.08.003
+  version: Journal of Multivariate Analysis 97(6):1382-1408 (2006) Crossref metadata (3288 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-18T17:22:00Z'
+  sha256: 090b2257aed03868d9a574fc0040e5ac7b5c00f8b48603b2409f72de2c5af628
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Characterizes the exact high-dimensional almost-sure spectral separation threshold and upward/downward bias psi(alpha_j) = alpha_j + c alpha_j / (alpha_j - 1) of sample principal component eigenvalues under spiked population covariance models.
+limitations:
+- 'Fourth-moment boundedness and factored entry independence: Theorems 1.1-1.3 require X_p = T_p^{1/2} Z_p where Z_{ij} are i.i.d. with E[Z_{11}] = 0, E[|Z_{11}|^2] = 1, and E[|Z_{11}|^4] < infinity (Section 1.1, p. 3; Section 2, Condition b, p. 9). Heavy-tailed entries with infinite fourth moment or non-linearly dependent coordinates violate the Bai-Silverstein exact separation hypotheses.'
+- 'Asymmetry between c < 1 and c > 1 for small population spikes: While supercritical upper spikes alpha_j > 1 + sqrt(c) separate above (1 + sqrt(c))^2 for all c > 0, small population spikes alpha_j < 1 - sqrt(c) separate below (1 - sqrt(c))^2 only when 0 < c < 1; when c > 1 (p > n), small population eigenvalues alpha_j < 1 are absorbed into the bulk/zero spectrum so that s_n^{(p)} -> (1 - sqrt(c))^2 and s_{n+1}^{(p)} = ... = s_p^{(p)} = 0 (Theorem 1.2, eqs. 1.19-1.20, p. 4; Section 1.3, p. 7).'
+- 'First-order almost-sure limits without limiting fluctuation laws: Baik & Silverstein (2006) establish first-order almost-sure eigenvalue limits for general non-Gaussian real and complex samples, whereas the second-order M^{2/3} Tracy-Widom / F_k and M^{1/2} G_k fluctuation distributions require separate random-matrix analyses such as Baik, Ben Arous, & Peche (2005) (Section 1.2, pp. 5-6).'
+- "Primary-source typographical audit of arXiv:math/0408165v1 (DOI:10.1016/j.jmva.2005.08.003): (1) On p. 6 (Section 1.3, bottom paragraph) and p. 7 (middle paragraph), the numerical Marcenko-Pastur bulk interval for c = 2 prints '[(1 - sqrt(c))^2, (1 + sqrt(c))^2] ~= [0.17157, 3.41209]', where '3.41209' is a miscomputation/transposition of 2 + sqrt(2) ~= 3.41421 instead of (1 + sqrt(2))^2 = 3 + 2 sqrt(2) ~= 5.82843; (2) on p. 9 (Condition f, line 2), p. 14 (line 24), p. 16 (line 5), and p. 20 (line 12), '\xBFFrom' appears due to the TeX '?From' ligature from mail-escaped '>From'; (3) on p. 14 (eq. 3.27) and p. 19 (eq. 4.23), the middle inequality chain writes 'alpha_{M_0+1} > ... > alpha_{M-M_1} > 1 - sqrt(c) > alpha_{M-M_1+1}' with subscript M - M_1 instead of M_1 (cf. Theorem 1.1, p. 3, and eqs. 1.12-1.13, 3.30, 3.32-3.33, 3.36, 3.44); and (4) on p. 15 (eq. 3.30), the product upper limit prints prod_{j=M_0+1}^{M_1+1} instead of prod_{j=M_0+1}^{M_1}."
+curation:
+  created_at: '2026-10-19T00:32:00Z'
+  updated_at: '2026-10-19T00:32:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

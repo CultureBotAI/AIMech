@@ -1,0 +1,233 @@
+id: AIMech:PriorExpansionScoreConflictDiagnostic
+name: Prior-expansion score conflict diagnostic
+aliases: []
+concept_kind: algorithm
+definition: A Bayesian prior-data conflict diagnostic that embeds a baseline prior density g(theta) into
+  a smoothly parameterized expansion family g(theta|gamma) with g(theta|gamma_0)=g(theta), evaluates the
+  marginal-likelihood score S(y)=d/d_gamma log p(y|gamma)|_{gamma=gamma_0} via Fisher's identity as the
+  baseline posterior expectation of the log-prior derivative when parameter support is fixed, and calibrates
+  the score discrepancy against prior-predictive or hierarchical mixed-predictive reference distributions.
+identity_notes: 'No normalized identity match for the prior-expansion score conflict diagnostic across
+  all 442 pinned AIO records and 561 maintained IDs, names, aliases and scoped synonyms. Fixed-string
+  searches including ignored and hidden files across the worktree and repository checkouts returned 0
+  matches for 1902.10393, 20-BA1204, PriorExpansionScoreConflictDiagnostic and Fisher''s identity, and
+  5 lines for prior expansion (4 locator lines for Gaussian-prior algebraic expansion in GaussianLossSmoothedMixedModelVariationalInference
+  and 1 pending frontier entry for Nott et al. 2020/2021 in 20261013T013528Z-inla-group-node-conflict.json).
+  Assessed 61 semantic AIO rows and 215 native names/definitions, verifying all 61 AIO rows and 214 prior
+  native rows plus reading the INLA group-node conflict diagnostic record. Ten full AIO nodes with incident
+  edges and generated records and nine native conflict-diagnostic and variational context records were
+  verified. This procedure is defined by embedding an elicited prior into a smooth family g(theta|gamma),
+  evaluating S(y)=d/d_gamma log p(y|gamma)|_{gamma=gamma_0} via Fisher''s identity at the baseline posterior,
+  and calibrating against prior or mixed predictive draws. It is distinct from unit-level cross-validated
+  prior-likelihood splitting, DAG separator node-splitting, INLA group-node conflict checking, multiple-testing
+  node-conflict maxT calibration, Gaussian variational message conflict screening, and sequential two-stage
+  single-draw randomized score checks.'
+definition_evidence:
+- source_id: nott2020
+  locator: Abstract, PDF p. 1; Section 1, Equations 1.1–1.3, PDF pp. 2–3; Section 2, Equations 2.1–2.4,
+    PDF pp. 4–7
+  relation: supports
+claims:
+- claim_id: prior-expansion-and-fisher-identity
+  kind: mechanism
+  statement: Embed the elicited baseline prior density g(theta) into a smoothly parameterized family of
+    proper priors g(theta|gamma) satisfying g(theta|gamma_0)=g(theta), and define the marginal likelihood
+    p(y|gamma)=integral g(theta|gamma)*p(y|theta) d_theta. The local conflict statistic is the scalar
+    score S(y)=d/d_gamma log p(y|gamma)|_{gamma=gamma_0} (with multi-parameter expansions varied one component
+    at a time). Whenever differentiation with respect to gamma and integration over theta can be interchanged
+    on a gamma-invariant support, Fisher's identity yields S(y)=integral (d/d_gamma log g(theta|gamma)|_{gamma=gamma_0})*g(theta|y)
+    d_theta, which is a posterior expectation under the baseline model gamma=gamma_0 and depends on y
+    only through any minimal sufficient statistic, invariant to its choice.
+  evidence:
+  - source_id: nott2020
+    locator: Section 1, Equations 1.1–1.3, PDF pp. 2–3; Section 2.1–2.2, PDF pp. 4–6
+    relation: supports
+  - source_id: yang2026
+    locator: Section 2.1, Equation 1, PDF pp. 4–5
+    relation: supports
+- claim_id: divergence-and-relative-belief-sensitivity
+  kind: mechanism
+  statement: Let RB(theta|y,gamma)=g(theta|y,gamma)/g(theta|gamma)=p(y|theta)/p(y|gamma) denote the relative
+    belief ratio. Because p(y|theta) does not depend on gamma, differentiating log RB(theta|y,gamma) with
+    respect to gamma at gamma=gamma_0 gives d/d_gamma log RB(theta|y,gamma)|_{gamma=gamma_0}=-d/d_gamma
+    log p(y|gamma)|_{gamma=gamma_0}=-S(y) for every theta with p(y|theta)>0 (Equation 2.4). Consequently,
+    for the fixed-baseline-weighted relative-belief functional F_alpha(gamma)=(alpha-1)^-1*log integral
+    RB(theta|y,gamma)^(alpha-1)*g(theta|y) d_theta motivated by the Renyi divergence in Equation 2.2 (which
+    is distinct for alpha!=1 from standard fixed-posterior Renyi divergence R_alpha(g(theta|y)||g(theta|gamma))),
+    as well as its alpha->1 limit integral log RB(theta|y,gamma)*g(theta|y) d_theta and the fixed-posterior
+    Kullback–Leibler divergence KL(g(theta|y)||g(theta|gamma)), the derivative with respect to gamma at
+    gamma=gamma_0 equals -S(y) across all orders alpha>0 for which the finite positive likelihood moment
+    E_{g(theta|y)}[p(y|theta)^(alpha-1)] and required log-likelihood/score moments exist and differentiation/limit
+    interchange is justified (Section 2.2, Equation 2.4 and unnumbered KL derivative, PDF pp. 5–6). As
+    an independently derived clarification of the Section 2.2 notation (not an expression explicitly supplied
+    by Nott et al., 2020, PDF pp. 5–6), if the posterior weighting distribution g(theta|y,gamma) inside
+    R_alpha(g(theta|y,gamma)||g(theta|gamma)) is also varied with gamma under those regularity and finite-moment
+    conditions, the derivative at gamma=gamma_0 for finite alpha!=1 adds the order-dependent escort covariance
+    term Cov_{g(theta|y)}(p(y|theta)^(alpha-1), d/d_gamma log g(theta|gamma)|_{gamma=gamma_0})/((alpha-1)*E_{g(theta|y)}[p(y|theta)^(alpha-1)]),
+    which reduces in the Kullback–Leibler limit alpha->1 to the posterior covariance Cov_{g(theta|y)}(log
+    p(y|theta), d/d_gamma log g(theta|gamma)|_{gamma=gamma_0}).
+  evidence:
+  - source_id: nott2020
+    locator: Section 2.1–2.2, Equations 2.2 and 2.4, PDF pp. 5–6
+    relation: supports
+- claim_id: prior-predictive-and-multivariate-calibration
+  kind: mechanism
+  statement: Throughout the prior-expansion score framework, the expansion parameter gamma is taken to
+    be a scalar, or when a baseline prior is embedded into a family with multiple expansion parameters
+    they are varied one by one to construct separate directional checks sensitive to distinct aspects
+    of the prior (such as location shift versus scale or tail heaviness). For each scalar expansion parameter
+    gamma where conflict corresponds to larger values of S(y), calibrate the observed score S(y_obs) against
+    its baseline prior-predictive reference distribution Y~p(y)=p(y|gamma_0) via the upper-tail probability
+    p_S=P(S(Y)>=S(y_obs)), or use the lower tail or a two-sided tail when departures in the opposite or
+    either direction of gamma indicate conflict.
+  evidence:
+  - source_id: nott2020
+    locator: Section 1, Equations 1.1–1.2, PDF pp. 2–3; Section 2.1, PDF pp. 4–5; Section 2.3, PDF p.
+      7; Section 4, Example 4.3, PDF p. 13; Section 5.2, PDF pp. 19–21, 27
+    relation: supports
+- claim_id: conjugate-exponential-family-equivalence
+  kind: mechanism
+  statement: In conjugate exponential-family settings where g(theta|gamma) perturbs natural hyperparameters,
+    S(y) reduces to differences between posterior expectations of natural sufficient statistics and their
+    prior expectations. In the normal location model with X_1,...,X_n~N(theta,sigma^2) (known sigma^2>0),
+    sufficiency reduction bar_x~N(theta,sigma^2/n), and multiplicative variance-expanded prior theta|gamma~N(mu_0,gamma*tau_0^2)
+    at baseline gamma_0=1, marginal differentiation of log N(bar_x|mu_0,gamma*tau_0^2+sigma^2/n) at gamma=1
+    and Fisher's identity E_{theta|bar_x}[-1/2+(theta-mu_0)^2/(2*tau_0^2)]=-1/2+(v_post+(m_post-mu_0)^2)/(2*tau_0^2)
+    both yield S_gamma(bar_x)=-tau_0^2/(2*(tau_0^2+sigma^2/n))+tau_0^2*(bar_x-mu_0)^2/(2*(tau_0^2+sigma^2/n)^2)=-1/2+((bar_x-mu_0)^2/(2*tau_0^2))*(tau_0^2/(tau_0^2+sigma^2/n))^2+(sigma^2/n)/(2*(tau_0^2+sigma^2/n)),
+    whereas differentiating directly with respect to the prior variance parameter tau^2 at tau^2=tau_0^2
+    as in Example 4.1 gives S_{tau^2}(bar_x)=S_gamma(bar_x)/tau_0^2=-1/(2*(tau_0^2+sigma^2/n))+(bar_x-mu_0)^2/(2*(tau_0^2+sigma^2/n)^2).
+    For fixed (tau_0^2,sigma^2/n), both S_gamma(bar_x) and S_{tau^2}(bar_x) are strictly increasing affine
+    functions of (bar_x-mu_0)^2, so the upper-tail score p-value P(S(Y)>=S(bar_x_obs)) under Y~N(mu_0,tau_0^2+sigma^2/n)
+    equals the exact Evans–Moshonov prior-predictive tail P((Y-mu_0)^2>=(bar_x_obs-mu_0)^2)=2*(1-Phi(|bar_x_obs-mu_0|/sqrt(tau_0^2+sigma^2/n))).
+  evidence:
+  - source_id: nott2020
+    locator: Section 2.1, Equation 2.1, PDF p. 4; Section 4, Example 4.1, PDF pp. 10–11
+    relation: supports
+- claim_id: hierarchical-mixed-predictive-extension
+  kind: mechanism
+  statement: For a two-stage hierarchical prior g(theta_1)*g(theta_2|theta_1) expanded as g(theta_1|gamma^(2))*g(theta_2|theta_1,gamma^(1))
+    around baseline (gamma_0^(1),gamma_0^(2)), define the conditional lower-level score S^(1)(y,theta_1)=integral
+    (d/d_gamma^(1) log g(theta_2|theta_1,gamma^(1))|_{gamma^(1)=gamma_0^(1)})*g(theta_2|theta_1,y) d_theta_2
+    and eliminate theta_1 by averaging over the observed-data posterior g(theta_1|y_obs) to obtain S^(1)(y)=E[S^(1)(y,theta_1)|y_obs]=integral
+    (d/d_gamma^(1) log g(theta_2|theta_1,gamma^(1))|_{gamma^(1)=gamma_0^(1)})*g(theta_2|theta_1,y)*g(theta_1|y_obs)
+    d_theta. Calibrate S^(1)(y_obs) via p_{S1}=P(S^(1)(Y)>=S^(1)(y_obs)) under the mixed-predictive distribution
+    Y~m(y)=integral g(theta_2|theta_1)*g(theta_1|y_obs)*p(y|theta) d_theta, and calibrate the upper-level
+    score S^(2)(y)=d/d_gamma^(2) log p(y|gamma^(2))|_{gamma^(2)=gamma_0^(2)}=integral (d/d_gamma^(2) log
+    g(theta_1|gamma^(2))|_{gamma^(2)=gamma_0^(2)})*g(theta_1|y) d_theta_1 via p_{S2}=P(S^(2)(Y)>=S^(2)(y_obs))
+    under the marginal prior-predictive law Y~p(y).
+  evidence:
+  - source_id: nott2020
+    locator: Section 3, Equations 3.1–3.2, PDF pp. 8–10; Section 4, Example 4.3, PDF pp. 12–13
+    relation: supports
+- claim_id: support-dependent-expansion-boundary
+  kind: limitation
+  statement: Fisher's identity in Equation 1.3 requires the support of g(theta|gamma) to be independent
+    of gamma so that differentiation with respect to gamma can be moved inside the integral over theta.
+    When the prior support varies with gamma—as in the symmetrically distorted trine quantum state estimation
+    experiment where the Bloch-disk constraint depends on the distortion parameter gamma—Equation 1.3
+    is invalid directly; evaluating S(y)=d/d_gamma log p(y|gamma)|_{gamma=gamma_0} requires first reparameterizing
+    the prior and likelihood onto a fixed domain (such as polar coordinates on [0,1]x[0,2*pi]) so that
+    gamma enters the transformed integrand smoothly.
+  evidence:
+  - source_id: nott2020
+    locator: Section 5.2, Equations 5.6–5.8 and polar reparameterization, PDF pp. 23–27
+    relation: supports
+- claim_id: reference-simulation-and-approximation-scope
+  kind: limitation
+  statement: Although Fisher's identity avoids refitting models at gamma!=gamma_0 for the observed dataset
+    y_obs, computing the prior-predictive or mixed-predictive reference distribution of S(Y) when no closed-form
+    sufficient-statistic reduction exists requires re-estimating the baseline posterior g(theta|Y) for
+    each simulated replicate dataset Y. To reduce this cost in non-conjugate models, the source substitutes
+    plug-in point estimates (such as group sample means or least-squares/Moore–Penrose estimates in the
+    LASSO shrinkage check) or suggests variational approximations, which define distinct approximate diagnostics
+    whose tail probabilities are not guaranteed to match exact full-posterior score calibration.
+  evidence:
+  - source_id: nott2020
+    locator: Section 5.1, Examples 5.1–5.2, Equations 5.1–5.3, PDF pp. 14–16; Section 6 Discussion, PDF
+      p. 28
+    relation: supports
+  - source_id: yang2026
+    locator: Section 2.1, Equation 1 and computational cost discussion, PDF pp. 4–5
+    relation: supports
+evidence_sources:
+- source_id: nott2020
+  title: Using prior expansions for prior-data conflict checking
+  authors:
+  - David J. Nott
+  - Max Seah
+  - Luai Al-Labadi
+  - Michael Evans
+  - Hui Khoon Ng
+  - Berthold-Georg Englert
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1902.10393
+  persistent_id: https://doi.org/10.1214/20-BA1204
+  version: 'arXiv:1902.10393v2, dated 2020-03-12 (published in Bayesian Analysis 16(1):203–231, 2021).
+    Complete 31-page PDF read, including Sections 1–6, Examples 4.1–4.3 and 5.1–5.2, Figures 1–7 and references;
+    locators use PDF pages 1–31.'
+  access_level: full_text
+  accessed_at: '2026-10-17T08:05:00Z'
+  sha256: 2d36e3af352ac38b3811af3540aed3d115be5f4b4f6ecdadb4ec8fec74d07a99
+- source_id: yang2026
+  title: Detecting Conflicts in Evidence Synthesis Models Using Score Discrepancies
+  authors:
+  - Fuming Yang
+  - David J. Nott
+  - Anne M. Presanis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2511.02977v2
+  persistent_id: https://doi.org/10.48550/arXiv.2511.02977
+  version: 'arXiv:2511.02977v2, dated 2026-09-12. Complete 52-page PDF read, including Sections 1–6, Algorithm
+    1, Figures 1–8, Tables 1–5, Appendices A–E and references; locators use PDF pages 1–52.'
+  access_level: full_text
+  accessed_at: '2026-10-17T08:03:00Z'
+  sha256: 4829e0d63d562483aa6aab88a418c62e6d336cd63e9205ee175bf9e9c1bade2d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The diagnostic evaluates prior-data conflict in Bayesian models and decomposes multi-stage
+    hierarchical priors g(theta_1)*g(theta_2|theta_1) along directed Bayesian graphical structures. BayesianNetwork
+    provides model-representation context rather than the prior-expansion score statistic or Fisher-identity
+    predictive calibration; this is a related mapping, not equivalence or subclass membership.
+- target: AIO:RandomEffectsModel
+  relation: related_match
+  rationale: Hierarchical random-effects models are a primary setting for the two-stage mixed-predictive
+    and marginal prior-predictive score checks, but RandomEffectsModel denotes a model class rather than
+    the score-based conflict diagnostic procedure.
+limitations:
+- Fisher's identity in Equation 1.3 requires fixed prior support with respect to the expansion parameter
+  gamma so differentiation and integration commute; gamma-dependent support boundaries require reparameterization
+  onto a fixed domain before differentiating (nott2020, Section 5.2, PDF pp. 25, 27).
+- Exact prior-predictive or mixed-predictive calibration of S(Y) requires evaluating the posterior expectation
+  of d/d_gamma log g(theta|gamma)|_{gamma=gamma_0} across many simulated replicate datasets Y when no
+  closed-form sufficient-statistic reduction exists. Plug-in point-estimate substitutions (such as sample
+  means or least-squares/Moore–Penrose estimates in Section 5.1) and variational approximations alter
+  the statistic and are not identical to full-posterior score calibration.
+- The score S(y) measures local first-order sensitivity along a scalar expansion direction g(theta|gamma)
+  at gamma=gamma_0; different expansion directions probe different aspects of prior specification (for
+  example, location shift versus tail heaviness or variance inflation), and when multiple expansion parameters
+  are introduced they are varied one by one rather than pooled into a joint multi-parameter test statistic
+  (nott2020, Section 1, PDF pp. 2–3; Section 5.2, PDF pp. 19–21).
+- In the source manuscript, Section 3 (PDF p. 9, line 24) writes "a p-value for the check of g(theta_2)"
+  when defining p_{S2} for the upper-level prior g(theta_1), and Section 5.1 Example 5.1 (PDF p. 14)
+  prints the summation upper limit in the kurtosis denominator as x instead of n. The curated claims follow
+  the mathematical definitions of the upper-level expansion g(theta_1|gamma^(2)) and the n-group sample
+  kurtosis.
+- All 31 pages of Nott et al. (2020, arXiv:1902.10393v2) and 52 pages of Yang, Nott, & Presanis (2026,
+  arXiv:2511.02977v2) were read. No author MCMC code, bowhead whale simulation or quantum state tomography
+  dataset was executed; constructed numerical examples in research/discovery/prior-expansion-score-conflict-boundaries.py
+  verify Fisher's identity across non-unit prior and observation variances, fixed-posterior and varying-posterior
+  KL divergence derivatives together with moving-posterior finite-alpha Renyi escort covariance derivatives,
+  conjugate normal equivalence, coordinate-wise one-at-a-time directional checks, hierarchical mixed-predictive
+  score calibration, and support-dependent failure without reparameterization.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-17T08:23:00Z'
+  updated_at: '2026-10-24T10:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini 4 Argon
+  agent_tool: Antigravity

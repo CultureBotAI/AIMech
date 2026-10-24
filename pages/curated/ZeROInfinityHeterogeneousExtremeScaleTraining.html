@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZeRO-Infinity · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>ZeRO-Infinity</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ZeRO-Infinity</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ZeROInfinityHeterogeneousExtremeScaleTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Zero Redundancy Optimizer Infinity, ZeRO-Infinity NVMe-CPU-GPU Offload, DeepSpeed ZeRO-Infinity
+    </div>
+
+  <div class="detail-desc">
+    A heterogeneous distributed deep learning training system and algorithm built on ZeRO Stage-3 that partitions all model states (parameters, gradients, and optimizer states) across data-parallel processes and offloads them to CPU and NVMe storage via the Infinity Offload Engine (DeepNVMe asynchronous bulk I/O + reusable pinned-memory buffer pool), while decomposing individual large operators into sequential parameter tiles via Memory-Centric Tiling, retrieving offloaded parameters across all parallel PCIe links via allgather-based Bandwidth-Centric Partitioning, and overlapping NVMe-to-CPU (nc), CPU-to-GPU (cg), and GPU-to-GPU (gg) transfers with computation via a dynamic operator-sequence prefetcher.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from ZeRO-Offload (which builds on ZeRO-2, replicates FP16 parameters on every GPU, uses single-owner broadcast limiting offload bandwidth to one PCIe link, and cannot offload to NVMe), from GPU-only ZeRO-3, and from 3D Parallelism (which requires manual tensor-slicing model parallelism and pipeline-stage refactoring and is bounded by aggregate GPU HBM capacity).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r628-memory-working-set-and-arithmetic-intensity-efficiency-laws</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a Transformer with nl layers and hidden dimension hd (params approx 12 nl hd^2, model-state memory 240 nl hd^2 bytes, Eq. 1-2), Model State Working Memory for the largest linear layer (hd -&gt; 4 hd) is 16 hd^2 bytes (Eq. 4) and Activation Working Memory is bsz * seq * ci * (16 hd + 2 attn_heads * seq) bytes (Eq. 5); with per-iteration compute 8 * bsz * seq * params FLOPs (Eq. 7-8), the arithmetic intensities with respect to parameters and gradients, optimizer states, and activation checkpoints reduce exactly to ait_{param+grad} = seq * bsz (Eq. 9), ait_{opt} = seq * bsz / 4 (Eq. 10), and ait_{act_ckpt} = 24 * hd * ci (Eq. 11), governing bandwidth efficiency via efficiency = (ait * bw) / (ait * bw + peak_tp) (Eq. 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r628-primary-pdf">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Eq. (1)-(5) &amp; Figure 2a, p. 3-4; Section 4.1-4.2 Eq. (6)-(11) &amp; Figure 3, p. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r628-memory-centric-tiling-and-bandwidth-centric-allgather-partitioning</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Memory-Centric Tiling decomposes a large linear operator into a mathematically equivalent sequence of T smaller parameter tiles that are fetched and released one at a time via ZeRO-3, reducing peak GPU Model State Working Memory by factor 1 / T without tensor-slicing model parallelism (Section 5.1.3, scaling hidden dimension from 8K to 64K in Figure 6b); simultaneously, Bandwidth-Centric Partitioning shards each parameter across all dp data-parallel processes and reconstructs it via allgather instead of single-owner broadcast, activating all dp PCIe links in parallel so effective slow-memory-to-GPU bandwidth scales linearly with dp (Section 6.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r628-primary-pdf">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1.3, p. 6; Section 6.1-6.2, p. 8; Section 8.5-8.6 Figure 6b-6c, p. 10-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r628-multi-trillion-parameter-training-and-zero-refactoring-init</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By decorating torch.nn.Module.__init__ to partition and offload each submodule&#39;s parameters immediately upon construction (Section 7.2) and injecting recursive pre/post forward-backward hooks with external-parameter auto-registration (Section 7.1), ZeRO-Infinity fine-tunes up to 1-trillion-parameter models on a single 16-GPU DGX-2 node without model parallelism and scales up to 32-trillion-parameter models across 32 DGX-2 nodes (512 V100 GPUs), sustaining over 25 petaflops (49 TFLOPS/GPU, ~40% of peak) with superlinear weak scaling.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r628-primary-pdf">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 1 Figure 1, p. 1; Section 7.1-7.2, p. 9; Section 8.2-8.4 Table 1 &amp; Figure 5, p. 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r628-optimizer-state-bandwidth-and-small-batch-cpu-memory-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because optimizer states have 4x lower arithmetic intensity (seq * bsz / 4) than parameters and gradients and are updated at the end of the backward pass where they cannot be fully overlapped with forward-backward GPU compute, achieving high efficiency at small per-GPU batch sizes requires high aggregate NVMe/CPU bandwidth (~1.5 TB/s across the cluster), and at extreme 20T-parameter scale on 512 GPUs, CPU memory capacity for activation checkpoints limits per-GPU micro-batch size to 1.25, reducing throughput from 49 to 34 TFLOPS/GPU.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r628-primary-pdf">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, p. 6; Section 5.2.2, p. 7; Section 8.2 Table 1 &amp; Figure 5a, p. 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Optimizer states have 4x lower arithmetic intensity (seq * bsz / 4) than parameters and gradients and execute at the end of backward propagation, requiring high aggregate NVMe-CPU bandwidth (~1.5 TB/s across nodes) at small micro-batch sizes.</li>
+      <li>When activation checkpoints are offloaded only to CPU memory rather than NVMe, CPU memory capacity limits the per-GPU micro-batch size for 20-trillion-parameter models, reducing per-GPU throughput from 49 to 34 TFLOPS.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            ZeRO-Infinity enables distributed training and fine-tuning of multi-trillion-parameter deep artificial neural networks across heterogeneous NVMe, CPU, and GPU memory tiers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r628-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r628-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2104.07857.pdf" target="_blank" rel="noopener">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samyam Rajbhandari, Olatunji Ruwase, Jeff Rasley, Shaden Smith, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/sc/RajbhandariRRSH21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6b291a9bf12f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r628-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r628-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2104.07857" target="_blank" rel="noopener">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samyam Rajbhandari, Olatunji Ruwase, Jeff Rasley, Shaden Smith, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2104.07857</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fe11a78fe51a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r628-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r628-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/sc/RajbhandariRRSH21" target="_blank" rel="noopener">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samyam Rajbhandari, Olatunji Ruwase, Jeff Rasley, Shaden Smith, Yuxiong He
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/sc/RajbhandariRRSH21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ec7eb3a1338e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AZeROInfinityHeterogeneousExtremeScaleTraining">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for ZeRO-Infinity" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ZeROInfinityHeterogeneousExtremeScaleTraining</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">ZeRO-Infinity</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:51:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:51:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ZeROInfinityHeterogeneousExtremeScaleTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ZeROInfinityHeterogeneousExtremeScaleTraining.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=ZeRO-Infinity"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AZeROInfinityHeterogeneousExtremeScaleTraining"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

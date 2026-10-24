@@ -1,0 +1,361 @@
+# Scientific author self-review of 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization)
+
+- Review: 20261019T115330Z-one-bit-lamb-adaptive-layerwise-compressed-training
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:53:00Z
+- Finished UTC: 2026-10-19T11:53:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base fb2f5b90b1a7f6e1aae1d039e4cf1fcacbd9b1dc.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining | data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml | maintained | 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining | Validated history sidecar files. |
+| python3 one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py | passed | True | AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining | [PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16, r_last=1.0145, c_final=0.1826, id_err=6.94e-18, red_128=4.57x, red_512=4.11x |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining.
+
+1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization) is a distinct concept.
+
+Distinct from uncompressed LAMB (AIMech:LAMBLayerwiseAdaptiveMomentsBatchOptimization, You et al. 2020), which requires full-precision gradient allreduce and up-to-date uncompressed momentum and variance to compute layerwise trust ratios c_t^{(l)} = clip(&#124;&#124;x_{t-1}^{(l)}&#124;&#124; / &#124;&#124;u_t^{(l)}&#124;&#124;, c_min, c_max). Distinct from 1-bit Adam (AIMech:OneBitAdamErrorCompensatedPreconditionedMomentum, Tang et al. 2021), which freezes variance globally without layerwise scaling or fresh-variance tracking and suffers convergence degradation at large batch sizes (16K-64K), and from naive 'LAMB + basic 1-bit' (Section 3.4), which freezes both variance and c_t^{(l)} and degrades accuracy because LAMB's per-layer variance norms decay by up to two orders of magnitude during training.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py passed with exit code 0: [PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16, r_last=1.0145, c_final=0.1826, id_err=6.94e-18, red_128=4.57x, red_512=4.11x
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T115300Z-one-bit-lamb-adaptive-layerwise-compressed-training.json | supports | No normalized identity match for AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py | supports | All constructed boundary assertions in one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py passed with exit code 0: [PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16, r_last=1.0145, c_final=0.1826, id_err=6.94e-18, red_128=4.57x, red_512=4.11x |
+| r630-primary-pdf | https://arxiv.org/pdf/2104.06069.pdf; Full-text PDF | supports | Full-text PDF (2022 IEEE 29th International Conference on High Performance Computing, Data, and Analytics (HiPC 2022), pp. 272-281 (arXiv:2104.06069v2) (2022)) read and verified. |
+| r630-arxiv-abs | https://arxiv.org/abs/2104.06069; arXiv abstract | supports | arXiv abstract read and verified. |
+| r630-metadata-cr | https://dblp.org/rec/conf/hipc/LiATRH22; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining in Round 630.
+- All pages of 2022 IEEE 29th International Conference on High Performance Computing, Data, and Analytics (HiPC 2022), pp. 272-281 (arXiv:2104.06069v2) (2022) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T115330Z-one-bit-lamb-adaptive-layerwise-compressed-training
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of 1-bit LAMB (Error-Compensated LAMB-Preconditioned
+  Large-Batch Compressed Optimization)
+started_at: '2026-10-19T11:53:00Z'
+finished_at: '2026-10-19T11:53:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+    against existing AIMech and AIO records and verified all claims against 2022 IEEE
+    29th International Conference on High Performance Computing, Data, and Analytics
+    (HiPC 2022), pp. 272-281 (arXiv:2104.06069v2) (2022) and pure-Python boundary
+    checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed
+  Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: fb2f5b90b1a7f6e1aae1d039e4cf1fcacbd9b1dc
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml
+    sha256: 8340122d53ed10283f638188e3665f12c2ee5dc173b1c673c409700ac78815f2
+    role: target
+  - path: research/discovery/20261019T115300Z-one-bit-lamb-adaptive-layerwise-compressed-training.json
+    sha256: 4ec970c03bae8b41cde5d4f8c09d34d030d74f13af441ef6f735a1711664ce98
+    role: context
+  - path: research/discovery/one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py
+    sha256: 4e97efef5723fa72d7644f4fc274edb68d5df48956b8efdaecd25d522ed4a507
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  path: data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml
+  label: 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed
+    Optimization)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/OneBitLambAdaptiveLayerwiseCompressedTraining.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py
+  command: python3 research/discovery/one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16, r_last=1.0145,
+    c_final=0.1826, id_err=6.94e-18, red_128=4.57x, red_512=4.11x'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T115300Z-one-bit-lamb-adaptive-layerwise-compressed-training.json
+  accessed_at: '2026-10-19T11:53:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:53:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py
+  accessed_at: '2026-10-19T11:53:00Z'
+  snapshot_sha256: 4e97efef5723fa72d7644f4fc274edb68d5df48956b8efdaecd25d522ed4a507
+  support: supports
+  summary: 'All constructed boundary assertions in one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py
+    passed with exit code 0: [PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16,
+    r_last=1.0145, c_final=0.1826, id_err=6.94e-18, red_128=4.57x, red_512=4.11x'
+- evidence_id: r630-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2104.06069.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:53:00Z'
+  snapshot_sha256: 7bb1c6dcab2ab81265d00cf79f213c12f6a141afe4425e23b96d4170161ac2b3
+  support: supports
+  summary: Full-text PDF (2022 IEEE 29th International Conference on High Performance
+    Computing, Data, and Analytics (HiPC 2022), pp. 272-281 (arXiv:2104.06069v2) (2022))
+    read and verified.
+- evidence_id: r630-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2104.06069
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:53:00Z'
+  snapshot_sha256: 46028042ec6c138d0f5e2ae1f4a315a8f73e1d7b0e1cbc36863cbc5b0b57818a
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r630-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/hipc/LiATRH22
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:53:00Z'
+  snapshot_sha256: 32bca0f71b0616c84942eb03160ece52b110ba4f809d6252011725cae721f77c
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  evidence_ids:
+  - identity
+  - r630-primary-pdf
+  - r630-arxiv-abs
+  - r630-metadata-cr
+  summary: 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed
+    Optimization) is a distinct concept.
+  details: Distinct from uncompressed LAMB (AIMech:LAMBLayerwiseAdaptiveMomentsBatchOptimization,
+    You et al. 2020), which requires full-precision gradient allreduce and up-to-date
+    uncompressed momentum and variance to compute layerwise trust ratios c_t^{(l)}
+    = clip(||x_{t-1}^{(l)}|| / ||u_t^{(l)}||, c_min, c_max). Distinct from 1-bit Adam
+    (AIMech:OneBitAdamErrorCompensatedPreconditionedMomentum, Tang et al. 2021), which
+    freezes variance globally without layerwise scaling or fresh-variance tracking
+    and suffers convergence degradation at large batch sizes (16K-64K), and from naive
+    'LAMB + basic 1-bit' (Section 3.4), which freezes both variance and c_t^{(l)}
+    and degrades accuracy because LAMB's per-layer variance norms decay by up to two
+    orders of magnitude during training.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  evidence_ids:
+  - mapping
+  - r630-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  evidence_ids:
+  - r630-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py
+    passed with exit code 0: [PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16,
+    r_last=1.0145, c_final=0.1826, id_err=6.94e-18, red_128=4.57x, red_512=4.11x'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining
+  evidence_ids:
+  - identity
+  - mapping
+  - r630-primary-pdf
+  - r630-arxiv-abs
+  - r630-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining in Round
+  630.
+- All pages of 2022 IEEE 29th International Conference on High Performance Computing,
+  Data, and Analytics (HiPC 2022), pp. 272-281 (arXiv:2104.06069v2) (2022) were read
+  in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

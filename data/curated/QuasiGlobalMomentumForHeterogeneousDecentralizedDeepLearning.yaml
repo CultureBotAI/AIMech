@@ -1,0 +1,102 @@
+id: AIMech:QuasiGlobalMomentumForHeterogeneousDecentralizedDeepLearning
+name: Quasi-Global Momentum for Heterogeneous Decentralized Deep Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A communication-free momentum acceleration mechanism for decentralized stochastic optimization (QG-DSGDm / QG-DSGDm-N / QG-DAdam) that replaces the locally biased gradient accumulation buffer of standard decentralized momentum with a quasi-global momentum buffer m_hat_i^(t) = mu * m_hat_i^(t-1) + (1 - mu) * d_i^(t) updated from the normalized difference d_i^(t) = (x_i^(t) - x_i^(t+1)) / eta between two consecutive gossip-synchronized local models, where x_i^(t+1) = sum_{j in N_i^(t)} w_{ij} (x_j^(t) - eta * (beta * m_hat_j^(t-1) + g_j^(t))).
+identity_notes: Introduced by Tao Lin, Sai Praneeth Karimireddy, Sebastian U. Stich, and Martin Jaggi (ICML 2021, PMLR Vol. 139, pp. 6654-6665; arXiv:2102.04761). Distinct from SlowMo (Wang et al., ICLR 2020), which performs periodic global All-Reduce synchronization every tau >> 1 steps and never feeds the slow momentum buffer back into local gradient steps; distinct from MimeLite (Karimireddy et al., 2020), which computes full-batch gradients at a central server in federated learning; and distinct from DMSGD (Balu et al., 2020), which forms a non-recursive convex combination of local and consensus step differences.
+aliases:
+- Quasi-Global Momentum
+- QG-DSGDm
+- QG-DSGDm-N
+- Quasi-Global Decentralized Momentum SGD
+definition_evidence:
+- source_id: r553-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r553-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r553-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: qg-momentum-consecutive-synchronized-model-difference-buffer-mechanism
+  kind: mechanism
+  statement: At each step t, worker i takes a local step x_i^(t+1/2) = x_i^(t) - eta * (beta * m_hat_i^(t-1) + g_i^(t)), performs neighbor gossip averaging x_i^(t+1) = sum_{j in N_i^(t)} w_{ij} x_j^(t+1/2), and updates its quasi-global momentum buffer via m_hat_i^(t) = mu * m_hat_i^(t-1) + (1 - mu) * (x_i^(t) - x_i^(t+1)) / eta without transmitting any additional momentum vectors across the network; in the single-worker case (n = 1, W = [1]), this update algebraically recovers Quasi-Hyperbolic Momentum (QHM) with effective parameter beta_hat = mu + (1 - mu)*beta.
+  evidence:
+  - source_id: r553-primary-pdf
+    locator: Section 3.2 Algorithm 1, Section 4.2, & Appendix B.3.1 Equation (5), pp. 4, 6, 19
+    relation: supports
+- claim_id: qg-momentum-linear-speedup-nonconvex-convergence-scope
+  kind: scope
+  statement: Under L-smoothness, bounded local variance sigma^2, inter-worker heterogeneity zeta^2, and doubly-stochastic mixing spectral gap rho, QG-DSGDm converges on non-convex objectives in T = O(L * sigma^2 / (n * epsilon^2) + L * zeta_tilde / (rho * epsilon^(3/2)) + L / epsilon * (1 / rho + 1 / ((1 - mu)*(1 - beta)^2))) iterations, achieving optimal O(sigma^2 / (n * epsilon^2)) linear speedup independent of 1 / (1 - beta).
+  evidence:
+  - source_id: r553-primary-pdf
+    locator: Section 3.3 Theorem 3.1 & Appendix C Theorem C.7, pp. 5, 22-29
+    relation: supports
+- claim_id: qg-momentum-heterogeneity-drift-and-batchnorm-sensitivity-limitation
+  kind: limitation
+  statement: Unlike gradient-tracking or RelaySum methods, QG-DSGDm retains a second-order heterogeneity drift term O(L * zeta_tilde / (rho * epsilon^(3/2))) that depends on zeta^2 and the spectral gap rho, and requires replacing standard Batch Normalization with Group Normalization or EvoNorm on highly non-IID data.
+  evidence:
+  - source_id: r553-primary-pdf
+    locator: Section 3.3 Theorem 3.1, Section 5.1-5.2, & Table 1, pp. 5, 7-8
+    relation: supports
+- claim_id: qg-momentum-heterogeneous-vision-and-nlp-decentralized-training-application
+  kind: application
+  statement: Applied to heterogeneous decentralized training of ResNet-20/18 (with BN, GN, and EvoNorm) and VGG-11 on CIFAR-10, ImageNet-32, and ImageNet, and QG-DAdam fine-tuning of DistilBERT on AG News over Ring, Social Network, and time-varying directed exponential topologies.
+  evidence:
+  - source_id: r553-primary-pdf
+    locator: Section 5.2 Results, Tables 1-6, pp. 7-9
+    relation: supports
+evidence_sources:
+- source_id: r553-primary-pdf
+  title: 'Quasi-Global Momentum: Accelerating Decentralized Deep Learning on Heterogeneous Data'
+  authors: &id001
+  - Tao Lin
+  - Sai Praneeth Karimireddy
+  - Sebastian U. Stich
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.04761.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/0004KSJ21
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021) (2021) (8700748 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:36:00Z'
+  sha256: ccb1a56073ac1a01da6b63a64ed9a4a4bea5c76f1862acaa2891ed844950f8b8
+- source_id: r553-arxiv-abs
+  title: 'Quasi-Global Momentum: Accelerating Decentralized Deep Learning on Heterogeneous Data (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.04761
+  persistent_id: https://arxiv.org/abs/2102.04761
+  version: arXiv abstract page (6886 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:36:00Z'
+  sha256: bd595ead62a80f4c10dce26189920b329fe38036294259f54717591d66dde216
+- source_id: r553-metadata-cr
+  title: 'Quasi-Global Momentum: Accelerating Decentralized Deep Learning on Heterogeneous Data (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/0004KSJ21
+  persistent_id: https://dblp.org/rec/conf/icml/0004KSJ21
+  version: Crossref API work record (1810 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:36:00Z'
+  sha256: 4b0d791963144f0b1bfb02e5623cf1ffa472f4cc315e9d7e4cfc347973e0ff6f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers collaborative training across heterogeneous client datasets, whereas Quasi-Global Momentum (QG-DSGDm) is a serverless decentralized gossip momentum algorithm that tracks consecutive synchronized model differences.
+limitations:
+- Theoretical non-convex convergence proof imposes a small-momentum condition beta / (1 - beta) <= rho / 21.
+- Does not completely eliminate the O(zeta / (rho * epsilon^(3/2))) heterogeneity drift term when step sizes are large.
+curation:
+  created_at: '2026-10-19T10:36:00Z'
+  updated_at: '2026-10-19T10:36:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

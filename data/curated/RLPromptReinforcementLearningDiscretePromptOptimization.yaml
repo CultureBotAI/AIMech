@@ -1,0 +1,106 @@
+id: AIMech:RLPromptReinforcementLearningDiscretePromptOptimization
+name: RLPrompt Reinforcement Learning Discrete Prompt Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A gradient-free discrete text prompt optimization algorithm that formulates prompt construction z = [z_1, ..., z_T] in V^T as a sequential reinforcement learning problem max_theta R(y_LM(z_hat, x)) with z_hat ~ prod_{t=1}^T pi_theta(z_t | z_{<t}, x), parameterizes the policy pi_theta by inserting a single trainable MLP module into a frozen compact policy language model (such as distilGPT-2), and trains theta via on-policy Soft Q-Learning using input-specific z-score reward normalization z-score(z, x) = (R_x(z) - mean_{z'} R_x(z')) / stdev_{z'} R_x(z') and piecewise margin rewards R(x, c) = lambda_1^{1-Correct} lambda_2^{Correct} Gap_z(c).
+identity_notes: Distinct from AutoPrompt (Shin et al., EMNLP 2020, AIMech:AutoPromptGradientGuidedDiscretePromptSearch), which requires white-box gradients from the target LM, from Black-Box Tuning (Sun et al., ICML 2022, AIMech:BBTBlackBoxTuningForLanguageModelAsAService), which optimizes continuous soft prompt embeddings via CMA-ES in a random linear subspace and requires server-side continuous embedding injection, and from heuristic discrete prompt enumeration/editing methods such as GrIPS (Prasad et al., 2022).
+aliases:
+- RLPrompt
+- Reinforcement Learning Discrete Text Prompt Optimization
+- Policy-Network Discrete Prompt Optimization with Stabilized Rewards
+definition_evidence:
+- source_id: r726-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r726-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r726-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r726-claim-policy-mlp-and-sql
+  kind: mechanism
+  statement: Rather than directly editing discrete vocabulary tokens or requiring gradients from the target task LM, RLPrompt inserts a 1-hidden-layer MLP (2048 hidden units, 3.1M parameters or 3.8% of backbone size) into a frozen 82M-parameter distilGPT-2 policy LM, updates only the MLP parameters via on-policy Soft Q-Learning (SQL), and discards the policy network after training to deploy the deterministic greedy discrete prompt.
+  evidence:
+  - source_id: r726-primary-pdf
+    locator: Section 2.2-2.3 & Appendix A.1, Equation 2, Figure 1, pp. 3-4, 15
+    relation: supports
+- claim_id: r726-claim-zscore-and-piecewise-reward
+  kind: mechanism
+  statement: To stabilize RL training against input-dependent reward scales and adversarial single-class collapse, RLPrompt normalizes rewards across sampled prompt batches Z(x) per input via z-score(z, x) = (R_x(z) - mean R_x) / stdev R_x and uses a piecewise hinge-like classification reward R(x, c) = lambda_1^{1-Correct} lambda_2^{Correct} (P_z(c) - max_{c' != c} P_z(c')) that multiplies positive margins (Correct = 1) by a larger bonus weight lambda_2 > lambda_1.
+  evidence:
+  - source_id: r726-primary-pdf
+    locator: Section 2.4, Section 3.1, & Section 3.2, Equations 3-4, Figures 3, 5, and 6, pp. 4-8, 15-17
+    relation: supports
+- claim_id: r726-claim-classification-style-and-cross-lm-transfer
+  kind: application
+  statement: With only 5 discrete tokens, RLPrompt achieves 75.8% average 16-shot accuracy on RoBERTa-large across 7 classification benchmarks (outperforming Fine-Tuning at 69.5%, Soft Prompt Tuning at 69.2%, Black-Box Tuning at 74.7%, GrIPS at 69.4%, and AutoPrompt at 56.7%), achieves state-of-the-art joint score J(C,S,F) = 61.4 on unsupervised Yelp sentiment style transfer with GPT-2-xl, and discovers gibberish discrete prompts that transfer across different LM families and scales (e.g., from RoBERTa to GPT-2 and from smaller to larger models).
+  evidence:
+  - source_id: r726-primary-pdf
+    locator: Section 3.1-3.3, Tables 2-4, Figures 2 and 4, pp. 5-9
+    relation: supports
+- claim_id: r726-claim-gibberish-fluency-tradeoff-limitation
+  kind: limitation
+  statement: Prompts discovered by RLPrompt are typically high-perplexity ungrammatical gibberish (e.g., perplexity 254K on GPT-2), and constraining the policy's action space via top-20 LM probability filtering to enforce human-readable fluency reduces prompt perplexity to 82.1 but degrades Yelp style transfer joint performance J(C,S,F) from 61.4 to 46.7; moreover, RLPrompt lags full-model fine-tuning on many-class tasks with larger total training sets such as 10-class Yahoo and 14-class DBPedia.
+  evidence:
+  - source_id: r726-primary-pdf
+    locator: Section 3.3 & Appendix A.2, Tables 5 and 8, pp. 8, 15-16
+    relation: supports
+evidence_sources:
+- source_id: r726-primary-pdf
+  title: 'RLPrompt: Optimizing Discrete Text Prompts with Reinforcement Learning'
+  authors: &id001
+  - Mingkai Deng
+  - Jianyu Wang
+  - Cheng-Ping Hsieh
+  - Yihan Wang
+  - Han Guo
+  - Tianmin Shu
+  - Meng Song
+  - Eric P. Xing
+  - Zhiting Hu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.12548.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=RLPrompt+Optimizing+Discrete+Text+Prompts+with+Reinforcement+Learning+Deng&format=xml
+  version: Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022), pp. 3369-3391 (2022) (1214440 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:29:00Z'
+  sha256: 385c55ec3f45617aa230c72654b369480940b526942028c8af00ccf86ae5b541
+- source_id: r726-arxiv-abs
+  title: 'RLPrompt: Optimizing Discrete Text Prompts with Reinforcement Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2205.12548
+  persistent_id: https://arxiv.org/abs/2205.12548
+  version: arXiv abstract page (7349 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:29:00Z'
+  sha256: e10199f74f7577cfb70d8a693b880f855c44a05ad304cf4083fa37a31a753e07
+- source_id: r726-metadata-cr
+  title: 'RLPrompt: Optimizing Discrete Text Prompts with Reinforcement Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=RLPrompt+Optimizing+Discrete+Text+Prompts+with+Reinforcement+Learning+Deng&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=RLPrompt+Optimizing+Discrete+Text+Prompts+with+Reinforcement+Learning+Deng&format=xml
+  version: Crossref API work record (995 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:29:00Z'
+  sha256: 9bc40b962c904f96ebcc6d3669bdba24fbd36bc62c372a7c015f12632abecc93
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: RLPrompt trains a neural policy MLP inserted into a frozen Transformer language model to generate discrete prompts for black-box neural language models.
+limitations:
+- Unconstrained RLPrompt discovers ungrammatical gibberish strings with very high language-model perplexity (254K), whereas enforcing fluency constraints via top-k action filtering substantially degrades downstream task performance (dropping J(C,S,F) from 61.4 to 46.7 on Yelp style transfer).
+- Requires 6,000 to 12,000 RL training steps (1.5 to 24 hours on an RTX 3090 GPU depending on task LM size) and underperforms full-model fine-tuning or continuous prompt tuning on many-class classification tasks with larger sample counts (such as Yahoo and DBPedia).
+curation:
+  created_at: '2026-10-19T13:29:00Z'
+  updated_at: '2026-10-19T13:29:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

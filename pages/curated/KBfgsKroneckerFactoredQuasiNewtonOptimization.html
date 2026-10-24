@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-BFGS and K-BFGS(L) (Kronecker-Factored Quasi-Newton Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>K-BFGS and K-BFGS(L) (Kronecker-Factored Quasi-Newton Optimization)</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">K-BFGS and K-BFGS(L) (Kronecker-Factored Quasi-Newton Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:KBfgsKroneckerFactoredQuasiNewtonOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> K-BFGS, K-BFGS(L), Kronecker-Factored Block-Diagonal BFGS, Kronecker-Factored Quasi-Newton Method for Deep Neural Networks
+    </div>
+
+  <div class="detail-desc">
+    A stochastic Kronecker-factored quasi-Newton optimization method for deep neural networks that approximates each layer&#39;s block-diagonal inverse Hessian as the Kronecker product H_l = H_a^l (x) H_g^l of an inverse input-activation second-moment factor H_a^l and an inverse pre-activation Hessian factor H_g^l, updating H_g^l via BFGS (in K-BFGS) or non-loop limited-memory L-BFGS (in K-BFGS(L)) with a two-stage Powell Double Damping (DD) procedure on layer pre-activation secant pairs and updating H_a^l via Levenberg-Marquardt damped Hessian-action BFGS without cubic matrix inversions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from K-FAC (AIMech:KfacKroneckerFactoredApproximateCurvature), which approximates the Fisher information matrix using outer products of backpropagated predictive-distribution gradients and requires explicit O(d_i^3 + d_o^3) matrix inversions every T steps; K-BFGS and K-BFGS(L) approximate the true layerwise Hessian inverse via secant updates on pre-activation changes s_g^l = E[h_l^+ - h_l] and gradient changes y_g^l = E[g_l^+ - g_l] and require only O(d_i^2 + d_o^2) matrix-vector and matrix-matrix multiplications. Distinct from standard L-BFGS (AIMech:LimitedMemoryBfgsOptimization), which operates on the unfactored n-dimensional parameter vector rather than layerwise Kronecker factors.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kbfgs-powell-double-damping-preactivation-secant-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To maintain positive definiteness and bounded eigenvalues of the inverse pre-activation Hessian approximation H_g^l under non-convex indefinite curvature without line search, Algorithm 3 (Double Damping) applies two sequential Powell damping steps to the moving-average pre-activation secant pair (s_g^l, y_g^l): first interpolating s_tilde = theta_1 * s + (1 - theta_1) * H * y so s_tilde^T y &gt;= mu_1 * y^T H y, and second interpolating y_tilde = theta_2 * y + (1 - theta_2) * s_tilde with B = I so s_tilde^T y_tilde &gt;= mu_2 * ||s_tilde||^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r644-primary-pdf">Practical Quasi-Newton Methods for Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Equations (6)-(10), Algorithm 3, and Appendix C, pages 4-5, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kbfgs-hessian-action-bfgs-sherman-morrison-theorem1-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 proves that for positive-definite A and H = A^{-1}, updating H via any Broyden-family quasi-Newton formula with the Hessian-action secant pair s = H a and y = A^+ s for A^+ = A + c a a^T (c &gt; 0) produces the exact Sherman-Morrison inverse (A^+)^{-1}; K-BFGS applies this update to the Levenberg-Marquardt damped input-activation covariance A_l^LM = A_l + lambda_A I_A using s_a^l = H_a^l bar{a}_{l-1} and y_a^l = A_l^LM s_a^l.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r644-primary-pdf">Practical Quasi-Newton Methods for Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Equation (11), Theorem 1, and Appendix A Algorithm 4 lines 18-22, pages 5-6, 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#kbfgs-nonconvex-stochastic-convergence-rate-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-Lipschitz gradients, bounded stochastic gradient variance sigma^2, and bounded activations |phi_l(h)| &lt;= varphi (Assumptions AS.1-AS.3), Lemmas 1-3 and Theorem 2 prove that the Kronecker-factored inverse Hessian approximations H_k remain uniformly bounded above and below by positive-definite matrices (underline{kappa} I &lt;= H_k &lt;= bar{kappa} I) and achieve (1/N) sum_{k=1}^N E[||grad f(theta_k)||^2] &lt; epsilon in at most O(epsilon^{-1/(1-beta)}) iterations for step sizes alpha_k propto k^{-beta} with beta in (0.5, 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r644-primary-pdf">Practical Quasi-Newton Methods for Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Lemmas 1-3, Theorem 2, and Appendix B, pages 6, 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#kbfgs-deep-autoencoder-benchmark-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On 9-layer and 13-layer ReLU deep autoencoder benchmarks (MNIST, FACES, and CURVES) at mini-batch sizes m = 1000 and m = 100, K-BFGS and K-BFGS(L) substantially outperform Adam, RMSprop, and SGD with momentum in both training loss and test reconstruction error while performing comparably to or better than K-FAC without cubic matrix inversions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r644-primary-pdf">Practical Quasi-Newton Methods for Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Tables 1-2, Figure 1, and Appendix D.5 Figures 4-6, pages 7-9, 19-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#kbfgs-second-forward-backward-pass-per-step-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Computing the pre-activation secant differences s_g^l = E[h_l^+(i) - h_l(i)] and y_g^l = E[g_l^+(i) - g_l(i)] after updating W_l requires an additional forward-backward pass over the current mini-batch M_k at each curvature update step, doubling the per-step propagation cost.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r644-primary-pdf">Practical Quasi-Newton Methods for Training Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Algorithm 2 line 5 and Section 6 Table 2, pages 4, 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a second forward-backward pass over the current mini-batch at each curvature update to evaluate the post-step pre-activation vectors h_l^+ and pre-activation gradients g_l^+.</li>
+      <li>The theoretical non-convex convergence proof (Theorem 2) requires bounded activation functions (Assumption AS.3) and skipping updates when the post-damping curvature ratio exceeds 1/mu_1.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            K-BFGS and K-BFGS(L) are layerwise Kronecker-factored quasi-Newton optimization algorithms designed for training deep neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r644-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r644-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2006.08877.pdf" target="_blank" rel="noopener">Practical Quasi-Newton Methods for Training Deep Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Donald Goldfarb, Yi Ren, Achraf Bahamou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/GoldfarbRB20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:36c538ec4bd5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r644-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r644-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.08877" target="_blank" rel="noopener">Practical Quasi-Newton Methods for Training Deep Neural Networks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Donald Goldfarb, Yi Ren, Achraf Bahamou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.08877</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9976f202923d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r644-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r644-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/GoldfarbRB20" target="_blank" rel="noopener">Practical Quasi-Newton Methods for Training Deep Neural Networks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Donald Goldfarb, Yi Ren, Achraf Bahamou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/GoldfarbRB20</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:91ab42a05da6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AKBfgsKroneckerFactoredQuasiNewtonOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for K-BFGS and K-BFGS(L) (Kronecker-Factored Quasi-Newton Optimization)" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:KBfgsKroneckerFactoredQuasiNewtonOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">K-BFGS and K-BFGS(L)...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ArtificialNeuralNetwork (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:07:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:07:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/KBfgsKroneckerFactoredQuasiNewtonOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/KBfgsKroneckerFactoredQuasiNewtonOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=K-BFGS%20and%20K-BFGS%28L%29%20%28Kronecker-Factored%20Quasi-Newton%20Optimization%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AKBfgsKroneckerFactoredQuasiNewtonOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

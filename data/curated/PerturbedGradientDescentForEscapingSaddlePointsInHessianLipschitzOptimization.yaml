@@ -1,0 +1,106 @@
+id: AIMech:PerturbedGradientDescentForEscapingSaddlePointsInHessianLipschitzOptimization
+name: Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Perturbed Gradient Descent for Escaping Saddle Points in Hessian-Lipschitz Optimization is a purely first-order non-convex optimization algorithm and geometric saddle-escape theory introduced by Jin, Ge, Netrapalli, Kakade, and Jordan (2017) for l-gradient-Lipschitz (||grad f(x_1) - grad f(x_2)|| <= l ||x_1 - x_2||) and rho-Hessian-Lipschitz (||grad^2 f(x_1) - grad^2 f(x_2)|| <= rho ||x_1 - x_2||) objectives f: R^d -> R. Whenever the gradient norm satisfies ||grad f(x_t)|| <= g_thres and at least t_thres steps have elapsed since the previous perturbation, Algorithm 1 adds a single isotropic uniform perturbation xi_t ~ Unif(B_0(r)) of radius r = tilde{Theta}(epsilon / l) and continues standard gradient descent x_{t+1} = x_t - eta grad f(x_t) with step size eta = tilde{Theta}(1 / l). By bounding the stuck region X_stuck subseteq B_{tilde{x}}(r) via a two-sequence coupling lemma (Lemma 15 and Lemma 17) showing that along the minimum-eigenvalue direction e_1 of grad^2 f(tilde{x}) (with lambda_min(grad^2 f(tilde{x})) <= -sqrt(rho epsilon)) the stuck set has width at most delta * r / sqrt(d) along e_1 (forming a ''thin pancake'' of volume fraction at most delta), Theorem 3 proves that Perturbed Gradient Descent finds an epsilon-second-order stationary point (||grad f(x)|| <= epsilon and lambda_min(grad^2 f(x)) >= -sqrt(rho epsilon)) in O(l (f(x_0) - f^*) / epsilon^2 * log^4(d l Delta_f / (epsilon^2 delta))) gradient evaluations, matching unperturbed gradient descent''s first-order complexity up to polylogarithmic factors without computing or inverting any Hessians.'
+identity_notes: Distinct from Strict-Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition (`AIMech:StrictSaddlePropertyAndNoisyStochasticGradientSaddleEscapingForOrthogonalTensorDecomposition`), which injects noise at every stochastic step with poly(d / epsilon) iteration dependence, and from Gradient Descent Avoidance of Strict Saddle Points via Stable Manifold Theorem (`AIMech:GradientDescentAvoidanceOfStrictSaddlePointsViaStableManifoldTheorem`), which establishes asymptotic measure-zero avoidance without quantitative polynomial iteration bounds. Specifically captures the Jin et al. (2017) thresholded ball-perturbation rule (Algorithm 1), the two-point coupling width bound for the thin-pancake stuck region (Lemmas 14-17), the dimension-free log^4(d)/epsilon^2 rate (Theorem 3), and the global strict-saddle/regularity decomposition for symmetric low-rank matrix factorization (Lemmas 6-7).
+aliases:
+- Jin-Ge-Netrapalli-Kakade-Jordan Perturbed Gradient Descent (PGD)
+- Hessian-Free Second-Order Stationary Point Convergence via Isotropic Ball Perturbation
+- Thin-Pancake Stuck-Region Escape for Strict Saddle Optimization
+definition_evidence:
+- source_id: r337-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r337-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r337-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: claim-01
+  kind: mechanism
+  statement: 'For any l-gradient-Lipschitz and rho-Hessian-Lipschitz function f: R^d -> R, if x_tilde satisfies ||grad f(x_tilde)|| <= g_thres and lambda_min(grad^2 f(x_tilde)) <= -sqrt(rho epsilon), then for any two initial perturbations w_0 = u_0 + mu * r * e_1 in B_{x_tilde}(r) separated by mu * r along the minimum eigenvector e_1 of H = grad^2 f(x_tilde), at least one trajectory {u_t} or {w_t} leaves B_{x_tilde}(F * l) within T < t_thres steps and decreases the objective by f(x_tilde) - f(x_{t_0 + t_thres}) >= f_thres = Omega(sqrt(epsilon^3 / rho) / log^3(d l Delta_f / (epsilon^2 delta))), implying that the stuck region X_stuck occupies volume fraction at most delta in B_{x_tilde}(r) and yielding an epsilon-second-order stationary point in tilde{O}(l (f(x_0) - f^*) / epsilon^2) total gradient steps.'
+  evidence:
+  - source_id: r337-primary-pdf
+    locator: Section 2, Theorem 3, p. 5; Section 3, Lemmas 4 and 5, pp. 7-9; Appendix A, Theorem 9 and Lemmas 14-17, pp. 15-24
+    relation: supports
+  - source_id: r337-arxiv-abs
+    locator: 'Abstract: Perturbed GD converges to second-order stationary points in tilde{O}(1/epsilon^2) iterations with log^4(d) dimension dependence'
+    relation: supports
+- claim_id: claim-02
+  kind: mechanism
+  statement: For symmetric low-rank matrix factorization min_{U in R^{d x r}} (1/2) ||U U^T - M^*||_F^2 where M^* = V^* (V^*)^T has top and r-th singular values sigma_1^*, sigma_r^* > 0, the objective satisfies the exact algebraic Hessian identity grad^2 f(U)(Delta, Delta) = ||Delta Delta^T||_F^2 - 3 ||U U^T - M^*||_F^2 + 4 <grad f(U), Delta> for Delta = U - U^* (where U^* = V^* R_U aligns U to V^*), is globally (theta, gamma, zeta)-strict-saddle with gamma = (1/3) sigma_r^*, and satisfies the local (alpha = (1/3) sigma_r^*, beta = 1/(20 sigma_1^*))-regularity condition in the neighborhood of every global minimum.
+  evidence:
+  - source_id: r337-primary-pdf
+    locator: Section 4, Lemmas 6 and 7, pp. 10-11; Appendix C, Proof of Lemma 7 and Equations 21-26, pp. 31-35
+    relation: supports
+  - source_id: r337-metadata-cr
+    locator: 'Abstract: Characterization of global strict-saddle geometry and local regularity for matrix Sensing and Factorization'
+    relation: supports
+- claim_id: claim-03
+  kind: limitation
+  statement: Unperturbed deterministic gradient descent initialized inside the codimension-1 orthogonal stuck subspace (where the component along the negative eigendirection e_1 is zero) remains trapped in the strict-saddle manifold forever without perturbation, and Perturbed Gradient Descent cannot guarantee polynomial-time escape from degenerate higher-order saddle points where grad f(x) = 0 and lambda_min(grad^2 f(x)) = 0.
+  evidence:
+  - source_id: r337-primary-pdf
+    locator: Section 1, Introduction (strict vs higher-order saddles and NP-hardness), pp. 1-3; Section 3, Intuition of Thin Pancake Stuck Region, pp. 7-8
+    relation: supports
+evidence_sources:
+- source_id: r337-primary-pdf
+  title: How to Escape Saddle Points Efficiently
+  authors: &id001
+  - Chi Jin
+  - Rong Ge
+  - Praneeth Netrapalli
+  - Sham M. Kakade
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1703.00887.pdf
+  persistent_id: https://proceedings.mlr.press/v70/jin17a.html
+  version: Proceedings of the 34th International Conference on Machine Learning (ICML 2017), PMLR 70:1724-1732 / J. ACM 68(2):11 (2021) (2017) (651104 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T06:59:00Z'
+  sha256: 52953f9c6a2b284ddd9b3ccac70d8b773563ccc6f6ef47379075ccfb733ebb58
+- source_id: r337-arxiv-abs
+  title: How to Escape Saddle Points Efficiently (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1703.00887
+  persistent_id: https://arxiv.org/abs/1703.00887
+  version: arXiv abstract page (6911 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:59:00Z'
+  sha256: edc14bc55d0ebf744b8435ef0a19d53b6177b9c260b25698729c46c3ed4d5929
+- source_id: r337-metadata-cr
+  title: How to Escape Saddle Points Efficiently (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/jin17a.html
+  persistent_id: https://proceedings.mlr.press/v70/jin17a.html
+  version: Crossref API work record (3967 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T06:59:00Z'
+  sha256: b6ae0bb4db1576121a30426a6bf9761bfb3bb241171d7b87ba66fe31bd0dd491
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Establishes global strict-saddle escape and global optimality for non-convex Burer-Monteiro low-rank matrix factorization objectives.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Provides Hessian-free first-order optimization guarantees for low-rank matrix sensing and dimensionality reduction factorizations.
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: Analyzes smooth non-convex quadratic sensing and factorized least-squares objectives.
+limitations:
+- Guarantees escape only from strict (second-order) saddle points where lambda_min(grad^2 f(x)) <= -sqrt(rho epsilon); escaping degenerate third- or higher-order saddle points can be NP-hard in general.
+curation:
+  created_at: '2026-10-19T06:59:00Z'
+  updated_at: '2026-10-19T06:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

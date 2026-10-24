@@ -1,0 +1,102 @@
+id: AIMech:DeltaLoRA
+name: Delta-LoRA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient fine-tuning algorithm that simultaneously optimizes a pair of low-rank adapter matrices with an adaptive optimizer and updates the full pretrained weight matrix at each post-warmup step using a scaled difference of consecutive low-rank matrix products, while omitting dropout inside the low-rank branch so the gradient with respect to the base weights equals the gradient with respect to the adapter product.
+identity_notes: 'Distinct from AIMech:LowRankAdaptation (LoRA), which keeps the pretrained matrix W frozen throughout training and restricts the cumulative weight update to a rank-r subspace, and from AIMech:ReLoRA, which periodically merges A B into W and reinitializes the low-rank factors with partial optimizer resets. Delta-LoRA (Bojia Zi, Xianbiao Qi, Lingzhi Wang, Jianan Wang, Kam-Fai Wong, and Lei Zhang, arXiv:2309.02411) observes that when the Dropout layer inside the LoRA branch is removed, the forward transformation h_{i+1} = W h_i + (alpha/r) A B h_i yields identical partial derivatives g_W = dL/dW = (dL/dh_{i+1}) h_i^T = dL/d(AB) = g_{AB}. Rather than allocating O(c d) gradient and first/second-moment optimizer buffers for W, Delta-LoRA updates A and B via AdamW and uses the consecutive step difference Delta_AB = A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)} as a memory-free surrogate update direction for W after K warm-up steps: W^{(t+1)} = W^{(t)} + lambda * (alpha/r) * (A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)}).'
+aliases:
+- Delta Low-Rank Adaptation
+- Delta-LoRA High-Rank Parameter Fine-Tuning
+definition_evidence:
+- source_id: r665-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r665-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r665-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: deltalora-consecutive-low-rank-product-delta-weight-propagation
+  kind: mechanism
+  statement: After K initial warm-up iterations, Delta-LoRA updates the pretrained weight matrix W^{(t)} at each step via W^{(t+1)} = W^{(t)} + lambda * (alpha/r) * (A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)}), propagating low-rank adapter updates into W without computing or storing dense gradients or AdamW momentum buffers for W.
+  evidence:
+  - source_id: r665-primary-pdf
+    locator: Section 4.1 (Update the Delta of Low-Rank Matrices on Pre-Trained Weights), pp. 4-5, Equations (4)-(6) & Algorithm 1
+    relation: supports
+- claim_id: deltalora-dropout-removal-gradient-alignment
+  kind: mechanism
+  statement: Because placing a Dropout operator Drop(h_i) before A B yields g_{AB} = (dL/dh_{i+1}) Drop(h_i)^T != (dL/dh_{i+1}) h_i^T = g_W, Delta-LoRA removes the Dropout layer from the low-rank branch so that g_{AB} and g_W share the exact same outer-product structure and also eliminates intermediate dropout activation storage.
+  evidence:
+  - source_id: r665-primary-pdf
+    locator: Section 4.2 (The Structure of Our Delta-LoRA), p. 6, Equation (7)
+    relation: supports
+- claim_id: deltalora-application-nlg-and-glue-nlu-benchmarks
+  kind: application
+  statement: Across E2E NLG, WebNLG 2017, XSum summarization with GPT-2 and BART, and eight GLUE natural language understanding tasks with RoBERTa-base, Delta-LoRA consistently outperforms LoRA, AdaLoRA, and DyLoRA at matched trainable parameter counts and memory footprints.
+  evidence:
+  - source_id: r665-primary-pdf
+    locator: Section 5 (Experiments), Tables 1-6, pp. 6-9
+    relation: supports
+- claim_id: deltalora-limitation-in-place-mutation-of-pretrained-weights
+  kind: limitation
+  statement: Because Delta-LoRA mutates the base weight matrix W^{(t)} in place during training rather than keeping W_0 frozen, multiple task adaptations cannot share an unmodified in-memory base weight tensor during training, and the surrogate update Delta_AB is only a first-order approximation (-eta A^{(t)} g_hat_B - eta g_hat_A B^{(t)}) rather than the exact AdamW-normalized full-matrix gradient.
+  evidence:
+  - source_id: r665-primary-pdf
+    locator: Section 4.1 & Appendix A.1 (The Expansion of Delta AB), pp. 5, 14, Equation (8)
+    relation: supports
+evidence_sources:
+- source_id: r665-primary-pdf
+  title: 'Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices'
+  authors: &id001
+  - Bojia Zi
+  - Xianbiao Qi
+  - Lingzhi Wang
+  - Jianan Wang
+  - Kam-Fai Wong
+  - Lei Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2309.02411
+  persistent_id: https://dblp.org/search/publ/api?q=Delta-LoRA+Fine-Tuning+High-Rank+Parameters&format=xml
+  version: arXiv Computing Research Repository (CoRR) (2023) (651155 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:28:00Z'
+  sha256: 363150916d540c5302aa99dd1b5d505ef2cd77919348783050fbc0e5177d39f1
+- source_id: r665-arxiv-abs
+  title: 'Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2309.02411
+  persistent_id: https://arxiv.org/abs/2309.02411
+  version: arXiv abstract page (6450 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:28:00Z'
+  sha256: 8860a15060d99d4e8a26a52dbeeae34cc54e68a24122b4729619528f741356e9
+- source_id: r665-metadata-cr
+  title: 'Delta-LoRA: Fine-Tuning High-Rank Parameters with the Delta of Low-Rank Matrices (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Delta-LoRA+Fine-Tuning+High-Rank+Parameters&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Delta-LoRA+Fine-Tuning+High-Rank+Parameters&format=xml
+  version: Crossref API work record (786 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:28:00Z'
+  sha256: e06155072a4fcd77f0675f6618c5860fd671208ed075fccb517ddece535bfdba
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Delta-LoRA fine-tunes linear weight matrices in deep artificial neural networks by propagating consecutive low-rank product deltas.
+limitations:
+- Mutating the pretrained weight matrix W^{(t)} in place prevents storing a single frozen base weight copy across concurrent multi-task training runs.
+- The surrogate step Delta_AB = A^{(t+1)} B^{(t+1)} - A^{(t)} B^{(t)} approximates the full-matrix update within the instantaneous column/row spaces of A^{(t)} and B^{(t)} and requires tuning both the warm-up step threshold K and update ratio lambda.
+curation:
+  created_at: '2026-10-19T12:28:00Z'
+  updated_at: '2026-10-19T12:28:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

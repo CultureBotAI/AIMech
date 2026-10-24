@@ -1,0 +1,106 @@
+id: AIMech:TASBTopicAwareSamplingBalancedMarginDistillation
+name: TAS-Balanced Topic-Aware Sampling and Dual-Teacher Margin Distillation
+concept_kind: algorithm
+review_status: DRAFT
+definition: A resource-efficient training and batch-sampling algorithm for single-vector dual-encoder dense retrieval (BERT_DOT) that clusters all training queries into k semantic topic clusters once before training via k-means over baseline query embeddings, constructs each training batch B of size b by drawing queries from n (typically 1) randomly chosen topic clusters so in-batch passages act as topically related hard negatives, stratifies each query's positive-negative passage pairs (p^+, p^-) across h uniform bins of static pairwise teacher margin M_t(q, p^+) - M_t(q, p^-) in [m_min + i*m, m_min + (i+1)*m) before sampling to unskew easy high-margin pairs, and optimizes the student dual-encoder under a dual-teacher Margin-MSE loss L_DS(Q, P^+, P^-) = L_Pair(Q, P^+, P^-) + alpha * L_InB(Q, P^+, P^-) combining a pairwise cross-encoder teacher (BERT_CAT) with an in-batch late-interaction teacher (ColBERT).
+identity_notes: Distinct from ANCE (Xiong et al., ICLR 2021, AIMech:ANCEApproximateNearestNeighborNegativeContrastiveLearning), which requires 8 V100 GPUs to repeatedly re-encode the passage corpus and refresh an ANN index every 10k batches; distinct from RocketQA (Qu et al., NAACL 2021, AIMech:RocketQADenoisedHardNegativeSampling), which requires cross-batch negatives of size 4,000 across 8 V100 GPUs and multi-cycle training; and distinct from single-teacher pairwise Margin-MSE or Tightly-Coupled Teachers (TCT-ColBERT), which use random query batches without topic-aware query clustering or balanced margin bin stratification.
+aliases:
+- TAS-B
+- TAS-Balanced
+- Balanced Topic Aware Sampling for Dense Retrieval
+- TAS-Balanced Dual-Teacher Dense Retrieval Distillation
+definition_evidence:
+- source_id: r754-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r754-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r754-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r754-claim-topic-clustering-and-balanced-margin-bins
+  kind: mechanism
+  statement: Before training, TAS-Balanced encodes all 400K MS MARCO training queries in one minute and partitions them into k=2,000 k-means clusters C_i in under 10 minutes; during training, each batch B of size b=32 samples queries q from n=1 random cluster C_i so all in-batch passages share the same topic, and draws (p^+, p^-) from a uniformly chosen margin bin H(P_q, i) = {(p^+, p^-) | m_min + i*m <= M_t(q, p^+) - M_t(q, p^-) < m_min + (i+1)*m} across h=10 bins to prevent easy high-margin negatives from dominating updates.
+  evidence:
+  - source_id: r754-primary-pdf
+    locator: Section 1, Section 2.2, Section 3, & Section 4.2, Equations 10-13, Figures 1-2, Table 1, pp. 1-3, 5-6
+    relation: supports
+- claim_id: r754-claim-dual-teacher-margin-mse
+  kind: mechanism
+  statement: TAS-Balanced supervises the 6-layer DistilBERT student M_s with L_DS = L_Pair + alpha * L_InB (with alpha=0.75), where L_Pair minimizes MSE(M_s(Q, P^+) - M_s(Q, P^-), M_t(Q, P^+) - M_t(Q, P^-)) against precomputed pairwise BERT_CAT ensemble margins and L_InB minimizes Margin-MSE against a linear-complexity ColBERT teacher across all in-batch negative and positive passage pairings, outperforming KLDiv, ListNet, and LambdaRank list-based in-batch losses.
+  evidence:
+  - source_id: r754-primary-pdf
+    locator: Section 2.3, Section 4.2, & Section 5.1, Equations 6-8, Tables 3-4, pp. 3-4, 6-7
+    relation: supports
+- claim_id: r754-claim-single-gpu-trec-msmarco-application
+  kind: application
+  statement: Trained on a single consumer-grade 11GB GPU in under 48 hours with batch size 32 (and 64ms single-query latency over 8.8M passages), TAS-Balanced achieves 0.712 nDCG@10 and 0.845 Recall@1K on TREC-DL'19, 0.693 nDCG@10 and 0.865 Recall@1K on TREC-DL'20, and 0.340 MRR@10 and 0.975 Recall@1K on MS MARCO Dev (rising to 0.347 MRR@10 and 0.978 Recall@1K at batch size 256, and 0.360 MRR@10 / 0.979 Recall@1K at 67ms when fused with docT5query), outperforming BM25 by 44% and ANCE by 5%+ on TREC-DL nDCG@10.
+  evidence:
+  - source_id: r754-primary-pdf
+    locator: Abstract & Sections 5.1-5.3, Tables 1-2 and 4-7, Figure 3, pp. 1, 3-4, 6-9
+    relation: supports
+- claim_id: r754-claim-reranker-distribution-shift-limitation
+  kind: limitation
+  statement: When TAS-Balanced first-stage retrieval at high cutoff (Top-1,000) is piped into a high-latency mono-duo-T5 reranker trained on BM25 candidates, the shift from lexical to dense candidate distributions prevents mono-duo-T5 from translating TAS-Balanced's higher Recall@1K into higher TREC-DL nDCG@10 (achieving 0.759 vs. 0.773 for docT5query + mono-duo-T5 on TREC-DL'19).
+  evidence:
+  - source_id: r754-primary-pdf
+    locator: Section 1 (RQ4) & Section 5.3, Table 7, pp. 2, 8-9
+    relation: supports
+evidence_sources:
+- source_id: r754-primary-pdf
+  title: Efficiently Teaching an Effective Dense Retriever with Balanced Topic Aware Sampling
+  authors: &id001
+  - Sebastian Hofstatter
+  - Sheng-Chieh Lin
+  - Jheng-Hong Yang
+  - Jimmy Lin
+  - Allan Hanbury
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2104.06967.pdf
+  persistent_id: https://dblp.org/rec/conf/sigir/HofstatterLYLH21.xml
+  version: Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2021), pp. 113-122 (2021) (1763114 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:57:00Z'
+  sha256: 73e35a0ebfa6cbaf7f4d2a4d6b65b810467b74ec1b54f88d53d45638854068bf
+- source_id: r754-arxiv-abs
+  title: Efficiently Teaching an Effective Dense Retriever with Balanced Topic Aware Sampling (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2104.06967
+  persistent_id: https://arxiv.org/abs/2104.06967
+  version: arXiv abstract page (7688 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:57:00Z'
+  sha256: 338fc42c639af5cb3584e16ce4642dc5d4a6a468502037b0a0b3c5decc6e6728
+- source_id: r754-metadata-cr
+  title: Efficiently Teaching an Effective Dense Retriever with Balanced Topic Aware Sampling (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/sigir/HofstatterLYLH21.xml
+  persistent_id: https://dblp.org/rec/conf/sigir/HofstatterLYLH21.xml
+  version: Crossref API work record (512 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:57:00Z'
+  sha256: 497d746b9496863235516c05de5748a8854dd7d1255230abad909929060ac835
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: TAS-Balanced applies k-means clustering over query embeddings to group topically related queries into shared training batches for informative in-batch negative distillation.
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: TAS-Balanced distills pairwise cross-encoder and in-batch late-interaction neural teachers into a 6-layer DistilBERT dual-encoder neural network.
+limitations:
+- Requires precomputed pairwise cross-encoder teacher scores (BERT_CAT) over training triples and a concurrently running ColBERT teacher model during training, increasing per-sample compute by 1x-4x compared to standalone binary-label training.
+- Downstream multi-stage rerankers (such as mono-duo-T5) trained on BM25 candidate distributions fail to exploit TAS-Balanced's higher Recall@1K at deep reranking cutoffs due to candidate distribution shift unless the reranker is retrained on dense candidates.
+curation:
+  created_at: '2026-10-19T13:57:00Z'
+  updated_at: '2026-10-19T13:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

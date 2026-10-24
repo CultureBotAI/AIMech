@@ -1,0 +1,101 @@
+id: AIMech:SlowMoSlowMomentumForCommunicationEfficientDistributedSgd
+name: SlowMo (Slow Momentum for Communication-Efficient Distributed SGD)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A general two-timescale distributed optimization wrapper (Wang et al. 2020, Section 2, Algorithm 1) in which m workers independently execute tau local steps of an arbitrary base optimizer x_{t,k+1}^{(i)} = x_{t,k}^{(i)} - gamma_t d_{t,k}^{(i)} (such as Local SGD, local momentum, or decentralized SGP/OSGP) starting from x_{t,0}^{(i)} = x_{t,0}, compute the exact global average x_{t,tau} = (1/m) sum_{i=1}^m x_{t,tau}^{(i)} every tau steps via AllReduce, and update the outer model via a slow momentum buffer u_{t+1} = beta u_t + (1 / gamma_t)(x_{t,0} - x_{t,tau}), x_{t+1,0} = x_{t,0} - alpha gamma_t u_{t+1} with slow learning rate alpha > 0 and slow momentum factor beta in [0, 1).
+identity_notes: Distinct from standard Local SGD (AIMech:LocalSgdPeriodicAveragingParallelStochasticGradientDescent, Stich 2019), which corresponds to the memoryless special case alpha = 1, beta = 0 without outer slow momentum u_t, and from FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam, Reddi et al. 2021), which focuses on adaptive second-moment server preconditioners (FedAdagrad, FedYogi, FedAdam) under partial client participation rather than wrapping decentralized gossip/SGP and local base optimizers with outer Polyak momentum and proving BMUF/Lookahead non-convex convergence.
+aliases:
+- SlowMo
+- Slow Momentum for Communication-Efficient Distributed SGD
+- Outer Slow-Momentum Wrapper for Local and Decentralized SGD
+definition_evidence:
+- source_id: r426-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r426-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r426-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r426-auxiliary-extrapolated-sequence-and-nonconvex-convergence-theorem
+  kind: mechanism
+  statement: Defining the extrapolated auxiliary sequence y_{t,0} = x_{t,0} + (beta / (1 - beta)) (x_{t,0} - x_{t-1,0}) converts the outer momentum recurrence into the exact step y_{t+1,0} - y_{t,0} = -gamma_eff sum_{k=0}^{tau-1} (1/m) sum_{i=1}^m d_{t,k}^{(i)} with effective learning rate gamma_eff = alpha gamma / (1 - beta) (Appendix D.1, Eqs. 16-22), proving smooth non-convex convergence at rate O(1 / sqrt(m T tau)) whenever the base optimizer's local drift and bias are bounded (Section 5, Theorem 1).
+  evidence:
+  - source_id: r426-primary-pdf
+    locator: Section 5 Convergence Analysis (Theorem 1, Corollaries 1-2) & Appendix D.1-D.3 (Equations 16-22, Proof of Theorem 1)
+    relation: supports
+- claim_id: r426-unification-of-bmuf-and-lookahead-nonconvex-guarantees
+  kind: mechanism
+  statement: Specializing SlowMo's base optimizer and hyperparameters (Section 3, Table 1) provides the first smooth non-convex convergence proofs for Blockwise Model-Update Filtering (BMUF, beta > 0 with Local SGD base, Corollary 1) and Lookahead (m = 1, beta = 0, alpha in (0, 1), Corollary 2), while wrapping Overlap-SGP (OSGP-SlowMo) reduces steady-state validation loss without increasing per-step communication latency.
+  evidence:
+  - source_id: r426-primary-pdf
+    locator: Section 3 Relation to Existing Methods (Table 1) & Section 5 Corollaries 1-2
+    relation: supports
+- claim_id: r426-periodic-exact-allreduce-and-outer-hyperparameter-tuning-limitation
+  kind: limitation
+  statement: Requires an exact AllReduce synchronization across all m workers every tau steps to compute x_{t,tau} and introduces two additional outer hyperparameters (slow learning rate alpha and slow momentum beta).
+  evidence:
+  - source_id: r426-primary-pdf
+    locator: Section 2-4 Algorithm 1 & Hyperparameter Sensitivity Analysis
+    relation: supports
+- claim_id: r426-imagenet-resnet50-and-wmt16-transformer-distributed-training-application
+  kind: application
+  statement: Applied to distributed training of ResNet-50 on ImageNet and Transformer neural machine translation models on WMT'16 En-De across up to 64 GPUs, consistently improving validation accuracy and training speed over Local SGD, BMUF, and SGP.
+  evidence:
+  - source_id: r426-primary-pdf
+    locator: Section 4 Empirical Results (Tables 2-3, Figures 1-4), pp. 4-7
+    relation: supports
+evidence_sources:
+- source_id: r426-primary-pdf
+  title: 'SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum'
+  authors: &id001
+  - Jianyu Wang
+  - Vinayak Tantia
+  - Nicolas Ballas
+  - Michael Rabbat
+  source_type: primary_paper
+  url: https://ar5iv.labs.arxiv.org/html/1910.00643
+  persistent_id: https://openreview.net/forum?id=SkxJ8REYPH
+  version: International Conference on Learning Representations (ICLR 2020) (2020) (72892 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T08:29:00Z'
+  sha256: dd1de8b49424836369a3e068857da8d5ff4817353faf851bc4fd7ea63b0bde7c
+- source_id: r426-arxiv-abs
+  title: 'SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1910.00643
+  persistent_id: https://arxiv.org/abs/1910.00643
+  version: arXiv abstract page (7451 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:29:00Z'
+  sha256: 1495c563fc722397dd0b6822672fccda226273287ac87fb757bf751afdfabd3d
+- source_id: r426-metadata-cr
+  title: 'SlowMo: Improving Communication-Efficient Distributed SGD with Slow Momentum (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openreview.net/forum?id=SkxJ8REYPH
+  persistent_id: https://openreview.net/forum?id=SkxJ8REYPH
+  version: Crossref API work record (376 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T08:29:00Z'
+  sha256: ed85253e33dce0b4a0578ae839d215cfaebef09e79661fb7683dfbd8b4768c00
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: SlowMo wraps multi-step local SGD and decentralized optimization with outer server/all-reduce momentum, directly generalizing federated momentum.
+limitations:
+- Maintains an additional O(d) slow-momentum state buffer u_t across outer synchronization epochs.
+- Requires blocking AllReduce synchronization every tau local iterations.
+curation:
+  created_at: '2026-10-19T08:29:00Z'
+  updated_at: '2026-10-19T08:29:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

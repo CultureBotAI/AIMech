@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Krum and Multi-Krum Byzantine-Tolerant Gradient Descent · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Krum and Multi-Krum Byzantine-Tolerant Gradient Descent</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Krum and Multi-Krum Byzantine-Tolerant Gradient Descent</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Krum, Multi-Krum, Krum Byzantine-Tolerant SGD, (alpha, f)-Byzantine Resilient Krum Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A Euclidean-distance neighborhood gradient aggregation rule (Krum and Multi-Krum) for distributed stochastic gradient descent with n workers of which up to f are Byzantine (2f + 2 &lt; n). Given worker vectors V_1,...,V_n in R^d, Krum assigns each worker i the score s(i) = sum_{i -&gt; j} ||V_i - V_j||^2 summed over the n - f - 2 closest neighbors V_j of V_i in squared Euclidean norm, and outputs the single vector Kr(V_1,...,V_n) = V_{i_*} with minimum score s(i_*); Multi-Krum (Kr_m) averages the m vectors with the smallest scores s(i_*^1),...,s(i_*^m) for 1 &lt;= m &lt;= n - 2f - 2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Coordinate-wise Median and Coordinate-wise Trimmed Mean (AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning, which aggregate each coordinate independently in O(n d) time rather than selecting whole gradient vectors via joint d-dimensional Euclidean neighborhood distances in O(n^2 (d + log n)) time) and from RFA Smoothed Weiszfeld Geometric Median (AIMech:RfaRobustFederatedAggregationSmoothedWeiszfeldGeometricMedian, which computes an iterative smoothed l_2 geometric median across all vectors up to f &lt; n/2 rather than selecting among submitted worker vectors for 2f + 2 &lt; n).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r399-linear-aggregation-impossibility-and-alpha-f-byzantine-resilience</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemma 1 proves that no non-zero linear combination of worker gradients can tolerate even a single Byzantine worker (f = 1), whereas Proposition 1 proves that for 2f + 2 &lt; n and bounded isotropic variance sqrt(d) * sigma &lt; ||g|| / eta(n, f) with eta(n, f) = sqrt(2 * (n - f + (f*(n - f - 2) + f^2*(n - f - 1)) / (n - 2f - 2))), Krum satisfies (alpha, f)-Byzantine resilience (&lt;E[Kr], g&gt; &gt;= (1 - sin alpha) ||g||^2 &gt; 0 and bounded 2nd-4th moments) in O(n^2 (d + log n)) time (Lemma 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r399-primary-pdf">Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Lemma 1, Definition 1) and Section 4 (Lemma 2, Proposition 1), pp. 3-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r399-almost-sure-nonconvex-quasi-martingale-convergence-and-multi-krum</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Proposition 2 establishes almost-sure convergence of Krum-SGD gradients to zero on smooth nonconvex objectives via Fisk quasi-martingale convergence whenever the cone angle satisfies eta(n, f) * sqrt(d) * sigma &lt; ||g||, and Proposition 3 extends (alpha, f)-Byzantine resilience to Multi-Krum Kr_m = (1/m) sum_{s=1}^m V_{i_*^s} when 2f + 2 &lt; n - m, interpolating between 1-Krum selection and mini-batch averaging.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r399-primary-pdf">Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Convergence Analysis (Proposition 2) and Section 6 Discussion / Multi-Krum (Proposition 3), pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r399-quadratic-worker-complexity-and-dimension-noise-cone-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Computing all pairwise distances for Krum costs O(n^2 (d + log n)) per step, requires strictly more than 2f + 2 workers (n &gt;= 2f + 3, or n &gt; 2f + 2 + m for Multi-Krum), and its theoretical cone condition eta(n, f) * sqrt(d) * sigma &lt; ||g|| degrades with sqrt(d) in high dimensions or under non-i.i.d. worker heterogeneity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r399-primary-pdf">Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Lemma 2, Proposition 1, Section 5 Proposition 2, and Section 6, pp. 4-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r399-omniscient-gaussian-and-bit-flip-byzantine-defense-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated on distributed training of multi-layer perceptrons (spambase) and convolutional neural networks (MNIST) under omniscient adversary, Gaussian noise, and bit-flipping attacks up to 45% Byzantine workers, where Multi-Krum maintains clean accuracy while naive averaging fails.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r399-primary-pdf">Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 6 Discussion and Experiments (Figures 2-4), pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Pairwise Euclidean distance computation scales quadratically with the number of workers as O(n^2 (d + log n)).</li>
+      <li>Requires knowing an upper bound f on the number of Byzantine workers with 2f + 2 &lt; n (and 2f + 2 + m &lt; n for Multi-Krum) and degrades when intra-honest variance sigma * sqrt(d) exceeds ||g|| / eta(n, f).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Krum and Multi-Krum are foundational Byzantine-resilient gradient aggregation rules used in distributed and federated optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r399-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r399-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2017/hash/f4b9ec30ad9f68f89b29639786cb62ef-Abstract.html" target="_blank" rel="noopener">Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peva Blanchard, El Mahdi El Mhamdi, Rachid Guerraoui, Julien Stainer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1703.02757</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:80f2f4aa9cfc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r399-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r399-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1703.02757" target="_blank" rel="noopener">Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peva Blanchard, El Mahdi El Mhamdi, Rachid Guerraoui, Julien Stainer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1703.02757</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4e5f47badf42…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r399-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r399-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.48550/arXiv.1703.02757" target="_blank" rel="noopener">Machine Learning with Adversaries: Byzantine Tolerant Gradient Descent (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Peva Blanchard, El Mahdi El Mhamdi, Rachid Guerraoui, Julien Stainer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1703.02757</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:aae2304f650f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AKrumAndMultiKrumByzantineTolerantGradientDescent">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Krum and Multi-Krum Byzantine-Tolerant Gradient Descent" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:KrumAndMultiKrumByzantineTolerantGradientDescent</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Krum and Multi-Krum...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">4 claims · 3 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:FederatedLearning (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T08:02:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T08:02:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml" target="_blank" rel="noopener">
+      <code>data/curated/KrumAndMultiKrumByzantineTolerantGradientDescent.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Krum%20and%20Multi-Krum%20Byzantine-Tolerant%20Gradient%20Descent"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AKrumAndMultiKrumByzantineTolerantGradientDescent"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

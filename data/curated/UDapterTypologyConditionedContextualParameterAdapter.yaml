@@ -1,0 +1,105 @@
+id: AIMech:UDapterTypologyConditionedContextualParameterAdapter
+name: UDapter Typology-Conditioned Contextual Parameter Adapter
+concept_kind: architecture
+review_status: DRAFT
+definition: A multilingual language-adaptation architecture that freezes a pre-trained multilingual Transformer encoder (mBERT) and generates both layer-wise bottleneck adapter parameters theta^(ad) and top-level biaffine attention parser parameters theta^(bf) via a linear Contextual Parameter Generator g^(m)(l_e) = (W^(ad), W^(bf)) . l_e conditioned on a language embedding l_e = MLP^(lang)(l_t) in R^M projected from a 289-dimensional URIEL typological feature vector l_t comprising syntactic, phonological, and phonetic inventory features.
+identity_notes: Introduced by Ahmet Ustun, Arianna Bisazza, Gosse Bouma, and Gertjan van Noord (EMNLP 2020, pp. 2302-2315, arXiv:2004.14327) as UDapter. Distinct from MAD-X (AIMech:MADXMultipleAdaptersForCrossLingualTransfer), which trains separate per-language MLM adapters rather than generating adapter and parser weights from URIEL typological features via a Contextual Parameter Generator; and from HyperFormer (AIMech:HyperFormerSharedHypernetworkAdapter), which generates multi-task NLU adapters from learned task/layer embeddings without linguistic typology vectors or biaffine head generation.
+aliases:
+- UDapter
+- UDapter Contextual Parameter Generator Adapter
+- Typology-Conditioned Contextual Parameter Generation Adapter
+definition_evidence:
+- source_id: r714-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r714-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r714-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: udapter-uriel-typology-mlp-and-contextual-parameter-generator
+  kind: mechanism
+  statement: UDapter maps a 289-dimensional binary URIEL typology vector l_t (103 syntactic, 28 phonological, and 158 phonetic inventory features) through a two-layer ReLU network l_e = MLP^(lang)(l_t) in R^M (M=32) and generates all frozen-mBERT adapter weights theta^(ad) in R^{P^(ad)} and biaffine parser weights theta^(bf) in R^{P^(bf)} via the linear contraction g^(m)(l_e) = (W^(ad), W^(bf)) . l_e.
+  evidence:
+  - source_id: r714-primary-pdf
+    locator: Section 3.3-3.4, Equations (6)-(7), Figure 1, p. 4
+    relation: supports
+- claim_id: udapter-language-count-independent-parameter-complexity
+  kind: mechanism
+  statement: Because the Contextual Parameter Generator matrices W^(ad) in R^{P^(ad) x M} and W^(bf) in R^{P^(bf) x M} depend only on the language embedding dimension M=32 and not on the number of languages, UDapter's total parameter count remains constant at 550M (302M for adapters and 248M for biaffine attention) regardless of the number of languages, compared to 2.5B (13 x 191M) for 13 monolingual UDify models.
+  evidence:
+  - source_id: r714-primary-pdf
+    locator: Appendix A.1, p. 13
+    relation: supports
+- claim_id: udapter-high-resource-and-zero-shot-universal-dependency-parsing
+  kind: application
+  statement: On Universal Dependencies parsing across 13 typologically diverse high-resource languages and 30 zero-shot low-resource languages, UDapter achieves 87.3 average high-resource LAS (outperforming multi-udify at 83.0, mono-udify at 86.0, and adapter-only at 85.0) and 36.5 average zero-shot LAS, whereas replacing URIEL typological features with a centroid of learned language embeddings collapses zero-shot LAS from 36.5 to 9.0.
+  evidence:
+  - source_id: r714-primary-pdf
+    locator: Section 4.1 & Section 5.2, Tables 1-2 & Figure 4a, pp. 5-7, 13
+    relation: supports
+  - source_id: r714-metadata-cr
+    locator: EMNLP 2020 bibliographic record
+    relation: supports
+- claim_id: udapter-cpg-tensor-memory-and-knn-imputed-typology-limitation
+  kind: limitation
+  statement: Multiplying the adapter and biaffine parameter tensors by the language embedding dimension M=32 in the ungrouped CPG formulation increases the single-model parameter footprint from 191M (UDify) to 550M, and zero-shot languages with missing URIEL database entries rely on k-nearest-neighbor imputed typological features.
+  evidence:
+  - source_id: r714-primary-pdf
+    locator: Section 3.3-3.4 & Appendix A.1, Footnotes 3-4, pp. 4-5, 13
+    relation: supports
+evidence_sources:
+- source_id: r714-primary-pdf
+  title: 'UDapter: Language Adaptation for Truly Universal Dependency Parsing'
+  authors: &id001
+  - Ahmet Ustun
+  - Arianna Bisazza
+  - Gosse Bouma
+  - Gertjan van Noord
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.14327.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=UDapter+Language+Adaptation+for+Truly+Universal+Dependency+Parsing&h=5&format=xml
+  version: Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020), pp. 2302-2315 (2020) (3721075 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:17:00Z'
+  sha256: 3cfa9ff56f91fe2dfa6e5d1b2acfc0a7ae9cf8dafde796382b38c028083c0dae
+- source_id: r714-arxiv-abs
+  title: 'UDapter: Language Adaptation for Truly Universal Dependency Parsing (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.14327
+  persistent_id: https://arxiv.org/abs/2004.14327
+  version: arXiv abstract page (6794 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:17:00Z'
+  sha256: d5c37da021be38cd554e1919fde3f2b7c308b6d177aeb6061064688545cb6ccb
+- source_id: r714-metadata-cr
+  title: 'UDapter: Language Adaptation for Truly Universal Dependency Parsing (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=UDapter+Language+Adaptation+for+Truly+Universal+Dependency+Parsing&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=UDapter+Language+Adaptation+for+Truly+Universal+Dependency+Parsing&h=5&format=xml
+  version: Crossref API work record (916 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:17:00Z'
+  sha256: 33134c49a977c10808f0921161af544209f33de31a6490e326050c44467d6577
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: UDapter is a neural contextual-parameter-generation adapter architecture for multilingual Transformer networks.
+limitations:
+- Generating unfactored adapter and biaffine weights via CPG multiplies the trainable parameter tensor size by the language embedding dimension M (32 x 9.4M = 302M for adapters and 32 x 7.8M = 248M for biaffine attention).
+- Zero-shot transfer quality depends on the completeness and accuracy of URIEL typological features, requiring k-NN imputation across genetic, geographical, and feature distances when database features are missing.
+- Without CPG and typological conditioning, simply doubling adapter bottleneck size from 1024 to 2048 degrades zero-shot cross-lingual transfer due to overfitting to in-training languages.
+curation:
+  created_at: '2026-10-19T13:17:00Z'
+  updated_at: '2026-10-19T13:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

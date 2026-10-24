@@ -1,0 +1,364 @@
+# Scientific author self-review of Singular Value Thresholding Algorithm for Matrix Completion
+
+- Review: 20261019T062630Z-singular-value-thresholding-matrix-completion
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T06:26:00Z
+- Finished UTC: 2026-10-19T06:26:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Singular Value Thresholding Algorithm for Matrix Completion as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 8ad78f4dc6dc8cafccd52179a527b56bb24a0f50.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion | data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml | maintained | Singular Value Thresholding Algorithm for Matrix Completion |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion | Validated history sidecar files. |
+| python3 singular-value-thresholding-matrix-completion-boundaries.py | passed | True | AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion | {"concept": "SingularValueThresholdingAlgorithmForMatrixCompletion", "proximal_optimality_min_margin": 0.00414, "status": "VERIFIED", "svt_full_matrix_rel_err": 0.0, "svt_kkt_feasibility_err": 0.0, "svt_recovered_rank": 1, "unstable_delta32_feas_err": 2045823.521089} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion.
+
+Singular Value Thresholding Algorithm for Matrix Completion is a distinct concept.
+
+Distinct from exact nuclear-norm theoretical duality certificates (AIMech:ExactMatrixCompletionViaConvexOptimizationNuclearNorm), Grassmannian manifold alternating minimization OptSpace (AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion), and Hard-Thresholded AltMinComplete (AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion). Specifically captures the Cai-Candes-Shen (2010) SVT algorithm (Equations 1.4-1.5 and Algorithm 1), the nuclear-norm proximal shrinkage theorem D_tau(Y) = argmin_X {(1/2)&#124;&#124;X - Y&#124;&#124;_F^2 + tau &#124;&#124;X&#124;&#124;_*} (Theorem 2.1), the equivalence between the regularized objective min tau &#124;&#124;X&#124;&#124;_* + (1/2)&#124;&#124;X&#124;&#124;_F^2 and the nuclear-norm solution as tau -&gt; infinity (Theorem 3.1), and global convergence under 0 &lt; inf delta_k &lt;= sup delta_k &lt; 2 (Theorem 4.1).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in singular-value-thresholding-matrix-completion-boundaries.py passed with exit code 0: {"concept": "SingularValueThresholdingAlgorithmForMatrixCompletion", "proximal_optimality_min_margin": 0.00414, "status": "VERIFIED", "svt_full_matrix_rel_err": 0.0, "svt_kkt_feasibility_err": 0.0, "svt_recovered_rank": 1, "unstable_delta32_feas_err": 2045823.521089}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T062600Z-singular-value-thresholding-matrix-completion.json | supports | No normalized identity match for AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/singular-value-thresholding-matrix-completion-boundaries.py | supports | All constructed boundary assertions in singular-value-thresholding-matrix-completion-boundaries.py passed with exit code 0: {"concept": "SingularValueThresholdingAlgorithmForMatrixCompletion", "proximal_optimality_min_margin": 0.00414, "status": "VERIFIED", "svt_full_matrix_rel_err": 0.0, "svt_kkt_feasibility_err": 0.0, "svt_recovered_rank": 1, "unstable_delta32_feas_err": 2045823.521089} |
+| r317-primary-pdf | https://arxiv.org/pdf/0810.3286v1; Full-text PDF | supports | Full-text PDF (SIAM Journal on Optimization, 20(4):1956-1982 (2010)) read and verified. |
+| r317-arxiv-abs | https://arxiv.org/abs/0810.3286v1; arXiv abstract | supports | arXiv abstract read and verified. |
+| r317-metadata-cr | https://doi.org/10.1137/080738970; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion in Round 317.
+- All pages of SIAM Journal on Optimization, 20(4):1956-1982 (2010) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T062630Z-singular-value-thresholding-matrix-completion
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Singular Value Thresholding Algorithm for
+  Matrix Completion
+started_at: '2026-10-19T06:26:00Z'
+finished_at: '2026-10-19T06:26:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+    against existing AIMech and AIO records and verified all claims against SIAM Journal
+    on Optimization, 20(4):1956-1982 (2010) and pure-Python boundary checks. This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Singular Value Thresholding Algorithm for Matrix Completion as a distinct
+  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: 8ad78f4dc6dc8cafccd52179a527b56bb24a0f50
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml
+    sha256: 789031bedcbb5f8ed4217a6b7f2d7efa69fb4479202b405321d59a677744ccb8
+    role: target
+  - path: research/discovery/20261019T062600Z-singular-value-thresholding-matrix-completion.json
+    sha256: a0b80c38ec0e293615005de5062dd8dc760cf0d77094dad454119b0c3a7e0deb
+    role: context
+  - path: research/discovery/singular-value-thresholding-matrix-completion-boundaries.py
+    sha256: b0f25e330270ede019c16207ff56c7a2a69bd1d91c8d94baa1c6de50c19d80f7
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  path: data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml
+  label: Singular Value Thresholding Algorithm for Matrix Completion
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/SingularValueThresholdingAlgorithmForMatrixCompletion.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 singular-value-thresholding-matrix-completion-boundaries.py
+  command: python3 research/discovery/singular-value-thresholding-matrix-completion-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"concept": "SingularValueThresholdingAlgorithmForMatrixCompletion", "proximal_optimality_min_margin":
+    0.00414, "status": "VERIFIED", "svt_full_matrix_rel_err": 0.0, "svt_kkt_feasibility_err":
+    0.0, "svt_recovered_rank": 1, "unstable_delta32_feas_err": 2045823.521089}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T062600Z-singular-value-thresholding-matrix-completion.json
+  accessed_at: '2026-10-19T06:26:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T06:26:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/singular-value-thresholding-matrix-completion-boundaries.py
+  accessed_at: '2026-10-19T06:26:00Z'
+  snapshot_sha256: b0f25e330270ede019c16207ff56c7a2a69bd1d91c8d94baa1c6de50c19d80f7
+  support: supports
+  summary: 'All constructed boundary assertions in singular-value-thresholding-matrix-completion-boundaries.py
+    passed with exit code 0: {"concept": "SingularValueThresholdingAlgorithmForMatrixCompletion",
+    "proximal_optimality_min_margin": 0.00414, "status": "VERIFIED", "svt_full_matrix_rel_err":
+    0.0, "svt_kkt_feasibility_err": 0.0, "svt_recovered_rank": 1, "unstable_delta32_feas_err":
+    2045823.521089}'
+- evidence_id: r317-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/0810.3286v1
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T06:26:00Z'
+  snapshot_sha256: 5f7f969ec4caf973e49a76524ea9baca3b61ec9ee6334db478968e06c3ac8a76
+  support: supports
+  summary: Full-text PDF (SIAM Journal on Optimization, 20(4):1956-1982 (2010)) read
+    and verified.
+- evidence_id: r317-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/0810.3286v1
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T06:26:00Z'
+  snapshot_sha256: 8261ef4b72cb3781b177f87a296dd3a900a9b5904b4d55d3fb401214855d1b11
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r317-metadata-cr
+  kind: primary_source
+  reference: https://doi.org/10.1137/080738970
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T06:26:00Z'
+  snapshot_sha256: 8923fa446e33cf47bd6ffd362944d954927749df375f67d1d08a4abf5c2913d3
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  evidence_ids:
+  - identity
+  - r317-primary-pdf
+  - r317-arxiv-abs
+  - r317-metadata-cr
+  summary: Singular Value Thresholding Algorithm for Matrix Completion is a distinct
+    concept.
+  details: Distinct from exact nuclear-norm theoretical duality certificates (AIMech:ExactMatrixCompletionViaConvexOptimizationNuclearNorm),
+    Grassmannian manifold alternating minimization OptSpace (AIMech:OptSpaceDegreeTrimmingSpectralProjectionAndGrassmannManifoldMatrixCompletion),
+    and Hard-Thresholded AltMinComplete (AIMech:AltMinSenseAndAltMinCompleteAlternatingMinimizationForLowRankMatrixSensingAndCompletion).
+    Specifically captures the Cai-Candes-Shen (2010) SVT algorithm (Equations 1.4-1.5
+    and Algorithm 1), the nuclear-norm proximal shrinkage theorem D_tau(Y) = argmin_X
+    {(1/2)||X - Y||_F^2 + tau ||X||_*} (Theorem 2.1), the equivalence between the
+    regularized objective min tau ||X||_* + (1/2)||X||_F^2 and the nuclear-norm solution
+    as tau -> infinity (Theorem 3.1), and global convergence under 0 < inf delta_k
+    <= sup delta_k < 2 (Theorem 4.1).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  evidence_ids:
+  - mapping
+  - r317-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  evidence_ids:
+  - r317-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in singular-value-thresholding-matrix-completion-boundaries.py
+    passed with exit code 0: {"concept": "SingularValueThresholdingAlgorithmForMatrixCompletion",
+    "proximal_optimality_min_margin": 0.00414, "status": "VERIFIED", "svt_full_matrix_rel_err":
+    0.0, "svt_kkt_feasibility_err": 0.0, "svt_recovered_rank": 1, "unstable_delta32_feas_err":
+    2045823.521089}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  evidence_ids:
+  - identity
+  - mapping
+  - r317-primary-pdf
+  - r317-arxiv-abs
+  - r317-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:SingularValueThresholdingAlgorithmForMatrixCompletion
+  in Round 317.
+- All pages of SIAM Journal on Optimization, 20(4):1956-1982 (2010) were read in full
+  text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

@@ -1,0 +1,366 @@
+# Scientific author self-review of TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient Retrieval)
+
+- Review: 20261019T143930Z-twinbert-twin-structured-bert-distillation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T14:39:00Z
+- Finished UTC: 2026-10-19T14:39:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient Retrieval) as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 6b163846beea6e93e7508d9e248ed9c96f3cefd0.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels | data/curated/TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.yaml | maintained | TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient Retrieval) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels | Validated history sidecar files. |
+| python3 twinbert-twin-structured-bert-distillation-boundaries.py | passed | True | AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels | TwinBERT boundary verification passed:<br>  TwinBERT_cos: cos_pos=0.9313 (p=0.9765) &gt; cos_neg=-0.9408 (p=0.0227)<br>  TwinBERT_res: p_res_pos=0.9607 &gt; p_res_neg=0.9065<br>  Teacher soft target at T=2: 0.8176 vs T=1: 0.9526 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.
+
+TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient Retrieval) is a distinct concept.
+
+Distinct from Sentence-BERT (AIMech:SentenceBERT, which fine-tunes pre-trained WordPiece BERT towers with mean/max/[CLS] pooling on NLI/STS labels) and from MORES/DC-BERT (which retain token-level document matrices for upper-layer Transformer attention). TwinBERT replaces recursive WordPiece tokenization with independent 50K character tri-letter embeddings, pools each 6-layer encoder output into a single vector via learned per-position weighted-average pooling, defines both TwinBERT_cos (logistic regression over cos(q, k), Eq. 1) and TwinBERT_res (elementwise max x = max(q, k) followed by residual block y = F(x, W, b) + x, Eq. 2), and distills a 12-layer BERT teacher on 500M search impressions using temperature T=2 soft targets followed by actual-label fine-tuning and asymmetric encoder training.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-4 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.
+
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in twinbert-twin-structured-bert-distillation-boundaries.py passed with exit code 0: TwinBERT boundary verification passed:
+  TwinBERT_cos: cos_pos=0.9313 (p=0.9765) &gt; cos_neg=-0.9408 (p=0.0227)
+  TwinBERT_res: p_res_pos=0.9607 &gt; p_res_neg=0.9065
+  Teacher soft target at T=2: 0.8176 vs T=1: 0.9526
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T143900Z-twinbert-twin-structured-bert-distillation.json | supports | No normalized identity match for AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/twinbert-twin-structured-bert-distillation-boundaries.py | supports | All constructed boundary assertions in twinbert-twin-structured-bert-distillation-boundaries.py passed with exit code 0: TwinBERT boundary verification passed:<br>  TwinBERT_cos: cos_pos=0.9313 (p=0.9765) &gt; cos_neg=-0.9408 (p=0.0227)<br>  TwinBERT_res: p_res_pos=0.9607 &gt; p_res_neg=0.9065<br>  Teacher soft target at T=2: 0.8176 vs T=1: 0.9526 |
+| r796-primary-pdf | https://arxiv.org/pdf/2002.06275.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 29th ACM International Conference on Information and Knowledge Management (CIKM 2020) / arXiv preprint (2020)) read and verified. |
+| r796-arxiv-abs | https://arxiv.org/abs/2002.06275; arXiv abstract | supports | arXiv abstract read and verified. |
+| r796-metadata-cr | https://arxiv.org/bibtex/2002.06275; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels in Round 796.
+- All pages of Proceedings of the 29th ACM International Conference on Information and Knowledge Management (CIKM 2020) / arXiv preprint (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T143930Z-twinbert-twin-structured-bert-distillation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of TwinBERT (Distilling Knowledge to Twin-Structured
+  BERT Models for Efficient Retrieval)
+started_at: '2026-10-19T14:39:00Z'
+finished_at: '2026-10-19T14:39:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 29th ACM International Conference on Information and Knowledge Management
+    (CIKM 2020) / arXiv preprint (2020) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for
+  Efficient Retrieval) as a distinct DRAFT architecture. All four claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 6b163846beea6e93e7508d9e248ed9c96f3cefd0
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.yaml
+    sha256: 0a7cf19911bbcdab6a3e03517ea3a553cf57f4b79ba9dbf4d9759157fbf68887
+    role: target
+  - path: research/discovery/20261019T143900Z-twinbert-twin-structured-bert-distillation.json
+    sha256: 272ec2f03aef12519315fce24b5749390f19001ce1656216c7308c4ed222a459
+    role: context
+  - path: research/discovery/twinbert-twin-structured-bert-distillation-boundaries.py
+    sha256: 562bbc2d7ccd9a223f3e314ae7580f59bba0459b75fa7402cf90c0fdf3fb7cef
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  path: data/curated/TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.yaml
+  label: TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient
+    Retrieval)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 twinbert-twin-structured-bert-distillation-boundaries.py
+  command: python3 research/discovery/twinbert-twin-structured-bert-distillation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "TwinBERT boundary verification passed:\n  TwinBERT_cos: cos_pos=0.9313\
+    \ (p=0.9765) > cos_neg=-0.9408 (p=0.0227)\n  TwinBERT_res: p_res_pos=0.9607 >\
+    \ p_res_neg=0.9065\n  Teacher soft target at T=2: 0.8176 vs T=1: 0.9526"
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T143900Z-twinbert-twin-structured-bert-distillation.json
+  accessed_at: '2026-10-19T14:39:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T14:39:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/twinbert-twin-structured-bert-distillation-boundaries.py
+  accessed_at: '2026-10-19T14:39:00Z'
+  snapshot_sha256: 562bbc2d7ccd9a223f3e314ae7580f59bba0459b75fa7402cf90c0fdf3fb7cef
+  support: supports
+  summary: "All constructed boundary assertions in twinbert-twin-structured-bert-distillation-boundaries.py\
+    \ passed with exit code 0: TwinBERT boundary verification passed:\n  TwinBERT_cos:\
+    \ cos_pos=0.9313 (p=0.9765) > cos_neg=-0.9408 (p=0.0227)\n  TwinBERT_res: p_res_pos=0.9607\
+    \ > p_res_neg=0.9065\n  Teacher soft target at T=2: 0.8176 vs T=1: 0.9526"
+- evidence_id: r796-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2002.06275.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T14:39:00Z'
+  snapshot_sha256: bf96f9492819ab8a035e9d27c321de903931413263b0e107dbe71062d17abedf
+  support: supports
+  summary: Full-text PDF (Proceedings of the 29th ACM International Conference on
+    Information and Knowledge Management (CIKM 2020) / arXiv preprint (2020)) read
+    and verified.
+- evidence_id: r796-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2002.06275
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T14:39:00Z'
+  snapshot_sha256: cbc4ef5883cd5f1833e8f08cf8b644f45ea4e737b3d16b61e4550aa0e8aff611
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r796-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/bibtex/2002.06275
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T14:39:00Z'
+  snapshot_sha256: a121d958268f6cf70a6ce6e4d62989be1a1a78656c70b5c3bc63c42dfc4b427a
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  evidence_ids:
+  - identity
+  - r796-primary-pdf
+  - r796-arxiv-abs
+  - r796-metadata-cr
+  summary: TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient
+    Retrieval) is a distinct concept.
+  details: Distinct from Sentence-BERT (AIMech:SentenceBERT, which fine-tunes pre-trained
+    WordPiece BERT towers with mean/max/[CLS] pooling on NLI/STS labels) and from
+    MORES/DC-BERT (which retain token-level document matrices for upper-layer Transformer
+    attention). TwinBERT replaces recursive WordPiece tokenization with independent
+    50K character tri-letter embeddings, pools each 6-layer encoder output into a
+    single vector via learned per-position weighted-average pooling, defines both
+    TwinBERT_cos (logistic regression over cos(q, k), Eq. 1) and TwinBERT_res (elementwise
+    max x = max(q, k) followed by residual block y = F(x, W, b) + x, Eq. 2), and distills
+    a 12-layer BERT teacher on 500M search impressions using temperature T=2 soft
+    targets followed by actual-label fine-tuning and asymmetric encoder training.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  evidence_ids:
+  - mapping
+  - r796-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  evidence_ids:
+  - r796-primary-pdf
+  - calculation
+  summary: All four claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: "All constructed boundary assertions in twinbert-twin-structured-bert-distillation-boundaries.py\
+    \ passed with exit code 0: TwinBERT boundary verification passed:\n  TwinBERT_cos:\
+    \ cos_pos=0.9313 (p=0.9765) > cos_neg=-0.9408 (p=0.0227)\n  TwinBERT_res: p_res_pos=0.9607\
+    \ > p_res_neg=0.9065\n  Teacher soft target at T=2: 0.8176 vs T=1: 0.9526"
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  evidence_ids:
+  - identity
+  - mapping
+  - r796-primary-pdf
+  - r796-arxiv-abs
+  - r796-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels
+  in Round 796.
+- All pages of Proceedings of the 29th ACM International Conference on Information
+  and Knowledge Management (CIKM 2020) / arXiv preprint (2020) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

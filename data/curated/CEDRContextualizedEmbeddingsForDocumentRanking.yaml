@@ -1,0 +1,107 @@
+id: AIMech:CEDRContextualizedEmbeddingsForDocumentRanking
+name: CEDR Contextualized Embeddings for Document Ranking
+concept_kind: architecture
+review_status: DRAFT
+definition: A joint neural document ranking architecture that replaces the single 2D static-word-embedding similarity matrix in interaction-focused neural rankers (such as PACRR, KNRM, and DRMM) with a 3D multi-layer contextualized similarity tensor S_{Q,D}[l, q, d] = cos(context_{Q,D}(q, l), context_{Q,D}(d, l)) in R^{L x |Q| x |D|} computed across all L layers of a fine-tuned contextualized language model (BERT) and concatenates BERT's deep semantic [CLS] classification vector with the per-layer soft n-gram, RBF kernel-pooling, or histogram-bin matching signals to predict final query-document relevance.
+identity_notes: Distinct from Vanilla BERT cross-encoder re-rankers, which predict relevance solely from a linear projection of the final-layer [CLS] vector without computing token-to-token cosine similarity matrices or soft term-counting kernels across intermediate layers; and distinct from static-embedding interaction rankers (KNRM, PACRR, DRMM with GloVe/Word2Vec), where identical surface words always receive cosine similarity 1.0 regardless of polysemous context.
+aliases:
+- CEDR
+- Contextualized Embeddings for Document Ranking
+- CEDR Joint Contextualized Similarity Tensor Ranking Architecture
+definition_evidence:
+- source_id: r781-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r781-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r781-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: cedr-multi-layer-contextualized-similarity-tensor-and-sense-disambiguation
+  kind: mechanism
+  statement: 'CEDR expands the 2D query-document similarity matrix S in R^{|Q| x |D|} into a 3D multi-layer similarity tensor S_{Q,D}[l, q, d] = cos(context_{Q,D}(q, l), context_{Q,D}(d, l)) in R^{L x |Q| x |D|} across all L layers of a contextualized language model (Section 2.2, Equation 1): unlike static GloVe embeddings where identical tokens always yield cosine similarity 1.0, S_{Q,D}[l, q, d] assigns context-dependent similarity (< 1.0) that separates matching word senses (e.g., ''curb'' meaning restrain population growth vs. street construction in Figure 1) and feeds each layer l as an input channel to PACRR convolutions or KNRM/DRMM counting kernels.'
+  evidence:
+  - source_id: r781-primary-pdf
+    locator: Section 2.2 & Section 3.2, Equation 1 & Figure 1, pp. 2-3
+    relation: supports
+  - source_id: r781-primary-pdf
+    locator: build_contextualized_similarity_tensor() and main() verification of polysemous 'curb' sense separation
+    relation: supports
+- claim_id: cedr-joint-bert-cls-and-interaction-kernel-fusion
+  kind: mechanism
+  statement: "To combine deep next-sentence semantic classification with token-level relevance matching, CEDR encodes the query (Segment A) and document segments (Segment B, split evenly within BERT's 512-token limit and averaged across splits) simultaneously through BERT and fuses the [CLS] classification vector with the neural ranker\u2014by concatenating [CLS] to the multi-layer kernel/n-gram signals before dense combination in CEDR-KNRM and CEDR-PACRR, or by including [CLS] in the per-query-term dense combination of bin scores in CEDR-DRMM (Sections 2.3 & 3.1)."
+  evidence:
+  - source_id: r781-primary-pdf
+    locator: Sections 2.3 & 3.1, p. 2
+    relation: supports
+  - source_id: r781-primary-pdf
+    locator: knrm_multi_layer_features() and cedr_knrm_score() verification
+    relation: supports
+- claim_id: cedr-robust04-and-webtrack-ranking-application
+  kind: application
+  statement: On TREC Robust 2004 and WebTrack 2012-14, CEDR-PACRR, CEDR-KNRM, and CEDR-DRMM all significantly outperform BM25, ConvKNRM, GloVe-based rankers, Vanilla BERT, and their non-CEDR contextualized counterparts (Table 1, reaching 0.4667 P@20 and 0.5381 nDCG@20 with CEDR-KNRM on Robust04 vs. 0.4042 / 0.4541 for Vanilla BERT), while truncating BERT execution at layer 5 retains nearly all of CEDR-PACRR's nDCG@20 / ERR@20 gains at over 2x faster inference speed (Section 3.2, Figure 2b).
+  evidence:
+  - source_id: r781-primary-pdf
+    locator: Section 3.2, Table 1 & Figure 2, pp. 3-4
+    relation: supports
+- claim_id: cedr-query-time-contextual-encoding-and-all-layer-tensor-cost-limitation
+  kind: limitation
+  statement: Because CEDR jointly encodes the query and document through BERT at query time and computes |Q| x |D| cosine similarity matrices across all L layers, its inference throughput is orders of magnitude slower than static GloVe-based interaction rankers (Figure 2a), and documents exceeding BERT's 512-token limit up to the 800-token truncation cap must be split into multiple segments and processed separately (Sections 3.1-3.2).
+  evidence:
+  - source_id: r781-primary-pdf
+    locator: Sections 3.1-3.2, Figure 2a, pp. 2-4
+    relation: supports
+evidence_sources:
+- source_id: r781-primary-pdf
+  title: 'CEDR: Contextualized Embeddings for Document Ranking'
+  authors: &id001
+  - Sean MacAvaney
+  - Andrew Yates
+  - Arman Cohan
+  - Nazli Goharian
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.07094.pdf
+  persistent_id: https://arxiv.org/bibtex/1904.07094
+  version: SIGIR 2019 (2019) (856623 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:24:00Z'
+  sha256: 380622ed9ff63c32300cf9b04c0aaa308eb5f8f2c89484d1edba58a4627c87fd
+- source_id: r781-arxiv-abs
+  title: 'CEDR: Contextualized Embeddings for Document Ranking (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1904.07094
+  persistent_id: https://arxiv.org/abs/1904.07094
+  version: arXiv abstract page (6975 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:24:00Z'
+  sha256: a38ef95be0a6f6d05f51dac46b935027dca8dcf9c9dc673bda722a8ed9fc90d4
+- source_id: r781-metadata-cr
+  title: 'CEDR: Contextualized Embeddings for Document Ranking (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1904.07094
+  persistent_id: https://arxiv.org/bibtex/1904.07094
+  version: Crossref API work record (465 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:24:00Z'
+  sha256: 336d694a149feed7cc58d897330afb94b05e46bd2a1eab587b400aeaa7723070
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: CEDR couples a multi-layer pretrained Transformer (BERT) or bidirectional LSTM (ELMo) neural network with convolutional (PACRR), radial-basis kernel pooling (KNRM), or feed-forward histogram (DRMM) neural ranking layers.
+limitations:
+- Jointly encoding query-document pairs through BERT and constructing L-layer |Q| x |D| cosine similarity matrices at query time is orders of magnitude slower than static word-embedding rankers.
+- Documents longer than BERT's 512-token context limit (up to the 800-token cap) must be partitioned into separate segments for encoding.
+curation:
+  created_at: '2026-10-19T14:24:00Z'
+  updated_at: '2026-10-19T14:24:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

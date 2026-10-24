@@ -1,0 +1,99 @@
+id: AIMech:DetagDecentralizedStochasticGradientTrackingWithByPhaseAcceleratedGossip
+name: DeTAG Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip
+concept_kind: algorithm
+review_status: DRAFT
+definition: A decentralized stochastic non-convex optimization algorithm (DeTAG) that partitions training into phases of length R, concurrently executing R steps of momentum-accelerated gossip z_{r+1,i} = (1 + eta) sum_{j in N_i U {i}} z_{r,j} W_{ji} - eta z_{r-1,i} with eta = (1 - sqrt(1 - lambda^2)) / (1 + sqrt(1 - lambda^2)) on both the model replica x_tilde and gradient tracker y while accumulating B*R stochastic gradient queries at the fixed phase point x_{k,i}, and updating x_{k+1} = AG_R(x_k - alpha * y_k) and y_{k+1} = AG_R(y_k + g_tilde_k - g_tilde_{k-1}) at each phase boundary to achieve near-minimax-optimal sample and communication complexity.
+identity_notes: Introduced by Yucheng Lu and Christopher De Sa (ICML 2021, PMLR Vol. 139, pp. 7111-7123; arXiv:2006.08085). Distinct from standard Decentralized Stochastic Gradient Tracking (DSGT / GT-DSGD, Pu & Nedic 2020; Zhang & You 2019; Xin et al. 2021), which corresponds to the unaccelerated single-step special case R = 1, eta = 0 and incurs suboptimal O((1 - lambda)^(-3)) spectral-gap dependence; and distinct from RelaySum / RelaySGD (Vogels et al., NeurIPS 2021, Round 549), which routes unattenuated sums over spanning trees rather than running by-phase Chebyshev-accelerated gossip with gradient tracking on arbitrary doubly-stochastic gossip matrices.
+aliases:
+- DeTAG
+- Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip
+- By-Phase Accelerated Gossip Gradient Tracking
+definition_evidence:
+- source_id: r552-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r552-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r552-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: detag-by-phase-accelerated-gossip-and-gradient-tracker-mechanism
+  kind: mechanism
+  statement: Within each phase k of R iterations, each worker i simultaneously accumulates R stochastic gradient batches g_(k) at fixed parameters x_{k,i} while applying R steps of Accelerated Gossip AG(z, W) with extrapolation weight eta = (1 - sqrt(1 - lambda^2)) / (1 + sqrt(1 - lambda^2)) to both the model replica x_tilde and gradient tracker y, contracting consensus error by factor rho = (1 - sqrt(1 - lambda_2(W)))^R before performing the phase-end tracker update y_{t+1,i} <- y_{t+1,i} + g_(k) - g_(k-1).
+  evidence:
+  - source_id: r552-primary-pdf
+    locator: Section 6 Algorithms 2-3 & Appendix B.4 Equations (52)-(61), pp. 9-10, 24
+    relation: supports
+- claim_id: detag-near-optimal-nonconvex-sample-and-communication-complexity-scope
+  kind: scope
+  statement: For L-smooth non-convex objectives with bounded initial heterogeneity (1/n) sum_i ||grad f_i(0) - grad f(0)||^2 <= varsigma_0^2 and gossip second eigenvalue lambda, setting phase length R = max((1/2) log n, (1/2) log(varsigma_0^2 T / (Delta * L))) / sqrt(1 - lambda) enables DeTAG to reach an epsilon-stationary point in O(Delta * L * sigma^2 / (n * B * epsilon^4) + Delta * L * log(n + varsigma_0 * n / (epsilon * sqrt(Delta * L))) / (epsilon^2 * sqrt(1 - lambda))) iterations, matching the information-theoretic lower bound of Corollary 1 up to a logarithmic factor.
+  evidence:
+  - source_id: r552-primary-pdf
+    locator: Section 4 Theorem 1 & Corollary 1, Section 6 Theorem 3, Table 2, pp. 3, 7, 10
+    relation: supports
+- claim_id: detag-phase-length-and-spectral-gap-tuning-limitation
+  kind: limitation
+  statement: Requires tuning or estimating the gossip acceleration parameter eta (which depends on the second largest eigenvalue lambda of W) and the phase length R, and holds the model query point x_{k,i} fixed across the R inner steps of each phase.
+  evidence:
+  - source_id: r552-primary-pdf
+    locator: Section 6 Understanding the phase length R & Appendix A.1-A.2, pp. 10, 18-19
+    relation: supports
+- claim_id: detag-unshuffled-cifar-sparse-graph-training-application
+  kind: application
+  statement: Applied to decentralized training of LeNet on unshuffled non-IID CIFAR-10 and ResNet-20 on CIFAR-100 across sparse ring topologies with small spectral gaps (1 - lambda down to 4e-4).
+  evidence:
+  - source_id: r552-primary-pdf
+    locator: Section 7 Experiments, Figures 2-3, pp. 10-12
+    relation: supports
+evidence_sources:
+- source_id: r552-primary-pdf
+  title: Optimal Complexity in Decentralized Training
+  authors: &id001
+  - Yucheng Lu
+  - Christopher De Sa
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2006.08085.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/LuS21
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021) (2021) (1679641 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:35:00Z'
+  sha256: 720a7e94166b0472cb105059d7edde5f49706d6a5fed16d23748ea5cfce6a363
+- source_id: r552-arxiv-abs
+  title: Optimal Complexity in Decentralized Training (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2006.08085
+  persistent_id: https://arxiv.org/abs/2006.08085
+  version: arXiv abstract page (6588 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:35:00Z'
+  sha256: 310417162cf844ea739e11ad4bf7198ae6e57c6beed1c2c6da30e034f2ba0368
+- source_id: r552-metadata-cr
+  title: Optimal Complexity in Decentralized Training (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/LuS21
+  persistent_id: https://dblp.org/rec/conf/icml/LuS21
+  version: Crossref API work record (1046 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:35:00Z'
+  sha256: f37c01f632ed38c640ac1690ebc36d1838a7684c9a7d2cec6cd4ffd589fdf8ae
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers distributed training over local datasets, whereas DeTAG is a serverless decentralized stochastic gradient-tracking algorithm with R-step Chebyshev-accelerated gossip phases.
+limitations:
+- Requires a doubly-stochastic gossip matrix W and tuning of the phase length R and acceleration weight eta.
+- Accumulates gradients at a fixed phase iterate x_{k,i} across R steps unless modified with heuristic local steps.
+curation:
+  created_at: '2026-10-19T10:35:00Z'
+  updated_at: '2026-10-19T10:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

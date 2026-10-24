@@ -1,0 +1,111 @@
+id: AIMech:VoteKSelectiveAnnotationForInContextLearning
+name: Vote-k Selective Annotation for In-Context Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A graph-based selective annotation algorithm for few-shot in-context learning that constructs a directed k-nearest-neighbor graph over dense sentence embeddings of an unlabeled dataset, iteratively selects an initial fraction (M/10) of examples to annotate by maximizing a discounted in-degree score where each vertex's vote is exponentially decayed by the number of its already-selected neighbors, evaluates the language model's predictive confidence on the remaining unlabeled pool using those initial annotations, and selects the remaining 9M/10 examples via the discounted vote-k score stratified across confidence-percentile buckets.
+identity_notes: Distinct from test-time prompt retrieval methods such as KATE (AIMech:KATEkNNAugmentedInContextExampleSelection) and EPR (AIMech:EPREfficientPromptRetrievalForInContextLearning), which assume the entire training pool is already annotated and select prompts per test query, whereas Vote-k operates before annotation to choose a compact, diverse, and representative subset L of size M from an unlabeled pool X to be human-annotated. Also distinct from pure facility-location or greedy embedding-diversity coreset selection, which do not combine exponentially discounted kNN graph voting with in-context LM confidence stratification.
+aliases:
+- Vote-k Selective Annotation
+- Vote-k Graph-Based Selective Annotation
+- Selective Annotation with Vote-k
+definition_evidence:
+- source_id: r738-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r738-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r738-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: votek-discounted-knn-graph-scoring-mechanism
+  kind: mechanism
+  statement: Vote-k builds a directed graph G = (V, E) connecting each unlabeled instance to its k nearest cosine-similarity neighbors in Sentence-BERT embedding space and scores each candidate u by summing s(v) = rho^{-|{l in L | (v, l) in E}|} (rho > 1) over all remaining vertices v that have an edge to u, promoting both high neighborhood density and coverage diversity.
+  evidence:
+  - source_id: r738-primary-pdf
+    locator: Section 2.1 & Appendix G.1 Algorithm 1 (Lines 2-7), pp. 3 & 21
+    relation: supports
+- claim_id: votek-confidence-bucket-stratification-mechanism
+  kind: mechanism
+  statement: After annotating the first M/10 examples selected by Vote-k, the algorithm uses them as in-context demonstrations to compute average log-probability confidence scores on all remaining unlabeled instances, partitions the unlabeled pool into M equal-sized confidence percentile buckets, and selects the highest-scoring Vote-k instance from each of the first 9M/10 buckets while discarding the top 10% most confident buckets.
+  evidence:
+  - source_id: r738-primary-pdf
+    locator: Section 2.1 & Appendix G.1 Algorithm 1 (Lines 8-18), pp. 3 & 21
+    relation: supports
+- claim_id: votek-annotation-efficiency-and-domain-shift-application
+  kind: application
+  statement: Paired with similarity-based prompt retrieval across 10 classification, commonsense reasoning, dialogue state tracking, semantic parsing, QA, and summarization benchmarks, Vote-k achieves a 12.9% and 11.4% relative gain over random annotation under budgets of 18 and 100 examples and matches supervised fine-tuning with 10-100x fewer annotations.
+  evidence:
+  - source_id: r738-primary-pdf
+    locator: Section 3.3 & Section 4.1-4.3, pp. 5-8, Tables 2-3 & Figure 2
+    relation: supports
+  - source_id: r738-metadata-cr
+    locator: DBLP bibliographic record Hongjin Su et al. ICLR 2023
+    relation: supports
+- claim_id: votek-similarity-retrieval-coupling-limitation
+  kind: limitation
+  statement: The diversity and representativeness gains of Vote-k selective annotation depend critically on pairing the annotated pool with similarity-based test-time prompt retrieval; when prompts are sampled randomly at test time from the Vote-k pool, performance drops and fails to improve over random annotation.
+  evidence:
+  - source_id: r738-primary-pdf
+    locator: Section 4.4, p. 8, Table 4
+    relation: supports
+evidence_sources:
+- source_id: r738-primary-pdf
+  title: Selective Annotation Makes Language Models Better Few-Shot Learners
+  authors: &id001
+  - Hongjin Su
+  - Jungo Kasai
+  - Chen Henry Wu
+  - Weijia Shi
+  - Tianlu Wang
+  - Jiayi Xin
+  - Rui Zhang
+  - Mari Ostendorf
+  - Luke Zettlemoyer
+  - Noah A. Smith
+  - Tao Yu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2209.01975.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Selective+Annotation+Makes+Language+Models+Better+Few-Shot+Learners+Su&h=5&format=xml
+  version: The Eleventh International Conference on Learning Representations (ICLR 2023) (2023) (764086 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:41:00Z'
+  sha256: f9dd0373bacef9eed0d1df29be0d7e5f218e00f54783906a3850f6cebc8e53b5
+- source_id: r738-arxiv-abs
+  title: Selective Annotation Makes Language Models Better Few-Shot Learners (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2209.01975
+  persistent_id: https://arxiv.org/abs/2209.01975
+  version: arXiv abstract page (7293 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:41:00Z'
+  sha256: 79f9549283667f2007302099ff79e5807058c7b3b0c19dbc35b0acbb12fff317
+- source_id: r738-metadata-cr
+  title: Selective Annotation Makes Language Models Better Few-Shot Learners (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Selective+Annotation+Makes+Language+Models+Better+Few-Shot+Learners+Su&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Selective+Annotation+Makes+Language+Models+Better+Few-Shot+Learners+Su&h=5&format=xml
+  version: Crossref API work record (1029 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:41:00Z'
+  sha256: a1fa4bc6c510c2ec6904c1d0694cdde551ba35d9e8335982ad7d925ce96b0acd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Vote-k performs graph-based selective annotation over neural sentence embeddings and language model confidence scores to construct few-shot demonstration pools.
+limitations:
+- The full Vote-k algorithm requires running language model inference over the remaining unlabeled pool after the initial M/10 annotations to compute confidence percentiles (though Fast Vote-k omits this step).
+- Directly fine-tuning a language model on the Vote-k selected subset without outlier removal does not yield the same gains observed in similarity-retrieved in-context learning.
+curation:
+  created_at: '2026-10-19T13:41:00Z'
+  updated_at: '2026-10-19T13:41:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

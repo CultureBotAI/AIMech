@@ -1,0 +1,103 @@
+id: AIMech:LoRADrop
+name: LoRA-drop
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient fine-tuning algorithm that evaluates the layer-wise importance of low-rank adapters using the normalized sum of squared Euclidean norms of the adapter outputs ||Delta W_i x_i||^2 over a stratified sample of task data, retains independent trainable LoRA modules for the highest-importance layers up to a cumulative importance threshold T, and replaces all remaining low-importance layers with a single shared trainable LoRA module.
+identity_notes: Distinct from AdaLoRA (AIMech:AdaLoRA, which dynamically prunes singular triplets of SVD-parameterized adapters based on weight-gradient sensitivity scores without cross-layer parameter sharing), from Tied-LoRA (AIMech:TiedLoRA, which uniformly ties projection matrices across all layers with diagonal scaling vectors rather than partitioning layers by data-dependent output norms ||Delta W_i x_i||^2), and from standard LoRA (AIMech:LoRA, which trains independent untied adapters across all layers). Formulated by Zhou et al. (COLING 2025, pages 5530-5543; arXiv:2402.07721).
+aliases:
+- LoRA-Drop Output-Evaluated Parameter Pruning
+- Output-Based LoRA Layer Pruning and Sharing
+- LoRA-drop Parameter-Efficient Fine-Tuning
+definition_evidence:
+- source_id: r680-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r680-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r680-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: loradrop-output-norm-importance-score
+  kind: mechanism
+  statement: LoRA-drop performs a short warm-up update of layer-wise LoRA modules Delta W_i = B_i A_i on a stratified subset D_s of the downstream task dataset (with sampling ratio alpha in (0, 1)), computes the unnormalized output energy g_i = sum_{x in D_s} ||Delta W_i x_i||_2^2 for each layer i, and normalizes across layers to obtain the relative importance score I_i = g_i / sum_j g_j in [0, 1] satisfying sum_i I_i = 1.
+  evidence:
+  - source_id: r680-primary-pdf
+    locator: Section 3.1 Importance Evaluation, Eq. 2-3, p. 3-4
+    relation: supports
+- claim_id: loradrop-threshold-retention-and-low-importance-sharing
+  kind: mechanism
+  statement: During task adaptation, LoRA-drop sorts layers in descending order of I_i, selects the top k layers whose cumulative importance reaches threshold T (default T = 0.9) to retain dedicated trainable LoRA parameters, and assigns a single shared trainable LoRA module to all remaining L - k low-importance layers, reducing trainable parameters from 2 L d r to 2 (k + 1) d r.
+  evidence:
+  - source_id: r680-primary-pdf
+    locator: Section 3.2 Task Adaptation & Section 4.4 Ablation Study, Table 4-5, p. 4, 7
+    relation: supports
+- claim_id: loradrop-nlu-and-nlg-finetuning-application
+  kind: application
+  statement: LoRA-drop is applied to parameter-efficient fine-tuning of RoBERTa-base, RoBERTa-large, and Llama2-7B across GLUE natural language understanding tasks and table-to-text, dialogue summarization, and mathematical reasoning generation benchmarks, matching or exceeding standard LoRA accuracy while training approximately 50% of the LoRA parameters on average.
+  evidence:
+  - source_id: r680-primary-pdf
+    locator: Section 4.2 Main Results, Tables 1-2 and Tables 6-7, p. 4-5, 12-13
+    relation: supports
+- claim_id: loradrop-coarse-layer-granularity-and-inference-cost
+  kind: limitation
+  statement: LoRA-drop evaluates and prunes adapters at the coarse granularity of entire layer-level LoRA modules rather than fine-grained internal rank dimensions, and requires an initial warm-up importance-evaluation stage on sampled task data without reducing forward-pass inference cost.
+  evidence:
+  - source_id: r680-primary-pdf
+    locator: Limitations section, p. 9
+    relation: supports
+evidence_sources:
+- source_id: r680-primary-pdf
+  title: 'LoRA-drop: Efficient LoRA Parameter Pruning based on Output Evaluation'
+  authors: &id001
+  - Hongyun Zhou
+  - Xiangyu Lu
+  - Wang Xu
+  - Conghui Zhu
+  - Tiejun Zhao
+  - Muyun Yang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2402.07721
+  persistent_id: https://dblp.org/rec/conf/coling/ZhouLXZZY25.xml
+  version: Proceedings of the 31st International Conference on Computational Linguistics (COLING 2025) (2025) (2516747 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:43:00Z'
+  sha256: 6dc0c40d72fffca114464142b65ddb8471988f4b981242d448f83a97d2541950
+- source_id: r680-arxiv-abs
+  title: 'LoRA-drop: Efficient LoRA Parameter Pruning based on Output Evaluation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2402.07721
+  persistent_id: https://arxiv.org/abs/2402.07721
+  version: arXiv abstract page (6863 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:43:00Z'
+  sha256: 2fb13d70d4c89cd8ed371fc4b01131b21b103e73cedbc6281452c76cb6524dfd
+- source_id: r680-metadata-cr
+  title: 'LoRA-drop: Efficient LoRA Parameter Pruning based on Output Evaluation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/coling/ZhouLXZZY25.xml
+  persistent_id: https://dblp.org/rec/conf/coling/ZhouLXZZY25.xml
+  version: Crossref API work record (494 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:43:00Z'
+  sha256: ee07b214832b24c0e2edee06b2091aa80d286024590e850eb90c6ed3689a2ebc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LoRA-drop prunes and shares low-rank neural network adaptation layers based on layer output norms.
+limitations:
+- Operates at a coarse whole-layer LoRA module granularity rather than pruning fine-grained rank subspaces within each layer.
+- Requires a two-stage training workflow (initial warm-up updates on sampled subset D_s to evaluate output norms followed by full task adaptation) and does not reduce inference latency beyond standard LoRA merging.
+curation:
+  created_at: '2026-10-19T12:43:00Z'
+  updated_at: '2026-10-19T12:43:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
