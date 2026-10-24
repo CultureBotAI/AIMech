@@ -251,3 +251,48 @@ def test_no_match_still_enforces_pin_and_identity(unmapped, corpus, mutation, fr
     (corpus / "data/curated/ExampleMethod.yaml").write_text(yaml.safe_dump(unmapped))
     assert validate_curated(corpus) == 1
     assert fragment in capsys.readouterr().out
+
+
+def test_prior_expansion_score_non_unit_variance_and_source_scope():
+    from importlib.util import module_from_spec, spec_from_file_location
+
+    spec = spec_from_file_location(
+        "prior_expansion_boundaries",
+        ROOT / "research/discovery/prior-expansion-score-conflict-boundaries.py",
+    )
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    for tau0_sq in (0.25, 0.5, 1.0, 2.0, 4.0):
+        for v_obs in (0.1, 0.25, 1.0, 2.0):
+            row = module.evaluate_normal_variance_expansion(tau0_sq=tau0_sq, v_obs=v_obs)
+            assert row["identities_agree"] is True
+            assert row["varying_posterior_differs_by_cov_term"] is True
+            assert row["finite_alpha_differs_from_kl_cov"] is True
+
+    fisher_and_renyi = module.check_fisher_and_renyi()
+    assert fisher_and_renyi["finite_alpha_matches_escort_and_differs_from_kl"] is True
+
+    t4 = module.evaluate_normal_variance_expansion(tau0_sq=4.0, v_obs=0.25, x_bar=2.5, mu0=0.0)
+    assert abs(t4["s_direct"] - 0.22145329) < 1e-8
+    assert abs(t4["s_claim_expanded"] - 0.22145329) < 1e-8
+    assert abs(4.0 * t4["s_tau2_example_4_1"] - t4["s_direct"]) < 1e-8
+
+    directional = module.check_coordinate_wise_directional_expansions()
+    assert directional["one_at_a_time_identities_agree"] is True
+    assert directional["location_two_sided_matches_scale_upper_tail"] is True
+
+    curated_doc = read_record(ROOT / "data/curated/PriorExpansionScoreConflictDiagnostic.yaml")
+    assert validate_curated_record(curated_doc) == []
+    assert curated_doc["curation"]["model"] == "Gemini 4 Argon"
+    claims_by_id = {c["claim_id"]: c for c in curated_doc["claims"]}
+    assert (
+        "S_gamma(bar_x)=-tau_0^2/(2*(tau_0^2+sigma^2/n))+tau_0^2*(bar_x-mu_0)^2/(2*(tau_0^2+sigma^2/n)^2)"
+        in claims_by_id["conjugate-exponential-family-equivalence"]["statement"]
+    )
+    assert "V_S^-1" not in claims_by_id["prior-predictive-and-multivariate-calibration"]["statement"]
+    div_stmt = claims_by_id["divergence-and-relative-belief-sensitivity"]["statement"]
+    assert "distinct for alpha!=1 from standard fixed-posterior Renyi divergence" in div_stmt
+    assert "finite positive likelihood moment" in div_stmt
+    assert "independently derived clarification" in div_stmt
+    assert "Kullback–Leibler limit alpha->1 to the posterior covariance Cov_{g(theta|y)}(log p(y|theta)" in div_stmt

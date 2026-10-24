@@ -2,8 +2,9 @@
 
 - **Report ID**: `20261017T082300Z-prior-expansion-score-conflict`
 - **Created At**: `2026-10-17T08:23:00Z`
-- **Curated Concept**: `AIMech:PriorExpansionScoreConflictDiagnostic` (`data/curated/PriorExpansionScoreConflictDiagnostic.yaml`, SHA-256 `a52b0ed1f942269c6a9fe0f48683b4d69a0706f522633b70e85bc05f48d8f792`)
-- **Verification Script**: `research/discovery/prior-expansion-score-conflict-boundaries.py` (SHA-256 `294b67b3699f2d4b28701378ab546bc19af2a7e573612939967202dd717d7f91`)
+- **Updated At**: `2026-10-24T10:55:00Z`
+- **Curated Concept**: `AIMech:PriorExpansionScoreConflictDiagnostic` (`data/curated/PriorExpansionScoreConflictDiagnostic.yaml`, SHA-256 `a4273d15d5b0aab65f1e895e0600f1a0e528c3b49faa328024f1e326e1e59c29`)
+- **Verification Script**: `research/discovery/prior-expansion-score-conflict-boundaries.py` (SHA-256 `be07cba05309d97d625aecfd1f061b04de4c88850dcd2088e5f70ae25a2b74d0`)
 
 ## Primary Sources Inspected
 
@@ -19,19 +20,82 @@
 
 ```json
 {
+  "coordinate_wise_directional_expansions": {
+    "location_two_sided_matches_scale_upper_tail": true,
+    "one_at_a_time_identities_agree": true,
+    "rows": [
+      {
+        "p_location_two_sided": 0.00040695,
+        "p_scale_upper_tail": 0.00040695,
+        "s_location": 5.0,
+        "s_scale": 2.875,
+        "tau0_sq": 0.25
+      },
+      {
+        "p_location_two_sided": 0.02534732,
+        "p_scale_upper_tail": 0.02534732,
+        "s_location": 2.0,
+        "s_scale": 1.6,
+        "tau0_sq": 1.0
+      },
+      {
+        "p_location_two_sided": 0.22525291,
+        "p_scale_upper_tail": 0.22525291,
+        "s_location": 0.58823529,
+        "s_scale": 0.22145329,
+        "tau0_sq": 4.0
+      }
+    ]
+  },
   "evans_moshonov_equivalence": {
     "exact_equivalence": true,
     "p_evans_moshonov": 0.02534732,
     "p_score_upper_tail": 0.02534732,
+    "tested_tau0_sq_values": [
+      0.25,
+      1.0,
+      2.0,
+      4.0
+    ],
     "z_obs": 2.23606798
   },
   "fisher_and_renyi": {
+    "d_varying_kl_analytic": -0.88,
+    "finite_alpha_matches_escort_and_differs_from_kl": true,
     "identities_agree": true,
     "neg_d_fixed_posterior_kl": 1.6,
     "neg_d_varying_posterior_kl": 0.88,
+    "non_unit_tau0_sq_4_v_025_score": 0.22145329,
+    "non_unit_tau0_sq_4_v_025_tau2_derivative": 0.05536332,
+    "renyi_varying_orders_tau0_sq_1": {
+      "alpha_0.5": {
+        "d_kl_limit": -0.88,
+        "d_renyi_escort": -0.51111111,
+        "d_renyi_fd": -0.51111111
+      },
+      "alpha_2.0": {
+        "d_kl_limit": -0.88,
+        "d_renyi_escort": -1.17530864,
+        "d_renyi_fd": -1.17530864
+      }
+    },
+    "renyi_varying_orders_tau0_sq_4": {
+      "alpha_0.5": {
+        "d_kl_limit": -0.1677183,
+        "d_renyi_escort": -0.12422573,
+        "d_renyi_fd": -0.12422573
+      },
+      "alpha_2.0": {
+        "d_kl_limit": -0.1677183,
+        "d_renyi_escort": -0.19313614,
+        "d_renyi_fd": -0.19313614
+      }
+    },
+    "s_claim_expanded": 1.6,
     "s_direct": 1.6,
-    "s_example_4_1": 1.6,
     "s_fisher": 1.6,
+    "s_tau2_example_4_1": 1.6,
+    "tested_grid_size": 20,
     "varying_posterior_differs_by_cov_term": true
   },
   "hierarchical_normal_random_effects": {
@@ -40,15 +104,6 @@
     "ss_between": 2.48,
     "upper_score_positive_for_grand_mean_shift": true,
     "y_grand": 2.0
-  },
-  "multivariate_quadratic_score": {
-    "d_closed": 13.0,
-    "d_obs": 13.0,
-    "quadratic_form_matches": true,
-    "s1": 2.0,
-    "s2": 1.6,
-    "var_s1": 0.8,
-    "var_s2": 0.32
   },
   "support_dependent_boundary": {
     "boundary_posterior_density": 0.31303529,
