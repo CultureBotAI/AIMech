@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain TTQ (Trained Ternary Quantization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain TTQ (Trained Ternary Quantization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:TTQTrainedTernaryQuantization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in ttq-trained-ternary-quantization-asymmetric-scales-boundaries.py passed with exit code 0: {"asymmetric_ttq_mse": 0.005588, "concept": "TTQTrainedTernaryQuantization", "delta_threshold": 0.05, "learned_wn": 2.34, "learned_wp": 0.8582, "sparsity_ratio": 0.3, "symmetric_twn_mse": 0.395817, "verification": "passed"}
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain TTQ (Trained Ternary Quantization) as a distinct DRAFT algorithm.
-  All three claims are supported by full-text primary evidence and pure-Python boundary
+  All four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: a1c3db2b830762c52f318abfb268c344af7d0b66
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r823-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in ttq-trained-ternary-quantization-asymmetric-scales-boundaries.py
     passed with exit code 0: {"asymmetric_ttq_mse": 0.005588, "concept": "TTQTrainedTernaryQuantization",

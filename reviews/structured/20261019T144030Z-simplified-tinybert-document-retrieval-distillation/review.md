@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Simplified TinyBERT (Knowledge Distillation for Document Retrieval) as a distinct DRAFT learning_paradigm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Simplified TinyBERT (Knowledge Distillation for Document Retrieval) as a distinct DRAFT learning_paradigm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SimplifiedTinyBERTKnowledgeDistillationForDocumentRetrieval.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in simplified-tinybert-document-retrieval-distillation-boundaries.py passed with exit code 0: Simplified TinyBERT boundary verification passed:
   L_h(student=0.88)=0.7569 &lt; L_h(student=0.75)=0.8532
@@ -126,7 +126,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Simplified TinyBERT (Knowledge Distillation for Document Retrieval)
-  as a distinct DRAFT learning_paradigm. All three claims are supported by full-text
+  as a distinct DRAFT learning_paradigm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: 06ab52b9e21b12d4e3aac78f2ee06e608d6a378f
@@ -315,7 +315,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -323,7 +323,7 @@ assessments:
   evidence_ids:
   - r797-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: "All constructed boundary assertions in simplified-tinybert-document-retrieval-distillation-boundaries.py\
     \ passed with exit code 0: Simplified TinyBERT boundary verification passed:\n\

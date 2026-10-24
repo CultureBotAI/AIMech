@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:StochasticPolyakStepSize.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in sps-stochastic-polyak-step-size-boundaries.py passed with exit code 0: [PASS] Round 626 SPS verified: eq17_err=5.55e-17, cor32_rat=0.3563&lt;=1, thm31_rat=0.4706&lt;=1, rk_step_err=1.11e-16, w1_logloss_grad_err=5.55e-17, w0_exploss_grad_err=5.55e-17
 
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r626-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in sps-stochastic-polyak-step-size-boundaries.py
     passed with exit code 0: [PASS] Round 626 SPS verified: eq17_err=5.55e-17, cor32_rat=0.3563<=1,

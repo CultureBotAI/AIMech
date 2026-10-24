@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Age-Granularity-Net Multi-Granularity Classification-Regression Framework as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Age-Granularity-Net Multi-Granularity Classification-Regression Framework as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AgeGranularityNetMultiGranularityClassificationRegressionFramework.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in age-granularity-net-multi-granularity-loss-boundaries.py passed with exit code 0: [PASS] Round 831 Age-Granularity-Net verified: bins(44)=(43,8,4,2), MAE_multi=0.0410 &lt; MAE_single=0.3511
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Age-Granularity-Net Multi-Granularity Classification-Regression Framework
-  as a distinct DRAFT architecture. All three claims are supported by full-text primary
+  as a distinct DRAFT architecture. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 66481b5517f120b67edb5a1f2f7ba24696f8e9a6
@@ -304,7 +304,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -312,7 +312,7 @@ assessments:
   evidence_ids:
   - r829-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in age-granularity-net-multi-granularity-loss-boundaries.py
     passed with exit code 0: [PASS] Round 831 Age-Granularity-Net verified: bins(44)=(43,8,4,2),

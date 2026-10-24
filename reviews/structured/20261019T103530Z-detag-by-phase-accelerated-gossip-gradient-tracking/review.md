@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain DeTAG Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain DeTAG Decentralized Stochastic Gradient Tracking with By-Phase Accelerated Gossip as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DetagDecentralizedStochasticGradientTrackingWithByPhaseAcceleratedGossip.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in detag-by-phase-accelerated-gossip-gradient-tracking-boundaries.py passed with exit code 0: [PASS] DeTAG boundaries verified: err_ag=4.2248 &lt; err_std=14.1003, detag_max_err=2.33e-04
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain DeTAG Decentralized Stochastic Gradient Tracking with By-Phase Accelerated
-  Gossip as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Gossip as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: 2644e8785205d2d37bf717d47d8c70fb2a0107ad
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r552-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in detag-by-phase-accelerated-gossip-gradient-tracking-boundaries.py
     passed with exit code 0: [PASS] DeTAG boundaries verified: err_ag=4.2248 < err_std=14.1003,

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain DCD-PSGD and ECD-PSGD (Difference-Compression and Extrapolation-Compression Decentralized Parallel SGD) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain DCD-PSGD and ECD-PSGD (Difference-Compression and Extrapolation-Compression Decentralized Parallel SGD) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DcdPsgdAndEcdPsgdCompressedDecentralizedParallelStochasticGradientDescent.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in dcd-psgd-and-ecd-psgd-compressed-decentralized-sgd-boundaries.py passed with exit code 0: [PASS] Round 425 DCD-PSGD &amp; ECD-PSGD (Tang et al. 2018): DCD alpha_crit=0.50 (safe=0.360&gt;0, unsafe=-0.540&lt;0), ECD exact_err=4.4e-16, ECD var(t=2)=2.0000 -&gt; var(t=20)=0.1368 &lt;= O(1/T)
 
@@ -124,8 +124,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain DCD-PSGD and ECD-PSGD (Difference-Compression and Extrapolation-Compression
-  Decentralized Parallel SGD) as a distinct DRAFT algorithm. All three claims are
-  supported by full-text primary evidence and pure-Python boundary verification.
+  Decentralized Parallel SGD) as a distinct DRAFT algorithm. All four claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: eb91b243c91fcb037774233f57d166efa3600e09
   state: working_tree
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r425-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in dcd-psgd-and-ecd-psgd-compressed-decentralized-sgd-boundaries.py
     passed with exit code 0: [PASS] Round 425 DCD-PSGD & ECD-PSGD (Tang et al. 2018):

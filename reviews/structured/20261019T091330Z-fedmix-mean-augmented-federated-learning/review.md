@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedMix (Approximation of Mixup under Mean Augmented Federated Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedMix (Approximation of Mixup under Mean Augmented Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedMixApproximationOfMixupUnderMeanAugmentedFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedmix-mean-augmented-federated-learning-boundaries.py passed with exit code 0: [PASS] FedMix boundary verification passed: Eq5_diff=0.00e+00, O(lam^2)_ratios=(4.21, 4.11), &#124;FedMix-NaiveMix&#124;=1.0608e-03
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedMix (Approximation of Mixup under Mean Augmented Federated Learning)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 81e4e8f18525db77c2f3672b7c1edbbb8d55dbb1
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r470-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedmix-mean-augmented-federated-learning-boundaries.py
     passed with exit code 0: [PASS] FedMix boundary verification passed: Eq5_diff=0.00e+00,

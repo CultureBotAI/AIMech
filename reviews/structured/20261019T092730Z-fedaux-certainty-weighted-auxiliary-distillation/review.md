@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedAUX (Certainty-Weighted Unsupervised Auxiliary Ensemble Distillation for Federated Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedAUX (Certainty-Weighted Unsupervised Auxiliary Ensemble Distillation for Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedAuxCertaintyWeightedUnsupervisedAuxiliaryEnsembleDistillationForFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedaux-certainty-weighted-auxiliary-distillation-boundaries.py passed with exit code 0: [PASS] FedAUX boundary verification passed: &#124;&#124;w^*-v^*&#124;&#124;=0.4153 &lt;= 2.5000, p_mean(class0)=0.413 &lt; 0.5 &lt; p_FedAUX(class0)=0.669
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedAUX (Certainty-Weighted Unsupervised Auxiliary Ensemble Distillation
-  for Federated Learning) as a distinct DRAFT algorithm. All three claims are supported
+  for Federated Learning) as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 809e2eca5cbb614917ff1057ca7088b341a5aa3b
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r484-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedaux-certainty-weighted-auxiliary-distillation-boundaries.py
     passed with exit code 0: [PASS] FedAUX boundary verification passed: ||w^*-v^*||=0.4153

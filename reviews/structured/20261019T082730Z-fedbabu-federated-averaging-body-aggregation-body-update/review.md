@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedBABU (Federated Averaging with Body Aggregation and Body Update) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedBABU (Federated Averaging with Body Aggregation and Body Update) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedBabuFederatedAveragingWithBodyAggregationAndBodyUpdate.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py passed with exit code 0: [PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0, margin_fedbabu=5.8679 &gt; margin_fedavg=4.4917
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedBABU (Federated Averaging with Body Aggregation and Body Update)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: fb8dd48efa5743873be4be725f4995d016b0dcf8
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r424-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedbabu-federated-averaging-body-aggregation-body-update-boundaries.py
     passed with exit code 0: [PASS] Round 424 FedBABU (Oh et al. 2022): orthogonal_head_dot=0.0,

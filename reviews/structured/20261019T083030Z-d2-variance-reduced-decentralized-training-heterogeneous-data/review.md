@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain D2 (Decentralized Training over Decentralized Heterogeneous Data) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain D2 (Decentralized Training over Decentralized Heterogeneous Data) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:D2VarianceReducedDecentralizedTrainingOverHeterogeneousData.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in d2-variance-reduced-decentralized-training-heterogeneous-data-boundaries.py passed with exit code 0: [PASS] Round 427 D^2 (Tang et al. 2018): &#124;v(-1/3)&#124;=1.0000==1.0 (&#124;v(-0.25)&#124;=0.8090&lt;1&lt;&#124;v(-0.50)&#124;=1.3660), d2_err=5.8e-16 &lt;&lt; dpsgd_heterogeneity_err=0.2339
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain D2 (Decentralized Training over Decentralized Heterogeneous Data)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 012e568682147650d749d291ff1b23ca11e98859
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r427-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in d2-variance-reduced-decentralized-training-heterogeneous-data-boundaries.py
     passed with exit code 0: [PASS] Round 427 D^2 (Tang et al. 2018): |v(-1/3)|=1.0000==1.0

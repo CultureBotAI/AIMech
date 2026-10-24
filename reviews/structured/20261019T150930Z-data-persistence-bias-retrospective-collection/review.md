@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Data Persistence Bias as a distinct DRAFT bias. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Data Persistence Bias as a distinct DRAFT bias. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DataPersistenceBias.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in data-persistence-bias-retrospective-collection-boundaries.py passed with exit code 0: {"author_turnout": 0.64, "concept": "DataPersistenceBias", "hero_frame_turnout": 0.75, "mean_orientation_original": 0.8, "mean_orientation_recollected": -0.1263, "orientation_shift": -0.9263, "threat_frame_turnout": 0.2, "tweet_turnout": 0.475, "verification": "passed"}
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Data Persistence Bias as a distinct DRAFT bias. All three claims are
+summary: Retain Data Persistence Bias as a distinct DRAFT bias. All four claims are
   supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 1d4be80db557d9985272decf8a24b91031f49579
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r826-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in data-persistence-bias-retrospective-collection-boundaries.py
     passed with exit code 0: {"author_turnout": 0.64, "concept": "DataPersistenceBias",

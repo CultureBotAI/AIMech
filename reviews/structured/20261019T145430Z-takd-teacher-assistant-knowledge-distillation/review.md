@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Teacher Assistant Knowledge Distillation (TAKD) as a distinct DRAFT learning_paradigm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Teacher Assistant Knowledge Distillation (TAKD) as a distinct DRAFT learning_paradigm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:TAKDTeacherAssistantKnowledgeDistillation.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in takd-teacher-assistant-knowledge-distillation-boundaries.py passed with exit code 0: {"concept": "TAKDTeacherAssistantKnowledgeDistillation", "vc_bound_takd": 0.057555, "vc_bound_blkd": 0.085616, "vc_bound_nokd": 0.1, "num_paths_to_s2": 8, "best_unconstrained_path": [10, 8, 6, 4, 2], "best_unconstrained_acc": 45.14, "best_2ta_path": [10, 6, 4, 2], "status": "ok"}
 
@@ -122,8 +122,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Teacher Assistant Knowledge Distillation (TAKD) as a distinct DRAFT
-  learning_paradigm. All three claims are supported by full-text primary evidence
-  and pure-Python boundary verification.
+  learning_paradigm. All four claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
 source:
   git_revision: f9bfb9e60dce5bc01ccf10a6a7b5c01cbecc52e2
   state: working_tree
@@ -316,7 +316,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -324,7 +324,7 @@ assessments:
   evidence_ids:
   - r811-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in takd-teacher-assistant-knowledge-distillation-boundaries.py
     passed with exit code 0: {"concept": "TAKDTeacherAssistantKnowledgeDistillation",

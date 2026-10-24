@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC, EF21-HB, EF21-Prox) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC, EF21-HB, EF21-Prox) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:Ef21ExtensionsStochasticVarianceReducedPartialParticipationBidirectionalAndProximalErrorFeedback.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in ef21-bells-and-whistles-extensions-boundaries.py passed with exit code 0: [PASS] Round 577 EF21-Bells-Whistles verified: gn_page=5.093e-32 &lt;&lt; gn_sgd=1.136e-01, gn_bc=2.126e-31, grad_map_prox=4.702e-34
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain EF21 Algorithmic Extensions (EF21-SGD, EF21-PAGE, EF21-PP, EF21-BC,
-  EF21-HB, EF21-Prox) as a distinct DRAFT algorithm. All three claims are supported
+  EF21-HB, EF21-Prox) as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: bba04d1f8a35472e1de65e73984b7a9a61822a05
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r577-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in ef21-bells-and-whistles-extensions-boundaries.py
     passed with exit code 0: [PASS] Round 577 EF21-Bells-Whistles verified: gn_page=5.093e-32

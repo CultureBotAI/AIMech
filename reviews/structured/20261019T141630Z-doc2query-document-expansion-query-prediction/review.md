@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Doc2query Neural Document Expansion by Query Prediction as a distinct DRAFT preprocessing_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Doc2query Neural Document Expansion by Query Prediction as a distinct DRAFT preprocessing_method. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:Doc2QueryDocumentExpansionByQueryPrediction.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in doc2query-document-expansion-query-prediction-boundaries.py passed with exit code 0: [PASS] Doc2query boundaries verified: orig=1.5000 &lt; copied=2.4012, new=4.9888 &lt; full=5.6571 (&gt; distractor=4.4625)
 
@@ -123,8 +123,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Doc2query Neural Document Expansion by Query Prediction as a distinct
-  DRAFT preprocessing_method. All three claims are supported by full-text primary
-  evidence and pure-Python boundary verification.
+  DRAFT preprocessing_method. All four claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
 source:
   git_revision: d047360a2832d1021192e5545651c5164b9bc48b
   state: working_tree
@@ -306,7 +306,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -314,7 +314,7 @@ assessments:
   evidence_ids:
   - r773-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in doc2query-document-expansion-query-prediction-boundaries.py
     passed with exit code 0: [PASS] Doc2query boundaries verified: orig=1.5000 < copied=2.4012,

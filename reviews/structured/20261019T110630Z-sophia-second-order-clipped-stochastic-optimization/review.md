@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Sophia (Second-Order Clipped Stochastic Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Sophia (Second-Order Clipped Stochastic Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SophiaSecondOrderClippedStochasticOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in sophia-second-order-clipped-stochastic-optimization-boundaries.py passed with exit code 0: [PASS] Round 583 Sophia verified: err_soph=2.835e-11&lt;&lt;err_sign=2.500e-01, gnb_diff=2.78e-17, kappa_1e6_loss=1.034e-19
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Sophia (Second-Order Clipped Stochastic Optimization) as a distinct
-  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  DRAFT algorithm. All four claims are supported by full-text primary evidence and
   pure-Python boundary verification.
 source:
   git_revision: feebbfd361984485669315ab46f70c994eca3585
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r583-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in sophia-second-order-clipped-stochastic-optimization-boundaries.py
     passed with exit code 0: [PASS] Round 583 Sophia verified: err_soph=2.835e-11<<err_sign=2.500e-01,

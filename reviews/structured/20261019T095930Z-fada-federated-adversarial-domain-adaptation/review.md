@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FADA (Federated Adversarial Domain Adaptation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FADA (Federated Adversarial Domain Adaptation) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FadaFederatedAdversarialDomainAdaptation.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fada-federated-adversarial-domain-adaptation-boundaries.py passed with exit code 0: [PASS] Round 516 FADA (Peng et al. 2020): d_H_mix=0.378&lt;=weighted=0.378, dyn_w0=0.981&gt;&gt;dyn_w2=0.0007, MINE_corr=0.310&gt;&gt;MINE_indep=-0.364
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FADA (Federated Adversarial Domain Adaptation) as a distinct DRAFT
-  algorithm. All three claims are supported by full-text primary evidence and pure-Python
+  algorithm. All four claims are supported by full-text primary evidence and pure-Python
   boundary verification.
 source:
   git_revision: 3cc9638ca2196c1468dcb2818eee8cd473869905
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r516-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fada-federated-adversarial-domain-adaptation-boundaries.py
     passed with exit code 0: [PASS] Round 516 FADA (Peng et al. 2020): d_H_mix=0.378<=weighted=0.378,

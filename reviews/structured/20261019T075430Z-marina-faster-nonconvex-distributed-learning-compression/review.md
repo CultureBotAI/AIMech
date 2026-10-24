@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MARINA Faster Non-Convex Distributed Learning with Compression as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MARINA Faster Non-Convex Distributed Learning with Compression as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:MarinaFasterNonconvexDistributedLearningWithCompression.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in marina-faster-nonconvex-distributed-learning-compression-boundaries.py passed with exit code 0: [PASS] Round 391 MARINA (Gorbunov et al. 2021): mc_var=0.5533~=0.5421&lt;=0.7762, end_grad_sq=0.00e+00, end_est_err_sq=0.00e+00
 
@@ -124,8 +124,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain MARINA Faster Non-Convex Distributed Learning with Compression as
-  a distinct DRAFT algorithm. All three claims are supported by full-text primary
-  evidence and pure-Python boundary verification.
+  a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
 source:
   git_revision: b9c3e116a30a0d97ad39cbed8850dee1a631f38e
   state: working_tree
@@ -314,7 +314,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -322,7 +322,7 @@ assessments:
   evidence_ids:
   - r391-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in marina-faster-nonconvex-distributed-learning-compression-boundaries.py
     passed with exit code 0: [PASS] Round 391 MARINA (Gorbunov et al. 2021): mc_var=0.5533~=0.5421<=0.7762,

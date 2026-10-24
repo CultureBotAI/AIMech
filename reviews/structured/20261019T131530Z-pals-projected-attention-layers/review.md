@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:PALsProjectedAttentionLayers.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in pals-projected-attention-layers-boundaries.py passed with exit code 0: [PASS] PALs boundaries verified: params_pal=1811520 (d_s=204 vs 84), diff_active=0.9593, anneal_ratio=156.8-&gt;2.7483
 
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r712-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in pals-projected-attention-layers-boundaries.py
     passed with exit code 0: [PASS] PALs boundaries verified: params_pal=1811520 (d_s=204

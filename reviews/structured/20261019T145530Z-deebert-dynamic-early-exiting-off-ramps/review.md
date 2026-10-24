@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain DeeBERT (Dynamic Early Exiting for Accelerating BERT Inference) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain DeeBERT (Dynamic Early Exiting for Accelerating BERT Inference) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DeeBERTDynamicEarlyExitingForAcceleratingBERTInference.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in deebert-dynamic-early-exiting-off-ramps-boundaries.py passed with exit code 0: DeeBERT verification passed: exit_easy=2, exit_hard=6, saving_low=0.3333, saving_high=0.5667, stage2_loss=0.6053
 
@@ -123,8 +123,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain DeeBERT (Dynamic Early Exiting for Accelerating BERT Inference) as
-  a distinct DRAFT algorithm. All three claims are supported by full-text primary
-  evidence and pure-Python boundary verification.
+  a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
 source:
   git_revision: 0ef870d33edda8fe779209e72d4f5a8c46ecb517
   state: working_tree
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r812-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in deebert-dynamic-early-exiting-off-ramps-boundaries.py
     passed with exit code 0: DeeBERT verification passed: exit_easy=2, exit_hard=6,

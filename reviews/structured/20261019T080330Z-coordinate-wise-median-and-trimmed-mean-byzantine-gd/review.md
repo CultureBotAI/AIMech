@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Coordinate-wise Median and Trimmed Mean Byzantine-Robust Distributed Learning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Coordinate-wise Median and Trimmed Mean Byzantine-Robust Distributed Learning as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in coordinate-wise-median-and-trimmed-mean-byzantine-gd-boundaries.py passed with exit code 0: {
   "concept": "AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning",
@@ -133,7 +133,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Coordinate-wise Median and Trimmed Mean Byzantine-Robust Distributed
-  Learning as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Learning as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: e9a878e795f67ef3d425286636155916d416553b
@@ -323,7 +323,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -331,7 +331,7 @@ assessments:
   evidence_ids:
   - r400-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: "All constructed boundary assertions in coordinate-wise-median-and-trimmed-mean-byzantine-gd-boundaries.py\
     \ passed with exit code 0: {\n  \"concept\": \"AIMech:CoordinateWiseMedianAndTrimmedMeanByzantineRobustDistributedLearning\"\

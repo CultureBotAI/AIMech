@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain B-PROP Bootstrapped Pre-Training with Representative Words Prediction for Ad-Hoc Retrieval as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain B-PROP Bootstrapped Pre-Training with Representative Words Prediction for Ad-Hoc Retrieval as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:BPROPBootstrappedPreTrainingWithRepresentativeWordsPrediction.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in bprop-bootstrapped-representative-words-prediction-boundaries.py passed with exit code 0: [PASS] B-PROP contrastive term sampling boundaries verified: P_d1(the)=0.2305 &gt; P_d1(fibrosis)=0.2272, but P_contrastive(fibrosis)=0.2358 &gt; P_contrastive(the)=0.1911
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain B-PROP Bootstrapped Pre-Training with Representative Words Prediction
-  for Ad-Hoc Retrieval as a distinct DRAFT algorithm. All three claims are supported
+  for Ad-Hoc Retrieval as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 8b84f2883e1f9e85d59c05be84bc9fd899f46e27
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r765-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in bprop-bootstrapped-representative-words-prediction-boundaries.py
     passed with exit code 0: [PASS] B-PROP contrastive term sampling boundaries verified:

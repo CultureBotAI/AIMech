@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain PABEE: Patience-Based Early Exit for Pretrained Language Models as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain PABEE: Patience-Based Early Exit for Pretrained Language Models as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:PABEEPatienceBasedEarlyExitForBERT.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in pabee-patience-based-early-exit-boundaries.py passed with exit code 0: {"concept": "PABEEPatienceBasedEarlyExitForBERT", "fig1_exit_layer": 4, "fig1_pred": "Neg", "reg_exit_layer": 5, "weighted_loss": 0.833333, "p_stop_exact": 0.740636, "p_stop_lower_bound_eq7": 0.328, "p_misc_exact": 0.00178, "p_misc_upper_bound_eq8": 0.002112, "overall_error_rate_pabee": 0.027717, "baseline_error_rate_p": 0.1, "status": "ok"}
 
@@ -123,8 +123,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: 'Retain PABEE: Patience-Based Early Exit for Pretrained Language Models as
-  a distinct DRAFT algorithm. All three claims are supported by full-text primary
-  evidence and pure-Python boundary verification.'
+  a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
+  and pure-Python boundary verification.'
 source:
   git_revision: 936a22d9c009a42ab73157b045a99d1236ab7647
   state: working_tree
@@ -316,7 +316,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -324,7 +324,7 @@ assessments:
   evidence_ids:
   - r808-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in pabee-patience-based-early-exit-boundaries.py
     passed with exit code 0: {"concept": "PABEEPatienceBasedEarlyExitForBERT", "fig1_exit_layer":

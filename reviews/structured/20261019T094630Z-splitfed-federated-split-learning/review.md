@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SplitFedFederatedAndSplitLearningHybridArchitecture.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in splitfed-federated-split-learning-boundaries.py passed with exit code 0: [PASS] Round 503 SplitFed (Thapa et al., AAAI 2022): time_SFLV2=2.306 &lt; time_SFLV1=2.406 &lt; time_SL=6.128, comm_SFL=4.13e+07 &lt; comm_FL=4.00e+08, split-FedAvg exact match=(w_C=1.117200, w_S=-0.675800)
 
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r503-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in splitfed-federated-split-learning-boundaries.py
     passed with exit code 0: [PASS] Round 503 SplitFed (Thapa et al., AAAI 2022):

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedProto (Federated Prototype Learning across Heterogeneous Clients) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedProto (Federated Prototype Learning across Heterogeneous Clients) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedProtoFederatedPrototypeLearningAcrossHeterogeneousClients.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedproto-federated-prototype-learning-boundaries.py passed with exit code 0: [PASS] FedProto boundary verification passed: global_classes=[0, 1, 2], one_round_delta=-0.4792&lt;0, comm_floats=18 vs model_params=64200
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedProto (Federated Prototype Learning across Heterogeneous Clients)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 5c66f92f22a0c215ad4d41ae1e5025d792a184e8
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r474-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedproto-federated-prototype-learning-boundaries.py
     passed with exit code 0: [PASS] FedProto boundary verification passed: global_classes=[0,

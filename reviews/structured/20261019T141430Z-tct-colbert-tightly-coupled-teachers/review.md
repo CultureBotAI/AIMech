@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense Retrieval as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:TCTColBERTTightlyCoupledTeachersForDenseRetrieval.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in tct-colbert-tightly-coupled-teachers-boundaries.py passed with exit code 0: [PASS] TCT-ColBERT boundaries verified: loss_before=0.7749 -&gt; loss_after=0.2635, hybrid_scores={'doc_both': 72.88, 'doc_dense_only': 74.08, 'doc_sparse_only': 73.48}
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain TCT-ColBERT Tightly-Coupled Teachers Knowledge Distillation for Dense
-  Retrieval as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Retrieval as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: abff58e120e48fa7f44ab6d81ad32397b26b6e94
@@ -314,7 +314,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -322,7 +322,7 @@ assessments:
   evidence_ids:
   - r771-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in tct-colbert-tightly-coupled-teachers-boundaries.py
     passed with exit code 0: [PASS] TCT-ColBERT boundaries verified: loss_before=0.7749

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SEED Pre-Training a Strong Text Encoder Using a Weak Decoder as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SEED Pre-Training a Strong Text Encoder Using a Weak Decoder as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SEEDPreTrainingStrongTextEncoderUsingWeakDecoder.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in seed-weak-decoder-text-encoder-pretraining-boundaries.py passed with exit code 0: [PASS] SEED weak-decoder text encoder pre-training boundaries verified: &#124;grad_cls_weak&#124;=0.4502 &gt; &#124;grad_cls_full&#124;=0.0630
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain SEED Pre-Training a Strong Text Encoder Using a Weak Decoder as a
-  distinct DRAFT architecture. All three claims are supported by full-text primary
+  distinct DRAFT architecture. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: eb5a156b8b729847591950d6025bf375153c097f
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r760-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in seed-weak-decoder-text-encoder-pretraining-boundaries.py
     passed with exit code 0: [PASS] SEED weak-decoder text encoder pre-training boundaries

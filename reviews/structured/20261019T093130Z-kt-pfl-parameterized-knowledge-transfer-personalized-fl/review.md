@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain KT-pFL (Parameterized Knowledge Transfer for Personalized Federated Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain KT-pFL (Parameterized Knowledge Transfer for Personalized Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:KtPflParameterizedKnowledgeTransferForPersonalizedFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in kt-pfl-parameterized-knowledge-transfer-personalized-fl-boundaries.py passed with exit code 0: [PASS] Round 488 KT-pFL (Zhang et al. 2021): risk_cluster=-0.000000 &lt; risk_standalone=0.010470 &lt; risk_uniform=0.348561, obj_init=1.1134 -&gt; obj_final=0.0977, intra_c=0.500 &gt; inter_c=0.000
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain KT-pFL (Parameterized Knowledge Transfer for Personalized Federated
-  Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: 34e5ee7525c1d67616b98105ccd0c475f4b0d995
@@ -313,7 +313,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -321,7 +321,7 @@ assessments:
   evidence_ids:
   - r488-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in kt-pfl-parameterized-knowledge-transfer-personalized-fl-boundaries.py
     passed with exit code 0: [PASS] Round 488 KT-pFL (Zhang et al. 2021): risk_cluster=-0.000000

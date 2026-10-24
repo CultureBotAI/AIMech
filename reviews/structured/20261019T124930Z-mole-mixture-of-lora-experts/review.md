@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:MoLEMixtureOfLoRAExperts.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in mole-mixture-of-lora-experts-boundaries.py passed with exit code 0: [PASS] Round 686 MoLE (Wu et al., ICLR 2024): mole_err=1.54e-32 &lt;&lt; nla_err=43.80 &lt; unnorm_err=50.70, L_bal(uniform)=3.2958 &lt; L_bal(collapsed)=6.0968
 
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r686-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in mole-mixture-of-lora-experts-boundaries.py
     passed with exit code 0: [PASS] Round 686 MoLE (Wu et al., ICLR 2024): mole_err=1.54e-32

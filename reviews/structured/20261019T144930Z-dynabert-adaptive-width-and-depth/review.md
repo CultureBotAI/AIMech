@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain DynaBERT: Dynamic BERT with Adaptive Width and Depth as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain DynaBERT: Dynamic BERT with Adaptive Width and Depth as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DynaBERTDynamicBERTWithAdaptiveWidthAndDepth.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in dynabert-adaptive-width-and-depth-boundaries.py passed with exit code 0: {"concept": "DynaBERTDynamicBERTWithAdaptiveWidthAndDepth", "num_subnetwork_configs": 12, "top2_importance_unrewired": 1.8, "top2_importance_rewired": 4.1, "dropped_layers_md_075": [4, 8, 12], "teacher_matched_layers_md_075": [1, 2, 4, 5, 6, 8, 9, 10, 12], "dropped_layers_md_050": [2, 4, 6, 8, 10, 12], "teacher_matched_layers_md_050": [2, 4, 6, 8, 10, 12], "status": "ok"}
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: 'Retain DynaBERT: Dynamic BERT with Adaptive Width and Depth as a distinct
-  DRAFT architecture. All three claims are supported by full-text primary evidence
+  DRAFT architecture. All four claims are supported by full-text primary evidence
   and pure-Python boundary verification.'
 source:
   git_revision: b5b25a67b8ce4feb3d51050e66f491a164689553
@@ -319,7 +319,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -327,7 +327,7 @@ assessments:
   evidence_ids:
   - r806-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in dynabert-adaptive-width-and-depth-boundaries.py
     passed with exit code 0: {"concept": "DynaBERTDynamicBERTWithAdaptiveWidthAndDepth",

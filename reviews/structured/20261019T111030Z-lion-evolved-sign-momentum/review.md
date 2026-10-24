@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:LionEvolvedSignMomentumOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in lion-evolved-sign-momentum-boundaries.py passed with exit code 0: [PASS] Round 587 Lion verified: simp_diff=2.91e-16, loss_lion=0.3368&lt;(ab90=2.5730, ab99=0.7423), state_ratio=0.50
 
@@ -305,7 +305,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -313,7 +313,7 @@ assessments:
   evidence_ids:
   - r587-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in lion-evolved-sign-momentum-boundaries.py
     passed with exit code 0: [PASS] Round 587 Lion verified: simp_diff=2.91e-16, loss_lion=0.3368<(ab90=2.5730,

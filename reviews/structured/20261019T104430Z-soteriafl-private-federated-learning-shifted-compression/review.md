@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SoteriaFL Unified Framework for Private Federated Learning with Shifted Communication Compression as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SoteriaFL Unified Framework for Private Federated Learning with Shifted Communication Compression as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SoteriaFlUnifiedFrameworkForPrivateFederatedLearningWithShiftedCommunicationCompression.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in soteriafl-private-federated-learning-shifted-compression-boundaries.py passed with exit code 0: [PASS] Round 561 SoteriaFL verified: gamma_t=0.3043, contraction=0.8030&lt;=0.8333, sot_err=2.2572e-04 &lt;&lt; cdp_err=5.9266e+00
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain SoteriaFL Unified Framework for Private Federated Learning with Shifted
-  Communication Compression as a distinct DRAFT algorithm. All three claims are supported
+  Communication Compression as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: cffd1f48ea5f1d1269bdd78cf25aba00cde487ff
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r561-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in soteriafl-private-federated-learning-shifted-compression-boundaries.py
     passed with exit code 0: [PASS] Round 561 SoteriaFL verified: gamma_t=0.3043,

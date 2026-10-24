@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedCurv (Fisher-Information-Regularized Federated Learning for Non-IID Data) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedCurv (Fisher-Information-Regularized Federated Learning for Non-IID Data) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedCurvFisherInformationRegularizedFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedcurv-fisher-information-regularized-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 452 FedCurv verified: eq4_eq5_grad_err=8.88e-16, err_fedcurv=0.0128 &lt;&lt; err_fedavg=0.1619
 /Users/marcin/.gemini/antigravity-cli/brain/955ab368-54c8-4c45-92dc-87b17d66740f/scratch/aimech-work/research/discovery/fedcurv-fisher-information-regularized-federated-learning-boundaries.py:6: SyntaxWarning: invalid escape sequence '\ '
@@ -126,7 +126,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedCurv (Fisher-Information-Regularized Federated Learning for Non-IID
-  Data) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Data) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: 1cb1bc02299beb9abcb608fad3ef2b184aa5edfd
@@ -316,7 +316,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -324,7 +324,7 @@ assessments:
   evidence_ids:
   - r452-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: "All constructed boundary assertions in fedcurv-fisher-information-regularized-federated-learning-boundaries.py\
     \ passed with exit code 0: [PASS] Round 452 FedCurv verified: eq4_eq5_grad_err=8.88e-16,\

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Hutchinson Stochastic Diagonal Estimator as a distinct DRAFT mathematical_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Hutchinson Stochastic Diagonal Estimator as a distinct DRAFT mathematical_method. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:HutchinsonsStochasticDiagonalEstimator.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in hutchinsons-stochastic-diagonal-estimator-boundaries.py passed with exit code 0: [PASS] Round 827 Hutchinson Diagonal Estimator verified: E_err_Rademacher=28.0000==&#124;&#124;A_bar&#124;&#124;_F^2=28.0000, E_err_c4_3=2828.0000==2828.0000
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Hutchinson Stochastic Diagonal Estimator as a distinct DRAFT mathematical_method.
-  All three claims are supported by full-text primary evidence and pure-Python boundary
+  All four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: 80dc760af737142c3081f8a46f186f2df764bc2b
@@ -302,7 +302,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -310,7 +310,7 @@ assessments:
   evidence_ids:
   - r827-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in hutchinsons-stochastic-diagonal-estimator-boundaries.py
     passed with exit code 0: [PASS] Round 827 Hutchinson Diagonal Estimator verified:

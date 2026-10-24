@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:HarmoFlHarmonizingLocalAndGlobalDriftsInFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in harmofl-amplitude-normalization-weight-perturbation-fl-boundaries.py passed with exit code 0: [PASS] Round 501 HarmoFL (Jiang et al., AAAI 2022): raw_diff=1480.00 -&gt; harmo_diff=3.55e-29, gamma_raw=0.18317 -&gt; gamma_harmo=0.04344, g_unpert=0.0235 vs g_pert=-0.7158
 
@@ -314,7 +314,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -322,7 +322,7 @@ assessments:
   evidence_ids:
   - r501-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in harmofl-amplitude-normalization-weight-perturbation-fl-boundaries.py
     passed with exit code 0: [PASS] Round 501 HarmoFL (Jiang et al., AAAI 2022): raw_diff=1480.00

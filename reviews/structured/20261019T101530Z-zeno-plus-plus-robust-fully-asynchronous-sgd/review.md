@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Zeno++ Robust Fully Asynchronous Stochastic Gradient Descent as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Zeno++ Robust Fully Asynchronous Stochastic Gradient Descent as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in zeno-plus-plus-robust-fully-asynchronous-sgd-boundaries.py passed with exit code 0: [PASS] Round 532 Zeno++ (Xie et al. 2020): score_hon=1.237&gt;=-gamma*eps=-0.005&gt;score_sf=-3.719, byz_accepted=0/24, &#124;&#124;x_final&#124;&#124;=2.6668&lt;&#124;&#124;x_0&#124;&#124;=5.0000
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Zeno++ Robust Fully Asynchronous Stochastic Gradient Descent as a
-  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
   and pure-Python boundary verification.
 source:
   git_revision: 5c1d43a8f76f7236555ffefe330b872254493555
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r532-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in zeno-plus-plus-robust-fully-asynchronous-sgd-boundaries.py
     passed with exit code 0: [PASS] Round 532 Zeno++ (Xie et al. 2020): score_hon=1.237>=-gamma*eps=-0.005>score_sf=-3.719,

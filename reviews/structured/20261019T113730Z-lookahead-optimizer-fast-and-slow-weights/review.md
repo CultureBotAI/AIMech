@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:LookaheadOptimizer.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in lookahead-optimizer-fast-and-slow-weights-boundaries.py passed with exit code 0: [PASS] Round 614 Lookahead verified: ema_err=1.39e-17, prop1_grad_err=2.99e-15, prop1_gain=9.4327e-08&gt;0, prop2_fp_err=1.73e-17, var_ratio=0.4817&lt;1, dyn_err=4.44e-16
 
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r614-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in lookahead-optimizer-fast-and-slow-weights-boundaries.py
     passed with exit code 0: [PASS] Round 614 Lookahead verified: ema_err=1.39e-17,

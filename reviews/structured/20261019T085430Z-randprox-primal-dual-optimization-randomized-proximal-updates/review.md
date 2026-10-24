@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain RandProx (Primal-Dual Optimization with Randomized Proximal Updates) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain RandProx (Primal-Dual Optimization with Randomized Proximal Updates) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:RandProxPrimalDualOptimizationWithRandomizedProximalUpdates.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in randprox-primal-dual-optimization-randomized-proximal-updates-boundaries.py passed with exit code 0: [PASS] Round 451 RandProx (Condat &amp; Richtarik 2023): comm_rate=0.280 (p=0.25), psi_ratio=2.29e-32, primal_err=7.81e-16, dual_err=1.37e-15
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain RandProx (Primal-Dual Optimization with Randomized Proximal Updates)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: ec1463ff08bc526215f44554bf07a0a0aeadc088
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r451-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in randprox-primal-dual-optimization-randomized-proximal-updates-boundaries.py
     passed with exit code 0: [PASS] Round 451 RandProx (Condat & Richtarik 2023):

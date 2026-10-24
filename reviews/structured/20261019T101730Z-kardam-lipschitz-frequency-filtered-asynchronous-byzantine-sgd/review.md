@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Kardam Lipschitz- and Frequency-Filtered Asynchronous Byzantine Stochastic Gradient Descent as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Kardam Lipschitz- and Frequency-Filtered Asynchronous Byzantine Stochastic Gradient Descent as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:KardamLipschitzAndFrequencyFilteredAsynchronousByzantineStochasticGradientDescent.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in kardam-lipschitz-frequency-filtered-asynchronous-byzantine-sgd-boundaries.py passed with exit code 0: [PASS] Round 534 Kardam verified: SL_bounds=[0.600, 0.714], K_hat_t=1.85, k_t_honest=1.48 &lt;= K_hat_t &lt; k_t_byz=389.1, final_err=0.000000
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Kardam Lipschitz- and Frequency-Filtered Asynchronous Byzantine Stochastic
-  Gradient Descent as a distinct DRAFT algorithm. All three claims are supported by
+  Gradient Descent as a distinct DRAFT algorithm. All four claims are supported by
   full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 1221f4468d0b37dcd608094692ec3acc4240f10c
@@ -325,7 +325,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -333,7 +333,7 @@ assessments:
   evidence_ids:
   - r534-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in kardam-lipschitz-frequency-filtered-asynchronous-byzantine-sgd-boundaries.py
     passed with exit code 0: [PASS] Round 534 Kardam verified: SL_bounds=[0.600, 0.714],

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MoRA as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MoRA as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:MoRA.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in mora-high-rank-square-matrix-updating-boundaries.py passed with exit code 0: [PASS] Round 667 MoRA (Jiang et al. 2024): r_hat_4096=256 (vs r=8), merge_rot_err=4.44e-16, rank_share=4, rank_rot=8&gt;&gt;r=1
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain MoRA as a distinct DRAFT algorithm. All three claims are supported
+summary: Retain MoRA as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 68849f1fa472bad3c1c8a42fb43e308718b8f266
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r667-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in mora-high-rank-square-matrix-updating-boundaries.py
     passed with exit code 0: [PASS] Round 667 MoRA (Jiang et al. 2024): r_hat_4096=256

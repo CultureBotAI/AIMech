@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FastBERT: Self-Distilling BERT with Adaptive Inference Time as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FastBERT: Self-Distilling BERT with Adaptive Inference Time as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FastBERTSelfDistillingBERTWithAdaptiveInferenceTime.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fastbert-self-distilling-adaptive-inference-boundaries.py passed with exit code 0: {"concept": "FastBERTSelfDistillingBERTWithAdaptiveInferenceTime", "uncertainty_one_hot": -0.0, "uncertainty_low": 0.301921, "uncertainty_uniform": 0.9999999999999998, "self_distill_loss_untrained": 7.9383, "self_distill_loss_distilled": 0.005975, "avg_flops_speed_01": 12528.0, "avg_flops_speed_05": 7424.0, "avg_flops_speed_08": 2784.0, "layer0_exit_speedup": 11.74, "status": "ok"}
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: 'Retain FastBERT: Self-Distilling BERT with Adaptive Inference Time as a
-  distinct DRAFT architecture. All three claims are supported by full-text primary
+  distinct DRAFT architecture. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.'
 source:
   git_revision: 8fa33b8f6c4a5d1b5408e6ba275b59e5025b42da
@@ -320,7 +320,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -328,7 +328,7 @@ assessments:
   evidence_ids:
   - r807-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fastbert-self-distilling-adaptive-inference-boundaries.py
     passed with exit code 0: {"concept": "FastBERTSelfDistillingBERTWithAdaptiveInferenceTime",

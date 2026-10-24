@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Sever Spectral Gradient Filtering Meta-Algorithm for Robust Stochastic Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Sever Spectral Gradient Filtering Meta-Algorithm for Robust Stochastic Optimization as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SeverSpectralGradientFilteringMetaAlgorithmForRobustStochasticOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in sever-spectral-gradient-filtering-robust-stochastic-optimization-boundaries.py passed with exit code 0: [PASS] Round 527 Sever (Diakonikolas et al. 2019): mean_l2_bad=23.58&lt;mean_l2_good=63.28 (l2 fails), min_tau_bad=22.27&gt;max_tau_good=11.21, sum_tau_bad=445.47&gt;sum_tau_good=304.09
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Sever Spectral Gradient Filtering Meta-Algorithm for Robust Stochastic
-  Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Optimization as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: b48ed8c5dd15e97d195aa79f1f7d7472b05bd9f6
@@ -313,7 +313,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -321,7 +321,7 @@ assessments:
   evidence_ids:
   - r527-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in sever-spectral-gradient-filtering-robust-stochastic-optimization-boundaries.py
     passed with exit code 0: [PASS] Round 527 Sever (Diakonikolas et al. 2019): mean_l2_bad=23.58<mean_l2_good=63.28

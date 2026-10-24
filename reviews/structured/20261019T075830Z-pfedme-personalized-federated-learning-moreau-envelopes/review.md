@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain pFedMe Personalized Federated Learning with Moreau Envelopes as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain pFedMe Personalized Federated Learning with Moreau Envelopes as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in pfedme-personalized-federated-learning-moreau-envelopes-boundaries.py passed with exit code 0: [PASS] Round 395 pFedMe verified: w_err=2.380e-03, theta_err=1.587e-03, pers_loss=5.3714 &lt; global_loss=18.6391
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain pFedMe Personalized Federated Learning with Moreau Envelopes as a
-  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
   and pure-Python boundary verification.
 source:
   git_revision: 5aeae92ee1f4c84f1168f6b99821634e0be56d86
@@ -313,7 +313,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -321,7 +321,7 @@ assessments:
   evidence_ids:
   - r395-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in pfedme-personalized-federated-learning-moreau-envelopes-boundaries.py
     passed with exit code 0: [PASS] Round 395 pFedMe verified: w_err=2.380e-03, theta_err=1.587e-03,

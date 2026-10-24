@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:MobileBERTCompactTaskAgnosticBERTWithBottlenecks.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in mobilebert-inverted-bottleneck-progressive-transfer-boundaries.py passed with exit code 0: {"concept": "MobileBERTCompactTaskAgnosticBERTWithBottlenecks", "mha_to_ffn_ratio_1_ffn": 2.0, "mha_to_ffn_ratio_4_ffn": 0.5, "fmt_loss_identical": 0.0, "fmt_loss_perturbed": 0.16000000000000003, "at_loss_identical": 0.0, "at_loss_mismatched": 0.710027, "l_pd_combined": 1.15, "status": "ok"}
 
@@ -319,7 +319,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -327,7 +327,7 @@ assessments:
   evidence_ids:
   - r804-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in mobilebert-inverted-bottleneck-progressive-transfer-boundaries.py
     passed with exit code 0: {"concept": "MobileBERTCompactTaskAgnosticBERTWithBottlenecks",

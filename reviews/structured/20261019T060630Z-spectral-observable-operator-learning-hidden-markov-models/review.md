@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Spectral Observable Operator Algorithm (LEARN-HMM) for Learning Hidden Markov Models as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Spectral Observable Operator Algorithm (LEARN-HMM) for Learning Hidden Markov Models as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SpectralObservableOperatorAlgorithmForLearningHiddenMarkovModels.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in spectral-observable-operator-learning-hidden-markov-models-boundaries.py passed with exit code 0: {"concept": "SpectralObservableOperatorAlgorithmForLearningHiddenMarkovModels", "max_exact_cond_prob_err_t4": 3.3306690738754696e-16, "max_exact_joint_prob_err_t4": 6.938893903907228e-17, "max_similarity_operator_err": 6.661338147750939e-16, "rank_deficient_det_p21": 0.0, "sample_learnhmm_l1_err_t3": 0.026187, "status": "VERIFIED"}
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Spectral Observable Operator Algorithm (LEARN-HMM) for Learning Hidden
-  Markov Models as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Markov Models as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: c3b6817d0c75e1b8d07d679669af261bcf77e373
@@ -319,7 +319,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -327,7 +327,7 @@ assessments:
   evidence_ids:
   - hkz2012-spectralhmm-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in spectral-observable-operator-learning-hidden-markov-models-boundaries.py
     passed with exit code 0: {"concept": "SpectralObservableOperatorAlgorithmForLearningHiddenMarkovModels",

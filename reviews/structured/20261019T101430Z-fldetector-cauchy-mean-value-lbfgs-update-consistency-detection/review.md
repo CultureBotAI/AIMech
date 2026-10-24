@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FLDetector Cauchy Mean Value and L-BFGS Model-Update Consistency Detection as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FLDetector Cauchy Mean Value and L-BFGS Model-Update Consistency Detection as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FlDetectorCauchyMeanValueLbfgsModelUpdateConsistencyDetection.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fldetector-cauchy-mean-value-lbfgs-update-consistency-detection-boundaries.py passed with exit code 0: [PASS] Round 531 FLDetector (Zhang et al. 2022): benign_err_HVP=0.006326&lt;benign_err_NoHVP=0.719307, max_benign_score=0.0002 &lt;&lt; min_malicious_score=0.4993
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FLDetector Cauchy Mean Value and L-BFGS Model-Update Consistency Detection
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 30ae7c1b74d97184ded074233e91624911038fc4
@@ -313,7 +313,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -321,7 +321,7 @@ assessments:
   evidence_ids:
   - r531-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fldetector-cauchy-mean-value-lbfgs-update-consistency-detection-boundaries.py
     passed with exit code 0: [PASS] Round 531 FLDetector (Zhang et al. 2022): benign_err_HVP=0.006326<benign_err_NoHVP=0.719307,

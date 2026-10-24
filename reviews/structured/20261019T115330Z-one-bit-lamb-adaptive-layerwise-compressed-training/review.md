@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:OneBitLambAdaptiveLayerwiseCompressedTraining.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py passed with exit code 0: [PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16, r_last=1.0145, c_final=0.1826, id_err=6.94e-18, red_128=4.57x, red_512=4.11x
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain 1-bit LAMB (Error-Compensated LAMB-Preconditioned Large-Batch Compressed
-  Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: fb2f5b90b1a7f6e1aae1d039e4cf1fcacbd9b1dc
@@ -315,7 +315,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -323,7 +323,7 @@ assessments:
   evidence_ids:
   - r630-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in one-bit-lamb-adaptive-layerwise-compressed-training-boundaries.py
     passed with exit code 0: [PASS] Round 630 1-bit LAMB verified: rec_err=3.89e-16,

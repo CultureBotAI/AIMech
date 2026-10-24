@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain NIDS (Network-Independent Step-Size Decentralized Proximal-Gradient Method) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain NIDS (Network-Independent Step-Size Decentralized Proximal-Gradient Method) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:NidsNetworkIndependentStepSizeDecentralizedProximalGradientMethod.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in nids-network-independent-step-size-decentralized-proximal-gradient-boundaries.py passed with exit code 0: [PASS] Round 440 NIDS (Li, Shi, &amp; Yan 2019): nids_err=8.44e-15 &lt;&lt; pge_err=2.77e+11, alpha=0.25 &gt; pge_max=0.10, rho_decoupled=0.5000
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain NIDS (Network-Independent Step-Size Decentralized Proximal-Gradient
-  Method) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Method) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: f8da8b7232e75b8353a87539889ebe6637799d48
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r440-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in nids-network-independent-step-size-decentralized-proximal-gradient-boundaries.py
     passed with exit code 0: [PASS] Round 440 NIDS (Li, Shi, & Yan 2019): nids_err=8.44e-15

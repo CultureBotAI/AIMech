@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Quasi-Global Momentum for Heterogeneous Decentralized Deep Learning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Quasi-Global Momentum for Heterogeneous Decentralized Deep Learning as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:QuasiGlobalMomentumForHeterogeneousDecentralizedDeepLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in quasi-global-momentum-decentralized-deep-learning-boundaries.py passed with exit code 0: [PASS] Quasi-Global Momentum boundaries verified: QHM_diff&lt;1e-14, cons_qg=0.0338&lt;cons_simple=0.2876, disagree_qg=0.5466&lt;disagree_local=3.0912
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Quasi-Global Momentum for Heterogeneous Decentralized Deep Learning
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: b202d32a6fc53367a43c7f8f0a7bbceb212e7d0f
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r553-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in quasi-global-momentum-decentralized-deep-learning-boundaries.py
     passed with exit code 0: [PASS] Quasi-Global Momentum boundaries verified: QHM_diff<1e-14,

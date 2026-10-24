@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MSDA and SSDA (Multi-Step and Single-Step Dual Accelerated Decentralized Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MSDA and SSDA (Multi-Step and Single-Step Dual Accelerated Decentralized Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:MsdaMultiStepDualAcceleratedDecentralizedOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in msda-multi-step-dual-accelerated-decentralized-optimization-boundaries.py passed with exit code 0: [PASS] Round 435 MSDA (Scaman et al. 2017): gamma_W=0.1464 -&gt; gamma_PK=0.4531 (1/sqrt(gamma_PK)=1.4856 &lt;= 2), msda_err=1.93e-14
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain MSDA and SSDA (Multi-Step and Single-Step Dual Accelerated Decentralized
-  Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: 9703f204bfe11c7657cb0753116996749e794924
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r435-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in msda-multi-step-dual-accelerated-decentralized-optimization-boundaries.py
     passed with exit code 0: [PASS] Round 435 MSDA (Scaman et al. 2017): gamma_W=0.1464

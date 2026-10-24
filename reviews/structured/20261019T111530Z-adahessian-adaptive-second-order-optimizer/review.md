@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain AdaHessian (Adaptive Second-Order Optimizer) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain AdaHessian (Adaptive Second-Order Optimizer) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AdaHessianAdaptiveSecondOrderOptimizer.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in adahessian-adaptive-second-order-optimizer-boundaries.py passed with exit code 0: [PASS] Round 592 AdaHessian verified: hutch_err=8.88e-16, spatial_var=1.8850&lt;raw_var=3.7700, x_ada=0.0052&lt;&lt;x_nomom=2.4718
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain AdaHessian (Adaptive Second-Order Optimizer) as a distinct DRAFT algorithm.
-  All three claims are supported by full-text primary evidence and pure-Python boundary
+  All four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: fea1d78365d6cbfc387db63ff62f901038d0ff24
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r592-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in adahessian-adaptive-second-order-optimizer-boundaries.py
     passed with exit code 0: [PASS] Round 592 AdaHessian verified: hutch_err=8.88e-16,

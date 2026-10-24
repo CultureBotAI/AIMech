@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SWATS as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SWATS as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SWATS.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in swats-switching-from-adam-to-sgd-boundaries.py passed with exit code 0: [PASS] Round 615 SWATS verified: proj_err=1.78e-15, rayleigh_err=8.88e-16, orth_norm_gap=1.7611e-01&gt;0, switch_step=2, Lambda_sgd=0.0504, sgd_min_norm_err=1.57e-16, adam_excess_norm=0.1030&gt;0
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain SWATS as a distinct DRAFT algorithm. All three claims are supported
+summary: Retain SWATS as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 6e280ae8cbcd51e4ed229b90295ad77536b55990
@@ -305,7 +305,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -313,7 +313,7 @@ assessments:
   evidence_ids:
   - r615-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in swats-switching-from-adam-to-sgd-boundaries.py
     passed with exit code 0: [PASS] Round 615 SWATS verified: proj_err=1.78e-15, rayleigh_err=8.88e-16,

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain 0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain 0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:ZeroOneAdamLinearizedLocalStepCompressedAdam.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in zero-one-adam-linearized-local-step-compressed-adam-boundaries.py passed with exit code 0: [PASS] Round 631 0/1 Adam verified: tv_count=148, max_m_bound=2301, sync_err=2.22e-16, lemma4_ratio=0.1469&lt;=1, vol_red=0.8716
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain 0/1 Adam (Linearized Adaptive-Freezing and Local-Step Compressed Adam)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 6aa68c6d7f96b563d392dc3fd37e3be4ea9eec19
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r631-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in zero-one-adam-linearized-local-step-compressed-adam-boundaries.py
     passed with exit code 0: [PASS] Round 631 0/1 Adam verified: tv_count=148, max_m_bound=2301,

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain PreTTR Precomputing Transformer Term Representations as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain PreTTR Precomputing Transformer Term Representations as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:PreTTRPrecomputingTermRepresentationsForReranking.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in prettr-precomputing-transformer-term-representations-boundaries.py passed with exit code 0: [PASS] PreTTR boundaries verified: decoupled_diff=0.00e+00, compressed_dim=2/4, attn_mse_loss=0.001563
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain PreTTR Precomputing Transformer Term Representations as a distinct
-  DRAFT architecture. All three claims are supported by full-text primary evidence
+  DRAFT architecture. All four claims are supported by full-text primary evidence
   and pure-Python boundary verification.
 source:
   git_revision: e2c0bda6421dcb1261880778cd6ac99ab83e182d
@@ -306,7 +306,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -314,7 +314,7 @@ assessments:
   evidence_ids:
   - r780-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in prettr-precomputing-transformer-term-representations-boundaries.py
     passed with exit code 0: [PASS] PreTTR boundaries verified: decoupled_diff=0.00e+00,

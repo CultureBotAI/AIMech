@@ -33,13 +33,25 @@ notes below keyed by the same stable task ID.
 <!-- mech-infra-tasks:start -->
 ```yaml
 schema_version: '1.0.0'
-tasks: []
+tasks:
+- task_id: aimech-infra-0001
+  summary: Enforce ConceptKind schema-to-renderer coverage in scripts/render_pages.py and tests/test_render_pages.py
+  status: resolved
+  issue_url: https://github.com/CultureBotAI/AIMech/issues/429
+  disposition: Added task, bias, and risk entries to KIND_LABELS and KIND_BLURBS in scripts/render_pages.py and added test_kind_and_branch_labels_cover_schema_enums() in tests/test_render_pages.py (PR #428).
 ```
 <!-- mech-infra-tasks:end -->
 
 ## Tasks
 
-No infrastructure tasks have been entered through this workflow yet. This empty
-bootstrap ledger is not an audit result or a claim that the repository has no
-infrastructure needs. Add evidence-backed entries as work exposes them.
+### `aimech-infra-0001` — Enforce `ConceptKind` schema-to-renderer coverage in `scripts/render_pages.py` and `tests/test_render_pages.py`
+
+- **Originating run / cycle / stage**: `mech-goal-sequence-20261019`, Cycle 1, Stage 1 (`add_records`)
+- **Issue**: https://github.com/CultureBotAI/AIMech/issues/429
+- **Status**: `resolved`
+- **Priority**: Medium
+- **Dependencies**: None
+- **Observation**: Curating the first `concept_kind: bias` record (`AIMech:DataPersistenceBias`, Round 826, commit `80dc760a`) exposed that `KIND_LABELS` and `KIND_BLURBS` in `scripts/render_pages.py` omitted 3 of the 12 `ConceptKind` permissible values (`task`, `bias`, `risk`) defined in `src/aimech/schema/curated_concept.yaml`, and `tests/test_render_pages.py` hardcoded `assert len(unique_kinds) == 9` without testing full schema enum coverage.
+- **Evidence paths**: `scripts/render_pages.py`, `tests/test_render_pages.py`, `src/aimech/schema/curated_concept.yaml`, `data/curated/DataPersistenceBias.yaml`
+- **Disposition**: Resolved in PR #428 by registering `task`, `bias`, and `risk` in `KIND_LABELS` and `KIND_BLURBS`, updating `test_curated_kind_pages()`, and adding `test_kind_and_branch_labels_cover_schema_enums()` in `tests/test_render_pages.py`.
 

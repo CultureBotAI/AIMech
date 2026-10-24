@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain AdapterFusion as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain AdapterFusion as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AdapterFusion.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in adapterfusion-non-destructive-task-composition-boundaries.py passed with exit code 0: [PASS] Round 690 AdapterFusion (Pfeiffer et al., EACL 2021): s_a[1]=1.00000, s_b[2]=1.00000, forgetting_drift=0.0e+00, fusion_mse=9.52e-11 &lt;&lt; single_adapter_mse=16.00
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain AdapterFusion as a distinct DRAFT architecture. All three claims are
+summary: Retain AdapterFusion as a distinct DRAFT architecture. All four claims are
   supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: bbec92faf197043034a3edc9ac5ef4197bb3c0f6
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r690-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in adapterfusion-non-destructive-task-composition-boundaries.py
     passed with exit code 0: [PASS] Round 690 AdapterFusion (Pfeiffer et al., EACL

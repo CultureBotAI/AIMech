@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SignGuard Norm-Based and Sign-Clustering Malicious Gradient Filtering as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SignGuard Norm-Based and Sign-Clustering Malicious Gradient Filtering as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SignGuardNormAndSignClusteringMaliciousGradientFiltering.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in signguard-norm-sign-clustering-gradient-filtering-boundaries.py passed with exit code 0: [PASS] Round 533 SignGuard verified: S1=[0, 1, 2, 3, 4, 5, 6, 7], S2=[0, 1, 2, 3, 4, 5, 8, 9], S_trusted=[0, 1, 2, 3, 4, 5], err_sg=0.0978 &lt;&lt; err_norm_only=1.4948 &lt;&lt; err_sign_only=14.7531
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain SignGuard Norm-Based and Sign-Clustering Malicious Gradient Filtering
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 58b9a0f219df546685dee462b34d5f667be5bd48
@@ -324,7 +324,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -332,7 +332,7 @@ assessments:
   evidence_ids:
   - r533-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in signguard-norm-sign-clustering-gradient-filtering-boundaries.py
     passed with exit code 0: [PASS] Round 533 SignGuard verified: S1=[0, 1, 2, 3,

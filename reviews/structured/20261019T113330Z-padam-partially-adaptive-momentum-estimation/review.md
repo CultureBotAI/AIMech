@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Padam Partially Adaptive Momentum Estimation Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Padam Partially Adaptive Momentum Estimation Optimization as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:PadamPartiallyAdaptiveMomentumEstimationOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in padam-partially-adaptive-momentum-estimation-boundaries.py passed with exit code 0: [PASS] Round 610 Padam verified: sgdm_err=0.00e+00, ams_err=0.00e+00, eq_a2_err=1.67e-16, eq_a3_err=1.67e-16, lemma_a5_rat=0.1246&lt;=1, mean_grad_sq=1.1140e-01&lt;=cor45_rhs=2.6152e+00
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Padam Partially Adaptive Momentum Estimation Optimization as a distinct
-  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  DRAFT algorithm. All four claims are supported by full-text primary evidence and
   pure-Python boundary verification.
 source:
   git_revision: 468441641650caedc1e18ae770bb6ad48b323091
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r610-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in padam-partially-adaptive-momentum-estimation-boundaries.py
     passed with exit code 0: [PASS] Round 610 Padam verified: sgdm_err=0.00e+00, ams_err=0.00e+00,

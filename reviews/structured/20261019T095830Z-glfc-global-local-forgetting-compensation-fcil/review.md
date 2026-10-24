@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain GLFC (Global-Local Forgetting Compensation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain GLFC (Global-Local Forgetting Compensation) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:GlfcGlobalLocalForgettingCompensationForFederatedClassIncrementalLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in glfc-global-local-forgetting-compensation-fcil-boundaries.py passed with exit code 0: [PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00, KL_forgetting=0.9818&gt;&gt;KL_matched=0.0e+00, entropy_jump=1.436&gt;=1.2
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain GLFC (Global-Local Forgetting Compensation) as a distinct DRAFT algorithm.
-  All three claims are supported by full-text primary evidence and pure-Python boundary
+  All four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: e2200c27945dc20da95eda9f18ac12ba84bd2dad
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r515-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in glfc-global-local-forgetting-compensation-fcil-boundaries.py
     passed with exit code 0: [PASS] Round 515 GLFC (Dong et al. 2022): mean_w_old=1.00==mean_w_new=1.00,

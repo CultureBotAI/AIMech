@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedSR Simple Representation Regularization for Federated Domain Generalization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedSR Simple Representation Regularization for Federated Domain Generalization as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedSrSimpleAndEffectiveDomainGeneralizationForFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedsr-simple-representation-domain-generalization-fl-boundaries.py passed with exit code 0: [PASS] Round 498 FedSR (Nguyen, Torr, &amp; Lim 2022): eq15_err=0.00e+00, ell_CMI=0.5794 &gt;= I(x,z&#124;y)=0.5001 &amp; KL[p_i&#124;&#124;r]=0.0793, decomp_err=1.22e-15
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedSR Simple Representation Regularization for Federated Domain Generalization
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 7640466e04c4db8befcfce083359c35cf8f8604d
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r498-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedsr-simple-representation-domain-generalization-fl-boundaries.py
     passed with exit code 0: [PASS] Round 498 FedSR (Nguyen, Torr, & Lim 2022): eq15_err=0.00e+00,

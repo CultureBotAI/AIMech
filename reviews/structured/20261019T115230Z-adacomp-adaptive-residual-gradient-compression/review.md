@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain AdaComp (Adaptive Residual Gradient Compression) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain AdaComp (Adaptive Residual Gradient Compression) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AdaCompAdaptiveResidualGradientCompression.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in adacomp-adaptive-residual-gradient-compression-boundaries.py passed with exit code 0: [PASS] Round 629 AdaComp verified: cons_err=2.78e-17, c_early=13&gt;2=c_late, conv_ratio=40.0x, fc_ratio=200.0x
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain AdaComp (Adaptive Residual Gradient Compression) as a distinct DRAFT
-  algorithm. All three claims are supported by full-text primary evidence and pure-Python
+  algorithm. All four claims are supported by full-text primary evidence and pure-Python
   boundary verification.
 source:
   git_revision: b40ad8447a1b2deded80b2a982af4027b44ed1ca
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r629-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in adacomp-adaptive-residual-gradient-compression-boundaries.py
     passed with exit code 0: [PASS] Round 629 AdaComp verified: cons_err=2.78e-17,

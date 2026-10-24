@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed Deep Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed Deep Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:StochasticGradientPushAndOverlapSgpForDistributedDeepLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in stochastic-gradient-push-overlap-sgp-distributed-deep-learning-boundaries.py passed with exit code 0: [PASS] Round 430 SGP &amp; Overlap-SGP (Assran et al. 2019): exp_graph_err=0.00e+00, sgp_err=0.1089 &lt;&lt; naive_skew_err=1.5431, osgp_col_stochastic=1.0
 
@@ -124,8 +124,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Stochastic Gradient Push and Overlap SGP (SGP and tau-OSGP for Distributed
-  Deep Learning) as a distinct DRAFT algorithm. All three claims are supported by
-  full-text primary evidence and pure-Python boundary verification.
+  Deep Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
 source:
   git_revision: fbecf8bb847b89ff9fac11af1fbd980d01d62d52
   state: working_tree
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r430-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in stochastic-gradient-push-overlap-sgp-distributed-deep-learning-boundaries.py
     passed with exit code 0: [PASS] Round 430 SGP & Overlap-SGP (Assran et al. 2019):

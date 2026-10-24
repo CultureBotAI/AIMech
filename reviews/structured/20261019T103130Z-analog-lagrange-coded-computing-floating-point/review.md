@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Analog Lagrange Coded Computing for Privacy-Preserving Floating-Point Distributed Computation as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Analog Lagrange Coded Computing for Privacy-Preserving Floating-Point Distributed Computation as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AnalogLagrangeCodedComputingForPrivacyPreservingFloatingPointDistributedComputation.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in analog-lagrange-coded-computing-floating-point-boundaries.py passed with exit code 0: [PASS] ALCC boundaries verified: max_err&lt;1e-10, R_rec=9, lebesgue_roots=1.749 &lt; lebesgue_real=10.780
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Analog Lagrange Coded Computing for Privacy-Preserving Floating-Point
-  Distributed Computation as a distinct DRAFT algorithm. All three claims are supported
+  Distributed Computation as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 4f76f161aa8852a4d949dd95904737d89b262fad
@@ -314,7 +314,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -322,7 +322,7 @@ assessments:
   evidence_ids:
   - r548-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in analog-lagrange-coded-computing-floating-point-boundaries.py
     passed with exit code 0: [PASS] ALCC boundaries verified: max_err<1e-10, R_rec=9,

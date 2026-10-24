@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FourierFT as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FourierFT as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FourierFT.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fourierft-discrete-fourier-transform-fine-tuning-boundaries.py passed with exit code 0: [PASS] Round 663 FourierFT (Gao et al. 2024): params_fourier=8&lt;params_lora_r1=16, rank_fourier=6&gt;rank_lora=1, max_grad_err=2.36e-07
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain FourierFT as a distinct DRAFT algorithm. All three claims are supported
+summary: Retain FourierFT as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 70622ca8a10af9ad97c2c1eec6367762274e79e9
@@ -317,7 +317,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -325,7 +325,7 @@ assessments:
   evidence_ids:
   - r663-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fourierft-discrete-fourier-transform-fine-tuning-boundaries.py
     passed with exit code 0: [PASS] Round 663 FourierFT (Gao et al. 2024): params_fourier=8<params_lora_r1=16,

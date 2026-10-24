@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain q-Fair Federated Learning (q-FFL) and q-FedAvg for Alpha-Fair Resource Allocation as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain q-Fair Federated Learning (q-FFL) and q-FedAvg for Alpha-Fair Resource Allocation as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:QFairFederatedLearningAlphaFairResourceAllocation.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in q-fair-federated-learning-alpha-fair-resource-allocation-boundaries.py passed with exit code 0: [PASS] Round 394 q-FFL verified: var(q=0)=2.8743 &gt; var(q=1)=1.2042 &gt; var(q=5)=0.3848; max(q=0)=4.3928 &gt; max(q=5)=3.3104
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain q-Fair Federated Learning (q-FFL) and q-FedAvg for Alpha-Fair Resource
-  Allocation as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Allocation as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: f859d5966bb90824dca623d51f96427d53d20756
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r394-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in q-fair-federated-learning-alpha-fair-resource-allocation-boundaries.py
     passed with exit code 0: [PASS] Round 394 q-FFL verified: var(q=0)=2.8743 > var(q=1)=1.2042

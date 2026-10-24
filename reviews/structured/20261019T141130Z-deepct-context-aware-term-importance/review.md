@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain DeepCT Deep Contextualized Term Weighting for First-Stage Retrieval as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain DeepCT Deep Contextualized Term Weighting for First-Stage Retrieval as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in deepct-context-aware-term-importance-boundaries.py passed with exit code 0: [PASS] DeepCT boundaries verified: QTR(stomach,d1)=1.00, TF_DeepCT(p1)=78 &gt; TF_DeepCT(p2)=6, BM25_DeepCT(p1)=5.4167 &gt; BM25_DeepCT(p2)=4.5833
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain DeepCT Deep Contextualized Term Weighting for First-Stage Retrieval
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: b991589c6de9f44e0d31623e1273695fc69b40ba
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r768-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in deepct-context-aware-term-importance-boundaries.py
     passed with exit code 0: [PASS] DeepCT boundaries verified: QTR(stomach,d1)=1.00,

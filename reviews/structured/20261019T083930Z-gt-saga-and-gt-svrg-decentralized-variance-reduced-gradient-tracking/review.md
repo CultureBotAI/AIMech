@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:GtSagaAndGtSvrgDecentralizedVarianceReducedGradientTracking.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in gt-saga-and-gt-svrg-decentralized-variance-reduced-gradient-tracking-boundaries.py passed with exit code 0: [PASS] Round 436 GT-SAGA &amp; GT-SVRG (Xin et al. 2020): err_gt_saga=7.55e-15, err_gt_svrg=2.66e-15 &lt;&lt; err_no_gt=1.1692
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain GT-SAGA and GT-SVRG (Decentralized Variance-Reduced Gradient Tracking)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 23302b5793b4dd78a1044331f81a035b4a1bd372
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r436-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in gt-saga-and-gt-svrg-decentralized-variance-reduced-gradient-tracking-boundaries.py
     passed with exit code 0: [PASS] Round 436 GT-SAGA & GT-SVRG (Xin et al. 2020):

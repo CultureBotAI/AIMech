@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedPAGE Probabilistic Local Stochastic Gradient Method for Federated Learning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedPAGE Probabilistic Local Stochastic Gradient Method for Federated Learning as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedPageProbabilisticLocalGradientMethodForFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedpage-fast-local-stochastic-gradient-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 563 FedPAGE verified: geom_sum=6.483&lt;=3K=12, grad_fp=2.220e-16 &lt;&lt; grad_fa=1.590e+00
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedPAGE Probabilistic Local Stochastic Gradient Method for Federated
-  Learning as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Learning as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: 91d7503f18ba8040cce507cbcc658adc86cfbe28
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r563-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedpage-fast-local-stochastic-gradient-federated-learning-boundaries.py
     passed with exit code 0: [PASS] Round 563 FedPAGE verified: geom_sum=6.483<=3K=12,

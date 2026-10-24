@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain HLATR Hybrid List Aware Transformer Reranking as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain HLATR Hybrid List Aware Transformer Reranking as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:HLATRHybridListAwareTransformerReranking.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in hlatr-hybrid-list-aware-transformer-reranking-boundaries.py passed with exit code 0: [PASS] HLATR boundaries verified: hlatr_scores=[-2.5426, 3.0585, -2.5917], loss_coupled=0.0072 &lt; loss_no_retr=0.2382
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain HLATR Hybrid List Aware Transformer Reranking as a distinct DRAFT
-  architecture. All three claims are supported by full-text primary evidence and pure-Python
+  architecture. All four claims are supported by full-text primary evidence and pure-Python
   boundary verification.
 source:
   git_revision: 4bd7c39d8602694a2d890974bff56a1b8039714c
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r770-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in hlatr-hybrid-list-aware-transformer-reranking-boundaries.py
     passed with exit code 0: [PASS] HLATR boundaries verified: hlatr_scores=[-2.5426,

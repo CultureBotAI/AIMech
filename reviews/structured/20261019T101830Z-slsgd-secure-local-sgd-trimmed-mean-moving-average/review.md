@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SLSGD Secure Local Stochastic Gradient Descent with Trimmed Mean and Moving Average as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SLSGD Secure Local Stochastic Gradient Descent with Trimmed Mean and Moving Average as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SlsgdSecureLocalStochasticGradientDescentWithTrimmedMeanAndMovingAverage.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in slsgd-secure-local-sgd-trimmed-mean-moving-average-boundaries.py passed with exit code 0: [PASS] Round 535 SLSGD verified: err_slsgd=0.15390 &lt;&lt; err_fedavg=97.51, beta(q=1,b=2)=3.550 &lt; beta(q=2,b=2)=4.448 &lt; beta(q=2,b=4)=9.865
 
@@ -124,8 +124,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain SLSGD Secure Local Stochastic Gradient Descent with Trimmed Mean and
-  Moving Average as a distinct DRAFT algorithm. All three claims are supported by
-  full-text primary evidence and pure-Python boundary verification.
+  Moving Average as a distinct DRAFT algorithm. All four claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
 source:
   git_revision: 1d28eb14fb1a08c5cc6f746cfb5adb2a59e8d4ca
   state: working_tree
@@ -317,7 +317,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -325,7 +325,7 @@ assessments:
   evidence_ids:
   - r535-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in slsgd-secure-local-sgd-trimmed-mean-moving-average-boundaries.py
     passed with exit code 0: [PASS] Round 535 SLSGD verified: err_slsgd=0.15390 <<

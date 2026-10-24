@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedBN (Federated Learning on Non-IID Features via Local Batch Normalization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedBN (Federated Learning on Non-IID Features via Local Batch Normalization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedBnFederatedLearningOnNonIidFeaturesViaLocalBatchNormalization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedbn-federated-learning-non-iid-features-local-bn-boundaries.py passed with exit code 0: [PASS] Round 406 FedBN (Li et al. 2021): mu0_star=0.06366&gt;mu0=0.01559, rate_fedbn=0.5264&lt;rate_fedavg=0.8554, mse_fedbn=1.51e-31&lt;&lt;mse_fedavg_bn=12.7582
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedBN (Federated Learning on Non-IID Features via Local Batch Normalization)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 3a8af9ff5eb9e25d72e97f77ca0e04178074afc2
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r406-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedbn-federated-learning-non-iid-features-local-bn-boundaries.py
     passed with exit code 0: [PASS] Round 406 FedBN (Li et al. 2021): mu0_star=0.06366>mu0=0.01559,

@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:GradientCentralizationOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in gradient-centralization-zero-mean-projected-optimization-boundaries.py passed with exit code 0: [PASS] Round 625 Gradient Centralization verified: P2_err=0.00e+00, op_err=4.44e-16, hyperplane_err=2.81e-16, thm41_err=1.78e-15, eq10_err=3.55e-15, eq11_err=7.11e-15, hessian_norm_ratio=0.5282&lt;1
 
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r625-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in gradient-centralization-zero-mean-projected-optimization-boundaries.py
     passed with exit code 0: [PASS] Round 625 Gradient Centralization verified: P2_err=0.00e+00,

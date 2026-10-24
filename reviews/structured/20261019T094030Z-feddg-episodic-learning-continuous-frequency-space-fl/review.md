@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedDG Episodic Learning in Continuous Frequency Space for Federated Domain Generalization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedDG Episodic Learning in Continuous Frequency Space for Federated Domain Generalization as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedDgEpisodicLearningInContinuousFrequencySpaceForFederatedDomainGeneralization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in feddg-episodic-learning-continuous-frequency-space-fl-boundaries.py passed with exit code 0: [PASS] Round 497 FedDG/ELCFS (Liu et al. 2021): phase_err=2.22e-15, mean_err=6.66e-16, L_boundary_aligned=1.3838e-04 &lt;&lt; L_boundary_unaligned=1.4112
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedDG Episodic Learning in Continuous Frequency Space for Federated
-  Domain Generalization as a distinct DRAFT algorithm. All three claims are supported
+  Domain Generalization as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 0ebf02df5dee6cf0f94bbb89dc1721a990d21701
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r497-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in feddg-episodic-learning-continuous-frequency-space-fl-boundaries.py
     passed with exit code 0: [PASS] Round 497 FedDG/ELCFS (Liu et al. 2021): phase_err=2.22e-15,

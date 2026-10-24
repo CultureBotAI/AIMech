@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain CLEAR Complementing Lexical Retrieval with Semantic Residual Embedding as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain CLEAR Complementing Lexical Retrieval with Semantic Residual Embedding as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:CLEARComplementingLexicalRetrievalWithSemanticResidualEmbedding.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in clear-semantic-residual-embedding-retrieval-boundaries.py passed with exit code 0: [PASS] CLEAR boundaries verified: m_r_easy=-0.40 (loss=0.00), m_r_hard=1.80 &gt; xi=1.00, clear_pos=10.25 &gt; clear_neg=8.75
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain CLEAR Complementing Lexical Retrieval with Semantic Residual Embedding
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 83a799161d7d2d3a5035c296c0902b8452e26180
@@ -306,7 +306,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -314,7 +314,7 @@ assessments:
   evidence_ids:
   - r777-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in clear-semantic-residual-embedding-retrieval-boundaries.py
     passed with exit code 0: [PASS] CLEAR boundaries verified: m_r_easy=-0.40 (loss=0.00),

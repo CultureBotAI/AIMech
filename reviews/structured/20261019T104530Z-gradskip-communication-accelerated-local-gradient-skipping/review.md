@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain GradSkip and GradSkip+ Communication-Accelerated Local Gradient Methods with Gradient Skipping as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain GradSkip and GradSkip+ Communication-Accelerated Local Gradient Methods with Gradient Skipping as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:GradSkipAndGradSkipPlusCommunicationAcceleratedLocalGradientMethodsWithGradientSkipping.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in gradskip-communication-accelerated-local-gradient-skipping-boundaries.py passed with exit code 0: [PASS] Round 562 GradSkip verified: psi 494.410 -&gt; 1.818e-29, E[steps]=20.08 vs Scaffnew=40.00, real_grads=2431, fake_steps=2369
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain GradSkip and GradSkip+ Communication-Accelerated Local Gradient Methods
-  with Gradient Skipping as a distinct DRAFT algorithm. All three claims are supported
+  with Gradient Skipping as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: ffdce2f1575519625033d656bad47bfca4a0bcf5
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r562-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in gradskip-communication-accelerated-local-gradient-skipping-boundaries.py
     passed with exit code 0: [PASS] Round 562 GradSkip verified: psi 494.410 -> 1.818e-29,

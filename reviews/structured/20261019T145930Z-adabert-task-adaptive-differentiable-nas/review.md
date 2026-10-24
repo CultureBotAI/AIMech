@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain AdaBERT (Task-Adaptive BERT Compression with Differentiable Neural Architecture Search) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain AdaBERT (Task-Adaptive BERT Compression with Differentiable Neural Architecture Search) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AdaBERTTaskAdaptiveBERTCompressionWithDifferentiableNAS.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in adabert-task-adaptive-differentiable-nas-boundaries.py passed with exit code 0: AdaBERT verification passed: mapped=[3, 6, 9, 12], w_im=[0.177, 0.232, 0.284, 0.306], l_e_shallow=0.2625 &lt; l_e_deep=1.7063, y_soft_lo[1]=1.000000
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain AdaBERT (Task-Adaptive BERT Compression with Differentiable Neural
-  Architecture Search) as a distinct DRAFT algorithm. All three claims are supported
+  Architecture Search) as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: fc7093fee234c3bdc15e5f257e91398ac136dc53
@@ -313,7 +313,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -321,7 +321,7 @@ assessments:
   evidence_ids:
   - r816-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in adabert-task-adaptive-differentiable-nas-boundaries.py
     passed with exit code 0: AdaBERT verification passed: mapped=[3, 6, 9, 12], w_im=[0.177,

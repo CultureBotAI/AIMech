@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain ZeRO-Offload as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain ZeRO-Offload as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:ZeROOffloadHeterogeneousLargeModelTraining.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in zero-offload-heterogeneous-gpu-cpu-training-boundaries.py passed with exit code 0: [PASS] Round 627 ZeRO-Offload verified: min_comm_vol=4.0M, max_mem_reduction=8.0x, valid_4M_cuts=3, zero2_cpu_speedup_16gpu=16.0x, dpu_throughput_gain=1.45x, dpu_final_loss=1.14e-10
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain ZeRO-Offload as a distinct DRAFT algorithm. All three claims are supported
+summary: Retain ZeRO-Offload as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: b898758b7a32324333d5e7dd3aee0bbcbad0c572
@@ -306,7 +306,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -314,7 +314,7 @@ assessments:
   evidence_ids:
   - r627-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in zero-offload-heterogeneous-gpu-cpu-training-boundaries.py
     passed with exit code 0: [PASS] Round 627 ZeRO-Offload verified: min_comm_vol=4.0M,

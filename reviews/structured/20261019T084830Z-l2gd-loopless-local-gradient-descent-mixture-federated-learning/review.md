@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain L2GD (Loopless Local Gradient Descent for Mixture Federated Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain L2GD (Loopless Local Gradient Descent for Mixture Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:L2gdLooplessLocalGradientDescentForMixtureFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in l2gd-loopless-local-gradient-descent-mixture-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 445 L2GD (Hanzely &amp; Richtarik 2020): thm32_err=8.88e-16, grad_sum_err=1.78e-15, p_star=0.20, comm_ratio=0.20
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain L2GD (Loopless Local Gradient Descent for Mixture Federated Learning)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: af0dbb1db399500671dcb402d26f5cb6049a10ec
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r445-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in l2gd-loopless-local-gradient-descent-mixture-federated-learning-boundaries.py
     passed with exit code 0: [PASS] Round 445 L2GD (Hanzely & Richtarik 2020): thm32_err=8.88e-16,

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain KD3A (Knowledge Distillation Based Decentralized Domain Adaptation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain KD3A (Knowledge Distillation Based Decentralized Domain Adaptation) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:Kd3aKnowledgeDistillationBasedDecentralizedDomainAdaptation.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in kd3a-knowledge-distillation-decentralized-domain-adaptation-boundaries.py passed with exit code 0: [PASS] Round 520 KD3A (Feng et al. 2021): fig1b_vote=(0.91,0.09,n=2), CF=[2.68, 2.65, 0.0], alpha_CF2=0.000, bn_mmd_opt=0.0622&lt;0.1422
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain KD3A (Knowledge Distillation Based Decentralized Domain Adaptation)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 2a77a8f87e1243766734cf08b62ca73fdc6ad274
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r520-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in kd3a-knowledge-distillation-decentralized-domain-adaptation-boundaries.py
     passed with exit code 0: [PASS] Round 520 KD3A (Feng et al. 2021): fig1b_vote=(0.91,0.09,n=2),

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain DIGing and Push-DIGing (Distributed Inexact Gradient Tracking Over Time-Varying Graphs) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain DIGing and Push-DIGing (Distributed Inexact Gradient Tracking Over Time-Varying Graphs) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DigingAndPushDigingDistributedInexactGradientTrackingOverTimeVaryingGraphs.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in diging-push-diging-distributed-inexact-gradient-tracking-time-varying-graphs-boundaries.py passed with exit code 0: [PASS] Round 431 DIGing &amp; Push-DIGing (Nedic, Olshevsky, &amp; Shi 2017): dig_err=2.67e-15, lambda=0.9909, row_stoch_err=2.22e-16, push_dig_err=1.42e-16
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain DIGing and Push-DIGing (Distributed Inexact Gradient Tracking Over
-  Time-Varying Graphs) as a distinct DRAFT algorithm. All three claims are supported
+  Time-Varying Graphs) as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 5d4a4c93997f377b71725a5f8d711561c92d6c25
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r431-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in diging-push-diging-distributed-inexact-gradient-tracking-time-varying-graphs-boundaries.py
     passed with exit code 0: [PASS] Round 431 DIGing & Push-DIGing (Nedic, Olshevsky,

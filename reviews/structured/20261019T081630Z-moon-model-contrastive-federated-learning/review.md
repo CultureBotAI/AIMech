@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MOON (Model-Contrastive Federated Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MOON (Model-Contrastive Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:MoonModelContrastiveFederatedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in moon-model-contrastive-federated-learning-boundaries.py passed with exit code 0: [PASS] MOON boundaries verified: l_con(z_glob=z_prev)=0.693147 (log2=0.693147), grad_fd_err=1.51e-09, sim_glob: 0.570-&gt;0.989, sim_prev: 0.515-&gt;-0.346
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain MOON (Model-Contrastive Federated Learning) as a distinct DRAFT algorithm.
-  All three claims are supported by full-text primary evidence and pure-Python boundary
+  All four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: bd67ff60094d18570baca1dcacdde877cd13a448
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r413-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in moon-model-contrastive-federated-learning-boundaries.py
     passed with exit code 0: [PASS] MOON boundaries verified: l_con(z_glob=z_prev)=0.693147

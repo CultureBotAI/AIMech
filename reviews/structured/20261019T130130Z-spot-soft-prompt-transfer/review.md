@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SPoTSoftPromptTransfer.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in spot-soft-prompt-transfer-boundaries.py passed with exit code 0: [PASS] SPoT boundary verification passed: reduction_ratio=26855.5x, s_tok=(0.9985&gt;0.9404&gt;0.2829), alphas=[0.515, 0.485], mse_top1=0.00018 &lt; mse_spot_wavg=0.00680 &lt;&lt; mse_scratch=0.34499
 
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r698-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in spot-soft-prompt-transfer-boundaries.py
     passed with exit code 0: [PASS] SPoT boundary verification passed: reduction_ratio=26855.5x,

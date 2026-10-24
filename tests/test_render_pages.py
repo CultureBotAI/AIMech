@@ -105,6 +105,32 @@ def test_curated_kind_pages():
         assert "conceptTable" in content
 
 
+def test_kind_and_branch_labels_cover_schema_enums():
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from scripts.render_pages import BRANCH_BLURBS, BRANCH_LABELS, KIND_BLURBS, KIND_LABELS
+
+    curated_schema = yaml.safe_load(
+        (REPO_ROOT / "src" / "aimech" / "schema" / "curated_concept.yaml").read_text(
+            encoding="utf-8"
+        )
+    )
+    expected_kinds = set(curated_schema["enums"]["ConceptKind"]["permissible_values"].keys())
+    assert set(KIND_LABELS.keys()) == expected_kinds
+    assert set(KIND_BLURBS.keys()) == expected_kinds
+    assert all(isinstance(v, str) and v.strip() for v in KIND_LABELS.values())
+    assert all(isinstance(v, str) and v.strip() for v in KIND_BLURBS.values())
+
+    aio_schema = yaml.safe_load(
+        (REPO_ROOT / "src" / "aimech" / "schema" / "aimech.yaml").read_text(encoding="utf-8")
+    )
+    expected_branches = set(aio_schema["enums"]["AIOBranch"]["permissible_values"].keys())
+    assert set(BRANCH_LABELS.keys()) == expected_branches
+    assert set(BRANCH_BLURBS.keys()) == expected_branches
+    assert all(isinstance(v, str) and v.strip() for v in BRANCH_LABELS.values())
+    assert all(isinstance(v, str) and v.strip() for v in BRANCH_BLURBS.values())
+
+
 def test_aio_branch_pages():
     branches_dir = PAGES_DIR / "branches"
     assert branches_dir.is_dir()

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FFA-LoRA: Federated Freeze-A Low-Rank Adaptation as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FFA-LoRA: Federated Freeze-A Low-Rank Adaptation as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FfaLoraFederatedFreezeALowRankAdaptation.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py passed with exit code 0: FFA-LoRA boundary verification passed: {'lora_agg_err': 1.651494, 'ffa_agg_err': 1.6184142622847344e-16, 'thm1_convergence_errs': [0.171516, 0.006861, 6.9e-05, 1e-06]}
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: 'Retain FFA-LoRA: Federated Freeze-A Low-Rank Adaptation as a distinct DRAFT
-  algorithm. All three claims are supported by full-text primary evidence and pure-Python
+  algorithm. All four claims are supported by full-text primary evidence and pure-Python
   boundary verification.'
 source:
   git_revision: ddd894d3b6643135e51bd400e68f6c4f905413c5
@@ -313,7 +313,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -321,7 +321,7 @@ assessments:
   evidence_ids:
   - r510-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in ffa-lora-federated-freeze-a-low-rank-adaptation-boundaries.py
     passed with exit code 0: FFA-LoRA boundary verification passed: {''lora_agg_err'':

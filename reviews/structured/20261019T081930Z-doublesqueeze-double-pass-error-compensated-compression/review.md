@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain DoubleSqueeze (Double-Pass Error-Compensated Gradient Compression) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain DoubleSqueeze (Double-Pass Error-Compensated Gradient Compression) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:DoubleSqueezeDoublePassErrorCompensatedCompression.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in doublesqueeze-double-pass-error-compensated-compression-boundaries.py passed with exit code 0: [PASS] Round 416 DoubleSqueeze (Tang et al. 2019): Lemma 1 exact recurrence verified (err &lt; 1e-12), gamma=1 virtual-iterate drift=0.0, gamma=0 uncompensated drift=0.1017 &gt; 0
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain DoubleSqueeze (Double-Pass Error-Compensated Gradient Compression)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: 9e2341929562808d5c661f107a8e371da3b63082
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r416-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in doublesqueeze-double-pass-error-compensated-compression-boundaries.py
     passed with exit code 0: [PASS] Round 416 DoubleSqueeze (Tang et al. 2019): Lemma

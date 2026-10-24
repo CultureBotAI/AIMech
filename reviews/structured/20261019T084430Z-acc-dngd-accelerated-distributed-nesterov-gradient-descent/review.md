@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Acc-DNGD (Accelerated Distributed Nesterov Gradient Descent) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Acc-DNGD (Accelerated Distributed Nesterov Gradient Descent) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AccDngdAcceleratedDistributedNesterovGradientDescent.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in acc-dngd-accelerated-distributed-nesterov-gradient-descent-boundaries.py passed with exit code 0: [PASS] Round 441 Acc-DNGD (Qu &amp; Li 2020): tracking_err=2.89e-15, err_acc=3.27e-02 &lt;&lt; err_gt=1.77e+00, kappa1000_acc_gain=7.20x
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Acc-DNGD (Accelerated Distributed Nesterov Gradient Descent) as a
-  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
   and pure-Python boundary verification.
 source:
   git_revision: 4528b503fcb6a84b5b1403b9a0e42f64c91288d6
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r441-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in acc-dngd-accelerated-distributed-nesterov-gradient-descent-boundaries.py
     passed with exit code 0: [PASS] Round 441 Acc-DNGD (Qu & Li 2020): tracking_err=2.89e-15,

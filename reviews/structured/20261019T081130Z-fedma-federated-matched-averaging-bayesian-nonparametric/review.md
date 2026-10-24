@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedMA (Federated Matched Averaging via Layer-Wise Bayesian Nonparametric Matching) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedMA (Federated Matched Averaging via Layer-Wise Bayesian Nonparametric Matching) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedma-federated-matched-averaging-bayesian-nonparametric-boundaries.py passed with exit code 0: [PASS] Round 408 FedMA (Wang et al. 2020): perm_inv_err=0.00e+00, mse_fedma=0.00929&lt;&lt;mse_fedavg=43.6464, bbp_min_dist_sq=74.51&gt;eps=1.00
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedMA (Federated Matched Averaging via Layer-Wise Bayesian Nonparametric
-  Matching) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Matching) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: 2dfca72d96d4497542c6928d5ff1a9b2b39a831e
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r408-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedma-federated-matched-averaging-bayesian-nonparametric-boundaries.py
     passed with exit code 0: [PASS] Round 408 FedMA (Wang et al. 2020): perm_inv_err=0.00e+00,

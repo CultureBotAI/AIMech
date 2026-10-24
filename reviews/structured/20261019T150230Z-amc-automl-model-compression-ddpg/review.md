@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain AMC (AutoML for Model Compression and Acceleration on Mobile Devices) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain AMC (AutoML for Model Compression and Acceleration on Mobile Devices) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AMCAccelerationAndModelCompressionOnMobileDevicesWithRL.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in amc-automl-model-compression-ddpg-boundaries.py passed with exit code 0: AMC verification passed: bounded=[0.1, 0.1, 0.5, 0.8], achieved=0.5000, r_small_flops=-1.9337 &gt; r_large_flops=-2.0030
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain AMC (AutoML for Model Compression and Acceleration on Mobile Devices)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: bb5328da86e8e75e543c13c85f6d641975113982
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r819-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in amc-automl-model-compression-ddpg-boundaries.py
     passed with exit code 0: AMC verification passed: bounded=[0.1, 0.1, 0.5, 0.8],

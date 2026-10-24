@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective Tilting) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective Tilting) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:TermTiltedEmpiricalRiskMinimizationAndHierarchicalMultiObjectiveTilting.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in term-tilted-empirical-risk-minimization-boundaries.py passed with exit code 0: [PASS] Round 496 TERM (Li et al. 2021): theta(-1)=1.0000 vs ERM=2.8000 (w_outlier=6.51e-19), var(t=-0.2)=0.09-&gt;var(t=2.0)=0.03, cos(1_N)=0.6602-&gt;0.8551, Lemma7_err=0.00e+00
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective
-  Tilting) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Tilting) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: bec45a9a9d9dbecccaaae6eeee39f9d2ff0f2d61
@@ -317,7 +317,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -325,7 +325,7 @@ assessments:
   evidence_ids:
   - r496-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in term-tilted-empirical-risk-minimization-boundaries.py
     passed with exit code 0: [PASS] Round 496 TERM (Li et al. 2021): theta(-1)=1.0000

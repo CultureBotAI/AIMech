@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FetchSGD (Count-Sketch Gradient Compression with Server Momentum and Error Accumulation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FetchSGD (Count-Sketch Gradient Compression with Server Momentum and Error Accumulation) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FetchSgdCountSketchGradientCompressionWithServerMomentumAndErrorAccumulation.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fetchsgd-count-sketch-gradient-compression-server-momentum-boundaries.py passed with exit code 0: [PASS] Round 409 FetchSGD (Rothchild et al. 2020): lin_err=1.78e-15, virt_seq_err=1.78e-15, err_fetch=2.4702e-15&lt;&lt;err_local_topk=6.0000
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FetchSGD (Count-Sketch Gradient Compression with Server Momentum and
-  Error Accumulation) as a distinct DRAFT algorithm. All three claims are supported
+  Error Accumulation) as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 30302ad86eb96c03cbbf41705d799dea01ce99aa
@@ -313,7 +313,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -321,7 +321,7 @@ assessments:
   evidence_ids:
   - r409-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fetchsgd-count-sketch-gradient-compression-server-momentum-boundaries.py
     passed with exit code 0: [PASS] Round 409 FetchSGD (Rothchild et al. 2020): lin_err=1.78e-15,

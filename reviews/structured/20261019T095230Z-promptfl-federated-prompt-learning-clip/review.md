@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain PromptFL: Federated Continuous Prompt Learning for Foundation Models as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain PromptFL: Federated Continuous Prompt Learning for Foundation Models as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:PromptFlFederatedPromptLearningForFoundationModels.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in promptfl-federated-prompt-learning-clip-boundaries.py passed with exit code 0: PromptFL boundary verification passed: {'prompt_params': 8192, 'ratio_rn50_pct': 0.0214, 'ratio_vit_pct': 0.0095, 'init_loss': 0.24734, 'final_loss': 0.09083}
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: 'Retain PromptFL: Federated Continuous Prompt Learning for Foundation Models
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.'
 source:
   git_revision: d40cec85a6b8532eac5ac32dd4f8f4c0f092c259
@@ -315,7 +315,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -323,7 +323,7 @@ assessments:
   evidence_ids:
   - r509-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in promptfl-federated-prompt-learning-clip-boundaries.py
     passed with exit code 0: PromptFL boundary verification passed: {''prompt_params'':

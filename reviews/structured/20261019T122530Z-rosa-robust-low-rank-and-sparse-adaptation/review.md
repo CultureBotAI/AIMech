@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain RoSA as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain RoSA as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:RoSA.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in rosa-robust-low-rank-and-sparse-adaptation-boundaries.py passed with exit code 0: [PASS] Round 662 RoSA (Nikdan et al. 2024): err_rosa=2.95e-06 &lt;&lt; err_lora=10.5702 &amp; err_spa=1.2970 (params_rosa=70&lt;96), sddmm_err=0.00e+00
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain RoSA as a distinct DRAFT algorithm. All three claims are supported
+summary: Retain RoSA as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 9379bba834083b7b3570b3be287bf3668f69cc4c
@@ -315,7 +315,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -323,7 +323,7 @@ assessments:
   evidence_ids:
   - r662-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in rosa-robust-low-rank-and-sparse-adaptation-boundaries.py
     passed with exit code 0: [PASS] Round 662 RoSA (Nikdan et al. 2024): err_rosa=2.95e-06

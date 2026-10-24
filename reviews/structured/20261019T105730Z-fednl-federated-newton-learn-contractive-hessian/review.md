@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedNlFederatedNewtonLearnWithCompressedHessianLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fednl-federated-newton-learn-contractive-hessian-boundaries.py passed with exit code 0: [PASS] Round 574 FedNL verified: delta=0.25, H_err=1.0803e-01-&gt;2.5639e-34, fednl_ratio=0.1232-&gt;7.4590e-08 &lt; n0_ratio=5.1756e-03, err_fednl=0.000e+00
 
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r574-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fednl-federated-newton-learn-contractive-hessian-boundaries.py
     passed with exit code 0: [PASS] Round 574 FedNL verified: delta=0.25, H_err=1.0803e-01->2.5639e-34,

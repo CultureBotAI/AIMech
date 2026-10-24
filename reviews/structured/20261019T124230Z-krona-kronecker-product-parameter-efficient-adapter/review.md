@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain KronA as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain KronA as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:KronA.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in krona-kronecker-product-parameter-efficient-adapter-boundaries.py passed with exit code 0: [PASS] Round 679 KronA (Edalati et al., 2022): vec_identity_err=1.22e-15, rank_kron=12&gt;rank_lora=1 (params=1536), merge_err=4.33e-15
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain KronA as a distinct DRAFT algorithm. All three claims are supported
+summary: Retain KronA as a distinct DRAFT algorithm. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 4fb5025524b6a4b13fab09642b99554954eb4ba8
@@ -307,7 +307,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -315,7 +315,7 @@ assessments:
   evidence_ids:
   - r679-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in krona-kronecker-product-parameter-efficient-adapter-boundaries.py
     passed with exit code 0: [PASS] Round 679 KronA (Edalati et al., 2022): vec_identity_err=1.22e-15,

@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:CocobContinuousCoinBettingOptimizer.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in cocob-continuous-coin-betting-optimizer-boundaries.py passed with exit code 0: [PASS] Round 621 COCOB verified: scale_err=4.44e-16, lemma2_rat=1.0007&gt;=1, wealth_rat=1.1859&gt;=1, fenchel_rat=1.2965&lt;=1, thm1_rat=0.2099&lt;=1, abs_subopt=0.4291, bp_err=0.0192
 
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r621-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in cocob-continuous-coin-betting-optimizer-boundaries.py
     passed with exit code 0: [PASS] Round 621 COCOB verified: scale_err=4.44e-16,

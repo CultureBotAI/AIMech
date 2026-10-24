@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain AdaCGD and Ada3PC Adaptive Three-Point Compression for Distributed Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain AdaCGD and Ada3PC Adaptive Three-Point Compression for Distributed Optimization as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AdaCgdAndAda3PcAdaptiveThreePointCompressionForDistributedOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in adacgd-adaptive-three-point-compressor-boundaries.py passed with exit code 0: [PASS] Round 568 AdaCGD/Ada3PC verified: A_min=0.0646, B_max=13.5479, avg_k=2.35, level_counts={1: 469, 2: 686, 4: 373, 6: 72}, err_ada=9.471e-08
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain AdaCGD and Ada3PC Adaptive Three-Point Compression for Distributed
-  Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Optimization as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: a1f14a9105fa572f82fc21701fddc219a3e852e8
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r568-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in adacgd-adaptive-three-point-compressor-boundaries.py
     passed with exit code 0: [PASS] Round 568 AdaCGD/Ada3PC verified: A_min=0.0646,

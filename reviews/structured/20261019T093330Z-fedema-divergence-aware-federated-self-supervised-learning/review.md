@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedEMA (Federated Divergence-Aware Exponential Moving Average Update for Self-Supervised Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedEMA (Federated Divergence-Aware Exponential Moving Average Update for Self-Supervised Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedEmaDivergenceAwareExponentialMovingAverageFederatedSelfSupervisedLearning.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedema-divergence-aware-federated-self-supervised-learning-boundaries.py passed with exit code 0: [PASS] Round 490 FedEMA (Zhuang et al. 2022): mu_cal=0.70 -&gt; mu_later=0.14, err_fedema=0.1848 &lt; err_standalone=0.2450 &lt; err_byol=0.7200
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedEMA (Federated Divergence-Aware Exponential Moving Average Update
-  for Self-Supervised Learning) as a distinct DRAFT algorithm. All three claims are
+  for Self-Supervised Learning) as a distinct DRAFT algorithm. All four claims are
   supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 34e0f44877ffe65da18fd465a1f1376291ed8db8
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r490-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedema-divergence-aware-federated-self-supervised-learning-boundaries.py
     passed with exit code 0: [PASS] Round 490 FedEMA (Zhuang et al. 2022): mu_cal=0.70

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SOAP (ShampoO with Adam in the Preconditioner's Eigenbasis) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SOAP (ShampoO with Adam in the Preconditioner's Eigenbasis) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:SoapShampooWithAdamInPreconditionerEigenbasis.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in soap-shampoo-with-adam-in-preconditioner-eigenbasis-boundaries.py passed with exit code 0: [PASS] Round 589 SOAP verified: claim1_diff=8.88e-16, loss_soap=2.2020e-05&lt;loss_sh=1.0655e-04, space=(10485760&lt;12582912&lt;48234496)
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain SOAP (ShampoO with Adam in the Preconditioner's Eigenbasis) as a distinct
-  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  DRAFT algorithm. All four claims are supported by full-text primary evidence and
   pure-Python boundary verification.
 source:
   git_revision: 884fd58b5588c54e765ca4ebbad26f17c5f089bf
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r589-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in soap-shampoo-with-adam-in-preconditioner-eigenbasis-boundaries.py
     passed with exit code 0: [PASS] Round 589 SOAP verified: claim1_diff=8.88e-16,

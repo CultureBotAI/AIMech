@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedRolex (Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedRolex (Model-Heterogeneous Federated Learning with Rolling Sub-Model Extraction) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fedrolex-rolling-sub-model-extraction-heterogeneous-fl-boundaries.py passed with exit code 0: [PASS] Round 489 FedRolex (Alam et al. 2022): uniform_node_visits=18 (var=0 vs static_upper=[0, 0, 0, 0]), Lemma1_E[N]=21.74 &gt; I=8, Lemma2_E[N]=34.88 &gt; m*I=16, selective_agg_err=0.0
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedRolex (Model-Heterogeneous Federated Learning with Rolling Sub-Model
-  Extraction) as a distinct DRAFT algorithm. All three claims are supported by full-text
+  Extraction) as a distinct DRAFT algorithm. All four claims are supported by full-text
   primary evidence and pure-Python boundary verification.
 source:
   git_revision: c0935e43390e056e49aa324d90d9a2205696853c
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r489-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fedrolex-rolling-sub-model-extraction-heterogeneous-fl-boundaries.py
     passed with exit code 0: [PASS] Round 489 FedRolex (Alam et al. 2022): uniform_node_visits=18

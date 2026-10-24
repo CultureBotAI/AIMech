@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient Retrieval) as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for Efficient Retrieval) as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:TwinBERTDistillingKnowledgeToTwinStructuredBERTModels.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in twinbert-twin-structured-bert-distillation-boundaries.py passed with exit code 0: TwinBERT boundary verification passed:
   TwinBERT_cos: cos_pos=0.9313 (p=0.9765) &gt; cos_neg=-0.9408 (p=0.0227)
@@ -127,7 +127,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain TwinBERT (Distilling Knowledge to Twin-Structured BERT Models for
-  Efficient Retrieval) as a distinct DRAFT architecture. All three claims are supported
+  Efficient Retrieval) as a distinct DRAFT architecture. All four claims are supported
   by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 6b163846beea6e93e7508d9e248ed9c96f3cefd0
@@ -320,7 +320,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -328,7 +328,7 @@ assessments:
   evidence_ids:
   - r796-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: "All constructed boundary assertions in twinbert-twin-structured-bert-distillation-boundaries.py\
     \ passed with exit code 0: TwinBERT boundary verification passed:\n  TwinBERT_cos:\

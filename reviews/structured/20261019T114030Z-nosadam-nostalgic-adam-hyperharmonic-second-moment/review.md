@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Nostalgic Adam as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Nostalgic Adam as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:NosAdam.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py passed with exit code 0: [PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15, min_gamma_diff=9.86e+01&gt;=0, lemma_a5_rat=0.9988&lt;=1, regret_ratio=0.0002&lt;=1, x_adam=1.00&gt;0, x_nosadam=-1.00&lt;0, spike_v_ratio=0.0276&lt;&lt;1
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Nostalgic Adam as a distinct DRAFT algorithm. All three claims are
+summary: Retain Nostalgic Adam as a distinct DRAFT algorithm. All four claims are
   supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: fa53a4e7667d5d407cb9f5908fd1035b14daefb6
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r617-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in nosadam-nostalgic-adam-hyperharmonic-second-moment-boundaries.py
     passed with exit code 0: [PASS] Round 617 NosAdam verified: unrolled_err=2.66e-15,

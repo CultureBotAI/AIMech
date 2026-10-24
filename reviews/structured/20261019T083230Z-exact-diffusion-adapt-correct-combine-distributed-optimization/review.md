@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Exact Diffusion (Adapt-Correct-Combine Distributed Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Exact Diffusion (Adapt-Correct-Combine Distributed Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:ExactDiffusionAdaptCorrectCombineDistributedOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in exact-diffusion-adapt-correct-combine-distributed-optimization-boundaries.py passed with exit code 0: [PASS] Round 429 Exact Diffusion (Yuan et al. 2019): p_inv_err=1.29e-16, ed_err_sq=2.44e-31 vs atc_bias_sq=0.4740, non_balanced_imbalance=0.2028
 
@@ -123,8 +123,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Exact Diffusion (Adapt-Correct-Combine Distributed Optimization) as
-  a distinct DRAFT algorithm. All three claims are supported by full-text primary
-  evidence and pure-Python boundary verification.
+  a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
 source:
   git_revision: bbd8c3fea48d3daffca33fcef9c534d5542254d1
   state: working_tree
@@ -309,7 +309,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -317,7 +317,7 @@ assessments:
   evidence_ids:
   - r429-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in exact-diffusion-adapt-correct-combine-distributed-optimization-boundaries.py
     passed with exit code 0: [PASS] Round 429 Exact Diffusion (Yuan et al. 2019):

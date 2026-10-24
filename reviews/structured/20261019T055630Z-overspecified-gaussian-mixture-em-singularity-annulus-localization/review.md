@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Over-Specified Gaussian Mixture EM Singularity Dichotomy and Annulus-Based Epoch Localization as a distinct DRAFT mathematical_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Over-Specified Gaussian Mixture EM Singularity Dichotomy and Annulus-Based Epoch Localization as a distinct DRAFT mathematical_method. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:OverSpecifiedGaussianMixtureEMSingularityAndAnnulusLocalization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in overspecified-gaussian-mixture-em-singularity-annulus-localization-boundaries.py passed with exit code 0: {
   "fisher_beta_unbalanced": 0.36,
@@ -139,7 +139,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Over-Specified Gaussian Mixture EM Singularity Dichotomy and Annulus-Based
-  Epoch Localization as a distinct DRAFT mathematical_method. All three claims are
+  Epoch Localization as a distinct DRAFT mathematical_method. All four claims are
   supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 8c9560c70818adf57cbef7f3c2711194ed3f32a4
@@ -338,7 +338,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -346,7 +346,7 @@ assessments:
   evidence_ids:
   - dhkwjy2020-singularem-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: "All constructed boundary assertions in overspecified-gaussian-mixture-em-singularity-annulus-localization-boundaries.py\
     \ passed with exit code 0: {\n  \"fisher_beta_unbalanced\": 0.36,\n  \"fisher_beta_balanced\"\

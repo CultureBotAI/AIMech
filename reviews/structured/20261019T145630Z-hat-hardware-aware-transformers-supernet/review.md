@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain HAT (Hardware-Aware Transformers for Efficient Natural Language Processing) as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain HAT (Hardware-Aware Transformers for Efficient Natural Language Processing) as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-4 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:HATHardwareAwareTransformersForEfficientNLP.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All four claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in hat-hardware-aware-transformers-supernet-boundaries.py passed with exit code 0: HAT verification passed: cardinality=1.310e+16, kv_lengths=(2,4,6), arm_deep_thin=1062.6&lt;1425.2, gpu_shallow_wide=73.9&lt;136.1
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain HAT (Hardware-Aware Transformers for Efficient Natural Language Processing)
-  as a distinct DRAFT architecture. All three claims are supported by full-text primary
+  as a distinct DRAFT architecture. All four claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: be572bdb27a0d724767bca2f79e475d296fdf482
@@ -308,7 +308,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-4 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -316,7 +316,7 @@ assessments:
   evidence_ids:
   - r813-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All four claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in hat-hardware-aware-transformers-supernet-boundaries.py
     passed with exit code 0: HAT verification passed: cardinality=1.310e+16, kv_lengths=(2,4,6),
