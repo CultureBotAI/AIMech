@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted Consensus and Diversity Regularization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted Consensus and Diversity Regularization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted
-  Consensus and Diversity Regularization) as a distinct DRAFT algorithm. All three
+  Consensus and Diversity Regularization) as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 30eba731413a83eaf51540cd0a68507a194b9870

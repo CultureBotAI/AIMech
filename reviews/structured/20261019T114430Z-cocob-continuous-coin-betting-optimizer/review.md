@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Continuous Coin Betting Optimizer as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Continuous Coin Betting Optimizer as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Continuous Coin Betting Optimizer as a distinct DRAFT algorithm. All
-  three claims are supported by full-text primary evidence and pure-Python boundary
+  four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: 60053acc46cfc694cbfd65384d6e4ef7caed90b6

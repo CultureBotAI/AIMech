@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-5 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:ApolloAdaptiveParameterWiseDiagonalQuasiNewtonOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py passed with exit code 0: [PASS] Round 607 Apollo verified: secant_err=0.00e+00, frob_gain=7.9768e-02&gt;0, eq8_err=4.44e-16, thm1_th_err=5.55e-14, thm1_B_err=2.06e-13, scale_inv_err=1.25e-15
 
@@ -123,8 +123,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Apollo (Adaptive Parameter-wise Diagonal Quasi-Newton Optimizer) as
-  a distinct DRAFT algorithm. All three claims are supported by full-text primary
-  evidence and pure-Python boundary verification.
+  a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence
+  and pure-Python boundary verification.
 source:
   git_revision: 14fbd7a963a2aed6dba7d45595441f95a8e73904
   state: working_tree
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r607-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All five claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in apollo-adaptive-parameter-wise-diagonal-quasi-newton-boundaries.py
     passed with exit code 0: [PASS] Round 607 Apollo verified: secant_err=0.00e+00,

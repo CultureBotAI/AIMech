@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain CompressedScaffnew as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain CompressedScaffnew as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain CompressedScaffnew as a distinct DRAFT algorithm. All three claims
+summary: Retain CompressedScaffnew as a distinct DRAFT algorithm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: c012a59d61ddf75b5add9d1f6b5eff43f18830f4

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain TAMUNA Doubly Accelerated Distributed Optimization with Local Training, Compression, and Partial Participation as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain TAMUNA Doubly Accelerated Distributed Optimization with Local Training, Compression, and Partial Participation as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,8 +123,8 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain TAMUNA Doubly Accelerated Distributed Optimization with Local Training,
-  Compression, and Partial Participation as a distinct DRAFT algorithm. All three
-  claims are supported by full-text primary evidence and pure-Python boundary verification.
+  Compression, and Partial Participation as a distinct DRAFT algorithm. All four claims
+  are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: d42ef0fc9878bcec254ebf74c15421b2478cb2b6
   state: working_tree

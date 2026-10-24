@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with
-  Normalized Multiple Gradient Descent) as a distinct DRAFT algorithm. All three claims
+  Normalized Multiple Gradient Descent) as a distinct DRAFT algorithm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 7fa626a56e49797f53e056006e6f557fc04b211f

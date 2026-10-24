@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex Federated Composite Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex Federated Composite Optimization) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedDR and asyncFedDR (Randomized Douglas-Rachford Splitting for Nonconvex
-  Federated Composite Optimization) as a distinct DRAFT algorithm. All three claims
+  Federated Composite Optimization) as a distinct DRAFT algorithm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: f419571ab1c7b3c3df5dfae1ed465ad173816e8e

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SPoT (Soft Prompt Transfer) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SPoT (Soft Prompt Transfer) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain SPoT (Soft Prompt Transfer) as a distinct DRAFT algorithm. All three
+summary: Retain SPoT (Soft Prompt Transfer) as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: cf366267dc8eeee224e64a765b06ef7821cbf7d3

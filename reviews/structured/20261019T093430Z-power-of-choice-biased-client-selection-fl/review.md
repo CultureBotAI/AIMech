@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Power-of-Choice (Biased Loss-Based Client Selection Strategies for Federated Learning: pow-d, cpow-d, and rpow-d) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Power-of-Choice (Biased Loss-Based Client Selection Strategies for Federated Learning: pow-d, cpow-d, and rpow-d) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -124,7 +124,7 @@ verdict: pass_with_limitations
 scientific_review: true
 summary: 'Retain Power-of-Choice (Biased Loss-Based Client Selection Strategies for
   Federated Learning: pow-d, cpow-d, and rpow-d) as a distinct DRAFT algorithm. All
-  three claims are supported by full-text primary evidence and pure-Python boundary
+  four claims are supported by full-text primary evidence and pure-Python boundary
   verification.'
 source:
   git_revision: 551bce3344736f95043476b0fe999d252cafb7a6

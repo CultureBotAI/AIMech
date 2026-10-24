@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain K-BFGS and K-BFGS(L) (Kronecker-Factored Quasi-Newton Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain K-BFGS and K-BFGS(L) (Kronecker-Factored Quasi-Newton Optimization) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-5 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:KBfgsKroneckerFactoredQuasiNewtonOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in k-bfgs-kronecker-factored-quasi-newton-optimization-boundaries.py passed with exit code 0: [PASS] Round 644 K-BFGS verified: thm1_diff=1.11e-16, s_raw^T y_raw=-3.100-&gt;st^T yt=0.4205&gt;=mu2*&#124;&#124;st&#124;&#124;^2=0.0484, kron_err=1.78e-15
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain K-BFGS and K-BFGS(L) (Kronecker-Factored Quasi-Newton Optimization)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All five claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: f30a9d62fd13a2ddd57e280fa15991c9890cc63f
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r644-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All five claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in k-bfgs-kronecker-factored-quasi-newton-optimization-boundaries.py
     passed with exit code 0: [PASS] Round 644 K-BFGS verified: thm1_diff=1.11e-16,

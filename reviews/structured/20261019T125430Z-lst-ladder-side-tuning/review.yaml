@@ -10,16 +10,16 @@ reviewer:
   kind: agent
   model: Gemini
   independence: self_review
-  independence_basis: The author challenged definition distinctness of AIMech:LadderSideTuning
-    against existing AIMech and AIO records and verified all claims against Advances
-    in Neural Information Processing Systems 35 (NeurIPS 2022) (2022) and pure-Python
-    boundary checks. This is adversarial author self-review, not independent approval.
+  independence_basis: The author challenged definition distinctness of AIMech:LadderSideTuning against
+    existing AIMech and AIO records and verified all claims against Advances in Neural Information Processing
+    Systems 35 (NeurIPS 2022) (2022) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
 skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Ladder Side-Tuning (LST) as a distinct DRAFT architecture. All three
-  claims are supported by full-text primary evidence and pure-Python boundary verification.
+summary: Retain Ladder Side-Tuning (LST) as a distinct DRAFT architecture. All four claims are supported
+  by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: b821fd20d1535b3243ccc24704d3ce8781ef1ef3
   state: working_tree
@@ -118,16 +118,15 @@ checks:
   - AIMech:LadderSideTuning
   exit_code: 0
   expected_exit_code: 0
-  summary: '[PASS] Round 691 LST (Sung et al., NeurIPS 2022): mem_ratio(LST)=0.125
-    < mem_ratio(in-backbone_PETL)>=0.50, kept_rows=[3, 11], side_shape=(2x2)'
+  summary: '[PASS] Round 691 LST (Sung et al., NeurIPS 2022): mem_ratio(LST)=0.125 < mem_ratio(in-backbone_PETL)>=0.50,
+    kept_rows=[3, 11], side_shape=(2x2)'
 evidence:
 - evidence_id: identity
   kind: search
   reference: research/discovery/20261019T125400Z-lst-ladder-side-tuning.json
   accessed_at: '2026-10-19T12:54:00Z'
   support: supports
-  summary: No normalized identity match for AIMech:LadderSideTuning across AIO and
-    curated corpus.
+  summary: No normalized identity match for AIMech:LadderSideTuning across AIO and curated corpus.
   search_scope: All maintained/generated IDs, labels, and aliases normalized.
 - evidence_id: mapping
   kind: record_content
@@ -141,9 +140,9 @@ evidence:
   accessed_at: '2026-10-19T12:54:00Z'
   snapshot_sha256: 214f0b8680cafeb2702f7efebd542dc6e297f1944c30fd1b484bfb6681c4411a
   support: supports
-  summary: 'All constructed boundary assertions in lst-ladder-side-tuning-boundaries.py
-    passed with exit code 0: [PASS] Round 691 LST (Sung et al., NeurIPS 2022): mem_ratio(LST)=0.125
-    < mem_ratio(in-backbone_PETL)>=0.50, kept_rows=[3, 11], side_shape=(2x2)'
+  summary: 'All constructed boundary assertions in lst-ladder-side-tuning-boundaries.py passed with exit
+    code 0: [PASS] Round 691 LST (Sung et al., NeurIPS 2022): mem_ratio(LST)=0.125 < mem_ratio(in-backbone_PETL)>=0.50,
+    kept_rows=[3, 11], side_shape=(2x2)'
 - evidence_id: r691-primary-pdf
   kind: primary_source
   reference: https://arxiv.org/pdf/2206.06522.pdf
@@ -151,8 +150,8 @@ evidence:
   accessed_at: '2026-10-19T12:54:00Z'
   snapshot_sha256: ac80e04a02048afcf0ac7a336e2648589fee44651577ae8a0e101002d1ebd58a
   support: supports
-  summary: Full-text PDF (Advances in Neural Information Processing Systems 35 (NeurIPS
-    2022) (2022)) read and verified.
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 35 (NeurIPS 2022) (2022))
+    read and verified.
 - evidence_id: r691-arxiv-abs
   kind: primary_source
   reference: https://arxiv.org/abs/2206.06522
@@ -182,15 +181,13 @@ assessments:
   - r691-arxiv-abs
   - r691-metadata-cr
   summary: Ladder Side-Tuning (LST) is a distinct concept.
-  details: Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA
-    (AIMech:LoRAFA), Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers),
-    and IA3 (AIMech:Ia3InfusedAdapterByInhibitingAndAmplifyingInnerActivations), all
-    of which insert trainable parameters inside the backbone and must cache backbone
-    nonlinearity derivatives {sigma'} for chain-rule backpropagation (capping memory
-    savings at <= 50%), and from vanilla Side-Tuning (which fuses representations
-    only at the final output layer without intermediate gated ladder shortcuts, structural
-    pruning initialization, or side-network layer dropping). Formulated by Sung, Cho,
-    and Bansal (NeurIPS 2022, arXiv:2206.06522).
+  details: Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA (AIMech:LoRAFA),
+    Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers), and IA3 (AIMech:Ia3InfusedAdapterByInhibitingAndAmplifyingInnerActivations),
+    all of which insert trainable parameters inside the backbone and must cache backbone nonlinearity
+    derivatives {sigma'} for chain-rule backpropagation (capping memory savings at <= 50%), and from vanilla
+    Side-Tuning (which fuses representations only at the final output layer without intermediate gated
+    ladder shortcuts, structural pruning initialization, or side-network layer dropping). Formulated by
+    Sung, Cho, and Bansal (NeurIPS 2022, arXiv:2206.06522).
 - assessment_id: aio-mapping-sufficiency
   area: grounding
   topic: AIO mapping accuracy
@@ -204,19 +201,18 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-4 against full-text primary source and boundary
-    script
+  topic: Verification of Claims 1-4 against full-text primary source and boundary script
   outcome: supported
   target_ids:
   - AIMech:LadderSideTuning
   evidence_ids:
   - r691-primary-pdf
   - calculation
-  summary: All four claims are directly supported by full-text theorem/lemma locators
-    and pure-Python verification.
-  details: 'All constructed boundary assertions in lst-ladder-side-tuning-boundaries.py
-    passed with exit code 0: [PASS] Round 691 LST (Sung et al., NeurIPS 2022): mem_ratio(LST)=0.125
-    < mem_ratio(in-backbone_PETL)>=0.50, kept_rows=[3, 11], side_shape=(2x2)'
+  summary: All four claims are directly supported by full-text theorem/lemma locators and pure-Python
+    verification.
+  details: 'All constructed boundary assertions in lst-ladder-side-tuning-boundaries.py passed with exit
+    code 0: [PASS] Round 691 LST (Sung et al., NeurIPS 2022): mem_ratio(LST)=0.125 < mem_ratio(in-backbone_PETL)>=0.50,
+    kept_rows=[3, 11], side_shape=(2x2)'
 - assessment_id: complete-fields
   area: provenance
   topic: Complete maintained record, source locators and mirrored report
@@ -237,8 +233,8 @@ actions: []
 limitations:
 - Author self-review only; no independent approval or status promotion.
 - Curated DRAFT record AIMech:LadderSideTuning in Round 691.
-- All pages of Advances in Neural Information Processing Systems 35 (NeurIPS 2022)
-  (2022) were read in full text.
+- All pages of Advances in Neural Information Processing Systems 35 (NeurIPS 2022) (2022) were read in
+  full text.
 related_reviews: []
 links: []
 tags:

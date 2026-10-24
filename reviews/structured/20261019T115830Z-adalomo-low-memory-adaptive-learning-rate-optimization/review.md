@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-5 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AdaLomoLowMemoryAdaptiveLearningRateOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py passed with exit code 0: [PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17, state_comp=85.3x, grad_mem_ratio=0.0244, rms_match_err=0.00e+00, f_global=-2.000&lt;f_local=-1.000
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain AdaLomo (Low-Memory Optimization with Adaptive Learning Rate) as a
-  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  distinct DRAFT algorithm. All five claims are supported by full-text primary evidence
   and pure-Python boundary verification.
 source:
   git_revision: f821f4126717532a3924b2eb0c8cb04f86585bd7
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r635-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All five claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in adalomo-low-memory-adaptive-learning-rate-optimization-boundaries.py
     passed with exit code 0: [PASS] Round 635 AdaLomo verified: nmf_rank1_err=2.08e-17,

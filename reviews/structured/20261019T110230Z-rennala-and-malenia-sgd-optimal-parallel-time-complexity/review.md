@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Rennala SGD and Malenia SGD as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Rennala SGD and Malenia SGD as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Rennala SGD and Malenia SGD as a distinct DRAFT algorithm. All three
+summary: Retain Rennala SGD and Malenia SGD as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: abbe381f3d8d9bd1adc402a7293dd59ba60536e9

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Flora Gradient Compression as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Flora Gradient Compression as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Flora Gradient Compression as a distinct DRAFT algorithm. All three
+summary: Retain Flora Gradient Compression as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: b455a1cc6ee57f678eb6267c3d7d49168401a92c

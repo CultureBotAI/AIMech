@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain pFedLA and HeurpFedLA (Layer-Wised Hypernetwork Model Aggregation for Personalized Federated Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain pFedLA and HeurpFedLA (Layer-Wised Hypernetwork Model Aggregation for Personalized Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain pFedLA and HeurpFedLA (Layer-Wised Hypernetwork Model Aggregation
-  for Personalized Federated Learning) as a distinct DRAFT algorithm. All three claims
+  for Personalized Federated Learning) as a distinct DRAFT algorithm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 76d2eb58f758e078adb7c3446887f788d092c6be

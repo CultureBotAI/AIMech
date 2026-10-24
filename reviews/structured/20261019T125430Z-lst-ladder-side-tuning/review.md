@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Ladder Side-Tuning (LST) as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Ladder Side-Tuning (LST) as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Ladder Side-Tuning (LST) as a distinct DRAFT architecture. All three
+summary: Retain Ladder Side-Tuning (LST) as a distinct DRAFT architecture. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: b821fd20d1535b3243ccc24704d3ce8781ef1ef3

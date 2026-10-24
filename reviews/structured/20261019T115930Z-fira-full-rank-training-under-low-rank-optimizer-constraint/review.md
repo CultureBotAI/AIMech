@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Fira (Full-Rank Training under Low-Rank Optimizer Constraint) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Fira (Full-Rank Training under Low-Rank Optimizer Constraint) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-5 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:FiraFullRankTrainingUnderLowRankOptimizerConstraint.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in fira-full-rank-training-under-low-rank-optimizer-constraint-boundaries.py passed with exit code 0: [PASS] Round 636 Fira verified: thm1_kappa4=0.0427&lt;=bound4=0.1144, thm2_var_ratio_n64=0.0455, limited_norm=2.0200, state_saving=84.37%
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Fira (Full-Rank Training under Low-Rank Optimizer Constraint) as a
-  distinct DRAFT algorithm. All three claims are supported by full-text primary evidence
+  distinct DRAFT algorithm. All five claims are supported by full-text primary evidence
   and pure-Python boundary verification.
 source:
   git_revision: e3464295eb390a8f219a6e8e12daeee2cd65c624
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r636-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All five claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in fira-full-rank-training-under-low-rank-optimizer-constraint-boundaries.py
     passed with exit code 0: [PASS] Round 636 Fira verified: thm1_kappa4=0.0427<=bound4=0.1144,

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain LISA (Layerwise Importance Sampled AdamW) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain LISA (Layerwise Importance Sampled AdamW) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-5 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:LISALayerwiseImportanceSampledAdamW.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in lisa-layerwise-importance-sampled-adamw-boundaries.py passed with exit code 0: [PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078, lr_ratio=0.0625, active_param_frac=9.90%, avg_regret=8.3380e-02, final_gap=1.2058e-02
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain LISA (Layerwise Importance Sampled AdamW) as a distinct DRAFT algorithm.
-  All three claims are supported by full-text primary evidence and pure-Python boundary
+  All five claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: 16ad018df5002189c3b6324b3f872aa3b1195389
@@ -310,7 +310,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -318,7 +318,7 @@ assessments:
   evidence_ids:
   - r640-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All five claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in lisa-layerwise-importance-sampled-adamw-boundaries.py
     passed with exit code 0: [PASS] Round 640 LISA verified: exp_active=2.0, prob_err=0.0078,

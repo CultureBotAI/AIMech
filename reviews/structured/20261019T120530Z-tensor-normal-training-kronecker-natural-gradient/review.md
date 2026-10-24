@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Tensor Normal Training (TNT Kronecker-Factored Natural Gradient Optimization) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Tensor Normal Training (TNT Kronecker-Factored Natural Gradient Optimization) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-5 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:TensorNormalTrainingKroneckerNaturalGradientOptimization.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in tensor-normal-training-kronecker-natural-gradient-boundaries.py passed with exit code 0: [PASS] Round 642 TNT verified: err_U1=0.0126, err_U2=0.0133, thm1_max_diff=(0.0187,0.0200), L_init=8.3925-&gt;L_TNT=0.004654&lt;&lt;L_SGD=2.9950
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Tensor Normal Training (TNT Kronecker-Factored Natural Gradient Optimization)
-  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  as a distinct DRAFT algorithm. All five claims are supported by full-text primary
   evidence and pure-Python boundary verification.
 source:
   git_revision: d2cc772996c1b5fcc7a7c7e53150dfa88ee8af74
@@ -312,7 +312,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -320,7 +320,7 @@ assessments:
   evidence_ids:
   - r642-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All five claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in tensor-normal-training-kronecker-natural-gradient-boundaries.py
     passed with exit code 0: [PASS] Round 642 TNT verified: err_U1=0.0126, err_U2=0.0133,

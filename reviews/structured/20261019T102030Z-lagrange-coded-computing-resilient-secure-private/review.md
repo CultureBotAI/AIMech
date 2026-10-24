@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Lagrange Coded Computing for Straggler-Resilient, Byzantine-Secure, and T-Private Distributed Polynomial Evaluation as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Lagrange Coded Computing for Straggler-Resilient, Byzantine-Secure, and T-Private Distributed Polynomial Evaluation as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -125,7 +125,7 @@ verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Lagrange Coded Computing for Straggler-Resilient, Byzantine-Secure,
   and T-Private Distributed Polynomial Evaluation as a distinct DRAFT algorithm. All
-  three claims are supported by full-text primary evidence and pure-Python boundary
+  four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: bd5fca2a4268ac0e9bd55e2ff8cd388a9af05ff6

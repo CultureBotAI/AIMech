@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Lookahead Optimizer as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Lookahead Optimizer as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Lookahead Optimizer as a distinct DRAFT algorithm. All three claims
+summary: Retain Lookahead Optimizer as a distinct DRAFT algorithm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: f3179bd196aa18e15342e14af86547b32a4b8906

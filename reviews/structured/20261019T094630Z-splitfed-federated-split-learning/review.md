@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SplitFed Learning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SplitFed Learning as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -122,8 +122,8 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain SplitFed Learning as a distinct DRAFT algorithm. All three claims
-  are supported by full-text primary evidence and pure-Python boundary verification.
+summary: Retain SplitFed Learning as a distinct DRAFT algorithm. All four claims are
+  supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: ef6fb61973c2d30484a87268063fee877b738aab
   state: working_tree

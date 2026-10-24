@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Global Convergence and Stationary-Point Characterization of EM for Two-Component Gaussian Mixtures as a distinct DRAFT mathematical_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Global Convergence and Stationary-Point Characterization of EM for Two-Component Gaussian Mixtures as a distinct DRAFT mathematical_method. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -136,7 +136,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Global Convergence and Stationary-Point Characterization of EM for
-  Two-Component Gaussian Mixtures as a distinct DRAFT mathematical_method. All three
+  Two-Component Gaussian Mixtures as a distinct DRAFT mathematical_method. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 95820c4872264fefaf0423eb6c575619e6e5f8d6

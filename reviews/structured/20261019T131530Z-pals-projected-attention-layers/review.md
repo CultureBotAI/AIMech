@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Projected Attention Layers as a distinct DRAFT layer. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Projected Attention Layers as a distinct DRAFT layer. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Projected Attention Layers as a distinct DRAFT layer. All three claims
+summary: Retain Projected Attention Layers as a distinct DRAFT layer. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 12e9aeab966d2e64cca90d5e5d64cd7d55ef340d

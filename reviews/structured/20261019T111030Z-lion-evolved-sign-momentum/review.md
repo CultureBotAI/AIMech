@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Lion (EvoLved Sign Momentum) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Lion (EvoLved Sign Momentum) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Lion (EvoLved Sign Momentum) as a distinct DRAFT algorithm. All three
+summary: Retain Lion (EvoLved Sign Momentum) as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: e3de026bf24097976865540ef3b8e945db905823

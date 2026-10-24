@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping for Orthogonal Tensor Decomposition as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Strict Saddle Property and Noisy Stochastic Gradient Saddle Escaping
-  for Orthogonal Tensor Decomposition as a distinct DRAFT algorithm. All three claims
+  for Orthogonal Tensor Decomposition as a distinct DRAFT algorithm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 1701038868e30d4a0f1bf2bc2bc8d8e8c347f74a

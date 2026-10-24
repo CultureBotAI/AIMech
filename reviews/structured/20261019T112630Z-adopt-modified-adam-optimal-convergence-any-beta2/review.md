@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain ADOPT (Adaptive Gradient Descent with Optimal Convergence) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain ADOPT (Adaptive Gradient Descent with Optimal Convergence) as a distinct DRAFT algorithm. All five claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -54,11 +54,11 @@ AIO mappings accurately situate the concept.
 
 Verified target existence in data/aio/.
 
-### Verification of Claims 1-3 against full-text primary source and boundary script
+### Verification of Claims 1-5 against full-text primary source and boundary script
 
 evidence: supported. Targets: AIMech:AdoptModifiedAdamOptimalConvergenceAnyBeta2.
 
-All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+All five claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
 
 All constructed boundary assertions in adopt-modified-adam-optimal-convergence-any-beta2-boundaries.py passed with exit code 0: [PASS] Round 603 ADOPT verified: adam=+1.0000, adopt=-1.0000, no_de=+1.0000, no_co=+0.7093, lemma_g7_err=2.61e-15, lemma_g8_err=2.02e-15, clip_ratio=5.0e+05
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain ADOPT (Adaptive Gradient Descent with Optimal Convergence) as a distinct
-  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  DRAFT algorithm. All five claims are supported by full-text primary evidence and
   pure-Python boundary verification.
 source:
   git_revision: 6077b07de17e4238174bcaaf729cc01d74f1ab77
@@ -311,7 +311,7 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
+  topic: Verification of Claims 1-5 against full-text primary source and boundary
     script
   outcome: supported
   target_ids:
@@ -319,7 +319,7 @@ assessments:
   evidence_ids:
   - r603-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
+  summary: All five claims are directly supported by full-text theorem/lemma locators
     and pure-Python verification.
   details: 'All constructed boundary assertions in adopt-modified-adam-optimal-convergence-any-beta2-boundaries.py
     passed with exit code 0: [PASS] Round 603 ADOPT verified: adam=+1.0000, adopt=-1.0000,

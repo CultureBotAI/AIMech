@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Finite-Time Extremal Index, Cluster Size, and Sojourn Time in Non-Markovian Regenerative Processes as a distinct DRAFT mathematical_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Finite-Time Extremal Index, Cluster Size, and Sojourn Time in Non-Markovian Regenerative Processes as a distinct DRAFT mathematical_method. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Finite-Time Extremal Index, Cluster Size, and Sojourn Time in Non-Markovian
-  Regenerative Processes as a distinct DRAFT mathematical_method. All three claims
+  Regenerative Processes as a distinct DRAFT mathematical_method. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 4b99ddfb13390f6dce61c62db166729e0a2e58e2

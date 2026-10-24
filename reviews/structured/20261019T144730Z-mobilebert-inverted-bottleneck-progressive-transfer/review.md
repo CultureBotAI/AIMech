@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures and Progressive Knowledge Transfer as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures and Progressive Knowledge Transfer as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: 'Retain MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures
-  and Progressive Knowledge Transfer as a distinct DRAFT architecture. All three claims
+  and Progressive Knowledge Transfer as a distinct DRAFT architecture. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.'
 source:
   git_revision: 650198f3ce496f2173d2ef4bf9df8202374434bc

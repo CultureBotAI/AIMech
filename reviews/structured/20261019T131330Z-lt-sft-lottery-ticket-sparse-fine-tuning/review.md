@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Lottery Ticket Sparse Fine-Tuning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Lottery Ticket Sparse Fine-Tuning as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain Lottery Ticket Sparse Fine-Tuning as a distinct DRAFT algorithm. All
-  three claims are supported by full-text primary evidence and pure-Python boundary
+  four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: 108143a5f5a93db40d1f4c86de94aba907cd8e68

@@ -10,16 +10,15 @@ reviewer:
   kind: agent
   model: Gemini
   independence: self_review
-  independence_basis: The author challenged definition distinctness of AIMech:SLoRA
-    against existing AIMech and AIO records and verified all claims against Proceedings
-    of the 5th MLSys Conference (MLSys 2024) (2024) and pure-Python boundary checks.
-    This is adversarial author self-review, not independent approval.
+  independence_basis: The author challenged definition distinctness of AIMech:SLoRA against existing AIMech
+    and AIO records and verified all claims against Proceedings of the 5th MLSys Conference (MLSys 2024)
+    (2024) and pure-Python boundary checks. This is adversarial author self-review, not independent approval.
 skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain S-LoRA as a distinct DRAFT algorithm. All three claims are supported
-  by full-text primary evidence and pure-Python boundary verification.
+summary: Retain S-LoRA as a distinct DRAFT algorithm. All five claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
 source:
   git_revision: 4b6781173274edc082fde944a6f7718d3d013337
   state: working_tree
@@ -118,8 +117,8 @@ checks:
   - AIMech:SLoRA
   exit_code: 0
   expected_exit_code: 0
-  summary: '[PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16,
-    tp_comm_ratio=0.00977<0.01, opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
+  summary: '[PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16, tp_comm_ratio=0.00977<0.01,
+    opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
 evidence:
 - evidence_id: identity
   kind: search
@@ -141,8 +140,8 @@ evidence:
   snapshot_sha256: 69598ea748b0bc6d555260c650c653a99c5257762ac74cef82f376da7cae0500
   support: supports
   summary: 'All constructed boundary assertions in s-lora-unified-paging-concurrent-lora-serving-boundaries.py
-    passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16,
-    tp_comm_ratio=0.00977<0.01, opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
+    passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16, tp_comm_ratio=0.00977<0.01,
+    opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
 - evidence_id: r670-primary-pdf
   kind: primary_source
   reference: https://arxiv.org/pdf/2311.03285
@@ -150,8 +149,7 @@ evidence:
   accessed_at: '2026-10-19T12:33:00Z'
   snapshot_sha256: c8d93e5a2525d3139d4994740a0057a8f447a568c5a31613976c9fd254867db7
   support: supports
-  summary: Full-text PDF (Proceedings of the 5th MLSys Conference (MLSys 2024) (2024))
-    read and verified.
+  summary: Full-text PDF (Proceedings of the 5th MLSys Conference (MLSys 2024) (2024)) read and verified.
 - evidence_id: r670-arxiv-abs
   kind: primary_source
   reference: https://arxiv.org/abs/2311.03285
@@ -181,22 +179,19 @@ assessments:
   - r670-arxiv-abs
   - r670-metadata-cr
   summary: S-LoRA is a distinct concept.
-  details: Distinct from AIMech:LowRankAdaptation (LoRA), which merges a single adapter
-    W' = W + A B into the base weights and incurs prohibitive weight duplication or
-    serial swapping latency when serving many concurrent adapters, and from AIMech:PagedAttention,
-    which pages only KV cache tensors for a single static weight set. S-LoRA (Ying
-    Sheng, Shiyi Cao, Dacheng Li, Coleman Hooper, Nicholas Lee, Shuo Yang, Christopher
-    Chou, Banghua Zhu, Lianmin Zheng, Kurt Keutzer, Joseph E. Gonzalez, and Ion Stoica,
-    MLSys 2024, arXiv:2311.03285) stores thousands of LoRA adapters in host RAM and
-    dynamically prefetches active adapters into GPU memory. Because a per-layer KV
-    cache tensor has shape (S, H) and a LoRA weight matrix has shape (R, H) sharing
-    the hidden dimension H, S-LoRA allocates both from a unified memory pool partitioned
-    into pages of H elements (where sequence length S uses S pages and rank R uses
-    R pages). Custom Triton/CUDA kernels—Multi-size Batched Gather Matrix-Matrix Multiplication
-    (MBGMM) for prefill and Multi-size Batched Gather Matrix-Vector Multiplication
-    (MBGMV) for decode—compute x A B directly over non-contiguous pages across heterogeneous
-    ranks R without padding, while S-LoRA Tensor Parallelism restricts added multi-GPU
-    communication to 5(N-1)Br/N elements.
+  details: Distinct from AIMech:LowRankAdaptation (LoRA), which merges a single adapter W' = W + A B into
+    the base weights and incurs prohibitive weight duplication or serial swapping latency when serving
+    many concurrent adapters, and from AIMech:PagedAttention, which pages only KV cache tensors for a
+    single static weight set. S-LoRA (Ying Sheng, Shiyi Cao, Dacheng Li, Coleman Hooper, Nicholas Lee,
+    Shuo Yang, Christopher Chou, Banghua Zhu, Lianmin Zheng, Kurt Keutzer, Joseph E. Gonzalez, and Ion
+    Stoica, MLSys 2024, arXiv:2311.03285) stores thousands of LoRA adapters in host RAM and dynamically
+    prefetches active adapters into GPU memory. Because a per-layer KV cache tensor has shape (S, H) and
+    a LoRA weight matrix has shape (R, H) sharing the hidden dimension H, S-LoRA allocates both from a
+    unified memory pool partitioned into pages of H elements (where sequence length S uses S pages and
+    rank R uses R pages). Custom Triton/CUDA kernels—Multi-size Batched Gather Matrix-Matrix Multiplication
+    (MBGMM) for prefill and Multi-size Batched Gather Matrix-Vector Multiplication (MBGMV) for decode—compute
+    x A B directly over non-contiguous pages across heterogeneous ranks R without padding, while S-LoRA
+    Tensor Parallelism restricts added multi-GPU communication to 5(N-1)Br/N elements.
 - assessment_id: aio-mapping-sufficiency
   area: grounding
   topic: AIO mapping accuracy
@@ -210,19 +205,18 @@ assessments:
   details: Verified target existence in data/aio/.
 - assessment_id: claims-verification
   area: evidence
-  topic: Verification of Claims 1-3 against full-text primary source and boundary
-    script
+  topic: Verification of Claims 1-5 against full-text primary source and boundary script
   outcome: supported
   target_ids:
   - AIMech:SLoRA
   evidence_ids:
   - r670-primary-pdf
   - calculation
-  summary: All three claims are directly supported by full-text theorem/lemma locators
-    and pure-Python verification.
+  summary: All five claims are directly supported by full-text theorem/lemma locators and pure-Python
+    verification.
   details: 'All constructed boundary assertions in s-lora-unified-paging-concurrent-lora-serving-boundaries.py
-    passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16,
-    tp_comm_ratio=0.00977<0.01, opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
+    passed with exit code 0: [PASS] Round 670 S-LoRA (Sheng et al., MLSys 2024): mbgmv_err=4.44e-16, tp_comm_ratio=0.00977<0.01,
+    opt_reward=2.7300>fcfs=2.2500&lcfs=2.6500'
 - assessment_id: complete-fields
   area: provenance
   topic: Complete maintained record, source locators and mirrored report
@@ -243,8 +237,7 @@ actions: []
 limitations:
 - Author self-review only; no independent approval or status promotion.
 - Curated DRAFT record AIMech:SLoRA in Round 670.
-- All pages of Proceedings of the 5th MLSys Conference (MLSys 2024) (2024) were read
-  in full text.
+- All pages of Proceedings of the 5th MLSys Conference (MLSys 2024) (2024) were read in full text.
 related_reviews: []
 links: []
 tags:

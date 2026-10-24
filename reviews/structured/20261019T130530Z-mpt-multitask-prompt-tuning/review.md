@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MPT (Multitask Prompt Tuning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MPT (Multitask Prompt Tuning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -121,7 +121,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain MPT (Multitask Prompt Tuning) as a distinct DRAFT algorithm. All three
+summary: Retain MPT (Multitask Prompt Tuning) as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 7dccc373c75542b0d5ffedc647a6105bf742d8ad

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MoLE (Mixture of LoRA Experts) as a distinct DRAFT architecture. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MoLE (Mixture of LoRA Experts) as a distinct DRAFT architecture. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -122,7 +122,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain MoLE (Mixture of LoRA Experts) as a distinct DRAFT architecture. All
-  three claims are supported by full-text primary evidence and pure-Python boundary
+  four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: 770ecf435afc6ea08e0466b5ac62f035a3a4f3d8

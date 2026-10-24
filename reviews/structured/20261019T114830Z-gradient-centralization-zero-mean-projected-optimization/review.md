@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Gradient Centralization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Gradient Centralization as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Gradient Centralization as a distinct DRAFT algorithm. All three claims
+summary: Retain Gradient Centralization as a distinct DRAFT algorithm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: e3432bdac1f7f5539f4e9cf8650f18a6faad5101

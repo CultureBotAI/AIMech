@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic Weight Averaging for Federated Learning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic Weight Averaging for Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -124,7 +124,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain FedSAM and FedASAM (Sharpness-Aware Minimization and Server Stochastic
-  Weight Averaging for Federated Learning) as a distinct DRAFT algorithm. All three
+  Weight Averaging for Federated Learning) as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 46a1f3f22921ab6e689b4f4fc18ca36987b03aa3

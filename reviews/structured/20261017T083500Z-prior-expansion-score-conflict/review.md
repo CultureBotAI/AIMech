@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain the prior-expansion score conflict diagnostic as a distinct DRAFT algorithm with related Bayesian-network context. All six claims and locators are supported with explicit family choice, fixed-posterior Renyi weighting, support-independent integral interchange, covariance-invertibility, and calibration boundaries. No actionable defect was found; author MCMC/variational code and empirical calibration remain unverified.
+Retain the prior-expansion score conflict diagnostic as a distinct DRAFT algorithm with related Bayesian-network context. All seven claims and locators are supported with explicit family choice, fixed-posterior Renyi weighting, support-independent integral interchange, covariance-invertibility, and calibration boundaries. No actionable defect was found; author MCMC/variational code and empirical calibration remain unverified.
 
 ## Scope And Provenance
 
@@ -162,7 +162,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain the prior-expansion score conflict diagnostic as a distinct DRAFT
-  algorithm with related Bayesian-network context. All six claims and locators are
+  algorithm with related Bayesian-network context. All seven claims and locators are
   supported with explicit family choice, fixed-posterior Renyi weighting, support-independent
   integral interchange, covariance-invertibility, and calibration boundaries. No actionable
   defect was found; author MCMC/variational code and empirical calibration remain

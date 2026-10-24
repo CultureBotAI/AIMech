@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers) as a distinct DRAFT learning_paradigm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers) as a distinct DRAFT learning_paradigm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -125,7 +125,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain MiniLM (Deep Self-Attention Distillation for Task-Agnostic Compression
-  of Pre-Trained Transformers) as a distinct DRAFT learning_paradigm. All three claims
+  of Pre-Trained Transformers) as a distinct DRAFT learning_paradigm. All four claims
   are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 856b90619b569d3c036acf27c51c9d539958f8df

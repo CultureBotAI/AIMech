@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain Stochastic Polyak Step-Size as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain Stochastic Polyak Step-Size as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -122,7 +122,7 @@ skill: .claude/skills/review-yaml-record/SKILL.md
 completion: completed
 verdict: pass_with_limitations
 scientific_review: true
-summary: Retain Stochastic Polyak Step-Size as a distinct DRAFT algorithm. All three
+summary: Retain Stochastic Polyak Step-Size as a distinct DRAFT algorithm. All four
   claims are supported by full-text primary evidence and pure-Python boundary verification.
 source:
   git_revision: 245ccfa033294b1b9d1336e348a9e77aadcf0521

@@ -11,7 +11,7 @@
 
 ## Summary
 
-Retain SoRA (Sparse Low-Rank Adaptation) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+Retain SoRA (Sparse Low-Rank Adaptation) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.
 
 ## Scope And Provenance
 
@@ -123,7 +123,7 @@ completion: completed
 verdict: pass_with_limitations
 scientific_review: true
 summary: Retain SoRA (Sparse Low-Rank Adaptation) as a distinct DRAFT algorithm. All
-  three claims are supported by full-text primary evidence and pure-Python boundary
+  four claims are supported by full-text primary evidence and pure-Python boundary
   verification.
 source:
   git_revision: 209608641123af501a4d5198c8f49b70cc61f008
