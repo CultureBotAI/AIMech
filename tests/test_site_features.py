@@ -128,6 +128,20 @@ def test_autolink_links_the_reference_token_and_keeps_the_text(text, token, href
     assert re.sub(r"<[^>]+>", "", html) == str(escape(text))
 
 
+@pytest.mark.parametrize(("text", "anchors"), [
+    ("(https://a.example/x)-(https://b.example/y)",
+     [("https://a.example/x", "https://a.example/x"), ("https://b.example/y", "https://b.example/y")]),
+    ("see https://en.wikipedia.org/wiki/Foo_(bar).",
+     [("https://en.wikipedia.org/wiki/Foo_(bar)", "https://en.wikipedia.org/wiki/Foo_(bar)")]),
+    ("(10.1000/abc)-(DOI:10.1000/def)",
+     [("https://doi.org/10.1000/abc", "10.1000/abc"), ("https://doi.org/10.1000/def", "DOI:10.1000/def")]),
+])
+def test_autolink_ends_a_token_at_a_parenthesis_it_never_opened(text, anchors):
+    html = autolink(text)
+    assert Links(html).anchors == anchors
+    assert re.sub(r"<[^>]+>", "", html) == str(escape(text))
+
+
 def test_autolink_ends_tokens_at_markdown_syntax():
     html = autolink("[10.1038/nature14539](https://doi.org/10.1038/nature14539) and `arXiv:1012.0621v3`")
     hrefs = [href for href, _ in Links(html).anchors]
@@ -416,6 +430,25 @@ def test_export_is_complete_sorted_and_deterministic(tmp_path):
     assert manifest == first and manifest["commit"] == "abc"
 
 
+def test_export_sorts_by_id_not_by_file_order(tmp_path):
+    """File order equals id order in the real corpus, so it cannot show the sort."""
+    for folder, name, record_id in (("data/curated", "a", "AIMech:Zeta"), ("data/curated", "b", "AIMech:Alpha"),
+                                    ("data/aio", "c", "AIO:Beta"), ("data/aio", "d", "AIMech:Middle")):
+        write_yaml(tmp_path / folder / f"{name}.yaml", {"id": record_id, "name": name})
+    manifest = export_records.export(tmp_path / "out", root=tmp_path)
+    lines = gzip.decompress((tmp_path / "out" / export_records.RECORDS_FILE).read_bytes()).decode("utf-8")
+    assert [json.loads(line)["id"] for line in lines.splitlines()] == [
+        "AIMech:Alpha", "AIMech:Middle", "AIMech:Zeta", "AIO:Beta"]
+    assert manifest["counts"] == {"curated": 2, "aio": 2}
+
+
+def test_export_refuses_duplicate_ids(tmp_path):
+    write_yaml(tmp_path / "data/curated/a.yaml", {"id": "AIMech:Same"})
+    write_yaml(tmp_path / "data/aio/b.yaml", {"id": "AIMech:Same"})
+    with pytest.raises(ValueError, match="duplicate"):
+        export_records.export(tmp_path / "out", root=tmp_path)
+
+
 def pages_workflow():
     return yaml.safe_load((ROOT / ".github/workflows/pages.yaml").read_text(encoding="utf-8"))
 
@@ -535,6 +568,10 @@ def test_stylesheet_wraps_long_tokens_and_keeps_tables_scrollable():
     assert "overflow-wrap: anywhere" in css_rule(css, "main")
     assert "overflow-wrap: normal" in css_rule(css, ".table-wrap")
     assert "flex-wrap: wrap" in css_rule(css, ".breadcrumbs")
+    # A bare 1fr track sizes to its widest item, so an opened table could widen
+    # the page; minmax(0, 1fr) keeps the stacked layout within the viewport.
+    narrow = css[css.index("@media (max-width: 860px)"):]
+    assert "grid-template-columns: minmax(0, 1fr);" in css_rule(narrow, "  .browse-layout")
     # The two dark-theme declarations of every token block stay identical.
     explicit = re.findall(r':root\[data-theme="dark"\]\s*\{([^}]*)\}', css)
     system = re.findall(r':root:not\(\[data-theme="light"\]\)\s*\{([^}]*)\}', css)

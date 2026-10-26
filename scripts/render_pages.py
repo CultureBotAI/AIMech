@@ -239,7 +239,19 @@ TRAILING = ".,;:!?'\"*`"
 
 
 def _trim_token(token: str) -> str:
-    """Drop punctuation, emphasis and code marks, and unbalanced closers ending a token."""
+    """Cut a token at a closing parenthesis it never opened, then drop the sentence
+    punctuation, emphasis and code marks, and unbalanced closers that end it.
+
+    "https://en.wikipedia.org/wiki/Foo_(bar)" keeps its own parentheses, while
+    "(https://a.example/x)-(https://b.example/y)" ends the first URL at the ")"
+    that closes the sentence's parenthesis (TraitMech 2033, DUFMech 377).
+    """
+    depth = 0
+    for index, char in enumerate(token):
+        depth += {"(": 1, ")": -1}.get(char, 0)
+        if depth < 0:
+            token = token[:index]
+            break
     while token:
         last = token[-1]
         if last in TRAILING or (last in CLOSING and token.count(last) > token.count(CLOSING[last])):
@@ -270,22 +282,19 @@ def autolink(context: Any, value: object) -> Markup:
     own = _own_id(context)
     root = context.get("root") or ""
     out: list[str] = []
-    position = 0
-    for match in AUTOLINK_TOKEN.finditer(text):
+    position = scan = 0
+    while match := AUTOLINK_TOKEN.search(text, scan):
         kind = next(name for name in TOKEN_KINDS if match.group(name) is not None)
         token = match.group(0)
         if kind in ("url", "doi"):
             token = _trim_token(token)
+        anchor = None
         if kind == "curie":
-            if token == own:
-                continue
-            page = pages.get(token)
+            page = pages.get(token) if token != own else None
+            url = curie_url(token) if token != own and token.startswith("AIO:") else None
             if page:
                 anchor = Markup('<a href="{}">{}</a>').format(root + page, token)
-            else:
-                url = curie_url(token) if token.startswith("AIO:") else None
-                if not url:
-                    continue
+            elif url:
                 anchor = _external_link(url, token)
         else:
             if kind == "url":
@@ -296,12 +305,16 @@ def autolink(context: Any, value: object) -> Markup:
                 url = f"https://arxiv.org/abs/{match.group('arxiv_id')}"
             else:
                 url = f"https://pubmed.ncbi.nlm.nih.gov/{match.group('pmid_number')}/"
-            if not url:
-                continue
-            anchor = _external_link(url, token)
+            if url:
+                anchor = _external_link(url, token)
+        if anchor is None:
+            scan = match.end()
+            continue
         out.append(escape(text[position:match.start()]))
         out.append(anchor)
-        position = match.start() + len(token)
+        # Resume after the token, not the match: what trimming cut off may hold the
+        # next reference, as in "(https://a.example/x)-(https://b.example/y)".
+        position = scan = match.start() + len(token)
     out.append(escape(text[position:]))
     return Markup("").join(out)
 
