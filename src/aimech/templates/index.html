@@ -111,6 +111,32 @@
   </ul>
 </div>
 
+{#- Quoted from README.md and the schemas' status definitions, with counts read
+    from the records; nothing here describes curation the repository does not. -#}
+<div class="section-header" id="curation-notice">
+  <h2>How These Records Are Produced</h2>
+</div>
+<div class="grid-2">
+  <div class="callout curation-notice" style="background: var(--card);">
+    <h3 class="callout-title">AIO Imported Classes · {{ aio_count }}</h3>
+    <p>“{{ status_meanings.NOT_REVIEWED.readme | inline_code }}” <span class="meta">— <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a></span></p>
+    <p><code>NOT_REVIEWED</code>: “{{ status_meanings.NOT_REVIEWED.description }}” <span class="meta">— <a href="{{ root }}schema.html#{{ status_meanings.NOT_REVIEWED.anchor }}">status definition</a></span></p>
+  </div>
+  <div class="callout curation-notice" style="background: var(--card);">
+    <h3 class="callout-title">Curated Concepts · {{ curated_count }}</h3>
+    <p>“{{ status_meanings.DRAFT.readme | inline_code }}” <span class="meta">— <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a></span></p>
+    <p><code>DRAFT</code>: “{{ status_meanings.DRAFT.description }}” <span class="meta">— <a href="{{ root }}schema.html#{{ status_meanings.DRAFT.anchor }}">status definition</a></span></p>
+    <p>Curation method recorded in the records:
+      {% for method, n in notice.methods %}<code>{{ method }}</code> on {{ n }} of {{ curated_count }}{% if not loop.last %}; {% endif %}{% endfor %}.
+      Curators they name:
+      {% for curator, n in notice.curators %}{{ curator }} ({{ n }}){% if not loop.last %}, {% endif %}{% endfor %}.</p>
+    <p>Saved reviews that include curated concepts ({{ notice.review_count }}, under <code>reviews/structured/</code>):
+      reviewer kind {% for kind, n in notice.reviewer_kinds %}<code>{{ kind }}</code> ({{ n }}){% if not loop.last %}, {% endif %}{% endfor %};
+      independence {% for value, n in notice.independence %}<code>{{ value }}</code> ({{ n }}){% if not loop.last %}, {% endif %}{% endfor %}.
+      Each record page lists its own sessions and reviews under Curation History.</p>
+  </div>
+</div>
+
 <div class="section-header">
   <h2>Data Exports, Schema &amp; Interactive Views</h2>
 </div>
@@ -142,22 +168,32 @@
       Interactive network topology connecting curated AI concepts, concept kinds, AIO ontology classes, and branches.
     </div>
   </a>
-  <a class="card" href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+  <div class="card download-card">
+    <div class="card-header">
+      <h3 class="card-title">Complete Records (JSON Lines)</h3>
+      <span class="card-count">{{ total_concepts }}</span>
+    </div>
+    <div class="card-body">
+      <p style="margin: 0 0 0.5rem;">Every curated concept and AIO class in full: one JSON record per line, sorted by identifier, gzip-compressed. Built from the deployed commit's <code>data/</code> each time the site is deployed.</p>
+      <a href="{{ root }}{{ downloads[0] }}">aimech-records.jsonl.gz</a> · <a href="{{ root }}{{ downloads[1] }}">manifest.json</a> (record counts and SHA-256)
+    </div>
+  </div>
+  <a class="card" href="{{ root }}schema.html#curated">
     <div class="card-header">
       <h3 class="card-title">Curated Concept Schema</h3>
       <span class="card-count">LinkML</span>
     </div>
     <div class="card-body">
-      Formal LinkML schema (<code>src/aimech/schema/curated_concept.yaml</code>) governing curated claims, evaluations, and AIO mappings.
+      Readable reference generated from the LinkML schema (<code>src/aimech/schema/curated_concept.yaml</code>) governing curated claims, evaluations, and AIO mappings.
     </div>
   </a>
-  <a class="card" href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">
+  <a class="card" href="{{ root }}schema.html#aio">
     <div class="card-header">
       <h3 class="card-title">AIO Grounding Schema</h3>
       <span class="card-count">LinkML</span>
     </div>
     <div class="card-body">
-      Formal LinkML schema (<code>src/aimech/schema/aimech.yaml</code>) for imported Artificial Intelligence Ontology classes.
+      Readable reference generated from the LinkML schema (<code>src/aimech/schema/aimech.yaml</code>) for imported Artificial Intelligence Ontology classes.
     </div>
   </a>
   <a class="card" href="https://culturebotai.github.io/mechs/">

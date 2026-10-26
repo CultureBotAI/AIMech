@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Two-Stage Hard Thresholding with Voting and Plurality Rule for Invalid Instruments · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> TSHT, Two-Stage Hard Thresholding with Voting, Plurality-Rule Invalid Instrument Estimator, Guo-Kang-Cai-Small Two-Stage Hard Thresholding IV
@@ -56,9 +69,36 @@
     A causal-effect estimation and confidence-interval construction methodology (introduced by Zijian Guo, Hyunseung Kang, T. Tony Cai, and Dylan S. Small in 2018) for linear instrumental variables models with potentially invalid instruments ($Y_i = D_i\beta^* + \mathbf{Z}_i^T\boldsymbol{\pi}^* + \mathbf{X}_i^T\boldsymbol{\phi}^* + e_i$, $D_i = \mathbf{Z}_i^T\boldsymbol{\gamma}^* + \mathbf{X}_i^T\boldsymbol{\psi}^* + \epsilon_{i2}$) that replaces the 50% majority-validity condition ($|\mathcal{V}^*| &gt; |\mathcal{S}^*|/2$) with the strictly weaker *plurality rule* $|\mathcal{V}^*| &gt; \max_{c \ne 0}|\{j \in \mathcal{S}^* : \pi_j^*/\gamma_j^* = c\}|$ (Assumption 1, Equation 7). Given reduced-form estimators $\widehat{\boldsymbol{\Gamma}}$ and $\widehat{\boldsymbol{\gamma}}$ (from OLS in low dimensions or Debiased Scaled Lasso in high dimensions $p \gg n$, Equations 5 and 22–26), Stage 1 estimates the set of relevant instruments $\widehat{\mathcal{S}} = \{j : |\widehat{\gamma}_j| \ge \widehat{\sigma}_2\sqrt{\|\widehat{\boldsymbol{\Omega}}_{j\cdot}\|_2^2 / n}\,\sqrt{2.01\log p_z}\}$ via first-stage hard thresholding (Equation 9); Stage 2 computes for each $j \in \widehat{\mathcal{S}}$ the ratio candidate $\widetilde{\beta}^{[j]} = \widehat{\Gamma}_j / \widehat{\gamma}_j$, noise-adjusted violation vector $\widetilde{\boldsymbol{\pi}}^{[j]} = \widehat{\boldsymbol{\Gamma}} - \widetilde{\beta}^{[j]}\widehat{\boldsymbol{\gamma}}$, and standard errors $\widehat{\mathrm{SE}}(\widetilde{\pi}_k^{[j]})$ (Equations 10–11), forms the pairwise symmetric voting matrix $\widehat{V}_{k,j} = \mathbf{1}\left(|\widetilde{\pi}_k^{[j]}| \le \widehat{\mathrm{SE}}(\widetilde{\pi}_k^{[j]})\sqrt{2.01\log|\widehat{\mathcal{S}}|}\,\text{ and }\,|\widetilde{\pi}_j^{[k]}| \le \widehat{\mathrm{SE}}(\widetilde{\pi}_j^{[k]})\sqrt{2.01\log|\widehat{\mathcal{S}}|}\right)$ (Equations 12–14), selects the valid-instrument set $\widehat{\mathcal{V}} = \arg\max_{\mathcal{V}_m}\|\widehat{\mathbf{V}}_{\cdot m}\|_0$ receiving the plurality of votes (Equations 15–16), and constructs the asymptotically normal one-step GMM point estimator $\widehat{\beta}$ and confidence interval $\mathrm{CI}_{\alpha}$ on $\widehat{\mathcal{V}}$ (Equations 17–19, Theorems 1–3).
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-gkcs2018-tsht-pdf">Confidence Intervals for Causal Effects with Invalid Instruments by Using Two-Stage Hard Thresholding with Voting</a></span>
+          <span>· <strong>Locator:</strong> Section 2, pp. 5-9, Equations (1)-(8), Definition 1, Assumption 1; Section 3, pp. 9-19, Equations (9)-(28); Section 4, pp. 19-24, Assumptions 2-6, Theorems 1-3, Proposition 1</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-gkcs2018-tsht-abs">Confidence Intervals for Causal Effects with Invalid Instruments by Using Two-Stage Hard Thresholding with Voting</a></span>
+          <span>· <strong>Locator:</strong> <a href="https://arxiv.org/abs/1603.05224" target="_blank" rel="noopener">arXiv:1603.05224</a> abstract</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-gkcs2018-tsht-crossref">Confidence Intervals for Causal Effects with Invalid Instruments by Using Two-Stage Hard Thresholding with Voting</a></span>
+          <span>· <strong>Locator:</strong> <a href="https://doi.org/10.1111/rssb.12275" target="_blank" rel="noopener">DOI:10.1111/rssb.12275</a> bibliographic record</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Resolved against all 442 pinned AIO concepts and 668 maintained AIMech concepts. Distinct from `AIMech:SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability` (Kang, Zhang, Cai, &amp; Small 2016, which uses $\ell_1$ penalization of $\boldsymbol{\alpha}$ and requires the strict 50% majority condition $|\mathcal{V}^*| &gt; |\mathcal{S}^*|/2$ plus restricted isometry/mutual incoherence conditions for point estimation only, without providing asymptotically normal confidence intervals or handling weakly relevant instruments separated from strong ones via two-stage hard thresholding and pairwise voting), distinct from `AIMech:SelfTuningPivotalHighDimensionalInstrumentalVariablesAndSensitivityConfidenceSets` (Gautier &amp; Rose 2011/2021, which solves a self-normalized conic program for high-dimensional endogenous regressors under user-specified instrument-invalidity sensitivity bounds $\Upsilon$ rather than identifying the valid instrument set $\mathcal{V}^*$ data-adaptively via the plurality rule and pairwise symmetric voting), and distinct from `AIMech:PenalizedFocusedGeneralizedMethodOfMomentsForHighDimensionalEndogenousRegression` (Fan &amp; Liao 2014, which selects sparse endogenous regressors using valid over-identifying moments via folded-concave penalized Focused GMM).
+      Resolved against all 442 pinned AIO concepts and 668 maintained AIMech concepts. Distinct from `<a href="../curated/SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability.html">AIMech:SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability</a>` (Kang, Zhang, Cai, &amp; Small 2016, which uses $\ell_1$ penalization of $\boldsymbol{\alpha}$ and requires the strict 50% majority condition $|\mathcal{V}^*| &gt; |\mathcal{S}^*|/2$ plus restricted isometry/mutual incoherence conditions for point estimation only, without providing asymptotically normal confidence intervals or handling weakly relevant instruments separated from strong ones via two-stage hard thresholding and pairwise voting), distinct from `<a href="../curated/SelfTuningPivotalHighDimensionalInstrumentalVariablesAndSensitivityConfidenceSets.html">AIMech:SelfTuningPivotalHighDimensionalInstrumentalVariablesAndSensitivityConfidenceSets</a>` (Gautier &amp; Rose 2011/2021, which solves a self-normalized conic program for high-dimensional endogenous regressors under user-specified instrument-invalidity sensitivity bounds $\Upsilon$ rather than identifying the valid instrument set $\mathcal{V}^*$ data-adaptively via the plurality rule and pairwise symmetric voting), and distinct from `<a href="../curated/PenalizedFocusedGeneralizedMethodOfMomentsForHighDimensionalEndogenousRegression.html">AIMech:PenalizedFocusedGeneralizedMethodOfMomentsForHighDimensionalEndogenousRegression</a>` (Fan &amp; Liao 2014, which selects sparse endogenous regressors using valid over-identifying moments via folded-concave penalized Focused GMM).
     </div>
 </div>
 
@@ -146,7 +186,7 @@
   <ul>
       <li>Point identification and root-n confidence interval validity require the plurality rule |V*| &gt; max_{c != 0} |{j in S* : pi_j* / gamma_j* = c}| (Assumption 1); if a coordinated group of invalid instruments sharing an identical ratio pi_j* / gamma_j* = c outnumbers the valid instruments, TSHT votes for the biased cluster.</li>
       <li>Proposition 1 (Section 4.4, p. 23) proves that when fewer than 50% of relevant instruments are valid (|V*| &lt; |S*|/2), consistent selection of V* requires minimum invalidity separation |pi_j* / gamma_j* - c| &gt;= C * sqrt(log p / n) (Assumption 5); local violations of order O(1/sqrt(n)) cannot be detected without majority validity.</li>
-      <li>Primary-source typographical audit of Guo, Kang, Cai, &amp; Small (2018, arXiv:1603.05224v3) uncovered five minor notation and typographical errors that are corrected in this record: (1) Section 2.1 p. 6 line 19 writes &#39;the exclusion restriction and no unmeasured confounding imply phi* = psi* = 0 and consequently, pi* = 0&#39;, where phi* and psi* are the baseline covariate coefficient vectors rather than the direct-effect and confounder vectors kappa* = eta* = 0; (2) Section 3.3 p. 11 line 2 writes &#39;the set P* = {j : pi_j* != 0} defined in Definition 1&#39; instead of P* = {j : pi_j* = 0}; (3) Section 3.7 p. 16 line 5 spells &#39;handle the csae when n &lt;&lt; p&#39; (&#39;csae&#39;), and the second optimization display for {gamma_tilde, psi_tilde} writes &#39;argmin_{Gamma in R^{p_z}, Psi in R^{p_x}}&#39; instead of &#39;argmin_{gamma in R^{p_z}, psi in R^{p_x}}&#39;; (4) Appendix A Remark 1 p. 33 writes &#39;beta = &lt;gamma, Gamma&gt; / &lt;gamma, Gamma&gt;&#39; instead of &#39;beta = &lt;gamma, Gamma&gt; / &lt;gamma, gamma&gt; = &lt;gamma, Gamma&gt; / ||gamma||_2^2&#39;; and (5) Appendix C.2 Eq. (42) p. 38 writes &#39;Theta_{12}(Sigma^{-1})_{kk}&#39; inside the second factor of the asymptotic variance instead of &#39;(Sigma^{-1})_{kk}&#39;.</li>
+      <li>Primary-source typographical audit of Guo, Kang, Cai, &amp; Small (2018, <a href="https://arxiv.org/abs/1603.05224v3" target="_blank" rel="noopener">arXiv:1603.05224v3</a>) uncovered five minor notation and typographical errors that are corrected in this record: (1) Section 2.1 p. 6 line 19 writes &#39;the exclusion restriction and no unmeasured confounding imply phi* = psi* = 0 and consequently, pi* = 0&#39;, where phi* and psi* are the baseline covariate coefficient vectors rather than the direct-effect and confounder vectors kappa* = eta* = 0; (2) Section 3.3 p. 11 line 2 writes &#39;the set P* = {j : pi_j* != 0} defined in Definition 1&#39; instead of P* = {j : pi_j* = 0}; (3) Section 3.7 p. 16 line 5 spells &#39;handle the csae when n &lt;&lt; p&#39; (&#39;csae&#39;), and the second optimization display for {gamma_tilde, psi_tilde} writes &#39;argmin_{Gamma in R^{p_z}, Psi in R^{p_x}}&#39; instead of &#39;argmin_{gamma in R^{p_z}, psi in R^{p_x}}&#39;; (4) Appendix A Remark 1 p. 33 writes &#39;beta = &lt;gamma, Gamma&gt; / &lt;gamma, Gamma&gt;&#39; instead of &#39;beta = &lt;gamma, Gamma&gt; / &lt;gamma, gamma&gt; = &lt;gamma, Gamma&gt; / ||gamma||_2^2&#39;; and (5) Appendix C.2 Eq. (42) p. 38 writes &#39;Theta_{12}(Sigma^{-1})_{kk}&#39; inside the second factor of the asymptotic variance instead of &#39;(Sigma^{-1})_{kk}&#39;.</li>
   </ul>
 </div>
 
@@ -157,7 +197,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -202,7 +242,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -230,7 +270,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1111/rssb.12275</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1111/rssb.12275" target="_blank" rel="noopener">https://doi.org/10.1111/rssb.12275</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:0ef075b24ff2…
             </div>
@@ -253,7 +293,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/1603.05224</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/1603.05224" target="_blank" rel="noopener">https://arxiv.org/abs/1603.05224</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:439929441535…
             </div>
@@ -276,7 +316,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1111/rssb.12275</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1111/rssb.12275" target="_blank" rel="noopener">https://doi.org/10.1111/rssb.12275</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:992fedbb392f…
             </div>
@@ -330,10 +370,60 @@
       <code>data/curated/TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T06:07:45Z">2026-10-19T06:07:45Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments from Guo, Kang, Cai, &amp; Small (2018, <a href="https://doi.org/10.1111/rssb.12275" target="_blank" rel="noopener">DOI:10.1111/rssb.12275</a>, <a href="https://arxiv.org/abs/1603.05224v3" target="_blank" rel="noopener">arXiv:1603.05224v3</a>) full-text PDF with boundary verification</strong>
+<p>Full-text inspection of all 63 pages of <a href="https://arxiv.org/abs/1603.05224v3" target="_blank" rel="noopener">arXiv:1603.05224v3</a> and constructed pure-Python verification of Stage 1 hard thresholding, Stage 2 symmetric voting matrix and plurality support recovery when majority rule fails, and one-step GMM confidence interval coverage.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/tsht-voting-plurality-invalid-iv/2026-10-19T060745Z-antigravity-1223ba.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T050000Z-tsht-voting-plurality-invalid-iv.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T05:00:30Z">2026-10-19T05:00:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Two-Stage Hard Thresholding with Voting and Plurality Rule for Invalid Instruments as a distinct DRAFT algorithm with LinearRegression and LassoRegression mappings. All three claims across Guo, Kang, Cai, &amp; Small (2018, <a href="https://doi.org/10.1111/rssb.12275" target="_blank" rel="noopener">DOI:10.1111/rssb.12275</a>, <a href="https://arxiv.org/abs/1603.05224v3" target="_blank" rel="noopener">arXiv:1603.05224v3</a>) are supported with explicit plurality-rule, separation, and primary-source typographical limitations.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T050030Z-tsht-voting-plurality-invalid-iv/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T050030Z-tsht-voting-plurality-invalid-iv/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3ATwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FTwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments.html" target="_blank" rel="noopener">Report a problem with AIMech:TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -342,7 +432,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Two-Stage%20Hard%20Thresholding%20with%20Voting%20and%20Plurality%20Rule%20for%20Invalid%20Instruments"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3ATwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -352,7 +442,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

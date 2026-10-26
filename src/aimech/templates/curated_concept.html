@@ -26,6 +26,7 @@
     <span class="detail-id">{{ c.id }}</span>
     <span class="badge badge-aio">{{ c.review_status }}</span>
   </div>
+  {% include "status_meaning.html" %}
 
   {% if c.aliases %}
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
@@ -34,13 +35,36 @@
   {% endif %}
 
   <div class="detail-desc">
-    {{ c.definition }}
+    {{ c.definition | autolink }}
   </div>
+
+  {% if c.definition_evidence %}
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      {% for ev in c.definition_evidence %}
+      <li class="evidence-item">
+        <div class="evidence-meta">
+          {% if ev.relation == 'supports' %}
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          {% elif ev.relation == 'contradicts' %}
+            <span class="badge badge-limitation" style="font-size: 0.7rem;">contradicts</span>
+          {% else %}
+            <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+          {% endif %}
+          <span><strong>Source:</strong> <a href="#source-{{ ev.source_id }}">{{ ev.source_title | default(ev.source_id) }}</a></span>
+          <span>· <strong>Locator:</strong> {{ ev.locator | autolink }}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 
   {% if c.identity_notes %}
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      {{ c.identity_notes }}
+      {{ c.identity_notes | autolink }}
     </div>
   {% endif %}
 </div>
@@ -69,18 +93,18 @@
   </div>
 
   <div class="claim-statement">
-    {{ claim.statement }}
+    {{ claim.statement | autolink }}
   </div>
 
   {% if claim.evaluation %}
   <div style="background: var(--card-muted); border-radius: 6px; padding: 0.75rem 1rem; margin: 0.75rem 0; font-size: 0.85rem;">
     <div style="font-weight: 600; margin-bottom: 0.25rem;">Evaluation Context:</div>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
-      <div><strong>Task:</strong> {{ claim.evaluation.task }}</div>
-      <div><strong>Dataset:</strong> {{ claim.evaluation.dataset_and_split }}</div>
-      <div><strong>Model:</strong> {{ claim.evaluation.model_and_version }}</div>
-      <div><strong>Metric:</strong> {{ claim.evaluation.metric_and_units }}</div>
-      <div><strong>Result:</strong> {{ claim.evaluation.result }} (Baseline: {{ claim.evaluation.baseline }})</div>
+      <div><strong>Task:</strong> {{ claim.evaluation.task | autolink }}</div>
+      <div><strong>Dataset:</strong> {{ claim.evaluation.dataset_and_split | autolink }}</div>
+      <div><strong>Model:</strong> {{ claim.evaluation.model_and_version | autolink }}</div>
+      <div><strong>Metric:</strong> {{ claim.evaluation.metric_and_units | autolink }}</div>
+      <div><strong>Result:</strong> {{ claim.evaluation.result | autolink }} (Baseline: {{ claim.evaluation.baseline | autolink }})</div>
     </div>
   </div>
   {% endif %}
@@ -98,7 +122,7 @@
           <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
         {% endif %}
         <span><strong>Source:</strong> <a href="#source-{{ ev.source_id }}">{{ ev.source_title | default(ev.source_id) }}</a></span>
-        <span>· <strong>Locator:</strong> {{ ev.locator }}</span>
+        <span>· <strong>Locator:</strong> {{ ev.locator | autolink }}</span>
       </div>
     </li>
     {% endfor %}
@@ -115,7 +139,7 @@
   </h3>
   <ul>
     {% for lim in c.limitations %}
-      <li>{{ lim }}</li>
+      <li>{{ lim | autolink }}</li>
     {% endfor %}
   </ul>
 </div>
@@ -129,7 +153,7 @@
 {% if c.aio_mappings %}
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -153,7 +177,7 @@
             <span class="badge badge-aio">{{ m.relation }}</span>
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            {{ m.rationale }}
+            {{ m.rationale | autolink }}
           </td>
         </tr>
         {% endfor %}
@@ -165,14 +189,14 @@
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
   <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
-    <strong>Rationale:</strong> {{ c.aio_no_match.rationale }}
+    <strong>Rationale:</strong> {{ c.aio_no_match.rationale | autolink }}
   </p>
   <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
-    <strong>Search Scope:</strong> {{ c.aio_no_match.search_scope }}
+    <strong>Search Scope:</strong> {{ c.aio_no_match.search_scope | autolink }}
   </div>
 
   {% if c.aio_no_match.examined_targets %}
-  <div class="table-wrap">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Examined AIO candidates">
     <table>
       <thead>
         <tr>
@@ -186,12 +210,13 @@
           <td>
             {% if ex.aio_page %}
               <a href="{{ root }}{{ ex.aio_page }}"><code>{{ ex.target }}</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">{{ ex.target_name }}</div>
             {% else %}
               <a href="https://w3id.org/aio/{{ ex.target.split(':', 1)[1] }}" target="_blank" rel="noopener"><code>{{ ex.target }}</code></a>
             {% endif %}
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            {{ ex.rejection_reason }}
+            {{ ex.rejection_reason | autolink }}
           </td>
         </tr>
         {% endfor %}
@@ -208,7 +233,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">{{ c.evidence_sources | length }} Source{% if c.evidence_sources | length != 1 %}s{% endif %}</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -242,7 +267,7 @@
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
           {% if src.persistent_id %}
-            <div><strong>ID:</strong> {{ src.persistent_id }}</div>
+            <div><strong>ID:</strong> {{ src.persistent_id | reference_link }}</div>
           {% endif %}
           {% if src.sha256 %}
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
@@ -301,10 +326,22 @@
       <code>{{ source_path }}</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="{{ root }}schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+{% include "curation_history.html" %}
+
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="{{ c.issue_url }}" target="_blank" rel="noopener">Report a problem with {{ c.id }}</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="{{ c.edit_url }}" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “{{ claude_curated_edits | inline_code }}” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -313,7 +350,11 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  {% if c.on_map %}
   <a class="badge badge-curated" href="{{ root }}map.html?q={{ c.name | urlencode }}"> Embedding Map</a>
+  {% elif has_map %}
+  <a class="badge badge-curated" href="{{ root }}map.html#map-coverage">Embedding Map: not plotted yet</a>
+  {% endif %}
   <a class="badge badge-curated" href="{{ root }}graph.html?q={{ c.id | urlencode }}"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>

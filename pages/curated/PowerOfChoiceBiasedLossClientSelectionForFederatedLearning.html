@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Power-of-Choice (Biased Loss-Based Client Selection Strategies for Federated Learning: pow-d, cpow-d, and rpow-d) · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:PowerOfChoiceBiasedLossClientSelectionForFederatedLearning</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> Power-of-Choice Client Selection, pow-d, cpow-d, and rpow-d Federated Client Selection, Biased Client Selection with Selection Skew in Federated Learning
@@ -56,9 +69,36 @@
     A biased client-selection framework and theoretical convergence analysis for partial-participation federated learning (Cho, Wang, &amp; Joshi 2022, Sections 3-4, Definitions 3.1-3.2, Equations 4-8, Theorem 3.1, Theorem A.1, Appendix F Algorithms 1-2) that characterizes any client selection policy pi mapping the global model w to an active cohort S(pi, w) of size m = max(C K, 1) via the local-global objective gap Gamma = F^* - sum_{k=1}^K p_k F_k^* &gt;= 0 (Definition 3.1, Equation 4) and the selection skew rho(S(pi, w), w&#39;) = E_{S(pi,w)}[(1/m) sum_{k in S(pi,w)} (F_k(w&#39;) - F_k^*)] / (F(w&#39;) - sum_{k=1}^K p_k F_k^*) with extremal bounds rho_bar = min_{w,w&#39;} rho(S(pi, w), w&#39;) and rho_tilde = max_w rho(S(pi, w), w^*) (Definition 3.2, Equations 5-6). Under L-smooth, mu-strongly convex objectives, Theorem 3.1 proves that biasing selection toward higher-loss clients (rho_bar &gt; 1) accelerates the O(1 / (T rho_bar)) vanishing error term by a factor of rho_bar while introducing a bounded solution bias Q(rho_bar, rho_tilde) = (8 L Gamma / (3 mu)) (rho_tilde / rho_bar - 1) (Equation 7). To span this speed-bias trade-off efficiently, Power-of-Choice (pi_{pow-d}) first samples a candidate set A of d clients (m &lt;= d &lt;= K) without replacement in proportion to dataset sizes p_k, evaluates or estimates their local losses F_k(w_bar^{(t)}), and selects the m clients in A with the largest local losses, with resource-saving variants pi_{cpow-d} (mini-batch loss estimation, Algorithm 1) and pi_{rpow-d} (cached cumulative local training loss piggybacked on model uploads without extra communication, Algorithm 2).
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r491-primary-pdf">Client Selection in Federated Learning: Convergence Analysis and Power-of-Choice Selection Strategies</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r491-arxiv-abs">Client Selection in Federated Learning: Convergence Analysis and Power-of-Choice Selection Strategies (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r491-metadata-cr">Client Selection in Federated Learning: Convergence Analysis and Power-of-Choice Selection Strategies (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Distinct from unbiased partial-participation FedAvg (McMahan et al. 2017; Li et al. 2020), which corresponds to the d = m special case (rho_bar = rho_tilde = 1, zero selection bias but no O(1/rho_bar) convergence acceleration); and distinct from q-Fair Federated Learning (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which reweights the global objective to sum_k (p_k/(q+1)) F_k(w)^{q+1} under unbiased client sampling rather than altering the client selection policy via power-of-d highest-loss candidate filtering.
+      Distinct from unbiased partial-participation FedAvg (McMahan et al. 2017; Li et al. 2020), which corresponds to the d = m special case (rho_bar = rho_tilde = 1, zero selection bias but no O(1/rho_bar) convergence acceleration); and distinct from q-Fair Federated Learning (<a href="../curated/QFairFederatedLearningAlphaFairResourceAllocation.html">AIMech:QFairFederatedLearningAlphaFairResourceAllocation</a>, Li et al. 2020), which reweights the global objective to sum_k (p_k/(q+1)) F_k(w)^{q+1} under unbiased client sampling rather than altering the client selection policy via power-of-d highest-loss candidate filtering.
     </div>
 </div>
 
@@ -179,7 +219,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -212,7 +252,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -240,7 +280,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2010.01243</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2010.01243" target="_blank" rel="noopener">https://arxiv.org/abs/2010.01243</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:14e159d59131…
             </div>
@@ -263,7 +303,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2010.01243</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2010.01243" target="_blank" rel="noopener">https://arxiv.org/abs/2010.01243</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:fa81bf02e970…
             </div>
@@ -286,7 +326,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2010.01243</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2010.01243" target="_blank" rel="noopener">https://arxiv.org/abs/2010.01243</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:bcfc8ebc5e46…
             </div>
@@ -340,10 +380,60 @@
       <code>data/curated/PowerOfChoiceBiasedLossClientSelectionForFederatedLearning.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-20T02:54:47Z">2026-10-20T02:54:47Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:PowerOfChoiceBiasedLossClientSelectionForFederatedLearning from Client Selection in Federated Learning: Convergence Analysis and Power-of-Choice Selection Strategies full-text PDF with boundary verification</strong>
+<p>Full-text inspection of Conference Proceedings (2022) and pure-Python boundary verification in research/discovery/power-of-choice-biased-client-selection-fl-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/power-of-choice-biased-client-selection-fl/2026-10-20T025447Z-antigravity-5e4c22.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T093400Z-power-of-choice-biased-client-selection-fl.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T09:34:30Z">2026-10-19T09:34:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Power-of-Choice (Biased Loss-Based Client Selection Strategies for Federated Learning: pow-d, cpow-d, and rpow-d) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T093430Z-power-of-choice-biased-client-selection-fl/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T093430Z-power-of-choice-biased-client-selection-fl/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3APowerOfChoiceBiasedLossClientSelectionForFederatedLearning&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FPowerOfChoiceBiasedLossClientSelectionForFederatedLearning.html" target="_blank" rel="noopener">Report a problem with AIMech:PowerOfChoiceBiasedLossClientSelectionForFederatedLearning</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/PowerOfChoiceBiasedLossClientSelectionForFederatedLearning.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -352,7 +442,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Power-of-Choice%20%28Biased%20Loss-Based%20Client%20Selection%20Strategies%20for%20Federated%20Learning%3A%20pow-d%2C%20cpow-d%2C%20and%20rpow-d%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3APowerOfChoiceBiasedLossClientSelectionForFederatedLearning"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -362,7 +452,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

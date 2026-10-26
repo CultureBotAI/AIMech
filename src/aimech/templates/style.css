@@ -206,11 +206,36 @@ main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
+  /* Long identifiers, IRIs, file paths and URLs wrap instead of widening the
+     page on a narrow screen; tables keep their columns and scroll inside their
+     own region (.table-wrap) instead. */
+  overflow-wrap: anywhere;
+}
+main:focus {
+  outline: none;
+}
+
+/* Skip link: the first tab stop on every page, shown only while focused. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.5rem 0.85rem;
+  background: var(--card);
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 0.5rem;
 }
 
 /* Breadcrumbs */
 .breadcrumbs {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.85rem;
@@ -396,10 +421,15 @@ main {
 .table-wrap {
   width: 100%;
   overflow-x: auto;
+  overflow-wrap: normal;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--card);
   margin-top: 1rem;
+}
+.table-wrap:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 table {
   width: 100%;
@@ -1043,3 +1073,170 @@ footer span.self {
   font-family: var(--mono);
 }
 
+
+/* Short secondary text: sources of a quotation, counts, empty states. */
+.meta {
+  color: var(--meta);
+  font-size: 0.85rem;
+}
+
+/* "What this status means", beside the status on record pages. */
+.status-meaning {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.88rem;
+  color: var(--meta);
+}
+.status-meaning summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+}
+.status-meaning p {
+  margin: 0.4rem 0 0;
+  line-height: 1.5;
+}
+
+.definition-evidence {
+  margin-top: 1rem;
+}
+
+/* Recorded curation sessions and saved reviews on record pages. */
+.history h3.callout-title {
+  margin: 0 0 0.5rem;
+}
+.history h3.callout-title + p,
+.history-list + h3.callout-title {
+  margin-top: 1rem;
+}
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.history-item {
+  background: var(--card-muted);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.88rem;
+}
+.history-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  align-items: center;
+  color: var(--meta);
+  font-size: 0.82rem;
+}
+.history-event {
+  margin-top: 0.4rem;
+  line-height: 1.5;
+}
+.history-item p {
+  margin: 0.35rem 0 0;
+  line-height: 1.5;
+}
+.history-links {
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+}
+
+.feedback-route {
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* Landing statement of how records are produced. */
+.curation-notice h3.callout-title {
+  margin: 0 0 0.5rem;
+}
+.curation-notice p {
+  margin: 0 0 0.6rem;
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+.download-card:hover {
+  transform: none;
+}
+
+/* Empty listing and no-JavaScript notes. */
+.empty-state {
+  margin: 1rem 0 0;
+  padding: 0.85rem 1rem;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--meta);
+}
+
+/* "View data as table": the text alternative to the map and graph canvases. */
+.data-table {
+  margin-top: 1rem;
+}
+.data-table summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+.data-table .table-wrap {
+  max-height: 32rem;
+}
+.data-table caption {
+  text-align: left;
+  padding: 0.5rem 1rem;
+}
+.data-table-heading {
+  font-size: 1rem;
+  margin: 1rem 0 0;
+}
+.map-coverage p {
+  margin: 0;
+  line-height: 1.55;
+}
+.map-coverage p + p {
+  margin-top: 0.5rem;
+}
+
+/* Generated schema reference (schema.html). */
+.schema-contents p {
+  margin: 0 0 0.5rem;
+  line-height: 1.6;
+}
+.schema-class h4,
+.schema-enum h4 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+.schema-table {
+  min-width: 640px;
+}
+.schema-table caption {
+  text-align: left;
+  padding: 0.5rem 1rem;
+}
+.schema-table tbody th {
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+  font-weight: 500;
+}
+.schema-values dt {
+  margin-top: 0.5rem;
+}
+.schema-values dd {
+  margin: 0.15rem 0 0 1rem;
+  color: var(--meta);
+}
+
+/* Not-found page (pages/404.html, also served from the Pages artifact root). */
+.not-found .hero-search {
+  flex-wrap: wrap;
+}
+.not-found .hero-search label {
+  flex-basis: 100%;
+}
+.not-found-links {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.9;
+}
