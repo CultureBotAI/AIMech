@@ -30,9 +30,10 @@
     <span class="detail-id">{{ c.id }}</span>
     <span class="badge badge-aio">{{ c.review_status }}</span>
   </div>
+  {% include "status_meaning.html" %}
 
   <div class="detail-desc">
-    {{ c.definition }}
+    {{ c.definition | autolink }}
   </div>
 
   <div style="margin-top: 1rem; font-size: 0.88rem;">
@@ -84,9 +85,12 @@
     <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.9rem;">
       {% for rel in c.rel_links %}
         <li>
-          <strong>{{ rel.predicate }}</strong> →
+          {% if rel.predicate_label %}<strong{% if rel.predicate_meaning %} title="{{ rel.predicate_meaning }}"{% endif %}>{{ rel.predicate_label }}</strong> {% endif %}
+          {% if rel.predicate_url %}<a href="{{ rel.predicate_url }}" target="_blank" rel="noopener"><code>{{ rel.predicate }}</code></a>{% else %}<code>{{ rel.predicate }}</code>{% endif %} →
           {% if rel.page %}
             <a href="{{ root }}{{ rel.page }}"><code>{{ rel.target }}</code> ({{ rel.name }})</a>
+          {% elif rel.url %}
+            <a href="{{ rel.url }}" target="_blank" rel="noopener"><code>{{ rel.target }}</code></a>
           {% else %}
             <code>{{ rel.target }}</code>
           {% endif %}
@@ -119,7 +123,8 @@
       <strong>Definition Sources:</strong>
       <ul style="margin: 0.25rem 0 0; padding-left: 1.25rem;">
         {% for src in c.definition_sources %}
-          <li><a href="{{ src }}" target="_blank" rel="noopener">{{ src }}</a></li>
+          {% set src_url = src | reference_url %}
+          <li>{% if src_url %}<a href="{{ src_url }}" target="_blank" rel="noopener">{{ src }}</a>{% else %}{{ src | autolink }}{% endif %}</li>
         {% endfor %}
       </ul>
     </div>
@@ -130,7 +135,8 @@
       <strong>Subsets:</strong>
       <ul style="margin: 0.25rem 0 0; padding-left: 1.25rem;">
         {% for sub in c.subsets %}
-          <li><code>{{ sub }}</code></li>
+          {% set sub_url = sub | reference_url %}
+          <li>{% if sub_url %}<a href="{{ sub_url }}" target="_blank" rel="noopener"><code>{{ sub }}</code></a>{% else %}<code>{{ sub }}</code>{% endif %}</li>
         {% endfor %}
       </ul>
     </div>
@@ -144,7 +150,7 @@
   <h2>Curated AIMech Concepts Grounded to this Class</h2>
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">{{ c.mapped_curated | length }} Concept{% if c.mapped_curated | length != 1 %}s{% endif %}</span>
 </div>
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Curated concepts grounded to this class">
   <table>
     <thead>
       <tr>
@@ -168,7 +174,7 @@
           <span class="badge badge-aio">{{ m.relation }}</span>
         </td>
         <td style="font-size: 0.88rem; line-height: 1.45;">
-          {{ m.rationale }}
+          {{ m.rationale | autolink }}
         </td>
       </tr>
       {% endfor %}
@@ -223,10 +229,25 @@
       <code>{{ source_path }}</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">
-      <code>aimech.yaml</code>
-    </a>
+    <a href="{{ root }}schema.html#aio">AIO import schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener"><code>aimech.yaml</code></a>)
   </div>
+</div>
+
+{% include "curation_history.html" %}
+
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="{{ c.issue_url }}" target="_blank" rel="noopener">Report a problem with {{ c.id }}</a>
+  (opens a GitHub issue prefilled with this record and page).
+  <span class="meta">There is no edit link: <code>data/aio/*.yaml</code> are “{{ readme_generated_aio }}”
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>);
+    “{{ claude_aio_corrections }}”
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>,
+    upstream: <a href="https://github.com/berkeleybop/artificial-intelligence-ontology" target="_blank" rel="noopener">AIO</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -235,7 +256,11 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  {% if c.on_map %}
   <a class="badge badge-curated" href="{{ root }}map.html?q={{ c.name | urlencode }}"> Embedding Map</a>
+  {% elif has_map %}
+  <a class="badge badge-curated" href="{{ root }}map.html#map-coverage">Embedding Map: not plotted yet</a>
+  {% endif %}
   <a class="badge badge-curated" href="{{ root }}graph.html?q={{ c.id | urlencode }}"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>

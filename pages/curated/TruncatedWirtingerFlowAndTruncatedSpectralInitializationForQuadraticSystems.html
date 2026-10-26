@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Truncated Wirtinger Flow and Truncated Spectral Initialization for Random Quadratic Systems · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:TruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> Truncated Wirtinger Flow (TWF), Chen-Candes Truncated Poisson Phase Retrieval, Truncated Spectral Initialization and Adaptive Gradient Truncation for Quadratic Sensing
@@ -56,9 +69,36 @@
     An adaptive nonconvex phase-retrieval and quadratic-sensing algorithm (introduced by Yuxin Chen and Emmanuel J. Candès in 2017) that solves $m$ random quadratic equations $y_i = |\boldsymbol{a}_i^*\boldsymbol{x}|^2$ (or noisy Poisson intensity observations $y_i \sim \mathrm{Poisson}(|\boldsymbol{a}_i^*\boldsymbol{x}|^2)$) in $O(m n \log(1/\epsilon))$ total flops from an information-theoretically optimal sample size $m \asymp n$. Rather than minimizing the heavy-tailed quartic intensity residual, Truncated Wirtinger Flow (TWF, Algorithm 1) maximizes the Poisson log-likelihood $\sum_{i=1}^m [y_i\log(|\boldsymbol{a}_i^*\boldsymbol{z}|^2) - |\boldsymbol{a}_i^*\boldsymbol{z}|^2]$ using two statistically adaptive truncation mechanisms: (1) *Truncated Spectral Initialization* (Equations 2.6–2.7), which computes the leading eigenvector of $\boldsymbol{Y} = \frac{1}{m}\sum_{i=1}^m y_i\boldsymbol{a}_i\boldsymbol{a}_i^*\mathbb{I}_{\{|y_i| \le \alpha_y^2 (\frac{1}{m}\sum_l y_l)\}}$ discarding measurements where $|y_i|$ exceeds $\alpha_y^2\|\boldsymbol{x}\|^2$ so that the summands are bounded and concentrate at $m \asymp n$ via matrix Bernstein; and (2) *Truncated Wirtinger Gradient Updates* $\boldsymbol{z}^{(t+1)} = \boldsymbol{z}^{(t)} + \frac{\mu_t}{m}\sum_{i\in\mathcal{E}_1^{(t)}\cap\mathcal{E}_2^{(t)}} \frac{y_i - |\boldsymbol{a}_i^*\boldsymbol{z}^{(t)}|^2}{\boldsymbol{z}^{(t)*}\boldsymbol{a}_i}\boldsymbol{a}_i$ (Equations 2.4–2.5, 2.8–2.10), where $\mathcal{E}_1^{(t)} = \{\alpha_z^{\mathrm{lb}} \le \frac{|\boldsymbol{a}_i^*\boldsymbol{z}^{(t)}|}{\|\boldsymbol{z}^{(t)}\|} \le \alpha_z^{\mathrm{ub}}\}$ prevents division by small inner products $|\boldsymbol{a}_i^*\boldsymbol{z}^{(t)}|$ and $\mathcal{E}_2^{(t)} = \{|y_i - |\boldsymbol{a}_i^*\boldsymbol{z}^{(t)}|^2| \le \alpha_h K_t \frac{|\boldsymbol{a}_i^*\boldsymbol{z}^{(t)}|}{\|\boldsymbol{z}^{(t)}\|}\}$ (with empirical median residual $K_t = \mathrm{median}_i(|y_i - |\boldsymbol{a}_i^*\boldsymbol{z}^{(t)}|^2|)$) suppresses high-leverage residual outliers. Theorems 1–2 prove linear convergence $\mathrm{dist}(\boldsymbol{z}^{(t)},\boldsymbol{x}) \le \delta_0(1-\rho)^t\|\boldsymbol{x}\|$ with constant step size $\mu_t = \mu_0 \asymp 1$ and minimax-optimal noise stability $\mathrm{dist}(\boldsymbol{z}^{(t)},\boldsymbol{x}) \lesssim \frac{\|\boldsymbol{\eta}\|_2}{\sqrt{m}\|\boldsymbol{x}\|}$.
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-cc2017-twf-pdf">Solving Random Quadratic Systems of Equations Is Nearly as Easy as Solving Linear Systems</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-cc2017-twf-abs">Solving Random Quadratic Systems of Equations Is Nearly as Easy as Solving Linear Systems (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-cc2017-twf-cr">Solving Random Quadratic Systems of Equations Is Nearly as Easy as Solving Linear Systems (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Resolved against all 442 pinned AIO concepts and 685 maintained AIMech concepts. Distinct from `AIMech:WirtingerFlowPhaseRetrievalAndSpectralInitialization` (Candès, Li, &amp; Soltanolkotabi 2015, which minimizes the untruncated quartic intensity loss with untruncated spectral initialization, requiring $m \gtrsim n\log n$ samples and vanishing step size $\mu \lesssim 1/n$ due to fourth-moment heavy tails, whereas Chen &amp; Candès 2017 introduce the Poisson log-likelihood formulation, Truncated Spectral Initialization $\mathbb{I}_{\{|y_i| \le \alpha_y^2\lambda_0^2\}}$, and the dual-event gradient truncation rules $\mathcal{E}_1^{(t)} \cap \mathcal{E}_2^{(t)}$ achieving $O(n)$ sample complexity and $O(1)$ step size).
+      Resolved against all 442 pinned AIO concepts and 685 maintained AIMech concepts. Distinct from `<a href="../curated/WirtingerFlowPhaseRetrievalAndSpectralInitialization.html">AIMech:WirtingerFlowPhaseRetrievalAndSpectralInitialization</a>` (Candès, Li, &amp; Soltanolkotabi 2015, which minimizes the untruncated quartic intensity loss with untruncated spectral initialization, requiring $m \gtrsim n\log n$ samples and vanishing step size $\mu \lesssim 1/n$ due to fourth-moment heavy tails, whereas Chen &amp; Candès 2017 introduce the Poisson log-likelihood formulation, Truncated Spectral Initialization $\mathbb{I}_{\{|y_i| \le \alpha_y^2\lambda_0^2\}}$, and the dual-event gradient truncation rules $\mathcal{E}_1^{(t)} \cap \mathcal{E}_2^{(t)}$ achieving $O(n)$ sample complexity and $O(1)$ step size).
     </div>
 </div>
 
@@ -157,7 +197,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -202,7 +242,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -230,7 +270,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1002/cpa.21638</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1002/cpa.21638" target="_blank" rel="noopener">https://doi.org/10.1002/cpa.21638</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:8f70d69d9ac3…
             </div>
@@ -253,7 +293,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/1505.05114</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/1505.05114" target="_blank" rel="noopener">https://arxiv.org/abs/1505.05114</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:ddefeda30f88…
             </div>
@@ -276,7 +316,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1002/cpa.21638</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1002/cpa.21638" target="_blank" rel="noopener">https://doi.org/10.1002/cpa.21638</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:df5269f36dfc…
             </div>
@@ -330,10 +370,60 @@
       <code>data/curated/TruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T08:45:51Z">2026-10-19T08:45:51Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:TruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems from Solving Random Quadratic Systems of Equations Is Nearly as Easy as Solving Linear Systems full-text PDF with boundary verification</strong>
+<p>Full-text inspection of <a href="https://arxiv.org/abs/1505.05114v2" target="_blank" rel="noopener">arXiv:1505.05114v2</a> full-text PDF (52 pages), published in Communications on Pure and Applied Mathematics 70(5):822-883 (2017). and pure-Python boundary verification in research/discovery/truncated-wirtinger-flow-poisson-phase-retrieval-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/truncated-wirtinger-flow-poisson-phase-retrieval/2026-10-19T084551Z-antigravity-57384c.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T053400Z-truncated-wirtinger-flow-poisson-phase-retrieval.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T05:34:30Z">2026-10-19T05:34:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Truncated Wirtinger Flow and Truncated Spectral Initialization for Random Quadratic Systems as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T053430Z-truncated-wirtinger-flow-poisson-phase-retrieval/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T053430Z-truncated-wirtinger-flow-poisson-phase-retrieval/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3ATruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FTruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems.html" target="_blank" rel="noopener">Report a problem with AIMech:TruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/TruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -342,7 +432,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Truncated%20Wirtinger%20Flow%20and%20Truncated%20Spectral%20Initialization%20for%20Random%20Quadratic%20Systems"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3ATruncatedWirtingerFlowAndTruncatedSpectralInitializationForQuadraticSystems"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -352,7 +442,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

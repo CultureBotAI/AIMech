@@ -1,0 +1,21 @@
+{#- Beside the status badge on record pages. Quotes the governing schema's status
+    definition and README.md; it adds nothing the repository does not state. -#}
+{% set meaning = status_meanings.get(c.review_status) %}
+{% if meaning %}
+<details class="status-meaning">
+  <summary>What <code>{{ c.review_status }}</code> means</summary>
+  <p>“{{ meaning.description }}” <span class="meta">— the status definition in the
+    <a href="{{ root }}schema.html#{{ meaning.anchor }}">{{ meaning.schema_title }}</a> schema.</span></p>
+  {% if meaning.readme %}
+  <p>“{{ meaning.readme | inline_code }}” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  {% endif %}
+  {% if c.origin == 'curated' %}
+  <p>This record's curation method is recorded as <code>{{ c.curation.method }}</code>
+    (curator {{ c.curation.curator }}{% if c.curation.model %}, model {{ c.curation.model }}{% endif %}).
+    {% if c.reviews %}Its saved reviews are listed under <a href="#curation-history">Curation History</a>.{% endif %}</p>
+  {% elif c.reviews %}
+  <p>Saved reviews that include this class are listed under <a href="#curation-history">Curation History</a>.</p>
+  {% endif %}
+</details>
+{% endif %}

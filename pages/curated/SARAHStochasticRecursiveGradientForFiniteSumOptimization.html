@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SARAH Stochastic Recursive Gradient for Finite-Sum Optimization · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> StochAstic Recursive grAdient algoritHm (SARAH), SARAH and SARAH+ Recursive Variance-Reduced Gradient Method, Nguyen-Liu-Scheinberg-Takac Stochastic Recursive Gradient
@@ -56,9 +69,36 @@
     SARAH Stochastic Recursive Gradient for Finite-Sum Optimization is a variance-reduced first-order stochastic optimization algorithm and practical adaptive variant (SARAH+) introduced by Nguyen, Liu, Scheinberg, and Takac (2017) for finite-sum minimization min_{w in R^d} P(w) = (1/n) sum_{i=1}^n f_i(w) with L-smooth component functions. At the start of each outer loop s, SARAH (Algorithm 1) computes the exact full gradient v_0 = grad P(w_0) and takes one gradient step w_1 = w_0 - eta v_0; in each inner iteration t = 1, ..., m-1, it samples i_t uniformly from [n] and updates the stochastic gradient estimate recursively via v_t = grad f_{i_t}(w_t) - grad f_{i_t}(w_{t-1}) + v_{t-1} followed by w_{t+1} = w_t - eta v_t. Unlike SVRG (which anchors its control variate to the static outer snapshot w_0 and is conditionally unbiased), SARAH&#39;s recursive estimator v_t is conditionally biased given F_t — E[v_t | F_t] = grad P(w_t) - grad P(w_{t-1}) + v_{t-1} != grad P(w_t) — while remaining unbiased in total expectation E[v_t] = E[grad P(w_t)] and requiring O(d) memory (no O(n d) gradient table as in SAG/SAGA). Lemma 2 proves the exact variance decomposition E[||grad P(w_t) - v_t||^2] = sum_{j=1}^t E[||v_j - v_{j-1}||^2] - sum_{j=1}^t E[||grad P(w_j) - grad P(w_{j-1})||^2], which guarantees that the step norm E[||v_t||^2] converges linearly to zero within a single inner loop under strong convexity (Theorems 1a-1b) and enables the self-tuning practical variant SARAH+ (Algorithm 2) that terminates the inner loop as soon as ||v_{t-1}||^2 &lt;= gamma ||v_0||^2.
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r344-primary-pdf">SARAH: A Novel Method for Machine Learning Problems Using Stochastic Recursive Gradient</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r344-arxiv-abs">SARAH: A Novel Method for Machine Learning Problems Using Stochastic Recursive Gradient (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r344-metadata-cr">SARAH: A Novel Method for Machine Learning Problems Using Stochastic Recursive Gradient (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Distinct from SVRG, which uses the conditionally unbiased snapshot difference grad f_{i_t}(w_t) - grad f_{i_t}(w_0) + v_0 whose inner-loop step variance does not vanish as t -&gt; infinity within a single outer loop, from SAG/SAGA, which require O(n d) storage of n past component gradients, and from SPIDER (`AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization`), which couples recursive path-integrated differential estimation with normalized gradient descent (stepsize proportional to epsilon / ||v^k||) and negative-curvature search for non-convex first- and second-order stationarity. Specifically captures the SARAH recursive estimator (Equation 2), the exact martingale variance identity (Lemma 2) and convex error bound (Lemma 3), the inner-loop linear contraction of E[||v_t||^2] (Theorems 1a-1b), the outer-loop linear rate sigma_m &lt; alpha_m (Theorem 4 and Remark 1), and the adaptive SARAH+ inner stopping rule ||v_{t-1}||^2 &gt; gamma ||v_0||^2 (Algorithm 2).
+      Distinct from SVRG, which uses the conditionally unbiased snapshot difference grad f_{i_t}(w_t) - grad f_{i_t}(w_0) + v_0 whose inner-loop step variance does not vanish as t -&gt; infinity within a single outer loop, from SAG/SAGA, which require O(n d) storage of n past component gradients, and from SPIDER (`<a href="../curated/SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization.html">AIMech:SPIDERStochasticPathIntegratedDifferentialEstimatorForNonConvexOptimization</a>`), which couples recursive path-integrated differential estimation with normalized gradient descent (stepsize proportional to epsilon / ||v^k||) and negative-curvature search for non-convex first- and second-order stationarity. Specifically captures the SARAH recursive estimator (Equation 2), the exact martingale variance identity (Lemma 2) and convex error bound (Lemma 3), the inner-loop linear contraction of E[||v_t||^2] (Theorems 1a-1b), the outer-loop linear rate sigma_m &lt; alpha_m (Theorem 4 and Remark 1), and the adaptive SARAH+ inner stopping rule ||v_{t-1}||^2 &gt; gamma ||v_0||^2 (Algorithm 2).
     </div>
 </div>
 
@@ -169,7 +209,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -226,7 +266,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -254,7 +294,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/nguyen17b.html</div>
+            <div><strong>ID:</strong> <a href="https://proceedings.mlr.press/v70/nguyen17b.html" target="_blank" rel="noopener">https://proceedings.mlr.press/v70/nguyen17b.html</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:cdfb48e29d92…
             </div>
@@ -277,7 +317,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/1703.00102</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/1703.00102" target="_blank" rel="noopener">https://arxiv.org/abs/1703.00102</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:4ca95c0f99ca…
             </div>
@@ -300,7 +340,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/nguyen17b.html</div>
+            <div><strong>ID:</strong> <a href="https://proceedings.mlr.press/v70/nguyen17b.html" target="_blank" rel="noopener">https://proceedings.mlr.press/v70/nguyen17b.html</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:67202e6de975…
             </div>
@@ -354,10 +394,60 @@
       <code>data/curated/SARAHStochasticRecursiveGradientForFiniteSumOptimization.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T13:25:07Z">2026-10-19T13:25:07Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization from SARAH: A Novel Method for Machine Learning Problems Using Stochastic Recursive Gradient full-text PDF with boundary verification</strong>
+<p>Full-text inspection of Proceedings of the 34th International Conference on Machine Learning (ICML 2017), PMLR 70:2613-2621 (2017) and pure-Python boundary verification in research/discovery/sarah-stochastic-recursive-gradient-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/sarah-stochastic-recursive-gradient/2026-10-19T132507Z-antigravity-ae2b82.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T070600Z-sarah-stochastic-recursive-gradient.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T07:06:30Z">2026-10-19T07:06:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain SARAH Stochastic Recursive Gradient for Finite-Sum Optimization as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T070630Z-sarah-stochastic-recursive-gradient/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T070630Z-sarah-stochastic-recursive-gradient/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3ASARAHStochasticRecursiveGradientForFiniteSumOptimization&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FSARAHStochasticRecursiveGradientForFiniteSumOptimization.html" target="_blank" rel="noopener">Report a problem with AIMech:SARAHStochasticRecursiveGradientForFiniteSumOptimization</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/SARAHStochasticRecursiveGradientForFiniteSumOptimization.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -366,7 +456,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=SARAH%20Stochastic%20Recursive%20Gradient%20for%20Finite-Sum%20Optimization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASARAHStochasticRecursiveGradientForFiniteSumOptimization"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -376,7 +466,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

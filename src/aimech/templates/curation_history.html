@@ -1,0 +1,68 @@
+{#- The recorded curation sessions (history/ sidecars) and saved structured
+    reviews that name this record, shown as recorded; see load_curation_sessions()
+    and load_saved_reviews() in scripts/render_pages.py for the joins. -#}
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">{{ c.sessions | length }} recorded session{% if c.sessions | length != 1 %}s{% endif %} · {{ c.reviews | length }} saved review{% if c.reviews | length != 1 %}s{% endif %}</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  {% if c.sessions %}
+  <ol class="history-list">
+    {% for s in c.sessions %}
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="{{ s.timestamp }}">{{ s.timestamp }}</time>
+        {% for actor in s.actors %}
+        <span>· {{ actor.name }} (<code>{{ actor.type }}</code>{% if actor.model %}; {{ actor.model }}{% endif %}{% if actor.agent_tool and actor.agent_tool != actor.name %}; {{ actor.agent_tool }}{% endif %})</span>
+        {% endfor %}
+      </div>
+      {% for ev in s.events %}
+      <div class="history-event">
+        <span class="badge badge-aio">{{ ev.type }}</span>
+        <span class="meta">{{ ev.outcome }}</span>
+        <strong>{{ ev.summary | autolink }}</strong>
+        {% if ev.details %}<p>{{ ev.details | autolink }}</p>{% endif %}
+      </div>
+      {% endfor %}
+      <div class="history-links">
+        {% for url in s.links %}<a href="{{ url }}" target="_blank" rel="noopener">{{ url | link_label }}</a> · {% endfor %}
+        <a href="{{ s.source_url }}" target="_blank" rel="noopener">Session record</a>
+        {% if s.report_url %}· <a href="{{ s.report_url }}" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>{% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  {% if c.origin == 'aio' %}
+  <p class="meta">No history sidecar under <code>history/</code> names this class. Its import from the pinned AIO release is recorded under Import Provenance.</p>
+  {% else %}
+  <p class="meta">No history sidecar under <code>history/</code> names this record or a discovery report that lists it.</p>
+  {% endif %}
+  {% endif %}
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  {% if c.reviews %}
+  <ul class="history-list">
+    {% for r in c.reviews %}
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="{{ r.finished_at }}">{{ r.finished_at }}</time>
+        <span>· {{ r.reviewer }} (<code>{{ r.reviewer_kind }}</code>{% if r.model %}; {{ r.model }}{% endif %})</span>
+        <span>· independence <code>{{ r.independence }}</code></span>
+        <span>· verdict <code>{{ r.verdict }}</code></span>
+        <span>· completion <code>{{ r.completion }}</code></span>
+        {% if r.target_count > 1 %}<span>· covers {{ r.target_count }} records</span>{% endif %}
+      </div>
+      <p>{{ r.summary | autolink }}</p>
+      <div class="history-links">
+        <a href="{{ r.md_url or r.url }}" target="_blank" rel="noopener">Read this review</a>
+        {% if r.md_url %}· <a href="{{ r.url }}" target="_blank" rel="noopener">YAML</a>{% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="meta">No saved review under <code>reviews/structured/</code> names this record.</p>
+  {% endif %}
+</div>

@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rank Centrality Iterative Random-Walk Spectral Ranking from Pairwise Comparisons · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> Rank Centrality Algorithm, Negahban-Oh-Shah Spectral Ranking from Pairwise Comparisons, Reversible Random-Walk BTL Rank Aggregation
@@ -56,9 +69,36 @@
     An iterative spectral rank-aggregation algorithm (introduced by Sahand Negahban, Sewoong Oh, and Devavrat Shah in 2017) that estimates latent preference scores $w_1,\dots,w_n &gt; 0$ under the Bradley–Terry–Luce (BTL) / Multinomial Logit (MNL) pairwise comparison model from $k$ comparisons per edge on a comparison graph $G = ([n], E)$. Given empirical win fractions $a_{ij} = \frac{1}{k}\sum_{l=1}^k Y_{ij}^l$ and normalized pairwise ratios $A_{ij} = a_{ij}/(a_{ij}+a_{ji})$ (or Beta$(\varepsilon,\varepsilon)$-regularized ratios $(a_{ij}+\varepsilon)/(a_{ij}+a_{ji}+2\varepsilon)$, Equation 5), Rank Centrality constructs the random-walk transition matrix $P_{ij} = \frac{1}{d_{\max}}A_{ij}$ for $(i,j)\in E$, $i\ne j$, and $P_{ii} = 1 - \frac{1}{d_{\max}}\sum_{l\ne i}A_{il}$ (Equation 1), where $d_{\max}$ is the maximum vertex degree, and computes its unique stationary distribution $\pi^T = \pi^T P$ via power iteration $p_{t+1}^T = p_t^T P$ (Equation 2). Scaling every off-diagonal transition by the uniform global maximum degree $1/d_{\max}$ (rather than local vertex degree $1/d_i$ as in Dwork et al.&#39;s MC3) ensures that the population transition matrix $\tilde{P}_{ij} = \frac{1}{d_{\max}}\frac{w_j}{w_i+w_j}$ satisfies detailed balance $\tilde{\pi}(i)\tilde{P}_{ij} = \tilde{\pi}(j)\tilde{P}_{ji}$ with exact stationary distribution $\tilde{\pi}(i) = w_i / \sum_l w_l$ on any connected graph $G$. Using a self-adjoint $L^2(\tilde{\pi})$ perturbation inequality (Lemma 2, Equation 11), matrix Bernstein concentration $\|P - \tilde{P}\|_2 \le C\sqrt{\log n / (k d_{\max})}$ (Lemma 3), and a Dirichlet-form Markov chain comparison theorem relating $1 - \lambda_{\max}(\tilde{P}) \ge \frac{d_{\min}}{b^2 d_{\max}}\xi$ to the random-walk Laplacian spectral gap $\xi = 1 - \lambda_{\max}(D^{-1}B)$ (Lemmas 4 and 6, Equations 26–27), Theorem 1 proves $\frac{\|\pi - \tilde{\pi}\|_2}{\|\tilde{\pi}\|_2} \le \frac{C b^{5/2}\kappa}{\xi}\sqrt{\frac{\log n}{k d_{\max}}}$, matching the minimax Fano lower bound of Theorem 3 up to logarithmic factors on Erdős–Rényi graphs (Theorem 2).
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-nos2017-rankcent-pdf">Rank Centrality: Ranking from Pairwise Comparisons</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-nos2017-rankcent-abs">Rank Centrality: Ranking from Pairwise Comparisons (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-nos2017-rankcent-cr">Rank Centrality: Ranking from Pairwise Comparisons (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Resolved against all 442 pinned AIO concepts and 682 maintained AIMech concepts. Distinct from `AIMech:TopKRankingSpectralAndRegularizedMLEByLeaveOneOutAnalysis` (Chen, Fan, Ma, &amp; Wang 2019, which introduces leave-one-out entrywise $\ell_\infty$ perturbation analysis for top-$K$ identification on Erdős–Rényi graphs, whereas Negahban, Oh, &amp; Shah 2017 formulate the Rank Centrality random-walk algorithm, the Beta$(\varepsilon,\varepsilon)$-regularized transition matrix, the general-graph $L^2(\tilde{\pi})$ Dirichlet-form spectral gap comparison Theorem 1 / Lemma 6, the weighted pairwise ranking loss $D_w(\sigma)$ bound Lemma 1, and the simplex packing minimax lower bound Theorem 3).
+      Resolved against all 442 pinned AIO concepts and 682 maintained AIMech concepts. Distinct from `<a href="../curated/TopKRankingSpectralAndRegularizedMLEByLeaveOneOutAnalysis.html">AIMech:TopKRankingSpectralAndRegularizedMLEByLeaveOneOutAnalysis</a>` (Chen, Fan, Ma, &amp; Wang 2019, which introduces leave-one-out entrywise $\ell_\infty$ perturbation analysis for top-$K$ identification on Erdős–Rényi graphs, whereas Negahban, Oh, &amp; Shah 2017 formulate the Rank Centrality random-walk algorithm, the Beta$(\varepsilon,\varepsilon)$-regularized transition matrix, the general-graph $L^2(\tilde{\pi})$ Dirichlet-form spectral gap comparison Theorem 1 / Lemma 6, the weighted pairwise ranking loss $D_w(\sigma)$ bound Lemma 1, and the simplex packing minimax lower bound Theorem 3).
     </div>
 </div>
 
@@ -156,7 +196,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -213,7 +253,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -241,7 +281,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1287/opre.2016.1534</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1287/opre.2016.1534" target="_blank" rel="noopener">https://doi.org/10.1287/opre.2016.1534</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:293d685db80c…
             </div>
@@ -264,7 +304,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/1209.1688</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/1209.1688" target="_blank" rel="noopener">https://arxiv.org/abs/1209.1688</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:85e87b652d86…
             </div>
@@ -287,7 +327,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1287/opre.2016.1534</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1287/opre.2016.1534" target="_blank" rel="noopener">https://doi.org/10.1287/opre.2016.1534</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:032494b93711…
             </div>
@@ -341,10 +381,60 @@
       <code>data/curated/RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T08:20:44Z">2026-10-19T08:20:44Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons from Rank Centrality: Ranking from Pairwise Comparisons full-text PDF with boundary verification</strong>
+<p>Full-text inspection of <a href="https://arxiv.org/abs/1209.1688v4" target="_blank" rel="noopener">arXiv:1209.1688v4</a> full-text PDF (45 pages), published in Operations Research 65(1):266-287 (2017). and pure-Python boundary verification in research/discovery/rank-centrality-pairwise-comparisons-spectral-ranking-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/rank-centrality-pairwise-comparisons-spectral-ranking/2026-10-19T082044Z-antigravity-9bb0d2.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T052800Z-rank-centrality-pairwise-comparisons-spectral-ranking.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T05:28:30Z">2026-10-19T05:28:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Rank Centrality Iterative Random-Walk Spectral Ranking from Pairwise Comparisons as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T052830Z-rank-centrality-pairwise-comparisons-spectral-ranking/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T052830Z-rank-centrality-pairwise-comparisons-spectral-ranking/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3ARankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FRankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons.html" target="_blank" rel="noopener">Report a problem with AIMech:RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/RankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -353,7 +443,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Rank%20Centrality%20Iterative%20Random-Walk%20Spectral%20Ranking%20from%20Pairwise%20Comparisons"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3ARankCentralityIterativeRandomWalkSpectralRankingFromPairwiseComparisons"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -363,7 +453,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

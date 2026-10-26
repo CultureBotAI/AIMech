@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ontology & Grounding Network Graph — AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="style.css">
 <script src="theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="graph.html">Network graph</a>
     <a href="browse.html?origin=curated">Curated</a>
     <a href="browse.html?origin=aio">AIO Classes</a>
+    <a href="schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <nav class="breadcrumbs"><a href="index.html">AIMech</a> / <span>Network graph</span></nav>
   <form class="page-search" action="browse.html" method="get" role="search">
@@ -77,6 +80,39 @@
       <div id="graph-tip" class="map-tip" hidden></div>
       <div class="map-hint">scroll to zoom · drag to pan · double-click to reset · click node to open page · Esc clears filter</div>
     </div>
+    <noscript><p class="empty-state">The graph and its tables need JavaScript. Every concept has a static page, listed in <a href="browse.html">Browse</a>; each record page lists its own groundings.</p></noscript>
+    <details class="data-table" id="graph-table">
+      <summary>View data as table</summary>
+      <p class="meta" id="graph-table-status" role="status"></p>
+      <h2 class="data-table-heading">Nodes</h2>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Graph nodes">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Node</th>
+              <th scope="col">Identifier</th>
+              <th scope="col">Type</th>
+              <th scope="col">Group</th>
+              <th scope="col">Edges</th>
+            </tr>
+          </thead>
+          <tbody id="graph-node-body"></tbody>
+        </table>
+      </div>
+      <h2 class="data-table-heading">Edges</h2>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Graph edges">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">From</th>
+              <th scope="col">Relation</th>
+              <th scope="col">To</th>
+            </tr>
+          </thead>
+          <tbody id="graph-edge-body"></tbody>
+        </table>
+      </div>
+    </details>
   </div>
 </div>
 
@@ -92,6 +128,10 @@
   const typeSelect = document.getElementById('graph-type');
   const resetBtn = document.getElementById('graph-reset');
   const countEl = document.getElementById('graph-count');
+  const tableBox = document.getElementById('graph-table');
+  const nodeBody = document.getElementById('graph-node-body');
+  const edgeBody = document.getElementById('graph-edge-body');
+  const tableStatus = document.getElementById('graph-table-status');
 
   const dpr = window.devicePixelRatio || 1;
   let W = 980, H = 640;
@@ -213,6 +253,36 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
+  // Text alternative to the canvas: the nodes the filters match and every edge
+  // that touches one of them, rendered from the same data only while the
+  // disclosure is open. Each node links the page a click on it opens.
+  const degree = new Array(G.nodes.length).fill(0);
+  for (const e of G.edges) { degree[e.source]++; degree[e.target]++; }
+  function nodeCell(n) {
+    return n.href ? '<a href="' + esc(n.href) + '">' + esc(n.name) + '</a>' : esc(n.name);
+  }
+  function renderTable() {
+    if (!tableBox.open) return;
+    const matched = G.nodes.map(matchNode);
+    const nodes = [];
+    G.nodes.forEach((n, i) => {
+      if (!matched[i]) return;
+      nodes.push('<tr><td>' + nodeCell(n) + '</td><td><code>' + esc(n.id) + '</code></td><td>' + esc(n.type) +
+        '</td><td>' + esc(n.group) + '</td><td>' + degree[i] + '</td></tr>');
+    });
+    const edges = [];
+    for (const e of G.edges) {
+      if (!matched[e.source] && !matched[e.target]) continue;
+      edges.push('<tr><td>' + nodeCell(G.nodes[e.source]) + '</td><td><code>' + esc(e.label) + '</code></td><td>' +
+        nodeCell(G.nodes[e.target]) + '</td></tr>');
+    }
+    nodeBody.innerHTML = nodes.join('');
+    edgeBody.innerHTML = edges.join('');
+    tableStatus.textContent = nodes.length + ' of ' + G.nodes.length + ' nodes match the current filters; ' +
+      edges.length + ' of ' + G.edges.length + ' edges touch them.';
+  }
+  tableBox.addEventListener('toggle', renderTable);
+
   let drag = null, moved = false;
   canvas.addEventListener('mousedown', (e) => {
     drag = { x: e.clientX - tx, y: e.clientY - ty, sx: e.clientX, sy: e.clientY };
@@ -273,6 +343,7 @@
     query = search.value.trim().toLowerCase();
     syncUrl();
     draw();
+    renderTable();
   });
   search.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -280,17 +351,20 @@
       query = '';
       syncUrl();
       draw();
+      renderTable();
     }
   });
   originSelect.addEventListener('change', () => {
     originFilter = originSelect.value;
     syncUrl();
     draw();
+    renderTable();
   });
   typeSelect.addEventListener('change', () => {
     typeFilter = typeSelect.value;
     syncUrl();
     draw();
+    renderTable();
   });
   resetBtn.addEventListener('click', () => {
     search.value = '';
@@ -302,6 +376,7 @@
     k = 1; tx = 0; ty = 0;
     syncUrl();
     draw();
+    renderTable();
   });
 
   const initParams = new URLSearchParams(window.location.search);
@@ -309,14 +384,14 @@
     search.value = initParams.get('q');
     query = search.value.trim().toLowerCase();
   }
-  if (initParams.get('origin')) {
-    originSelect.value = initParams.get('origin');
-    originFilter = originSelect.value;
+  // An unknown origin or type in a shared URL keeps the default rather than
+  // selecting nothing, which matched no node.
+  function restoreSelect(select, value) {
+    if ([...select.options].some((o) => o.value === value)) select.value = value;
+    return select.value;
   }
-  if (initParams.get('type')) {
-    typeSelect.value = initParams.get('type');
-    typeFilter = typeSelect.value;
-  }
+  if (initParams.get('origin')) originFilter = restoreSelect(originSelect, initParams.get('origin'));
+  if (initParams.get('type')) typeFilter = restoreSelect(typeSelect, initParams.get('type'));
 
   window.addEventListener('resize', () => { resize(); draw(); });
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -325,7 +400,8 @@
 </script>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="index.json">index.json</a> · <a href="corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="index.json">index.json</a> · <a href="corpus_map.json">corpus_map.json</a> · <a href="schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
