@@ -1,0 +1,1593 @@
+{
+  "audit_id": "20261104T091000Z-protein-examples-applicability-audit",
+  "created_at": "2026-11-04T09:10:00Z",
+  "run_id": "mech-goal-sequence-20261019",
+  "cycle": 1,
+  "stage": 3,
+  "stage_key": "protein_examples",
+  "applicability_verdict": "not_applicable",
+  "workflow_profile": {
+    "path": "workflow/mech-workflow.yaml",
+    "sha256": "1f4575151090b50346fa5b8e75b9bfa0ef42b189350ba2d772516de6431671f8",
+    "stage_3_override": {
+      "stage": 3,
+      "key": "protein_examples",
+      "goal_text": "Audit and document whether biological UniProt protein examples apply to AIMech's native AI-concept domain and schema, using its local record-review skill and full corpus inventory. Preserve the ontology/causality distinction and report inapplicability with evidence; do not invent biological data or unsupported fields. If a real applicable representation is discovered, report it for review before replacing this applicability objective.",
+      "skill_paths": [
+        ".claude/skills/aimech-evolve-workflow/SKILL.md",
+        ".claude/skills/review-yaml-record/SKILL.md"
+      ],
+      "applicability": "not_applicable",
+      "applicability_reason": "AI-concept records do not currently have a supported biological causal-graph or UniProt protein-example scope. Perform the explicit native-domain applicability audit, retain evidence, and keep the stage closure."
+    }
+  },
+  "corpus_totals": {
+    "aio_generated_records": 442,
+    "curated_aimech_records": 1487,
+    "total_records_inspected": 1929,
+    "records_with_protein_example_slots": 0,
+    "records_with_uniprot_curies": 0,
+    "aio_records_matching_protein_terms": 0,
+    "curated_records_matching_protein_terms": 3,
+    "aio_records_matching_broad_biological_terms": 3,
+    "curated_records_matching_broad_biological_terms": 95
+  },
+  "schemas": {
+    "aimech": {
+      "path": "src/aimech/schema/aimech.yaml",
+      "sha256": "5a54dafe2fc17bc027e14bc3a2829b265cbb34427ad58eef63fe99616e17b852",
+      "id": "https://w3id.org/culturebotai/aimech",
+      "name": "aimech",
+      "description": "A provenance-bearing projection of AIO terminology, with separately curated evidence and discussions. Ontology membership does not establish efficacy, benchmark performance, safety, or causal mechanism.",
+      "prefixes": {
+        "AIO": "https://w3id.org/aio/",
+        "aimech": "https://w3id.org/culturebotai/aimech/",
+        "linkml": "https://w3id.org/linkml/"
+      },
+      "imports": [
+        "linkml:types",
+        "mech_shared"
+      ],
+      "classes": {
+        "AIConcept": [
+          "branches",
+          "comments",
+          "curation_history",
+          "definition",
+          "definition_sources",
+          "discussions",
+          "history_refs",
+          "id",
+          "name",
+          "ontology_iri",
+          "parents",
+          "provenance",
+          "relationships",
+          "review_status",
+          "subsets",
+          "synonyms"
+        ],
+        "ConceptRelationship": [
+          "predicate",
+          "target"
+        ],
+        "ConceptSynonym": [
+          "scope",
+          "value"
+        ],
+        "CurationEvent": [
+          "action",
+          "curator",
+          "notes",
+          "timestamp"
+        ],
+        "ImportProvenance": [
+          "imported_at",
+          "license",
+          "source",
+          "source_commit",
+          "source_file",
+          "source_node",
+          "source_sha256",
+          "source_version"
+        ]
+      },
+      "enums": {
+        "AIOBranch": [
+          "Bias",
+          "Layer",
+          "MachineLearningTask",
+          "MathematicalFunction",
+          "Model",
+          "Network",
+          "Preprocessing",
+          "TrainingStrategy"
+        ],
+        "RelationshipPredicate": [
+          "BFO:0000051"
+        ],
+        "ReviewStatus": [
+          "NOT_REVIEWED"
+        ],
+        "SynonymScope": [
+          "exact",
+          "related"
+        ]
+      },
+      "biological_prefixes_present": [],
+      "protein_example_candidate_slots_present": []
+    },
+    "curated_concept": {
+      "path": "src/aimech/schema/curated_concept.yaml",
+      "sha256": "3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f",
+      "id": "https://w3id.org/culturebotai/aimech/curated-concept",
+      "name": "curated_concept",
+      "description": null,
+      "prefixes": {
+        "AIMech": "https://w3id.org/culturebotai/aimech/concept/",
+        "linkml": "https://w3id.org/linkml/"
+      },
+      "imports": [
+        "linkml:types"
+      ],
+      "classes": {
+        "AIOExaminedTarget": [
+          "rejection_reason",
+          "target"
+        ],
+        "AIOMapping": [
+          "rationale",
+          "relation",
+          "target"
+        ],
+        "ConceptClaim": [
+          "claim_id",
+          "evaluation",
+          "evidence",
+          "kind",
+          "statement"
+        ],
+        "CuratedAIConcept": [
+          "aio_mappings",
+          "aio_no_match",
+          "aio_snapshot",
+          "aliases",
+          "claims",
+          "concept_kind",
+          "curation",
+          "definition",
+          "definition_evidence",
+          "evidence_sources",
+          "history_refs",
+          "id",
+          "identity_notes",
+          "limitations",
+          "name",
+          "review_status"
+        ],
+        "CurationProvenance": [
+          "agent_tool",
+          "created_at",
+          "curator",
+          "method",
+          "model",
+          "updated_at"
+        ],
+        "EvaluationContext": [
+          "baseline",
+          "conditions",
+          "dataset_and_split",
+          "metric_and_units",
+          "model_and_version",
+          "result",
+          "task",
+          "uncertainty"
+        ],
+        "EvidenceCitation": [
+          "locator",
+          "relation",
+          "source_id"
+        ],
+        "EvidenceSource": [
+          "access_level",
+          "accessed_at",
+          "authors",
+          "persistent_id",
+          "sha256",
+          "source_id",
+          "source_type",
+          "title",
+          "url",
+          "version"
+        ],
+        "MappingSnapshot": [
+          "commit",
+          "sha256"
+        ],
+        "NoAIOMatch": [
+          "examined_targets",
+          "rationale",
+          "search_scope"
+        ]
+      },
+      "enums": {
+        "ClaimKind": [
+          "application",
+          "limitation",
+          "mechanism",
+          "performance",
+          "scope"
+        ],
+        "ConceptKind": [
+          "algorithm",
+          "architecture",
+          "bias",
+          "computational_paradigm",
+          "coordination_mechanism",
+          "evaluation_criterion",
+          "evaluation_method",
+          "layer",
+          "learning_paradigm",
+          "mathematical_method",
+          "model_family",
+          "preprocessing_method",
+          "risk",
+          "task"
+        ],
+        "CuratedReviewStatus": [
+          "DRAFT"
+        ],
+        "CurationMethod": [
+          "ai_assisted",
+          "human"
+        ],
+        "EvidenceAccess": [
+          "abstract_only",
+          "documentation",
+          "full_text"
+        ],
+        "EvidenceRelation": [
+          "context",
+          "contradicts",
+          "supports"
+        ],
+        "EvidenceSourceType": [
+          "author_technical_report",
+          "official_documentation",
+          "primary_monograph",
+          "primary_paper"
+        ],
+        "MappingRelation": [
+          "broad_match",
+          "narrow_match",
+          "related_match"
+        ]
+      },
+      "biological_prefixes_present": [],
+      "protein_example_candidate_slots_present": []
+    },
+    "mech_shared": {
+      "path": "src/aimech/schema/mech_shared.yaml",
+      "sha256": "c2e7054fd32635e380c698282bd886a9105861009b9f0474f02bb1b80865e895",
+      "id": "https://w3id.org/kg-microbe/mech-shared",
+      "name": "mech_shared",
+      "description": "Canonical, byte-identical LinkML module shared across the Mech knowledge bases (CultureMech / MIM / CommunityMech / TraitMech). It carries three domain-general record sections ported from monarch-initiative/dismech:\n\n  * Discussion \u2014 the discourse / \"knowledge gap\" layer. A broad supertype\n    (kind = KNOWLEDGE_GAP, OPEN_QUESTION, CONTROVERSY, CURATION_TODO,\n    EMERGING_HYPOTHESIS, INTERPRETATION, HUMAN_MODEL_MISMATCH) with a\n    lifecycle status, hash-anchor `attaches_to` pointers into the importing\n    record's sections, optional `proposed_experiments` resolution sketches,\n    and a `SupportingReference` evidence block.\n\n  * Dataset \u2014 a lightweight reference to a public dataset (omics, sequence,\n    phenotype). Its `dataset_type` / `repository` enums are the faithful UNION\n    of the existing CultureMech and CommunityMech enums (plus microbial\n    additions) so the Phase-2 migration of those two repos is loss-preserving.\n\n  * CrossCorpusLink \u2014 a provenance-bearing link to a record in another Mech.\n    The importing schema owns the relation vocabulary and which slots admit\n    links. Sharing a protein or a reaction supplies a curation lead, not an\n    assertion of record equivalence or biological mechanism.\n\nThe module is SELF-CONTAINED: it defines its own `SupportingReference` evidence class (and `SupportLevelEnum`) rather than referencing each repo's `EvidenceItem`, so it validates standalone, imposes no per-repo dependency (MIM has `MappingEvidence`, not `EvidenceItem`), and never collides with an importing schema's classes. Each record keeps its own primary `EvidenceItem` for record-level claims; discussions/datasets carry their own lightweight `SupportingReference` citations.\nVendored byte-identical and sha-pinned across the Mech repos (see culturebotai-claw#7). Do not edit one copy in isolation \u2014 change it once and re-vendor + re-pin everywhere.",
+      "prefixes": {
+        "linkml": "https://w3id.org/linkml/",
+        "mech_shared": "https://w3id.org/kg-microbe/mech-shared/"
+      },
+      "imports": [
+        "linkml:types"
+      ],
+      "classes": {
+        "CrossCorpusLink": [
+          "basis",
+          "corpus",
+          "identifier",
+          "relation",
+          "source_version"
+        ],
+        "Dataset": [
+          "accession",
+          "conditions",
+          "dataset_type",
+          "description",
+          "evidence",
+          "findings",
+          "notes",
+          "organism",
+          "platform",
+          "publication",
+          "repository",
+          "sample_count",
+          "sample_types",
+          "title",
+          "url"
+        ],
+        "Discussion": [
+          "attaches_to",
+          "discussion_id",
+          "evidence",
+          "kind",
+          "notes",
+          "posed_by",
+          "posed_date",
+          "prompt",
+          "proposed_experiments",
+          "rationale",
+          "resolution_note",
+          "resolved_date",
+          "status"
+        ],
+        "ProposedExperiment": [
+          "approach",
+          "decision_criterion",
+          "description",
+          "experiment_id",
+          "model_systems",
+          "name",
+          "perturbations",
+          "readouts",
+          "would_refute",
+          "would_support"
+        ],
+        "SupportingReference": [
+          "evidence_source",
+          "explanation",
+          "notes",
+          "reference",
+          "reference_title",
+          "snippet",
+          "supports"
+        ]
+      },
+      "enums": {
+        "DatasetRepositoryEnum": [
+          "ARRAYEXPRESS",
+          "BIOMODELS",
+          "DBGAP",
+          "ENA",
+          "FIGSHARE",
+          "GNPS",
+          "GTEX",
+          "JGI_GOLD",
+          "JGI_IMG",
+          "KBASE",
+          "MASSIVE",
+          "METABOLIGHTS",
+          "METABOLOMICS_WORKBENCH",
+          "MGNIFY",
+          "NCBI_ASSEMBLY",
+          "NCBI_BIOPROJECT",
+          "NCBI_GEO",
+          "NCBI_SRA",
+          "NMDC",
+          "OTHER",
+          "PRIDE",
+          "ZENODO"
+        ],
+        "DatasetTypeEnum": [
+          "AMPLICON_16S",
+          "AMPLICON_ITS",
+          "AMPLICON_OTHER",
+          "FLUXOMICS",
+          "GENOMICS",
+          "METABOLOMICS",
+          "METAGENOMICS",
+          "METAPROTEOMICS",
+          "METATRANSCRIPTOMICS",
+          "MULTI_OMICS",
+          "OTHER",
+          "PHENOMICS",
+          "PHENOTYPE",
+          "PROTEOMICS",
+          "TRANSCRIPTOMICS"
+        ],
+        "DiscussionKindEnum": [
+          "CONTROVERSY",
+          "CURATION_TODO",
+          "EMERGING_HYPOTHESIS",
+          "HUMAN_MODEL_MISMATCH",
+          "INTERPRETATION",
+          "KNOWLEDGE_GAP",
+          "OPEN_QUESTION"
+        ],
+        "DiscussionStatusEnum": [
+          "ARCHIVED",
+          "OPEN",
+          "RESOLVED",
+          "UNDER_DISCUSSION"
+        ],
+        "SupportLevelEnum": [
+          "NO_EVIDENCE",
+          "PARTIAL",
+          "REFUTE",
+          "SUPPORT",
+          "WRONG_STATEMENT"
+        ]
+      },
+      "biological_prefixes_present": [],
+      "protein_example_candidate_slots_present": []
+    }
+  },
+  "aio_corpus_inventory": {
+    "directory": "data/aio",
+    "record_count": 442,
+    "top_level_key_counts": {
+      "branches": 442,
+      "comments": 217,
+      "definition": 442,
+      "definition_sources": 364,
+      "id": 442,
+      "name": 442,
+      "ontology_iri": 442,
+      "parents": 442,
+      "provenance": 442,
+      "relationships": 26,
+      "review_status": 442,
+      "subsets": 442,
+      "synonyms": 233
+    },
+    "branch_counts": {
+      "Bias": 61,
+      "Layer": 168,
+      "MachineLearningTask": 57,
+      "MathematicalFunction": 14,
+      "Model": 76,
+      "Network": 52,
+      "Preprocessing": 10,
+      "TrainingStrategy": 4
+    },
+    "taxonomic_parent_edge_count": 442,
+    "mereological_relationship_edge_count": 71,
+    "relationship_predicate_counts": {
+      "BFO:0000051": 71
+    },
+    "records_with_relationships_count": 26,
+    "synonym_count": 446,
+    "records_with_discussions_count": 0,
+    "records_with_protein_example_slots_count": 0,
+    "records_with_uniprot_curies_count": 0,
+    "protein_direct_records_count": 0,
+    "protein_direct_records": [],
+    "broad_biological_records_count": 3,
+    "broad_biological_records": [
+      {
+        "id": "AIO:ArtificialNeuralNetwork",
+        "path": "data/aio/ArtificialNeuralNetwork.yaml",
+        "name": "Artificial Neural Network",
+        "branches": [
+          "Network"
+        ],
+        "matched_terms": [
+          "biological"
+        ],
+        "definition": "A network based on a collection of connected units called artificial neurons modeled after biological neurons."
+      },
+      {
+        "id": "AIO:SpikingHiddenLayer",
+        "path": "data/aio/SpikingHiddenLayer.yaml",
+        "name": "Spiking Hidden Layer",
+        "branches": [
+          "Layer"
+        ],
+        "matched_terms": [
+          "biological"
+        ],
+        "definition": "A hidden layer that makes connections to an additional, heterogeneous hidden layer; modeled after biological neural networks."
+      },
+      {
+        "id": "AIO:SurvivalAnalysis",
+        "path": "data/aio/SurvivalAnalysis.yaml",
+        "name": "Survival Analysis",
+        "branches": [
+          "MachineLearningTask"
+        ],
+        "matched_terms": [
+          "biological"
+        ],
+        "definition": "A machine learning task focused on methods for analyzing the expected duration of time until one or more events occur such as death in biological organisms or failure in mechanical systems."
+      }
+    ]
+  },
+  "curated_corpus_inventory": {
+    "directory": "data/curated",
+    "record_count": 1487,
+    "top_level_key_counts": {
+      "aio_mappings": 1338,
+      "aio_no_match": 149,
+      "aio_snapshot": 1487,
+      "aliases": 1418,
+      "claims": 1487,
+      "concept_kind": 1487,
+      "curation": 1487,
+      "definition": 1487,
+      "definition_evidence": 1487,
+      "evidence_sources": 1487,
+      "id": 1487,
+      "identity_notes": 1487,
+      "limitations": 1487,
+      "name": 1487,
+      "review_status": 1487
+    },
+    "concept_kind_counts": {
+      "algorithm": 1047,
+      "architecture": 121,
+      "bias": 1,
+      "computational_paradigm": 1,
+      "coordination_mechanism": 1,
+      "evaluation_criterion": 5,
+      "evaluation_method": 5,
+      "layer": 20,
+      "learning_paradigm": 13,
+      "mathematical_method": 175,
+      "model_family": 91,
+      "preprocessing_method": 7
+    },
+    "total_claims": 5149,
+    "claim_kind_counts": {
+      "application": 477,
+      "limitation": 1029,
+      "mechanism": 2793,
+      "performance": 5,
+      "scope": 845
+    },
+    "total_evidence_sources": 3269,
+    "evidence_source_type_counts": {
+      "author_technical_report": 66,
+      "official_documentation": 190,
+      "primary_monograph": 9,
+      "primary_paper": 3004
+    },
+    "evidence_access_level_counts": {
+      "abstract_only": 1301,
+      "documentation": 190,
+      "full_text": 1778
+    },
+    "records_with_aio_mappings_count": 1338,
+    "records_with_aio_no_match_count": 149,
+    "aio_mapping_relation_counts": {
+      "broad_match": 325,
+      "narrow_match": 82,
+      "related_match": 1415
+    },
+    "records_with_protein_example_slots_count": 0,
+    "records_with_uniprot_curies_count": 0,
+    "protein_direct_records_count": 3,
+    "protein_direct_records": [
+      {
+        "id": "AIMech:BrandesPichPivotCentralityEstimation",
+        "path": "data/curated/BrandesPichPivotCentralityEstimation.yaml",
+        "name": "Brandes\u2013Pich pivot-based centrality estimation",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "protein"
+        ],
+        "matching_claims": [
+          {
+            "claim_id": "evaluation-and-application-scope",
+            "kind": "limitation",
+            "statement": "The study compares six pivot strategies on three generated graph families and protein-interaction, needle-exchange and ticker-text networks, using repeated progressively enlarged pivot sets and exact centrality as the comparator. The score vectors are scaled to sum one. Prose describes Euclidean and inversion distances, while plots label the latter weighted inversion number. Observed-network sizes differ between Table 2 and figure labels, and the text-network betweenness experiment permits multiple edges despite the simple-graph core. No unified numeric benchmark denominator, unreported weighting rule, universal strategy superiority or biological-function prediction is asserted."
+          }
+        ]
+      },
+      {
+        "id": "AIMech:ZhouAttractorCommunityDetection",
+        "path": "data/curated/ZhouAttractorCommunityDetection.yaml",
+        "name": "Zhou first-passage attractor community detection",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "protein"
+        ],
+        "matching_claims": [
+          {
+            "claim_id": "evaluation-and-extension-limits",
+            "kind": "limitation",
+            "statement": "The source applies the method to weighted karate and collaboration networks, an unweighted football network and a historical yeast protein-interaction component. Its planted random-module comparison reports limitations relative to Girvan\u2013Newman, so no universal detection advantage follows. Protein transport, essentiality and functional explanations remain hypotheses rather than causal evidence. Finite-temperature membership, coarse-grained recursion, localized distance approximation and the later distance-profile dissimilarity method are separate extensions, not steps of this original attractor-closure algorithm."
+          }
+        ]
+      },
+      {
+        "id": "AIMech:ZhouRandomWalkDissimilarity",
+        "path": "data/curated/ZhouRandomWalkDissimilarity.yaml",
+        "name": "Zhou random-walk distance-profile dissimilarity",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "protein"
+        ],
+        "matching_claims": [
+          {
+            "claim_id": "interpretation-and-version-limits",
+            "kind": "limitation",
+            "statement": "The source interprets small index values as similar graph perspectives and uses them in historical synthetic, social and yeast-network clustering examples. Its performance and protein-function hypotheses concern the full hierarchy pipeline and specific data, not independent validation of this pairwise functional or causal biology. This record follows the inspected arXiv v1 normalization; journal-byte equivalence and version-specific numerical changes were not established."
+          }
+        ]
+      }
+    ],
+    "broad_biological_records_count": 95,
+    "broad_biological_category_counts": {
+      "acronym_or_homonym": 3,
+      "bio_inspired_metaphor": 10,
+      "downstream_dataset_context": 20,
+      "negative_scope_or_benchmark_disclaimer": 62
+    },
+    "broad_biological_records": [
+      {
+        "id": "AIMech:AdaBoost",
+        "path": "data/curated/AdaBoost.yaml",
+        "name": "AdaBoost",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:AlphaSkewRandomWalkFourthMomentTightnessAndTauberianReturnConvolution",
+        "path": "data/curated/AlphaSkewRandomWalkFourthMomentTightnessAndTauberianReturnConvolution.yaml",
+        "name": "Alpha-Skew Random Walk Fourth-Moment Tightness and Tauberian Return Convolution",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:AntColonyOptimization",
+        "path": "data/curated/AntColonyOptimization.yaml",
+        "name": "Ant colony optimization",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:Apriori",
+        "path": "data/curated/Apriori.yaml",
+        "name": "Apriori",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:AutoPoissonMarkovRandomField",
+        "path": "data/curated/AutoPoissonMarkovRandomField.yaml",
+        "name": "Auto-Poisson Markov random field",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "genomic"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:BIRCH",
+        "path": "data/curated/BIRCH.yaml",
+        "name": "BIRCH",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:Bagging",
+        "path": "data/curated/Bagging.yaml",
+        "name": "Bagging",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:BayesOptimalPValueWeightingUnderGaussianPrior",
+        "path": "data/curated/BayesOptimalPValueWeightingUnderGaussianPrior.yaml",
+        "name": "Bayes optimal p-value weighting under a Gaussian prior on the effect sizes",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "genome"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:Boosting",
+        "path": "data/curated/Boosting.yaml",
+        "name": "Boosting",
+        "concept_kind": "learning_paradigm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:BrandesFleischerCurrentFlowBetweenness",
+        "path": "data/curated/BrandesFleischerCurrentFlowBetweenness.yaml",
+        "name": "Brandes\u2013Fleischer current-flow betweenness computation",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:BrandesPichPivotCentralityEstimation",
+        "path": "data/curated/BrandesPichPivotCentralityEstimation.yaml",
+        "name": "Brandes\u2013Pich pivot-based centrality estimation",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological",
+          "protein"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:C45",
+        "path": "data/curated/C45.yaml",
+        "name": "C4.5",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:CART",
+        "path": "data/curated/CART.yaml",
+        "name": "CART",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:CNMCommunityDetection",
+        "path": "data/curated/CNMCommunityDetection.yaml",
+        "name": "Clauset\u2013Newman\u2013Moore community detection",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:CliXO",
+        "path": "data/curated/CliXO.yaml",
+        "name": "Clique extracted ontology",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "bioinformatics",
+          "biological",
+          "gene"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:CompetitiveLearning",
+        "path": "data/curated/CompetitiveLearning.yaml",
+        "name": "Competitive learning",
+        "concept_kind": "learning_paradigm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:ConvexMixtureInitializedGlobalKernelKMeans",
+        "path": "data/curated/ConvexMixtureInitializedGlobalKernelKMeans.yaml",
+        "name": "Global Kernel K-Means with Convex Mixture Models",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:CovariatePoweredCrossWeightedMultipleTesting",
+        "path": "data/curated/CovariatePoweredCrossWeightedMultipleTesting.yaml",
+        "name": "Covariate-powered cross-weighted multiple testing",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "genomic",
+          "genomics"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:DARTDifferentiablePromptFewShotTuning",
+        "path": "data/curated/DARTDifferentiablePromptFewShotTuning.yaml",
+        "name": "DART Differentiable Prompt Few-Shot Tuning",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biomedical"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:DBSCAN",
+        "path": "data/curated/DBSCAN.yaml",
+        "name": "DBSCAN",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:DefinitionFilteredGirvanNewman",
+        "path": "data/curated/DefinitionFilteredGirvanNewman.yaml",
+        "name": "Definition-filtered Girvan\u2013Newman community detection",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:Eclat",
+        "path": "data/curated/Eclat.yaml",
+        "name": "Eclat",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:ElasticNet",
+        "path": "data/curated/ElasticNet.yaml",
+        "name": "Elastic net",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:EstimationOfDistributionAlgorithms",
+        "path": "data/curated/EstimationOfDistributionAlgorithms.yaml",
+        "name": "Estimation of distribution algorithms",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "genes"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:ExactPoClustering",
+        "path": "data/curated/ExactPoClustering.yaml",
+        "name": "Exact PoClustering",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological",
+          "gene"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:ExemplarBasedConvexClustering",
+        "path": "data/curated/ExemplarBasedConvexClustering.yaml",
+        "name": "Exemplar-Based Convex Clustering",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:ExpectationMaximization",
+        "path": "data/curated/ExpectationMaximization.yaml",
+        "name": "Expectation maximization",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:FastGlobalKernelKMeans",
+        "path": "data/curated/FastGlobalKernelKMeans.yaml",
+        "name": "Fast Global Kernel K-Means",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation",
+        "path": "data/curated/FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation.yaml",
+        "name": "FedKD: Communication-Efficient Federated Learning via Knowledge Distillation",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biomedical"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:GENET",
+        "path": "data/curated/GENET.yaml",
+        "name": "GENET",
+        "concept_kind": "architecture",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "acronym_or_homonym"
+      },
+      {
+        "id": "AIMech:GammaNeuralModel",
+        "path": "data/curated/GammaNeuralModel.yaml",
+        "name": "Gamma neural model",
+        "concept_kind": "architecture",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:GaussianProcessRegression",
+        "path": "data/curated/GaussianProcessRegression.yaml",
+        "name": "Gaussian process regression",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:GeneticAlgorithm",
+        "path": "data/curated/GeneticAlgorithm.yaml",
+        "name": "Genetic algorithm",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:GirvanNewmanCommunityDetection",
+        "path": "data/curated/GirvanNewmanCommunityDetection.yaml",
+        "name": "Girvan\u2013Newman community detection",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:GloVe",
+        "path": "data/curated/GloVe.yaml",
+        "name": "GloVe",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:GlobalKernelKMeans",
+        "path": "data/curated/GlobalKernelKMeans.yaml",
+        "name": "Global Kernel K-Means",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:GradientBoosting",
+        "path": "data/curated/GradientBoosting.yaml",
+        "name": "Gradient boosting machine",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:GuidedGeneticAlgorithm",
+        "path": "data/curated/GuidedGeneticAlgorithm.yaml",
+        "name": "Guided Genetic Algorithm",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "gene"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:HACE",
+        "path": "data/curated/HACE.yaml",
+        "name": "HAC-E network clustering",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "bioinformatics",
+          "biological"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:HACES",
+        "path": "data/curated/HACES.yaml",
+        "name": "HAC-ES network clustering",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "bioinformatics",
+          "biological"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:HACML",
+        "path": "data/curated/HACML.yaml",
+        "name": "HAC-ML network clustering",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:HACQ",
+        "path": "data/curated/HACQ.yaml",
+        "name": "HAC-Q network clustering",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "bioinformatics",
+          "biological"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:HDBSCAN",
+        "path": "data/curated/HDBSCAN.yaml",
+        "name": "HDBSCAN",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:HelmholtzMachine",
+        "path": "data/curated/HelmholtzMachine.yaml",
+        "name": "Helmholtz machine",
+        "concept_kind": "architecture",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:HiddenMarkovModel",
+        "path": "data/curated/HiddenMarkovModel.yaml",
+        "name": "Hidden Markov model",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:HiddenMarkovModelWithAuxiliaryMemory",
+        "path": "data/curated/HiddenMarkovModelWithAuxiliaryMemory.yaml",
+        "name": "Hidden Markov model with auxiliary memory",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological",
+          "rna"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:ID3",
+        "path": "data/curated/ID3.yaml",
+        "name": "ID3",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:IECOConstrainedMixtureClassification",
+        "path": "data/curated/IECOConstrainedMixtureClassification.yaml",
+        "name": "IECO constrained elliptical-mixture classification",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:INLAGroupNodeConflictDiagnostic",
+        "path": "data/curated/INLAGroupNodeConflictDiagnostic.yaml",
+        "name": "INLA group node conflict diagnostic",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biomedical"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:InfomaxICA",
+        "path": "data/curated/InfomaxICA.yaml",
+        "name": "Infomax Independent Component Analysis",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:KMeans",
+        "path": "data/curated/KMeans.yaml",
+        "name": "k-means",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:KernelKMeans",
+        "path": "data/curated/KernelKMeans.yaml",
+        "name": "Kernel K-Means",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:LSvrgAndLKatyushaLooplessVarianceReducedGradientMethods",
+        "path": "data/curated/LSvrgAndLKatyushaLooplessVarianceReducedGradientMethods.yaml",
+        "name": "L-SVRG and L-Katyusha (Loopless Variance-Reduced Gradient Methods)",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "rna"
+        ],
+        "category": "acronym_or_homonym"
+      },
+      {
+        "id": "AIMech:LatentDirichletAllocation",
+        "path": "data/curated/LatentDirichletAllocation.yaml",
+        "name": "Latent Dirichlet allocation",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:LeastAngleRegression",
+        "path": "data/curated/LeastAngleRegression.yaml",
+        "name": "Least-angle regression",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:LeftTruncatedCauchyCombinationTest",
+        "path": "data/curated/LeftTruncatedCauchyCombinationTest.yaml",
+        "name": "Left-truncated Cauchy combination test",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "gene",
+          "genes"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:LinearDiscriminantAnalysis",
+        "path": "data/curated/LinearDiscriminantAnalysis.yaml",
+        "name": "Linear discriminant analysis",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:MarkovDecisionProcess",
+        "path": "data/curated/MarkovDecisionProcess.yaml",
+        "name": "Markov decision process",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:MarkovRandomField",
+        "path": "data/curated/MarkovRandomField.yaml",
+        "name": "Markov random field",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:MeanShift",
+        "path": "data/curated/MeanShift.yaml",
+        "name": "Mean shift",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:MixedMembershipModelForScientificPublications",
+        "path": "data/curated/MixedMembershipModelForScientificPublications.yaml",
+        "name": "Mixed-membership model for scientific publications",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:MoRA",
+        "path": "data/curated/MoRA.yaml",
+        "name": "MoRA",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biomedical"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:NaiveBayes",
+        "path": "data/curated/NaiveBayes.yaml",
+        "name": "Naive Bayes",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:NeXOOntologyAlignment",
+        "path": "data/curated/NeXOOntologyAlignment.yaml",
+        "name": "NeXO ontology alignment",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological",
+          "gene"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:NeXOOntologyConstruction",
+        "path": "data/curated/NeXOOntologyConstruction.yaml",
+        "name": "NeXO ontology construction",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "gene"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:OPTICS",
+        "path": "data/curated/OPTICS.yaml",
+        "name": "OPTICS",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:OjaLearningRule",
+        "path": "data/curated/OjaLearningRule.yaml",
+        "name": "Oja Learning Rule",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting",
+        "path": "data/curated/OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml",
+        "name": "Optimal Spj\u00f8tvoll and sieve-grouped p-value weighting",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "genome"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:PARADEPassageRepresentationAggregationForDocumentReranking",
+        "path": "data/curated/PARADEPassageRepresentationAggregationForDocumentReranking.yaml",
+        "name": "PARADE: Passage Representation Aggregation for Document Reranking",
+        "concept_kind": "architecture",
+        "matched_terms": [
+          "genomics"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:PHATE",
+        "path": "data/curated/PHATE.yaml",
+        "name": "PHATE",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:PartialLeastSquaresRegression",
+        "path": "data/curated/PartialLeastSquaresRegression.yaml",
+        "name": "Partial least squares regression",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:PartiallyObservableMarkovDecisionProcess",
+        "path": "data/curated/PartiallyObservableMarkovDecisionProcess.yaml",
+        "name": "Partially observable Markov decision process",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:ParticleSwarmOptimization",
+        "path": "data/curated/ParticleSwarmOptimization.yaml",
+        "name": "Particle swarm optimization",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:PoClusteringEdgeCliqueCover",
+        "path": "data/curated/PoClusteringEdgeCliqueCover.yaml",
+        "name": "PoClustering edge-clique-cover heuristic",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:ProductOfStudentT",
+        "path": "data/curated/ProductOfStudentT.yaml",
+        "name": "Product of Student-t",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:QuadraticDiscriminantAnalysis",
+        "path": "data/curated/QuadraticDiscriminantAnalysis.yaml",
+        "name": "Quadratic discriminant analysis",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:QuadraticPoissonGraphicalModel",
+        "path": "data/curated/QuadraticPoissonGraphicalModel.yaml",
+        "name": "Quadratic Poisson graphical model",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:RadicchiEdgeClustering",
+        "path": "data/curated/RadicchiEdgeClustering.yaml",
+        "name": "Radicchi edge-clustering community detection",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:RandomizedLatentScoreConflictDiagnostic",
+        "path": "data/curated/RandomizedLatentScoreConflictDiagnostic.yaml",
+        "name": "Randomized latent score conflict diagnostic",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biomedical"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:RegularizedEvolution",
+        "path": "data/curated/RegularizedEvolution.yaml",
+        "name": "Regularized Evolution",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "gene"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:RegularizedNonlinearAccelerationOfFixedPointIterations",
+        "path": "data/curated/RegularizedNonlinearAccelerationOfFixedPointIterations.yaml",
+        "name": "Regularized Nonlinear Acceleration of Fixed-Point Iterations",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "rna"
+        ],
+        "category": "acronym_or_homonym"
+      },
+      {
+        "id": "AIMech:SigmoidBeliefNetwork",
+        "path": "data/curated/SigmoidBeliefNetwork.yaml",
+        "name": "Sigmoid belief network",
+        "concept_kind": "architecture",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:Stacking",
+        "path": "data/curated/Stacking.yaml",
+        "name": "Stacking",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:Stigmergy",
+        "path": "data/curated/Stigmergy.yaml",
+        "name": "Stigmergy",
+        "concept_kind": "coordination_mechanism",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:StochasticGradientDescent",
+        "path": "data/curated/StochasticGradientDescent.yaml",
+        "name": "Stochastic gradient descent",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:SublinearPoissonGraphicalModel",
+        "path": "data/curated/SublinearPoissonGraphicalModel.yaml",
+        "name": "Sublinear Poisson graphical model",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:SupervisedPrincipalComponents",
+        "path": "data/curated/SupervisedPrincipalComponents.yaml",
+        "name": "Supervised Principal Components",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological",
+          "gene"
+        ],
+        "category": "downstream_dataset_context"
+      },
+      {
+        "id": "AIMech:SwarmIntelligence",
+        "path": "data/curated/SwarmIntelligence.yaml",
+        "name": "Swarm intelligence",
+        "concept_kind": "computational_paradigm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:TopographicICA",
+        "path": "data/curated/TopographicICA.yaml",
+        "name": "Topographic Independent Component Analysis",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:TruncatedPoissonGraphicalModel",
+        "path": "data/curated/TruncatedPoissonGraphicalModel.yaml",
+        "name": "Truncated Poisson graphical model",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:UnivariateMarginalDistributionAlgorithm",
+        "path": "data/curated/UnivariateMarginalDistributionAlgorithm.yaml",
+        "name": "Univariate marginal distribution algorithm",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "genes"
+        ],
+        "category": "bio_inspired_metaphor"
+      },
+      {
+        "id": "AIMech:VotingClassifier",
+        "path": "data/curated/VotingClassifier.yaml",
+        "name": "Voting classifier",
+        "concept_kind": "model_family",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:WakeSleepAlgorithm",
+        "path": "data/curated/WakeSleepAlgorithm.yaml",
+        "name": "Wake-sleep algorithm",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:ZhouAttractorCommunityDetection",
+        "path": "data/curated/ZhouAttractorCommunityDetection.yaml",
+        "name": "Zhou first-passage attractor community detection",
+        "concept_kind": "algorithm",
+        "matched_terms": [
+          "biological",
+          "protein"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      },
+      {
+        "id": "AIMech:ZhouRandomWalkDissimilarity",
+        "path": "data/curated/ZhouRandomWalkDissimilarity.yaml",
+        "name": "Zhou random-walk distance-profile dissimilarity",
+        "concept_kind": "mathematical_method",
+        "matched_terms": [
+          "biological",
+          "protein"
+        ],
+        "category": "negative_scope_or_benchmark_disclaimer"
+      }
+    ]
+  },
+  "ontology_and_entity_boundary_distinction": {
+    "zero_uniprot_prefixes_or_slots": "All 3 LinkML schema modules (src/aimech/schema/aimech.yaml, src/aimech/schema/curated_concept.yaml, src/aimech/schema/mech_shared.yaml) declare 0 biological entity prefixes (UniProt, UniProtKB, HGNC, NCBIGene, GO, PR, PDB) and 0 protein-example or gene-example slots. In mech_shared.yaml, the word 'protein' appears only in cross-fleet docstrings warning that 'Sharing a protein or a reaction supplies a curation lead, not an assertion of record equivalence or biological mechanism' and in DatasetTypeEnum.PROTEOMICS (an unimported class in AIMech records).",
+    "aio_taxonomic_and_mereological_axioms": "442 parents edges and 71 BFO:0000051 ('has part') relationships across 442 generated AIO records classify AI layers, models, networks, tasks, mathematical functions, preprocessing methods, training strategies, and biases; 0 AIO records mention UniProt or proteins, and only 3 AIO records (AIO:ArtificialNeuralNetwork, AIO:SpikingHiddenLayer, AIO:SurvivalAnalysis) mention 'biological' to contrast artificial neural units with biological neurons or note time-to-event subjects.",
+    "curated_protein_term_occurrences_are_limitation_disclaimers": "Across all 1,487 maintained curated AI-concept records, 0 records contain UniProt accessions/CURIEs and only 3 records (AIMech:BrandesPichPivotCentralityEstimation, AIMech:ZhouAttractorCommunityDetection, AIMech:ZhouRandomWalkDissimilarity) mention the token 'protein'. In all 3 records, the token appears strictly inside kind='limitation' claims noting that historical benchmark evaluations on yeast protein-interaction networks do not establish biological-function prediction, protein transport/essentiality mechanisms, or causal biology.",
+    "broad_biological_term_classification": "Across all 95 curated records matching broad biological/bioinformatics/genomic/biomedical tokens, every match falls into one of four mutually exclusive non-protein-instance categories: (1) explicit negative-scope or benchmark disclaimers in limitations or claims (62 records, including the 3 historical yeast protein-interaction network disclaimers); (2) bio-inspired optimization/neural-learning metaphors where 'genes' or 'biological' denote candidate solution encodings or heuristics (10 records, e.g. GeneticAlgorithm, GuidedGeneticAlgorithm, EstimationOfDistributionAlgorithms, RegularizedEvolution, OjaLearningRule, SwarmIntelligence); (3) acronym/homonym collisions (3 records: 'RNA' = Regularized Nonlinear Acceleration in RegularizedNonlinearAccelerationOfFixedPointIterations and LSvrgAndLKatyushaLooplessVarianceReducedGradientMethods; 'GENET' = constraint-satisfaction neural network); and (4) downstream biomedical/genomic/ontology evaluation dataset contexts for general-purpose statistical, graph-clustering, or NLP methods (20 records, e.g. CliXO, NeXOOntologyAlignment, NeXOOntologyConstruction, HACE, HACES, HACQ, CovariatePoweredCrossWeightedMultipleTesting, LeftTruncatedCauchyCombinationTest, SupervisedPrincipalComponents, HiddenMarkovModelWithAuxiliaryMemory)."
+  },
+  "future_representation_assessment": {
+    "biological_uniprot_protein_examples": "not_applicable",
+    "candidate_native_analog": "Biological UniProt protein examples do not apply to AIMech's AI-concept domain or LinkML schemas. Even if AIMech later curates AI architectures designed for computational biology (such as protein language models or equivariant structure-prediction networks), those records will represent the mathematical/algorithmic architecture or model family under CuratedAIConcept (with benchmark datasets captured in EvaluationContext.dataset_and_split when performance claims are curated), never biological UniProt protein records or molecular mechanism assertions. Stage 3 (protein_examples) should remain not_applicable in workflow/mech-workflow.yaml."
+  },
+  "script_path": "research/validation/20261104T091000Z-protein-examples-applicability-audit.py",
+  "script_sha256": "217b5344c0aaff7d4d871e072c4cf8dd0f8117f09d940c25d4b36bf0e0ec93ec"
+}
