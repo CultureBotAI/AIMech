@@ -1,0 +1,608 @@
+# Stage 2 applicability audit of causal mechanism graphs across AIMech LinkML schemas and 1,929-record AI-concept corpus
+
+- Review: 20261025T054200Z-causal-graph-applicability-audit
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-25T05:25:00Z
+- Finished UTC: 2026-10-25T05:42:00Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Causal mechanism graphs (biological pathways, upstream/downstream regulatory edges, and UniProt protein/gene examples) remain not_applicable to AIMech's native AI-concept domain and LinkML schemas. A deterministic full-corpus and schema audit (research/validation/20261025T052500Z-causal-graph-applicability-audit.py and .json) across all three LinkML schema modules (src/aimech/schema/aimech.yaml, src/aimech/schema/curated_concept.yaml, src/aimech/schema/mech_shared.yaml) and all 1,929 YAML corpus records (442 generated data/aio/*.yaml records and 1,487 maintained data/curated/*.yaml records) confirms zero causal-graph classes or slots exist in the schema and zero records carry causal-graph fields. The audit preserves the five-part ontology-versus-causality boundary: (1) 442 taxonomic parents edges in data/aio, (2) 71 mereological BFO:0000051 (has part) relationships across 26 data/aio records explicitly defined as non-causal ontology axioms, (3) 1,822 conceptual vocabulary mappings across 1,338 curated records plus 149 explicit aio_no_match records, (4) 2,793 prose mechanism claims (out of 5,149 total claims backed by 3,269 primary evidence sources) specifying mathematical/algorithmic computations rather than biological pathways, and (5) 6 AIO and 80 curated records referencing causal inference, counterfactual fairness, Bayesian networks/PGMs, or autoregressive/DAG operators as AI methodological subject matter.
+
+## Scope And Provenance
+
+Full-corpus and LinkML schema applicability audit of Stage 2 (causal_graphs) across src/aimech/schema/aimech.yaml, src/aimech/schema/curated_concept.yaml, src/aimech/schema/mech_shared.yaml, all 442 generated data/aio/*.yaml records, and all 1,487 maintained data/curated/*.yaml records.
+
+Selection: All 3 AIMech LinkML schema modules plus the deterministic full-corpus (1,929 records) causal-graph applicability audit bundle
+Coverage: full; 4 reviewed / 4 in the declared population.
+Source: working_tree at Git base 621a86ea8e79b0c97585f978b771f5b024a8f691.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:schema-aimech | src/aimech/schema/aimech.yaml | maintained | AIMech generated AIO concept LinkML schema |
+| AIMech:schema-curated-concept | src/aimech/schema/curated_concept.yaml | maintained | AIMech maintained curated AI concept LinkML schema |
+| AIMech:schema-mech-shared | src/aimech/schema/mech_shared.yaml | maintained | Imported cross-Mech shared provenance LinkML schema |
+| AIMech:causal-graph-applicability-audit | research/validation/20261025T052500Z-causal-graph-applicability-audit.json | maintained | Full-corpus (1,929 records) and schema causal mechanism graph applicability audit |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech corpus, curated, seed, and history validation suite | passed | True | AIMech:schema-aimech, AIMech:schema-curated-concept, AIMech:schema-mech-shared, AIMech:causal-graph-applicability-audit | Checked 442 record(s); 0 failed.<br>Checked 1487 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 1125 history record(s); 0 error(s).<br> |
+| check_vendored_sync.py | passed | True | AIMech:schema-mech-shared, AIMech:causal-graph-applicability-audit | OK: 22 governed artifacts match the pinned claw revision<br> |
+| aimech check-source | passed | True | AIMech:schema-aimech, AIMech:causal-graph-applicability-audit | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:schema-aimech, AIMech:schema-curated-concept, AIMech:schema-mech-shared, AIMech:causal-graph-applicability-audit | Exited 0 without output. |
+| pytest tests/test_curated.py | passed | True | AIMech:schema-curated-concept, AIMech:causal-graph-applicability-audit | ..............................................                           [100%]<br>46 passed in 3.24s<br> |
+| Deterministic full-corpus and schema causal-graph applicability audit | passed | True | AIMech:schema-aimech, AIMech:schema-curated-concept, AIMech:schema-mech-shared, AIMech:causal-graph-applicability-audit | Audited 3 LinkML schema modules and 1,929 YAML corpus records (442 AIO + 1,487 curated); 0 causal-graph candidate slots in schemas, 0 records with causal-graph slots, applicability=not_applicable. |
+| post-save structured review corpus check | skipped | False | AIMech:causal-graph-applicability-audit | Skipped at the moment this review input YAML is serialized prior to &#96;record_review.py save&#96;; executed as a mandatory post-save gate immediately after &#96;record_review.py save&#96; writes &#96;reviews/structured/20261025T054200Z-causal-graph-applicability-audit/review.yaml&#96; and &#96;review.md&#96;. |
+
+## Scientific And Domain Assessments
+
+### Absence of biological or physical causal-mechanism-graph slots across AIMech LinkML schemas
+
+schema: supported. Targets: AIMech:schema-aimech, AIMech:schema-curated-concept, AIMech:schema-mech-shared.
+
+All three LinkML schema modules (src/aimech/schema/aimech.yaml, src/aimech/schema/curated_concept.yaml, and src/aimech/schema/mech_shared.yaml) define zero causal-mechanism-graph, pathway, upstream/downstream regulatory, or gene/protein instance slots. Both native schemas explicitly separate ontological classification and algorithmic specifications from empirical causal claims.
+
+### Preservation of the five-part ontology-versus-causality distinction across all 1,929 AIMech corpus records
+
+representation: supported. Targets: AIMech:schema-aimech, AIMech:schema-curated-concept, AIMech:causal-graph-applicability-audit.
+
+Across all 1,929 corpus records (442 generated AIO records and 1,487 maintained curated records), zero records contain causal-graph fields. Taxonomic parents (442 edges), mereological BFO:0000051 has-part axioms (71 edges across 26 AIO records), AIO vocabulary mappings (1,822 mappings across 1,338 curated records plus 149 aio_no_match records), prose algorithmic/mathematical mechanism claims (2,793 claims), and AI causal-inference/graphical-model subject matter (6 AIO and 80 curated records) are rigorously distinguished from biological causal mechanism graphs.
+
+### Evaluation of candidate AI-native graph representations and Stage 2 objective retention
+
+scope: supported. Targets: AIMech:schema-aimech, AIMech:schema-curated-concept, AIMech:schema-mech-shared, AIMech:causal-graph-applicability-audit.
+
+No applicable causal-mechanism-graph representation exists in AIMech's current schemas or corpus, and inventing biological data or unsupported fields would violate repository constraints. Any hypothetical future addition of structured algorithmic operator-composition or mathematical dependency graphs would represent formal computational composition rather than empirical causal mechanism and would require an explicit LinkML schema review before replacing Stage 2's applicability audit objective.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| schema-aimech-ev | src/aimech/schema/aimech.yaml; lines 1-235 (description, AIConcept, ConceptRelationship, RelationshipPredicate) | supports | Defines AIConcept (16 slots) and ConceptRelationship (predicate BFO:0000051 only) for generated AIO records. Explicitly states that ontology membership does not establish causal mechanism and that BFO:0000051 (has part) is an exported ontology axiom, not evidence of causal effect. Contains zero causal-graph slots. |
+| schema-curated-ev | src/aimech/schema/curated_concept.yaml; lines 1-306 (CuratedAIConcept, ConceptClaim, ConceptKind, ClaimKind, AIOMapping) | supports | Defines CuratedAIConcept (16 slots), ConceptKind (14 AI/ML/statistical methodological kinds), and ClaimKind (application, limitation, mechanism, performance, scope). Mechanism claims capture prose mathematical/algorithmic operational principles backed by primary literature citations rather than biological causal mechanism graphs. Contains zero causal-graph slots. |
+| schema-shared-ev | src/aimech/schema/mech_shared.yaml; lines 1-225 (Discussion, ProposedExperiment, Dataset, CrossCorpusLink, SupportingReference) | supports | Vendored cross-fleet shared provenance schema imported by aimech.yaml for AIConcept.discussions. Although Discussion.attaches_to mentions causal_graphs#edge_x as a cross-fleet docstring example, mech_shared.yaml defines zero causal-graph classes or slots and 0/442 AIMech AIO records populate discussions. |
+| audit-script | research/validation/20261025T052500Z-causal-graph-applicability-audit.py; lines 1-395 (build_audit_report, audit_schema, audit_aio_corpus, audit_curated_corpus) | supports | Deterministic Python audit script inspecting all 3 LinkML schema modules, all 442 generated data/aio/*.yaml records, and all 1,487 maintained data/curated/*.yaml records for candidate causal-graph slots, relationship predicates, claim kinds, and causal/graphical subject-matter terminology. |
+| audit-json | research/validation/20261025T052500Z-causal-graph-applicability-audit.json; applicability, corpus_totals, aio_corpus_audit, curated_corpus_audit, ontology_vs_causality_boundary | supports | Structured JSON output confirming 1,929 total records (442 AIO + 1,487 curated), 0 candidate causal-graph slots in schemas or records, 71 BFO:0000051 mereological edges across 26 AIO records, 1,822 AIO mappings across 1,338 curated records (+ 149 aio_no_match), 5,149 curated claims (2,793 mechanism), and 6 AIO + 80 curated records treating causal/graphical models as AI/statistical subject matter. |
+| corpus-search | research/validation/20261025T052500Z-causal-graph-applicability-audit.md; Sections 2-5 | supports | Full-corpus slot and regex search across all 442 data/aio/*.yaml and 1,487 data/curated/*.yaml files (including representative records AIO:CausalGraphicalModel, AIO:BayesianNetwork, AIO:CausalLLM, AIO:ResidualNeuralNetwork, AIMech:CounterfactualFairness, AIMech:ContinuousTimeBayesianNetwork, AIMech:FairLearning, AIMech:PriorExpansionScoreConflictDiagnostic, AIMech:RetNet, AIMech:ZhouRandomWalkDissimilarity) confirming that causal/graphical terms denote AI/statistical methodology rather than biological causal mechanism graphs. |
+| validation-suite | workflow/mech-workflow.yaml; stage_overrides.causal_graphs (lines 22-29) | supports | All AIMech validation checks passed (442 AIO records, 1,487 curated records, 1,125 history records, 22 governed artifacts, 46 curated pytest tests) and workflow/mech-workflow.yaml validates cleanly with causal_graphs applicability: not_applicable. |
+
+## Limits And Additional Notes
+
+- Author self-review of the Stage 2 full-corpus and schema causal-graph applicability audit; independent adversarial PR review is required prior to merge.
+- Full-corpus inventory inspects schema structure, slot usage, predicate distributions, and causal/graphical terminology across all 1,929 records rather than re-verifying every individual primary-source paper locator across all 5,149 curated claims.
+- Corroborates and expands infrastructure task aimech-infra-0002 (https://github.com/CultureBotAI/AIMech/issues/431) from 1,922 records at Cycle 1 Stage 1 to all 1,929 records (442 data/aio/*.yaml + 1,487 data/curated/*.yaml) at Cycle 1 Stage 2.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261025T054200Z-causal-graph-applicability-audit
+kind: repository
+repository: CultureBotAI/AIMech
+title: Stage 2 applicability audit of causal mechanism graphs across AIMech LinkML
+  schemas and 1,929-record AI-concept corpus
+started_at: '2026-10-25T05:25:00Z'
+finished_at: '2026-10-25T05:42:00Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini 4 Argon
+  independence: self_review
+  independence_basis: Author self-review of the Stage 2 (causal_graphs) full-corpus
+    and LinkML schema applicability audit for run mech-goal-sequence-20261019, cycle
+    1, stage 2; does not substitute for independent adversarial PR review.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: 'Causal mechanism graphs (biological pathways, upstream/downstream regulatory
+  edges, and UniProt protein/gene examples) remain not_applicable to AIMech''s native
+  AI-concept domain and LinkML schemas. A deterministic full-corpus and schema audit
+  (research/validation/20261025T052500Z-causal-graph-applicability-audit.py and .json)
+  across all three LinkML schema modules (src/aimech/schema/aimech.yaml, src/aimech/schema/curated_concept.yaml,
+  src/aimech/schema/mech_shared.yaml) and all 1,929 YAML corpus records (442 generated
+  data/aio/*.yaml records and 1,487 maintained data/curated/*.yaml records) confirms
+  zero causal-graph classes or slots exist in the schema and zero records carry causal-graph
+  fields. The audit preserves the five-part ontology-versus-causality boundary: (1)
+  442 taxonomic parents edges in data/aio, (2) 71 mereological BFO:0000051 (has part)
+  relationships across 26 data/aio records explicitly defined as non-causal ontology
+  axioms, (3) 1,822 conceptual vocabulary mappings across 1,338 curated records plus
+  149 explicit aio_no_match records, (4) 2,793 prose mechanism claims (out of 5,149
+  total claims backed by 3,269 primary evidence sources) specifying mathematical/algorithmic
+  computations rather than biological pathways, and (5) 6 AIO and 80 curated records
+  referencing causal inference, counterfactual fairness, Bayesian networks/PGMs, or
+  autoregressive/DAG operators as AI methodological subject matter.'
+source:
+  git_revision: 621a86ea8e79b0c97585f978b771f5b024a8f691
+  state: working_tree
+  inputs:
+  - path: INFRA_TASKS.md
+    sha256: 82644ab4ea07efb99f9767b5fde0a9289111e2e85c272adbdc386aae645d0743
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/CausalLLM.yaml
+    sha256: 8ec50ab9a625008567463f70b4a2a1e0cb2cf07c8053d38d6a88e12106dfce49
+    role: context
+  - path: data/aio/LargeLanguageModel.yaml
+    sha256: c42857d8c03893388dc87797ca1eaba6cac0d0da0d97e75f782016dbc1d976aa
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ResidualNeuralNetwork.yaml
+    sha256: 46855f48bc672169007ca212c92ee049f8089e649db9cfa272a3df61fa98ab3e
+    role: context
+  - path: data/curated/ContinuousTimeBayesianNetwork.yaml
+    sha256: 0d1266ecc3e05dcd8baaf1c76e9fd7f4a447b5353001f7438754514ebb1bd975
+    role: context
+  - path: data/curated/CounterfactualFairness.yaml
+    sha256: 552311fbde194bd5b29821e0568ac33bdec4663c5c835422dddafbd7d656af63
+    role: context
+  - path: data/curated/FairLearning.yaml
+    sha256: 0cc2bb8f337e1d3c6e1ae1866aa7075120c9077686a03f571b004347d5341ef8
+    role: context
+  - path: data/curated/PriorExpansionScoreConflictDiagnostic.yaml
+    sha256: a4273d15d5b0aab65f1e895e0600f1a0e528c3b49faa328024f1e326e1e59c29
+    role: context
+  - path: data/curated/RetNet.yaml
+    sha256: fb26fa47d854bd3f2109dcaa04ed72a4e4aed472376482ce40573b2bdc8af445
+    role: context
+  - path: data/curated/ZhouRandomWalkDissimilarity.yaml
+    sha256: 6f454bccc8f4836f493967732cc2bb1925a4fef13dad52880cda1332edf52497
+    role: context
+  - path: history/reports/causal-graph-applicability-audit/2026-10-25T053457Z-antigravity-59d88b.yaml
+    sha256: df9328151b94497433849b420340f42aab323042dea6743e87c0805a8a65a0e8
+    role: context
+  - path: research/validation/20261025T052500Z-causal-graph-applicability-audit.json
+    sha256: ad8426af19ac80c8854681d2c2653b32ce5e6af74a0f426eb2363c8bd758f60c
+    role: target
+  - path: research/validation/20261025T052500Z-causal-graph-applicability-audit.md
+    sha256: 3c5511ed4b8c6e58a6cc1f49d53c4ba5b790f1eda05c22272cab2391392f6fea
+    role: context
+  - path: research/validation/20261025T052500Z-causal-graph-applicability-audit.py
+    sha256: 12b815009c3e567e9c5022b1999d57ae7e21853da8cca1443bb47589c0e09c25
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/aimech.yaml
+    sha256: 5a54dafe2fc17bc027e14bc3a2829b265cbb34427ad58eef63fe99616e17b852
+    role: target
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: target
+  - path: src/aimech/schema/mech_shared.yaml
+    sha256: c2e7054fd32635e380c698282bd886a9105861009b9f0474f02bb1b80865e895
+    role: target
+  - path: workflow/mech-workflow.yaml
+    sha256: 1f4575151090b50346fa5b8e75b9bfa0ef42b189350ba2d772516de6431671f8
+    role: context
+targets:
+- target_id: AIMech:schema-aimech
+  path: src/aimech/schema/aimech.yaml
+  label: AIMech generated AIO concept LinkML schema
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: src/aimech/schema/aimech.yaml
+    role: maintained
+- target_id: AIMech:schema-curated-concept
+  path: src/aimech/schema/curated_concept.yaml
+  label: AIMech maintained curated AI concept LinkML schema
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: src/aimech/schema/curated_concept.yaml
+    role: maintained
+- target_id: AIMech:schema-mech-shared
+  path: src/aimech/schema/mech_shared.yaml
+  label: Imported cross-Mech shared provenance LinkML schema
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: src/aimech/schema/mech_shared.yaml
+    role: maintained
+- target_id: AIMech:causal-graph-applicability-audit
+  path: research/validation/20261025T052500Z-causal-graph-applicability-audit.json
+  label: Full-corpus (1,929 records) and schema causal mechanism graph applicability
+    audit
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/validation/20261025T052500Z-causal-graph-applicability-audit.py
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/validation/20261025T052500Z-causal-graph-applicability-audit.json
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/validation/20261025T052500Z-causal-graph-applicability-audit.md
+    role: maintained
+scope:
+  description: Full-corpus and LinkML schema applicability audit of Stage 2 (causal_graphs)
+    across src/aimech/schema/aimech.yaml, src/aimech/schema/curated_concept.yaml,
+    src/aimech/schema/mech_shared.yaml, all 442 generated data/aio/*.yaml records,
+    and all 1,487 maintained data/curated/*.yaml records.
+  selection: All 3 AIMech LinkML schema modules plus the deterministic full-corpus
+    (1,929 records) causal-graph applicability audit bundle
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:schema-aimech
+  - AIMech:schema-curated-concept
+  - AIMech:schema-mech-shared
+  - AIMech:causal-graph-applicability-audit
+  exclusions:
+  - target: Record-by-record primary-literature line re-verification across all 1,487
+      curated records
+    reason: Stage 2 audits schema and full-corpus causal-graph applicability and ontology/causality
+      boundaries rather than re-reviewing every individual paper locator across all
+      5,149 claims.
+  - target: Hypothetical future operator-composition or computational dependency graph
+      schema extensions
+    reason: Assessed as conceptual future candidates only; no schema mutation or biological
+      data fabrication is authorized in Stage 2.
+checks:
+- check_id: required-0
+  name: aimech corpus, curated, seed, and history validation suite
+  command: PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate && PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-curated && PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli seed --check && PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-history --base origin/main
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:schema-aimech
+  - AIMech:schema-curated-concept
+  - AIMech:schema-mech-shared
+  - AIMech:causal-graph-applicability-audit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 442 record(s); 0 failed.
+
+    Checked 1487 curated concept record(s); 0 error(s).
+
+    AIO: 442 records; 0 missing, 0 changed, 0 unexpected.
+
+    Checked 1125 history record(s); 0 error(s).
+
+    '
+  evidence_ids:
+  - validation-suite
+- check_id: required-1
+  name: check_vendored_sync.py
+  command: PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    scripts/check_vendored_sync.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:schema-mech-shared
+  - AIMech:causal-graph-applicability-audit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    '
+  evidence_ids:
+  - validation-suite
+- check_id: required-2
+  name: aimech check-source
+  command: PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:schema-aimech
+  - AIMech:causal-graph-applicability-audit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+  evidence_ids:
+  - validation-suite
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:schema-aimech
+  - AIMech:schema-curated-concept
+  - AIMech:schema-mech-shared
+  - AIMech:causal-graph-applicability-audit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+  evidence_ids:
+  - validation-suite
+- check_id: curated-pytest
+  name: pytest tests/test_curated.py
+  command: PYTHONPATH=src /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python
+    -m pytest tests/test_curated.py -q
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:schema-curated-concept
+  - AIMech:causal-graph-applicability-audit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '..............................................                           [100%]
+
+    46 passed in 3.24s
+
+    '
+  evidence_ids:
+  - validation-suite
+- check_id: causal-graph-audit-script
+  name: Deterministic full-corpus and schema causal-graph applicability audit
+  command: /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python research/validation/20261025T052500Z-causal-graph-applicability-audit.py
+    --output research/validation/20261025T052500Z-causal-graph-applicability-audit.json
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:schema-aimech
+  - AIMech:schema-curated-concept
+  - AIMech:schema-mech-shared
+  - AIMech:causal-graph-applicability-audit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Audited 3 LinkML schema modules and 1,929 YAML corpus records (442 AIO
+    + 1,487 curated); 0 causal-graph candidate slots in schemas, 0 records with causal-graph
+    slots, applicability=not_applicable.
+  evidence_ids:
+  - audit-json
+  - audit-script
+- check_id: post-save-review-check
+  name: post-save structured review corpus check
+  command: /Users/marcin/Documents/VIMSS/ontology/Mechs/AIMech/.venv/bin/python scripts/record_review.py
+    --repo-root . --schema schema/record_review.yaml check --base origin/main
+  status: skipped
+  required: false
+  target_ids:
+  - AIMech:causal-graph-applicability-audit
+  summary: Skipped at the moment this review input YAML is serialized prior to `record_review.py
+    save`; executed as a mandatory post-save gate immediately after `record_review.py
+    save` writes `reviews/structured/20261025T054200Z-causal-graph-applicability-audit/review.yaml`
+    and `review.md`.
+evidence:
+- evidence_id: schema-aimech-ev
+  kind: record_content
+  reference: src/aimech/schema/aimech.yaml
+  locator: lines 1-235 (description, AIConcept, ConceptRelationship, RelationshipPredicate)
+  accessed_at: '2026-10-25T05:35:00Z'
+  snapshot_sha256: 5a54dafe2fc17bc027e14bc3a2829b265cbb34427ad58eef63fe99616e17b852
+  support: supports
+  summary: Defines AIConcept (16 slots) and ConceptRelationship (predicate BFO:0000051
+    only) for generated AIO records. Explicitly states that ontology membership does
+    not establish causal mechanism and that BFO:0000051 (has part) is an exported
+    ontology axiom, not evidence of causal effect. Contains zero causal-graph slots.
+- evidence_id: schema-curated-ev
+  kind: record_content
+  reference: src/aimech/schema/curated_concept.yaml
+  locator: lines 1-306 (CuratedAIConcept, ConceptClaim, ConceptKind, ClaimKind, AIOMapping)
+  accessed_at: '2026-10-25T05:35:00Z'
+  snapshot_sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+  support: supports
+  summary: Defines CuratedAIConcept (16 slots), ConceptKind (14 AI/ML/statistical
+    methodological kinds), and ClaimKind (application, limitation, mechanism, performance,
+    scope). Mechanism claims capture prose mathematical/algorithmic operational principles
+    backed by primary literature citations rather than biological causal mechanism
+    graphs. Contains zero causal-graph slots.
+- evidence_id: schema-shared-ev
+  kind: record_content
+  reference: src/aimech/schema/mech_shared.yaml
+  locator: lines 1-225 (Discussion, ProposedExperiment, Dataset, CrossCorpusLink,
+    SupportingReference)
+  accessed_at: '2026-10-25T05:35:00Z'
+  snapshot_sha256: c2e7054fd32635e380c698282bd886a9105861009b9f0474f02bb1b80865e895
+  support: supports
+  summary: Vendored cross-fleet shared provenance schema imported by aimech.yaml for
+    AIConcept.discussions. Although Discussion.attaches_to mentions causal_graphs#edge_x
+    as a cross-fleet docstring example, mech_shared.yaml defines zero causal-graph
+    classes or slots and 0/442 AIMech AIO records populate discussions.
+- evidence_id: audit-script
+  kind: validation
+  reference: research/validation/20261025T052500Z-causal-graph-applicability-audit.py
+  locator: lines 1-395 (build_audit_report, audit_schema, audit_aio_corpus, audit_curated_corpus)
+  accessed_at: '2026-10-25T05:40:00Z'
+  snapshot_sha256: 12b815009c3e567e9c5022b1999d57ae7e21853da8cca1443bb47589c0e09c25
+  support: supports
+  summary: Deterministic Python audit script inspecting all 3 LinkML schema modules,
+    all 442 generated data/aio/*.yaml records, and all 1,487 maintained data/curated/*.yaml
+    records for candidate causal-graph slots, relationship predicates, claim kinds,
+    and causal/graphical subject-matter terminology.
+- evidence_id: audit-json
+  kind: validation
+  reference: research/validation/20261025T052500Z-causal-graph-applicability-audit.json
+  locator: applicability, corpus_totals, aio_corpus_audit, curated_corpus_audit, ontology_vs_causality_boundary
+  accessed_at: '2026-10-25T05:40:00Z'
+  snapshot_sha256: ad8426af19ac80c8854681d2c2653b32ce5e6af74a0f426eb2363c8bd758f60c
+  support: supports
+  summary: Structured JSON output confirming 1,929 total records (442 AIO + 1,487
+    curated), 0 candidate causal-graph slots in schemas or records, 71 BFO:0000051
+    mereological edges across 26 AIO records, 1,822 AIO mappings across 1,338 curated
+    records (+ 149 aio_no_match), 5,149 curated claims (2,793 mechanism), and 6 AIO
+    + 80 curated records treating causal/graphical models as AI/statistical subject
+    matter.
+- evidence_id: corpus-search
+  kind: search
+  reference: research/validation/20261025T052500Z-causal-graph-applicability-audit.md
+  locator: Sections 2-5
+  accessed_at: '2026-10-25T05:41:00Z'
+  snapshot_sha256: 3c5511ed4b8c6e58a6cc1f49d53c4ba5b790f1eda05c22272cab2391392f6fea
+  support: supports
+  summary: Full-corpus slot and regex search across all 442 data/aio/*.yaml and 1,487
+    data/curated/*.yaml files (including representative records AIO:CausalGraphicalModel,
+    AIO:BayesianNetwork, AIO:CausalLLM, AIO:ResidualNeuralNetwork, AIMech:CounterfactualFairness,
+    AIMech:ContinuousTimeBayesianNetwork, AIMech:FairLearning, AIMech:PriorExpansionScoreConflictDiagnostic,
+    AIMech:RetNet, AIMech:ZhouRandomWalkDissimilarity) confirming that causal/graphical
+    terms denote AI/statistical methodology rather than biological causal mechanism
+    graphs.
+  search_scope: All 3 LinkML schema files in src/aimech/schema/, all 442 generated
+    YAML records in data/aio/, and all 1,487 maintained YAML records in data/curated/
+    (tracked repository files; gitignored files excluded).
+- evidence_id: validation-suite
+  kind: validation
+  reference: workflow/mech-workflow.yaml
+  locator: stage_overrides.causal_graphs (lines 22-29)
+  accessed_at: '2026-10-25T05:40:00Z'
+  snapshot_sha256: 1f4575151090b50346fa5b8e75b9bfa0ef42b189350ba2d772516de6431671f8
+  support: supports
+  summary: 'All AIMech validation checks passed (442 AIO records, 1,487 curated records,
+    1,125 history records, 22 governed artifacts, 46 curated pytest tests) and workflow/mech-workflow.yaml
+    validates cleanly with causal_graphs applicability: not_applicable.'
+assessments:
+- assessment_id: schema-causal-graph-inapplicability
+  area: schema
+  topic: Absence of biological or physical causal-mechanism-graph slots across AIMech
+    LinkML schemas
+  outcome: supported
+  summary: All three LinkML schema modules (src/aimech/schema/aimech.yaml, src/aimech/schema/curated_concept.yaml,
+    and src/aimech/schema/mech_shared.yaml) define zero causal-mechanism-graph, pathway,
+    upstream/downstream regulatory, or gene/protein instance slots. Both native schemas
+    explicitly separate ontological classification and algorithmic specifications
+    from empirical causal claims.
+  target_ids:
+  - AIMech:schema-aimech
+  - AIMech:schema-curated-concept
+  - AIMech:schema-mech-shared
+  evidence_ids:
+  - schema-aimech-ev
+  - schema-curated-ev
+  - schema-shared-ev
+  - audit-json
+  metrics:
+  - name: schema_causal_graph_slots
+    value: 0.0
+    unit: count
+    definition: Count of causal-mechanism-graph or biological pathway/regulatory slots
+      declared across all 3 AIMech LinkML schemas.
+    denominator: 3
+    minimum: 0.0
+    maximum: 3.0
+  dimensions:
+  - name: StageApplicability
+    value: not_applicable
+    definition: Configured Stage 2 (causal_graphs) applicability status in workflow/mech-workflow.yaml.
+    evidence_ids:
+    - validation-suite
+    - audit-json
+- assessment_id: ontology-vs-causality-boundary
+  area: representation
+  topic: Preservation of the five-part ontology-versus-causality distinction across
+    all 1,929 AIMech corpus records
+  outcome: supported
+  summary: Across all 1,929 corpus records (442 generated AIO records and 1,487 maintained
+    curated records), zero records contain causal-graph fields. Taxonomic parents
+    (442 edges), mereological BFO:0000051 has-part axioms (71 edges across 26 AIO
+    records), AIO vocabulary mappings (1,822 mappings across 1,338 curated records
+    plus 149 aio_no_match records), prose algorithmic/mathematical mechanism claims
+    (2,793 claims), and AI causal-inference/graphical-model subject matter (6 AIO
+    and 80 curated records) are rigorously distinguished from biological causal mechanism
+    graphs.
+  target_ids:
+  - AIMech:schema-aimech
+  - AIMech:schema-curated-concept
+  - AIMech:causal-graph-applicability-audit
+  evidence_ids:
+  - schema-aimech-ev
+  - schema-curated-ev
+  - audit-script
+  - audit-json
+  - corpus-search
+  metrics:
+  - name: corpus_records_inspected
+    value: 1929.0
+    unit: records
+    definition: Total YAML records inspected across data/aio/*.yaml (442) and data/curated/*.yaml
+      (1,487).
+    denominator: 1929
+    minimum: 0.0
+    maximum: 1929.0
+  - name: records_with_causal_graph_slots
+    value: 0.0
+    unit: records
+    definition: Count of AIMech corpus records containing causal-mechanism-graph or
+      biological pathway/protein slots.
+    denominator: 1929
+    minimum: 0.0
+    maximum: 1929.0
+  dimensions:
+  - name: CorpusScope
+    value: full_corpus_1929_records
+    definition: Complete inventory of 442 generated AIO records and 1,487 maintained
+      curated AI-concept records.
+    evidence_ids:
+    - audit-json
+    - corpus-search
+- assessment_id: candidate-native-representation-governance
+  area: scope
+  topic: Evaluation of candidate AI-native graph representations and Stage 2 objective
+    retention
+  outcome: supported
+  summary: No applicable causal-mechanism-graph representation exists in AIMech's
+    current schemas or corpus, and inventing biological data or unsupported fields
+    would violate repository constraints. Any hypothetical future addition of structured
+    algorithmic operator-composition or mathematical dependency graphs would represent
+    formal computational composition rather than empirical causal mechanism and would
+    require an explicit LinkML schema review before replacing Stage 2's applicability
+    audit objective.
+  target_ids:
+  - AIMech:schema-aimech
+  - AIMech:schema-curated-concept
+  - AIMech:schema-mech-shared
+  - AIMech:causal-graph-applicability-audit
+  evidence_ids:
+  - audit-json
+  - corpus-search
+  - validation-suite
+findings: []
+actions: []
+limitations:
+- Author self-review of the Stage 2 full-corpus and schema causal-graph applicability
+  audit; independent adversarial PR review is required prior to merge.
+- Full-corpus inventory inspects schema structure, slot usage, predicate distributions,
+  and causal/graphical terminology across all 1,929 records rather than re-verifying
+  every individual primary-source paper locator across all 5,149 curated claims.
+notes:
+- Corroborates and expands infrastructure task aimech-infra-0002 (https://github.com/CultureBotAI/AIMech/issues/431)
+  from 1,922 records at Cycle 1 Stage 1 to all 1,929 records (442 data/aio/*.yaml
+  + 1,487 data/curated/*.yaml) at Cycle 1 Stage 2.
+links:
+- https://github.com/CultureBotAI/AIMech/issues/431
+tags:
+- causal_graphs
+- applicability_audit
+- schema_boundary
+- stage_2
+```

@@ -1,0 +1,2215 @@
+{
+  "audit_id": "20261025T052500Z-causal-graph-applicability-audit",
+  "created_at": "2026-10-25T05:25:00Z",
+  "run_id": "mech-goal-sequence-20261019",
+  "cycle": 1,
+  "stage": 2,
+  "stage_key": "causal_graphs",
+  "applicability_verdict": "not_applicable",
+  "workflow_profile": {
+    "path": "workflow/mech-workflow.yaml",
+    "sha256": "1f4575151090b50346fa5b8e75b9bfa0ef42b189350ba2d772516de6431671f8",
+    "stage_2_override": {
+      "stage": 2,
+      "key": "causal_graphs",
+      "goal_text": "Audit and document whether causal mechanism graphs apply to AIMech's native AI-concept domain and schema, using its local record-review skill and full corpus inventory. Preserve the ontology/causality distinction and report inapplicability with evidence; do not invent biological data or unsupported fields. If a real applicable representation is discovered, report it for review before replacing this applicability objective.",
+      "skill_paths": [
+        ".claude/skills/aimech-evolve-workflow/SKILL.md",
+        ".claude/skills/review-yaml-record/SKILL.md"
+      ],
+      "applicability": "not_applicable",
+      "applicability_reason": "AI-concept records do not currently have a supported biological causal-graph or UniProt protein-example scope. Perform the explicit native-domain applicability audit, retain evidence, and keep the stage closure."
+    }
+  },
+  "corpus_totals": {
+    "aio_generated_records": 442,
+    "curated_aimech_records": 1487,
+    "total_records_inspected": 1929,
+    "records_with_causal_graph_slots": 0
+  },
+  "schemas": {
+    "aimech": {
+      "path": "src/aimech/schema/aimech.yaml",
+      "sha256": "5a54dafe2fc17bc027e14bc3a2829b265cbb34427ad58eef63fe99616e17b852",
+      "id": "https://w3id.org/culturebotai/aimech",
+      "name": "aimech",
+      "description": "A provenance-bearing projection of AIO terminology, with separately curated evidence and discussions. Ontology membership does not establish efficacy, benchmark performance, safety, or causal mechanism.",
+      "imports": [
+        "linkml:types",
+        "mech_shared"
+      ],
+      "classes": {
+        "AIConcept": [
+          "branches",
+          "comments",
+          "curation_history",
+          "definition",
+          "definition_sources",
+          "discussions",
+          "history_refs",
+          "id",
+          "name",
+          "ontology_iri",
+          "parents",
+          "provenance",
+          "relationships",
+          "review_status",
+          "subsets",
+          "synonyms"
+        ],
+        "ConceptRelationship": [
+          "predicate",
+          "target"
+        ],
+        "ConceptSynonym": [
+          "scope",
+          "value"
+        ],
+        "CurationEvent": [
+          "action",
+          "curator",
+          "notes",
+          "timestamp"
+        ],
+        "ImportProvenance": [
+          "imported_at",
+          "license",
+          "source",
+          "source_commit",
+          "source_file",
+          "source_node",
+          "source_sha256",
+          "source_version"
+        ]
+      },
+      "enums": {
+        "AIOBranch": [
+          "Bias",
+          "Layer",
+          "MachineLearningTask",
+          "MathematicalFunction",
+          "Model",
+          "Network",
+          "Preprocessing",
+          "TrainingStrategy"
+        ],
+        "RelationshipPredicate": [
+          "BFO:0000051"
+        ],
+        "ReviewStatus": [
+          "NOT_REVIEWED"
+        ],
+        "SynonymScope": [
+          "exact",
+          "related"
+        ]
+      },
+      "causal_graph_candidate_slots_present": []
+    },
+    "curated_concept": {
+      "path": "src/aimech/schema/curated_concept.yaml",
+      "sha256": "3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f",
+      "id": "https://w3id.org/culturebotai/aimech/curated-concept",
+      "name": "curated_concept",
+      "description": null,
+      "imports": [
+        "linkml:types"
+      ],
+      "classes": {
+        "AIOExaminedTarget": [
+          "rejection_reason",
+          "target"
+        ],
+        "AIOMapping": [
+          "rationale",
+          "relation",
+          "target"
+        ],
+        "ConceptClaim": [
+          "claim_id",
+          "evaluation",
+          "evidence",
+          "kind",
+          "statement"
+        ],
+        "CuratedAIConcept": [
+          "aio_mappings",
+          "aio_no_match",
+          "aio_snapshot",
+          "aliases",
+          "claims",
+          "concept_kind",
+          "curation",
+          "definition",
+          "definition_evidence",
+          "evidence_sources",
+          "history_refs",
+          "id",
+          "identity_notes",
+          "limitations",
+          "name",
+          "review_status"
+        ],
+        "CurationProvenance": [
+          "agent_tool",
+          "created_at",
+          "curator",
+          "method",
+          "model",
+          "updated_at"
+        ],
+        "EvaluationContext": [
+          "baseline",
+          "conditions",
+          "dataset_and_split",
+          "metric_and_units",
+          "model_and_version",
+          "result",
+          "task",
+          "uncertainty"
+        ],
+        "EvidenceCitation": [
+          "locator",
+          "relation",
+          "source_id"
+        ],
+        "EvidenceSource": [
+          "access_level",
+          "accessed_at",
+          "authors",
+          "persistent_id",
+          "sha256",
+          "source_id",
+          "source_type",
+          "title",
+          "url",
+          "version"
+        ],
+        "MappingSnapshot": [
+          "commit",
+          "sha256"
+        ],
+        "NoAIOMatch": [
+          "examined_targets",
+          "rationale",
+          "search_scope"
+        ]
+      },
+      "enums": {
+        "ClaimKind": [
+          "application",
+          "limitation",
+          "mechanism",
+          "performance",
+          "scope"
+        ],
+        "ConceptKind": [
+          "algorithm",
+          "architecture",
+          "bias",
+          "computational_paradigm",
+          "coordination_mechanism",
+          "evaluation_criterion",
+          "evaluation_method",
+          "layer",
+          "learning_paradigm",
+          "mathematical_method",
+          "model_family",
+          "preprocessing_method",
+          "risk",
+          "task"
+        ],
+        "CuratedReviewStatus": [
+          "DRAFT"
+        ],
+        "CurationMethod": [
+          "ai_assisted",
+          "human"
+        ],
+        "EvidenceAccess": [
+          "abstract_only",
+          "documentation",
+          "full_text"
+        ],
+        "EvidenceRelation": [
+          "context",
+          "contradicts",
+          "supports"
+        ],
+        "EvidenceSourceType": [
+          "author_technical_report",
+          "official_documentation",
+          "primary_monograph",
+          "primary_paper"
+        ],
+        "MappingRelation": [
+          "broad_match",
+          "narrow_match",
+          "related_match"
+        ]
+      },
+      "causal_graph_candidate_slots_present": []
+    },
+    "mech_shared": {
+      "path": "src/aimech/schema/mech_shared.yaml",
+      "sha256": "c2e7054fd32635e380c698282bd886a9105861009b9f0474f02bb1b80865e895",
+      "id": "https://w3id.org/kg-microbe/mech-shared",
+      "name": "mech_shared",
+      "description": "Canonical, byte-identical LinkML module shared across the Mech knowledge bases (CultureMech / MIM / CommunityMech / TraitMech). It carries three domain-general record sections ported from monarch-initiative/dismech:\n\n  * Discussion \u2014 the discourse / \"knowledge gap\" layer. A broad supertype\n    (kind = KNOWLEDGE_GAP, OPEN_QUESTION, CONTROVERSY, CURATION_TODO,\n    EMERGING_HYPOTHESIS, INTERPRETATION, HUMAN_MODEL_MISMATCH) with a\n    lifecycle status, hash-anchor `attaches_to` pointers into the importing\n    record's sections, optional `proposed_experiments` resolution sketches,\n    and a `SupportingReference` evidence block.\n\n  * Dataset \u2014 a lightweight reference to a public dataset (omics, sequence,\n    phenotype). Its `dataset_type` / `repository` enums are the faithful UNION\n    of the existing CultureMech and CommunityMech enums (plus microbial\n    additions) so the Phase-2 migration of those two repos is loss-preserving.\n\n  * CrossCorpusLink \u2014 a provenance-bearing link to a record in another Mech.\n    The importing schema owns the relation vocabulary and which slots admit\n    links. Sharing a protein or a reaction supplies a curation lead, not an\n    assertion of record equivalence or biological mechanism.\n\nThe module is SELF-CONTAINED: it defines its own `SupportingReference` evidence class (and `SupportLevelEnum`) rather than referencing each repo's `EvidenceItem`, so it validates standalone, imposes no per-repo dependency (MIM has `MappingEvidence`, not `EvidenceItem`), and never collides with an importing schema's classes. Each record keeps its own primary `EvidenceItem` for record-level claims; discussions/datasets carry their own lightweight `SupportingReference` citations.\nVendored byte-identical and sha-pinned across the Mech repos (see culturebotai-claw#7). Do not edit one copy in isolation \u2014 change it once and re-vendor + re-pin everywhere.",
+      "imports": [
+        "linkml:types"
+      ],
+      "classes": {
+        "CrossCorpusLink": [
+          "basis",
+          "corpus",
+          "identifier",
+          "relation",
+          "source_version"
+        ],
+        "Dataset": [
+          "accession",
+          "conditions",
+          "dataset_type",
+          "description",
+          "evidence",
+          "findings",
+          "notes",
+          "organism",
+          "platform",
+          "publication",
+          "repository",
+          "sample_count",
+          "sample_types",
+          "title",
+          "url"
+        ],
+        "Discussion": [
+          "attaches_to",
+          "discussion_id",
+          "evidence",
+          "kind",
+          "notes",
+          "posed_by",
+          "posed_date",
+          "prompt",
+          "proposed_experiments",
+          "rationale",
+          "resolution_note",
+          "resolved_date",
+          "status"
+        ],
+        "ProposedExperiment": [
+          "approach",
+          "decision_criterion",
+          "description",
+          "experiment_id",
+          "model_systems",
+          "name",
+          "perturbations",
+          "readouts",
+          "would_refute",
+          "would_support"
+        ],
+        "SupportingReference": [
+          "evidence_source",
+          "explanation",
+          "notes",
+          "reference",
+          "reference_title",
+          "snippet",
+          "supports"
+        ]
+      },
+      "enums": {
+        "DatasetRepositoryEnum": [
+          "ARRAYEXPRESS",
+          "BIOMODELS",
+          "DBGAP",
+          "ENA",
+          "FIGSHARE",
+          "GNPS",
+          "GTEX",
+          "JGI_GOLD",
+          "JGI_IMG",
+          "KBASE",
+          "MASSIVE",
+          "METABOLIGHTS",
+          "METABOLOMICS_WORKBENCH",
+          "MGNIFY",
+          "NCBI_ASSEMBLY",
+          "NCBI_BIOPROJECT",
+          "NCBI_GEO",
+          "NCBI_SRA",
+          "NMDC",
+          "OTHER",
+          "PRIDE",
+          "ZENODO"
+        ],
+        "DatasetTypeEnum": [
+          "AMPLICON_16S",
+          "AMPLICON_ITS",
+          "AMPLICON_OTHER",
+          "FLUXOMICS",
+          "GENOMICS",
+          "METABOLOMICS",
+          "METAGENOMICS",
+          "METAPROTEOMICS",
+          "METATRANSCRIPTOMICS",
+          "MULTI_OMICS",
+          "OTHER",
+          "PHENOMICS",
+          "PHENOTYPE",
+          "PROTEOMICS",
+          "TRANSCRIPTOMICS"
+        ],
+        "DiscussionKindEnum": [
+          "CONTROVERSY",
+          "CURATION_TODO",
+          "EMERGING_HYPOTHESIS",
+          "HUMAN_MODEL_MISMATCH",
+          "INTERPRETATION",
+          "KNOWLEDGE_GAP",
+          "OPEN_QUESTION"
+        ],
+        "DiscussionStatusEnum": [
+          "ARCHIVED",
+          "OPEN",
+          "RESOLVED",
+          "UNDER_DISCUSSION"
+        ],
+        "SupportLevelEnum": [
+          "NO_EVIDENCE",
+          "PARTIAL",
+          "REFUTE",
+          "SUPPORT",
+          "WRONG_STATEMENT"
+        ]
+      },
+      "causal_graph_candidate_slots_present": []
+    }
+  },
+  "aio_corpus_inventory": {
+    "directory": "data/aio",
+    "record_count": 442,
+    "top_level_key_counts": {
+      "branches": 442,
+      "comments": 217,
+      "definition": 442,
+      "definition_sources": 364,
+      "id": 442,
+      "name": 442,
+      "ontology_iri": 442,
+      "parents": 442,
+      "provenance": 442,
+      "relationships": 26,
+      "review_status": 442,
+      "subsets": 442,
+      "synonyms": 233
+    },
+    "branch_counts": {
+      "Bias": 61,
+      "Layer": 168,
+      "MachineLearningTask": 57,
+      "MathematicalFunction": 14,
+      "Model": 76,
+      "Network": 52,
+      "Preprocessing": 10,
+      "TrainingStrategy": 4
+    },
+    "taxonomic_parent_edge_count": 442,
+    "mereological_relationship_edge_count": 71,
+    "relationship_predicate_counts": {
+      "BFO:0000051": 71
+    },
+    "records_with_relationships": [
+      {
+        "id": "AIO:AutoEncoderNetwork",
+        "path": "data/aio/AutoEncoderNetwork.yaml",
+        "name": "Auto Encoder Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:MatchedInputOutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:BoltzmannMachineNetwork",
+        "path": "data/aio/BoltzmannMachineNetwork.yaml",
+        "name": "Boltzmann Machine Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:BackfedInputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ProbabilisticHiddenLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:DeconvolutionalNetwork",
+        "path": "data/aio/DeconvolutionalNetwork.yaml",
+        "name": "Deconvolutional Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ConvolutionalLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:KernelLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:PoolingLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:DeepBeliefNetwork",
+        "path": "data/aio/DeepBeliefNetwork.yaml",
+        "name": "Deep Belief Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:BackfedInputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:MatchedInputOutputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ProbabilisticHiddenLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:DeepConvolutionalInverseGraphicsNetwork",
+        "path": "data/aio/DeepConvolutionalInverseGraphicsNetwork.yaml",
+        "name": "Deep Convolutional Inverse Graphics Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ConvolutionalLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:KernelLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:PoolingLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ProbabilisticHiddenLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:DeepConvolutionalNetwork",
+        "path": "data/aio/DeepConvolutionalNetwork.yaml",
+        "name": "Deep Convolutional Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ConvolutionalLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:KernelLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:PoolingLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:DeepFeedForwardNetwork",
+        "path": "data/aio/DeepFeedForwardNetwork.yaml",
+        "name": "Deep Feed-Forward Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:DenoisingAutoEncoder",
+        "path": "data/aio/DenoisingAutoEncoder.yaml",
+        "name": "Denoising Auto Encoder",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:NoisyInputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:EchoStateNetwork",
+        "path": "data/aio/EchoStateNetwork.yaml",
+        "name": "Echo State Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:RecurrentLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:FeedbackNetwork",
+        "path": "data/aio/FeedbackNetwork.yaml",
+        "name": "Feedback Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:GenerativeAdversarialNetwork",
+        "path": "data/aio/GenerativeAdversarialNetwork.yaml",
+        "name": "Generative Adversarial Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:BackfedInputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:MatchedInputOutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:GraphConvolutionalNetwork",
+        "path": "data/aio/GraphConvolutionalNetwork.yaml",
+        "name": "Graph Convolutional Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:GraphConvolutionalPolicyNetwork",
+        "path": "data/aio/GraphConvolutionalPolicyNetwork.yaml",
+        "name": "Graph Convolutional Policy Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:PolicyLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:HopfieldNetwork",
+        "path": "data/aio/HopfieldNetwork.yaml",
+        "name": "Hopfield Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:BackfedInputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:KohonenNetwork",
+        "path": "data/aio/KohonenNetwork.yaml",
+        "name": "Kohonen Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:LiquidStateMachineNetwork",
+        "path": "data/aio/LiquidStateMachineNetwork.yaml",
+        "name": "Liquid State Machine Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:SpikingHiddenLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:LongShortTermMemory",
+        "path": "data/aio/LongShortTermMemory.yaml",
+        "name": "Long Short Term Memory",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:MemoryCellLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:MarkovChain",
+        "path": "data/aio/MarkovChain.yaml",
+        "name": "Markov Chain",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ProbabilisticHiddenLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:NeuralTuringMachineNetwork",
+        "path": "data/aio/NeuralTuringMachineNetwork.yaml",
+        "name": "Neural Turing Machine Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:SpikingHiddenLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:Perceptron",
+        "path": "data/aio/Perceptron.yaml",
+        "name": "Perceptron",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:RecursiveLanguageModel",
+        "path": "data/aio/RecursiveLanguageModel.yaml",
+        "name": "Recursive Language Model",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:MemoryCellLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:ResidualNeuralNetwork",
+        "path": "data/aio/ResidualNeuralNetwork.yaml",
+        "name": "Residual Neural Network",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:AdditionLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:BatchNormalizationLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ReLULayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:WeightedLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:SupportVectorMachine",
+        "path": "data/aio/SupportVectorMachine.yaml",
+        "name": "Support Vector Machine",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:VariationalAutoEncoder",
+        "path": "data/aio/VariationalAutoEncoder.yaml",
+        "name": "Variational Auto Encoder",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:ProbabilisticHiddenLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:node2vec",
+        "path": "data/aio/node2vec.yaml",
+        "name": "node2vec",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      },
+      {
+        "id": "AIO:word2vec",
+        "path": "data/aio/word2vec.yaml",
+        "name": "word2vec",
+        "relationships": [
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:HiddenLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:InputLayer"
+          },
+          {
+            "predicate": "BFO:0000051",
+            "target": "AIO:OutputLayer"
+          }
+        ]
+      }
+    ],
+    "synonym_count": 446,
+    "records_with_discussions_count": 0,
+    "records_with_causal_graph_slots_count": 0,
+    "causal_or_graphical_subject_records_count": 6,
+    "causal_or_graphical_subject_records": [
+      {
+        "id": "AIO:BayesianNetwork",
+        "path": "data/aio/BayesianNetwork.yaml",
+        "name": "Bayesian Network",
+        "branches": [
+          "Network"
+        ],
+        "parents": [
+          "AIO:Network"
+        ],
+        "matched_terms": [
+          "bayesian network",
+          "directed acyclic graph",
+          "probabilistic graphical model"
+        ],
+        "definition": "A network that is a probabilistic graphical model representing variables and their conditional dependencies via a directed acyclic graph."
+      },
+      {
+        "id": "AIO:CausalGraphicalModel",
+        "path": "data/aio/CausalGraphicalModel.yaml",
+        "name": "Causal Graphical Model",
+        "branches": [
+          "MachineLearningTask"
+        ],
+        "parents": [
+          "AIO:ProbabilisticGraphicalModel"
+        ],
+        "matched_terms": [
+          "causal",
+          "probabilistic graphical model"
+        ],
+        "definition": "A probabilistic graphical model used to encode assumptions about the data-generating process."
+      },
+      {
+        "id": "AIO:CausalLLM",
+        "path": "data/aio/CausalLLM.yaml",
+        "name": "Causal LLM",
+        "branches": [
+          "Model"
+        ],
+        "parents": [
+          "AIO:LargeLanguageModel"
+        ],
+        "matched_terms": [
+          "causal"
+        ],
+        "definition": "A large language model that only attends to previous tokens in the sequence when generating text modeling the probability distribution autoregressively from left-to-right or causally."
+      },
+      {
+        "id": "AIO:GenerativeCommonsenseLLM",
+        "path": "data/aio/GenerativeCommonsenseLLM.yaml",
+        "name": "Generative Commonsense LLM",
+        "branches": [
+          "Model"
+        ],
+        "parents": [
+          "AIO:LargeLanguageModel"
+        ],
+        "matched_terms": [
+          "causality"
+        ],
+        "definition": "A large language model that is trained to understand and model basic physics causality and common sense about how the real world works."
+      },
+      {
+        "id": "AIO:ProbabilisticGraphicalModel",
+        "path": "data/aio/ProbabilisticGraphicalModel.yaml",
+        "name": "Probabilistic Graphical Model",
+        "branches": [
+          "MachineLearningTask"
+        ],
+        "parents": [
+          "AIO:MachineLearningTask"
+        ],
+        "matched_terms": [
+          "probabilistic graphical model"
+        ],
+        "definition": "A machine learning task in which a graph expresses the conditional dependence structure between random variables."
+      },
+      {
+        "id": "AIO:ProbabilisticTopicModel",
+        "path": "data/aio/ProbabilisticTopicModel.yaml",
+        "name": "Probabilistic Topic Model",
+        "branches": [
+          "MachineLearningTask"
+        ],
+        "parents": [
+          "AIO:ProbabilisticGraphicalModel"
+        ],
+        "matched_terms": [
+          "probabilistic graphical model"
+        ],
+        "definition": "A probabilistic graphical model that uses statistical techniques to analyze the words in each text to discover common themes their connections and their changes over time."
+      }
+    ]
+  },
+  "curated_corpus_inventory": {
+    "directory": "data/curated",
+    "record_count": 1487,
+    "top_level_key_counts": {
+      "aio_mappings": 1338,
+      "aio_no_match": 149,
+      "aio_snapshot": 1487,
+      "aliases": 1418,
+      "claims": 1487,
+      "concept_kind": 1487,
+      "curation": 1487,
+      "definition": 1487,
+      "definition_evidence": 1487,
+      "evidence_sources": 1487,
+      "id": 1487,
+      "identity_notes": 1487,
+      "limitations": 1487,
+      "name": 1487,
+      "review_status": 1487
+    },
+    "concept_kind_counts": {
+      "algorithm": 1047,
+      "architecture": 121,
+      "bias": 1,
+      "computational_paradigm": 1,
+      "coordination_mechanism": 1,
+      "evaluation_criterion": 5,
+      "evaluation_method": 5,
+      "layer": 20,
+      "learning_paradigm": 13,
+      "mathematical_method": 175,
+      "model_family": 91,
+      "preprocessing_method": 7
+    },
+    "total_claims": 5149,
+    "claim_kind_counts": {
+      "application": 477,
+      "limitation": 1029,
+      "mechanism": 2793,
+      "performance": 5,
+      "scope": 845
+    },
+    "total_evidence_sources": 3269,
+    "evidence_source_type_counts": {
+      "author_technical_report": 66,
+      "official_documentation": 190,
+      "primary_monograph": 9,
+      "primary_paper": 3004
+    },
+    "evidence_access_level_counts": {
+      "abstract_only": 1301,
+      "documentation": 190,
+      "full_text": 1778
+    },
+    "records_with_aio_mappings_count": 1338,
+    "records_with_aio_no_match_count": 149,
+    "aio_mapping_relation_counts": {
+      "broad_match": 325,
+      "narrow_match": 82,
+      "related_match": 1415
+    },
+    "records_with_causal_graph_slots_count": 0,
+    "causal_or_graphical_subject_records_count": 80,
+    "causal_or_graphical_subject_records": [
+      {
+        "id": "AIMech:ABRASFixedSampleBetweenness",
+        "path": "data/curated/ABRASFixedSampleBetweenness.yaml",
+        "name": "ABRA-s-fix fixed-sample betweenness approximation",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:ABRASProgressiveBetweenness",
+        "path": "data/curated/ABRASProgressiveBetweenness.yaml",
+        "name": "ABRA-s progressive betweenness approximation",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:AdaBERTTaskAdaptiveBERTCompressionWithDifferentiableNAS",
+        "path": "data/curated/AdaBERTTaskAdaptiveBERTCompressionWithDifferentiableNAS.yaml",
+        "name": "AdaBERT (Task-Adaptive BERT Compression with Differentiable Neural Architecture Search)",
+        "concept_kind": "algorithm",
+        "claim_count": 4,
+        "matched_terms": [
+          "directed acyclic graph"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:Distillation",
+          "broad_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:AdaptiveLassoAndMedianOfRatiosConsistentInvalidInstrumentSelectionInLinearInstrumentalVariablesModels",
+        "path": "data/curated/AdaptiveLassoAndMedianOfRatiosConsistentInvalidInstrumentSelectionInLinearInstrumentalVariablesModels.yaml",
+        "name": "Adaptive Lasso and Median-of-Ratios Consistent Invalid Instrument Selection in Linear Instrumental Variables Models",
+        "concept_kind": "mathematical_method",
+        "claim_count": 3,
+        "matched_terms": [
+          "invalid instrument"
+        ],
+        "aio_mapping_targets": [
+          "narrow_match:AIO:LassoRegression",
+          "related_match:AIO:LinearRegression",
+          "broad_match:AIO:RegressionAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork",
+        "path": "data/curated/AttentionBasedConfigurableConvolutionalNeuralNetwork.yaml",
+        "name": "Attention-Based Configurable Convolutional Neural Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork",
+          "related_match:AIO:ConvolutionalLayer",
+          "related_match:AIO:LongShortTermMemory"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:AttentionBasedConvolutionalNeuralNetwork",
+        "path": "data/curated/AttentionBasedConvolutionalNeuralNetwork.yaml",
+        "name": "Attention-Based Convolutional Neural Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork",
+          "related_match:AIO:ConvolutionalLayer"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:AttentivePoolingNetwork",
+        "path": "data/curated/AttentivePoolingNetwork.yaml",
+        "name": "Attentive Pooling Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:AuthorRecipientTopicModel",
+        "path": "data/curated/AuthorRecipientTopicModel.yaml",
+        "name": "Author-recipient-topic model",
+        "concept_kind": "model_family",
+        "claim_count": 2,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Model",
+          "related_match:AIO:ProbabilisticTopicModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:AutoPromptGradientGuidedDiscretePromptSearch",
+        "path": "data/curated/AutoPromptGradientGuidedDiscretePromptSearch.yaml",
+        "name": "AutoPrompt Gradient-Guided Discrete Prompt Search",
+        "concept_kind": "algorithm",
+        "claim_count": 4,
+        "matched_terms": [
+          "counterfactual"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:BOHB",
+        "path": "data/curated/BOHB.yaml",
+        "name": "BOHB",
+        "concept_kind": "algorithm",
+        "claim_count": 2,
+        "matched_terms": [
+          "bayesian network"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:TrainingStrategy"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:BalancedAttentionMechanism",
+        "path": "data/curated/BalancedAttentionMechanism.yaml",
+        "name": "Balanced Attention Mechanism",
+        "concept_kind": "layer",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Layer"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:BivariateCounterfactualFairnessSensitivity",
+        "path": "data/curated/BivariateCounterfactualFairnessSensitivity.yaml",
+        "name": "Bivariate counterfactual-fairness sensitivity analysis",
+        "concept_kind": "evaluation_method",
+        "claim_count": 1,
+        "matched_terms": [
+          "causal",
+          "counterfactual"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:CausalGraphicalModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:BrandesBetweennessCentrality",
+        "path": "data/curated/BrandesBetweennessCentrality.yaml",
+        "name": "Brandes betweenness centrality computation",
+        "concept_kind": "algorithm",
+        "claim_count": 7,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:BrandesFleischerCurrentFlowBetweenness",
+        "path": "data/curated/BrandesFleischerCurrentFlowBetweenness.yaml",
+        "name": "Brandes\u2013Fleischer current-flow betweenness computation",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:BrandesFleischerGroundedCurrentFlowCloseness",
+        "path": "data/curated/BrandesFleischerGroundedCurrentFlowCloseness.yaml",
+        "name": "Brandes\u2013Fleischer grounded current-flow closeness computation",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:BrandesFleischerSampledCurrentFlowBetweenness",
+        "path": "data/curated/BrandesFleischerSampledCurrentFlowBetweenness.yaml",
+        "name": "Brandes\u2013Fleischer sampled-pair current-flow betweenness",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:BrandesPichPivotCentralityEstimation",
+        "path": "data/curated/BrandesPichPivotCentralityEstimation.yaml",
+        "name": "Brandes\u2013Pich pivot-based centrality estimation",
+        "concept_kind": "algorithm",
+        "claim_count": 7,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:ChakrabartiFocusedCrawler",
+        "path": "data/curated/ChakrabartiFocusedCrawler.yaml",
+        "name": "Chakrabarti classifier-guided focused crawling",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:Classification"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:CommunicationNeuralNetwork",
+        "path": "data/curated/CommunicationNeuralNetwork.yaml",
+        "name": "Communication Neural Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:ContinuousTimeBayesianNetwork",
+        "path": "data/curated/ContinuousTimeBayesianNetwork.yaml",
+        "name": "Continuous-time Bayesian network",
+        "concept_kind": "model_family",
+        "claim_count": 6,
+        "matched_terms": [
+          "bayesian network"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:MarkovChain"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:CorrelatedTopicModel",
+        "path": "data/curated/CorrelatedTopicModel.yaml",
+        "name": "Correlated topic model",
+        "concept_kind": "model_family",
+        "claim_count": 2,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Model",
+          "related_match:AIO:ProbabilisticTopicModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:CounterfactualFairness",
+        "path": "data/curated/CounterfactualFairness.yaml",
+        "name": "Counterfactual fairness",
+        "concept_kind": "evaluation_criterion",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal",
+          "counterfactual"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:CausalGraphicalModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:DefinitionFilteredGirvanNewman",
+        "path": "data/curated/DefinitionFilteredGirvanNewman.yaml",
+        "name": "Definition-filtered Girvan\u2013Newman community detection",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:HierarchicalClustering",
+          "related_match:AIO:UnsupervisedClustering"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:DemographicParity",
+        "path": "data/curated/DemographicParity.yaml",
+        "name": "Demographic parity",
+        "concept_kind": "evaluation_criterion",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal",
+          "counterfactual"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:Classification"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:DropoutBoosting",
+        "path": "data/curated/DropoutBoosting.yaml",
+        "name": "Dropout Boosting",
+        "concept_kind": "algorithm",
+        "claim_count": 5,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:DropoutLayer",
+          "related_match:AIO:EnsembleLearning"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:DynamicConvolutionalLayer",
+        "path": "data/curated/DynamicConvolutionalLayer.yaml",
+        "name": "Dynamic Convolutional Layer",
+        "concept_kind": "layer",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Layer",
+          "related_match:AIO:ConvolutionalLayer"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:DynamicMemoryNetwork",
+        "path": "data/curated/DynamicMemoryNetwork.yaml",
+        "name": "Dynamic Memory Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:RecurrentNeuralNetwork",
+          "related_match:AIO:GatedRecurrentUnit"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:DynamicMemoryNetworkPlus",
+        "path": "data/curated/DynamicMemoryNetworkPlus.yaml",
+        "name": "Dynamic Memory Network Plus",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:RecurrentNeuralNetwork",
+          "related_match:AIO:GatedRecurrentUnit"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:EndToEndMemoryNetwork",
+        "path": "data/curated/EndToEndMemoryNetwork.yaml",
+        "name": "End-to-End Memory Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork",
+          "related_match:AIO:AttentionLayer"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:EppsteinWangRANDClosenessApproximation",
+        "path": "data/curated/EppsteinWangRANDClosenessApproximation.yaml",
+        "name": "Eppstein\u2013Wang RAND closeness approximation",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:EstimationOfDistributionAlgorithms",
+        "path": "data/curated/EstimationOfDistributionAlgorithms.yaml",
+        "name": "Estimation of distribution algorithms",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "bayesian network"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:FairLearning",
+        "path": "data/curated/FairLearning.yaml",
+        "name": "FAIRLEARNING",
+        "concept_kind": "algorithm",
+        "claim_count": 1,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:CausalGraphicalModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:GammaNeuralModel",
+        "path": "data/curated/GammaNeuralModel.yaml",
+        "name": "Gamma neural model",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causality"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:RecurrentNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:GirvanNewmanCommunityDetection",
+        "path": "data/curated/GirvanNewmanCommunityDetection.yaml",
+        "name": "Girvan\u2013Newman community detection",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:HierarchicalClustering",
+          "related_match:AIO:UnsupervisedClustering"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:GridLongShortTermMemory",
+        "path": "data/curated/GridLongShortTermMemory.yaml",
+        "name": "Grid Long Short-Term Memory",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork",
+          "related_match:AIO:LongShortTermMemory"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:GridSearchFairClassification",
+        "path": "data/curated/GridSearchFairClassification.yaml",
+        "name": "Grid-search reduction for fair classification",
+        "concept_kind": "algorithm",
+        "claim_count": 1,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:BinaryClassification"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:HammersteinModel",
+        "path": "data/curated/HammersteinModel.yaml",
+        "name": "Hammerstein model",
+        "concept_kind": "model_family",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:TimeSeriesAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:HammersteinWienerModel",
+        "path": "data/curated/HammersteinWienerModel.yaml",
+        "name": "Hammerstein\u2013Wiener model",
+        "concept_kind": "model_family",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:TimeSeriesAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:KeyValueMemoryNetwork",
+        "path": "data/curated/KeyValueMemoryNetwork.yaml",
+        "name": "Key-Value Memory Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork",
+          "related_match:AIO:AttentionLayer"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:MADXMultipleAdaptersForCrossLingualTransfer",
+        "path": "data/curated/MADXMultipleAdaptersForCrossLingualTransfer.yaml",
+        "name": "MAD-X Multiple Adapters for Cross-Lingual Transfer",
+        "concept_kind": "architecture",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:MaxCFU",
+        "path": "data/curated/MaxCFU.yaml",
+        "name": "MAXCFU",
+        "concept_kind": "evaluation_method",
+        "claim_count": 2,
+        "matched_terms": [
+          "counterfactual"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:CausalGraphicalModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:MaxoutUnit",
+        "path": "data/curated/MaxoutUnit.yaml",
+        "name": "Maxout Unit",
+        "concept_kind": "mathematical_method",
+        "claim_count": 5,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:MathematicalFunction",
+          "related_match:AIO:ReLUFunction"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:MixtureApproximationNodeSplittingDiagnostic",
+        "path": "data/curated/MixtureApproximationNodeSplittingDiagnostic.yaml",
+        "name": "Mixture-approximation node-splitting conflict diagnostic",
+        "concept_kind": "algorithm",
+        "claim_count": 4,
+        "matched_terms": [
+          "directed acyclic graph"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:BayesianNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:NewmanRandomWalkBetweennessMatrix",
+        "path": "data/curated/NewmanRandomWalkBetweennessMatrix.yaml",
+        "name": "Newman random-walk betweenness matrix computation",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:NohRiegerRandomWalkCentrality",
+        "path": "data/curated/NohRiegerRandomWalkCentrality.yaml",
+        "name": "Noh\u2013Rieger random-walk centrality",
+        "concept_kind": "mathematical_method",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:MathematicalFunction",
+          "related_match:AIO:MarkovChain"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:NoisyChannelLanguageModelPrompting",
+        "path": "data/curated/NoisyChannelLanguageModelPrompting.yaml",
+        "name": "Noisy Channel Language Model Prompting",
+        "concept_kind": "algorithm",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:NonlinearAutoregressiveExogenousModel",
+        "path": "data/curated/NonlinearAutoregressiveExogenousModel.yaml",
+        "name": "Nonlinear autoregressive model with exogenous inputs",
+        "concept_kind": "model_family",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:TimeSeriesAnalysis",
+          "related_match:AIO:AutoregressiveDistributedLag"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:NonlinearAutoregressiveMovingAverageExogenousModel",
+        "path": "data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml",
+        "name": "Nonlinear autoregressive moving average model with exogenous inputs",
+        "concept_kind": "model_family",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:TimeSeriesAnalysis",
+          "related_match:AIO:AutoregressiveMovingAverage"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:OLSPostLassoAndFitnessThresholdedPostModelSelectionInHighDimensionalSparseModels",
+        "path": "data/curated/OLSPostLassoAndFitnessThresholdedPostModelSelectionInHighDimensionalSparseModels.yaml",
+        "name": "OLS Post-Lasso and Fitness-Thresholded Post-Model-Selection Estimation in High-Dimensional Sparse Models",
+        "concept_kind": "algorithm",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:LassoRegression",
+          "related_match:AIO:LinearRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:OrthogonalLeastSquaresForwardSelection",
+        "path": "data/curated/OrthogonalLeastSquaresForwardSelection.yaml",
+        "name": "Orthogonal least squares forward selection",
+        "concept_kind": "algorithm",
+        "claim_count": 7,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LeastsquaresAnalysis",
+          "related_match:AIO:SparseLearning"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:PachinkoAllocationModel",
+        "path": "data/curated/PachinkoAllocationModel.yaml",
+        "name": "Pachinko allocation model",
+        "concept_kind": "model_family",
+        "claim_count": 2,
+        "matched_terms": [
+          "causal",
+          "directed acyclic graph"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Model",
+          "related_match:AIO:ProbabilisticTopicModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:PachinkoAllocationTopicsOverTimeModel",
+        "path": "data/curated/PachinkoAllocationTopicsOverTimeModel.yaml",
+        "name": "Pachinko allocation topics over time model",
+        "concept_kind": "model_family",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Model",
+          "related_match:AIO:ProbabilisticTopicModel",
+          "related_match:AIO:TimeSeriesAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:PenalizedFocusedGeneralizedMethodOfMomentsForHighDimensionalEndogenousRegression",
+        "path": "data/curated/PenalizedFocusedGeneralizedMethodOfMomentsForHighDimensionalEndogenousRegression.yaml",
+        "name": "Penalized Focused Generalized Method of Moments (FGMM) for High-Dimensional Endogenous Regression",
+        "concept_kind": "algorithm",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LassoRegression",
+          "related_match:AIO:LinearRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:RecursivePredictionErrorEstimation",
+        "path": "data/curated/RecursivePredictionErrorEstimation.yaml",
+        "name": "Recursive prediction-error estimation",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LeastsquaresAnalysis",
+          "related_match:AIO:RegressionAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning",
+        "path": "data/curated/ReftAndLoreftLowRankLinearSubspaceRepresentationFinetuning.yaml",
+        "name": "Representation Finetuning (ReFT) and Low-Rank Linear Subspace ReFT (LoReFT)",
+        "concept_kind": "algorithm",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:ArtificialNeuralNetwork",
+          "related_match:AIO:DimensionalityReduction"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:RetNet",
+        "path": "data/curated/RetNet.yaml",
+        "name": "Retentive network",
+        "concept_kind": "architecture",
+        "claim_count": 1,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SEEDPreTrainingStrongTextEncoderUsingWeakDecoder",
+        "path": "data/curated/SEEDPreTrainingStrongTextEncoderUsingWeakDecoder.yaml",
+        "name": "SEED Pre-Training a Strong Text Encoder Using a Weak Decoder",
+        "concept_kind": "architecture",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SearchingAndSamplingUniformConfidenceIntervalsForInvalidInstruments",
+        "path": "data/curated/SearchingAndSamplingUniformConfidenceIntervalsForInvalidInstruments.yaml",
+        "name": "Searching and Sampling Uniform Confidence Intervals for Invalid Instruments",
+        "concept_kind": "algorithm",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal",
+          "treatment effect"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LinearRegression",
+          "related_match:AIO:LassoRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SelectivelyTraversedAccumulationRulesForStructuredFDRControl",
+        "path": "data/curated/SelectivelyTraversedAccumulationRulesForStructuredFDRControl.yaml",
+        "name": "Selectively traversed accumulation rules for structured false discovery rate control",
+        "concept_kind": "mathematical_method",
+        "claim_count": 4,
+        "matched_terms": [
+          "directed acyclic graph"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:DataDredgingBias"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SelfNormalizedHeteroscedasticLassoOptimalInstrumentalVariablesAndWeakIdentificationSupScoreInference",
+        "path": "data/curated/SelfNormalizedHeteroscedasticLassoOptimalInstrumentalVariablesAndWeakIdentificationSupScoreInference.yaml",
+        "name": "Self-Normalized Heteroscedastic LASSO Optimal Instrumental Variables and Weak-Identification Sup-Score Inference",
+        "concept_kind": "algorithm",
+        "claim_count": 3,
+        "matched_terms": [
+          "instrumental variable"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LassoRegression",
+          "broad_match:AIO:LinearRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SequentialScoreDiscrepancyConflictDiagnostic",
+        "path": "data/curated/SequentialScoreDiscrepancyConflictDiagnostic.yaml",
+        "name": "Sequential score-discrepancy conflict diagnostic",
+        "concept_kind": "algorithm",
+        "claim_count": 5,
+        "matched_terms": [
+          "directed acyclic graph"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:BayesianNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SingleStepParametricMaxTInference",
+        "path": "data/curated/SingleStepParametricMaxTInference.yaml",
+        "name": "Single-step parametric maxT inference",
+        "concept_kind": "algorithm",
+        "claim_count": 7,
+        "matched_terms": [
+          "causality"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:DataDredgingBias"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability",
+        "path": "data/curated/SomeInvalidSomeValidInstrumentalVariablesEstimatorAndMajorityRuleIdentifiability.yaml",
+        "name": "Some Invalid Some Valid Instrumental Variables Estimator (sisVIVE) and 50% Majority-Rule Identifiability",
+        "concept_kind": "algorithm",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LassoRegression",
+          "related_match:AIO:LinearRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SubPsiUniformBoundaryConfidenceSequences",
+        "path": "data/curated/SubPsiUniformBoundaryConfidenceSequences.yaml",
+        "name": "Sub-psi uniform boundary confidence sequences",
+        "concept_kind": "mathematical_method",
+        "claim_count": 4,
+        "matched_terms": [
+          "treatment effect"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:DataDredgingBias",
+          "related_match:AIO:TimeSeriesAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:SupplementedExpectationMaximization",
+        "path": "data/curated/SupplementedExpectationMaximization.yaml",
+        "name": "Supplemented Expectation Maximization",
+        "concept_kind": "algorithm",
+        "claim_count": 3,
+        "matched_terms": [
+          "structural equation"
+        ],
+        "aio_mapping_targets": [],
+        "has_aio_no_match": true
+      },
+      {
+        "id": "AIMech:TSHTTwoStageHardThresholdingWithPluralityVotingForInvalidInstruments",
+        "path": "data/curated/TSHTTwoStageHardThresholdingWithPluralityVotingForInvalidInstruments.yaml",
+        "name": "TSHT Two-Stage Hard Thresholding with Plurality Voting for Invalid Instruments",
+        "concept_kind": "mathematical_method",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal",
+          "instrumental variable"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:LinearRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:TopicModelEvocationScore",
+        "path": "data/curated/TopicModelEvocationScore.yaml",
+        "name": "Topic-model evocation score",
+        "concept_kind": "evaluation_method",
+        "claim_count": 2,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:ProbabilisticTopicModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:TopographicICA",
+        "path": "data/curated/TopographicICA.yaml",
+        "name": "Topographic Independent Component Analysis",
+        "concept_kind": "model_family",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Model",
+          "related_match:AIO:UnsupervisedLearning"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments",
+        "path": "data/curated/TwoStageHardThresholdingWithVotingAndPluralityRuleForInvalidInstruments.yaml",
+        "name": "Two-Stage Hard Thresholding with Voting and Plurality Rule for Invalid Instruments",
+        "concept_kind": "algorithm",
+        "claim_count": 3,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LinearRegression",
+          "related_match:AIO:LassoRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:UniformInSubmodelDeterministicLinearRegressionAndFunctionalDependenceBounds",
+        "path": "data/curated/UniformInSubmodelDeterministicLinearRegressionAndFunctionalDependenceBounds.yaml",
+        "name": "Uniform-in-submodel deterministic linear regression and functional dependence bounds",
+        "concept_kind": "mathematical_method",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:LinearRegression"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:UsageBasedTrueOnlineTDLambda",
+        "path": "data/curated/UsageBasedTrueOnlineTDLambda.yaml",
+        "name": "Usage-based true online TD(lambda)",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:ReinforcementLearning"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:VariationalFairAutoencoder",
+        "path": "data/curated/VariationalFairAutoencoder.yaml",
+        "name": "Variational Fair Autoencoder",
+        "concept_kind": "architecture",
+        "claim_count": 1,
+        "matched_terms": [
+          "causal",
+          "counterfactual"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:VariationalAutoEncoder"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:VariationalMessagePassing",
+        "path": "data/curated/VariationalMessagePassing.yaml",
+        "name": "Variational message passing",
+        "concept_kind": "algorithm",
+        "claim_count": 7,
+        "matched_terms": [
+          "bayesian network"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:BayesianNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:VertexAttentionInteractionNetwork",
+        "path": "data/curated/VertexAttentionInteractionNetwork.yaml",
+        "name": "Vertex Attention Interaction Network",
+        "concept_kind": "architecture",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:ArtificialNeuralNetwork"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:WISTDLambda",
+        "path": "data/curated/WISTDLambda.yaml",
+        "name": "WIS-TD(lambda)",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:ReinforcementLearning"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:WaveletHiddenMarkovModel",
+        "path": "data/curated/WaveletHiddenMarkovModel.yaml",
+        "name": "Wavelet-domain hidden Markov model",
+        "concept_kind": "model_family",
+        "claim_count": 1,
+        "matched_terms": [
+          "bayesian network"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:Model",
+          "related_match:AIO:ProbabilisticGraphicalModel"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:WienerHammersteinModel",
+        "path": "data/curated/WienerHammersteinModel.yaml",
+        "name": "Wiener\u2013Hammerstein model",
+        "concept_kind": "model_family",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:TimeSeriesAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:WienerModel",
+        "path": "data/curated/WienerModel.yaml",
+        "name": "Wiener model",
+        "concept_kind": "model_family",
+        "claim_count": 4,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:TimeSeriesAnalysis"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:ZhouAttractorCommunityDetection",
+        "path": "data/curated/ZhouAttractorCommunityDetection.yaml",
+        "name": "Zhou first-passage attractor community detection",
+        "concept_kind": "algorithm",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "related_match:AIO:UnsupervisedClustering",
+          "related_match:AIO:MarkovChain"
+        ],
+        "has_aio_no_match": false
+      },
+      {
+        "id": "AIMech:ZhouRandomWalkDissimilarity",
+        "path": "data/curated/ZhouRandomWalkDissimilarity.yaml",
+        "name": "Zhou random-walk distance-profile dissimilarity",
+        "concept_kind": "mathematical_method",
+        "claim_count": 6,
+        "matched_terms": [
+          "causal"
+        ],
+        "aio_mapping_targets": [
+          "broad_match:AIO:MathematicalFunction",
+          "related_match:AIO:MarkovChain"
+        ],
+        "has_aio_no_match": false
+      }
+    ]
+  },
+  "ontology_vs_causality_distinction": {
+    "aio_taxonomic_subsumption": "442 parents edges across 442 generated AIO records represent OWL/RDFS class subsumption (rdfs:subClassOf / owl:Thing), not causal state transitions.",
+    "aio_mereological_relationships": "71 exported relationships use BFO:0000051 ('has part'), which src/aimech/schema/aimech.yaml explicitly defines as 'has part; exported ontology axiom, not evidence of causal effect.'",
+    "curated_aio_vocabulary_mappings": "1822 aio_mappings across 1338 curated records (plus 149 aio_no_match records) express conceptual scope alignment (broad_match, narrow_match, related_match) to pinned AIO classes, not causal edges.",
+    "curated_mechanism_claims": "2793 ConceptClaim entries with kind='mechanism' (out of 5149 total claims across 1,487 curated records) document mathematical, algorithmic, or architectural operating mechanisms in natural-language prose backed by primary literature locators, not biological or physical causal mechanism graphs.",
+    "ai_causal_inference_subject_matter": "6 generated AIO records and 80 maintained curated records match causal/graphical terminology in their definitions, identity notes, or claims across four methodological categories: (1) statistical causal inference, instrumental-variable estimation, and counterfactual fairness criteria; (2) probabilistic graphical models and Bayesian-network inference/diagnostics; (3) causal/autoregressive sequence masking, non-anticipative system identification, and algorithmic directed acyclic graphs (e.g. shortest-path DAGs); and (4) explicit limitation-claim disclaimers noting that benchmark graph examples do not establish causal biology. None of these records encode biological causal mechanism graphs."
+  },
+  "future_representation_assessment": {
+    "biological_causal_graphs": "not_applicable",
+    "candidate_native_analog": "No applicable causal-mechanism-graph representation exists in AIMech's current schemas (src/aimech/schema/aimech.yaml and src/aimech/schema/curated_concept.yaml). If a future schema revision ever introduces structured algorithmic operator-dataflow or mathematical dependency graphs, that representation would denote formal computational composition rather than empirical biological/mechanistic causality and would require explicit schema governance review before replacing Stage 2's applicability audit objective."
+  },
+  "script_path": "research/validation/20261025T052500Z-causal-graph-applicability-audit.py",
+  "script_sha256": "12b815009c3e567e9c5022b1999d57ae7e21853da8cca1443bb47589c0e09c25"
+}
