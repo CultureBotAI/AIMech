@@ -2,9 +2,9 @@ id: AIMech:GloVe
 name: GloVe
 definition: Word-vector learning from global word co-occurrence statistics.
 concept_kind: algorithm
-identity_notes: The existing word2vec concepts use different training objectives. RepresentationLearning
-  is defined as a deep neural network in this pin, so using it as a parent would need an upstream abstraction
-  correction.
+identity_notes: The existing word2vec concepts use different training objectives.
+  RepresentationLearning is defined as a deep neural network in this pin, so using
+  it as a parent would need an upstream abstraction correction.
 definition_evidence:
 - source_id: method-source
   locator: Section 3, equations 6–9, printed pp. 1534–1535 / PDF pp. 3–4
@@ -12,8 +12,8 @@ definition_evidence:
 claims:
 - claim_id: mechanism
   kind: mechanism
-  statement: A weighted least-squares objective fits word-vector dot products and biases to logarithms
-    of word co-occurrence counts.
+  statement: A weighted least-squares objective fits word-vector dot products and
+    biases to logarithms of word co-occurrence counts.
   evidence:
   - source_id: method-source
     locator: Section 3, equations 6–9, printed pp. 1534–1535 / PDF pp. 3–4
@@ -38,31 +38,35 @@ aio_snapshot:
 aio_mappings:
 - target: AIO:RepresentationLearning
   relation: related_match
-  rationale: The existing word2vec concepts use different training objectives. RepresentationLearning
-    is defined as a deep neural network in this pin, so using it as a parent would need an upstream abstraction
-    correction. Mapping is local curation, not an upstream subclass assertion.
+  rationale: GloVe learns continuous word representations from a global word-word
+    co-occurrence matrix, whereas AIO:RepresentationLearning in pinned AIO 2026-07-22
+    is defined as a deep neural network under AIO:DeepNeuralNetwork; related_match
+    records the representation-learning relationship without asserting a deep neural-network
+    subclass.
 - target: AIO:word2vecCBOW
   relation: related_match
-  rationale: The existing word2vec concepts use different training objectives. RepresentationLearning
-    is defined as a deep neural network in this pin, so using it as a parent would need an upstream abstraction
-    correction. Mapping is local curation, not an upstream subclass assertion.
+  rationale: GloVe fits word-vector dot products and biases to logarithms of global
+    co-occurrence counts via weighted least squares, whereas AIO:word2vecCBOW learns
+    embeddings by predicting a target word from local surrounding context windows;
+    related_match connects these sibling word-embedding algorithms.
 - target: AIO:word2vecSkipGram
   relation: related_match
-  rationale: The existing word2vec concepts use different training objectives. RepresentationLearning
-    is defined as a deep neural network in this pin, so using it as a parent would need an upstream abstraction
-    correction. Mapping is local curation, not an upstream subclass assertion.
+  rationale: GloVe optimizes a global log-bilinear regression objective over aggregated
+    co-occurrence counts rather than predicting local context words from a center
+    word as in AIO:word2vecSkipGram; related_match records their distinct training
+    objectives within word-vector learning.
 limitations:
-- This record supports method identity and the stated mechanism only; no universal performance or biological
-  efficacy claim is curated.
-- Proposed placement is an inference from the existing AIO hierarchy; maintainers must resolve task, algorithm
-  and model scope before acceptance.
+- This record supports method identity and the stated mechanism only; no universal
+  performance or biological efficacy claim is curated.
+- Proposed placement is an inference from the existing AIO hierarchy; maintainers
+  must resolve task, algorithm and model scope before acceptance.
 review_status: DRAFT
 curation:
   created_at: '2026-10-11T03:01:34Z'
-  updated_at: '2026-10-11T03:01:34Z'
-  curator: Codex
+  updated_at: '2026-11-04T14:15:32Z'
+  curator: Antigravity
   method: ai_assisted
-  model: GPT-6
-  agent_tool: Codex
+  model: Claude Opus 4.6
+  agent_tool: Antigravity
 aliases:
 - Global Vectors for Word Representation
