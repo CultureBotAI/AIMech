@@ -11,7 +11,7 @@
 
 ## Summary
 
-Full-coverage scientific category review of all 442 generated AIO concept records (data/aio/*.yaml) across all 7 top-level AIO branches (Bias=45, Function=61, Layer=88, LLM=32, MathematicalandStatisticalMethod=19, Model=50, Network=86, Preprocessing=27, TrainingStrategy=34) at frozen source revision 7ad7d92709e8816ab33bc8979d7187dec109a1ab against pinned upstream AIO release 2026-07-22 (sources/aio/aio.json) and src/aimech/importer.py. All 442 generated records faithfully project upstream IRIs, labels, IAO_0000115 definitions, scoped synonyms, parent subtrees, and branch roots without promoting terminology into unsupported scientific claims or evaluations. 433 records are retained cleanly; 9 records carry upstream ontology issues in sources/aio/aio.json (3 near-duplicate class pairs in F-C1S4-004, 3 genus-to-hierarchy mismatches in F-C1S4-005, and 1 misspelled exact synonym in F-C1S4-006) that are explicitly deferred to upstream berkeleybop/artificial-intelligence-ontology per AGENTS.md.
+Full-coverage scientific category review of all 442 generated AIO concept records (data/aio/*.yaml) across all 8 top-level AIO branches (Bias=61, Layer=168, MachineLearningTask=57, MathematicalFunction=14, Model=76, Network=52, Preprocessing=10, TrainingStrategy=4) at frozen source revision 7ad7d92709e8816ab33bc8979d7187dec109a1ab against pinned upstream AIO release 2026-07-22 (sources/aio/aio.json) and src/aimech/importer.py. All 442 generated records faithfully project upstream IRIs, labels, IAO_0000115 definitions, scoped synonyms, parent subtrees, and branch roots without promoting terminology into unsupported scientific claims or evaluations. 433 records are retained cleanly; 9 records carry upstream ontology issues in sources/aio/aio.json (3 near-duplicate class pairs in F-C1S4-004, 3 genus-to-hierarchy mismatches in F-C1S4-005, and 1 misspelled exact synonym in F-C1S4-006) that are explicitly deferred to upstream berkeleybop/artificial-intelligence-ontology per AGENTS.md.
 
 ## Scope And Provenance
 
@@ -489,27 +489,27 @@ Nine generated AIO records faithfully reflect upstream ontology defects in sourc
 
 ## Findings
 
-### F-C1S4-004: Defer three upstream AIO near-duplicate class pairs to berkeleybop/artificial-intelligence-ontology
+### F-C1S4-004: Defer three upstream AIO near-duplicate class pairs (AddLayer/AdditionLayer, TransformerLLM/TransformerLanguageModel, ZeroShotLearningLLM/ZeroshotLearning) to upstream ontology curation
 
-minor / deferred / confirmed; issue key: aio-upstream-near-duplicate-class-pairs.
+minor / deferred / confirmed; issue key: aio-upstream-near-duplicate-class-boundaries.
 
-Pinned upstream AIO release 2026-07-22 (sources/aio/aio.json) contains three near-duplicate class pairs projected into data/aio/*.yaml: (1) AIO:AddLayer ('Add Layer', parent AIO:TensorLayer) and AIO:AdditionLayer ('Addition Layer', parent AIO:Layer) have identical IAO_0000115 definitions ('A layer that adds inputs element-wise.') and overlapping exact synonyms; (2) AIO:TransformerLLM ('Transformer LLM', parent AIO:ModelSubset) and AIO:TransformerLanguageModel ('Transformer Language Model', parent AIO:LanguageModel) both denote transformer language models with overlapping exact synonyms; and (3) AIO:ZeroShotLearningLLM ('Zero-Shot Learning LLM', parent AIO:ModelSubset) and AIO:ZeroshotLearning ('Zeroshot Learning', parent AIO:LargeLanguageModel) both define zero-shot capability/paradigm inside the LLM/Model subtrees.
+Pinned upstream AIO release 2026-07-22 (sources/aio/aio.json) contains three pairs of distinct class IRIs with overlapping definitions, parent chains, or cross-linked synonyms: (1) AIO:AddLayer (branches: [Layer], parents: [AIO:MergingLayer], definition: 'A merging layer that adds a list of inputs taking as input a list of tensors all of the same shape.') and AIO:AdditionLayer (branches: [Layer], parents: [AIO:Layer], definition: 'A layer that adds inputs from one or more other layers to cells or neurons of a target layer.'); (2) AIO:TransformerLLM (branches: [Model], parents: [AIO:TransformerLanguageModel], exact synonym 'Transformer Large Language Model') and AIO:TransformerLanguageModel (branches: [Model], parents: [AIO:LanguageModel], exact synonym 'Transformer LM'), whose definitions share the identical relative clause 'that uses the transformer architecture based on multi-head attention mechanisms allowing it to contextualize tokens within a context window for effective language understanding and generation'; and (3) AIO:ZeroShotLearningLLM (branches: [Model], parents: [AIO:LargeLanguageModel], exact synonym 'Zero-Shot LLM', related synonym 'zero-shot learning') and AIO:ZeroshotLearning (branches: [Network], parents: [AIO:DeepNeuralNetwork], exact synonym 'ZSL'). Because data/aio/*.yaml is generated and upstream identifiers must not be locally rewritten or merged without upstream curation, these boundary overlaps are deferred to berkeleybop/artificial-intelligence-ontology.
 
 Disposition: Deferred to upstream berkeleybop/artificial-intelligence-ontology (src/ontology/aio-src.csv) and future aimech-refresh-aio cycles per AGENTS.md.
 
-### F-C1S4-005: Defer upstream AIO definition-genus vs is_a-hierarchy mismatches on RepresentationLearning, ZeroshotLearning, and TrainingStrategy
+### F-C1S4-005: Defer upstream AIO genus-to-hierarchy mismatches on RepresentationLearning, ZeroshotLearning, and TrainingStrategy to upstream ontology curation
 
 minor / deferred / confirmed; issue key: aio-upstream-genus-hierarchy-mismatch.
 
-In pinned upstream AIO release 2026-07-22 (sources/aio/aio.json), three classes have definition genera that conflict with their is_a placements: (1) AIO:RepresentationLearning has parent_ids=[AIO:DeepLearning] in the Network branch despite encompassing non-deep representation learning; (2) AIO:ZeroshotLearning is defined as 'A machine learning paradigm...' but has parent_ids=[AIO:LargeLanguageModel] in the Model branch; and (3) AIO:TrainingStrategy is a top-level root (parent_ids=[]) whose definition begins 'A machine learning subset focused on...'.
+In pinned upstream AIO release 2026-07-22 (sources/aio/aio.json), AIO:RepresentationLearning (branches: [Network], parents: [AIO:DeepNeuralNetwork], definition: 'A deep neural network that discovers representations required for feature detection or classification from raw data.') and AIO:ZeroshotLearning (branches: [Network], parents: [AIO:DeepNeuralNetwork], definition: 'A deep neural network that predicts classes at test time from classes not observed during training.') are placed under AIO:DeepNeuralNetwork with definitions beginning 'A deep neural network that...' despite denoting learning paradigms/tasks, and top-level branch AIO:TrainingStrategy (branches: [TrainingStrategy], parents: [owl:Thing]) defines itself with the genus 'A preprocessing used to train machine learning models...' while AIO:Preprocessing is a sibling top-level branch. Deferred to upstream berkeleybop/artificial-intelligence-ontology because data/aio/*.yaml is generated from the pinned ontology snapshot.
 
 Disposition: Deferred to upstream berkeleybop/artificial-intelligence-ontology (src/ontology/aio-src.csv); generated data/aio/*.yaml files must remain faithful projections of sources/aio/aio.json.
 
 ### F-C1S4-006: Defer upstream AIO exact-synonym typo ('Multilayer Perceptoron') on AIO:DeepFeedForwardNetwork to upstream ontology curation
 
-minor / deferred / confirmed; issue key: aio-upstream-deepfeedforwardnetwork-synonym-typo.
+minor / deferred / confirmed; issue key: aio-upstream-deep-feed-forward-synonym-typo.
 
-In pinned upstream AIO release 2026-07-22 (sources/aio/aio.json), class AIO:DeepFeedForwardNetwork (data/aio/DeepFeedForwardNetwork.yaml) carries the misspelled exact synonym 'Multilayer Perceptoron' (synonyms[2].value) alongside 'Multi-Layer Perceptron' and 'MLP'.
+In pinned upstream AIO release 2026-07-22 (sources/aio/aio.json), class AIO:DeepFeedForwardNetwork (data/aio/DeepFeedForwardNetwork.yaml) carries the misspelled exact synonym 'Multilayer Perceptoron' (synonyms[2].value) alongside exact synonyms 'DFF' (synonyms[0].value) and 'MLP' (synonyms[1].value). Deferred to upstream berkeleybop/artificial-intelligence-ontology because data/aio/*.yaml is generated and must reproduce sources/aio/aio.json byte-for-byte under python -m aimech seed --check.
 
 Disposition: Deferred to upstream berkeleybop/artificial-intelligence-ontology (src/ontology/aio-src.csv); generated data/aio/DeepFeedForwardNetwork.yaml must remain faithful to the pinned upstream snapshot.
 
@@ -566,9 +566,9 @@ verdict: pass_with_limitations
 native_verdict: retain_433_defer_9_upstream_aio
 scientific_review: true
 summary: Full-coverage scientific category review of all 442 generated AIO concept
-  records (data/aio/*.yaml) across all 7 top-level AIO branches (Bias=45, Function=61,
-  Layer=88, LLM=32, MathematicalandStatisticalMethod=19, Model=50, Network=86, Preprocessing=27,
-  TrainingStrategy=34) at frozen source revision 7ad7d92709e8816ab33bc8979d7187dec109a1ab
+  records (data/aio/*.yaml) across all 8 top-level AIO branches (Bias=61, Layer=168,
+  MachineLearningTask=57, MathematicalFunction=14, Model=76, Network=52, Preprocessing=10,
+  TrainingStrategy=4) at frozen source revision 7ad7d92709e8816ab33bc8979d7187dec109a1ab
   against pinned upstream AIO release 2026-07-22 (sources/aio/aio.json) and src/aimech/importer.py.
   All 442 generated records faithfully project upstream IRIs, labels, IAO_0000115
   definitions, scoped synonyms, parent subtrees, and branch roots without promoting
@@ -1912,7 +1912,7 @@ source:
     sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
     role: context
   - path: research/validation/20261104T112000Z-c1s4-frozen-inventory-audit.json
-    sha256: 01b0f4973c4bad5333d1ae3e6d7ae326711b7ac2c72ea0c39486e223a8434666
+    sha256: 36c194eba154ad6ab1e9a7088120a53779eef7262a79f3bbd9be25eae735df86
     role: context
   - path: sources/aio/aio.json
     sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
@@ -12363,7 +12363,7 @@ evidence:
   summary: Deterministic Stage 4 frozen-inventory audit across all 442 generated AIO
     records and 1,487 curated records verifying 100% review coverage, branch distributions,
     and upstream AIO boundary anomalies.
-  snapshot_sha256: 01b0f4973c4bad5333d1ae3e6d7ae326711b7ac2c72ea0c39486e223a8434666
+  snapshot_sha256: 36c194eba154ad6ab1e9a7088120a53779eef7262a79f3bbd9be25eae735df86
 assessments:
 - assessment_id: ASM-AIO-PROJECTION-INTEGRITY
   area: grounding
@@ -12855,23 +12855,32 @@ assessments:
   - E-C1S4-AUDIT
 findings:
 - finding_id: F-C1S4-004
-  issue_key: aio-upstream-near-duplicate-class-pairs
+  issue_key: aio-upstream-near-duplicate-class-boundaries
   category: scope
   severity: minor
   status: deferred
   certainty: confirmed
-  title: Defer three upstream AIO near-duplicate class pairs to berkeleybop/artificial-intelligence-ontology
+  title: Defer three upstream AIO near-duplicate class pairs (AddLayer/AdditionLayer,
+    TransformerLLM/TransformerLanguageModel, ZeroShotLearningLLM/ZeroshotLearning)
+    to upstream ontology curation
   description: 'Pinned upstream AIO release 2026-07-22 (sources/aio/aio.json) contains
-    three near-duplicate class pairs projected into data/aio/*.yaml: (1) AIO:AddLayer
-    (''Add Layer'', parent AIO:TensorLayer) and AIO:AdditionLayer (''Addition Layer'',
-    parent AIO:Layer) have identical IAO_0000115 definitions (''A layer that adds
-    inputs element-wise.'') and overlapping exact synonyms; (2) AIO:TransformerLLM
-    (''Transformer LLM'', parent AIO:ModelSubset) and AIO:TransformerLanguageModel
-    (''Transformer Language Model'', parent AIO:LanguageModel) both denote transformer
-    language models with overlapping exact synonyms; and (3) AIO:ZeroShotLearningLLM
-    (''Zero-Shot Learning LLM'', parent AIO:ModelSubset) and AIO:ZeroshotLearning
-    (''Zeroshot Learning'', parent AIO:LargeLanguageModel) both define zero-shot capability/paradigm
-    inside the LLM/Model subtrees.'
+    three pairs of distinct class IRIs with overlapping definitions, parent chains,
+    or cross-linked synonyms: (1) AIO:AddLayer (branches: [Layer], parents: [AIO:MergingLayer],
+    definition: ''A merging layer that adds a list of inputs taking as input a list
+    of tensors all of the same shape.'') and AIO:AdditionLayer (branches: [Layer],
+    parents: [AIO:Layer], definition: ''A layer that adds inputs from one or more
+    other layers to cells or neurons of a target layer.''); (2) AIO:TransformerLLM
+    (branches: [Model], parents: [AIO:TransformerLanguageModel], exact synonym ''Transformer
+    Large Language Model'') and AIO:TransformerLanguageModel (branches: [Model], parents:
+    [AIO:LanguageModel], exact synonym ''Transformer LM''), whose definitions share
+    the identical relative clause ''that uses the transformer architecture based on
+    multi-head attention mechanisms allowing it to contextualize tokens within a context
+    window for effective language understanding and generation''; and (3) AIO:ZeroShotLearningLLM
+    (branches: [Model], parents: [AIO:LargeLanguageModel], exact synonym ''Zero-Shot
+    LLM'', related synonym ''zero-shot learning'') and AIO:ZeroshotLearning (branches:
+    [Network], parents: [AIO:DeepNeuralNetwork], exact synonym ''ZSL''). Because data/aio/*.yaml
+    is generated and upstream identifiers must not be locally rewritten or merged
+    without upstream curation, these boundary overlaps are deferred to berkeleybop/artificial-intelligence-ontology.'
   target_ids:
   - AIO:AddLayer
   - AIO:AdditionLayer
@@ -12883,7 +12892,8 @@ findings:
   - id
   - name
   - definition
-  - parent_ids
+  - parents
+  - branches
   - synonyms
   evidence_ids:
   - E-AIO-SNAPSHOT
@@ -12908,23 +12918,28 @@ findings:
   severity: minor
   status: deferred
   certainty: confirmed
-  title: Defer upstream AIO definition-genus vs is_a-hierarchy mismatches on RepresentationLearning,
-    ZeroshotLearning, and TrainingStrategy
+  title: Defer upstream AIO genus-to-hierarchy mismatches on RepresentationLearning,
+    ZeroshotLearning, and TrainingStrategy to upstream ontology curation
   description: 'In pinned upstream AIO release 2026-07-22 (sources/aio/aio.json),
-    three classes have definition genera that conflict with their is_a placements:
-    (1) AIO:RepresentationLearning has parent_ids=[AIO:DeepLearning] in the Network
-    branch despite encompassing non-deep representation learning; (2) AIO:ZeroshotLearning
-    is defined as ''A machine learning paradigm...'' but has parent_ids=[AIO:LargeLanguageModel]
-    in the Model branch; and (3) AIO:TrainingStrategy is a top-level root (parent_ids=[])
-    whose definition begins ''A machine learning subset focused on...''.'
+    AIO:RepresentationLearning (branches: [Network], parents: [AIO:DeepNeuralNetwork],
+    definition: ''A deep neural network that discovers representations required for
+    feature detection or classification from raw data.'') and AIO:ZeroshotLearning
+    (branches: [Network], parents: [AIO:DeepNeuralNetwork], definition: ''A deep neural
+    network that predicts classes at test time from classes not observed during training.'')
+    are placed under AIO:DeepNeuralNetwork with definitions beginning ''A deep neural
+    network that...'' despite denoting learning paradigms/tasks, and top-level branch
+    AIO:TrainingStrategy (branches: [TrainingStrategy], parents: [owl:Thing]) defines
+    itself with the genus ''A preprocessing used to train machine learning models...''
+    while AIO:Preprocessing is a sibling top-level branch. Deferred to upstream berkeleybop/artificial-intelligence-ontology
+    because data/aio/*.yaml is generated from the pinned ontology snapshot.'
   target_ids:
   - AIO:RepresentationLearning
   - AIO:ZeroshotLearning
   - AIO:TrainingStrategy
   field_paths:
   - definition
-  - parent_ids
-  - branch
+  - parents
+  - branches
   evidence_ids:
   - E-AIO-SNAPSHOT
   - E-C1S4-AUDIT
@@ -12944,7 +12959,7 @@ findings:
     (src/ontology/aio-src.csv); generated data/aio/*.yaml files must remain faithful
     projections of sources/aio/aio.json.
 - finding_id: F-C1S4-006
-  issue_key: aio-upstream-deepfeedforwardnetwork-synonym-typo
+  issue_key: aio-upstream-deep-feed-forward-synonym-typo
   category: nomenclature
   severity: minor
   status: deferred
@@ -12954,7 +12969,10 @@ findings:
   description: In pinned upstream AIO release 2026-07-22 (sources/aio/aio.json), class
     AIO:DeepFeedForwardNetwork (data/aio/DeepFeedForwardNetwork.yaml) carries the
     misspelled exact synonym 'Multilayer Perceptoron' (synonyms[2].value) alongside
-    'Multi-Layer Perceptron' and 'MLP'.
+    exact synonyms 'DFF' (synonyms[0].value) and 'MLP' (synonyms[1].value). Deferred
+    to upstream berkeleybop/artificial-intelligence-ontology because data/aio/*.yaml
+    is generated and must reproduce sources/aio/aio.json byte-for-byte under python
+    -m aimech seed --check.
   target_ids:
   - AIO:DeepFeedForwardNetwork
   field_paths:
