@@ -11,6 +11,7 @@
     var resetBtn = document.getElementById('resetFilters');
     var countEl = document.getElementById('matchCount');
     var totalEl = document.getElementById('totalCount');
+    var emptyEl = document.getElementById('emptyState');
     var table = document.getElementById('conceptTable');
 
     if (!table) return;
@@ -56,7 +57,8 @@
     }
 
     function applyFilters() {
-      var query = (searchInput ? searchInput.value : '').trim().toLowerCase();
+      var typed = (searchInput ? searchInput.value : '').trim();
+      var query = typed.toLowerCase();
       var sortMode = (sortSelect ? sortSelect.value : 'name-asc');
       var origin = (originSelect ? originSelect.value : 'all');
       var kind = (kindSelect ? kindSelect.value : 'all');
@@ -94,10 +96,11 @@
 
       if (countEl) countEl.textContent = visibleCount;
       if (totalEl) totalEl.textContent = totalRows;
+      if (emptyEl) emptyEl.hidden = visibleCount !== 0;
 
-      // Update URL search parameters without reloading
+      // Update URL search parameters without reloading; the query keeps its case
       var params = new URLSearchParams();
-      if (query) params.set('q', query);
+      if (typed) params.set('q', typed);
       if (sortMode && sortMode !== 'name-asc') params.set('sort', sortMode);
       if (origin !== 'all') params.set('origin', origin);
       if (kind !== 'all') params.set('kind', kind);
@@ -107,13 +110,26 @@
       window.history.replaceState({}, '', newUrl);
     }
 
+    // A shared URL can carry a value this listing does not offer (a mistyped
+    // origin, a kind that was renamed). Keep the control's default rather than
+    // selecting nothing, which hid every row or ignored the filter silently.
+    function restoreSelect(select, value) {
+      if (!select || value === null) return;
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === value) {
+          select.value = value;
+          return;
+        }
+      }
+    }
+
     // Populate from URL params on initial load
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('q') && searchInput) searchInput.value = urlParams.get('q');
-    if (urlParams.has('sort') && sortSelect) sortSelect.value = urlParams.get('sort');
-    if (urlParams.has('origin') && originSelect) originSelect.value = urlParams.get('origin');
-    if (urlParams.has('kind') && kindSelect) kindSelect.value = urlParams.get('kind');
-    if (urlParams.has('branch') && branchSelect) branchSelect.value = urlParams.get('branch');
+    restoreSelect(sortSelect, urlParams.get('sort'));
+    restoreSelect(originSelect, urlParams.get('origin'));
+    restoreSelect(kindSelect, urlParams.get('kind'));
+    restoreSelect(branchSelect, urlParams.get('branch'));
 
     // Event listeners
     if (searchInput) searchInput.addEventListener('input', applyFilters);

@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MatDot and PolyDot Codes for Straggler-Resilient Coded Matrix Multiplication · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> MatDot Codes, PolyDot Codes, Systematic MatDot Codes, MatDot and PolyDot Coded Matrix Multiplication
@@ -56,9 +69,36 @@
     A family of algebraic coded matrix-multiplication schemes proposed by Dutta, Fahim, Haddadpour, Jeong, Cadambe, and Grover (2017/2020) that reduces the straggler recovery threshold for distributed multiplication AB of N x N matrices under a 1/m per-worker storage constraint from m^2 (in Polynomial Codes) down to 2m - 1 in MatDot Codes—by partitioning A vertically into m column-blocks [A_0, ..., A_{m-1}] and B horizontally into m row-blocks [B_0^T, ..., B_{m-1}^T]^T, encoding p_A(x) = sum_{i=0}^{m-1} A_i x^i and p_B(x) = sum_{j=0}^{m-1} B_j x^{m-1-j}, and recovering AB = sum_{i=0}^{m-1} A_i B_i as the coefficient of x^{m-1} in p_A(x) p_B(x)—and unifies MatDot and Polynomial Codes via PolyDot(m, s, t) Codes (with st = m) to trade off worker-to-fusion communication cost O(N^2 / t^2) against recovery threshold k = t^2(2s - 1).
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r541-primary-pdf">On the Optimal Recovery Threshold of Coded Matrix Multiplication</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r541-arxiv-abs">On the Optimal Recovery Threshold of Coded Matrix Multiplication (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r541-metadata-cr">On the Optimal Recovery Threshold of Coded Matrix Multiplication (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Distinct from Polynomial Codes (AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication, which split A horizontally and B vertically into outer-product blocks requiring recovery threshold m^2 with O(N^2 / m^2) per-worker output communication). Dutta et al. (Allerton 2017 / IEEE Trans. Inf. Theory 2020 / arXiv:1801.10292, Constructions 1-5 &amp; Theorems 1-6, pp. 4-17) introduce four coupled constructions: (1) MatDot Codes (Construction 1, Theorem 1), which encode column-blocks of A as p_A(x) = sum_{i=0}^{m-1} A_i x^i and row-blocks of B as p_B(x) = sum_{j=0}^{m-1} B_j x^{m-1-j} so that AB = sum_{i=0}^{m-1} A_i B_i is the coefficient of x^{m-1} in the degree-(2m-2) product polynomial p_C(x) = p_A(x) p_B(x), achieving recovery threshold k = 2m - 1; (2) Systematic MatDot Codes (Construction 2, Lemma 1, Theorem 2), which encode p_A(x) = sum_{i=1}^m A_{i-1} L_i(x) and p_B(x) = sum_{i=1}^m B_{i-1} L_i(x) using Lagrange basis polynomials L_i(x) so the first m workers output uncoded A_{r-1} B_{r-1} while any 2m - 1 workers suffice for interpolation; (3) PolyDot(m, s, t) Codes (Construction 3, Lemma 2, Theorem 3), which partition A into a t x s block grid and B into an s x t block grid (st = m) to achieve recovery threshold t^2(2s - 1) (improved to t^2 s + s - 1 under generalized substitution x = y^t, z = y^{st}, Table I); and (4) n-Matrix Multiplication Codes (Constructions 4-5, Theorems 4-6).
+      Distinct from Polynomial Codes (<a href="../curated/PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication.html">AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication</a>, which split A horizontally and B vertically into outer-product blocks requiring recovery threshold m^2 with O(N^2 / m^2) per-worker output communication). Dutta et al. (Allerton 2017 / IEEE Trans. Inf. Theory 2020 / <a href="https://arxiv.org/abs/1801.10292" target="_blank" rel="noopener">arXiv:1801.10292</a>, Constructions 1-5 &amp; Theorems 1-6, pp. 4-17) introduce four coupled constructions: (1) MatDot Codes (Construction 1, Theorem 1), which encode column-blocks of A as p_A(x) = sum_{i=0}^{m-1} A_i x^i and row-blocks of B as p_B(x) = sum_{j=0}^{m-1} B_j x^{m-1-j} so that AB = sum_{i=0}^{m-1} A_i B_i is the coefficient of x^{m-1} in the degree-(2m-2) product polynomial p_C(x) = p_A(x) p_B(x), achieving recovery threshold k = 2m - 1; (2) Systematic MatDot Codes (Construction 2, Lemma 1, Theorem 2), which encode p_A(x) = sum_{i=1}^m A_{i-1} L_i(x) and p_B(x) = sum_{i=1}^m B_{i-1} L_i(x) using Lagrange basis polynomials L_i(x) so the first m workers output uncoded A_{r-1} B_{r-1} while any 2m - 1 workers suffice for interpolation; (3) PolyDot(m, s, t) Codes (Construction 3, Lemma 2, Theorem 3), which partition A into a t x s block grid and B into an s x t block grid (st = m) to achieve recovery threshold t^2(2s - 1) (improved to t^2 s + s - 1 under generalized substitution x = y^t, z = y^{st}, Table I); and (4) n-Matrix Multiplication Codes (Constructions 4-5, Theorems 4-6).
     </div>
 </div>
 
@@ -179,7 +219,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -198,7 +238,7 @@
             <span class="badge badge-aio">related_match</span>
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            AIO:LinearRegression and distributed linear/deep learning rely on straggler-resilient coded matrix-matrix multiplication provided by MatDot and PolyDot Codes.
+            <a href="../aio/LinearRegression.html">AIO:LinearRegression</a> and distributed linear/deep learning rely on straggler-resilient coded matrix-matrix multiplication provided by MatDot and PolyDot Codes.
           </td>
         </tr>
       </tbody>
@@ -212,7 +252,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -240,7 +280,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml</div>
+            <div><strong>ID:</strong> <a href="https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml" target="_blank" rel="noopener">https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:16643ac3cced…
             </div>
@@ -263,7 +303,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/1801.10292</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/1801.10292" target="_blank" rel="noopener">https://arxiv.org/abs/1801.10292</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:0ed6854109ed…
             </div>
@@ -286,7 +326,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml</div>
+            <div><strong>ID:</strong> <a href="https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml" target="_blank" rel="noopener">https://dblp.org/rec/journals/tit/DuttaFHJCG20.xml</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:a2bc60ebc732…
             </div>
@@ -340,10 +380,60 @@
       <code>data/curated/MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-20T08:27:44Z">2026-10-20T08:27:44Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication from On the Optimal Recovery Threshold of Coded Matrix Multiplication full-text PDF with boundary verification</strong>
+<p>Full-text inspection of IEEE Transactions on Information Theory, Vol. 66, No. 1, pp. 278-301 (Allerton 2017 / <a href="https://arxiv.org/abs/1801.10292" target="_blank" rel="noopener">arXiv:1801.10292</a>) (2020) and pure-Python boundary verification in research/discovery/matdot-polydot-codes-straggler-resilient-matrix-multiplication-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/matdot-polydot-codes-straggler-resilient-matrix-multiplication/2026-10-20T082744Z-antigravity-69b31f.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T102400Z-matdot-polydot-codes-straggler-resilient-matrix-multiplication.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T10:24:30Z">2026-10-19T10:24:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain MatDot and PolyDot Codes for Straggler-Resilient Coded Matrix Multiplication as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T102430Z-matdot-polydot-codes-straggler-resilient-matrix-multiplication/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T102430Z-matdot-polydot-codes-straggler-resilient-matrix-multiplication/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AMatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FMatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication.html" target="_blank" rel="noopener">Report a problem with AIMech:MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/MatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -352,7 +442,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=MatDot%20and%20PolyDot%20Codes%20for%20Straggler-Resilient%20Coded%20Matrix%20Multiplication"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AMatDotAndPolyDotCodesForStragglerResilientCodedMatrixMultiplication"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -362,7 +452,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

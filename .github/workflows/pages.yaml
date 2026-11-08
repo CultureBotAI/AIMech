@@ -32,7 +32,21 @@ jobs:
           mkdir -p "$RUNNER_TEMP/site"
           cp index.html "$RUNNER_TEMP/site/"
           cp -r pages "$RUNNER_TEMP/site/"
+          # GitHub Pages serves the artifact root's 404.html for a missing
+          # address at any depth; its links are site-root-absolute.
+          cp pages/404.html "$RUNNER_TEMP/site/404.html"
           touch "$RUNNER_TEMP/site/.nojekyll"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: '0.12.5'
+          python-version: '3.13'
+
+      # The complete-records download is built from this commit's data/ at
+      # deploy time and never committed; pages/index.html links it.
+      - name: Export complete records
+        run: uv run --locked python scripts/export_records.py --out "$RUNNER_TEMP/site/pages/downloads" --commit "$GITHUB_SHA"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

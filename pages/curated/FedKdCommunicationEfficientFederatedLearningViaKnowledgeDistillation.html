@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FedKD: Communication-Efficient Federated Learning via Knowledge Distillation · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> FedKD, Adaptive Mutual Distillation with Dynamic SVD Gradient Compression Federated Learning, Communication-Efficient Federated Learning via Knowledge Distillation
@@ -56,9 +69,36 @@
     A communication-efficient federated learning algorithm (FedKD; Wu, Wu, Lyu, Huang, and Xie, Nature Communications 2022) in which each client i maintains a large local private teacher (mentor) model T_i with parameters Theta_i^t and a smaller shared student (mentee) model S with parameters Theta^s that are trained reciprocally on private local data via task-loss-gated adaptive mutual distillation—combining cross-entropy task losses L_{t,i}^t and L_{s,i}^t with soft-label KL losses L_{t,i}^d = KL(y_i^s, y_i^t) / (L_{t,i}^t + L_{s,i}^t), L_{s,i}^d = KL(y_i^t, y_i^s) / (L_{t,i}^t + L_{s,i}^t) and hidden-state/attention alignment loss L_{t,i}^h = L_{s,i}^h = (MSE(H_i^t, W_i^h H^s) + MSE(A_i^t, A^s)) / (L_{t,i}^t + L_{s,i}^t)—while communicating only the student gradients g_i = dL_{s,i} / dTheta^s compressed by dynamic truncated SVD g_i approx U_i Sigma_i V_i under a linearly increasing singular-value energy threshold T(t) = T_start + (T_end - T_start) t.
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r504-primary-pdf">FedKD: Communication Efficient Federated Learning via Knowledge Distillation</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r504-arxiv-abs">FedKD: Communication Efficient Federated Learning via Knowledge Distillation (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r504-metadata-cr">FedKD: Communication Efficient Federated Learning via Knowledge Distillation (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Distinct from proxy-dataset federated ensemble distillation methods such as FedMD (AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation; Li &amp; Wang, 2019) and FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning; Lin et al., NeurIPS 2020), which require a shared or unlabeled public dataset to exchange or ensemble logits; FedKD requires no shared dataset and instead exchanges SVD-factorized gradients of a compact local student model that mutually distills with each client&#39;s private large teacher model. Distinct from FedGKT (AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning; He et al., 2020), which offloads a large classifier to the server and exchanges intermediate feature maps and logits.
+      Distinct from proxy-dataset federated ensemble distillation methods such as FedMD (<a href="../curated/FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation.html">AIMech:FedMdHeterogeneousFederatedLearningViaPublicDatasetModelDistillation</a>; Li &amp; Wang, 2019) and FedDF (<a href="../curated/FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning.html">AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning</a>; Lin et al., NeurIPS 2020), which require a shared or unlabeled public dataset to exchange or ensemble logits; FedKD requires no shared dataset and instead exchanges SVD-factorized gradients of a compact local student model that mutually distills with each client&#39;s private large teacher model. Distinct from FedGKT (<a href="../curated/FedGktGroupKnowledgeTransferForEdgeFederatedLearning.html">AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning</a>; He et al., 2020), which offloads a large classifier to the server and exchanges intermediate feature maps and logits.
     </div>
 </div>
 
@@ -180,7 +220,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -213,7 +253,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -241,7 +281,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1038/s41467-022-29763-x</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1038/s41467-022-29763-x" target="_blank" rel="noopener">https://doi.org/10.1038/s41467-022-29763-x</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:7dc0558dda59…
             </div>
@@ -264,7 +304,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2108.13323</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2108.13323" target="_blank" rel="noopener">https://arxiv.org/abs/2108.13323</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:a163eed9cca8…
             </div>
@@ -287,7 +327,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1038/s41467-022-29763-x</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1038/s41467-022-29763-x" target="_blank" rel="noopener">https://doi.org/10.1038/s41467-022-29763-x</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:c287d5419aa5…
             </div>
@@ -341,10 +381,60 @@
       <code>data/curated/FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-20T04:20:28Z">2026-10-20T04:20:28Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation from FedKD: Communication Efficient Federated Learning via Knowledge Distillation full-text PDF with boundary verification</strong>
+<p>Full-text inspection of Nature Communications 13, 2032 (2022) (2022) and pure-Python boundary verification in research/discovery/fedkd-adaptive-mutual-distillation-svd-gradient-compression-fl-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/fedkd-adaptive-mutual-distillation-svd-gradient-compression-fl/2026-10-20T042028Z-antigravity-42828f.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T094700Z-fedkd-adaptive-mutual-distillation-svd-gradient-compression-fl.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T09:47:30Z">2026-10-19T09:47:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain FedKD: Communication-Efficient Federated Learning via Knowledge Distillation as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T094730Z-fedkd-adaptive-mutual-distillation-svd-gradient-compression-fl/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T094730Z-fedkd-adaptive-mutual-distillation-svd-gradient-compression-fl/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AFedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FFedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation.html" target="_blank" rel="noopener">Report a problem with AIMech:FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/FedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -353,7 +443,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=FedKD%3A%20Communication-Efficient%20Federated%20Learning%20via%20Knowledge%20Distillation"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedKdCommunicationEfficientFederatedLearningViaKnowledgeDistillation"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -363,7 +453,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

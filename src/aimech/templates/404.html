@@ -1,16 +1,31 @@
 {% extends "base.html" %}
+{#- GitHub Pages serves this page from the artifact root for a missing address at
+    any depth (.github/workflows/pages.yaml copies it there), so root is
+    site-root-absolute and no link here may be relative. -#}
 
 {% block title %}Page Not Found · AIMech{% endblock %}
 
 {% block content %}
-<div class="hero" style="text-align: center; padding: 4rem 2rem;">
-  <h1 style="font-size: 3rem; margin-bottom: 0.5rem; color: var(--accent);">404</h1>
-  <p class="lead" style="margin: 0 auto 1.5rem;">
-    The requested AI concept or ontology page could not be found.
+<div class="hero not-found">
+  <h1>Page not found</h1>
+  <p class="lead">
+    No AIMech page exists at this address. It may be mistyped, or the record may have been
+    renamed: a curated concept page is named after its record file
+    (<code>curated/&lt;file&gt;.html</code>) and an AIO class page after its class
+    (<code>aio/&lt;class&gt;.html</code>).
   </p>
-  <div style="display: flex; gap: 1rem; justify-content: center;">
-    <a href="{{ root }}index.html" class="btn" style="padding: 0.6rem 1.25rem;">Back to Home</a>
-    <a href="{{ root }}browse.html" class="btn" style="padding: 0.6rem 1.25rem; background: var(--accent); color: #fff;">Browse Catalogue</a>
-  </div>
+  <form class="hero-search" action="{{ root }}browse.html" method="get" role="search">
+    <label for="not-found-query" class="facet-label">Search all concepts</label>
+    <input id="not-found-query" type="search" name="q" placeholder="Name, identifier, definition or keyword…">
+    <button type="submit">Search</button>
+  </form>
+  <ul class="not-found-links">
+    <li><a href="{{ root }}index.html">AIMech home</a></li>
+    <li><a href="{{ root }}browse.html">Browse every concept</a></li>
+    <li><a href="{{ root }}map.html">Text embedding map</a></li>
+    <li><a href="{{ root }}graph.html">Ontology &amp; grounding network graph</a></li>
+    <li><a href="{{ root }}schema.html">LinkML schema reference</a></li>
+    <li><a href="https://culturebotai.github.io/mechs/">All Mech projects</a></li>
+  </ul>
 </div>
 {% endblock %}

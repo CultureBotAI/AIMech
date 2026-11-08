@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Iterative Hessian Sketch for Constrained Least-Squares and Information-Theoretic Classical Sketching Lower Bounds · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,18 +50,55 @@
     <span class="detail-id">AIMech:IterativeHessianSketchForConstrainedLeastSquares</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini 3).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> Iterative Hessian Sketch (IHS, Pilanci &amp; Wainwright 2016), Hessian Sketch for Constrained Least-Squares, Tangent-Cone Gaussian-Width Sketched Least-Squares Iteration, Fano Information-Theoretic Classical Sketching Lower Bound
     </div>
 
   <div class="detail-desc">
-    Iterative Hessian Sketch for Constrained Least-Squares and Information-Theoretic Classical Sketching Lower Bounds is a randomized sketching and statistical optimization methodology introduced by Pilanci and Wainwright (2016, Journal of Machine Learning Research 17(53):1-38, arXiv:1411.0347v1) for solving large-scale convex-constrained least-squares problems x^{LS} := argmin_{x in C} (1/2) ||A x - y||_2^2 with data matrix A in R^{n x d}, response y in R^n, and convex constraint set C subseteq R^d. First, under noisy observations y = A x^* + w with w ~ N(0, sigma^2 I_n) and any sketching matrix S in R^{m x n} satisfying ||E[S^T (S S^T)^{-1} S]||_op &lt;= eta (m/n) (with eta = 1 for Gaussian and randomized orthonormal system sketches and eta = alpha for alpha-balanced row sampling), Theorem 1 proves via Fano&#39;s inequality that any estimator (S A, S y) |-&gt; x^dagger constructed from classically sketched data suffers worst-case prediction risk sup_{x^* in C_0} E[||x^dagger - x^*||_A^2] &gt;= (sigma^2 / (128 eta)) * log(M_{1/2} / 2) / min{m, n} (where ||u||_A^2 := (1/n)||A u||_2^2 and M_{1/2} is the 1/2-packing cardinality of A(C_0) cap B_2(delta sqrt(n))), showing that one-shot classical sketching requires m asymp n to match the statistical rate of x^{LS}. Second, to eliminate this statistical sub-optimality without forming A^T A, the Iterative Hessian Sketch (IHS) sketches only the quadratic Hessian term while retaining exact residual inner products with y: starting from x^0 = 0, iteration t + 1 draws an independent isotropic sketch matrix S^{t+1} in R^{m x n} with E[(S^{t+1})^T S^{t+1} / m] = I_n and updates x^{t+1} = argmin_{x in C} { (1/(2m)) ||S^{t+1} A (x - x^t)||_2^2 - &lt;A^T (y - A x^t), x&gt; } (Equation 24). Over the transformed tangent cone K^{LS} := {t A(x - x^{LS}) : t &gt;= 0, x in C}, Theorem 2 proves the deterministic contraction ||x^N - x^{LS}||_A &lt;= (prod_{t=1}^N Z_2(S^t) / Z_1(S^t)) ||x^{LS}||_A and shows that sketch dimension m &gt;= (c_0 / rho^2) W^2(K^{LS}) (scaling with the squared Gaussian width of K^{LS}, such as O(d), O(s log(ed/s)) for s-sparse l_1 balls, or O(r(d_1 + d_2)) for rank-r nuclear-norm balls) yields geometric convergence ||x^N - x^{LS}||_A &lt;= rho^N ||x^{LS}||_A in N = O(log n) rounds.
+    Iterative Hessian Sketch for Constrained Least-Squares and Information-Theoretic Classical Sketching Lower Bounds is a randomized sketching and statistical optimization methodology introduced by Pilanci and Wainwright (2016, Journal of Machine Learning Research 17(53):1-38, <a href="https://arxiv.org/abs/1411.0347v1" target="_blank" rel="noopener">arXiv:1411.0347v1</a>) for solving large-scale convex-constrained least-squares problems x^{LS} := argmin_{x in C} (1/2) ||A x - y||_2^2 with data matrix A in R^{n x d}, response y in R^n, and convex constraint set C subseteq R^d. First, under noisy observations y = A x^* + w with w ~ N(0, sigma^2 I_n) and any sketching matrix S in R^{m x n} satisfying ||E[S^T (S S^T)^{-1} S]||_op &lt;= eta (m/n) (with eta = 1 for Gaussian and randomized orthonormal system sketches and eta = alpha for alpha-balanced row sampling), Theorem 1 proves via Fano&#39;s inequality that any estimator (S A, S y) |-&gt; x^dagger constructed from classically sketched data suffers worst-case prediction risk sup_{x^* in C_0} E[||x^dagger - x^*||_A^2] &gt;= (sigma^2 / (128 eta)) * log(M_{1/2} / 2) / min{m, n} (where ||u||_A^2 := (1/n)||A u||_2^2 and M_{1/2} is the 1/2-packing cardinality of A(C_0) cap B_2(delta sqrt(n))), showing that one-shot classical sketching requires m asymp n to match the statistical rate of x^{LS}. Second, to eliminate this statistical sub-optimality without forming A^T A, the Iterative Hessian Sketch (IHS) sketches only the quadratic Hessian term while retaining exact residual inner products with y: starting from x^0 = 0, iteration t + 1 draws an independent isotropic sketch matrix S^{t+1} in R^{m x n} with E[(S^{t+1})^T S^{t+1} / m] = I_n and updates x^{t+1} = argmin_{x in C} { (1/(2m)) ||S^{t+1} A (x - x^t)||_2^2 - &lt;A^T (y - A x^t), x&gt; } (Equation 24). Over the transformed tangent cone K^{LS} := {t A(x - x^{LS}) : t &gt;= 0, x in C}, Theorem 2 proves the deterministic contraction ||x^N - x^{LS}||_A &lt;= (prod_{t=1}^N Z_2(S^t) / Z_1(S^t)) ||x^{LS}||_A and shows that sketch dimension m &gt;= (c_0 / rho^2) W^2(K^{LS}) (scaling with the squared Gaussian width of K^{LS}, such as O(d), O(s log(ed/s)) for s-sparse l_1 balls, or O(r(d_1 + d_2)) for rank-r nuclear-norm balls) yields geometric convergence ||x^N - x^{LS}||_A &lt;= rho^N ||x^{LS}||_A in N = O(log n) rounds.
+  </div>
+
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-pilanci2016-ihs-pdf">Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares</a></span>
+          <span>· <strong>Locator:</strong> Abstract, p. 1; Sections 1-3, pp. 1-20, Theorem 1, Examples 1-3, Propositions 1-2, Lemma 1, Theorem 2, Corollaries 1-4, Equations (1)-(33); Appendices A-E, pp. 23-31, Lemmas 2-7, Equations (34)-(48)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-pilanci2016-ihs-abs">Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares (arXiv Abstract)</a></span>
+          <span>· <strong>Locator:</strong> <a href="https://arxiv.org/abs/1411.0347v1" target="_blank" rel="noopener">arXiv:1411.0347v1</a> abstract and metadata</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-pilanci2016-ihs-jmlr">Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares (JMLR v17/14-460)</a></span>
+          <span>· <strong>Locator:</strong> Journal of Machine Learning Research 17(53):1-38 (2016) metadata and abstract</span>
+        </div>
+      </li>
+    </ul>
   </div>
 
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Resolved against all 442 pinned AIO records and 620 maintained AIMech records. Distinct from AIMech:NewtonSketchRandomizedHessianProjectedOptimization (Pilanci &amp; Wainwright 2017, SIAM J. Optim. 27(1):205-245, arXiv:1505.02250v1, which develops general second-order Newton Sketch updates using state-dependent Hessian square roots nabla^2 f(x^t)^{1/2} for general twice-differentiable convex objectives and self-concordant interior-point barrier methods, whereas Pilanci &amp; Wainwright 2016 establishes the Fano information-theoretic lower bound for any estimator based on classically sketched pairs (S A, S y), the deterministic tangent-cone directional contraction ratio Z_2(S)/Z_1(S) around the constrained least-squares estimator x^{LS}, and minimax statistical risk matching via localized Gaussian widths varepsilon_n^2(K^*) in O(log n) constrained least-squares rounds), from AIMech:CountSketchLeveragedHybridRandomizedConstrainedAndRidgeRegression (Wang, Gittens, &amp; Mahoney 2018, which studies single-pass CountSketch-plus-leverage-score preconditioners for unconstrained/ridge/L1-L2 regression), and from AIMech:StatisticallyPreconditionedAcceleratedIterativeSketchingLeastSquaresAndRidge (Dereziński et al. 2025, which analyzes heavy-ball momentum and DPP/leverage-score preconditioning for unconstrained/ridge linear systems).
+      Resolved against all 442 pinned AIO records and 620 maintained AIMech records. Distinct from <a href="../curated/NewtonSketchRandomizedHessianProjectedOptimization.html">AIMech:NewtonSketchRandomizedHessianProjectedOptimization</a> (Pilanci &amp; Wainwright 2017, SIAM J. Optim. 27(1):205-245, <a href="https://arxiv.org/abs/1505.02250v1" target="_blank" rel="noopener">arXiv:1505.02250v1</a>, which develops general second-order Newton Sketch updates using state-dependent Hessian square roots nabla^2 f(x^t)^{1/2} for general twice-differentiable convex objectives and self-concordant interior-point barrier methods, whereas Pilanci &amp; Wainwright 2016 establishes the Fano information-theoretic lower bound for any estimator based on classically sketched pairs (S A, S y), the deterministic tangent-cone directional contraction ratio Z_2(S)/Z_1(S) around the constrained least-squares estimator x^{LS}, and minimax statistical risk matching via localized Gaussian widths varepsilon_n^2(K^*) in O(log n) constrained least-squares rounds), from AIMech:CountSketchLeveragedHybridRandomizedConstrainedAndRidgeRegression (Wang, Gittens, &amp; Mahoney 2018, which studies single-pass CountSketch-plus-leverage-score preconditioners for unconstrained/ridge/L1-L2 regression), and from AIMech:StatisticallyPreconditionedAcceleratedIterativeSketchingLeastSquaresAndRidge (Dereziński et al. 2025, which analyzes heavy-ball momentum and DPP/leverage-score preconditioning for unconstrained/ridge linear systems).
     </div>
 </div>
 
@@ -146,8 +186,8 @@
   <ul>
       <li>Multi-Pass Access to Matrix-Vector Products with A and A^T: Unlike single-pass classical sketching (S A, S y) which compresses the data in one pass at the expense of an O(n/m) variance inflation factor (Theorem 1), Iterative Hessian Sketch requires N = O(log n) rounds of computing exact residual gradients A^T(y - A x^t) and fresh sketch products S^{t+1} A (Section 2.4, Equation 24).</li>
       <li>Dependence of Tangent-Cone Gaussian Width on Restricted Eigenvalue and Self-Bounding Cone Conditions: For l_1-constrained and nuclear-norm-constrained regression (Corollaries 3-4, Lemma 7), the O(s log(ed/s)) and O(r(d_1 + d_2)) sketch-size bounds require the tuning parameter R to be binding at the true parameter (||x^*||_1 = R or |||X^*|||_1 = R) and scale inversely with the s-sparse or 2r-rank restricted eigenvalue gamma_s^-(A); moreover, randomized orthonormal system (ROS) sketches require an extra log^4(n) factor and the self-bounding cone property (Lemma 1(b), Definition 1).</li>
-      <li>Primary-Source Typographical Notes in Pilanci &amp; Wainwright (2016, arXiv:1411.0347v1): Verified four self-correcting typographical details across the 33-page manuscript: (1) Section 2.3 (p. 9, Equation 16) writes the single-step Hessian sketch objective as (1/2)||S A x||_2^2 - &lt;A^T y, x&gt; omitting the 1/m normalization (which is explicitly included in the IHS update Equation 24 on p. 12 and in Z_1(S), Z_2(S) in Equations 18a-18b on p. 10), and Appendix B (p. 25, Equation 37a) writes the classical-sketch optimality condition &lt;A^T S^T (S A x_hat - y), x^{LS} - x_hat&gt; &gt;= 0 instead of the Hessian-sketch optimality condition &lt;(1/m) A^T S^T S A x_hat - A^T y, x^{LS} - x_hat&gt; &gt;= 0 (while the immediately following display correctly uses the Hessian-sketch difference &lt;(A^T A - (1/m) A^T S^T S A) x_hat, x^{LS} - x_hat&gt; &lt;= 0, omitting only the 1/m factor in I_n - S^T S below Equation 38); (2) Section 2.3 (p. 10, Equation 17) and Appendix D (p. 26, Equation 42) write &#39;v in R^d&#39; instead of &#39;v in R^n&#39; in the definition of the transformed tangent cone K^{LS} := {v in R^n | v = t A(x - x^{LS}) for some t &gt;= 0 and x in C}, and Example 2 (p. 8) writes &#39;C = {x in R^n | ||x||_1 &lt;= R}&#39; instead of &#39;x in R^d&#39;; (3) Lemma 1(a) (p. 11, Equation 22a) prints &#39;1 - c_1 e^{-c_2 m delta^2}&#39; with delta^2 instead of rho^2, and Corollary 4 (p. 20) prints &#39;m = c_0 rho^2 (|||A|||_op^2 / gamma_{2r}^-(A)) r(d_1 + d_2)&#39; with rho^2 in the numerator instead of the denominator c_0 / rho^2; and (4) Appendix A.2 (p. 24, last two lines) prints E||x_hat - x^*||_2^2 instead of E||x_hat - x^*||_A^2 and writes delta = sigma^2 log(M/2) / (64 eta m) instead of delta^2 = sigma^2 log(M/2) / (64 eta m).</li>
-      <li>All 33 pages of the full-text PDF of Pilanci &amp; Wainwright (2014/2016, JMLR 17(53):1-38, arXiv:1411.0347v1) were read. Constructed numerical checks in research/discovery/iterative-hessian-sketch-constrained-least-squares-boundaries.py verify (1) Theorem 1 and Corollary 2 sub-optimality of single-shot classical sketching (prediction error 0.12728) vs. unconstrained IHS matching exact OLS (prediction error 0.04110 vs. 0.04089, OLS gap 3.819e-4 vs. 0.11647), (2) Proposition 1 and Theorem 2 exact per-step deterministic tangent-cone inequalities ||x^{t+1} - x^{LS}||_A &lt;= (Z_2(S^{t+1})/Z_1(S^{t+1})) ||x^t - x^{LS}||_A across all 12 steps and cumulative product bound, and (3) Section 3.2 Corollary 3 geometric convergence of constrained IHS on l_1-ball sparse least squares (reducing gap from 1.41404 to 0.01169 in 5 rounds).</li>
+      <li>Primary-Source Typographical Notes in Pilanci &amp; Wainwright (2016, <a href="https://arxiv.org/abs/1411.0347v1" target="_blank" rel="noopener">arXiv:1411.0347v1</a>): Verified four self-correcting typographical details across the 33-page manuscript: (1) Section 2.3 (p. 9, Equation 16) writes the single-step Hessian sketch objective as (1/2)||S A x||_2^2 - &lt;A^T y, x&gt; omitting the 1/m normalization (which is explicitly included in the IHS update Equation 24 on p. 12 and in Z_1(S), Z_2(S) in Equations 18a-18b on p. 10), and Appendix B (p. 25, Equation 37a) writes the classical-sketch optimality condition &lt;A^T S^T (S A x_hat - y), x^{LS} - x_hat&gt; &gt;= 0 instead of the Hessian-sketch optimality condition &lt;(1/m) A^T S^T S A x_hat - A^T y, x^{LS} - x_hat&gt; &gt;= 0 (while the immediately following display correctly uses the Hessian-sketch difference &lt;(A^T A - (1/m) A^T S^T S A) x_hat, x^{LS} - x_hat&gt; &lt;= 0, omitting only the 1/m factor in I_n - S^T S below Equation 38); (2) Section 2.3 (p. 10, Equation 17) and Appendix D (p. 26, Equation 42) write &#39;v in R^d&#39; instead of &#39;v in R^n&#39; in the definition of the transformed tangent cone K^{LS} := {v in R^n | v = t A(x - x^{LS}) for some t &gt;= 0 and x in C}, and Example 2 (p. 8) writes &#39;C = {x in R^n | ||x||_1 &lt;= R}&#39; instead of &#39;x in R^d&#39;; (3) Lemma 1(a) (p. 11, Equation 22a) prints &#39;1 - c_1 e^{-c_2 m delta^2}&#39; with delta^2 instead of rho^2, and Corollary 4 (p. 20) prints &#39;m = c_0 rho^2 (|||A|||_op^2 / gamma_{2r}^-(A)) r(d_1 + d_2)&#39; with rho^2 in the numerator instead of the denominator c_0 / rho^2; and (4) Appendix A.2 (p. 24, last two lines) prints E||x_hat - x^*||_2^2 instead of E||x_hat - x^*||_A^2 and writes delta = sigma^2 log(M/2) / (64 eta m) instead of delta^2 = sigma^2 log(M/2) / (64 eta m).</li>
+      <li>All 33 pages of the full-text PDF of Pilanci &amp; Wainwright (2014/2016, JMLR 17(53):1-38, <a href="https://arxiv.org/abs/1411.0347v1" target="_blank" rel="noopener">arXiv:1411.0347v1</a>) were read. Constructed numerical checks in research/discovery/iterative-hessian-sketch-constrained-least-squares-boundaries.py verify (1) Theorem 1 and Corollary 2 sub-optimality of single-shot classical sketching (prediction error 0.12728) vs. unconstrained IHS matching exact OLS (prediction error 0.04110 vs. 0.04089, OLS gap 3.819e-4 vs. 0.11647), (2) Proposition 1 and Theorem 2 exact per-step deterministic tangent-cone inequalities ||x^{t+1} - x^{LS}||_A &lt;= (Z_2(S^{t+1})/Z_1(S^{t+1})) ||x^t - x^{LS}||_A across all 12 steps and cumulative product bound, and (3) Section 3.2 Corollary 3 geometric convergence of constrained IHS on l_1-ball sparse least squares (reducing gap from 1.41404 to 0.01169 in 5 rounds).</li>
   </ul>
 </div>
 
@@ -158,7 +198,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -177,7 +217,7 @@
             <span class="badge badge-aio">narrow_match</span>
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            AIO:LinearRegression represents least-squares regression broadly, whereas Pilanci &amp; Wainwright (2016) establishes the Iterative Hessian Sketch (IHS) algorithm and information-theoretic Fano lower bounds for classical vs. iterative Hessian sketching in unconstrained and convex-constrained least-squares regression.
+            <a href="../aio/LinearRegression.html">AIO:LinearRegression</a> represents least-squares regression broadly, whereas Pilanci &amp; Wainwright (2016) establishes the Iterative Hessian Sketch (IHS) algorithm and information-theoretic Fano lower bounds for classical vs. iterative Hessian sketching in unconstrained and convex-constrained least-squares regression.
           </td>
         </tr>
         <tr>
@@ -189,7 +229,7 @@
             <span class="badge badge-aio">related_match</span>
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            AIO:LassoRegression represents L1-constrained/penalized sparse linear regression broadly, whereas Section 2.2 Example 2 and Section 3.2 (Corollary 3, Lemma 7) establish the Fano lower bound for classical sketched Lasso and the O(s log(ed/s)) sketch-size minimax convergence guarantee of Iterative Hessian Sketch for l_1-constrained sparse least squares.
+            <a href="../aio/LassoRegression.html">AIO:LassoRegression</a> represents L1-constrained/penalized sparse linear regression broadly, whereas Section 2.2 Example 2 and Section 3.2 (Corollary 3, Lemma 7) establish the Fano lower bound for classical sketched Lasso and the O(s log(ed/s)) sketch-size minimax convergence guarantee of Iterative Hessian Sketch for l_1-constrained sparse least squares.
           </td>
         </tr>
       </tbody>
@@ -203,7 +243,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -231,7 +271,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1411.0347</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.48550/arXiv.1411.0347" target="_blank" rel="noopener">https://doi.org/10.48550/arXiv.1411.0347</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:dea3c1364a74…
             </div>
@@ -254,7 +294,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1411.0347</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.48550/arXiv.1411.0347" target="_blank" rel="noopener">https://doi.org/10.48550/arXiv.1411.0347</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:e6cc8cea30c1…
             </div>
@@ -277,7 +317,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://jmlr.org/papers/v17/14-460.html</div>
+            <div><strong>ID:</strong> <a href="https://jmlr.org/papers/v17/14-460.html" target="_blank" rel="noopener">https://jmlr.org/papers/v17/14-460.html</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:19fa92bd87c2…
             </div>
@@ -331,10 +371,60 @@
       <code>data/curated/IterativeHessianSketchForConstrainedLeastSquares.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-18T20:41:28Z">2026-10-18T20:41:28Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:IterativeHessianSketchForConstrainedLeastSquares from Pilanci &amp; Wainwright (2016, JMLR 17(53):1-38, <a href="https://arxiv.org/abs/1411.0347v1" target="_blank" rel="noopener">arXiv:1411.0347v1</a>) full-text PDF with boundary verification</strong>
+<p>Full-text inspection of all 33 pages of Pilanci &amp; Wainwright (2016, JMLR 17(53):1-38, <a href="https://arxiv.org/abs/1411.0347v1" target="_blank" rel="noopener">arXiv:1411.0347v1</a>) and constructed pure-Python verification of Theorem 1 classical sketching sub-optimality vs. IHS, Proposition 1 and Theorem 2 deterministic tangent-cone contraction bounds, and Corollary 3 l_1-constrained sparse least-squares IHS convergence.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/iterative-hessian-sketch-constrained-least-squares/2026-10-18T204128Z-antigravity-d711de.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261018T203500Z-iterative-hessian-sketch-constrained-least-squares.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-18T20:36:00Z">2026-10-18T20:36:00Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Iterative Hessian Sketch for Constrained Least-Squares and Information-Theoretic Classical Sketching Lower Bounds as a distinct DRAFT mathematical_method with narrow LinearRegression and related LassoRegression mappings. All three claims and locators across Pilanci &amp; Wainwright (2016, JMLR 17(53):1-38, <a href="https://arxiv.org/abs/1411.0347v1" target="_blank" rel="noopener">arXiv:1411.0347v1</a>) are supported with explicit multi-pass matrix-vector product and restricted-eigenvalue tangent-cone limitations.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261018T203600Z-iterative-hessian-sketch-constrained-least-squares/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261018T203600Z-iterative-hessian-sketch-constrained-least-squares/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AIterativeHessianSketchForConstrainedLeastSquares&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FIterativeHessianSketchForConstrainedLeastSquares.html" target="_blank" rel="noopener">Report a problem with AIMech:IterativeHessianSketchForConstrainedLeastSquares</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/IterativeHessianSketchForConstrainedLeastSquares.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -343,7 +433,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Iterative%20Hessian%20Sketch%20for%20Constrained%20Least-Squares%20and%20Information-Theoretic%20Classical%20Sketching%20Lower%20Bounds"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AIterativeHessianSketchForConstrainedLeastSquares"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -353,7 +443,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

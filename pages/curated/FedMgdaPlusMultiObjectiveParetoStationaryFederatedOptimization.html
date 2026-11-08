@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> FedMGDA+, FedMGDA and MGDA-Prox, Multi-Objective Pareto-Stationary Federated Learning
@@ -56,9 +69,36 @@
     A multi-objective federated optimization algorithm (Hu, Shaloudegi, Zhang, &amp; Yu 2022, Sections 3-5, Definition 1, Lemma 1, Equations 4-9 &amp; 19-30, Algorithm 1, Theorems 1a, 1b, &amp; 2) that formulates federated learning over m users as vector minimization min_{w in R^d} f(w) = (f_1(w), ..., f_m(w)) targeting Pareto-stationary solutions w^* where min_{lambda in Delta} ||J_f(w^*) lambda||_2 = 0 (Definition 1, Equation 11), while interpreting intermediate-k local-epoch FedAvg and FedProx through the proximal average A_{f, lambda}^eta(w) whose proximal map equals sum_{i=1}^m lambda_i P_{f_i}^eta(w) (Equations 4-9). In each communication round t, sampled clients i in I_t perform k local epochs of r mini-batch steps and return pseudo-gradients g_i = w^0 - w, which the server normalizes to unit length g_bar_i = g_i / ||g_i||_2 (Algorithm 1, line 5) and combines by solving the epsilon-constrained minimum-norm quadratic program over the probability simplex lambda^* = argmin_{lambda in Delta, ||lambda - lambda_0||_infty &lt;= epsilon} ||sum_{i in I_t} lambda_i g_bar_i||_2^2 to form the common descent direction d_t = sum_{i in I_t} lambda_i^* g_bar_i and global update w_{t+1} = w_t - eta_t d_t (Equation 25, Algorithm 1 lines 6-9), interpolating continuously between normalized FedAvg (epsilon = 0) and unconstrained MGDA (epsilon = 1) while guaranteeing simultaneous descent for all participating clients and invariance against both additive loss-bias and positive multiplicative loss-scaling attacks.
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r493-primary-pdf">Federated Learning Meets Multi-Objective Optimization</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r493-arxiv-abs">Federated Learning Meets Multi-Objective Optimization (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r493-metadata-cr">Federated Learning Meets Multi-Objective Optimization (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Distinct from Agnostic Federated Learning (AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization, Mohri et al. 2019) and q-Fair Federated Learning (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which weight client updates by raw loss levels max_{lambda in Lambda} sum_i lambda_i f_i(w) or f_i(w)^q and are vulnerable to malicious clients inflating their loss by an additive constant or multiplicative scalar, whereas FedMGDA+ centers function values (Equation 19) and normalizes client pseudo-gradients g_bar_i = g_i / ||g_i||_2 before solving the epsilon-constrained Frank-Wolfe / minimum-norm quadratic program (Equation 25).
+      Distinct from Agnostic Federated Learning (<a href="../curated/AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization.html">AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization</a>, Mohri et al. 2019) and q-Fair Federated Learning (<a href="../curated/QFairFederatedLearningAlphaFairResourceAllocation.html">AIMech:QFairFederatedLearningAlphaFairResourceAllocation</a>, Li et al. 2020), which weight client updates by raw loss levels max_{lambda in Lambda} sum_i lambda_i f_i(w) or f_i(w)^q and are vulnerable to malicious clients inflating their loss by an additive constant or multiplicative scalar, whereas FedMGDA+ centers function values (Equation 19) and normalizes client pseudo-gradients g_bar_i = g_i / ||g_i||_2 before solving the epsilon-constrained Frank-Wolfe / minimum-norm quadratic program (Equation 25).
     </div>
 </div>
 
@@ -179,7 +219,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -212,7 +252,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -240,7 +280,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2006.11489</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2006.11489" target="_blank" rel="noopener">https://arxiv.org/abs/2006.11489</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:ee969302a405…
             </div>
@@ -263,7 +303,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2006.11489</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2006.11489" target="_blank" rel="noopener">https://arxiv.org/abs/2006.11489</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:9cc2d90e7375…
             </div>
@@ -286,7 +326,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2006.11489</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2006.11489" target="_blank" rel="noopener">https://arxiv.org/abs/2006.11489</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:356ffb96b28c…
             </div>
@@ -340,10 +380,60 @@
       <code>data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-20T03:07:34Z">2026-10-20T03:07:34Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization from Federated Learning Meets Multi-Objective Optimization full-text PDF with boundary verification</strong>
+<p>Full-text inspection of Conference Proceedings (2022) and pure-Python boundary verification in research/discovery/fedmgda-plus-multi-objective-pareto-federated-learning-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/fedmgda-plus-multi-objective-pareto-federated-learning/2026-10-20T030734Z-antigravity-c242ac.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T093600Z-fedmgda-plus-multi-objective-pareto-federated-learning.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T09:36:30Z">2026-10-19T09:36:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T093630Z-fedmgda-plus-multi-objective-pareto-federated-learning/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T093630Z-fedmgda-plus-multi-objective-pareto-federated-learning/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AFedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FFedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.html" target="_blank" rel="noopener">Report a problem with AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -352,7 +442,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=FedMGDA%2B%20%28Multi-Objective%20Pareto-Stationary%20Federated%20Learning%20with%20Normalized%20Multiple%20Gradient%20Descent%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -362,7 +452,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

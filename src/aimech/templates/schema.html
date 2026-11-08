@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{#- Generated from the LinkML schemas by schema_reference() in
+    scripts/render_pages.py. Descriptions are shown as the schemas write them,
+    without autolinking: their identifiers can be format examples. -#}
+
+{% block title %}LinkML Schema Reference · AIMech{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+  <a href="{{ root }}index.html">Home</a>
+  <span>/</span>
+  <strong>Schema</strong>
+</div>
+
+<h1>LinkML Schema Reference</h1>
+<p class="lead">
+  The two LinkML schemas that validate AIMech records, generated from the schema files by
+  <code>scripts/render_pages.py</code>. Slots are listed as LinkML resolves them for each class,
+  with imports and slot usage applied.
+</p>
+
+<nav class="callout schema-contents" aria-label="Schema contents">
+  {% for schema in schemas %}
+  <p><strong><a href="#{{ schema.key }}">{{ schema.title }}</a></strong>
+    — classes: {% for cls in schema.classes %}<a href="#{{ schema.key }}-class-{{ cls.name }}">{{ cls.name }}</a>{% if not loop.last %} · {% endif %}{% endfor %};
+    enumerations: {% for enum in schema.enums %}<a href="#{{ schema.key }}-enum-{{ enum.name }}">{{ enum.name }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>
+  {% endfor %}
+</nav>
+
+{% for schema in schemas %}
+{% set count, folder = governs[schema.key] %}
+<section class="schema-section" id="{{ schema.key }}" aria-labelledby="{{ schema.key }}-heading">
+  <div class="section-header">
+    <h2 id="{{ schema.key }}-heading">{{ schema.title }}</h2>
+  </div>
+  {% if schema.description %}<p>{{ schema.description }}</p>{% endif %}
+  <p class="meta">Validates the {{ count }} records in <code>{{ folder }}</code>. Source:
+    {% for module in schema.modules %}<a href="{{ github_blob }}{{ module }}" target="_blank" rel="noopener"><code>{{ module }}</code></a>{% if not loop.last %}, {% endif %}{% endfor %}.
+    {% if schema.license %}Schema licence: {{ schema.license }}.{% endif %}</p>
+
+  <h3>Classes <span class="meta">({{ schema.classes | length }})</span></h3>
+  {% for cls in schema.classes %}
+  <div class="callout schema-class" id="{{ schema.key }}-class-{{ cls.name }}" style="background: var(--card);">
+    <h4>{{ cls.name }}{% if cls.is_a %} <span class="meta">is a <a href="#{{ schema.key }}-class-{{ cls.is_a }}">{{ cls.is_a }}</a></span>{% endif %}{% if cls.tree_root %} <span class="badge badge-curated">record class</span>{% endif %}</h4>
+    {% if cls.description %}<p>{{ cls.description }}</p>{% endif %}
+    {% if cls.source and cls.source != schema.source %}<p class="meta">Defined in the imported module <code>{{ cls.source }}</code>.</p>{% endif %}
+    {% if cls.slots %}
+    <div class="table-wrap" role="region" tabindex="0" aria-label="{{ cls.name }} slots">
+      <table class="schema-table">
+        <caption class="meta">{{ cls.name }} slots ({{ cls.slots | length }})</caption>
+        <thead>
+          <tr><th scope="col">Slot</th><th scope="col">Range</th><th scope="col">Cardinality</th><th scope="col">Description</th></tr>
+        </thead>
+        <tbody>
+          {% for slot in cls.slots %}
+          <tr>
+            <th scope="row"><code>{{ slot.name }}</code>{% if slot.identifier %} <span class="meta">(identifier)</span>{% endif %}</th>
+            <td>{% for r in slot.ranges %}{% if r.kind == 'type' %}<code>{{ r.name }}</code>{% else %}<a href="#{{ schema.key }}-{{ r.kind }}-{{ r.name }}"><code>{{ r.name }}</code></a>{% endif %}{% if not loop.last %} or {% endif %}{% endfor %}</td>
+            <td>{{ 'Required' if slot.required else 'Optional' }}{% if slot.multivalued %}, multivalued{% endif %}</td>
+            <td>{{ slot.description }}{% if slot.pattern %}{% if slot.description %}<br>{% endif %}<span class="meta">Pattern <code>{{ slot.pattern }}</code></span>{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="meta">This class declares no slots.</p>
+    {% endif %}
+  </div>
+  {% endfor %}
+
+  <h3>Enumerations <span class="meta">({{ schema.enums | length }})</span></h3>
+  {% for enum in schema.enums %}
+  <div class="callout schema-enum" id="{{ schema.key }}-enum-{{ enum.name }}" style="background: var(--card);">
+    <h4>{{ enum.name }}</h4>
+    {% if enum.description %}<p>{{ enum.description }}</p>{% endif %}
+    {% if enum.source and enum.source != schema.source %}<p class="meta">Defined in the imported module <code>{{ enum.source }}</code>.</p>{% endif %}
+    {% if enum.permissible %}
+    <dl class="schema-values">
+      {% for value in enum.permissible %}
+      <dt><code>{{ value.text }}</code></dt>
+      <dd>{% if value.description %}{{ value.description }}{% else %}<span class="meta">No description in the schema.</span>{% endif %}</dd>
+      {% endfor %}
+    </dl>
+    {% else %}
+    <p class="meta">No permissible values are listed.</p>
+    {% endif %}
+  </div>
+  {% endfor %}
+</section>
+{% endfor %}
+{% endblock %}

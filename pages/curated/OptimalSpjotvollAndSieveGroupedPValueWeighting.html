@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Optimal Spjøtvoll and sieve-grouped p-value weighting · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,18 +50,55 @@
     <span class="detail-id">AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini 3).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> Roeder-Wasserman Optimal and Grouped P-Value Weighting, Sieve-Principle Method-of-Moments Grouped P-Value Weighting, Maximin Binary and Oracle Spjøtvoll P-Value Weighting, Worst-Case Robust Weighted Bonferroni Testing
     </div>
 
   <div class="detail-desc">
-    A frequentist family-wise error rate (FWER) p-value weighting and robustness framework developed by Kathryn Roeder and Larry Wasserman (2009, Statistical Science 24(4):398-413, arXiv:1010.4637v1, DOI:10.1214/09-STS289) for testing m hypotheses H_j: xi_j = 0 versus xi_j &gt; 0 with standardized statistics T_j ~ N(xi_j, 1) and one-sided p-values P_j = Phi_bar(T_j), rejecting H_j when P_j &lt;= alpha w_j / m (equivalently T_j &gt; z_{alpha w_j / m}) for weights w_j &gt;= 0 satisfying m^{-1} sum_{j=1}^m w_j = 1 (Lemma 2.1) or E_H[W_j] &lt;= 1 for random auxiliary weights W_j = g(V_j, c) independent of P_j under H_j (Lemma 2.2). Maximizing average power m_1^{-1} sum_{j: xi_j &gt; 0} Phi_bar(z_{alpha w_j / m} - xi_j) yields the one-parameter Spjøtvoll/Rubin-Dudoit-van der Laan oracle weight family w_j = rho_c(xi_j) = (m/alpha) Phi_bar(xi_j/2 + c/xi_j) for xi_j &gt; 0 (and 0 for xi_j = 0), where c = c(theta) solves m^{-1} sum_{j=1}^m rho_c(xi_j) = 1 and gives test-specific critical cutoffs T_j &gt; xi_j/2 + c/xi_j and oracle power Phi_bar(c/xi_j - xi_j/2) (Theorem 3.1, Lemma 3.2). Roeder and Wasserman prove two fundamental robustness properties explaining why poorly specified weights still outperform unweighted Bonferroni: (Property I) for worst-case binary weights B = min{w_j : w_j &gt; 1} and b = min{w_j}, the robustness function (power gain minus power loss) R(xi) = [pi(xi, B) - pi(xi, 1)] - [pi(xi, 1) - pi(xi, b)] is positive iff Phi_bar(z_{B alpha/m} - xi) + Phi_bar(z_{b alpha/m} - xi) &gt; 2 Phi_bar(z_{alpha/m} - xi) (Theorem 3.4) and remains positive on a non-empty safe zone [0, xi_*] even when b = 0 and B &gt;= 2 (Lemma 3.5); and (Property II) although the optimal weight functional Q -&gt; rho_Q(xi) is discontinuous in Kolmogorov-Smirnov distance d(Q, Q_tilde) = gamma when a fraction gamma of nulls are misspecified as positive mean u &gt; 0 (Lemma 3.6), the worst-case power inf_{u &gt;= 0} pi_u(xi) occurs at the least-favorable false-positive mean u_* = sqrt(2 c_*) solving gamma Phi_bar(sqrt(2 c_*)) + a Phi_bar(xi/2 + c_*/xi) = alpha/m and equals Phi_bar(c_*/xi - xi/2), which still beats unweighted Bonferroni for xi &lt; xi_* and has asymptotic power deficit bounded by gamma/(1 - a) + O(a) (Theorems 3.7-3.8). To construct practical weights, the method provides both closed-form maximin binary external weights (Theorems 4.1-4.3) and a sieve-principle data-driven grouped estimator that partitions tests into K &lt;&lt; m prior groups G_k of size r_k &gt;= 20-30, estimates group mixture parameters (pi_k, xi_k) under T_{ik} ~ (1 - pi_k) N(0, 1) + pi_k N(xi_k, 1) via method of moments pi_hat_k = Y_k^2 / (Y_k^2 + S_k^2 - 1) and xi_hat_k = Y_k / pi_hat_k (Equation 12; or Equation 13 for two-sided chi_1^2 mixtures), and forms linearly smoothed group weights w_hat_k = (1 - gamma) w(xi_hat_k) + gamma K^{-1} sum_{k&#39;} w(xi_hat_{k&#39;}) with gamma in {0.01, 0.05} (Section 5).
+    A frequentist family-wise error rate (FWER) p-value weighting and robustness framework developed by Kathryn Roeder and Larry Wasserman (2009, Statistical Science 24(4):398-413, <a href="https://arxiv.org/abs/1010.4637v1" target="_blank" rel="noopener">arXiv:1010.4637v1</a>, <a href="https://doi.org/10.1214/09-STS289" target="_blank" rel="noopener">DOI:10.1214/09-STS289</a>) for testing m hypotheses H_j: xi_j = 0 versus xi_j &gt; 0 with standardized statistics T_j ~ N(xi_j, 1) and one-sided p-values P_j = Phi_bar(T_j), rejecting H_j when P_j &lt;= alpha w_j / m (equivalently T_j &gt; z_{alpha w_j / m}) for weights w_j &gt;= 0 satisfying m^{-1} sum_{j=1}^m w_j = 1 (Lemma 2.1) or E_H[W_j] &lt;= 1 for random auxiliary weights W_j = g(V_j, c) independent of P_j under H_j (Lemma 2.2). Maximizing average power m_1^{-1} sum_{j: xi_j &gt; 0} Phi_bar(z_{alpha w_j / m} - xi_j) yields the one-parameter Spjøtvoll/Rubin-Dudoit-van der Laan oracle weight family w_j = rho_c(xi_j) = (m/alpha) Phi_bar(xi_j/2 + c/xi_j) for xi_j &gt; 0 (and 0 for xi_j = 0), where c = c(theta) solves m^{-1} sum_{j=1}^m rho_c(xi_j) = 1 and gives test-specific critical cutoffs T_j &gt; xi_j/2 + c/xi_j and oracle power Phi_bar(c/xi_j - xi_j/2) (Theorem 3.1, Lemma 3.2). Roeder and Wasserman prove two fundamental robustness properties explaining why poorly specified weights still outperform unweighted Bonferroni: (Property I) for worst-case binary weights B = min{w_j : w_j &gt; 1} and b = min{w_j}, the robustness function (power gain minus power loss) R(xi) = [pi(xi, B) - pi(xi, 1)] - [pi(xi, 1) - pi(xi, b)] is positive iff Phi_bar(z_{B alpha/m} - xi) + Phi_bar(z_{b alpha/m} - xi) &gt; 2 Phi_bar(z_{alpha/m} - xi) (Theorem 3.4) and remains positive on a non-empty safe zone [0, xi_*] even when b = 0 and B &gt;= 2 (Lemma 3.5); and (Property II) although the optimal weight functional Q -&gt; rho_Q(xi) is discontinuous in Kolmogorov-Smirnov distance d(Q, Q_tilde) = gamma when a fraction gamma of nulls are misspecified as positive mean u &gt; 0 (Lemma 3.6), the worst-case power inf_{u &gt;= 0} pi_u(xi) occurs at the least-favorable false-positive mean u_* = sqrt(2 c_*) solving gamma Phi_bar(sqrt(2 c_*)) + a Phi_bar(xi/2 + c_*/xi) = alpha/m and equals Phi_bar(c_*/xi - xi/2), which still beats unweighted Bonferroni for xi &lt; xi_* and has asymptotic power deficit bounded by gamma/(1 - a) + O(a) (Theorems 3.7-3.8). To construct practical weights, the method provides both closed-form maximin binary external weights (Theorems 4.1-4.3) and a sieve-principle data-driven grouped estimator that partitions tests into K &lt;&lt; m prior groups G_k of size r_k &gt;= 20-30, estimates group mixture parameters (pi_k, xi_k) under T_{ik} ~ (1 - pi_k) N(0, 1) + pi_k N(xi_k, 1) via method of moments pi_hat_k = Y_k^2 / (Y_k^2 + S_k^2 - 1) and xi_hat_k = Y_k / pi_hat_k (Equation 12; or Equation 13 for two-sided chi_1^2 mixtures), and forms linearly smoothed group weights w_hat_k = (1 - gamma) w(xi_hat_k) + gamma K^{-1} sum_{k&#39;} w(xi_hat_{k&#39;}) with gamma in {0.01, 0.05} (Section 5).
+  </div>
+
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-roeder-wasserman2009-ar5iv">Genome-Wide Significance Levels and Weighted Hypothesis Testing</a></span>
+          <span>· <strong>Locator:</strong> Section 2, Lemmas 2.1–2.2; Section 3, Theorem 3.1, Lemma 3.2, Theorems 3.3–3.4, Lemmas 3.5–3.6, Theorems 3.7–3.8; Section 4, Theorems 4.1–4.3; Section 5, Equations (12)–(13)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-roeder-wasserman2009-crossref">Genome-Wide Significance Levels and Weighted Hypothesis Testing (Statistical Science Record)</a></span>
+          <span>· <strong>Locator:</strong> Statistical Science, Vol. 24, Issue 4, pp. 398–413, November 2009 bibliographic record (<a href="https://doi.org/10.1214/09-STS289" target="_blank" rel="noopener">DOI:10.1214/09-STS289</a>)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-roeder-wasserman2009-abs">Genome-Wide Significance Levels and Weighted Hypothesis Testing (arXiv:1010.4637 Abstract)</a></span>
+          <span>· <strong>Locator:</strong> <a href="https://arxiv.org/abs/1010.4637v1" target="_blank" rel="noopener">arXiv:1010.4637v1</a> abstract and Statistical Science DOI metadata</span>
+        </div>
+      </li>
+    </ul>
   </div>
 
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      No normalized identity match for Optimal Spjøtvoll and sieve-grouped p-value weighting across all 442 pinned AIO records and 592 maintained IDs, names, aliases and scoped synonyms. Only frontier reference matches in Round 194-197 discovery artifacts were found. Distinct from AIMech:ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies (Dobriban 2018), which solves an order- and box-constrained convex ROC optimization across general monotone likelihood ratio families via an O(J) tridiagonal-plus-rank-1 interior-point solver; distinct from AIMech:BayesOptimalPValueWeightingUnderGaussianPrior (Dobriban, Fortney, Kim, &amp; Owen 2015), which integrates over heterogeneous Gaussian prior uncertainty mu_i ~ N(eta_i, sigma_i^2); distinct from AIMech:OptimalMultiWeightedStepUpProcedureForFDRControl (Roquain &amp; van de Wiel 2009), which optimizes multi-weighted step-up critical values for false discovery rate (FDR) control; and distinct from AIMech:AdaptiveDataDrivenOptimalPValueWeighting (Durand 2019), which adapts multi-weighted step-up FDR procedures via group-ordered isotonic optimization, whereas Roeder and Wasserman (2009) establish the worst-case robustness function R(xi) (Theorems 3.3-3.4, Lemma 3.5), the Kolmogorov-Smirnov discontinuity of optimal weights vs. least-favorable worst-case power at u_* = sqrt(2 c_*) (Lemma 3.6, Theorems 3.7-3.8), closed-form maximin binary external weights (Theorems 4.1-4.3), and sieve-principle method-of-moments grouped p-value weighting (Section 5, Equations 12-13).
+      No normalized identity match for Optimal Spjøtvoll and sieve-grouped p-value weighting across all 442 pinned AIO records and 592 maintained IDs, names, aliases and scoped synonyms. Only frontier reference matches in Round 194-197 discovery artifacts were found. Distinct from <a href="../curated/ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies.html">AIMech:ConstrainedConvexPValueWeightingInMonotoneLikelihoodRatioFamilies</a> (Dobriban 2018), which solves an order- and box-constrained convex ROC optimization across general monotone likelihood ratio families via an O(J) tridiagonal-plus-rank-1 interior-point solver; distinct from <a href="../curated/BayesOptimalPValueWeightingUnderGaussianPrior.html">AIMech:BayesOptimalPValueWeightingUnderGaussianPrior</a> (Dobriban, Fortney, Kim, &amp; Owen 2015), which integrates over heterogeneous Gaussian prior uncertainty mu_i ~ N(eta_i, sigma_i^2); distinct from <a href="../curated/OptimalMultiWeightedStepUpProcedureForFDRControl.html">AIMech:OptimalMultiWeightedStepUpProcedureForFDRControl</a> (Roquain &amp; van de Wiel 2009), which optimizes multi-weighted step-up critical values for false discovery rate (FDR) control; and distinct from <a href="../curated/AdaptiveDataDrivenOptimalPValueWeighting.html">AIMech:AdaptiveDataDrivenOptimalPValueWeighting</a> (Durand 2019), which adapts multi-weighted step-up FDR procedures via group-ordered isotonic optimization, whereas Roeder and Wasserman (2009) establish the worst-case robustness function R(xi) (Theorems 3.3-3.4, Lemma 3.5), the Kolmogorov-Smirnov discontinuity of optimal weights vs. least-favorable worst-case power at u_* = sqrt(2 c_*) (Lemma 3.6, Theorems 3.7-3.8), closed-form maximin binary external weights (Theorems 4.1-4.3), and sieve-principle method-of-moments grouped p-value weighting (Section 5, Equations 12-13).
     </div>
 </div>
 
@@ -184,7 +224,7 @@
       <li>By Lemma 3.6, the unsmoothed Spjøtvoll optimal weight functional Q -&gt; rho_Q(xi) is discontinuous in the Kolmogorov-Smirnov distance and assigns zero weight w(xi_hat_k) = 0 whenever an estimated effect size is zero or near zero (|xi_hat_k| &lt; delta), which can prevent any hypothesis in a down-weighted group from being rejected unless weights are regularized via linear smoothing w_hat_k = (1 - gamma) w(xi_hat_k) + gamma K^{-1} sum w(xi_hat_{k&#39;}) with gamma &gt; 0 (Section 3 Property II and Section 5).</li>
       <li>Sieve-principle grouped method-of-moments weighting (Section 5, Equations 12–13) uses the same test statistics T_{ik} both to estimate the group-level mixture parameters (pi_hat_k, xi_hat_k) and to perform the weighted tests, so its approximate FWER validity relies on the sieve condition K &lt;&lt; m with sufficiently large group sizes (r_k &gt;= 20–30); if groups are very small or chosen post-hoc to isolate individual extreme statistics, family-wise error rate can be inflated (Section 5 and Section 6.2).</li>
       <li>All optimality and worst-case robustness derivations (Theorems 3.1–4.3) are formulated for weighted Bonferroni FWER control under Gaussian shift models T_j ~ N(xi_j, 1) (or chi_1^2 mixtures in Equation 13) rather than step-up false discovery rate (FDR) procedures or general non-Gaussian monotone likelihood ratio families.</li>
-      <li>All 818 lines of Roeder &amp; Wasserman (2009, Statistical Science 24(4):398-413, arXiv:1010.4637v1, DOI:10.1214/09-STS289) were read. Constructed numerical checks in research/discovery/optimal-spjotvoll-and-sieve-grouped-p-value-weighting-boundaries.py verify (1) Theorem 3.1 &amp; Lemma 3.2 one-parameter Spjøtvoll oracle weights and power identity (c^* = 3.6167495309, budget error = 2.22e-16, max KKT stationarity error = 6.592e-17, max Lemma 3.2 power identity error = 3.608e-16, average oracle power = 0.53897493 &gt; 0.39544288 unweighted Bonferroni), (2) Theorem 3.4 &amp; Lemma 3.5 sparse-weight robustness at b = 0 and B = 4.0 (Mill&#39;s-ratio sufficient threshold = 1.18817712 &lt; exact zero-crossing xi_* = 2.41591146 &lt; z_{alpha/m} = 4.41717341, with R_{B,0} = +0.00051182 &gt; 0), (3) Section 3 Property II &amp; Lemma 3.6 Kolmogorov-Smirnov discontinuity (at gamma = 0.1, K = 1000, c = 0.1: u = 0.030529, xi = 9.763185, weight reduced from rho(xi) = 10.0 to rho_tilde(xi) = 0.00999001, ratio = 0.000999 = 1/1001) versus Theorems 3.7–3.8 worst-case power at xi = 4.2 &lt; xi_* = 5.91887833 (least-favorable u_* = 3.44915472 gives worst-case power 0.75292715 &gt; 0.62149445 unweighted Bonferroni), and (4) Theorems 4.1–4.2 optimal binary weights (unique mode B^* = 9.459504, turnaround B_0 = 111.65303, and maximin weights w_1 = 9.183082, w_0 = 0.569311 achieving exact target power 0.7) and Section 5 Equation (12) sieve-principle grouped method-of-moments estimation (max parameter recovery errors 5.551e-17 and 4.441e-16, smoothed weights [2.875555, 0.969733, 0.104712, 0.05]).</li>
+      <li>All 818 lines of Roeder &amp; Wasserman (2009, Statistical Science 24(4):398-413, <a href="https://arxiv.org/abs/1010.4637v1" target="_blank" rel="noopener">arXiv:1010.4637v1</a>, <a href="https://doi.org/10.1214/09-STS289" target="_blank" rel="noopener">DOI:10.1214/09-STS289</a>) were read. Constructed numerical checks in research/discovery/optimal-spjotvoll-and-sieve-grouped-p-value-weighting-boundaries.py verify (1) Theorem 3.1 &amp; Lemma 3.2 one-parameter Spjøtvoll oracle weights and power identity (c^* = 3.6167495309, budget error = 2.22e-16, max KKT stationarity error = 6.592e-17, max Lemma 3.2 power identity error = 3.608e-16, average oracle power = 0.53897493 &gt; 0.39544288 unweighted Bonferroni), (2) Theorem 3.4 &amp; Lemma 3.5 sparse-weight robustness at b = 0 and B = 4.0 (Mill&#39;s-ratio sufficient threshold = 1.18817712 &lt; exact zero-crossing xi_* = 2.41591146 &lt; z_{alpha/m} = 4.41717341, with R_{B,0} = +0.00051182 &gt; 0), (3) Section 3 Property II &amp; Lemma 3.6 Kolmogorov-Smirnov discontinuity (at gamma = 0.1, K = 1000, c = 0.1: u = 0.030529, xi = 9.763185, weight reduced from rho(xi) = 10.0 to rho_tilde(xi) = 0.00999001, ratio = 0.000999 = 1/1001) versus Theorems 3.7–3.8 worst-case power at xi = 4.2 &lt; xi_* = 5.91887833 (least-favorable u_* = 3.44915472 gives worst-case power 0.75292715 &gt; 0.62149445 unweighted Bonferroni), and (4) Theorems 4.1–4.2 optimal binary weights (unique mode B^* = 9.459504, turnaround B_0 = 111.65303, and maximin weights w_1 = 9.183082, w_0 = 0.569311 achieving exact target power 0.7) and Section 5 Equation (12) sieve-principle grouped method-of-moments estimation (max parameter recovery errors 5.551e-17 and 4.441e-16, smoothed weights [2.875555, 0.969733, 0.104712, 0.05]).</li>
   </ul>
 </div>
 
@@ -195,7 +235,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -214,7 +254,7 @@
             <span class="badge badge-aio">related_match</span>
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            Optimal Spjøtvoll and sieve-grouped p-value weighting allocates differential per-hypothesis significance thresholds alpha w_j / m using external priors or low-dimensional group mixtures while maintaining family-wise error rate control against multiplicity-induced false positives (AIO:DataDredgingBias).
+            Optimal Spjøtvoll and sieve-grouped p-value weighting allocates differential per-hypothesis significance thresholds alpha w_j / m using external priors or low-dimensional group mixtures while maintaining family-wise error rate control against multiplicity-induced false positives (<a href="../aio/DataDredgingBias.html">AIO:DataDredgingBias</a>).
           </td>
         </tr>
       </tbody>
@@ -228,7 +268,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -256,7 +296,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1214/09-STS289</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1214/09-STS289" target="_blank" rel="noopener">https://doi.org/10.1214/09-STS289</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:a7ac40415cd7…
             </div>
@@ -279,7 +319,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1214/09-STS289</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1214/09-STS289" target="_blank" rel="noopener">https://doi.org/10.1214/09-STS289</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:26d259113110…
             </div>
@@ -302,7 +342,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1010.4637</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.48550/arXiv.1010.4637" target="_blank" rel="noopener">https://doi.org/10.48550/arXiv.1010.4637</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:b3d1954b604c…
             </div>
@@ -356,10 +396,60 @@
       <code>data/curated/OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-18T14:12:39Z">2026-10-18T14:12:39Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Add optimal Spjøtvoll and sieve-grouped p-value weighting</strong>
+<p>Added AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting (Roeder &amp; Wasserman 2009, Statistical Science 24(4):398-413, <a href="https://arxiv.org/abs/1010.4637v1" target="_blank" rel="noopener">arXiv:1010.4637v1</a>, <a href="https://doi.org/10.1214/09-STS289" target="_blank" rel="noopener">DOI:10.1214/09-STS289</a>) after full-text reading of all 818 lines, identity resolution against 442 pinned AIO and 592 curated concepts, and constructed verification of Theorem 3.1 and Lemma 3.2 oracle weights and power, Theorems 3.3-3.4 and Lemma 3.5 sparse-weight robustness, Lemma 3.6 and Theorems 3.7-3.8 Kolmogorov-Smirnov discontinuity vs. worst-case power at u_* = sqrt(2 c_*), Theorems 4.1-4.2 maximin binary weights, and Section 5 Equation (12) sieve-principle grouped method-of-moments weighting.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/optimal-spjotvoll-and-sieve-grouped-p-value-weighting/2026-10-18T141239Z-antigravity-c3f0bb.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261017T152000Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-17T15:22:00Z">2026-10-17T15:22:00Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Optimal Spjøtvoll and sieve-grouped p-value weighting as a distinct DRAFT mathematical_method with a related DataDredgingBias mapping. All four claims and locators across Roeder &amp; Wasserman (2009 Statistical Science 24(4):398-413) are supported with explicit Kolmogorov-Smirnov discontinuity, sieve group-size, and Gaussian/chi-square parametric limitations.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261017T152200Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261017T152200Z-optimal-spjotvoll-and-sieve-grouped-p-value-weighting/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AOptimalSpjotvollAndSieveGroupedPValueWeighting&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FOptimalSpjotvollAndSieveGroupedPValueWeighting.html" target="_blank" rel="noopener">Report a problem with AIMech:OptimalSpjotvollAndSieveGroupedPValueWeighting</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/OptimalSpjotvollAndSieveGroupedPValueWeighting.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -368,7 +458,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Optimal%20Spj%C3%B8tvoll%20and%20sieve-grouped%20p-value%20weighting"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AOptimalSpjotvollAndSieveGroupedPValueWeighting"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -378,7 +468,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

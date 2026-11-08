@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nested Lasso Adaptive Banding for Covariance Estimation · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> Adaptive Cholesky Banding via Nested Lasso Penalty, Levina-Rothman-Zhu Nested Lasso Modified Cholesky Covariance Estimator, Row-Adaptive Banded Cholesky Precision Matrix Estimation
@@ -56,9 +69,36 @@
     Nested Lasso Adaptive Banding for Covariance Estimation is a high-dimensional covariance and precision matrix regularization method for naturally ordered variables that parameterizes the precision matrix via the modified Cholesky decomposition Sigma^{-1} = T^T D^{-1} T (with unit lower-triangular T = I - Phi of autoregressive coefficients X_j = sum_{l=1}^{j-1} phi_{jl} X_l + eps_j and diagonal prediction variance matrix D = diag(sigma_1^2, ..., sigma_p^2)) and minimizes row-decomposed penalized Gaussian negative log-likelihood objectives (sigma_hat_j, phi_hat_j) = argmin_{sigma_j, phi_j} {n log sigma_j^2 + sum_{i=1}^n (x_{ij} - sum_{l=1}^{j-1} phi_{jl} x_{il})^2 / sigma_j^2 + J(phi_j)} using a hierarchical nested Lasso penalty J_0(phi_j) = lambda (|phi_{j,j-1}| + sum_{t=1}^{j-2} |phi_{j,t}| / |phi_{j,t+1}|), its scale-normalized single-parameter variant J_1(phi_j) = lambda (|phi_{j,j-1}| / |phi_hat^*_{j,j-1}| + sum_{t=1}^{j-2} |phi_{j,t}| / |phi_{j,t+1}|), or its two-parameter variant J_2(phi_j) = lambda_1 sum_{t=1}^{j-1} |phi_{j,t}| + lambda_2 sum_{t=1}^{j-2} |phi_{j,t}| / |phi_{j,t+1}| (with 0/0 = 0). Because setting phi_{j,l} = 0 forces all earlier predecessors phi_{j,1} = ... = phi_{j,l-1} = 0 to avoid an infinite ratio penalty, each row j of T adaptively selects its own contiguous lag bandwidth k_j &lt;= j - 1, preserving exact structural zeros in the resulting precision matrix Sigma_hat^{-1} = T_hat^T D_hat^{-1} T_hat while providing row-specific flexibility via alternating residual-variance updates and local quadratic approximation (LQA) ridge or coordinate shooting optimization.
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-lrz2008-nested-lasso-pdf">Sparse estimation of large covariance matrices via a nested Lasso penalty</a></span>
+          <span>· <strong>Locator:</strong> Section 1, pp. 245-248 (PDF pp. 1-4); Section 2, Equations (1)-(13), pp. 248-253 (PDF pp. 4-9)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-lrz2008-nested-lasso-abs">Sparse estimation of large covariance matrices via a nested Lasso penalty (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> Abstract</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-lrz2008-nested-lasso-cr">Sparse estimation of large covariance matrices via a nested Lasso penalty (Annals of Applied Statistics Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> <a href="https://doi.org/10.1214/07-AOAS139" target="_blank" rel="noopener">DOI:10.1214/07-AOAS139</a> article metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Resolved as a distinct AIMech-native mathematical_method concept from Levina, Rothman, and Zhu (2008, The Annals of Applied Statistics 2(1):245-263; arXiv:0803.3872v1, DOI:10.1214/07-AOAS139). Distinct from AIMech:RegularizedCovarianceEstimationByBanding (Bickel &amp; Levina 2008a), which imposes a single uniform bandwidth k across all rows of the covariance or Cholesky factor selected via random split cross-validation rather than row-specific bandwidths k_j induced by a hierarchical ratio penalty J(phi_j) on the Gaussian log-likelihood; distinct from AIMech:NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation (Lam &amp; Fan 2009), which penalizes individual entries t_{ij} of T with separable folded-concave penalties p_lambda(|t_{ij}|) (Eqs. 4.2-4.4) that allow arbitrary non-contiguous zero locations in T and therefore do not enforce contiguous row-specific bands or prevent fill-in under T^T D^{-1} T; and distinct from AIMech:SparsePermutationInvariantCovarianceEstimation (Rothman, Bickel, Levina, &amp; Zhu 2008), which applies a permutation-invariant L1 penalty directly to the entries of Omega = Sigma^{-1}.
+      Resolved as a distinct AIMech-native mathematical_method concept from Levina, Rothman, and Zhu (2008, The Annals of Applied Statistics 2(1):245-263; <a href="https://arxiv.org/abs/0803.3872v1" target="_blank" rel="noopener">arXiv:0803.3872v1</a>, <a href="https://doi.org/10.1214/07-AOAS139" target="_blank" rel="noopener">DOI:10.1214/07-AOAS139</a>). Distinct from <a href="../curated/RegularizedCovarianceEstimationByBanding.html">AIMech:RegularizedCovarianceEstimationByBanding</a> (Bickel &amp; Levina 2008a), which imposes a single uniform bandwidth k across all rows of the covariance or Cholesky factor selected via random split cross-validation rather than row-specific bandwidths k_j induced by a hierarchical ratio penalty J(phi_j) on the Gaussian log-likelihood; distinct from <a href="../curated/NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation.html">AIMech:NonconcavePenalizedQuasiLikelihoodForSparseCovarianceAndPrecisionMatrixEstimation</a> (Lam &amp; Fan 2009), which penalizes individual entries t_{ij} of T with separable folded-concave penalties p_lambda(|t_{ij}|) (Eqs. 4.2-4.4) that allow arbitrary non-contiguous zero locations in T and therefore do not enforce contiguous row-specific bands or prevent fill-in under T^T D^{-1} T; and distinct from <a href="../curated/SparsePermutationInvariantCovarianceEstimation.html">AIMech:SparsePermutationInvariantCovarianceEstimation</a> (Rothman, Bickel, Levina, &amp; Zhu 2008), which applies a permutation-invariant L1 penalty directly to the entries of Omega = Sigma^{-1}.
     </div>
 </div>
 
@@ -147,7 +187,7 @@
       <li>Dependence on a natural variable ordering and lack of permutation invariance: Like standard Cholesky banding, adaptive banding via the nested Lasso relies on the modified Cholesky decomposition Sigma^{-1} = T^T D^{-1} T and is not invariant to permutations of the variables, requiring longitudinal, temporal, spatial, or spectral ordering (Section 1, p. 247; Section 4, p. 263).</li>
       <li>Non-convexity of the ratio penalty and lack of formal high-dimensional asymptotic consistency proofs in the 2008 paper: Because the ratio terms |phi_{j,t}|/|phi_{j,t+1}| make J_0, J_1, and J_2 nonconvex, global optimality is not guaranteed for the joint LQA iteration, and formal asymptotic consistency proofs as p, n -&gt; infty are deferred to future work (Section 2.2, p. 252; Section 4, pp. 262-263).</li>
       <li>Coefficient scaling sensitivity in J_0 and J_1: The unnormalized penalty J_0 penalizes the leading lag coefficient |phi_{j,j-1}| and the dimensionless ratios |phi_{j,t}|/|phi_{j,t+1}| with a single tuning parameter lambda, requiring either an ad hoc marginal regression rescaling |phi_hat^*_{j,j-1}| in J_1 or two separate tuning parameters (lambda_1, lambda_2) in J_2 (Section 2.1, pp. 250-251).</li>
-      <li>Primary-source typographical audit of arXiv:0803.3872v1 (DOI:10.1214/07-AOAS139): (1) On p. 257 (PDF p. 13), the caption of Figure 2 states &#39;Heatmap plots of percentage of zeros at each location in the inverse (out of 50 replications) for Sigma_3, p = 30&#39;, duplicating the caption of Figure 3 on p. 258 (PDF p. 14), whereas the text on p. 256 (PDF p. 12) and the lower-triangular plots themselves show that Figure 2 plots the Cholesky factor T while Figure 3 plots the inverse Sigma^{-1}; and (2) the captions of Figures 2 and 3 state &#39;Black represents 100%, white 0%&#39; for the percentage of zeros, whereas the main diagonal and banded nonzeros are rendered in black and the off-band zeros in white (matching the convention stated in Figures 5 and 6 on pp. 261-262 / PDF pp. 17-18: &#39;White corresponds to zero, black to nonzero&#39;).</li>
+      <li>Primary-source typographical audit of <a href="https://arxiv.org/abs/0803.3872v1" target="_blank" rel="noopener">arXiv:0803.3872v1</a> (<a href="https://doi.org/10.1214/07-AOAS139" target="_blank" rel="noopener">DOI:10.1214/07-AOAS139</a>): (1) On p. 257 (PDF p. 13), the caption of Figure 2 states &#39;Heatmap plots of percentage of zeros at each location in the inverse (out of 50 replications) for Sigma_3, p = 30&#39;, duplicating the caption of Figure 3 on p. 258 (PDF p. 14), whereas the text on p. 256 (PDF p. 12) and the lower-triangular plots themselves show that Figure 2 plots the Cholesky factor T while Figure 3 plots the inverse Sigma^{-1}; and (2) the captions of Figures 2 and 3 state &#39;Black represents 100%, white 0%&#39; for the percentage of zeros, whereas the main diagonal and banded nonzeros are rendered in black and the off-band zeros in white (matching the convention stated in Figures 5 and 6 on pp. 261-262 / PDF pp. 17-18: &#39;White corresponds to zero, black to nonzero&#39;).</li>
   </ul>
 </div>
 
@@ -158,7 +198,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -203,7 +243,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -231,7 +271,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOAS139</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1214/07-AOAS139" target="_blank" rel="noopener">https://doi.org/10.1214/07-AOAS139</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:91f75cf387d4…
             </div>
@@ -254,7 +294,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.0803.3872</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.48550/arXiv.0803.3872" target="_blank" rel="noopener">https://doi.org/10.48550/arXiv.0803.3872</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:ad16fbce344d…
             </div>
@@ -277,7 +317,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1214/07-AOAS139</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1214/07-AOAS139" target="_blank" rel="noopener">https://doi.org/10.1214/07-AOAS139</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:c66060e857a6…
             </div>
@@ -331,10 +371,60 @@
       <code>data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-18T23:59:05Z">2026-10-18T23:59:05Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation from Levina, Rothman, &amp; Zhu (2008, Ann. Appl. Stat. 2(1):245-263, <a href="https://arxiv.org/abs/0803.3872v1" target="_blank" rel="noopener">arXiv:0803.3872v1</a>) full-text PDF with boundary verification</strong>
+<p>Full-text inspection of all 21 pages of <a href="https://arxiv.org/abs/0803.3872v1" target="_blank" rel="noopener">arXiv:0803.3872v1</a> and constructed pure-Python verification of modified Cholesky log-likelihood decomposition, hierarchical zero propagation, precision sparsity preservation vs unstructured Cholesky Lasso fill-in, and LQA J_2 optimization.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/nested-lasso-adaptive-cholesky-banding/2026-10-18T235905Z-antigravity-1029b2.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261018T233500Z-nested-lasso-adaptive-cholesky-banding.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-18T23:36:00Z">2026-10-18T23:36:00Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Nested Lasso Adaptive Banding for Covariance Estimation as a distinct DRAFT mathematical_method with related_match LassoRegression and LinearRegression mappings. All three claims and locators across Levina, Rothman, &amp; Zhu (2008, Ann. Appl. Stat. 2(1):245-263, <a href="https://arxiv.org/abs/0803.3872v1" target="_blank" rel="noopener">arXiv:0803.3872v1</a>) are supported with explicit variable-ordering dependence, non-convexity and deferred asymptotic proof scope, J_0/J_1 scaling sensitivity, and primary-source figure-caption typographical limitations.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261018T233600Z-nested-lasso-adaptive-cholesky-banding/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261018T233600Z-nested-lasso-adaptive-cholesky-banding/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3ANestedLassoAdaptiveBandingForCovarianceEstimation&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FNestedLassoAdaptiveBandingForCovarianceEstimation.html" target="_blank" rel="noopener">Report a problem with AIMech:NestedLassoAdaptiveBandingForCovarianceEstimation</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/NestedLassoAdaptiveBandingForCovarianceEstimation.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -343,7 +433,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Nested%20Lasso%20Adaptive%20Banding%20for%20Covariance%20Estimation"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3ANestedLassoAdaptiveBandingForCovarianceEstimation"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -353,7 +443,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

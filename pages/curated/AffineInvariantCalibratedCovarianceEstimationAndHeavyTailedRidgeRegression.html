@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Affine-Invariant Calibrated Covariance Estimation and Heavy-Tailed Ridge Regression · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,18 +50,55 @@
     <span class="detail-id">AIMech:AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini 3).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> Calibrated Heavy-Tailed Covariance Estimation via Dyadic Regularization Halving (Ostrovskii &amp; Rudi 2019), Affine-Invariant Iterative Norm-Truncated Covariance Estimator, Lepskii-Adaptive Calibrated Heavy-Tailed Covariance Estimator, Heavy-Tailed Ridge Regression via Calibrated Covariance Preconditioning
     </div>
 
   <div class="detail-desc">
-    Affine-Invariant Calibrated Covariance Estimation and Heavy-Tailed Ridge Regression is a non-asymptotic statistical estimation and regression methodology introduced by Ostrovskii and Rudi (2019, COLT PMLR 99:2531-2550, arXiv:1902.03086v2) for estimating a population second-moment matrix S = E[X otimes X] in R^{d x d} from n independent copies of a heavy-tailed random vector X satisfying the directional fourth-moment kurtosis condition E^{1/4}[&lt;X, u&gt;^4] &lt;= kappa E^{1/2}[&lt;X, u&gt;^2] for all u in R^d (Condition HT). Given a target regularization parameter lambda &gt; 0 and regularized covariance S_lambda := S + lambda I_d, the methodology seeks a calibrated covariance estimate S_hat satisfying the affine-invariant relative Loewner-order approximation (1 - varepsilon) S_lambda &lt;= S_hat_lambda &lt;= (1 + varepsilon) S_lambda, equivalently ||S_lambda^{-1/2}(S_hat - S)S_lambda^{-1/2}|| &lt;= varepsilon, with error governed by the effective degrees of freedom df_lambda(S) := Tr(S S_lambda^{-1}) &lt;= min{rank(S), Tr(S)/lambda} rather than ambient dimension d. Whereas standard norm-clipped estimators S_hat^WM = (1/n) sum_{i=1}^n rho_theta(||X_i||) X_i otimes X_i with rho_theta(x) = psi_theta(x^2)/x^2 break affine equivariance and fail to achieve calibrated accuracy when lambda &lt;&lt; ||S||, Algorithm 1 approximates the unobservable oracle estimator S_hat^o = (1/n) sum_{i=1}^n rho_theta(||S_lambda^{-1/2} X_i||) X_i otimes X_i through a multi-stage dyadic regularization halving scheme: starting from lambda_0 = L &gt;= ||S|| across T = ceil(log_2(L/lambda)) halving steps (lambda_{t+1} = lambda_t / 2, q = T + 1) on disjoint sample-split batches of size m = floor(n / (2(T + 1))), it computes Cholesky factors R_t = Cholesky(S_hat_{lambda_t}^{(t)}) and reweights batch t+1 by alpha_i^{(t+1)} = rho_theta(||R_t^{-1} X_i^{(t+1)}||), followed by a final refinement on the remaining r &gt;= n/2 samples in O(d^2 n + d^3 log(L/lambda)) time and O(d^2) space. Theorem 7 and Corollary 8 establish that for n &gt;= 96^2 kappa^4 q df_lambda(S) log(4 q d/delta), S_hat achieves ||S_lambda^{-1/2}(S_hat - S)S_lambda^{-1/2}|| &lt;= 48 kappa^2 sqrt(df_lambda(S) log(4d/delta) / n); Algorithm 2 and Theorem 10 combine Algorithm 1 with Lepskii&#39;s adaptive grid search over truncation levels theta_j = 2^j theta_min to adapt to unknown kappa and df_lambda(S); and Section 6 (Corollary 12 and Theorem 13) yields relative eigenvalue guarantees and optimal O(df_lambda(S) log(d/delta)/n + lambda^2 ||S_lambda^{-1/2} w^*||^2) excess risk for heavy-tailed ridge regression.
+    Affine-Invariant Calibrated Covariance Estimation and Heavy-Tailed Ridge Regression is a non-asymptotic statistical estimation and regression methodology introduced by Ostrovskii and Rudi (2019, COLT PMLR 99:2531-2550, <a href="https://arxiv.org/abs/1902.03086v2" target="_blank" rel="noopener">arXiv:1902.03086v2</a>) for estimating a population second-moment matrix S = E[X otimes X] in R^{d x d} from n independent copies of a heavy-tailed random vector X satisfying the directional fourth-moment kurtosis condition E^{1/4}[&lt;X, u&gt;^4] &lt;= kappa E^{1/2}[&lt;X, u&gt;^2] for all u in R^d (Condition HT). Given a target regularization parameter lambda &gt; 0 and regularized covariance S_lambda := S + lambda I_d, the methodology seeks a calibrated covariance estimate S_hat satisfying the affine-invariant relative Loewner-order approximation (1 - varepsilon) S_lambda &lt;= S_hat_lambda &lt;= (1 + varepsilon) S_lambda, equivalently ||S_lambda^{-1/2}(S_hat - S)S_lambda^{-1/2}|| &lt;= varepsilon, with error governed by the effective degrees of freedom df_lambda(S) := Tr(S S_lambda^{-1}) &lt;= min{rank(S), Tr(S)/lambda} rather than ambient dimension d. Whereas standard norm-clipped estimators S_hat^WM = (1/n) sum_{i=1}^n rho_theta(||X_i||) X_i otimes X_i with rho_theta(x) = psi_theta(x^2)/x^2 break affine equivariance and fail to achieve calibrated accuracy when lambda &lt;&lt; ||S||, Algorithm 1 approximates the unobservable oracle estimator S_hat^o = (1/n) sum_{i=1}^n rho_theta(||S_lambda^{-1/2} X_i||) X_i otimes X_i through a multi-stage dyadic regularization halving scheme: starting from lambda_0 = L &gt;= ||S|| across T = ceil(log_2(L/lambda)) halving steps (lambda_{t+1} = lambda_t / 2, q = T + 1) on disjoint sample-split batches of size m = floor(n / (2(T + 1))), it computes Cholesky factors R_t = Cholesky(S_hat_{lambda_t}^{(t)}) and reweights batch t+1 by alpha_i^{(t+1)} = rho_theta(||R_t^{-1} X_i^{(t+1)}||), followed by a final refinement on the remaining r &gt;= n/2 samples in O(d^2 n + d^3 log(L/lambda)) time and O(d^2) space. Theorem 7 and Corollary 8 establish that for n &gt;= 96^2 kappa^4 q df_lambda(S) log(4 q d/delta), S_hat achieves ||S_lambda^{-1/2}(S_hat - S)S_lambda^{-1/2}|| &lt;= 48 kappa^2 sqrt(df_lambda(S) log(4d/delta) / n); Algorithm 2 and Theorem 10 combine Algorithm 1 with Lepskii&#39;s adaptive grid search over truncation levels theta_j = 2^j theta_min to adapt to unknown kappa and df_lambda(S); and Section 6 (Corollary 12 and Theorem 13) yields relative eigenvalue guarantees and optimal O(df_lambda(S) log(d/delta)/n + lambda^2 ||S_lambda^{-1/2} w^*||^2) excess risk for heavy-tailed ridge regression.
+  </div>
+
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-ostrovskii2019-affine-invariant-cov-pdf">Affine Invariant Covariance Estimation for Heavy-Tailed Distributions</a></span>
+          <span>· <strong>Locator:</strong> Abstract, p. 1; Section 1, pp. 1-3, Equations (1)-(5); Section 2.3, pp. 4-6, Equations (6)-(13); Sections 3-6, pp. 6-12, Algorithms 1-2, Theorems 7, 10, 13, Corollaries 8, 11, 12</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-ostrovskii2019-affine-invariant-cov-abs">Affine Invariant Covariance Estimation for Heavy-Tailed Distributions (arXiv Abstract)</a></span>
+          <span>· <strong>Locator:</strong> <a href="https://arxiv.org/abs/1902.03086v2" target="_blank" rel="noopener">arXiv:1902.03086v2</a> abstract and metadata</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-ostrovskii2019-affine-invariant-cov-pmlr">Affine Invariant Covariance Estimation for Heavy-Tailed Distributions (PMLR v99 Metadata)</a></span>
+          <span>· <strong>Locator:</strong> PMLR v99:2531-2550 (ostrovskii19a) record</span>
+        </div>
+      </li>
+    </ul>
   </div>
 
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Resolved against all 442 pinned AIO records and 617 maintained AIMech records. Distinct from AIMech:CatoniInfluenceFunctionTailRobustMeanAndGramMatrixEstimation (which studies Catoni M-estimator influence functions and matrix Catoni estimators achieving operator-norm bounds ||S_hat - S|| scaled by ||S|| or Tr(S) rather than affine-invariant calibrated bounds ||S_lambda^{-1/2}(S_hat - S)S_lambda^{-1/2}|| governed by df_lambda(S) via dyadic regularization halving), from AIMech:SubGaussianTournamentAndMedianOfMeansEmpiricalRiskMinimization (which studies tournament and median-of-means empirical risk minimization rather than iterative Cholesky-preconditioned norm-truncated covariance estimation and Lepskii adaptation), and from AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation (which studies self-concordant M-estimators under sub-Gaussian calibrated-design conditions rather than heavy-tailed fourth-moment covariance estimation).
+      Resolved against all 442 pinned AIO records and 617 maintained AIMech records. Distinct from AIMech:CatoniInfluenceFunctionTailRobustMeanAndGramMatrixEstimation (which studies Catoni M-estimator influence functions and matrix Catoni estimators achieving operator-norm bounds ||S_hat - S|| scaled by ||S|| or Tr(S) rather than affine-invariant calibrated bounds ||S_lambda^{-1/2}(S_hat - S)S_lambda^{-1/2}|| governed by df_lambda(S) via dyadic regularization halving), from AIMech:SubGaussianTournamentAndMedianOfMeansEmpiricalRiskMinimization (which studies tournament and median-of-means empirical risk minimization rather than iterative Cholesky-preconditioned norm-truncated covariance estimation and Lepskii adaptation), and from <a href="../curated/SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation.html">AIMech:SelfConcordantAndPseudoSelfConcordantFiniteSampleMEstimation</a> (which studies self-concordant M-estimators under sub-Gaussian calibrated-design conditions rather than heavy-tailed fourth-moment covariance estimation).
     </div>
 </div>
 
@@ -169,8 +209,8 @@
   <ul>
       <li>Sample-Splitting Logarithmic Factor in Critical Sample Size and Lack of RKHS Extension: Because Algorithm 1 splits the first half of the sample across q = ceil(log_2(L/lambda)) + 1 dyadic regularization halving stages, the critical sample size in Theorem 7 and Corollary 8 carries a logarithmic factor O(kappa^4 log(L/lambda) df_lambda(S) log(d log(L/lambda)/delta)) even though the final estimation error bound uses the unsplit second half of size r &gt;= n/2 and avoids the q factor. Furthermore, the matrix Bernstein concentration bounds depend logarithmically on the ambient dimension d (Remark 4), leaving infinite-dimensional reproducing kernel Hilbert space (RKHS) extensions open (Section 1.2).</li>
       <li>Requirement of Fourth-Moment Kurtosis Equivalence and Initial Spectral Norm Bound L &gt;= ||S||: The calibrated Loewner-order guarantees require directional fourth-moment equivalence E^{1/4}[&lt;X, u&gt;^4] &lt;= kappa E^{1/2}[&lt;X, u&gt;^2] uniformly over u in R^d (excluding distributions with infinite fourth moments) and an initial upper bound L &gt;= ||S|| to initialize the dyadic halving schedule lambda_0 = L.</li>
-      <li>Primary-Source Typographical Notes in Ostrovskii &amp; Rudi (2019, COLT PMLR 99:2531-2550, arXiv:1902.03086v2): Verified five minor typographical/notational details in the published manuscript: (1) Abstract (p. 1) and Section 1 (p. 2) print &#39;statistically interesing regime&#39; instead of &#39;statistically interesting regime&#39;; (2) Section 2.1 (p. 3) prints &#39;Goldon-Thompson inequality&#39; instead of &#39;Golden-Thompson inequality&#39;; (3) Section 2.3 (p. 5) prints &#39;asymtptocially minimax-optimal&#39; instead of &#39;asymptotically minimax-optimal&#39;; (4) Section 5 (pp. 10-11) prints &#39;Later on we will we show&#39;, &#39;stastistical guarantee&#39;, and &#39;a reasonables choice&#39;, while Appendix B (p. 16) prints &#39;Wei-Misnker estimator&#39; instead of &#39;Wei-Minsker estimator&#39;; and (5) Section 6.2 (p. 12, Eq. 33) writes rho_{theta_bar}(||Z_hat_i||^{1/2}) Z_hat_i where, because rho_theta(x) := psi_theta(x^2)/x^2 (Eq. 7) and Hermitian dilation psi_{theta_bar}(H(Z_hat_i)) truncates singular values ||Z_hat_i|| at theta_bar (Appendix D, p. 19, Eq. 50), passing ||Z_hat_i||^{1/2} into rho_{theta_bar}(.) is the exact algebraic device that makes rho_{theta_bar}(||Z_hat_i||^{1/2}) = psi_{theta_bar}(||Z_hat_i||) / ||Z_hat_i||.</li>
-      <li>All 20 pages of the full-text PDF of Ostrovskii &amp; Rudi (2019, COLT PMLR 99:2531-2550, arXiv:1902.03086v2) were read. Constructed numerical checks in research/discovery/affine-invariant-heavy-tailed-covariance-estimation-boundaries.py verify (1) Lemma 14 dyadic effective-dimension doubling df_{lambda/2}(S) &lt;= 2 df_lambda(S) and Lemma 6 similarity eigenvalue bounds [2/3, 2] and trace surrogate control, (2) Algorithm 1 calibrated relative spectral error (0.1238 vs. 1.2996 for uncalibrated Wei-Minsker clipping on an ill-conditioned heavy-tailed Student-t_5 covariance) and Algorithm 2 Lepskii adaptive selection (0.1577), and (3) Theorem 13 / Appendix D ridge regression excess-risk decomposition.</li>
+      <li>Primary-Source Typographical Notes in Ostrovskii &amp; Rudi (2019, COLT PMLR 99:2531-2550, <a href="https://arxiv.org/abs/1902.03086v2" target="_blank" rel="noopener">arXiv:1902.03086v2</a>): Verified five minor typographical/notational details in the published manuscript: (1) Abstract (p. 1) and Section 1 (p. 2) print &#39;statistically interesing regime&#39; instead of &#39;statistically interesting regime&#39;; (2) Section 2.1 (p. 3) prints &#39;Goldon-Thompson inequality&#39; instead of &#39;Golden-Thompson inequality&#39;; (3) Section 2.3 (p. 5) prints &#39;asymtptocially minimax-optimal&#39; instead of &#39;asymptotically minimax-optimal&#39;; (4) Section 5 (pp. 10-11) prints &#39;Later on we will we show&#39;, &#39;stastistical guarantee&#39;, and &#39;a reasonables choice&#39;, while Appendix B (p. 16) prints &#39;Wei-Misnker estimator&#39; instead of &#39;Wei-Minsker estimator&#39;; and (5) Section 6.2 (p. 12, Eq. 33) writes rho_{theta_bar}(||Z_hat_i||^{1/2}) Z_hat_i where, because rho_theta(x) := psi_theta(x^2)/x^2 (Eq. 7) and Hermitian dilation psi_{theta_bar}(H(Z_hat_i)) truncates singular values ||Z_hat_i|| at theta_bar (Appendix D, p. 19, Eq. 50), passing ||Z_hat_i||^{1/2} into rho_{theta_bar}(.) is the exact algebraic device that makes rho_{theta_bar}(||Z_hat_i||^{1/2}) = psi_{theta_bar}(||Z_hat_i||) / ||Z_hat_i||.</li>
+      <li>All 20 pages of the full-text PDF of Ostrovskii &amp; Rudi (2019, COLT PMLR 99:2531-2550, <a href="https://arxiv.org/abs/1902.03086v2" target="_blank" rel="noopener">arXiv:1902.03086v2</a>) were read. Constructed numerical checks in research/discovery/affine-invariant-heavy-tailed-covariance-estimation-boundaries.py verify (1) Lemma 14 dyadic effective-dimension doubling df_{lambda/2}(S) &lt;= 2 df_lambda(S) and Lemma 6 similarity eigenvalue bounds [2/3, 2] and trace surrogate control, (2) Algorithm 1 calibrated relative spectral error (0.1238 vs. 1.2996 for uncalibrated Wei-Minsker clipping on an ill-conditioned heavy-tailed Student-t_5 covariance) and Algorithm 2 Lepskii adaptive selection (0.1577), and (3) Theorem 13 / Appendix D ridge regression excess-risk decomposition.</li>
   </ul>
 </div>
 
@@ -181,7 +221,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -200,7 +240,7 @@
             <span class="badge badge-aio">related_match</span>
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            AIO:RidgeRegression represents L2-regularized linear regression broadly, whereas Section 6.2 (Theorem 13) of AIMech:AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression constructs a heavy-tailed ridge regression estimator preconditioned by an affine-invariant calibrated covariance estimator achieving excess risk governed by effective degrees of freedom df_lambda(S) under fourth-moment conditions.
+            <a href="../aio/RidgeRegression.html">AIO:RidgeRegression</a> represents L2-regularized linear regression broadly, whereas Section 6.2 (Theorem 13) of AIMech:AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression constructs a heavy-tailed ridge regression estimator preconditioned by an affine-invariant calibrated covariance estimator achieving excess risk governed by effective degrees of freedom df_lambda(S) under fourth-moment conditions.
           </td>
         </tr>
         <tr>
@@ -212,7 +252,7 @@
             <span class="badge badge-aio">related_match</span>
           </td>
           <td style="font-size: 0.88rem; line-height: 1.45;">
-            AIO:LinearRegression represents linear regression broadly, whereas this concept addresses random-design linear prediction and covariance preconditioning under heavy-tailed fourth-moment design and response distributions.
+            <a href="../aio/LinearRegression.html">AIO:LinearRegression</a> represents linear regression broadly, whereas this concept addresses random-design linear prediction and covariance preconditioning under heavy-tailed fourth-moment design and response distributions.
           </td>
         </tr>
       </tbody>
@@ -226,7 +266,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -254,7 +294,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1902.03086</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.48550/arXiv.1902.03086" target="_blank" rel="noopener">https://doi.org/10.48550/arXiv.1902.03086</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:65feb9f97b0b…
             </div>
@@ -277,7 +317,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.48550/arXiv.1902.03086</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.48550/arXiv.1902.03086" target="_blank" rel="noopener">https://doi.org/10.48550/arXiv.1902.03086</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:6a55c4b48442…
             </div>
@@ -300,7 +340,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://proceedings.mlr.press/v99/ostrovskii19a.html</div>
+            <div><strong>ID:</strong> <a href="https://proceedings.mlr.press/v99/ostrovskii19a.html" target="_blank" rel="noopener">https://proceedings.mlr.press/v99/ostrovskii19a.html</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:b1a61c2001fe…
             </div>
@@ -354,10 +394,60 @@
       <code>data/curated/AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-18T20:04:49Z">2026-10-18T20:04:49Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression from Ostrovskii &amp; Rudi (2019, COLT PMLR 99:2531-2550, <a href="https://arxiv.org/abs/1902.03086v2" target="_blank" rel="noopener">arXiv:1902.03086v2</a>) full-text PDF with boundary verification</strong>
+<p>Full-text inspection of all 20 pages of Ostrovskii &amp; Rudi (2019, COLT PMLR 99:2531-2550, <a href="https://arxiv.org/abs/1902.03086v2" target="_blank" rel="noopener">arXiv:1902.03086v2</a>) and constructed pure-Python verification of Lemma 14 dyadic effective-dimension doubling, Lemma 6 similarity and trace surrogate bounds, Algorithm 1 dyadic regularization halving, Algorithm 2 Lepskii adaptive selection, and Theorem 13 heavy-tailed ridge regression excess-risk decomposition.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/affine-invariant-heavy-tailed-covariance-estimation/2026-10-18T200449Z-antigravity-84c3af.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261018T195000Z-affine-invariant-heavy-tailed-covariance-estimation.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-18T19:51:00Z">2026-10-18T19:51:00Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain Affine-Invariant Calibrated Covariance Estimation and Heavy-Tailed Ridge Regression as a distinct DRAFT mathematical_method with related RidgeRegression and LinearRegression mappings. All four claims and locators across Ostrovskii &amp; Rudi (2019, COLT PMLR 99:2531-2550, <a href="https://arxiv.org/abs/1902.03086v2" target="_blank" rel="noopener">arXiv:1902.03086v2</a>) are supported with explicit sample-splitting logarithmic overhead, fourth-moment kurtosis, and ambient-dimension concentration limitations.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261018T195100Z-affine-invariant-heavy-tailed-covariance-estimation/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261018T195100Z-affine-invariant-heavy-tailed-covariance-estimation/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AAffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FAffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression.html" target="_blank" rel="noopener">Report a problem with AIMech:AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/AffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -366,7 +456,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=Affine-Invariant%20Calibrated%20Covariance%20Estimation%20and%20Heavy-Tailed%20Ridge%20Regression"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AAffineInvariantCalibratedCovarianceEstimationAndHeavyTailedRidgeRegression"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -376,7 +466,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FedPA (Federated Posterior Averaging via Local MCMC and Shrinkage Covariance) · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> FedPA, Federated Posterior Averaging, Federated Learning via Posterior Averaging
@@ -56,9 +69,36 @@
     A Bayesian posterior-inference federated learning algorithm (Al-Shedivat et al. 2021, Algorithms 1-2) that decomposes the global posterior under a uniform prior into a product of local client posteriors P(theta | D) propto prod_{i=1}^N P(theta | D_i), approximates each client posterior with a Gaussian N(mu_hat_i, Sigma_hat_i) whose mean and Ledoit-Wolf shrinkage covariance Sigma_hat_ell = rho_ell I + (1 - rho_ell) S_hat_ell (rho_ell = 1 / (1 + (ell - 1) rho)) are estimated from ell local stochastic-gradient MCMC (Iterate-Averaged SGD) samples, and transmits only the preconditioned vector update Delta_hat_i = Sigma_hat_i^{-1} (theta^{t-1} - mu_hat_i) computed online in O(ell^2 d) time and O(ell d) memory via rank-1 Sherman-Morrison dynamic programming.
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r412-primary-pdf">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r412-arxiv-abs">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r412-metadata-cr">Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Distinct from FedAvg and FedOpt (AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam), which correspond to the biased identity-covariance special case Sigma_hat_i = I (rho = 0) and converge to the arithmetic mean of local modes rather than the global posterior mode (sum_i q_i Sigma_i^{-1})^{-1} (sum_i q_i Sigma_i^{-1} mu_i) when client posteriors have heterogeneous anisotropic curvatures, and from FedMA (AIMech:FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching, which uses a Beta-Bernoulli Process for layer-wise neuron permutation matching rather than local MCMC sampling and shrinkage covariance preconditioning).
+      Distinct from FedAvg and FedOpt (<a href="../curated/FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam.html">AIMech:FedOptAdaptiveServerOptimizationFedAdagradFedYogiFedAdam</a>), which correspond to the biased identity-covariance special case Sigma_hat_i = I (rho = 0) and converge to the arithmetic mean of local modes rather than the global posterior mode (sum_i q_i Sigma_i^{-1})^{-1} (sum_i q_i Sigma_i^{-1} mu_i) when client posteriors have heterogeneous anisotropic curvatures, and from FedMA (<a href="../curated/FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching.html">AIMech:FedMaFederatedMatchedAveragingViaLayerWiseBayesianNonparametricMatching</a>, which uses a Beta-Bernoulli Process for layer-wise neuron permutation matching rather than local MCMC sampling and shrinkage covariance preconditioning).
     </div>
 </div>
 
@@ -179,7 +219,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -212,7 +252,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -240,7 +280,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://openreview.net/forum?id=GFsU8a0sGB</div>
+            <div><strong>ID:</strong> <a href="https://openreview.net/forum?id=GFsU8a0sGB" target="_blank" rel="noopener">https://openreview.net/forum?id=GFsU8a0sGB</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:aa28ea4d73cf…
             </div>
@@ -263,7 +303,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2010.05273</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2010.05273" target="_blank" rel="noopener">https://arxiv.org/abs/2010.05273</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:aee73b9afd8e…
             </div>
@@ -286,7 +326,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://openreview.net/forum?id=GFsU8a0sGB</div>
+            <div><strong>ID:</strong> <a href="https://openreview.net/forum?id=GFsU8a0sGB" target="_blank" rel="noopener">https://openreview.net/forum?id=GFsU8a0sGB</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:8f7c4f3ba9dd…
             </div>
@@ -340,10 +380,60 @@
       <code>data/curated/FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T19:23:48Z">2026-10-19T19:23:48Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance from Federated Learning via Posterior Averaging: A New Perspective and Practical Algorithms full-text PDF with boundary verification</strong>
+<p>Full-text inspection of International Conference on Learning Representations (ICLR 2021) (2021) and pure-Python boundary verification in research/discovery/fedpa-federated-posterior-averaging-local-mcmc-shrinkage-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/fedpa-federated-posterior-averaging-local-mcmc-shrinkage/2026-10-19T192348Z-antigravity-d0089f.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T081500Z-fedpa-federated-posterior-averaging-local-mcmc-shrinkage.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T08:15:30Z">2026-10-19T08:15:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain FedPA (Federated Posterior Averaging via Local MCMC and Shrinkage Covariance) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T081530Z-fedpa-federated-posterior-averaging-local-mcmc-shrinkage/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T081530Z-fedpa-federated-posterior-averaging-local-mcmc-shrinkage/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AFedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FFedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance.html" target="_blank" rel="noopener">Report a problem with AIMech:FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/FedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -352,7 +442,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=FedPA%20%28Federated%20Posterior%20Averaging%20via%20Local%20MCMC%20and%20Shrinkage%20Covariance%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedPaFederatedPosteriorAveragingViaLocalMcmcAndShrinkageCovariance"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -362,7 +452,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

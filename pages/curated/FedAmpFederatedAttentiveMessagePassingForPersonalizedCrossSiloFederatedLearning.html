@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FedAMP (Federated Attentive Message Passing for Personalized Cross-Silo Federated Learning) · Curated AI Concept · AIMech</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="../style.css">
 <script src="../theme-toggle.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header>
   <a class="brand" href="../index.html">
     AIMech <span class="brand-tag">AI</span>
@@ -19,11 +21,12 @@
     <a href="../graph.html">Network graph</a>
     <a href="../browse.html?origin=curated">Curated</a>
     <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="../schema.html">Schema</a>
     <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
     <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
-<main>
+<main id="main-content" tabindex="-1">
 <div class="page-top-bar">
   <div class="breadcrumbs">
     <a href="../index.html">Home</a>
@@ -47,6 +50,16 @@
     <span class="detail-id">AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning</span>
     <span class="badge badge-aio">DRAFT</span>
   </div>
+<details class="status-meaning">
+  <summary>What <code>DRAFT</code> means</summary>
+  <p>“Maintained curation; scientific assessments are separate saved review observations.” <span class="meta">— the status definition in the
+    <a href="../schema.html#curated-enum-CuratedReviewStatus">Maintained AIMech concepts and inspected claim evidence</a> schema.</span></p>
+  <p>“These maintained records remain <code>DRAFT</code>; scientific reviews are saved separately.” <span class="meta">—
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/README.md" target="_blank" rel="noopener">README</a>.</span></p>
+  <p>This record's curation method is recorded as <code>ai_assisted</code>
+    (curator Antigravity, model Gemini).
+Its saved reviews are listed under <a href="#curation-history">Curation History</a>.</p>
+</details>
 
     <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
       <strong>Aliases:</strong> FedAMP, HeurFedAMP, Federated Attentive Message Passing, Personalized Cross-Silo Federated Learning via Attentive Message Passing
@@ -56,9 +69,36 @@
     A personalized cross-silo federated learning algorithm (Huang et al. 2021, Sections 3-6, Definition 1, Equations 1-8, Algorithm 1, Theorems 1-2) that jointly optimizes client models W = [w_1, ..., w_m] under a pairwise attention-inducing regularizer min_W G(W) = sum_{i=1}^m F_i(w_i) + lambda sum_{1 &lt;= i &lt; j &lt;= m} A(||w_i - w_j||^2) where A : [0, infty) -&gt; R is a concave, strictly increasing attention-inducing function with A(0) = 0 and bounded right derivative lim_{t -&gt; 0+} A&#39;(t) &lt; infty (such as A(t) = 1 - exp(-t / sigma), Equations 1-2), alternating between (1) a server-side attentive message passing step U^k = W^{k-1} - alpha_k nabla A(W^{k-1}) that forms each client&#39;s personalized cloud model u_i^k = sum_{j=1}^m xi_{i,j} w_j^{k-1} with pairwise attention weights xi_{i,j} = alpha_k A&#39;(||w_i^{k-1} - w_j^{k-1}||^2) for j != i and self-weight xi_{i,i} = 1 - sum_{j != i} xi_{i,j} (Equations 3, 5, 7) and (2) client-side proximal point optimization w_i^k = argmin_w {F_i(w) + (lambda / (2 alpha_k)) ||w - u_i^k||^2} (Equations 4, 6), together with the cosine-similarity variant HeurFedAMP (Equation 8) for high-dimensional deep networks.
   </div>
 
+  <div class="definition-evidence">
+    <div class="callout-title">Definition Evidence</div>
+    <ul class="evidence-list">
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r465-primary-pdf">Personalized Cross-Silo Federated Learning on Non-IID Data</a></span>
+          <span>· <strong>Locator:</strong> Full-text primary paper (all sections and appendices verified)</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r465-arxiv-abs">Personalized Cross-Silo Federated Learning on Non-IID Data (arXiv abstract)</a></span>
+          <span>· <strong>Locator:</strong> arXiv abstract page</span>
+        </div>
+      </li>
+      <li class="evidence-item">
+        <div class="evidence-meta">
+            <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+          <span><strong>Source:</strong> <a href="#source-r465-metadata-cr">Personalized Cross-Silo Federated Learning on Non-IID Data (Crossref metadata)</a></span>
+          <span>· <strong>Locator:</strong> Crossref DOI bibliographic metadata</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
     <div class="identity-box">
       <strong>Identity Notes & Concept Scope</strong>
-      Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which penalizes distance to a single shared global model ||w_i - w||^2 rather than pairwise concave attention functions sum_{i &lt; j} A(||w_i - w_j||^2) producing personalized cloud models u_i^k; and distinct from FedFomo (AIMech:FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning, Zhang et al. 2021), which computes weights on the client side using local validation loss evaluations of downloaded peer models rather than server-side attentive message passing.
+      Distinct from pFedMe (<a href="../curated/PFedMePersonalizedFederatedLearningWithMoreauEnvelopes.html">AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes</a>, T. Dinh et al. 2020), which penalizes distance to a single shared global model ||w_i - w||^2 rather than pairwise concave attention functions sum_{i &lt; j} A(||w_i - w_j||^2) producing personalized cloud models u_i^k; and distinct from FedFomo (<a href="../curated/FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning.html">AIMech:FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning</a>, Zhang et al. 2021), which computes weights on the client side using local validation loss evaluations of downloaded peer models rather than server-side attentive message passing.
     </div>
 </div>
 
@@ -179,7 +219,7 @@
 
 <div class="callout" style="background: var(--card);">
   <div class="callout-title">Mapped AIO Classes</div>
-  <div class="table-wrap" style="margin-top: 0.5rem;">
+  <div class="table-wrap" role="region" tabindex="0" aria-label="Mapped AIO classes" style="margin-top: 0.5rem;">
     <table>
       <thead>
         <tr>
@@ -212,7 +252,7 @@
   <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
 </div>
 
-<div class="table-wrap">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Evidence sources">
   <table>
     <thead>
       <tr>
@@ -240,7 +280,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v35i9.16960</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1609/aaai.v35i9.16960" target="_blank" rel="noopener">https://doi.org/10.1609/aaai.v35i9.16960</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:67efb72e9e23…
             </div>
@@ -263,7 +303,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://arxiv.org/abs/2007.03797</div>
+            <div><strong>ID:</strong> <a href="https://arxiv.org/abs/2007.03797" target="_blank" rel="noopener">https://arxiv.org/abs/2007.03797</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:4a3d75d7c6e8…
             </div>
@@ -286,7 +326,7 @@
           <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
         </td>
         <td style="font-size: 0.8rem; font-family: var(--mono);">
-            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v35i9.16960</div>
+            <div><strong>ID:</strong> <a href="https://doi.org/10.1609/aaai.v35i9.16960" target="_blank" rel="noopener">https://doi.org/10.1609/aaai.v35i9.16960</a></div>
             <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
               sha256:0f74aac273b3…
             </div>
@@ -340,10 +380,60 @@
       <code>data/curated/FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning.yaml</code>
     </a>
     · <strong>Schema:</strong>
-    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
-      <code>curated_concept.yaml</code>
-    </a>
+    <a href="../schema.html#curated">curated concept schema</a>
+    (<a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener"><code>curated_concept.yaml</code></a>)
   </div>
+</div>
+
+<div class="section-header" id="curation-history">
+  <h2>Curation History</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 recorded session · 1 saved review</span>
+</div>
+<div class="callout history" style="background: var(--card);">
+  <h3 class="callout-title">Recorded Curation Sessions</h3>
+  <ol class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-20T00:13:57Z">2026-10-20T00:13:57Z</time>
+        <span>· Antigravity (<code>ai_agent</code>; Gemini)</span>
+      </div>
+      <div class="history-event">
+        <span class="badge badge-aio">CREATE</span>
+        <span class="meta">changed</span>
+        <strong>Curate AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning from Personalized Cross-Silo Federated Learning on Non-IID Data full-text PDF with boundary verification</strong>
+<p>Full-text inspection of Conference Proceedings (2021) and pure-Python boundary verification in research/discovery/fedamp-attentive-message-passing-boundaries.py.</p>      </div>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/history/reports/fedamp-federated-attentive-message-passing-cross-silo/2026-10-20T001357Z-antigravity-8b58ac.yaml" target="_blank" rel="noopener">Session record</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/research/discovery/20261019T090800Z-fedamp-federated-attentive-message-passing-cross-silo.json" target="_blank" rel="noopener">Discovery report</a> <span class="meta">(this session wrote the report, which lists this record)</span>      </div>
+    </li>
+  </ol>
+
+  <h3 class="callout-title">Saved Reviews</h3>
+  <ul class="history-list">
+    <li class="history-item">
+      <div class="history-meta">
+        <time datetime="2026-10-19T09:08:30Z">2026-10-19T09:08:30Z</time>
+        <span>· Antigravity (<code>agent</code>; Gemini)</span>
+        <span>· independence <code>self_review</code></span>
+        <span>· verdict <code>pass_with_limitations</code></span>
+        <span>· completion <code>completed</code></span>
+      </div>
+      <p>Retain FedAMP (Federated Attentive Message Passing for Personalized Cross-Silo Federated Learning) as a distinct DRAFT algorithm. All four claims are supported by full-text primary evidence and pure-Python boundary verification.</p>
+      <div class="history-links">
+        <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T090830Z-fedamp-federated-attentive-message-passing-cross-silo/review.md" target="_blank" rel="noopener">Read this review</a>
+· <a href="https://github.com/CultureBotAI/AIMech/blob/main/reviews/structured/20261019T090830Z-fedamp-federated-attentive-message-passing-cross-silo/review.yaml" target="_blank" rel="noopener">YAML</a>      </div>
+    </li>
+  </ul>
+</div>
+<!-- Report a problem -->
+<div class="section-header">
+  <h2>Report a Problem</h2>
+</div>
+<div class="callout feedback-route">
+  <a href="https://github.com/CultureBotAI/AIMech/issues/new?title=Problem%20with%20AIMech%3AFedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning&amp;body=https%3A%2F%2Fculturebotai.github.io%2FAIMech%2Fpages%2Fcurated%2FFedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning.html" target="_blank" rel="noopener">Report a problem with AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning</a>
+  (opens a GitHub issue prefilled with this record and page)
+  · <a href="https://github.com/CultureBotAI/AIMech/edit/main/data/curated/FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning.yaml" target="_blank" rel="noopener">Edit on GitHub</a>
+  <span class="meta">— “Curated changes require an append-only history sidecar using <code>just new-history</code>” (<a href="https://github.com/CultureBotAI/AIMech/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>).</span>
 </div>
 
 <!-- Cross-Mech Navigation -->
@@ -352,7 +442,7 @@
 </div>
 <div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
   <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
-  <a class="badge badge-curated" href="../map.html?q=FedAMP%20%28Federated%20Attentive%20Message%20Passing%20for%20Personalized%20Cross-Silo%20Federated%20Learning%29"> Embedding Map</a>
+  <a class="badge badge-curated" href="../map.html#map-coverage">Embedding Map: not plotted yet</a>
   <a class="badge badge-curated" href="../graph.html?q=AIMech%3AFedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning"> Network Graph</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
   <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
@@ -362,7 +452,8 @@
 </div>
 </main>
 <footer>
-  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="../schema.html">LinkML schema</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-24 (<code>de5b593fee12</code>)</p>
+  <p class="fam license">Code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a>. AIO source data and derived records in <code>data/aio</code>: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">CC BY 4.0</a>, attributed to the Artificial Intelligence Ontology authors. The repository states no licence for the curated concepts in <code>data/curated</code>. Third-party source material keeps its own terms.</p>
   <p class="fam">
     <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
     <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·

@@ -16,6 +16,23 @@
   computational roles, and relationships, projected to 2D with PaCMAP. Points are colored by
   origin and kind/branch; click a point to open its concept page.
 </p>
+<div class="callout map-coverage" id="map-coverage">
+  {% if coverage.missing %}
+  <p>This map plots <strong>{{ coverage.plotted }}</strong> of the <strong>{{ coverage.total }}</strong>
+    concepts this site lists.
+    {% if coverage.missing_aio %}The other {{ coverage.missing }} ({{ coverage.missing_curated }} curated, {{ coverage.missing_aio }} AIO) have{% else %}The other {{ coverage.missing }} are curated concepts with{% endif %}
+    no coordinates in <code>data/embeddings/corpus_map.json</code>, the embedding file the map is drawn from.
+    {% if coverage.predates_missing %}They were created from {{ coverage.first_missing }} to {{ coverage.last_missing }},
+    after the newest plotted concept ({{ coverage.newest_plotted }}), so the embeddings predate them.
+    {% endif %}They are listed in <a href="{{ root }}browse.html">Browse</a> and appear here once the
+    embeddings are regenerated (<code>just embed</code>, then <code>just embed-map</code>).</p>
+  {% else %}
+  <p>This map plots all <strong>{{ coverage.total }}</strong> concepts this site lists.</p>
+  {% endif %}
+  {% if coverage.stale %}
+  <p>{{ coverage.stale }} plotted point{% if coverage.stale != 1 %}s name records{% else %} names a record{% endif %} no longer in the corpus.</p>
+  {% endif %}
+</div>
 
 <div class="browse-layout">
   <aside class="facet-sidebar" aria-label="Embedding map filters">
@@ -50,6 +67,27 @@
       <div id="map-tip" class="map-tip" hidden></div>
       <div class="map-hint">scroll to zoom · drag to pan · double-click to reset · click point to open concept · Esc clears filter</div>
     </div>
+    <noscript><p class="empty-state">The map and its table need JavaScript. Every concept has a static page, listed in <a href="{{ root }}browse.html">Browse</a>.</p></noscript>
+    <details class="data-table" id="map-table">
+      <summary>View data as table</summary>
+      <p class="meta" id="map-table-status" role="status"></p>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Concepts plotted on the embedding map">
+        <table>
+          <caption class="meta">The points the map currently shows, with the coordinates it plots (0 to 1 on each axis).</caption>
+          <thead>
+            <tr>
+              <th scope="col">Concept</th>
+              <th scope="col">Identifier</th>
+              <th scope="col">Origin</th>
+              <th scope="col">Kind / Branch</th>
+              <th scope="col">x</th>
+              <th scope="col">y</th>
+            </tr>
+          </thead>
+          <tbody id="map-table-body"></tbody>
+        </table>
+      </div>
+    </details>
   </div>
 </div>
 
@@ -65,6 +103,9 @@
   const search = document.getElementById('map-search');
   const countEl = document.getElementById('map-count');
   const originBtns = document.querySelectorAll('#map-origin-controls [data-origin]');
+  const tableBox = document.getElementById('map-table');
+  const tableBody = document.getElementById('map-table-body');
+  const tableStatus = document.getElementById('map-table-status');
 
   const dpr = window.devicePixelRatio || 1;
   let W = 980, H = 640;
@@ -106,6 +147,7 @@
       }
     }
     draw();
+    renderTable();
   };
   toggleHolder.appendChild(allBtn);
 
@@ -143,6 +185,7 @@
         b.classList.toggle('off', !active[i]);
       }
       draw();
+      renderTable();
     };
     controls.appendChild(b);
     pills.push(b);
@@ -157,6 +200,7 @@
       });
       syncUrl();
       draw();
+      renderTable();
     });
   });
 
@@ -233,6 +277,25 @@
     countEl.textContent = query ? `${hits} / ${shown} matched` : `${shown} concepts shown`;
   }
 
+  // Text alternative to the canvas: the points it currently plots, rendered from
+  // the same data only while the disclosure is open, and kept in step with the
+  // filters. Each row opens the same page a click on its point does.
+  function renderTable() {
+    if (!tableBox.open) return;
+    const rows = [];
+    for (const p of D.points) {
+      if (!active[p[2]] || !matchesOrigin(p[2]) || (query && !match(p))) continue;
+      const href = D.hrefs && D.hrefs[p[3]];
+      const cls = D.classes[p[2]];
+      rows.push('<tr><td>' + (href ? '<a href="' + esc(href) + '">' + esc(p[4]) + '</a>' : esc(p[4])) +
+        '</td><td><code>' + esc(p[3]) + '</code></td><td>' + (cls.startsWith('curated:') ? 'Curated' : 'AIO') +
+        '</td><td>' + esc(formatClassLabel(cls)) + '</td><td>' + esc(p[0]) + '</td><td>' + esc(p[1]) + '</td></tr>');
+    }
+    tableBody.innerHTML = rows.join('');
+    tableStatus.textContent = rows.length + ' of ' + D.points.length + ' plotted concepts match the current filters.';
+  }
+  tableBox.addEventListener('toggle', renderTable);
+
   function pick(mx, my) {
     let best = -1, bestD = 12 * 12;
     for (let i = 0; i < D.points.length; i++) {
@@ -307,6 +370,7 @@
     query = search.value.trim().toLowerCase();
     syncUrl();
     draw();
+    renderTable();
   });
   search.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -314,6 +378,7 @@
       query = '';
       syncUrl();
       draw();
+      renderTable();
     }
   });
 
