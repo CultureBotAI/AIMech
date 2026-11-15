@@ -16,7 +16,7 @@
 | Check | Command or evidence | Result |
 | --- | --- | --- |
 | Frozen ledger snapshot | `shasum -a 256 reviews/workflow/mech-goal-sequence-20261019/cycle-000001/stage-06/revision-0001/infra_snapshot.md` | `56b898abab73acfd24d931a1cf246bd6417993fada6fccacc612ef0975c2622d`, matching `INFRA_TASKS.md` at the cutoff. |
-| Frozen snapshot immutability | `git show HEAD:INFRA_TASKS.md \| diff -u - reviews/workflow/mech-goal-sequence-20261019/cycle-000001/stage-06/revision-0001/infra_snapshot.md` | Passed with no diff. |
+| Frozen snapshot immutability | `git show 78dcdfa7ff0b44ceb19c929e657ee630aea423e0:INFRA_TASKS.md \| diff -u - reviews/workflow/mech-goal-sequence-20261019/cycle-000001/stage-06/revision-0001/infra_snapshot.md` | Passed with no diff. |
 | Updated ledger parse | `validate_infra_notebook(Path("INFRA_TASKS.md").read_bytes(), "CultureBotAI/AIMech")` | Parsed 2 tasks: `aimech-infra-0001:resolved`, `aimech-infra-0002:deferred`. |
 | Workflow profile | `python -m kg_microbe_workflows validate --profile workflow/mech-workflow.yaml --parent workflow/parent/mech-cycle.yaml --schema workflow/parent/workflow.yaml` | Passed with `Workflow profile valid`. |
 | Ownership boundaries | `git diff --name-only -- data/aio data/curated research/discovery workflow/parent workflow/candidates .github pages scripts/fulltext_access.py tests/test_fulltext_access.py` | Passed with no changed paths. |
