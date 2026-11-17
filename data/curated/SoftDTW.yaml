@@ -1,0 +1,83 @@
+id: AIMech:SoftDTW
+name: Soft-DTW
+aliases:
+- Soft dynamic time warping
+concept_kind: mathematical_method
+definition: A time-series discrepancy obtained by applying a temperature-controlled soft minimum to the
+  summed local costs of all monotone endpoint-to-endpoint alignment paths; positive temperature and differentiable
+  local costs permit differentiation with respect to the series.
+identity_notes: This proposal denotes the uncorrected discrepancy, not ordinary minimum-cost DTW, the
+  later self-similarity-corrected soft-DTW divergence, or a trained model. The existing GCFL+ record uses
+  DTW inside a federated clustering procedure and has a different identity. Exact names, expanded names
+  and publication identifiers were searched with hidden and ignored files included; normalized corpus
+  identities were compared separately.
+definition_evidence:
+- source_id: soft-dtw-2017
+  locator: Section 2.1, PDF pp. 2-3; definition of gamma-soft-DTW and Algorithm 1
+  relation: supports
+claims:
+- claim_id: forward-and-backward-recursion
+  kind: mechanism
+  statement: The forward dynamic program replaces each hard minimum with a log-sum-exp soft minimum. A
+    reverse pass through stored intermediate costs computes the gradient; after forming the local cost
+    matrix, value and gradient computation require O(nm) time and storage.
+  evidence:
+  - source_id: soft-dtw-2017
+    locator: Sections 2.1-2.3, Algorithms 1-2, PDF pp. 3-4
+    relation: supports
+- claim_id: entropic-bias
+  kind: limitation
+  statement: The uncorrected discrepancy can be negative. With positive temperature and the squared Euclidean
+    local cost, the follow-up analysis shows that equal input series need not minimize it; it should not
+    be described as a valid divergence.
+  evidence:
+  - source_id: divergences-2021
+    locator: Section 3, Proposition 2 and Figure 2, PDF p. 4
+    relation: supports
+evidence_sources:
+- source_id: soft-dtw-2017
+  title: 'Soft-DTW: a Differentiable Loss Function for Time-Series'
+  authors:
+  - Marco Cuturi
+  - Mathieu Blondel
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/cuturi17a/cuturi17a.pdf
+  persistent_id: https://proceedings.mlr.press/v70/cuturi17a.html
+  version: PMLR 70:894-903 (ICML 2017), publisher PDF
+  access_level: full_text
+  accessed_at: '2026-11-16T19:49:47Z'
+  sha256: 8b6b098bcfb8d3b1b9aadf6fde905bb61c46a8252556954d2fb6fe88f3a2e5f1
+- source_id: divergences-2021
+  title: Differentiable Divergences Between Time Series
+  authors:
+  - Mathieu Blondel
+  - Arthur Mensch
+  - Jean-Philippe Vert
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v130/blondel21a/blondel21a.pdf
+  persistent_id: https://proceedings.mlr.press/v130/blondel21a.html
+  version: PMLR 130:3853-3861 (AISTATS 2021), publisher PDF
+  access_level: full_text
+  accessed_at: '2026-11-16T19:49:47Z'
+  sha256: f2b9cabd2d93f4e1340e9593046936eb375749d23376123887612e291e45e247
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: The target denotes a general input-to-output mathematical rule; this discrepancy is a particular
+    scalar-valued rule on pairs of time series. This local mapping asserts neither an accepted AIO class
+    nor scientific review.
+limitations:
+- Differentiability requires positive smoothing and differentiable local costs.
+- Retain the entropic-bias qualification in the cited limitation claim.
+- No benchmark superiority or independent theorem verification is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-11-16T20:53:50Z'
+  updated_at: '2026-11-16T20:53:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
