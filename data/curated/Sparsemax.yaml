@@ -1,0 +1,77 @@
+id: AIMech:Sparsemax
+name: Sparsemax
+definition: A transformation of real-valued scores into a probability vector by Euclidean
+  projection onto the probability simplex, capable of assigning exact zero probabilities.
+concept_kind: mathematical_method
+identity_notes: This concept is the Sparsemax transformation, not the separate sparsemax
+  loss, a trained model or an implementing neural-network layer. Hidden and ignored
+  repository files, pinned AIO class metadata, maintained identities, proposals, and
+  local and remote branch tips were searched for Sparsemax, sparse max, sparse-max
+  and publication identifiers. The only phrase hit was an unrelated sparse maximal
+  eigenvalue bound in a Lasso record. AIO MathematicalFunction, SoftmaxFunction, ActivationLayer
+  and SoftmaxLayer were examined; layer classes do not denote this function. Softmax
+  is an alternative normalization, not an equivalent concept. Other AIMech algorithm
+  records and discovery helpers use simplex projection as a component; this record
+  names the standalone Sparsemax score-to-probability formulation, without claiming
+  that the projection primitive is new.
+definition_evidence:
+- source_id: sparsemax-2016
+  locator: Section 2.1, Equation 2, PDF p. 2
+  relation: supports
+claims:
+- claim_id: adaptive-threshold
+  kind: mechanism
+  statement: For each input coordinate z_i, the output is max(z_i - tau, 0), where
+    the input-dependent threshold tau makes the outputs sum to one. The sorting-based
+    algorithm finds the support and threshold.
+  evidence:
+  - source_id: sparsemax-2016
+    locator: Section 2.2, Proposition 1, Equations 3-4 and Algorithm 1, PDF p. 2
+    relation: supports
+- claim_id: piecewise-differentiability
+  kind: limitation
+  statement: The transformation is piecewise linear and differentiable away from support-change
+    boundaries. Within a fixed support S, its Jacobian is diag(s) - s s^T / |S|, with
+    s the support indicator; this ordinary derivative does not apply at every boundary.
+  evidence:
+  - source_id: sparsemax-2016
+    locator: End of Section 2.4 and Section 2.5, Equations 11-12 and footnote 2, PDF
+      p. 3
+    relation: supports
+evidence_sources:
+- source_id: sparsemax-2016
+  title: 'From Softmax to Sparsemax: A Sparse Model of Attention and Multi-Label Classification'
+  authors:
+  - André F. T. Martins
+  - Ramón F. Astudillo
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v48/martins16.pdf
+  version: PMLR 48:1614-1623 (ICML 2016), publisher PDF, 10 pages
+  access_level: full_text
+  accessed_at: '2026-11-20T04:23:52Z'
+  persistent_id: https://proceedings.mlr.press/v48/martins16.html
+  sha256: 6c68b6e6d09f2f3ca42285e32279a14420ee6ae61f4b8fc387a08eaa6561e243
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+limitations:
+- Sparse outputs are possible, not guaranteed for every input.
+- The separate sparsemax loss has properties that must not be attributed to the transformation.
+- No benchmark superiority, independent theorem verification or saved scientific review
+  is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-11-20T04:35:04Z'
+  updated_at: '2026-11-20T04:35:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+aliases:
+- Sparsemax transformation
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: The AIO target covers input-to-output mathematical rules; Sparsemax is
+    a specific vector-valued rule. The target is broader than the local subject; this
+    mapping does not assert an accepted upstream class.
