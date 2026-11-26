@@ -1,0 +1,78 @@
+id: AIMech:AlphaEntmax
+name: Alpha-entmax
+aliases:
+- Entmax transformation
+- Tsallis entmax
+concept_kind: mathematical_method
+definition: >-
+  A score-to-probability transformation for alpha at least one that maximizes the score
+  inner product plus Tsallis alpha-entropy over the probability simplex, with
+  Shannon entropy defining the alpha=1 case.
+identity_notes: >-
+  This record denotes the transformation family, not a complete sequence model,
+  its associated training loss, or a particular implementation. Entmax and
+  DSelect-k name different constructions. Softmax and Sparsemax are special
+  cases, rather than aliases for the whole family. The ignored-inclusive
+  repository identity search and open-PR inspection are recorded in the
+  accompanying discovery ledger. AIO:SoftmaxFunction covers only one case;
+  AIO:MathematicalFunction supplies the broader mapping.
+definition_evidence:
+- source_id: peters-2019-entmax
+  locator: Section 3.2, equations 9-10, printed pp. 1506-1507 (PDF pp. 3-4)
+  relation: supports
+claims:
+- claim_id: thresholded-probabilities
+  kind: mechanism
+  statement: >-
+    For alpha greater than one, a shared threshold truncates low scores to zero;
+    positive residuals are raised to 1/(alpha-1), with the threshold chosen so
+    probabilities sum to one. Alpha=2 recovers Sparsemax and alpha=1 recovers Softmax.
+  evidence:
+  - source_id: peters-2019-entmax
+    locator: Sections 3.2-3.3, equations 10 and 13, printed p. 1507 (PDF p. 4)
+    relation: supports
+- claim_id: computation-scope
+  kind: limitation
+  statement: >-
+    The paper gives an exact sorting algorithm for alpha=1.5 and a finite-iteration
+    bisection approximation for general alpha greater than one. Sparse outputs
+    are possible; not every input must have a zero component.
+  evidence:
+  - source_id: peters-2019-entmax
+    locator: Section 3.3, algorithms 1-2 and Figure 3, printed pp. 1507-1508 (PDF pp. 4-5)
+    relation: supports
+evidence_sources:
+- source_id: peters-2019-entmax
+  title: Sparse Sequence-to-Sequence Models
+  authors:
+  - Ben Peters
+  - Vlad Niculae
+  - André F. T. Martins
+  source_type: primary_paper
+  url: https://aclanthology.org/P19-1146.pdf
+  persistent_id: https://doi.org/10.18653/v1/P19-1146
+  version: ACL 2019 proceedings, pp. 1504-1519; publisher PDF, methods in sections 3.2-3.3 inspected
+  access_level: full_text
+  accessed_at: '2026-11-26T07:41:10Z'
+  sha256: a2e70734830ead0b87fb0fa54be48b8495d821efdd37a68bf2c0cb58e2ff8642
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: >-
+    The pinned target describes a mathematical input-to-output rule. Each member
+    of this local family maps a score vector to a probability vector. The mapping
+    does not assert equivalence to AIO:SoftmaxFunction or acceptance as an AIO class.
+limitations:
+- This record asserts no benchmark advantage, model calibration, or independent theorem verification.
+- Only the cited method sections support the mechanism; a positive structural gate is not scientific review.
+review_status: DRAFT
+curation:
+  created_at: '2026-11-26T07:55:12Z'
+  updated_at: '2026-11-26T07:55:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "run": "fleet-ops-20261126T0620Z",
+  "created_at": "2026-11-26T07:55:12Z",
+  "base_commit": "2d9910fad1acb4a193122b9418d910a8a72f7b8a",
+  "scope": "One canary record; bounded scan of sparse probability transformations and expert selection.",
+  "searches": [
+    {
+      "provider": "web search",
+      "query": "site.aclanthology.org/P19-1146 \"entmax\" \"Tsallis\"",
+      "searched_at": "2026-11-26T07:46:40Z",
+      "source_url": "https://aclanthology.org/P19-1146.pdf",
+      "inspection": "Follow-up identity query returned the same primary method; no independent corroboration claimed."
+    },
+    {
+      "provider": "web search",
+      "query": "site.aclanthology.org sparse sequence to sequence models entmax 2019",
+      "searched_at_utc_date": "2026-11-26",
+      "source_url": "https://aclanthology.org/P19-1146.pdf",
+      "inspection": "Methods sections 3.2-3.3; PDF pages 4-5 also visually inspected."
+    },
+    {
+      "provider": "web search",
+      "query": "site.proceedings.neurips.cc DSelect-k differentiable selection mixture experts",
+      "searched_at_utc_date": "2026-11-26",
+      "source_url": "https://proceedings.neurips.cc/paper/2021/hash/f5ac21cd0ef1b88e9848571aeb53551a-Abstract.html",
+      "inspection": "Proceedings abstract only; full method review deferred."
+    }
+  ],
+  "identity_check": {
+    "command": "rg --no-ignore --hidden -i -l -w -e AlphaEntmax -e alpha-entmax -e 'Tsallis entmax' -e P19-1146 -e 1905.05702 .",
+    "scope": "Repository content including ignored and hidden files; package environment and new test scratch excluded from the final identifier search. The initial Entmax search preceded those generated directories.",
+    "result": "No pre-existing Entmax hits. Normalized names and aliases compared against both collections; no collision. Examined pinned AIO MathematicalFunction and SoftmaxFunction; chose the former as broad target.",
+    "open_pr_check": "Three open PRs inspected; Sparsemax is already proposed in PR 463 and was not duplicated."
+  },
+  "candidates": [
+    {
+      "name": "Alpha-entmax",
+      "disposition": "added",
+      "record": "data/curated/AlphaEntmax.yaml",
+      "record_id": "AIMech:AlphaEntmax"
+    },
+    {
+      "name": "DSelect-k",
+      "disposition": "deferred",
+      "reason": "Primary abstract inspected; full method, limitations and AIO mapping need assessment before addition."
+    },
+    {
+      "name": "Sparsemax",
+      "disposition": "already_proposed",
+      "pull_request": "https://github.com/CultureBotAI/AIMech/pull/463"
+    }
+  ],
+  "marginal_new_records": 1,
+  "saturation": {
+    "status": "not_established",
+    "reason": "Canary round bounded to one addition; DSelect-k and additional literature remain an open frontier. The PR cap is a ceiling, not a literature coverage measure."
+  },
+  "access": "Public proceedings only; no paid provider or model calls. Source PDF retained in private run evidence, not redistributed in this PR. Redistribution terms were not independently assessed."
+}
