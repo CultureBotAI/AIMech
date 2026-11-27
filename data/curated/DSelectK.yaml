@@ -1,0 +1,76 @@
+id: AIMech:DSelectK
+name: DSelect-k
+definition: >-
+  A differentiable mixture-of-experts gate that combines k binary-encoded
+  selectors through softmax weights and relaxes their bits with a smooth-step
+  function; binary selectors yield at most k selected experts.
+concept_kind: mathematical_method
+identity_notes: >-
+  The gate of Hazimeh and colleagues (2021), not a complete mixture model or
+  a trained checkpoint. Ignored-inclusive identity searches found no exact
+  record; the separate discovery ledger records scope and nearby concepts.
+definition_evidence:
+  - source_id: hazimeh-2021
+    locator: Sections 3.1.1-3.1.3, pages 5-7, equation (6)
+    relation: supports
+claims:
+  - claim_id: conditional-sparsity
+    kind: limitation
+    statement: >-
+      Fractional relaxed bits can activate more than k experts. Entropy
+      regularization encourages one-hot selectors; sparsity must be checked.
+    evidence:
+      - source_id: hazimeh-2021
+        locator: Section 3.1.3, page 7, opening paragraph and entropy regularization
+        relation: supports
+  - claim_id: input-conditioning
+    kind: mechanism
+    statement: >-
+      The per-example version makes selector codes and combination weights
+      functions of the input. Binary selector outputs give the k-expert bound
+      for that example; an average bound is weaker than an every-example bound.
+    evidence:
+      - source_id: hazimeh-2021
+        locator: Section 3.2, page 8
+        relation: supports
+evidence_sources:
+  - source_id: hazimeh-2021
+    title: 'DSelect-k: Differentiable Selection in the Mixture of Experts with Applications to Multi-Task Learning'
+    authors:
+      - Hussein Hazimeh
+      - Zhe Zhao
+      - Aakanksha Chowdhery
+      - Maheswaran Sathiamoorthy
+      - Yihua Chen
+      - Rahul Mazumder
+      - Lichan Hong
+      - Ed H. Chi
+    source_type: primary_paper
+    url: https://proceedings.neurips.cc/paper_files/paper/2021/file/f5ac21cd0ef1b88e9848571aeb53551a-Paper.pdf
+    persistent_id: arXiv:2106.03760
+    version: NeurIPS 2021 proceedings main paper, 13 PDF pages
+    access_level: full_text
+    accessed_at: '2026-11-27T08:07:17Z'
+    sha256: 5d866993d3f200158808d9862a1ac3368d001d40d97aa26c9cc19e76ffabb74c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+  - target: AIO:MathematicalFunction
+    relation: broad_match
+    rationale: >-
+      The gate is a particular parameterized function producing expert weights;
+      the target covers mathematical input-output rules generally. This does
+      not equate the gate with an entire MoE language model.
+limitations:
+  - The presented binary encoding assumes a power-of-two expert count; the referenced arbitrary-count extension was not assessed here.
+  - Binary initialization can freeze selector gradients; training starts with fractional selector bits.
+  - No benchmark reproduction or independent scientific review was performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-11-27T08:10:57Z'
+  updated_at: '2026-11-27T08:10:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
