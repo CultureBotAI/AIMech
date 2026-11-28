@@ -1,0 +1,75 @@
+id: AIMech:Sparsegen
+name: Sparsegen
+definition: >-
+  A parameterized probability mapping that minimizes squared distance from
+  a transformed score vector g(z), minus lambda times the squared output
+  norm, over the probability simplex, for lambda less than one.
+concept_kind: mathematical_method
+identity_notes: >-
+  The general probability-mapping family of the 2018 primary paper, not a
+  trained model. Sparsegen-lin and sparsehourglass are specialized members,
+  not aliases for the whole family. Identity search and mapping context are
+  retained in the discovery ledger.
+definition_evidence:
+  - source_id: laha-2018
+    locator: Section 3, printed/PDF page 3, equation (1)
+    relation: supports
+claims:
+  - claim_id: scaled-projection
+    kind: mechanism
+    statement: >-
+      The mapping equals sparsemax applied to g(z)/(1-lambda). Choosing
+      g(z)=z and lambda=0 recovers sparsemax; the general family is not
+      identical to that special case.
+    evidence:
+      - source_id: laha-2018
+        locator: Section 3, page 3, equation (2); Section 3.1, page 4, Example 3
+        relation: supports
+  - claim_id: parameter-scope
+    kind: limitation
+    statement: >-
+      Output sparsity depends on the transformation, parameter and input;
+      a zero-valued output coordinate is not guaranteed for every input.
+    evidence:
+      - source_id: laha-2018
+        locator: Sections 3 and 3.2, pages 3-4, Figure 2 sparse and non-sparse regions
+        relation: supports
+evidence_sources:
+  - source_id: laha-2018
+    title: On Controllable Sparse Alternatives to Softmax
+    authors:
+      - Anirban Laha
+      - Saneem A. Chemmengath
+      - Priyanka Agrawal
+      - Mitesh M. Khapra
+      - Karthik Sankaranarayanan
+      - Harish G. Ramaswamy
+    source_type: primary_paper
+    url: https://proceedings.neurips.cc/paper_files/paper/2018/file/6a4d5952d4c018a1c1af9fa590a10dda-Paper.pdf
+    persistent_id: arXiv:1810.11975
+    version: NeurIPS 2018 proceedings, 11 PDF pages; definition and methods pages 1-5 inspected
+    access_level: full_text
+    accessed_at: '2026-11-28T18:04:47Z'
+    sha256: 5bcd8598347f24c38e5948e44acd923f3c5130b3082be86e4ddf47cac3c58918
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+  - target: AIO:MathematicalFunction
+    relation: broad_match
+    rationale: >-
+      Sparsegen defines mathematical input-output rules for probability
+      vectors; the AIO target describes mathematical functions generally.
+      This mapping does not equate the family with softmax or a neural layer.
+limitations:
+  - The support-limit prose on page 3 reverses the direction described in Section 3.2 and equation (2); no limiting-behavior claim is asserted here.
+  - Properties of arbitrary g or input-dependent parameter choices require their own assumptions; this record does not assert universal invariances or differentiability.
+  - No benchmark reproduction or independent scientific review was performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-11-28T18:08:26Z'
+  updated_at: '2026-11-28T18:08:26Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
